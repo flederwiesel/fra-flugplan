@@ -124,12 +124,12 @@ else
 	}
 }
 
-$file = 'lang-'.$_SESSION['lang'].'.php';
+$file = 'content/language/'.$_SESSION['lang'].'.php';
 
 if (file_exists($file))
-	@require_once 'lang-'.$_SESSION['lang'].'.php';
+	@require_once $file;
 else
-	@require_once 'lang-en.php';
+	@require_once 'content/language/en.php';
 
 /******************************************************************************
  * initialise variables
