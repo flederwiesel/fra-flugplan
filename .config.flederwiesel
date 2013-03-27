@@ -1,0 +1,36 @@
+<?php
+
+/******************************************************************************
+ *
+ *       project: FRA-flights Live Schedule
+ *        author: Tobias Kühne
+ *       changed:
+ *       $Author$
+ *
+ ******************************************************************************/
+
+define('POST_HTTPS' , 0);
+define('COOKIE_LIFETIME' , (3600 * 24 * 30)); // 30 days
+
+define('DB_HOSTNAME', 'localhost');
+define('DB_NAME',     'usr_web416_1');
+define('DB_USERNAME', 'web416');
+define('DB_PASSWORD', 'web416');
+
+define('ORGANISATION', 'Frankfurt Aviation Friends');
+define('SITE_URL', 'www.frankfurt-aviation-friends.de');
+
+define('ADMIN_NAME', 'Tobias Kühne');	// UTF-8
+define('ADMIN_EMAIL', 'hausmeister@flederwiesel.com');
+
+define('USERNAME_MIN', '4');
+define('USERNAME_MAX', '32');
+// USERNAME_OFFENCE_REGEX
+
+// PASSWORD_MIN/MAX
+// PASSWORD_MUST_CONTAIN []
+// PASSWORD_MUST_NOT_CONTAIN []
+
+define('TOKEN_LIFETIME', '300');	// seconds
+
+?>
