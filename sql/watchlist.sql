@@ -148,6 +148,7 @@ VALUES
 (245, 'HL7516',	'Asiana - Star Alliance'),
 (245, 'HL7733',	'Korean Air -Sky Team'),
 (245, 'HL7752',	'Korean Air - New Horizons Of Korea'),
+(245, 'HL8211', 'Korean Air - Children\'s Paintings'),
 (245, 'HS-MAR',	'Thai Airways - A380 ??'),
 (245, 'HS-STA',	'Orient Thai'),
 (245, 'HS-TEL',	'Thai Airways - Star Alliance'),
