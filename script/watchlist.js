@@ -59,7 +59,7 @@ document.onmousedown = function(e)
 
 var initial = 0;
 
-function watchlist(action)	// 0 = hide, 1 = toggle expand
+function watchlist(action)
 {
 	wlc = document.getElementById("wl_cont");
 	wl  = document.getElementById("wl_div");
@@ -76,7 +76,6 @@ function watchlist(action)	// 0 = hide, 1 = toggle expand
 		div.style.visibility = "visible";
 		div.style.width = "auto";
 		img.src = wl_img_close;	// defined in main html
-		//document.getElementsByTagName("input")[0].focus();
 
 		wlc.style.margin = "0 " + (wl.clientWidth - (wlh.clientWidth - 12)) + "px 0 0";
 	}
