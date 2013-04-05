@@ -244,7 +244,7 @@ if ($user && !$mobile)
 		<div id="wl_handle" class="cell top">
 			<img id="wl_img" src="img/wl-open-<?php echo $_SESSION['lang']; ?>.png" alt="watchlist">
 		</div>
-		<div class="cell top" style="padding: 0;">
+		<div class="cell top">
 			<div id="expandable" style="width: 0; visibility: hidden;">
 				<form id="watch" method="post" action="?">
 					<div class="center" style="padding: 6px 6px 6px 0;">
