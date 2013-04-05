@@ -433,70 +433,72 @@ if (!$error)
 		<h1>Debug version.</h1>
 	</div>
 <?php } ?>
-	<div id="box">
-		<div>
-			<div id="head">
-				<h1 class="nobr">Frankfurt Aviation Friends</h1>
-				<h3><?php echo "$lang[liveschedule]"; if (!$error) echo " &ndash; $lang[$dir]"; ?></h3>
-			</div>
-			<div id="nav">
-			<?php require_once('nav.php'); ?>
-			</div>
-		</div>
-<?php
-		if (!$hdbc)
-		{
-			if (!$error)
-				$error = $lang['unexpected'];
-?>
-			<div id="error">
-				<h1><?php echo $lang['fatal']; ?></h1>
-				<?php echo sprintf($lang['dberror'], __FILE__, __LINE__, $error); ?>
+	<div id="body">
+		<div id="box">
+			<div>
+				<div id="head">
+					<h1 class="nobr">Frankfurt Aviation Friends</h1>
+					<h3><?php echo "$lang[liveschedule]"; if (!$error) echo " &ndash; $lang[$dir]"; ?></h3>
+				</div>
+				<div id="nav">
+				<?php require_once('nav.php'); ?>
+				</div>
 			</div>
 <?php
-			if (isset($_GET['page']))
+			if (!$hdbc)
 			{
-				if ('help' == $_GET['page'])
-					@require_once 'content/help.php';
-			}
-		}
-		else
-		{
+				if (!$error)
+					$error = $lang['unexpected'];
 ?>
-		<div id="content">
-		<?php
-			if (!isset($_GET['req']))
-			{
-				@require_once content();
+				<div id="error">
+					<h1><?php echo $lang['fatal']; ?></h1>
+					<?php echo sprintf($lang['dberror'], __FILE__, __LINE__, $error); ?>
+				</div>
+<?php
+				if (isset($_GET['page']))
+				{
+					if ('help' == $_GET['page'])
+						@require_once 'content/help.php';
+				}
 			}
 			else
 			{
-				if ('logout' == $_GET['req'])
+?>
+		<div id="content">
+<?php
+				if (!isset($_GET['req']))
 				{
 					@require_once content();
 				}
 				else
 				{
-					switch ($_GET['req'])
+					if ('logout' == $_GET['req'])
 					{
-					case 'register':
-					case 'activate':
-					case 'login':
-					case 'reqtok':
-					case 'changepw':
-						echo '<div id="auth">';
-						@require_once("forms/$_GET[req].php");
-						echo '</div>';
-						break;
-
-					default:
 						@require_once content();
 					}
+					else
+					{
+						switch ($_GET['req'])
+						{
+						case 'register':
+						case 'activate':
+						case 'login':
+						case 'reqtok':
+						case 'changepw':
+							echo '<div id="auth">';
+							@require_once("forms/$_GET[req].php");
+							echo '</div>';
+							break;
+
+						default:
+							@require_once content();
+						}
+					}
 				}
-			}
-		?>
-		</div>
+?>
+			</div>
 <?php } ?>
+		</div>
 	</div>
 </body>
 </html>

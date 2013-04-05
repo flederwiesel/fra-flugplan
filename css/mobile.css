@@ -1,5 +1,6 @@
 body
 {
+	overflow-x: hidden;
 	border: none;
 	background: #f8f8f8;
 	font-family: "Verdana", "Arial", "Helvetica", "Sans Serif";
@@ -120,12 +121,19 @@ img.href
 	text-align: center;
 }
 
+#body
+{
+	text-align: center;
+}
+
 #box
 {
+	display: inline-block;
 	margin: auto;
 	padding: 6px;
 	background: #ffffff;
 	box-shadow: 0 0 3px #666666;
+	text-align: left;
 }
 
 #head h1,
@@ -235,6 +243,7 @@ img.href
 {
 	margin: 0;
 	padding: 6px 0;
+	min-width: 232px;
 }
 
 #rwy_cont
@@ -268,7 +277,6 @@ img.href
 #wl_cont
 {
 	z-index: 2;
-	height: 0px;
 	float: right;
 	margin-right: 12px;
 }
@@ -363,7 +371,7 @@ img.href
 #list
 {
 	min-height: 200px;
-	max-height: 306px;
+	max-height: 240px;
 	overflow-x: hidden;
 	overflow-y: scroll;
 }

@@ -123,15 +123,19 @@ img.href
 	text-align: center;
 }
 
+#body
+{
+	text-align: center;
+}
+
 #box
 {
-	width: 800px;
-	min-width: 800px;
-	min-height: 480px;
+	display: inline-block;
 	margin: auto;
 	padding: 10px;
 	background: #ffffff;
 	box-shadow: 0 0 3px #666666;
+	text-align: left;
 }
 
 #head h1,
@@ -242,6 +246,7 @@ img.href
 {
 	margin: 0;
 	padding: 6px 0;
+	min-width: 792px;
 }
 
 #rwy_cont
@@ -275,7 +280,6 @@ img.href
 #wl_cont
 {
 	z-index: 2;
-	height: 0px;
 	float: right;
 	margin-right: 12px;
 }
@@ -370,7 +374,7 @@ img.href
 #list
 {
 	min-height: 200px;
-	max-height: 306px;
+	max-height: 400px;
 	overflow-x: hidden;
 	overflow-y: scroll;
 }
