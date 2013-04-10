@@ -26,10 +26,7 @@ define('ADMIN_EMAIL', 'hausmeister@flederwiesel.com');
 define('USERNAME_MIN', '4');
 define('USERNAME_MAX', '32');
 // USERNAME_OFFENCE_REGEX
-
-// PASSWORD_MIN/MAX
-// PASSWORD_MUST_CONTAIN []
-// PASSWORD_MUST_NOT_CONTAIN []
+// PASSWORD_REGEX
 
 define('TOKEN_LIFETIME', '300');	// seconds
 
