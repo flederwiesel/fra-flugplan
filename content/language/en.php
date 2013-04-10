@@ -73,7 +73,7 @@ $lang = array
 	'forgotpassword' => 'Forgot Password?',
 	'hintnumchars' => 'At least %lu, at most %lu characters',
 	'language' => 'Language',
-	'hintpassword' => 'A safe password should be at least 8 characters long.',
+	'hintpassword' => '',
 	'registration' => 'Registration',
 	'onefieldmandatory' => 'Only one of the above fields is mandatory.',
 	'passwdencrypted' => 'Your password is stored in encrypted form, so it cannot be retrieved. However, you can request a reset token, which will be sent to your registered e-mail address.',
@@ -134,6 +134,7 @@ $lang = array
 	'until' => 'Until',
 	'sta' => 'STA',
 	'std' => 'STD',
+	'help-content' => 'This is the help page... ',
 );
 
 ?>

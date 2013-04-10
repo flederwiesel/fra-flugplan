@@ -73,7 +73,7 @@ $lang = array
 	'forgotpassword' => 'Passwort vergessen?',
 	'hintnumchars' => 'Mindestens %lu, höchstens %lu Zeichen',
 	'language' => 'Sprache',
-	'hintpassword' => 'Ein sicheres Password sollte mindestens 8 Zeichen lang sein.',
+	'hintpassword' => '',
 	'registration' => 'Registrierung',
 	'onefieldmandatory' => 'Nur eines der obigen Felder muß ausgefüllt werden.',
 	'passwdencrypted' => 'Passwörter werden verschlüsselt gespeichert, und können deshalb nicht wiederhergestellt werden. Es kann jedoch ein Token via E-Mail angefordert werden, um ein neues zu vergeben.',
@@ -105,11 +105,11 @@ $lang = array
 	'subjpasswdchange' => 'Passwortänderung',
 	'emailpasswd' => "Hello,\n\nthis e-mail has been sent to you because you (or someone else at IP address %s) requested a password change for user '%s' at %s\n\nPassword token is:\n%s\n\nYou can also use this link to process your request:\n%s?req=changepw&user=%s&token=%s\nThis token will expire on %s.\n\nPlease ignore this e-mail if you didn't request a change of password. Our apologies for any inconvenience.\n\n\nThe %s Team",	//&&
 	'emailactivation' => "Hello,\n\nthis e-mail has been sent to you because you (or someone else at IP address %s) requested user registration as '%s' at %s (%s).\n\nActivation token is:\n%s\n\nYou can also use this link to process your request:\n%s?req=activate&user=%s&token=%s\nThis token will expire on %s.\n\nPlease ignore this e-mail if you didn't request a registration. Our apologies for any inconvenience.\n\n\nThe %s Team",
-	'subjactivate' => 'Account activation',	//&&
+	'subjactivate' => 'Aktivierung',
 	'mailfailed' => 'E-Mail konnnte nicht versendet werden: ',
-	'tokensent' => 'A token has been sent to your e-mail address. You can now change your password.',	//&&
+	'tokensent' => 'Aktivierungs-Token wurde an die angegebene E-mail-Addresse gesendet. Passwort kann nun geändert werden.',
 	'activation' => 'Aktivierung',
-	'activationexpired' => 'Activation token expired.',	//&&
+	'activationexpired' => 'Aktivierungs-Token abgelaufen.',
 	'back' => 'Zurück',
 	'timezone' => 'Zeitzone',
 	'de' => 'Deutsch',
@@ -134,6 +134,7 @@ $lang = array
 	'until' => 'Bis',
 	'sta' => 'STA',
 	'std' => 'STD',
+	'help-content' => 'Hilfeseite... ',
 );
 
 ?>

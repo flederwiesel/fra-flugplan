@@ -24,5 +24,4 @@
 
 ?>
 
-<div>This is the help page...
-</div>
+<div><?php echo $lang['help-content']; ?></div>
