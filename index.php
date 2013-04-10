@@ -38,9 +38,6 @@ header('Cache-Control: post-check=0, pre-check=0', false);
 // HTTP/1.0
 header('Pragma: no-cache');
 
-header('Content-Type: text/html; charset=UTF-8');
-header('Content-Language: en');
-
 //&& 	$_SERVER[HTTP_ACCEPT_ENCODING]
 
 mb_internal_encoding('UTF-8');
@@ -123,6 +120,9 @@ else
 //&& 	$_SERVER[HTTP_ACCEPT_LANGUAGE]
 	}
 }
+
+header('Content-Type: text/html; charset=UTF-8');
+header('Content-Language: '.$_SESSION['lang']);
 
 $file = 'content/language/'.$_SESSION['lang'].'.php';
 
@@ -406,6 +406,7 @@ if (!$error)
 <head>
 <title>Live Schedule &ndash; Frankfurt Aviation Friends</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="language" content="<?php echo $_SESSION['lang']; ?>" />
 <meta name="author" content="Tobias Kühne">
 <meta name="description" content="24h flight forecast for Frankfurt/Main airport with aircraft registrations">
 <meta name="keywords" content="fra eddf frankfurt airport aircraft spotter schedule">
