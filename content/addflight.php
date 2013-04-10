@@ -129,13 +129,13 @@ function CheckPostVariables(&$notice)
 				{
 					if (!isset($_POST['until']))
 					{
-						$notice = $lang['until'];
+						$notice = $lang['untilinvalid'];
 					}
 					else
 					{
 						if ('' == $_POST['until'])
 						{
-							$notice = $lang['until'];
+							$notice = $lang['untilinvalid'];
 						}
 						else
 						{
@@ -205,7 +205,7 @@ function GetPostVariables(&$type, &$reg, &$flight, &$dir, &$scheduled, &$until)
 					$until = mktime_c($_POST['until'], $_POST['time']);
 
 					if (-1 == $until)
-						$error = $lang['until'];
+						$error = $lang['untilinvalid'];
 				}
 			}
 		}
@@ -596,7 +596,7 @@ $(function()
 
 <form id="form" method="post" action="?page=addflight">
 	<fieldset>
-		<legend>Add flight</legend>
+		<legend><?php echo $lang['addflight']; ?></??></legend>
 <?php if (isset($error)) { ?>
 		<div id="notification" class="auth-error">
 			<?php echo $error; ?>
@@ -612,14 +612,14 @@ $(function()
 <?php } ?>
 		<div class="table">
 			<div class="row">
-				<div class="cell label">Reg</div>
+				<div class="cell label"><?php echo $lang['reg']; ?></div>
 				<div class="cell">
 					<input type="text" name="reg" id="reg" <?php DefaultValue('reg', 'D-AIRY'); ?>/>
 				</div>
 			</div>
 <?php if ($_POST && !$model) { ?>
 			<div class="row">
-				<div class="cell label">ICAO Type</div>
+				<div class="cell label"><?php echo $lang['icaomodel']; ?></div>
 				<div class="cell">
 					<input type="text" name="model" id="model"
 						<?php DefaultValue('model', 'A321'); ?>/>
@@ -631,16 +631,16 @@ $(function()
 			</div>
 <?php } ?>
 			<div class="row">
-				<div class="cell label">Flight</div>
+				<div class="cell label"><?php echo $lang['flight']; ?></div>
 				<div class="cell">
 					<input type="text" name="flight" id="flight" <?php DefaultValue('flight', 'QQ9999'); ?>/>
 					<?php
 						if (!isset($_POST['type']))
 						{
 					?>
-						<label><input type="radio" name="type" value="pax-regular" checked="checked">Regular</label>
-						<label><input type="radio" name="type" value="cargo">Cargo</label>
-						<label><input type="radio" name="type" value="ferry">Ferry</label>
+						<label><input type="radio" name="type" value="pax-regular" checked="checked"><?php echo $lang['pax-regular']; ?></label>
+						<label><input type="radio" name="type" value="cargo"><?php echo $lang['cargo']; ?></label>
+						<label><input type="radio" name="type" value="ferry"><?php echo $lang['ferry']; ?></label>
 					<?php
 						}
 						else
@@ -648,15 +648,15 @@ $(function()
 					?>
 						<label>
 							<input type="radio" name="type" value="pax-regular"
-							 <?php DefaultCheck('type', 'pax-regular'); ?>/>Regular
+							 <?php DefaultCheck('type', 'pax-regular'); ?>/><?php echo $lang['pax-regular']; ?>
 						</label>
 						<label>
 							<input type="radio" name="type" value="cargo"
-							 <?php DefaultCheck('type', 'cargo'); ?>/>Cargo
+							 <?php DefaultCheck('type', 'cargo'); ?>/><?php echo $lang['cargo']; ?>
 						</label>
 						<label>
 							<input type="radio" name="type" value="ferry"
-							 <?php DefaultCheck('type', 'ferry'); ?>/>Ferry
+							 <?php DefaultCheck('type', 'ferry'); ?>/><?php echo $lang['ferry']; ?>
 						</label>
 					<?php
 						}
@@ -665,7 +665,7 @@ $(function()
 			</div>
 <?php if ($_POST && !$airline) { ?>
 			<div class="row">
-				<div class="cell label">Airline</div>
+				<div class="cell label"><?php echo $lang['airline']; ?></div>
 				<div class="cell">
 					<input type="text" name="code" <?php DefaultValue('code', ''); ?>/>
 					<input type="text" name="airline" <?php DefaultValue('airline', ''); ?>/>
@@ -680,13 +680,13 @@ $(function()
 			<div class="row">
 				<div class="cell"></div>
 				<div class="cell">
-					<label><input type="radio" name="direction" value="arrival" <?php if (!('departure' == $dir)) echo ' checked="checked" '; ?>/>Arrival</label>
-					<label><input type="radio" name="direction" value="departure" <?php if ('departure' == $dir) echo ' checked="checked" '; ?>/>Departure</label>
+					<label><input type="radio" name="direction" value="arrival" <?php if (!('departure' == $dir)) echo ' checked="checked" '; ?>/><?php echo $lang['arrival']; ?></label>
+					<label><input type="radio" name="direction" value="departure" <?php if ('departure' == $dir) echo ' checked="checked" '; ?>/><?php echo $lang['departure']; ?></label>
 				</div>
 			</div>
 
 			<div class="row">
-				<div class="cell label">From</div>
+				<div class="cell label"><?php echo $lang['from']; ?></div>
 				<div class="cell">
 					<select id="airport-icao" name="airport">
 <?php
@@ -707,30 +707,30 @@ $(function()
 			</div>
 
 			<div class="row">
-				<div class="cell label">Date</div>
+				<div class="cell label"><?php echo $lang['date']; ?></div>
 				<div class="cell">
 					<input type="text" name="from" id="from" <?php DefaultValue('from', date('d.m.Y')); ?>/>
-					<div style="display: inline;">STA:</div>
+					<div style="display: inline;"><?php echo 'arrival' == $dir ? $lang['sta'] : $lang['std']; ?>:</div>
 					<div style="display: inline;">
 						<input type="text" name="time" id="time" style="margin-right: 0.5em;"
-							<?php DefaultValue('time', date('H:i')); ?>/>HH:MM (local)
+							<?php DefaultValue('time', date('H:i')); ?>/>HH:MM (<?php echo $lang['local']; ?>)
 					</div>
 					<div class="cell">
-						<label><input type="radio" name="interval" value="once" id="once" checked="checked" />Once</label><br>
-						<label><input type="radio" name="interval" value="daily" id="daily"/>Daily</label><br>
-						<label><input type="radio" name="interval" value="each" id="each"/>Each</label>
+						<label><input type="radio" name="interval" value="once" id="once" checked="checked" /><?php echo $lang['once']; ?></label><br>
+						<label><input type="radio" name="interval" value="daily" id="daily"/><?php echo $lang['daily']; ?></label><br>
+						<label><input type="radio" name="interval" value="each" id="each"/><?php echo $lang['each']; ?></label>
 						<div style="margin-left: 1em; display: inline;">
-							<label><input type="checkbox" name="day[1]" id="mon" disabled />Mon</label>
-							<label><input type="checkbox" name="day[2]" id="tue" disabled />Tue</label>
-							<label><input type="checkbox" name="day[3]" id="wed" disabled />Wed</label>
-							<label><input type="checkbox" name="day[4]" id="thu" disabled />Thu</label>
-							<label><input type="checkbox" name="day[5]" id="fri" disabled />Fri</label>
-							<label><input type="checkbox" name="day[6]" id="sat" disabled />Sat</label>
-							<label><input type="checkbox" name="day[7]" id="sun" disabled />Sun</label>
-							<label><input type="checkbox" name="day[0]" id="all" disabled /><b>All</b></label>
+							<label><input type="checkbox" name="day[1]" id="mon" disabled /><?php echo $lang['mon']; ?></label>
+							<label><input type="checkbox" name="day[2]" id="tue" disabled /><?php echo $lang['tue']; ?></label>
+							<label><input type="checkbox" name="day[3]" id="wed" disabled /><?php echo $lang['wed']; ?></label>
+							<label><input type="checkbox" name="day[4]" id="thu" disabled /><?php echo $lang['thu']; ?></label>
+							<label><input type="checkbox" name="day[5]" id="fri" disabled /><?php echo $lang['fri']; ?></label>
+							<label><input type="checkbox" name="day[6]" id="sat" disabled /><?php echo $lang['sat']; ?></label>
+							<label><input type="checkbox" name="day[7]" id="sun" disabled /><?php echo $lang['sun']; ?></label>
+							<label><input type="checkbox" name="day[0]" id="all" disabled /><b><?php echo $lang['all']; ?></b></label>
 						</div>
 						<div class="cell">
-							<div style="display: inline;">Until:</div>
+							<div style="display: inline;"><?php echo $lang['until']; ?>:</div>
 							<input type="text" name="until" id="until" <?php DefaultValue('from', date('d.m.Y')); ?> disabled>
 						</div>
 					</div>

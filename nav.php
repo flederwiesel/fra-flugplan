@@ -100,7 +100,7 @@
 		{
 			/* user has successfully logged in */
 ?>
-			<dt class="sep">Welcome, <?php echo $user->name(); ?></dt>
+			<dt class="sep"><?php echo "$lang[welcome] ".$user->name(); ?></dt>
 			<dt class="sep"><a href="?req=changepw"><?php echo $lang['changepassword']; ?></a></dt>
 			<dt class="sep"><a href="?req=logout"><?php echo $lang['logout']; ?></a></dt>
 <?php
