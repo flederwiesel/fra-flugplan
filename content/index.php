@@ -28,7 +28,7 @@
 if (isset($_POST['del']) ||
 	isset($_POST['reg']))
 {
-	if (!LoggedInUser())
+	if (!$user)
 	{
 		$error = '...';
 	}
@@ -62,7 +62,7 @@ if (isset($_POST['del']) ||
 							$reg = str_replace("'", "", $reg);
 						}
 
-						$query = "DELETE FROM `watchlist` WHERE `user`=$uid".
+						$query = "DELETE FROM `watchlist` WHERE `user`=".$user->id().
 								 " AND `reg`='$reg'";
 
 						if (!mysql_query($query))
@@ -90,7 +90,7 @@ if (isset($_POST['del']) ||
 							}
 
 							$query = "INSERT INTO `watchlist`(`user`,`reg`,`comment`) ".
-									 "VALUES((SELECT `id` FROM `users` WHERE `name`='".LoggedInUser()."'), '$reg', '$comment')".
+									 "VALUES((SELECT `id` FROM `users` WHERE `name`='".$user->name()."'), '$reg', '$comment')".
 									 "ON DUPLICATE KEY UPDATE `comment`='$comment'";
 
 							if (!mysql_query($query))
@@ -124,9 +124,9 @@ if ($user)
 {
 	if ($hdbc)
 	{
-		$result = mysql_query("SELECT `reg`,`comment` FROM `watchlist` WHERE `user`=".
-							  "(SELECT `id` FROM `users` WHERE `id`='".$user->id()."') ".
-							  "ORDER BY `reg`");
+		$result = mysql_query("SELECT `reg`,`comment` FROM `watchlist`".
+							  " WHERE `user`=".$user->id().
+							  " ORDER BY `reg`");
 
 		if (!$result)
 		{
