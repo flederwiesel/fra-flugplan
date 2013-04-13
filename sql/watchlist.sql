@@ -131,7 +131,6 @@ VALUES
 (245, 'G-EJAR',	'easyJet - Unicef'),
 (245, 'G-EUOH',	'British Airways - The Dove'),
 (245, 'G-EUPA',	'British Airways - The Dove'),
-(245, 'G-EUPC',	'British Airways - London 2012 Olympics - Torch Relay'),
 (245, 'G-EUPD',	'British Airways - The Dove'),
 (245, 'G-EUPG',	'British Airways - The Dove'),
 (245, 'G-EUPH',	'British Airways - The Dove'),
@@ -297,11 +296,12 @@ VALUES
 ;
 
 /*
---(245, 'B-18210',	'China Airlines - Dreamliner c/s'),
---(245, 'OE-LVM',	'AUA - Austrian Ski Team'),
---(245, 'OH-LVE',	'Finnair - Retro'),
---(245, 'OK-XGB',	'Czech Airlines Retro Blau'),
---(245, 'OK-XGC',	'Czech Airlines Retro Rot'),
---(245, 'OK-XGE',	'Czech Airlines Sky Team'),
---(245, 'SP-LDC',	'LOT - The Dutchess'),
+(245, 'B-18210',	'China Airlines - Dreamliner c/s'),
+(245, 'G-EUPC',	'British Airways - London 2012 Olympics - Torch Relay'),
+(245, 'OE-LVM',	'AUA - Austrian Ski Team'),
+(245, 'OH-LVE',	'Finnair - Retro'),
+(245, 'OK-XGB',	'Czech Airlines Retro Blau'),
+(245, 'OK-XGC',	'Czech Airlines Retro Rot'),
+(245, 'OK-XGE',	'Czech Airlines Sky Team'),
+(245, 'SP-LDC',	'LOT - The Dutchess'),
 */
