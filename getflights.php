@@ -979,6 +979,13 @@ if ($error)
 if ($warning)
 	echo $warning;
 
+if ($error || $warning)
+	mail('=?ISO-8859-1?Q?Tobias_K=FChne?= <hausmeister@flederwiesel.com>', $error ? 'error' : 'warning',
+		 "$error\n----\n\n$warning", 'From: fra-flights');
+
+if (isset($DEBUG['any']))
+	echo "\n\n=== fin. ===\n";
+
 if (isset($DEBUG['fmt']))
 {
 	if ('htm'  == $DEBUG['fmt'] ||
@@ -991,9 +998,5 @@ if (isset($DEBUG['fmt']))
 <?
 	}
 }
-
-if ($error || $warning)
-	mail('=?ISO-8859-1?Q?Tobias_K=FChne?= <hausmeister@flederwiesel.com>', $error ? 'error' : 'warning',
-		 "$error\n----\n\n$warning", 'From: fra-flights');
 
 ?>
