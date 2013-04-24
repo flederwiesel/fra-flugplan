@@ -290,6 +290,7 @@ VALUES
 (245, 'VQ-BCO',	'Aeroflot - One World'),
 (245, 'VQ-BKW',	'S7 Airlines - oneworld'),
 (245, 'VT-ANA',	'Air India - 787'),
+(245, 'YL-LCK', 'Condor (operated by SmartLynx'),
 (245, 'YR-BGF',	'Tarom - Sky Team'),
 (245, 'YR-BGG',	'Tarom - Retro'),
 (245, 'ZK-OKQ',	'Air New Zealand - All Blacks'),
