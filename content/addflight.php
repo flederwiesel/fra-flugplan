@@ -236,6 +236,8 @@ function GetRegId(&$reg, &$model)
 			$reg = $row[0];
 			$model = $row[1];
 		}
+
+		mysql_free_result($result);
 	}
 
 	return $error;
@@ -288,19 +290,23 @@ function GetPostRegId(&$reg, &$model)
 					}
 					else
 					{
-						$result = mysql_query("SELECT LAST_INSERT_ID()");
+						$result1 = mysql_query("SELECT LAST_INSERT_ID()");
 
-						if (!$result)
+						if (!$result1)
 						{
 							$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
 						}
 						else
 						{
-							$row = mysql_fetch_row($result);
+							$row = mysql_fetch_row($result1);
 							$reg = $row ? $row[0] : null;
+
+							mysql_free_result($result1);
 						}
 					}
 				}
+
+				mysql_free_result($result);
 			}
 		}
 	}
@@ -328,6 +334,8 @@ function GetAirlineId(&$airline, $flight)
 
 		if ($row)
 			$airline = $row[0];
+
+		mysql_free_result($result);
 	}
 
 	return $error;
@@ -364,6 +372,8 @@ function GetPostAirlineId(&$airline)
 				{
 					$row = mysql_fetch_row($result);
 					$airline = $row ? $row[0] : null;
+
+					mysql_free_result($result);
 				}
 			}
 		}
@@ -700,6 +710,8 @@ $(function()
 						{
 							while ($row = mysql_fetch_row($result))
 								echo "<option value=\"$row[0]\">$row[2] - $row[1]</option>\n";
+
+							mysql_free_result($result);
 						}
 ?>
 					</select>

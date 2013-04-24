@@ -136,6 +136,8 @@ if ($user)
 		{
 			while ($row = mysql_fetch_row($result))
 				$watch[$row[0]] = $row[1];
+
+			mysql_free_result($result);
 		}
 	}
 }
@@ -456,6 +458,7 @@ else
 ?>
 		</tr>
 <?php
+	mysql_free_result($result);
 }
 ?>
 		</tbody>
