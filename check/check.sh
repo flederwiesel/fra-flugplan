@@ -37,6 +37,9 @@ check curl "http://localhost/fra-schedule/"
 
 ###############################################################################
 
+sed -r 's/(07|25|99) \((Ost|West)-Betrieb\)/99 /g' \
+	--in-place ../data/betriebsrichtung.html
+
 check curl "http://localhost/fra-schedule/?req=register" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \
@@ -77,7 +80,7 @@ check curl "http://localhost/fra-schedule/?page=addflight" \
 		--data-urlencode "time=03:14" \
 		--data-urlencode "interval=once" \
 		--cookie-jar COOKIES \
-	"|" sed -r "s/'[0-9]{2}:[0-9]{2}'/'00:00'/g"
+	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
 
 ###############################################################################
 
