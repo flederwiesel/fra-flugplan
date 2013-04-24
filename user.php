@@ -184,6 +184,8 @@ function /*bool*/ LoginUser($user, $password, $byid, $remember, /*out*/ &$messag
 				}
 			}
 		}
+
+		mysql_free_result($result);
 	}
 
 	$message = $error ? $error : null;
@@ -210,15 +212,15 @@ function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$me
 		}
 		else
 		{
-			$result = mysql_query("SELECT `id` FROM `users` WHERE `email`='$email'");
+			$result1 = mysql_query("SELECT `id` FROM `users` WHERE `email`='$email'");
 
-			if (!$result)
+			if (!$result1)
 			{
 				$error = mysql_error();
 			}
 			else
 			{
-				if (mysql_num_rows($result) != 0)
+				if (mysql_num_rows($result1) != 0)
 				{
 					$error = $lang['emailexists'];
 				}
@@ -239,23 +241,21 @@ function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$me
 						" FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu), '%s' )",
 						TOKEN_LIFETIME, $_SERVER['REMOTE_ADDR']);
 
-					$result = mysql_query($query);
-
-					if (!$result)
+					if (!mysql_query($query))
 					{
 						$error = mysql_user_error();
 					}
 					else
 					{
-						$result = mysql_query("SELECT `token_expires` FROM `users` WHERE `id`=LAST_INSERT_ID()");
+						$result2 = mysql_query("SELECT `token_expires` FROM `users` WHERE `id`=LAST_INSERT_ID()");
 
-						if (!$result)
+						if (!$result2)
 						{
 							$error = mysql_error();
 						}
 						else
 						{
-							if (0 == mysql_num_rows($result))
+							if (0 == mysql_num_rows($result2))
 							{
 								$error = $lang['nosuchuser'];
 							}
@@ -273,11 +273,17 @@ function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$me
 									$_SESSION['lang'] = $language;
 								}
 							}
+
+							mysql_free_result($result2);
 						}
 					}
 				}
+
+				mysql_free_result($result1);
 			}
 		}
+
+		mysql_free_result($result);
 	}
 
 	if (!$error)
@@ -354,6 +360,8 @@ function /*bool*/ ActivateUser($user, $token, /*out*/ &$message)
 				}
 			}
 		}
+
+		mysql_free_result($result);
 	}
 
 	if (!$error)
@@ -472,6 +480,8 @@ function /*bool*/ RequestPasswordChange($user, $email, /*out*/ &$message)
 				}
 			}
 		}
+
+		mysql_free_result($result);
 	}
 
 	if (!$error)
@@ -512,6 +522,8 @@ function /*bool*/ RequestPasswordChange($user, $email, /*out*/ &$message)
 					else
 						$expires = $row[0];
 				}
+
+				mysql_free_result($result);
 			}
 		}
 	}
@@ -598,6 +610,8 @@ function /*bool*/ ChangePassword($user, $token, $password, /*out*/ &$message)
 				}
 			}
 		}
+
+		mysql_free_result($result);
 	}
 
 	$message = $error ? $error : null;
