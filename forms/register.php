@@ -173,7 +173,8 @@
 						asort($language);
 
 						foreach ($language as $key => $value)
-							echo "<option".($key == $_SESSION['lang'] ? " selected" : "").">$value</option>";
+							echo "<option value=\"$key\" ".
+								($key == $_SESSION['lang'] ? " selected" : "").">$value</option>";
 ?>
 					</select>
 				</div>
