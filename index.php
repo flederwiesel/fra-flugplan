@@ -499,7 +499,7 @@ if (!$error)
 					</h3>
 				</div>
 				<div id="nav">
-				<?php require_once('nav.php'); ?>
+<?php require_once('nav.php'); ?>
 				</div>
 			</div>
 <?php
