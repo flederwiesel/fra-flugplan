@@ -91,6 +91,7 @@ $lang = array
 	'userexists' => 'Benutzername bereits vergeben.',
 	'emailexists' => 'E-Mailadresse bereits vergeben.',
 	'regsuccess' => 'Registrierung erfolgreich. Aktivierungscode eingeben.',
+	'regfailed' => 'Registrierung fehlgeschlagen. Bitte Administrator kontaktieren.',
 	'activationsuccess' => 'Aktivierung erfolgreich. Login steht zur Verfügung.',
 	'nosuchuser' => 'Benutzername unbekannt.',
 	'nosuchemail' => 'E-Mailadresse nicht registriert.',

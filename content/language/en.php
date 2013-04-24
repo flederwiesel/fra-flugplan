@@ -91,6 +91,7 @@ $lang = array
 	'userexists' => 'Username already in use.',
 	'emailexists' => 'Email address already in use.',
 	'regsuccess' => 'Registration successful. Please enter activation code.',
+	'regfailed' => 'Registration failed. Please contact an administrator.',
 	'activationsuccess' => 'Activation successful. You may now login.',
 	'nosuchuser' => 'No such user.',
 	'nosuchemail' => 'E-mail address not registered.',
