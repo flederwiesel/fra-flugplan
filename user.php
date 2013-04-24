@@ -243,7 +243,7 @@ function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$me
 
 					if (!mysql_query($query))
 					{
-						$error = mysql_user_error();
+						$error = mysql_user_error($lang['regfailed']);
 					}
 					else
 					{
@@ -257,11 +257,11 @@ function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$me
 						{
 							if (0 == mysql_num_rows($result2))
 							{
-								$error = $lang['nosuchuser'];
+								$error = $lang['regfailed'];
 							}
 							else
 							{
-								$row = mysql_fetch_row($result);
+								$row = mysql_fetch_row($result2);
 //&& $_POST['timezone'] -> localtime($expires)
 								if (!$row)
 								{
@@ -619,7 +619,7 @@ function /*bool*/ ChangePassword($user, $token, $password, /*out*/ &$message)
 	return $error ? false : true;
 }
 
-function /*str*/ mysql_user_error()
+function /*str*/ mysql_user_error($default)
 {
 	$error = mysql_error();
 
@@ -638,7 +638,7 @@ function /*str*/ mysql_user_error()
 
 	case '402':
 	case '403':
-		$error = '...';	//&&
+		$error = $default;
 		break;
 	}
 
