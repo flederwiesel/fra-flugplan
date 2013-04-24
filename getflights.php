@@ -928,7 +928,7 @@ else
 			}
 
 			/* betriebsrichtung.htm for fra-forum */
-			$file = fopen('data/betriebsrichtung.htm', 'w');
+			$file = @fopen('data/betriebsrichtung.htm', 'w');
 
 			if ($file)
 			{
