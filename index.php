@@ -39,7 +39,6 @@ header('Cache-Control: post-check=0, pre-check=0', false);
 header('Pragma: no-cache');
 
 //&& 	$_SERVER[HTTP_ACCEPT_ENCODING]
-
 mb_internal_encoding('UTF-8');
 
 function get($get=null)
@@ -351,6 +350,56 @@ if (!$error)
 		if ('' == $_GET['req'])
 			unset($_GET['req']);
 	}	/* if (isset($_GET['req'])) */
+}
+
+/******************************************************************************
+ * move watchlist cookies into db
+ ******************************************************************************/
+
+if ($user)
+{
+	$wlcookies = array();
+
+	foreach ($_COOKIE as $key =>$value)
+		$wlcookies[$key] = $value;
+
+	unset($wlcookies['lang']);
+	unset($wlcookies['userID']);
+	unset($wlcookies['hash']);
+	unset($wlcookies['autologin']);
+	unset($wlcookies['PHPSESSID']);
+	unset($wlcookies['DBGSESSID']);
+
+	foreach ($wlcookies as $reg => $comment)
+	{
+		$query = "SELECT `id` FROM `watchlist` WHERE `user`=".$user->id()." AND `reg`='$reg'";
+		$result = mysql_query($query);
+
+		if (!$result)
+		{
+			$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+		}
+		else
+		{
+			if (0 == mysql_num_rows($result))
+			{
+				$query = "INSERT INTO `watchlist`(`user`, `reg`, `comment`)".
+						 " VALUES(".$user->id().", '$reg', '$comment')";
+
+				if (mysql_query($query))
+				{
+					setcookie($reg, NULL, 0);
+				}
+				else
+				{
+					$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+					break;
+				}
+			}
+
+			mysql_free_result($result);
+		}
+	}
 }
 
 /******************************************************************************
