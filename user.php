@@ -293,11 +293,14 @@ function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$me
 
 		$header = sprintf(
 			"From: %s <%s>\r\n".
+			"Reply-To: %s\r\n".
 			"Content-type: text/plain; charset=\"UTF-8\"".
 			"Content-Transfer-Encoding: 8bit\r\n".
 			"X-Mailer: PHP/%s",
 			mb_encode_mimeheader(ORGANISATION, 'UTF-8', 'Q'),
-			ADMIN_EMAIL,  phpversion());
+			ADMIN_EMAIL_FROM,
+			ADMIN_EMAIL_REPLY_TO,
+			phpversion());
 
 		$body = sprintf($lang['emailactivation'], $client_ip, $user, ORGANISATION, SITE_URL,
 						   $token, php_self(), $user, $token, $expires, ORGANISATION);
