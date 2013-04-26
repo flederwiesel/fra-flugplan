@@ -1,6 +1,9 @@
 #!/bin/sh
 
-alias "curl=curl -s"
+alias "mysql=mysql -s"
+alias "curl=curl -s --cookie .COOKIES --cookie-jar .COOKIES"
+
+url="http://localhost/fra-schedule"
 t=0
 
 unless() {
@@ -22,7 +25,7 @@ check() {
 	eval "$@" 2>&1 > results/$t.htm | sed -r $'s~^.+$~\033[1;31mERROR: &\033[m~g'
 }
 
-rm -f COOKIES
+rm -f .COOKIES
 
 ###############################################################################
 # drop/re-create database
@@ -33,14 +36,14 @@ unless $LINENO mysql --host=localhost --user=root --password= \
 
 ###############################################################################
 
-check curl "http://localhost/fra-schedule/"
+check curl "$url/"
 
 ###############################################################################
 
 sed -r 's/(07|25|99) \((Ost|West)-Betrieb\)/99 /g' \
 	--in-place ../data/betriebsrichtung.html
 
-check curl "http://localhost/fra-schedule/?req=register" \
+check curl "$url/?req=register" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \
@@ -54,20 +57,24 @@ token=$(mysql --host=localhost --user=root --password= --skip-column-names \
 	--execute="USE fra-schedule; SELECT token FROM users WHERE name='flederwiesel'" |
 	sed s/'[ \r\n]'//g)
 
-check curl "http://localhost/fra-schedule/?req=activate" \
+check curl "$url/?req=activate" \
 		--data-urlencode "user=flederwiesel" \
-		--data-urlencode "token=$token" \
+		--data-urlencode "token=$token"
 
 ###############################################################################
 
-check curl "http://localhost/fra-schedule/?req=login" \
+check curl "$url/?req=login" \
 		--data-urlencode "user=flederwiesel" \
-		--data-urlencode "passwd=elvizzz" \
-		--cookie-jar COOKIES
+		--data-urlencode "passwd=elvizzz"
 
 ###############################################################################
 
-check curl "http://localhost/fra-schedule/?page=addflight" \
+check curl "$url/?page=addflight" \
+	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
+
+###############################################################################
+
+check curl "$url/?page=addflight" \
 		--data-urlencode "reg=D-AIRY" \
 		--data-urlencode "model=A321" \
 		--data-urlencode "flight=QQ9999" \
@@ -79,18 +86,17 @@ check curl "http://localhost/fra-schedule/?page=addflight" \
 		--data-urlencode "from=19.01.2038" \
 		--data-urlencode "time=03:14" \
 		--data-urlencode "interval=once" \
-		--cookie-jar COOKIES \
 	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
 
 ###############################################################################
 
-check curl "http://localhost/fra-schedule/?arrival" \
+check curl "$url/?arrival" \
 	"|" sed -r "s/'\+[0-9]{1,4} [0-9]{2}:[0-9]{2}'/'+0 00:00'/g"
 
 ###############################################################################
 ###############################################################################
 
-rm -f COOKIES
+rm -f .COOKIES
 
 diff expect results \
 		--recursive --ignore-file-name-case \
