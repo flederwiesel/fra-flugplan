@@ -136,6 +136,7 @@ unset($watch['hash']);
 unset($watch['autologin']);
 unset($watch['PHPSESSID']);
 unset($watch['DBGSESSID']);
+unset($watch['POPUPCHE']);
 
 if ($user)
 {
@@ -514,9 +515,10 @@ else
 				echo $reg;
 			}
 		}
+
+		echo "</td></tr>\n";
 	}
 ?>
-		</tr>
 <?php
 	mysql_free_result($result);
 }
