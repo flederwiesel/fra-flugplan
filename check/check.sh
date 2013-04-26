@@ -36,12 +36,14 @@ unless $LINENO mysql --host=localhost --user=root --password= \
 
 ###############################################################################
 
-check curl "$url/"
+sed -r 's/(07|25|99) \((Ost|West)-Betrieb\)/99 /g' \
+	--in-place ../data/betriebsrichtung.html
 
 ###############################################################################
 
-sed -r 's/(07|25|99) \((Ost|West)-Betrieb\)/99 /g' \
-	--in-place ../data/betriebsrichtung.html
+check curl "$url/"
+
+###############################################################################
 
 check curl "$url/?req=register" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
