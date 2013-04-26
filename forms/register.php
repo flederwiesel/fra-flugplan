@@ -60,15 +60,16 @@
 		<div class="table">
 			<div class="row">
 				<div class="cell label"><?php echo $lang['emailaddress']; ?></div>
-				<div class="cell"><input type="text" id="email" name="email"
-					<?php if (DEBUG) { ?>value="hausmeister@flederwiesel.com"><?php } ?>
+				<div class="cell">
+					<input type="text" id="email"
+					 name="email"<?php if (DEBUG) { ?> value="hausmeister@flederwiesel.com"<?php } ?>>
 				</div>
 			</div>
 			<div class="row">
 				<div class="cell label"><?php echo $lang['username']; ?></div>
 				<div class="cell">
-					<input type="text" id="user" name="user"
-						<?php if (DEBUG) { ?>value="flederwiesel"><?php } ?>
+					<input type="text" id="user"
+					 name="user"<?php if (DEBUG) { ?> value="flederwiesel"<?php } ?>>
 					<div class="hint">
 						<?php echo sprintf($lang['hintnumchars'], USERNAME_MIN, USERNAME_MAX); ?>
 					</div>
@@ -80,15 +81,15 @@
 			<div class="row">
 				<div class="cell label"><?php echo $lang['password']; ?></div>
 				<div class="cell">
-					<input type="password" id="passwd" name="passwd"
-						<?php if (DEBUG) { ?>value="elvizzz"><?php } ?>
+					<input type="password" id="passwd"
+					 name="passwd"<?php if (DEBUG) { ?> value="elvizzz"<?php } ?>>
 				</div>
 			</div>
 			<div class="row">
 				<div class="cell label"><?php echo $lang['confirmpassword']; ?></div>
 				<div class="cell">
-					<input type="password" id="passwd-confirm"  name="passwd-confirm"
-						<?php if (DEBUG) { ?>value="elvizzz"><?php } ?>
+					<input type="password" id="passwd-confirm"
+					 name="passwd-confirm"<?php if (DEBUG) { ?> value="elvizzz"<?php } ?>>
 					<div class="hint"><?php echo $lang['hintpassword']; ?></div>
 				</div>
 			</div>
