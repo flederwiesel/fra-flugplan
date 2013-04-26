@@ -29,11 +29,9 @@
 			<div>
 				<div id="head">
 					<h1 class="nobr">Frankfurt Aviation Friends</h1>
-					<h3>
-Live Schedule					</h3>
+					<h3>Live Schedule</h3>
 				</div>
 				<div id="nav">
-
 <dl class="left">
 	<dt><a href="http://www.frankfurt-aviation-friends.de/">Home</a></dt>
 			<dt class="sep"><a href="?arrival">Arrival</a></dt>
@@ -41,8 +39,9 @@ Live Schedule					</h3>
 	<dt class="sep"><a href="?page=help">Help</a></dt>
 </dl>
 <dl class="right">
-			<dt class="sep"><a href="?req=register">Register</a></dt>
-			<dt class="sep"><a href="?req=login">Login</a></dt>
+			<dt class="sep">Welcome,  flederwiesel</dt>
+			<dt class="sep"><a href="?req=changepw">Change Password</a></dt>
+			<dt class="sep"><a href="?req=logout">Logout</a></dt>
 		<span style="white-space: nowrap;">
 			<dt>
 				<a href="?page=addflight&lang=de">
@@ -161,9 +160,7 @@ $(function()
 
 <form id="form" method="post" action="?page=addflight">
 	<fieldset>
-		<legend>Add flight</??></legend>
-		<div id="notification" class="auth-ok">
-			Flight added successfully.		</div>
+		<legend>Add flight</legend>
 		<div class="table">
 			<div class="row">
 				<div class="cell label">Reg</div>
@@ -175,16 +172,16 @@ $(function()
 				<div class="cell label">Flight</div>
 				<div class="cell">
 					<input type="text" name="flight" id="flight"  value="QQ9999" />
-											<label>
-							<input type="radio" name="type" value="pax-regular"
-							  checked="checked" />Regular						</label>
 						<label>
-							<input type="radio" name="type" value="cargo"
-							 />Cargo						</label>
+							<input type="radio" name="type"
+							 value="pax-regular" checked="checked">Regular						</label>
 						<label>
-							<input type="radio" name="type" value="ferry"
-							 />Ferry						</label>
-									</div>
+							<input type="radio" name="type"
+							 value="cargo">Cargo						</label>
+						<label>
+							<input type="radio" name="type"
+							 value="ferry">Ferry						</label>
+				</div>
 			</div>
 			<div class="row">
 				<div class="cell"></div>
