@@ -438,18 +438,15 @@ if (!$error)
 			<div>
 				<div id="head">
 					<h1 class="nobr">Frankfurt Aviation Friends</h1>
-					<h3>
-<?php
+					<h3><?php
 						echo "$lang[liveschedule]";
 
 						if (!$error)
-							if (!isset($_GET['page']))
+							if (!isset($_GET['req']) && !isset($_GET['page']))
 								echo " &ndash; $lang[$dir]";
-?>
-					</h3>
+					?></h3>
 				</div>
-				<div id="nav">
-<?php require_once('nav.php'); ?>
+				<div id="nav"><?php require_once('nav.php'); ?>
 				</div>
 			</div>
 <?php
