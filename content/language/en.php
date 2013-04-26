@@ -136,6 +136,7 @@ $lang = array
 	'sta' => 'STA',
 	'std' => 'STD',
 	'help-content' => 'This is the help page... ',
+	'notloggedin' => 'You must first login.',
 );
 
 ?>
