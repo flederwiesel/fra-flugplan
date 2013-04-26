@@ -257,10 +257,25 @@ if (!$error)
 			}
 			else if ('activate' == $_GET['req'])
 			{
-				if (isset($_POST['user']) &&
-					isset($_POST['token']))		/* else no post, we just followed a link */
+				$req = null;
+
+				if (isset($_GET['user']) &&
+					isset($_GET['token']))		/* from email link */
 				{
-					if (!ActivateUser($_POST['user'], $_POST['token'], $message))
+					$req = $_GET;
+				}
+				else
+				{
+					if (isset($_POST['user']) &&
+						isset($_POST['token']))		/* else no post, we just followed a link */
+					{
+						$req = $_POST;
+					}
+				}
+
+				if ($req)
+				{
+					if (!ActivateUser($req['user'], $req['token'], $message))
 					{
 						$error = $message;
 					}
@@ -271,6 +286,8 @@ if (!$error)
 						$_GET['req'] = 'login';
 						$_GET['user'] = $_POST['user'];
 					}
+
+					unset($req);
 				}
 				/* activate */
 			}
