@@ -547,7 +547,7 @@ else
 						}
 						else
 						{
-							// Is airline already in database
+							// Is airline already in database?
 							$airline = NULL;
 							$query = "SELECT `id` FROM `airlines` WHERE `code`='".$f->airline."';";
 
@@ -592,7 +592,8 @@ else
 										if (isset($DEBUG['query']))
 											echo "=$airline\n";
 
-										warn_once(__LINE__, "Airline $f->airline unknown (flight $f->airline$f->code $f->scheduled).");
+										warn_once(__LINE__, "Inserted airline $f->airline as \"".$f->carrier['name']."\"".
+															" ($dir: flight $f->airline$f->code \"$f->scheduled\").");
 									}
 									else
 									{
