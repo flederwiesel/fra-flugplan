@@ -1,0 +1,28 @@
+#!/usr/bin/lftp -f
+
+open web416:L2ppkt1fl2@www.flederwiesel.com
+
+cd /html/lorem-ipsum
+pwd
+
+lcd fra-schedule
+lpwd
+
+!cp -f .config.lorem-ipsum .config
+!awk '/\$Rev: *[0-9]+ \$/ { print $3; }' index.php > revision
+
+mirror --reverse \
+	--dry-run \
+	--verbose \
+	--no-perms \
+	--exclude .svn/ \
+	--exclude check/ \
+	--exclude data/* \
+	--exclude sql/ \
+	--exclude METAR \
+	--exlude flederwiesel.lftp
+
+!rm revision
+!echo fin.
+
+bye
