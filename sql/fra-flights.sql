@@ -452,7 +452,8 @@ VALUES
 (@uid, 'VLG', 'Vueling'),
 (@uid, 'VY',  'Vueling Airlines'),
 (@uid, 'S4',  'SATA International'),
-(@uid, 'IA',  'Iraqi Airways')
+(@uid, 'IA',  'Iraqi Airways'),
+(@uid, 'AHY', 'Azerbaijan Airlines')
 ;
 
 INSERT INTO `models`(`uid`, `icao`, `name`)
