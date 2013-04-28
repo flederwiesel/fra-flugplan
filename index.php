@@ -423,7 +423,7 @@ if (!$error)
 <head>
 <title>Live Schedule &ndash; Frankfurt Aviation Friends</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<meta name="language" content="<?php echo $_SESSION['lang']; ?>" />
+<meta name="language" content="<?php echo $_SESSION['lang']; ?>">
 <meta name="author" content="Tobias Kühne">
 <meta name="description" content="24h flight forecast for Frankfurt/Main airport with aircraft registrations">
 <meta name="keywords" content="fra eddf frankfurt airport aircraft spotter schedule">
@@ -431,13 +431,13 @@ if (!$error)
 <meta name="generator" content="Programmer's Notepad">
 <?php if ($mobile) { ?>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<link rel="stylesheet" type="text/css" href="css/mobile.css"></link>
+<link rel="stylesheet" type="text/css" href="css/mobile.css">
 <?php } else { ?>
-<link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css"></link>
+<link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
 <?php } ?>
-<link rel="icon" href="favicon.gif" type="image/gif"></link>
-<script src="script/jquery-1.8.0.min.js"></script>
-<script src="script/jquery.sha256.min.js"></script>
+<link rel="icon" href="favicon.gif" type="image/gif">
+<script type="text/javascript" src="script/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="script/jquery.sha256.min.js"></script>
 </head>
 <body>
 	<noscript>
