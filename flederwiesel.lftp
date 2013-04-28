@@ -11,8 +11,8 @@ lpwd
 !cp -f .config.lorem-ipsum .config
 !svn info . | awk '/^Revision:/ { print $2; }' > revision
 
+#	--dry-run \
 mirror --reverse \
-	--dry-run \
 	--verbose \
 	--no-perms \
 	--exclude .svn/ \
