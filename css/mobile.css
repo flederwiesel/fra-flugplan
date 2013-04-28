@@ -64,11 +64,6 @@ a
 	text-decoration: none;
 }
 
-a:hover
-{
-	color: #000040;
-}
-
 fieldset
 {
 	border: 1px solid #dddddd;
@@ -179,11 +174,6 @@ img.href
 #nav a
 {
 	color: #A3AAB7;
-}
-
-#nav a:hover
-{
-	color: #ffffff;
 }
 
 #nav .left
@@ -391,7 +381,6 @@ img.href
 
 #schedule tr:nth-child(odd) { background-color:#f0f0f0; }
 #schedule tr:nth-child(even)    { background-color:#ffffff; }
-#schedule tr:hover { background-color:#ddd; }
 #schedule tr.past { color: #aaa; }
 
 #schedule th
