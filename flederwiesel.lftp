@@ -9,7 +9,7 @@ lcd fra-schedule
 lpwd
 
 !cp -f .config.lorem-ipsum .config
-!svn info . | awk '/^Revision:/ { print $2; }'
+!svn info . | awk '/^Revision:/ { print $2; }' > revision
 
 mirror --reverse \
 	--dry-run \
