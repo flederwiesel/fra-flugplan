@@ -9,7 +9,7 @@ lcd fra-schedule
 lpwd
 
 !cp -f .config.lorem-ipsum .config
-!awk '/\$Rev: *[0-9]+ \$/ { print $3; }' index.php > revision
+!svn info . | awk '/^Revision:/ { print $2; }'
 
 mirror --reverse \
 	--dry-run \
