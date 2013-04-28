@@ -20,7 +20,7 @@ mirror --reverse \
 	--exclude data/* \
 	--exclude sql/ \
 	--exclude METAR \
-	--exlude flederwiesel.lftp
+	--exclude flederwiesel.lftp
 
 !rm revision
 !echo fin.
