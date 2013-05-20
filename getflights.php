@@ -809,13 +809,13 @@ else
 										echo "=<empty>\n";
 
 									$query = "INSERT INTO `flights` ".
-										"(`uid`, `direction`, `airline`, `code`, ".
+										"(`uid`, `type`, `direction`, `airline`, `code`, ".
 										"`scheduled`, `expected`, `aircraft`, `model`) ".
 										"VALUES(".
-										"$uid, '$dir', $airline, '$f->code', ".
+										"$uid, 'pax-regular', '$dir', $airline, '$f->code', ".
 										"'$f->scheduled', ".
 										($f->expected ? "'$f->expected'" : "NULL").", ".
-										($reg ? "'$reg'" : "NULL").", ".
+										($reg ? "$reg" : "NULL").", ".
 										($model ? "$model": "NULL").");";
 								}
 
