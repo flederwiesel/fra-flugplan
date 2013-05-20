@@ -100,9 +100,7 @@ sorttable = {
             this.removeChild(document.getElementById('sorttable_sortfwdind'));
             sortrevind = document.createElement('span');
             sortrevind.id = "sorttable_sortrevind";
-//          sortrevind.innerHTML = stIsIE ? '&nbsp<font face="webdings">5</font>' : '&nbsp;&#x25B4;';
-            sortrevind.innerHTML = '&nbsp;&#x25B2;';
-//          sortrevind.innerHTML = stIsIE ? '&nbsp<font face="webdings">5</font>' : '<img src="img/asc.png" style="border: 0; vertical-align: bottom;">';
+            sortrevind.innerHTML = '&nbsp;&#x25BC;';
             this.appendChild(sortrevind);
             return;
           }
@@ -115,9 +113,7 @@ sorttable = {
             this.removeChild(document.getElementById('sorttable_sortrevind'));
             sortfwdind = document.createElement('span');
             sortfwdind.id = "sorttable_sortfwdind";
-//          sortfwdind.innerHTML = stIsIE ? '&nbsp<font face="webdings">6</font>' : '&nbsp;&#x25BE;';
             sortfwdind.innerHTML = '&nbsp;&#x25BC;';
-//          sortfwdind.innerHTML = stIsIE ? '&nbsp<font face="webdings">6</font>' : '<img src="img/desc.png" style="border: 0; vertical-align: bottom;">';
             this.appendChild(sortfwdind);
             return;
           }
@@ -138,9 +134,7 @@ sorttable = {
           this.className += ' sorttable_sorted';
           sortfwdind = document.createElement('span');
           sortfwdind.id = "sorttable_sortfwdind";
-//        sortfwdind.innerHTML = stIsIE ? '&nbsp<font face="webdings">6</font>' : '&nbsp;&#x25BE;';
           sortfwdind.innerHTML = '&nbsp;&#x25BC;';
-//        sortfwdind.innerHTML = stIsIE ? '&nbsp<font face="webdings">6</font>' : '<img src="img/desc.png" style="border: 0; vertical-align: bottom;">';
           this.appendChild(sortfwdind);
 
 	        // build an array to sort. This is a Schwartzian transform thing,
@@ -154,9 +148,9 @@ sorttable = {
 	          row_array[row_array.length] = [sorttable.getInnerText(rows[j].cells[col]), rows[j]];
 	        }
 	        /* If you want a stable sort, uncomment the following line */
-	        //sorttable.shaker_sort(row_array, this.sorttable_sortfunction);
+	        sorttable.shaker_sort(row_array, this.sorttable_sortfunction);
 	        /* and comment out this one */
-	        row_array.sort(this.sorttable_sortfunction);
+	        //row_array.sort(this.sorttable_sortfunction);
 
 	        tb = this.sorttable_tbody;
 	        for (var j=0; j<row_array.length; j++) {
@@ -172,7 +166,7 @@ sorttable = {
   guessType: function(table, column) {
     // guess the type of a column based on its first non-blank row
     sortfn = sorttable.sort_alpha;
-    for (var i=0; i<table.tBodies[0].rows.length; i++) {
+    for (var i=0; i<table.tBodies[0].rows.length; i++){
       text = sorttable.getInnerText(table.tBodies[0].rows[i].cells[column]);
       if (text != '') {
         if (text.match(/^-?[£$¤]?[\d,.]+%?$/)) {
@@ -496,4 +490,3 @@ var forEach = function(object, block, context) {
 		resolve.forEach(object, block, context);
 	}
 };
-

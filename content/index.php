@@ -214,7 +214,9 @@ if ($user)
 	wl_img_open = "img/wl-open-<?php echo $_SESSION['lang']; ?>.png";
 	wl_img_close = "img/wl-close-<?php echo $_SESSION['lang']; ?>.png";
 </script>
+<?php if (!$mobile) { ?>
 <script type="text/javascript" src="script/watchlist.js"></script>
+<?php } ?>
 <script type="text/javascript" src="script/sorttable.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -291,7 +293,7 @@ else
 <div id="rwy_cont">
 	<div id="rwy_div" style="float: <?php echo 'arrival' == $dir ? 'left' : 'right'; ?> ;">
 		<span id="rwy_l" style="vertical-align: middle;">
-			<img alt="<?php echo $dir; ?>" src="img/<?php echo $dir; ?>-s.png">
+			<img alt="<?php echo $dir; ?>" src="img/<?php echo $dir; ?>-yellow-16x14.png">
 		</span>
 		<span id="rwy_r"><?php echo $rwydir; ?></span>
 	</div>
@@ -387,7 +389,7 @@ if ($user && !$mobile)
 				}
 ?>
 				<th class="sep"><?php echo $lang['type']; ?>
-				<th class="sep"><?php echo $lang['reg']; ?>
+				<th class="sep sorttable_alpha"><?php echo $lang['reg']; ?>
 			</tr>
 		</thead>
 		<tfoot></tfoot>
@@ -469,23 +471,24 @@ else
 		$reg = $row['reg'];
 		$hilite = 'class="left';
 
-		$sortkey = ' sorttable_customkey="%"';
 		$dhhmmss = substr(str_replace(array(' ', '.', ':', '-'), '', $row['expected']), -7);
 
 		if (0 == strlen($reg))
 		{
-			$sortkey = str_replace('%', '2 '.$reg.$dhhmmss, $sortkey);
+			$sortkey = ' sorttable_customkey="2"';
 		}
 		else
 		{
+			$sortkey = ' sorttable_customkey="%"';
+
 			if (!isset($watch[$reg]))
 			{
-				$sortkey = str_replace('%', '1 '.$reg.$dhhmmss, $sortkey);
+				$sortkey = str_replace('%', '1:'.$reg.$dhhmmss, $sortkey);
 			}
 			else
 			{
 				$hilite .= ' watch" title="'.htmlspecialchars($watch[$reg]);
-				$sortkey = str_replace('%', '0 '.$reg.$dhhmmss, $sortkey);
+				$sortkey = str_replace('%', '0:'.$reg.$dhhmmss, $sortkey);
 			}
 		}
 
