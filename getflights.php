@@ -703,7 +703,7 @@ else
 
 									if (mysql_query($query))
 									{
-										warn_once(__LINE__, "Aircraft $f->model is unknown (flight $f->airline$f->code $f->scheduled).");
+										warn_once(__LINE__, "Aircraft '$f->model' is unknown (flight $f->airline$f->code $f->scheduled).");
 
 										$model = mysql_insert_id();
 
