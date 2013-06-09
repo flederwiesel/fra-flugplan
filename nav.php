@@ -67,25 +67,14 @@ function navitem($item, $active)
 		}
 		else if (isset($_GET['req']))
 		{
-			if ('logout' == $_GET['req'])
-			{
 ?>
-				<dt class="sep"><a href="?arrival"><?php navitem('arrival', false); ?></a></dt>
-				<dt class="sep"><a href="?departure"><?php navitem('departure', false); ?></a></dt>
+			<dt class="sep"><a href="?arrival"><?php navitem('arrival', false); ?></a></dt>
+			<dt class="sep"><a href="?departure"><?php navitem('departure', false); ?></a></dt>
 <?php
-			}
-			else
-			{
-?>
-				<dt class="sep"><a href="?arrival"><?php navitem('arrival', false); ?></a></dt>
-				<dt class="sep"><a href="?departure"><?php navitem('departure', false); ?></a></dt>
-<?php
-			}
 
 			if ($user && !$mobile)
 			{
 ?>
-				<dt class="sep"><a href="javascript:watchlist('show');"><?php echo $lang['watchlist']; ?></a></dt>
 				<dt class="sep"><a href="?page=addflight"><?php echo $lang['addflight']; ?></a></dt>
 <?php
 			}
