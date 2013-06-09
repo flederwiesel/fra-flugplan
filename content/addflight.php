@@ -397,115 +397,124 @@ if ($_POST)
 	}
 	else
 	{
-		$error = CheckPostVariables($notice);
+		$perms = $user->permissions();
 
-		if (!$error)
+		if (!('1' == $perms[0]))
 		{
-			if (!$notice)
+			$error = $lang['nopermission'];
+		}
+		else
+		{
+			$error = CheckPostVariables($notice);
+
+			if (!$error)
 			{
-				$error = GetPostVariables($type, $reg, $flight, $dir, $scheduled, $until);
-
-				if (!$error)
+				if (!$notice)
 				{
-					$model = null;
-					$error = GetRegId($reg, $model);
+					$error = GetPostVariables($type, $reg, $flight, $dir, $scheduled, $until);
 
 					if (!$error)
 					{
-						if (!$model)
+						$model = null;
+						$error = GetRegId($reg, $model);
+
+						if (!$error)
 						{
-							$error = GetPostRegId($reg, $model);
-
-							if (!$error)
+							if (!$model)
 							{
-								if (!$model)
-								{
-									$notice = $reg ? $lang['typeunknown'] : $lang['needtype'];
+								$error = GetPostRegId($reg, $model);
 
-									/* Set $airline to something different from null to suppress notice, since
-									   we are already notifiying about unknown aircraft type... */
-									$airline = $flight[0];
+								if (!$error)
+								{
+									if (!$model)
+									{
+										$notice = $reg ? $lang['typeunknown'] : $lang['needtype'];
+
+										/* Set $airline to something different from null to suppress notice, since
+										   we are already notifiying about unknown aircraft type... */
+										$airline = $flight[0];
+									}
 								}
 							}
 						}
 					}
-				}
 
-				if (!$error && $model)
-				{
-					$airline = null;
-	            	$error = GetAirlineId($airline, $flight);
-
-					if (!$error)
+					if (!$error && $model)
 					{
-						if (!$airline)
-							$error = GetPostAirlineId($airline);
-					}
+						$airline = null;
+		            	$error = GetAirlineId($airline, $flight);
 
-					if (!$error)
-					{
-						if (!$airline)
+						if (!$error)
 						{
-							$notice = $lang['nosuchairline'];
+							if (!$airline)
+								$error = GetPostAirlineId($airline);
 						}
-						else
+
+						if (!$error)
 						{
-							$insert = true;
-							$days = $_POST['day'];
-
-							do
+							if (!$airline)
 							{
-								if ('each' == $_POST['interval'])
-								{
-									if (isset($_POST['day[0]']))
-									{
-										$insert = true;
-									}
-									else
-									{
-										$wday = date('N', $scheduled);
-										$insert = isset($days[$wday]) ? true : false;
-									}
-								}
-
-								if ($insert)
-								{
-									$query = sprintf(
-										"INSERT INTO `flights`".
-										" (`uid`, `type`, `direction`, `airline`, `code`, ".
-										"  `scheduled`, `airport`, `model`, `aircraft`)".
-										"VALUES(".
-										" '%s', '$type', '$dir', $airline, '$flight[1]', ".
-										" '%s', %lu, $model, $reg);",
-										$user->id(),
-										strftime('%Y-%m-%d %H:%M:%S', $scheduled),
-										$_POST['airport']);
-
-									if (!mysql_query($query))
-										$error = mysql_error();
-								}
-
-								if ($until)
-									$scheduled = strtotime('+1 day', $scheduled);
+								$notice = $lang['nosuchairline'];
 							}
-							while ($scheduled <= $until && !$error);
-
-							if (!$error)
+							else
 							{
-								$message = $lang['addflsuccess'];
+								$insert = true;
+								$days = $_POST['day'];
 
-								unset($_POST['reg']);
-								unset($_POST['model']);
-								unset($_POST['flight']);
-								//unset($_POST['type']);
-								unset($_POST['code']);
-								unset($_POST['airline']);
-								//unset($_POST['direction']);
-								unset($_POST['airport']);
-								unset($_POST['time']);
-								unset($_POST['from']);
-								//unset($_POST['interval']);
-								unset($_POST['until']);
+								do
+								{
+									if ('each' == $_POST['interval'])
+									{
+										if (isset($_POST['day[0]']))
+										{
+											$insert = true;
+										}
+										else
+										{
+											$wday = date('N', $scheduled);
+											$insert = isset($days[$wday]) ? true : false;
+										}
+									}
+
+									if ($insert)
+									{
+										$query = sprintf(
+											"INSERT INTO `flights`".
+											" (`uid`, `type`, `direction`, `airline`, `code`, ".
+											"  `scheduled`, `airport`, `model`, `aircraft`)".
+											"VALUES(".
+											" '%s', '$type', '$dir', $airline, '$flight[1]', ".
+											" '%s', %lu, $model, $reg);",
+											$user->id(),
+											strftime('%Y-%m-%d %H:%M:%S', $scheduled),
+											$_POST['airport']);
+
+										if (!mysql_query($query))
+											$error = mysql_error();
+									}
+
+									if ($until)
+										$scheduled = strtotime('+1 day', $scheduled);
+								}
+								while ($scheduled <= $until && !$error);
+
+								if (!$error)
+								{
+									$message = $lang['addflsuccess'];
+
+									unset($_POST['reg']);
+									unset($_POST['model']);
+									unset($_POST['flight']);
+									//unset($_POST['type']);
+									unset($_POST['code']);
+									unset($_POST['airline']);
+									//unset($_POST['direction']);
+									unset($_POST['airport']);
+									unset($_POST['time']);
+									unset($_POST['from']);
+									//unset($_POST['interval']);
+									unset($_POST['until']);
+								}
 							}
 						}
 					}
@@ -651,8 +660,15 @@ $(function()
 				<div class="cell">
 					<input type="text" name="flight" id="flight" <?php DefaultValue('flight', 'QQ9999'); ?>/>
 <?php
-						if (!isset($_POST['type']))
-						{
+					if ($mobile)
+					{
+?>
+						<div>
+<?php
+					}
+
+					if (!isset($_POST['type']))
+					{
 ?>
 						<label>
 							<input type="radio" name="type"
@@ -684,7 +700,14 @@ $(function()
 							 value="ferry" <?php DefaultCheck('type', 'ferry'); ?>/><?php echo $lang['ferry']; ?>
 						</label>
 <?php
-						}
+					}
+
+					if ($mobile)
+					{
+?>
+					</div>
+<?php
+					}
 ?>
 				</div>
 			</div>
