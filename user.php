@@ -56,14 +56,16 @@ class User
 	private $email = null;
 	private $timezone = null;
 	private $lang = null;
+	private $permissions = '';
 
-	public function __construct($id, $name, $email, $tz, $lang)
+	public function __construct($id, $name, $email, $tz, $lang, $perms)
 	{
 		$this->id   = $id;
 		$this->name = $name;
 		$this->email = $email;
 		$this->timezone = $tz;
 		$this->lang = $lang;
+		$this->permissions = $perms;
 
 		return $this;
 	}
@@ -73,6 +75,8 @@ class User
 	public function email() { return $this->email; }
 	public function timezone() { return $this->timezone; }
 	public function lang() { return $this->lang; }
+	public function language($lang) { $this->lang = $lang; }
+	public function permissions() { return $this->permissions; }
 }
 
 function /*str*/ token() { return hash('sha256', mcrypt_create_iv(32)); }
@@ -114,13 +118,13 @@ function /*bool*/ LoginUser($user, $password, $byid, $remember, /*out*/ &$messag
 	if ($byid)
 	{
 		$id = $user;
-		$query = sprintf("SELECT `name`, `passwd`, `salt`, `email`, `timezone`, `language`".
+		$query = sprintf("SELECT `name`, `passwd`, `salt`, `email`, `timezone`, `language`, `permissions`".
 						 " FROM `users` WHERE `id`=$user");
 	}
 	else
 	{
 		$name = $user;
-		$query = sprintf("SELECT `id`, `passwd`, `salt`, `email`, `timezone`, `language`".
+		$query = sprintf("SELECT `id`, `passwd`, `salt`, `email`, `timezone`, `language`, `permissions`".
 						 " FROM `users` WHERE `name`='$user'");
 	}
 
@@ -160,7 +164,7 @@ function /*bool*/ LoginUser($user, $password, $byid, $remember, /*out*/ &$messag
 					else
 						$id = $row['id'];
 
-					$user = new User($id, $name, $row['email'], $row['timezone'], $row['language']);
+					$user = new User($id, $name, $row['email'], $row['timezone'], $row['language'], $row['permissions']);
 
 					if ($user)
 					{
@@ -170,8 +174,6 @@ function /*bool*/ LoginUser($user, $password, $byid, $remember, /*out*/ &$messag
 						setcookie('hash',      $hash,         $expires);
 						setcookie('autologin', true,          $expires);
 						setcookie('lang',      $user->lang(), $expires);
-
-						$_SESSION['lang'] = $user->lang();
 					}
 				}
 				else
@@ -233,10 +235,10 @@ function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$me
 					$query = sprintf(
 						"INSERT INTO ".
 						"`users`(".
-						" `name`, `email`, `passwd`, `salt`, `language`,".
+						" `name`, `email`, `passwd`, `salt`, `language`, `permissions`,".
 						" `token`, `token_type`, `token_expires`, `ip`)".
 						"VALUES(".
-						" '$user', '$email', '$password', '$salt', '$language',".
+						" '$user', '$email', '$password', '$salt', '$language', '0', ".
 						" '$token', 'activation', ".
 						" FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu), '%s' )",
 						TOKEN_LIFETIME, $_SERVER['REMOTE_ADDR']);
@@ -542,7 +544,7 @@ function /*bool*/ RequestPasswordChange($user, $email, /*out*/ &$message)
 			"Content-Transfer-Encoding: 8bit\r\n".
 			"X-Mailer: PHP/%s",
 			mb_encode_mimeheader(ORGANISATION, 'UTF-8', 'Q'),
-			ADMIN_EMAIL,  phpversion());
+			ADMIN_EMAIL_REPLY_TO,  phpversion());
 
 		$body = sprintf($lang['emailpasswd'], $client_ip, $user, ORGANISATION, $token,
 						   php_self(), $user, $token, $expires, ORGANISATION);
@@ -565,7 +567,7 @@ function /*bool*/ ChangePassword($user, $token, $password, /*out*/ &$message)
 
 	$error = null;
 
-	if ($token)
+	if (isset($token))
 		$query = "SELECT `id`, `token` FROM `users` WHERE `name`='$user'";
 	else
 		$query = "SELECT `id` FROM `users` WHERE `name`='$user'";
@@ -595,11 +597,16 @@ function /*bool*/ ChangePassword($user, $token, $password, /*out*/ &$message)
 			}
 			else
 			{
-				if ($token && $token != $row[1])
+				if (isset($token))
 				{
-					$error = $lang['authfailedpasswdnotch'];
+					if (!isset($row[1]) /* No token has been requested! */ ||
+						$token != $row[1])
+					{
+						$error = $lang['authfailedpasswdnotch'];
+					}
 				}
-				else
+
+				if (!$error)
 				{
 					$uid = $row[0];
 					$salt = token();
