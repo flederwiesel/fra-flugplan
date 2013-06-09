@@ -5,7 +5,7 @@ open web416:L2ppkt1fl2@www.flederwiesel.com
 cd /html/lorem-ipsum
 pwd
 
-lcd fra-schedule
+#lcd fra-schedule
 lpwd
 
 !cp -f .config.lorem-ipsum .config
