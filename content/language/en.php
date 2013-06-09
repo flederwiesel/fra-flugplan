@@ -62,7 +62,7 @@ $lang = array
 	'login' => 'Login',
 	'logout' => 'Logout',
 	'register' => 'Register',
-	'changepassword' => 'Change Password',
+	'changepw' => 'User profile',
 	'username' => 'Username',
 	'emailaddress' => 'E-mail Address',
 	'password' => 'Password',
@@ -137,6 +137,7 @@ $lang = array
 	'std' => 'STD',
 	'help-content' => 'This is the help page... ',
 	'notloggedin' => 'You must first login.',
+	'nopermission' => 'You do not have the permissions required for this operation.',
 );
 
 ?>

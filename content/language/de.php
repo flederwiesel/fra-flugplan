@@ -62,7 +62,7 @@ $lang = array
 	'login' => 'Anmelden',
 	'logout' => 'Abmelden',
 	'register' => 'Registrieren',
-	'changepassword' => 'Passwort &auml;ndern',
+	'changepw' => 'Benutzerprofil',
 	'username' => 'Benutzername',
 	'emailaddress' => 'E-Mail-Adresse',
 	'password' => 'Passwort',
@@ -137,6 +137,7 @@ $lang = array
 	'std' => 'STD',
 	'help-content' => 'Hilfeseite... ',
 	'notloggedin' => 'Bitte zuerst anmelden.',
+	'nopermission' => 'Nicht genügend Rechte, um diese Aktion auszuführen.',
 );
 
 ?>
