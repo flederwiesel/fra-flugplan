@@ -294,7 +294,7 @@ else
 <div id="rwy_cont">
 	<div id="rwy_div" style="float: <?php echo 'arrival' == $dir ? 'left' : 'right'; ?> ;">
 		<span id="rwy_l" style="vertical-align: middle;">
-			<img alt="<?php echo $dir; ?>" src="img/<?php echo $dir; ?>-yellow-16x14.png">
+			<img alt="<?php echo $lang['rwydir']; ?>" src="img/<?php echo $dir; ?>-yellow-16x14.png">
 		</span>
 		<span id="rwy_r"><?php echo $rwydir; ?></span>
 	</div>

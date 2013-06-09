@@ -138,6 +138,7 @@ $lang = array
 	'help-content' => 'This is the help page... ',
 	'notloggedin' => 'You must first login.',
 	'nopermission' => 'You do not have the permissions required for this operation.',
+	'rwydir' => 'active runway',
 );
 
 ?>

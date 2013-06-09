@@ -138,6 +138,7 @@ $lang = array
 	'help-content' => 'Hilfeseite... ',
 	'notloggedin' => 'Bitte zuerst anmelden.',
 	'nopermission' => 'Nicht genügend Rechte, um diese Aktion auszuführen.',
+	'rwydir' => 'Betriebsrichtung',
 );
 
 ?>
