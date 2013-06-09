@@ -1,7 +1,8 @@
 body
 {
-	overflow-x: hidden;
 	border: none;
+	margin: 6px;
+	overflow-x: hidden;
 	background: #f8f8f8;
 	font-family: "Verdana", "Arial", "Helvetica", "Sans Serif";
 	font-size: 0.8em;
@@ -15,7 +16,7 @@ pre
 dl
 {
 	margin: 0;
-	padding-right: 2px;
+	padding: 0;
 }
 
 dt
@@ -25,24 +26,29 @@ dt
 	margin: 0;
 }
 
+dl.left
+{
+	margin-right: 4em;
+}
+
 dl.left dt.sep
 {
-	border-left: 1px solid #A3AAB7;
-	padding: 0 0.5em;
+	__border-left: 1px solid #A3AAB7;
+	__padding: 0 0.5em;
 }
 
 dl.right dt.sep
 {
-	border-right: 1px solid #A3AAB7;
-	padding: 0 0.5em;
+	__border-right: 1px solid #A3AAB7;
+	__padding: 0 0.5em;
 }
 
 div.table
 {
 	margin: auto;
 	display: table;
-	padding-left: 2em;
-	padding-right: 2em;
+	__padding-left: 2em;
+	__padding-right: 2em;
 }
 
 div.row
@@ -51,6 +57,11 @@ div.row
 
 div.cell
 {
+}
+
+div.footnote
+{
+	font-size: 0.8em;
 }
 
 img
@@ -64,6 +75,13 @@ a
 	text-decoration: none;
 }
 
+a.back
+{
+	display: block;
+	padding: 1em 0 0 0;
+	font-size: 0.8em;
+}
+
 fieldset
 {
 	border: 1px solid #dddddd;
@@ -73,9 +91,9 @@ fieldset
 
 div.label
 {
-	padding-right: 1em;
-	text-align: right;
-	white-space: nowrap;
+	__padding-right: 1em;
+	__text-align: left;
+	__white-space: nowrap;
 }
 
 input[type=submit],
@@ -89,13 +107,19 @@ td, th
 	white-space: nowrap;
 }
 
-img.href
+ul.help > li
 {
-	margin-top: 1px;
-	margin-left: 1px;
-	margin-right: 2px;
+	list-style: none;
 }
 
+ul.help > li.img
+{
+	padding: 1em 0em;
+}
+
+.b { font-weight: bold; }
+.i { font-style: italic; }
+.bi { font-weight: bold; font-style: italic; }
 .left { text-align: left; }
 .center { text-align: center; }
 .right { text-align: right; }
@@ -118,6 +142,7 @@ img.href
 
 #body
 {
+	padding: 0;
 	text-align: center;
 }
 
@@ -125,9 +150,9 @@ img.href
 {
 	display: inline-block;
 	margin: auto;
-	padding: 6px;
-	background: #ffffff;
+	padding: 4px;
 	box-shadow: 0 0 3px #666666;
+	background: #ffffff;
 	text-align: left;
 }
 
@@ -139,7 +164,7 @@ img.href
 
 #head h1
 {
-	font-size: 1.25em;
+	font-size: 1.0em;
 }
 
 #head h3
@@ -179,7 +204,7 @@ img.href
 #nav .left
 {
 	float: left;
-	margin-right: 2.5em;
+	__margin-right: 2.5em;
 	text-align: left;
 }
 
@@ -233,7 +258,6 @@ img.href
 {
 	margin: 0;
 	padding: 6px 0;
-	min-width: 232px;
 }
 
 #rwy_cont
@@ -368,7 +392,9 @@ img.href
 
 #schedule
 {
+/*
 	margin-right: 24px;
+*/
 	width: auto;
 }
 
@@ -389,7 +415,7 @@ img.href
 	font-weight: normal;
 	text-align: center;
 	vertical-align: bottom;
-	padding: 1px 4px;
+	__padding: 1px 4px;
 }
 
 #schedule th.sep
@@ -400,17 +426,17 @@ img.href
 #schedule td
 {
 	padding: 1px 4px;
-	vertical-align: middle;
 	white-space: nowrap;
+	vertical-align: middle;
 }
 
 #schedule td div
 {
-	overflow: hidden;			/* required for text-overflow */
-	-o-text-overflow: ellipsis;	/* for Opera since 9.0 */
+	overflow: hidden;
+	-o-text-overflow: ellipsis;
 	-ms-text-overflow: ellipsis;
-	text-overflow: ellipsis;	/* for IE and WebKit (Safari, Chrome) */
-	max-width: 16em; /*!IE*/
+	text-overflow: ellipsis;
+	max-width: 16em;
 }
 
 #schedule td.early
@@ -452,6 +478,6 @@ img.href
 	width: 100%;
 	background: red;
 	opacity:0.4;
-	filter:alpha(opacity=40); /* For IE8 and earlier */
+	filter:alpha(opacity=40);
 	text-align: center;
 }

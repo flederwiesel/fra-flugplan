@@ -22,25 +22,47 @@
  *
  ******************************************************************************/
 
+function navitem($item, $active)
+{
+	global $lang;
+	global $mobile;
+
+	if ($mobile)
+		echo '<img src="img/'.$item.'-'.($active ? 'white' : 'grey').'-24x24.png">';
+	else
+		echo $lang[$item];
+}
+
 ?>
 
 <dl class="left">
-	<dt><a href="http://www.frankfurt-aviation-friends.de/"><?php echo $lang['home']; ?></a></dt>
 <?php
+	if (!$mobile)
+	{
+?>
+		<dt><a href="http://www.frankfurt-aviation-friends.de/"><?php echo $lang['home']; ?></a></dt>
+<?php
+	}
+
 	if ($hdbc)
 	{
 		if (isset($_GET['page']))
 		{
 ?>
-			<dt class="sep"><a href="?arrival"><?php echo $lang['arrival']; ?></a></dt>
-			<dt class="sep"><a href="?departure"><?php echo $lang['departure']; ?></a></dt>
+			<dt class="sep"><a href="?arrival"><?php navitem('arrival', false); ?></a></dt>
+			<dt class="sep"><a href="?departure"><?php navitem('departure', false); ?></a></dt>
 <?php
 
-			if ($user && $_GET['page'] != 'addflight')
+			if ($user && !$mobile && $_GET['page'] != 'addflight')
 			{
+				$perm = $user->permissions();
+
+				if ($perm[0] = '1')
+				{
 ?>
-				<dt class="sep"><a href="?page=addflight"><?php echo $lang['addflight']; ?></a></dt>
+					<dt class="sep"><a href="?page=addflight"><?php navitem('addflight', false); ?></a></dt>
 <?php
+				}
 			}
 		}
 		else if (isset($_GET['req']))
@@ -48,21 +70,22 @@
 			if ('logout' == $_GET['req'])
 			{
 ?>
-				<dt class="sep"><a href="?<?php echo $rev; ?>"><?php echo $lang[$rev]; ?></a></dt>
+				<dt class="sep"><a href="?arrival"><?php navitem('arrival', false); ?></a></dt>
+				<dt class="sep"><a href="?departure"><?php navitem('departure', false); ?></a></dt>
 <?php
 			}
 			else
 			{
 ?>
-				<dt class="sep"><a href="?arrival"><?php echo $lang['arrival']; ?></a></dt>
-				<dt class="sep"><a href="?departure"><?php echo $lang['departure']; ?></a></dt>
+				<dt class="sep"><a href="?arrival"><?php navitem('arrival', false); ?></a></dt>
+				<dt class="sep"><a href="?departure"><?php navitem('departure', false); ?></a></dt>
 <?php
 			}
 
-			if ($user)
+			if ($user && !$mobile)
 			{
 ?>
-				<dt class="sep"><a href="javascript: watchlist('show');"><?php echo $lang['watchlist']; ?></a></dt>
+				<dt class="sep"><a href="javascript:watchlist('show');"><?php echo $lang['watchlist']; ?></a></dt>
 				<dt class="sep"><a href="?page=addflight"><?php echo $lang['addflight']; ?></a></dt>
 <?php
 			}
@@ -72,25 +95,53 @@
 			if ('arrival' == $dir)
 			{
 ?>
-			<dt class="sep"><?php echo $lang[$dir]; ?></dt>
-			<dt class="sep"><a href="?<?php echo $rev; ?>"><?php echo $lang[$rev]; ?></a></dt>
+			<dt class="sep"><?php navitem('arrival', true); ?></dt>
+			<dt class="sep"><a href="?departure"><?php navitem('departure', false); ?></a></dt>
 <?php } else { ?>
-			<dt class="sep"><a href="?<?php echo $rev; ?>"><?php echo $lang[$rev]; ?></a></dt>
-			<dt class="sep"><?php echo $lang[$dir]; ?></dt>
+			<dt class="sep"><a href="?arrival"><?php navitem('arrival', false); ?></a></dt>
+			<dt class="sep"><?php navitem('departure', true); ?></dt>
 <?php
 			}
 
-			if ($user)
+			if ($user && !$mobile)
 			{
 ?>
-				<dt class="sep"><a href="javascript: watchlist('show');"><?php echo $lang['watchlist']; ?></a></dt>
-				<dt class="sep"><a href="?page=addflight"><?php echo $lang['addflight']; ?></a></dt>
+				<dt class="sep"><a href="javascript:watchlist('show');"><?php echo $lang['watchlist']; ?></a></dt>
 <?php
+				$perm = $user->permissions();
+
+				if ($perm[0] == '1')
+				{
+?>
+					<dt class="sep"><a href="?page=addflight"><?php echo $lang['addflight']; ?></a></dt>
+<?php
+				}
 			}
 		}
 	}
+
+	if (isset($_GET['page']))
+	{
+		if ('help' == $_GET['page'])
+		{
 ?>
-	<dt class="sep"><a href="?page=help"><?php echo $lang['help']; ?></a></dt>
+			<dt class="sep"><a href="?page=help"><?php navitem('help', true); ?></a></dt>
+<?php
+		}
+		else
+		{
+?>
+			<dt class="sep"><a href="?page=help"><?php navitem('help', false); ?></a></dt>
+<?php
+		}
+	}
+	else
+	{
+?>
+		<dt class="sep"><a href="?page=help"><?php navitem('help', false); ?></a></dt>
+<?php
+	}
+?>
 </dl>
 <dl class="right">
 <?php
@@ -100,21 +151,20 @@
 		{
 			/* user has successfully logged in */
 ?>
-			<dt class="sep"><?php echo "$lang[welcome] ".$user->name(); ?></dt>
-			<dt class="sep"><a href="?req=changepw"><?php echo $lang['changepassword']; ?></a></dt>
-			<dt class="sep"><a href="?req=logout"><?php echo $lang['logout']; ?></a></dt>
+			<dt class="sep"><a href="?req=changepw"><?php navitem('changepw', false); ?></a></dt>
+			<dt class="sep"><a href="?req=logout"><?php navitem('logout', false); ?></a></dt>
 <?php
 		}
 		else
 		{
 ?>
-			<dt class="sep"><a href="?req=register"><?php echo $lang['register']; ?></a></dt>
-			<dt class="sep"><a href="?req=login"><?php echo $lang['login']; ?></a></dt>
+			<dt class="sep"><a href="?req=register"><?php navitem('register', false); ?></a></dt>
+			<dt class="sep"><a href="?req=login"><?php navitem('login', false); ?></a></dt>
 <?php
 		}
 	}
 ?>
-		<span style="white-space: nowrap;">
+		<span style="vertical-align: baseline;">
 			<dt>
 				<a href="<?php echo get('lang=de'); ?>">
 					<img src="img/de.png" alt="<?php echo $lang['de']; ?>" width="16" height="12">

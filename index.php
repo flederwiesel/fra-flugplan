@@ -94,7 +94,7 @@ function get($get=null)
  * Equal goes it loose
  ******************************************************************************/
 
-require_once '.config';
+@require_once '.config';
 
 session_start();
 
@@ -118,6 +118,8 @@ else
 			$_SESSION['lang'] = 'en';
 //&& 	$_SERVER[HTTP_ACCEPT_LANGUAGE]
 	}
+
+	setcookie('lang', $_SESSION['lang'], time() + COOKIE_LIFETIME);
 }
 
 header('Content-Type: text/html; charset=UTF-8');
@@ -162,7 +164,7 @@ if (!$error)
 {
 	// callback function for user login, register, etc.
 	// permissions may be defined here
-	require_once 'user.php';
+	@require_once 'user.php';
 
 	function content()
 	{
@@ -188,6 +190,7 @@ if (!$error)
 		{
 			// user requested logout, clear user data (cookies)
 			LogoutUser();
+			$user = null;
 
 			if ('' == $_GET['req'])
 				unset($_GET['req']);
@@ -335,7 +338,7 @@ if (!$error)
 					 isset($_POST['passwd']) &&
 					 isset($_POST['passwd-confirm']))		/* else no post, we just followed a link */
 				{
-					if (!ChangePassword(isset($_POST['user']) ? $_POST['user'] : $user->name(),//&& ->id()
+					if (!ChangePassword(isset($_POST['user']) ? $_POST['user'] : $user->name(),//&& ->id()?
 									    isset($_POST['token']) ? $_POST['token'] : null,
 									    $_POST['passwd'],
 									    $message))
@@ -347,9 +350,6 @@ if (!$error)
 						if ($user)
 						{
 							$message = $lang['passwdchanged'];
-
-							$_GET['req'] = '';
-							$_GET['page'] = 'pwchanged';
 						}
 						else
 						{
@@ -369,11 +369,15 @@ if (!$error)
 	}	/* if (isset($_GET['req'])) */
 }
 
+if ($user)
+	if (isset($_GET['lang']))
+		$user->language($_GET['lang']);
+
 /******************************************************************************
  * detect device type
  ******************************************************************************/
 
-require_once 'classes/Mobile_Detect.php';
+@require_once 'classes/Mobile_Detect.php';
 
 $device = new Mobile_Detect();
 
@@ -383,7 +387,8 @@ if (!$device)
 }
 else
 {
-	$mobile = $device->isMobile();
+	/* Treat tablets as desktop */
+	$mobile = $device->isMobile() && !$device->isTablet();
 	unset($device);
 }
 
@@ -430,7 +435,7 @@ if (!$error)
 <meta name="robots" content="index, nofollow">
 <meta name="generator" content="Programmer's Notepad">
 <?php if ($mobile) { ?>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="viewport" content="width=device-width; initial-scale=1.0;"/>
 <link rel="stylesheet" type="text/css" href="css/mobile.css">
 <?php } else { ?>
 <link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
@@ -456,13 +461,24 @@ if (!$error)
 			<div>
 				<div id="head">
 					<h1 class="nobr">Frankfurt Aviation Friends</h1>
-					<h3><?php
+					<h3>
+<?php
 						echo "$lang[liveschedule]";
 
 						if (!$error)
-							if (!isset($_GET['req']) && !isset($_GET['page']))
-								echo " &ndash; $lang[$dir]";
-					?></h3>
+						{
+							if (isset($_GET['req']))
+							{
+								if ('logout' == $_GET['req'])
+									echo " &ndash; $lang[$dir]";
+							}
+							else
+							{
+								if (!isset($_GET['page']))
+									echo " &ndash; $lang[$dir]";
+							}
+						}
+?></h3>
 				</div>
 				<div id="nav"><?php require_once('nav.php'); ?>
 				</div>
