@@ -210,6 +210,7 @@ if ($user)
 #list { padding-right: 1.2em; }
 </style>
 <![endif]-->
+
 <script type="text/javascript">
 	wl_img_open = "img/wl-open-<?php echo $_SESSION['lang']; ?>.png";
 	wl_img_close = "img/wl-close-<?php echo $_SESSION['lang']; ?>.png";
@@ -314,7 +315,7 @@ if ($user && !$mobile)
 				<form id="watch" method="post" action="?">
 					<div class="center" style="padding: 6px 6px 6px 0;">
 						<div id="list">
-							<table>
+							<table summary="watchlist">
 								<thead>
 									<tr>
 										<th></th>
@@ -345,7 +346,7 @@ if ($user && !$mobile)
 									{
 ?>
 										<tr>
-											<td><a href="http://www.airliners.net/search/photo.search?q=<?php echo $reg; ?>" target="a-net" alt="www.airliners.net"><img src="img/a-net.png"></a></td>
+											<td><a href="http://www.airliners.net/search/photo.search?q=<?php echo $reg; ?>" target="a-net"><img src="img/a-net.png" alt="www.airliners.net"></a></td>
 											<td class="reg"><input type="text" value="<?php echo $reg; ?>"></td>
 											<td class="comment"><input type="text" value="<?php echo htmlspecialchars($comment); ?>"></td>
 											<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
@@ -372,7 +373,7 @@ if ($user && !$mobile)
 ?>
 
 <div id="schedule">
-	<table class="sortable">
+	<table class="sortable" summary="schedule">
 		<thead>
 			<tr>
 				<th><?php echo $lang['time']; ?>
