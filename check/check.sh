@@ -4,7 +4,6 @@ alias "mysql=mysql -s"
 alias "curl=curl -s --cookie .COOKIES --cookie-jar .COOKIES"
 
 url="http://localhost/fra-schedule"
-t=0
 
 unless() {
 
@@ -21,9 +20,14 @@ unless() {
 
 check() {
 
-	t=$((t+1))
-	eval "$@" 2>&1 > results/$t.htm | sed -r $'s~^.+$~\033[1;31mERROR: &\033[m~g'
+	name=$1
+	shift
+	eval "$@" 2>&1 > results/$name.htm | sed -r $'s~^.+$~\033[1;31mERROR: &\033[m~g'
 }
+
+###############################################################################
+# <preparation>
+###############################################################################
 
 rm -f .COOKIES
 
@@ -32,7 +36,7 @@ rm -f .COOKIES
 ###############################################################################
 
 unless $LINENO mysql --host=localhost --user=root --password= \
-	--default-character-set=utf8 < ../sql/fra-flights.sql
+	--default-character-set=utf8 < ../sql/fra-flights.sql > /dev/null
 
 ###############################################################################
 
@@ -40,12 +44,22 @@ sed -r 's/(07|25|99) \((Ost|West)-Betrieb\)/99 /g' \
 	--in-place ../data/betriebsrichtung.html
 
 ###############################################################################
+# </preparation>
+###############################################################################
 
-check curl "$url/"
+###############################################################################
+# default -- no COOKIES set -> default language=en
+###############################################################################
+
+check "1" curl "$url/"
 
 ###############################################################################
 
-check curl "$url/?req=register" \
+check "2" curl "$url/?req=register"
+
+###############################################################################
+
+check "3" curl "$url/?req=register" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \
@@ -55,28 +69,37 @@ check curl "$url/?req=register" \
 
 ###############################################################################
 
+mysql --host=localhost --user=root --password= --skip-column-names \
+	--execute="USE fra-schedule; UPDATE users SET permissions='1' WHERE name='flederwiesel'"
+
 token=$(mysql --host=localhost --user=root --password= --skip-column-names \
 	--execute="USE fra-schedule; SELECT token FROM users WHERE name='flederwiesel'" |
 	sed s/'[ \r\n]'//g)
 
-check curl "$url/?req=activate" \
+###############################################################################
+
+check "4" curl "$url/?req=activate" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "token=$token"
 
 ###############################################################################
+# click(submit)
+###############################################################################
 
-check curl "$url/?req=login" \
+check "5" curl "$url/?req=login" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz"
 
 ###############################################################################
+# click(addflight)
+###############################################################################
 
-check curl "$url/?page=addflight" \
+check "6" curl "$url/?page=addflight" \
 	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
 
 ###############################################################################
 
-check curl "$url/?page=addflight" \
+check "7" curl "$url/?page=addflight" \
 		--data-urlencode "reg=D-AIRY" \
 		--data-urlencode "model=A321" \
 		--data-urlencode "flight=QQ9999" \
@@ -91,8 +114,10 @@ check curl "$url/?page=addflight" \
 	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
 
 ###############################################################################
+# click(submit)
+###############################################################################
 
-check curl "$url/?arrival" \
+check "8" curl "$url/?arrival" \
 	"|" sed -r "s/'\+[0-9]{1,4} [0-9]{2}:[0-9]{2}'/'+0 00:00'/g"
 
 ###############################################################################
