@@ -396,6 +396,7 @@ VALUES
 (@uid, 'HV',  'Transavia Airlines'),
 (@uid, 'VPA', 'VIP Wings'),
 (@uid, 'JAF', 'JetAirFly'),
+(@uid, 'BO',  'Aerologic'),
 (@uid, 'BOX', 'Aerologic'),
 (@uid, 'UC',  'LAN Cargo'),
 (@uid, 'ACX', 'ACG Air Cargo Germany'),
@@ -453,7 +454,9 @@ VALUES
 (@uid, 'VY',  'Vueling Airlines'),
 (@uid, 'S4',  'SATA International'),
 (@uid, 'IA',  'Iraqi Airways'),
-(@uid, 'AHY', 'Azerbaijan Airlines')
+(@uid, 'AHY', 'Azerbaijan Airlines'),
+(@uid, 'SZ',  'Air Southwest'),
+(@uid, 'UT',  'UTAir')
 ;
 
 INSERT INTO `models`(`uid`, `icao`, `name`)
@@ -638,7 +641,9 @@ VALUES
 (@uid, 'YK42', 'Yakovlev Yak 42'),
 (@uid, 'YS11', 'NAMC YS-11'),
 (@uid, 'AT75', 'Aerospatiale/Alenia ATR 72-500'),
-(@uid, 'AT76', 'Aerospatiale/Alenia ATR 72-600')
+(@uid, 'AT76', 'Aerospatiale/Alenia ATR 72-600'),
+(@uid, 'CRJX', 'Canadair Regional Jet 1000'),
+(@uid, 'AT73', 'Aerospatiale/Alenia ATR72-200')
 ;
 
 INSERT INTO `airports`(`uid`, `iata`, `icao`, `name`)
