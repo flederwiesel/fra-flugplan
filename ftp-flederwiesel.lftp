@@ -4,6 +4,8 @@ open web416:L2ppkt1fl2@www.flederwiesel.com
 
 !svn info . | awk '/^Revision:/ { print $2; }' > revision
 !cp -f .config.flederwiesel .config
+!rm -f .config.*
+!rm -f data/betriebsrichtung.*
 
 cd /html/fra-schedule
 
@@ -15,7 +17,7 @@ mirror --reverse \
 	--exclude .svn/ \
 	--exclude check/ \
 	--exclude data/* \
-	--exclude etc/* \
+	--exclude etc/ \
 	--exclude sql/ \
 	--exclude METAR \
 	--exclude flederwiesel.lftp
