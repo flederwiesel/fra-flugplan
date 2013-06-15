@@ -11,9 +11,11 @@ cd /html/fra-schedule
 mirror --reverse \
 	--verbose \
 	--no-perms \
+	--exclude .config.*/ \
 	--exclude .svn/ \
 	--exclude check/ \
 	--exclude data/* \
+	--exclude etc/* \
 	--exclude sql/ \
 	--exclude METAR \
 	--exclude flederwiesel.lftp
