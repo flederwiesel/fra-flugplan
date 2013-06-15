@@ -1,0 +1,24 @@
+#!/usr/bin/lftp -f
+
+open web416:L2ppkt1fl2@www.flederwiesel.com
+
+!svn info . | awk '/^Revision:/ { print $2; }' > revision
+!cp -f .config.flederwiesel .config
+
+cd /html/fra-schedule
+
+#	--dry-run \
+mirror --reverse \
+	--verbose \
+	--no-perms \
+	--exclude .svn/ \
+	--exclude check/ \
+	--exclude data/* \
+	--exclude sql/ \
+	--exclude METAR \
+	--exclude flederwiesel.lftp
+
+!rm revision
+!echo fin.
+
+bye
