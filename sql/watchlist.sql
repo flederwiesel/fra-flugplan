@@ -277,7 +277,6 @@ VALUES
 (@uid, 'TC-JFV',	'Turkish Airlines - Manchester United'),
 (@uid, 'TC-JHF',	'Turkish Airlines - World Championship'),
 (@uid, 'TC-JHU',	'Turkish Airlines - Borussia Dortmund'),
-(@uid, 'TC-JJI',	'Turkish Airlines - FC Barcelona - Spieler'),
 (@uid, 'TC-JLC',	'Turkish Airlines - Retro'),
 (@uid, 'TC-JNI',	'Turkish Airlines - Olympia 2020'),
 (@uid, 'TC-JOL',	'Turkish Airlines - Star Alliance'),
@@ -323,6 +322,7 @@ VALUES
 (@uid, 'OK-XGE',	'Czech Airlines Sky Team'),
 (@uid, 'SP-LDC',	'LOT - The Dutchess'),
 (@uid, 'TC-JHL',	'Turkish Airlines - Globally Yours - Gesichterpuzzle'),
+(@uid, 'TC-JJI',	'Turkish Airlines - FC Barcelona - Spieler'),
 (@uid, 'TC-JRO',	'Turkish Airlines - Euro League'),
 (@uid, 'TC-JYI',	'Turkish Airlines - 200th aircraft'),
 */
