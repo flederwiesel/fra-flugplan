@@ -27,7 +27,7 @@ define('USERNAME_MAX', '32');
 define('POST_HTTPS' , 0);
 
 define('DB_HOSTNAME', 'localhost');
-define('DB_NAME',     'usr_web416_1');
+define('DB_NAME',     'usr_web416_3');
 define('DB_USERNAME', 'web416');
 define('DB_PASSWORD', 'web416');
 
