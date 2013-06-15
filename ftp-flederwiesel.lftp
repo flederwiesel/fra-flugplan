@@ -2,7 +2,7 @@
 
 open web416:L2ppkt1fl2@www.flederwiesel.com
 
-!svn info . | awk '/^Revision:/ { print $2; }' > revision
+!svn info . | awk '/^(URL|Revision):/ { print $2; }' > revision
 !cp -f .config.flederwiesel .config
 !rm -f .config.*
 !rm -f data/betriebsrichtung.*
@@ -16,11 +16,12 @@ mirror --reverse \
 	--exclude .config.*/ \
 	--exclude .svn/ \
 	--exclude check/ \
-	--exclude data/* \
+	--exclude data/betriebsrichtung.* \
 	--exclude etc/ \
+	--exclude ftp-flederwiesel.lftp \
+	--exclude ftp-lorem-ipsum.lftp \
 	--exclude sql/ \
-	--exclude METAR \
-	--exclude flederwiesel.lftp
+	--exclude METAR
 
 !rm revision
 !echo fin.
