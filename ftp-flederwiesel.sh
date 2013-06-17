@@ -3,7 +3,7 @@
 root=/html
 target=fra-schedule
 
-[ -e .config ] || cp -f .config.flederwiesel .config
+cp -f .config.flederwiesel .config
 
 rev=$(svn info . | awk '/^Revision:/ { print $2; }')
 

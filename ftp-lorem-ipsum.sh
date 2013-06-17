@@ -3,7 +3,7 @@
 root=/html
 target=lorem-ipsum
 
-[ -e .config ] || cp -f .config.lorem-ipsum .config
+cp -f .config.flederwiesel .config
 
 rev=$(svn info . | awk '/^Revision:/ { print $2; }')
 
