@@ -1,15 +1,20 @@
-#!/usr/bin/lftp -f
+#!/bin/sh
 
+rev=$(svn info . | awk '/^Revision:/ { print $2; }')
+
+[ -e .config ] || cp -f .config.flederwiesel .config
+
+lftp <<EOF
 open web416:L2ppkt1fl2@www.flederwiesel.com
 
 !svn info . | awk '/^(URL|Revision):/ { print $2; }' > revision
-!cp -f .config.flederwiesel .config
-!rm -f .config.*
-!rm -f data/betriebsrichtung.*
 
-cd /html/fra-schedule
+rm -rf /html/vault/fra-schedule/$rev
+mkdir -p /html/vault/fra-schedule/$rev
+cd /html/vault/fra-schedule/$rev
 
-#	--dry-run \
+lpwd
+
 mirror --reverse \
 	--verbose \
 	--no-perms \
@@ -22,8 +27,12 @@ mirror --reverse \
 	--exclude ftp-lorem-ipsum.lftp \
 	--exclude sql/ \
 	--exclude METAR
+#	--dry-run \
 
-!rm revision
-!echo fin.
+#cd /html/vault/fra-schedule
+#!echo $rev > recent
 
 bye
+EOF
+
+rm revision
