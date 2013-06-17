@@ -128,25 +128,31 @@ CREATE TABLE IF NOT EXISTS `watchlist` (
 
 /******************************************************************************
  * Triggers
+ ******************************************************************************
+ * SIGNAL is working on MySql >= 5.5 only!
  ******************************************************************************/
 
 DELIMITER $$
 
-CREATE TRIGGER `users:length`
+CREATE DEFINER = CURRENT_USER() TRIGGER `users:length`
 BEFORE INSERT ON `users`
 FOR EACH ROW
 BEGIN
 	IF LENGTH(NEW.`name`) < 4 THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = '400: `users`.`name` must be at least 4 characters long.';
+		SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = '400: `users`.`name` must be at least 4 characters long.';
 	END IF;
 	IF LENGTH(NEW.`name`) > 64 THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = '401: `users`.`name` must be no longer than 4 characters.';
+		SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = '401: `users`.`name` must be no longer than 64 characters.';
 	END IF;
 	IF LENGTH(NEW.`salt`) != 64 THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = '402: Salt is invalid.';
+		SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = '402: Salt is invalid.';
 	END IF;
 	IF LENGTH(NEW.`passwd`) != 64 THEN
-		SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT = '403: Password hash is invalid.';
+		SIGNAL SQLSTATE '45000'
+		SET MESSAGE_TEXT = '403: Password hash is invalid.';
 	END IF;
 END$$
 
@@ -184,7 +190,7 @@ END$$
 		'');
 */
 
-CREATE TRIGGER `users:token`
+CREATE DEFINER = CURRENT_USER() TRIGGER `users:token`
 BEFORE UPDATE ON `users`
 FOR EACH ROW
 BEGIN
