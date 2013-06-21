@@ -24,11 +24,11 @@
 
 $lang = array
 (
-	'cookies' => 'Cookies m&uuml;ssen aktiviert sein, um diese Seite benutzen zu k&ouml;nnen!',
+	'cookies' => 'Cookies müssen aktiviert sein, um diese Seite benutzen zu können!',
 	'liveschedule' => 'Live Flugplan',
 	'home' => 'Startseite',
 	'watchlist' => 'Beobachtungsliste',
-	'addflight' => 'Flug einf&uuml;gen',
+	'addflight' => 'Flug einfügen',
 	'help' => 'Hilfe',
 	'arrival' => 'Ankunft',
 	'departure' => 'Ablug',
@@ -104,8 +104,8 @@ $lang = array
 	'activationfailed' => 'Activation failed',
 	'activationcode' => 'Bitte Code aus der Aktivierungs-E-Mail eingeben.',
 	'subjpasswdchange' => 'Passwortänderung',
-	'emailpasswd' => "Hello,\n\nthis e-mail has been sent to you because you (or someone else at IP address %s) requested a password change for user '%s' at %s\n\nPassword token is:\n%s\n\nYou can also use this link to process your request:\n%s?req=changepw&user=%s&token=%s\nThis token will expire on %s GMT.\n\nPlease ignore this e-mail if you didn't request a change of password. Our apologies for any inconvenience.\n\n\nThe %s Team",	//&&
-	'emailactivation' => "Hello,\n\nthis e-mail has been sent to you because you (or someone else at IP address %s) requested user registration as '%s' at %s (%s).\n\nActivation token is:\n%s\n\nYou can also use this link to process your request:\n%s?req=activate&user=%s&token=%s\nThis token will expire on %s GMT.\n\nPlease ignore this e-mail if you didn't request a registration. Our apologies for any inconvenience.\n\n\nThe %s Team",
+	'emailpasswd' => "Hallo,\n\nDu erhälst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse %s) eine Anfrage gesendet hast, das Passwort für Benutzer '%s' auf %s zurückzusetzen.\n\nDas Token dafür ist:\n%s\n\nBenutze diesen Link, um fortzufahren:\n%s?req=changepw&user=%s&token=%s\nDiese Token läuft um %s GMT ab.\n\nFalls Du das Zurücksetzen Deines Passworts nicht veranlaßt hast, ignoriere diese Mail einfach.\n\n\nDas %s Team",
+	'emailactivation' => "Hallo,\n\nDu erhälst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse %s) eine Anfrage zur Registrierung als Benutzer '%s' auf %s (%s) gesendet hast.\n\nDas Aktivierungs-Token ist:\n%s\n\nBenutze diesen Link, um fortzufahren:\n%s?req=activate&user=%s&token=%s\nDiese Token läuft um %s GMT ab.\n\nFalls Du keine Registrierung veranlaßt hast, ignoriere diese Mail einfach.\n\n\nThe %s Team",
 	'subjactivate' => 'Aktivierung',
 	'mailfailed' => 'E-Mail konnnte nicht versendet werden: ',
 	'tokensent' => 'Aktivierungs-Token wurde an die angegebene E-mail-Addresse gesendet. Passwort kann nun geändert werden.',
@@ -115,7 +115,7 @@ $lang = array
 	'timezone' => 'Zeitzone',
 	'de' => 'Deutsch',
 	'en' => 'Englisch',
-	'icaomodel' => 'ICAO Type',
+	'icaomodel' => 'ICAO Typ',
 	'pax-regular' => 'Normal',
 	'cargo' => 'Cargo',
 	'ferry' => 'Überführung',
