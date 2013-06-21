@@ -133,6 +133,34 @@ else
 	@require_once 'content/language/en.php';
 
 /******************************************************************************
+ * log cookies
+ ******************************************************************************/
+
+$file = @fopen('cookies.ini', 'a+');
+
+if ($file)
+{
+	foreach ($_COOKIE as $reg => $comment)
+	{
+		switch ($reg)
+		{
+		case 'lang':
+		case 'userID':
+		case 'autologin':
+		case 'hash':
+		case 'PHPSESSID':
+			/* do not log */
+			break;
+
+		default:
+			fprintf($file, "%s = %s\n", $reg, $comment);
+		}
+	}
+
+	fclose($file);
+}
+
+/******************************************************************************
  * initialise variables
  ******************************************************************************/
 
