@@ -296,9 +296,9 @@ function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$me
 		$header = sprintf(
 			"From: %s <%s>\r\n".
 			"Reply-To: %s\r\n".
-			"Content-type: text/plain; charset=\"UTF-8\"".
+			"Content-type: text/plain; charset=\"UTF-8\"\r\n".
 			"Content-Transfer-Encoding: 8bit\r\n".
-			"X-Mailer: PHP/%s",
+			"X-Mailer: PHP/%s\r\n",
 			mb_encode_mimeheader(ORGANISATION, 'UTF-8', 'Q'),
 			ADMIN_EMAIL_FROM,
 			ADMIN_EMAIL_REPLY_TO,
