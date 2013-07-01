@@ -127,90 +127,6 @@ CREATE TABLE IF NOT EXISTS `watchlist` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /******************************************************************************
- * Triggers
- ******************************************************************************
- * SIGNAL is working on MySql >= 5.5 only!
- ******************************************************************************/
-
-DELIMITER $$
-
-CREATE DEFINER = CURRENT_USER() TRIGGER `users:length`
-BEFORE INSERT ON `users`
-FOR EACH ROW
-BEGIN
-	IF LENGTH(NEW.`name`) < 4 THEN
-		SIGNAL SQLSTATE '45000'
-		SET MESSAGE_TEXT = '400: `users`.`name` must be at least 4 characters long.';
-	END IF;
-	IF LENGTH(NEW.`name`) > 64 THEN
-		SIGNAL SQLSTATE '45000'
-		SET MESSAGE_TEXT = '401: `users`.`name` must be no longer than 64 characters.';
-	END IF;
-	IF LENGTH(NEW.`salt`) != 64 THEN
-		SIGNAL SQLSTATE '45000'
-		SET MESSAGE_TEXT = '402: Salt is invalid.';
-	END IF;
-	IF LENGTH(NEW.`passwd`) != 64 THEN
-		SIGNAL SQLSTATE '45000'
-		SET MESSAGE_TEXT = '403: Password hash is invalid.';
-	END IF;
-END$$
-
-/*
-	Check:
-	======
-
-	INSERT INTO `users` (`name`, `email`, `passwd`, `salt`)
-	VALUES(
-		'zzz',
-		'email.vaild.com',
-		'80c93eaddcb3de5728c1fe86c62ac1bf5306134709dcf3770311548968926fae',
-		'80c93eaddcb3de5728c1fe86c62ac1bf5306134709dcf3770311548968926fae');
-
-	INSERT INTO `users` (`name`, `email`, `passwd`, `salt`)
-	VALUES(
-		'80c93eaddcb3de5728c1fe86c62ac1bf5306134709dcf3770311548968926fae0',
-		'email.vaild.com',
-		'80c93eaddcb3de5728c1fe86c62ac1bf5306134709dcf3770311548968926fae',
-		'80c93eaddcb3de5728c1fe86c62ac1bf5306134709dcf3770311548968926fae');
-	-- fails!
-
-	INSERT INTO `users` (`name`, `email`, `passwd`, `salt`)
-	VALUES(
-		'erwin',
-		'email.vaild.com',
-		'',
-		'80c93eaddcb3de5728c1fe86c62ac1bf5306134709dcf3770311548968926fae');
-
-	INSERT INTO `users` (`name`, `email`, `passwd`, `salt`)
-	VALUES(
-		'erwin',
-		'email.vaild.com',
-		'80c93eaddcb3de5728c1fe86c62ac1bf5306134709dcf3770311548968926fae',
-		'');
-*/
-
-CREATE DEFINER = CURRENT_USER() TRIGGER `users:token`
-BEFORE UPDATE ON `users`
-FOR EACH ROW
-BEGIN
-	IF (NOT NEW.`token` IS NULL)
-		AND NEW.`token_expires` IS NULL THEN
-		SET NEW.`token_expires` = FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + 1 * 3600);
-	END IF;
-END$$
-
-/*
-	Check:
-	======
-
-	UPDATE `users` SET `token`='80c93eaddcb3de5728c1fe86c62ac1bf5306134709dcf3770311548968926fae'
-		WHERE `id`=245;
-*/
-
-DELIMITER ;
-
-/******************************************************************************
  * Indices
  ******************************************************************************/
 
@@ -476,6 +392,7 @@ VALUES
 (@uid, 'A318', 'Airbus A318'),
 (@uid, 'A319', 'Airbus A319'),
 (@uid, 'A320', 'Airbus A320-100/200'),
+(@uid, 'A32A', 'Airbus A320-100/200 (Sharklets)'),
 (@uid, 'A321', 'Airbus A321-100/200'),
 (@uid, 'A330', 'Airbus A330 all models'),
 (@uid, 'A332', 'Airbus A330-200'),
