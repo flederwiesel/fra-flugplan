@@ -9,6 +9,8 @@
  *
  ******************************************************************************/
 
+define('DEBUG', 1);
+
 define('ORGANISATION', 'Frankfurt Aviation Friends');
 define('SITE_URL', 'www.frankfurt-aviation-friends.de');
 
