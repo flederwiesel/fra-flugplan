@@ -294,23 +294,27 @@ function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$me
 			$_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
 
 		$header = sprintf(
-			"From: %s <%s>\r\n".
-			"Reply-To: %s\r\n".
-			"Content-type: text/plain; charset=\"UTF-8\"\r\n".
-			"Content-Transfer-Encoding: 8bit\r\n".
-			"X-Mailer: PHP/%s\r\n",
-			mb_encode_mimeheader(ORGANISATION, 'UTF-8', 'Q'),
+			"From: %s <%s>\n".
+			"Reply-To: %s\n".
+			"Mime-Version: 1.0\n".
+			"Content-type: text/plain; charset=ISO-8859-1\n".
+			"Content-Transfer-Encoding: 8bit\n".
+			"X-Mailer: PHP/%s\n",
+			mb_encode_mimeheader(ORGANISATION, 'ISO-8859-1', 'Q'),
 			ADMIN_EMAIL_FROM,
 			ADMIN_EMAIL_REPLY_TO,
 			phpversion());
 
 		$body = sprintf($lang['emailactivation'], $client_ip, $user, ORGANISATION, SITE_URL,
-						   $token, php_self(), $user, $token, $expires, ORGANISATION);
+						$token, php_self(), $user, $token, $expires, ORGANISATION);
+
+		/* http://www.outlookfaq.net/index.php?action=artikel&cat=6&id=84&artlang=de */
+		$body = mb_convert_encoding($body, 'ISO-8859-1', 'UTF-8');
 
 		if (!@mail($email, $lang['subjactivate'], $body, $header))
 		{
 			$error = error_get_last();
-			$error = $lang['mailfailed'].$error['message'];//&&
+			$error = $lang['mailfailed'].$error['message'];
 		}
 	}
 
