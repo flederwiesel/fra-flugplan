@@ -315,7 +315,7 @@ if (!$error)
 						$message = $lang['activationsuccess'];
 
 						$_GET['req'] = 'login';
-						$_GET['user'] = $_POST['user'];
+						$_GET['user'] = $req['user'];
 					}
 
 					unset($req);

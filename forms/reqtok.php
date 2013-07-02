@@ -62,7 +62,7 @@
 				<div class="cell label"><?php echo $lang['username']; ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user"
-						<?php if (DEBUG) { ?>value="flederwiesel"<?php } ?>>
+					 value="<?php Input_SetValue('user', INP_POST, 'flederwiesel'); ?>">
 					<div class="hint"></div>
 				</div>
 			</div>
@@ -70,7 +70,7 @@
 				<div class="cell label"><?php echo $lang['emailaddress']; ?></div>
 				<div class="cell">
 					<input type="text" id="email" name="email"
-						<?php if (DEBUG) { ?>value="hausmeister@flederwiesel.com"<?php } ?>>
+					 value="<?php Input_SetValue('email', INP_POST, 'etc@flederwiesel.com'); ?>">
 					<div class="hint"><?php echo $lang['onefieldmandatory']; ?></div>
 				</div>
 			</div>

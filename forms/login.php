@@ -60,7 +60,7 @@
 				<div class="cell label"><?php echo $lang['username']; ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user"
-					 value="<?php if (isset($_GET['user'])) echo $_GET['user']; else { if (DEBUG) echo 'flederwiesel'; } ?>">
+					 value="<?php Input_SetValue('user', INP_POST | INP_GET, 'flederwiesel'); ?>">
 					<div class="hint">
 						<a href="?req=register"><?php echo $lang['notamember']; ?></a>
 					</div>
@@ -70,7 +70,7 @@
 				<div class="cell label"><?php echo $lang['password']; ?></div>
 				<div class="cell">
 					<input type="password" id="passwd" name="passwd"
-						<?php if (DEBUG) { ?>value="elvizzz"<?php } ?>>
+					 value="<?php Input_SetValue('passwd', 0, 'elvizzz'); ?>">
 					<div class="hint">
 						<a href="?req=reqtok"><?php echo $lang['forgotpassword']; ?></a>
 					</div>

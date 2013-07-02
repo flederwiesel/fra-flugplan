@@ -58,19 +58,19 @@
 		<div class="table">
 <?php if (!$user) { ?>
 			<div class="row">
-				<div class="cell label"><?php echo $lang['token']; ?></div>
-				<div class="cell">
-					<input type="text" id="token" name="token"
-					 value="<?php if (isset($_GET['token'])) echo $_GET['token']; ?>">
-					<div class="hint"><?php echo $lang['tokenemail']; ?></div>
-				</div>
-			</div>
-			<div class="row">
 				<div class="cell label"><?php echo $lang['username']; ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user"
-					 value="<?php if (isset($_GET['token'])) echo $_GET['user']; else { if (DEBUG) echo 'flederwiesel'; } ?>">
+					 value="<?php Input_SetValue('user', INP_POST | INP_GET, 'flederwiesel'); ?>">
 					<div class="hint"></div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell label"><?php echo $lang['token']; ?></div>
+				<div class="cell">
+					<input type="text" id="token" name="token"
+					 value="<?php Input_SetValue('token', INP_GET, ''); ?>">
+					<div class="hint"><?php echo $lang['tokenemail']; ?></div>
 				</div>
 			</div>
 <?php } ?>
@@ -78,14 +78,14 @@
 				<div class="cell label"><?php echo $lang['newpassword']; ?></div>
 				<div class="cell">
 					<input type="password" id="passwd" name="passwd"
-						<?php if (DEBUG) { ?>value="elvizzz"<?php } ?>>
+					 value="<?php Input_SetValue('passwd', 0, 'elvizzz'); ?>">
 				</div>
 			</div>
 			<div class="row">
 				<div class="cell label"><?php echo $lang['confirmpassword']; ?></div>
 				<div class="cell">
 					<input type="password" id="passwd-confirm" name="passwd-confirm"
-						<?php if (DEBUG) { ?>value="elvizzz"<?php } ?>>
+					 value="<?php Input_SetValue('passwd-confirm', 0, 'elvizzz'); ?>">
 					<div class="hint"><?php echo $lang['hintpassword']; ?></div>
 				</div>
 			</div>

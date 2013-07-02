@@ -666,4 +666,32 @@ function /*str*/ mysql_user_error($default)
 	return $error;
 }
 
+define('INP_POST', 0x1);
+define('INP_GET',  0x2);
+
+function Input_SetValue($name, $whence, $debug)
+{
+	$value = null;
+
+	if (INP_POST & $whence)
+	{
+ 		if ($_POST[$name])
+ 			$value = $_POST[$name];
+ 	}
+
+	if (INP_GET & $whence)
+	{
+		if (!$value)
+	 		if ($_GET[$name])
+	 			$value = $_GET[$name];
+ 	}
+
+ 	if (defined('DEBUG'))
+		if (!$value)
+ 			$value = $debug;
+
+ 	if ($value)
+		echo $value;
+}
+
 ?>

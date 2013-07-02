@@ -62,13 +62,7 @@
 				<div class="cell label"><?php echo $lang['username']; ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user"
-					 value="<?php
-					 	if (isset($_POST['user']))
-					 		echo $_POST['user'];
-					 	else if (isset($_GET['user']))
-					 		echo $_GET['user'];
-					 	else if (DEBUG) echo 'flederwiesel';
-					 ?>">
+					 value="<?php Input_SetValue('user', INP_POST | INP_GET, 'flederwiesel'); ?>">
 					<div class="hint"></div>
 				</div>
 			</div>
@@ -76,7 +70,7 @@
 				<div class="cell label"><?php echo $lang['token']; ?></div>
 				<div class="cell">
 					<input type="text" id="token" name="token"
-					 value="<?php if (isset($_GET['token'])) echo $_GET['token']; ?>">
+					 value="<?php Input_SetValue('token', INP_GET, ''); ?>">
 					<div class="hint"><?php echo $lang['tokenemail']; ?></div>
 				</div>
 			</div>
