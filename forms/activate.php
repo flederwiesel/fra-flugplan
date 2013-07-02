@@ -40,7 +40,8 @@
 
 ?>
 
-<form id="form" method="post" action="?req=activate">
+<form id="form" method="post" action="?req=activate"
+	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
 		<legend><?php echo $lang['activation']; ?></legend>
 <?php if ($error) { ?>
@@ -61,7 +62,13 @@
 				<div class="cell label"><?php echo $lang['username']; ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user"
-					 value="<?php if (isset($_GET['token'])) echo $_GET['user']; else { if (DEBUG) echo 'flederwiesel'; } ?>">
+					 value="<?php
+					 	if (isset($_POST['user']))
+					 		echo $_POST['user'];
+					 	else if (isset($_GET['user']))
+					 		echo $_GET['user'];
+					 	else if (DEBUG) echo 'flederwiesel';
+					 ?>">
 					<div class="hint"></div>
 				</div>
 			</div>

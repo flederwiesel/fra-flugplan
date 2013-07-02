@@ -312,7 +312,8 @@ if ($user && !$mobile)
 		</div>
 		<div class="cell top">
 			<div id="expandable" style="width: 0; visibility: hidden;">
-				<form id="watch" method="post" action="?">
+				<form id="watch" method="post" action="?"
+					onsubmit="document.getElementById('submit').disabled=true;">
 					<div class="center" style="padding: 6px 6px 6px 0;">
 						<div id="list">
 							<table summary="watchlist">

@@ -42,7 +42,8 @@
 
 ?>
 
-<form id="form" method="post" action="?req=changepw">
+<form id="form" method="post" action="?req=changepw"
+	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
 		<legend><?php echo $lang['changepasswd']; ?></legend>
 <?php if ($error) { ?>

@@ -42,7 +42,8 @@
 
 ?>
 
-<form id="form" method="post" action="?req=login">
+<form id="form" method="post" action="?req=login"
+	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
 		<legend><?php echo $lang['authentication']; ?></legend>
 <?php if ($error) { ?>

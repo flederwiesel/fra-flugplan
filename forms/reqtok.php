@@ -40,7 +40,8 @@
 
 ?>
 
-<form id="form" method="post" action="?req=reqtok">
+<form id="form" method="post" action="?req=reqtok"
+	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
 		<legend><?php echo $lang['forgotpassword']; ?></legend>
 <?php if ($error) { ?>

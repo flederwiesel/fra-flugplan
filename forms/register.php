@@ -43,7 +43,8 @@
 
 ?>
 
-<form id="form" method="post" action="?req=register">
+<form id="form" method="post" action="?req=register"
+	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
 		<legend><?php echo $lang['registration']; ?></legend>
 <?php if ($error) { ?>
@@ -62,7 +63,14 @@
 				<div class="cell label"><?php echo $lang['emailaddress']; ?></div>
 				<div class="cell">
 					<input type="text" id="email"
-					 name="email"<?php if (DEBUG) { ?> value="hausmeister@flederwiesel.com"<?php } ?>>
+					 name="email" value="<?php
+					 	if (isset($_POST['email']))
+					 		echo $_POST['email'];
+					 	else if (isset($_GET['email']))
+					 		echo $_GET['email'];
+					 	else if (DEBUG)
+					 		echo 'hausmeister@flederwiesel.com';
+					 ?>">
 				</div>
 			</div>
 			<div class="row">
