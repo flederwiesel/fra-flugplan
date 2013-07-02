@@ -62,7 +62,7 @@
 				<div class="cell label"><?php echo $lang['username']; ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user"
-					 value="<?php Input_SetValue('user', INP_POST, 'flederwiesel'); ?>">
+					 value="<?php Input_SetValue('user', INP_POST, 'flederwiesel'); ?>" autofocus>
 					<div class="hint"></div>
 				</div>
 			</div>

@@ -63,7 +63,7 @@
 				<div class="cell label"><?php echo $lang['emailaddress']; ?></div>
 				<div class="cell">
 					<input type="text" id="email" name="email"
-					 value="<?php Input_SetValue('email', INP_POST | INP_GET, 'hausmeister@flederwiesel.com'); ?>">
+					 value="<?php Input_SetValue('email', INP_POST | INP_GET, 'hausmeister@flederwiesel.com'); ?>" autofocus>
 				</div>
 			</div>
 			<div class="row">
