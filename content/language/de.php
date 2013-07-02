@@ -24,6 +24,7 @@
 
 $lang = array
 (
+	'noscript' => 'JavaScript wird entweder nicht vom Browser unterstützt oder ist abgeschaltet.<br>Um diese in vollem Umfang nutzen zu können, bitte <a href="http://www.enable-javascript.com/de/">Javascript aktivieren</a>.',
 	'cookies' => 'Cookies müssen aktiviert sein, um diese Seite benutzen zu können!',
 	'liveschedule' => 'Live Flugplan',
 	'home' => 'Startseite',
@@ -101,7 +102,7 @@ $lang = array
 	'usernamelengthmin' => 'Benutzername muß mindestens %lu Zeichen enthalten.',
 	'usernamelengthmax' => 'Benutzername darf höchstens %lu Zeichen enthalten.',
 	'emailinvalid' => 'E-Mailadresse ungültig.',
-	'activationfailed' => 'Activation failed',
+	'activationfailed' => 'Aktivierung fehlgeschlagen.',
 	'activationcode' => 'Bitte Code aus der Aktivierungs-E-Mail eingeben.',
 	'subjpasswdchange' => 'Passwortänderung',
 	'emailpasswd' => "Hallo,\n\nDu erhälst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse %s) eine Anfrage gesendet hast, das Passwort für Benutzer '%s' auf %s zurückzusetzen.\n\nDas Token dafür ist:\n%s\n\nBenutze diesen Link, um fortzufahren:\n%s?req=changepw&user=%s&token=%s\nDieses Token läuft um %s GMT ab.\n\nFalls Du das Zurücksetzen Deines Passworts nicht veranlaßt hast, ignoriere diese Mail einfach.\n\n\nDas %s Team",

@@ -474,12 +474,9 @@ if (!$error)
 </head>
 <body>
 	<noscript>
-		<div class="noscript">If you obtain this message, JavaScript is either not supported or disabled in in your browser options.
-			<br>In order to use full functionality of this site we advise you to
-			<a href="http://www.enable-javascript.com/de/">enable Javascript</a>.
-		</div>
+		<div class="noscript"><?php echo $lang['noscript']; ?></div>
 	</noscript>
-<?php if (DEBUG) { ?>
+<?php if (defined('DEBUG')) { ?>
 	<div id="debug">
 		<h1>Debug version.</h1>
 	</div>

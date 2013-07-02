@@ -24,6 +24,7 @@
 
 $lang = array
 (
+	'noscript' => 'If you obtain this message, JavaScript is either not supported or disabled in in your browser options.<br>In order to use full functionality of this site we advise you to <a href="http://www.enable-javascript.com/en/">enable Javascript</a>.',
 	'cookies' => 'Cookies must be enabled in order to use this site!',
 	'liveschedule' => 'Live Schedule',
 	'home' => 'Home',
