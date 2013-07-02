@@ -624,10 +624,15 @@ function /*bool*/ ChangePassword($user, $token, $password, /*out*/ &$message)
 					$password = hash_hmac('sha256', $password, $salt);
 					$query = "UPDATE `users` SET `salt`='$salt', `passwd`='$password', `token`=NULL, `token_expires`=NULL WHERE `id`=$uid";
 
-					if (mysql_query($query))
-						setcookie('hash', '', 0);
-					else
+					if (!mysql_query($query))
+					{
 						$error = mysql_error();
+					}
+					else
+					{
+						if ($_COOKIE['autologin'])
+							setcookie('hash', $password, time() + COOKIE_LIFETIME);
+					}
 				}
 			}
 		}
