@@ -3,7 +3,9 @@
 alias "mysql=mysql -s"
 alias "curl=curl -s --cookie .COOKIES --cookie-jar .COOKIES"
 
+#url="http://www.flederwiesel.com/vault/fra-schedule/$(svn info . | awk '/^Revision:/ { print $2; }')"
 url="http://localhost/fra-schedule"
+url=$(echo $url | sed -r 's/\$Rev: ([0-9]+) \$/\1/g')
 
 unless() {
 
@@ -29,19 +31,35 @@ check() {
 # <preparation>
 ###############################################################################
 
+mkdir -p results
 rm -f .COOKIES
+
+# test release version
+sed -r "s/^[[:space:]]*define.*'DEBUG'.*$/\/\/&/" --in-place ../.config
+
+# on local system, check whether mta is running
+if [ 'kowalski' == $(uname --nodename) ]; then
+	unless $LINENO tasklist "|" grep -q 'mercury.exe'
+fi
 
 ###############################################################################
 # drop/re-create database
 ###############################################################################
 
 unless $LINENO mysql --host=localhost --user=root --password= \
-	--default-character-set=utf8 < ../sql/fra-flights.sql > /dev/null
+	--default-character-set=utf8 < ../sql/fra-schedule.sql > /dev/null
 
 ###############################################################################
 
-sed -r 's/(07|25|99) \((Ost|West)-Betrieb\)/99 /g' \
-	--in-place ../data/betriebsrichtung.html
+if [ -f ../data/betriebsrichtung.html ]; then
+	sed -r 's/(07|25|99) \((Ost|West)-Betrieb\)/99 /g' \
+		--in-place ../data/betriebsrichtung.html
+else
+	cat > ../data/betriebsrichtung.html <<EOF
+	<li><div><div class="titel" style=" padding-top:6px;margin-bottom:0px;padding-bottom:3px;">+++ Betriebsrichtung +++ </div><div style="font-size:12px;"><b> 99 </b></div><div style="font-size:12px;padding-right:125px;"> seit 00.00.0000, 00:00:00</div></div>   </li>
+	<li><div><div class="titel" style=" padding-top:6px;margin-bottom:0px;padding-bottom:3px;">+++ Startbahn +++</div> <div style="font-size:12px;"><b>18 West</b></div><div style="font-size:12px;padding-right:125px;"> in Betrieb</div></div></li>
+EOF
+fi
 
 ###############################################################################
 # </preparation>
