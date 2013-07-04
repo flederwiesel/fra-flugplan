@@ -149,6 +149,7 @@ if ($file)
 		case 'autologin':
 		case 'hash':
 		case 'PHPSESSID':
+		case 'DBGSESSID':
 			/* do not log */
 			break;
 
