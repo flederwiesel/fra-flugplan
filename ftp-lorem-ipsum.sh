@@ -6,6 +6,7 @@ target=lorem-ipsum
 cp -f .config.flederwiesel .config
 
 rev=$(svn info . | awk '/^Revision:/ { print $2; }')
+echo -e "\033[36mRevision: $rev\033[m"
 
 lftp <<EOF
 open web416:L2ppkt1fl2@www.flederwiesel.com
