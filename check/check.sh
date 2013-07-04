@@ -1,11 +1,22 @@
 #!/bin/sh
 
-alias "mysql=mysql -s"
-alias "curl=curl -s --cookie .COOKIES --cookie-jar .COOKIES"
+###############################################################################
+#
+#       project: FRA-flights Live Schedule
+#                Auomatic test script master file
+#
+#       $Author: flederwiesel $
+#         $Date: 2013-07-04 18:16:27 +0200 (Do, 04 Jul 2013) $
+#          $Rev: 341 $
+#
+###############################################################################
 
 #url="http://www.flederwiesel.com/vault/fra-schedule/$(svn info . | awk '/^Revision:/ { print $2; }')"
 url="http://localhost/fra-schedule"
 url=$(echo $url | sed -r 's/\$Rev: ([0-9]+) \$/\1/g')
+
+alias "mysql=mysql -s"
+alias "curl=curl -s --cookie .COOKIES --cookie-jar .COOKIES"
 
 unless() {
 
@@ -24,30 +35,38 @@ check() {
 
 	name=$1
 	shift
-	eval "$@" 2>&1 > results/$name.htm | sed -r $'s~^.+$~\033[1;31mERROR: &\033[m~g'
+	eval "$@" 2>&1 > "$results/$name.htm" | sed -r $'s~^.+$~\033[1;31mERROR: &\033[m~g'
+}
+
+initdb() {
+
+	unless $LINENO mysql -s --host=localhost --user=root --password= \
+		--default-character-set=utf8 < ../sql/fra-schedule.sql > /dev/null
+}
+
+query() {
+
+	mysql -s --host=localhost --user=root --password= --skip-column-names \
+		--execute="$@"
 }
 
 ###############################################################################
 # <preparation>
 ###############################################################################
 
+rm -rf results
 mkdir -p results
-rm -f .COOKIES
 
-# test release version
+# Test in release mode
 sed -r "s/^[[:space:]]*define.*'DEBUG'.*$/\/\/&/" --in-place ../.config
 
-# on local system, check whether mta is running
+# On local system, check whether mta is running
 if [ 'kowalski' == $(uname --nodename) ]; then
 	unless $LINENO tasklist "|" grep -q 'mercury.exe'
 fi
 
-###############################################################################
-# drop/re-create database
-###############################################################################
-
-unless $LINENO mysql --host=localhost --user=root --password= \
-	--default-character-set=utf8 < ../sql/fra-schedule.sql > /dev/null
+# This is the subdirectory where check places results
+results=
 
 ###############################################################################
 
@@ -65,78 +84,32 @@ fi
 # </preparation>
 ###############################################################################
 
-###############################################################################
-# default -- no COOKIES set -> default language=en
-###############################################################################
+IFS=$'\n'
 
-check "1" curl "$url/"
+scripts='
+register(perms=addflight)+activate+login+addflight
+register(perms=addflight)+activate+login+addflight, lang=de
+register(perms=)+activate+addflight+login+addflight
+register(perms=)+activate+addflight+login+addflight, lang=de
+'
 
-###############################################################################
+echo "$scripts" |
+while read script
+do
+	if [ -n "$script" ]; then
 
-check "2" curl "$url/?req=register"
+		echo -e "\033[36m$script\033[m"
 
-###############################################################################
+		results="results/$script"
+		mkdir -p "$results"
 
-check "3" curl "$url/?req=register" \
-		--data-urlencode "email=hausmeister@flederwiesel.com" \
-		--data-urlencode "user=flederwiesel" \
-		--data-urlencode "passwd=elvizzz" \
-		--data-urlencode "passwd-confirm=elvizzz" \
-		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en"
-
-###############################################################################
-
-mysql --host=localhost --user=root --password= --skip-column-names \
-	--execute="USE fra-schedule; UPDATE users SET permissions='1' WHERE name='flederwiesel'"
-
-token=$(mysql --host=localhost --user=root --password= --skip-column-names \
-	--execute="USE fra-schedule; SELECT token FROM users WHERE name='flederwiesel'" |
-	sed s/'[ \r\n]'//g)
-
-###############################################################################
-
-check "4" curl "$url/?req=activate" \
-		--data-urlencode "user=flederwiesel" \
-		--data-urlencode "token=$token"
-
-###############################################################################
-# click(submit)
-###############################################################################
-
-check "5" curl "$url/?req=login" \
-		--data-urlencode "user=flederwiesel" \
-		--data-urlencode "passwd=elvizzz"
-
-###############################################################################
-# click(addflight)
-###############################################################################
-
-check "6" curl "$url/?page=addflight" \
-	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
-
-###############################################################################
-
-check "7" curl "$url/?page=addflight" \
-		--data-urlencode "reg=D-AIRY" \
-		--data-urlencode "model=A321" \
-		--data-urlencode "flight=QQ9999" \
-		--data-urlencode "code=QQ" \
-		--data-urlencode "airline=QAirline" \
-		--data-urlencode "type=pax-regular" \
-		--data-urlencode "direction=arrival" \
-		--data-urlencode "airport=2" \
-		--data-urlencode "from=19.01.2038" \
-		--data-urlencode "time=03:14" \
-		--data-urlencode "interval=once" \
-	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
-
-###############################################################################
-# click(submit)
-###############################################################################
-
-check "8" curl "$url/?arrival" \
-	"|" sed -r "s/'\+[0-9]{1,4} [0-9]{2}:[0-9]{2}'/'+0 00:00'/g"
+		if [ 0 == $? ]; then
+			eval "$(cat 'tests/'$script'.sh')"
+			# Copy referenced scripts to properly view results
+			cp -a ../css ../img ../script "$results"
+		fi
+	fi
+done
 
 ###############################################################################
 ###############################################################################
@@ -146,7 +119,9 @@ rm -f .COOKIES
 diff expect results \
 		--recursive --ignore-file-name-case \
 		--unified=1 \
-		--exclude= \
+		--exclude=css \
+		--exclude=img \
+		--exclude=script \
 		--suppress-blank-empty \
 		--ignore-tab-expansion \
 		--ignore-space-change \

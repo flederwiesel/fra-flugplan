@@ -1,0 +1,557 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Live Schedule &ndash; Frankfurt Aviation Friends</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="language" content="de">
+<meta name="author" content="Tobias Kühne">
+<meta name="description" content="24h flight forecast for Frankfurt/Main airport with aircraft registrations">
+<meta name="keywords" content="fra eddf frankfurt airport aircraft spotter schedule">
+<meta name="robots" content="index, nofollow">
+<meta name="generator" content="Programmer's Notepad">
+<link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
+<link rel="icon" href="favicon.gif" type="image/gif">
+<script type="text/javascript" src="script/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="script/jquery.sha256.min.js"></script>
+</head>
+<body>
+	<noscript>
+		<div class="noscript">JavaScript wird entweder nicht vom Browser unterstützt oder ist abgeschaltet.<br>Um diese in vollem Umfang nutzen zu können, bitte <a href="http://www.enable-javascript.com/de/">Javascript aktivieren</a>.</div>
+	</noscript>
+	<div id="body">
+		<div id="box">
+			<div>
+				<div id="head">
+					<h1 class="nobr">Frankfurt Aviation Friends</h1>
+					<h3>
+Live Flugplan</h3>
+				</div>
+				<div id="nav">
+<dl class="left">
+		<dt><a href="http://www.frankfurt-aviation-friends.de/">Startseite</a></dt>
+			<dt class="sep"><a href="?arrival">Ankunft</a></dt>
+			<dt class="sep"><a href="?departure">Ablug</a></dt>
+			<dt class="sep"><a href="?page=help">Hilfe</a></dt>
+</dl>
+<dl class="right">
+			<dt class="sep"><a href="?req=changepw">Benutzerprofil</a></dt>
+			<dt class="sep"><a href="?req=logout">Abmelden</a></dt>
+		<span style="vertical-align: baseline;">
+			<dt>
+				<a href="?page=addflight&lang=de">
+					<img src="img/de.png" alt="Deutsch" width="16" height="12">
+				</a>
+			</dt>
+			<dt>
+				<a href="?page=addflight&lang=en">
+					<img src="img/en.png" alt="Englisch" width="16" height="12">
+				</a>
+			</dt>
+		</span>
+</dl>
+				</div>
+			</div>
+		<div id="content">
+
+<link type="text/css" rel="stylesheet" href="css/jquery.ui.datepicker.css">
+<script type="text/javascript" src="script/ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="script/ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="script/ui/jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="script/ajax.js"></script>
+<script type="text/javascript">
+$(function()
+{
+	$('#from').datepicker({
+		dateFormat: 'dd.mm.yy',
+		firstDay: 1,
+		minDate: 0,
+		maxDate: '+1Y',
+		changeMonth: true,
+		changeYear: true,
+		onSelect: function(selectedDate) { $('#until').datepicker('option', 'minDate', selectedDate);  }
+	});
+
+	$('#until').datepicker({
+		dateFormat: 'dd.mm.yy',
+		firstDay: 1,
+		minDate: 0,
+		maxDate: '+1Y',
+		changeMonth: true,
+		changeYear: true,
+	});
+
+	$(document).ready(function()
+	{
+		$('#reg').focus();
+	});
+
+	$('#form').submit(function() {
+		$('#submit').attr('disabled', 'disabled');
+	});
+
+	/* Input event handlers */
+	$('#once').click(function()	{
+		$('#until').attr('disabled', '');
+		days_enable(0);
+	});
+
+	$('#daily').click(function() {
+		$('#until').removeAttr('disabled');
+		$('#all').attr('checked', '');
+		days_check(1);
+		days_enable(0);
+	});
+
+	$('#each').click(function()	{
+		$('#until').removeAttr('disabled');
+		$('#all').removeAttr('disabled');
+		days_enable(1);
+	});
+
+	$('#all').click(function() {
+		days_check($(this).attr('checked'));
+	});
+
+	var days = [ 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun' ];
+
+	function days_check(b) {
+
+		if (b)
+		{
+			jQuery.each(days, function() {
+				$('#' + this).attr('checked', '');
+			});
+		}
+		else
+		{
+			jQuery.each(days, function() {
+				$('#' + this).removeAttr('checked', '');
+			});
+		}
+	}
+
+	function days_enable(b) {
+
+		if (b)
+		{
+			$('#all').removeAttr('disabled');
+
+			jQuery.each(days, function() {
+				$('#' + this).removeAttr('disabled', '');
+			});
+		}
+		else
+		{
+			$('#all').attr('disabled', '');
+
+			jQuery.each(days, function() {
+				$('#' + this).attr('disabled', '');
+			});
+		}
+	}
+});
+</script>
+
+<form id="form" method="post" action="?page=addflight">
+	<fieldset>
+		<legend>Flug einfügen</legend>
+		<div id="notification" class="auth-error">Nicht genügend Rechte, um diese Aktion auszuführen.</div>
+		<div class="table">
+			<div class="row">
+				<div class="cell label">Reg</div>
+				<div class="cell">
+					<input type="text" name="reg" id="reg"  value = "D-AIRY" />
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell label">Flug</div>
+				<div class="cell">
+					<input type="text" name="flight" id="flight"  value = "QQ9999" />
+						<label>
+							<input type="radio" name="type"
+							 value="pax-regular"  checked="checked" />Normal						</label>
+						<label>
+							<input type="radio" name="type"
+							 value="cargo" />Cargo						</label>
+						<label>
+							<input type="radio" name="type"
+							 value="ferry" />Überführung						</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell"></div>
+				<div class="cell">
+					<label><input type="radio" name="direction" value="arrival"  checked="checked" />Ankunft</label>
+					<label><input type="radio" name="direction" value="departure" />Ablug</label>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="cell label">Von</div>
+				<div class="cell">
+					<select id="airport-icao" name="airport">
+<option value="2" selected="selected">Aberdeen, Großbritannien - EGPD</option>
+<option value="20">Abu Dhabi, Ver.Arab.Emirate - OMAA</option>
+<option value="1">Abuja, Nigeria - DNAA</option>
+<option value="3">Accra, Ghana - DGAA</option>
+<option value="5">Adana, Türkei - LTAF</option>
+<option value="7">Addis Abeba, Äthiopien - HAAB</option>
+<option value="8">Agadir, Marokko - GMAD</option>
+<option value="11">Algier, Algerien - DAAG</option>
+<option value="280">Alicante, Spanien - LEAL</option>
+<option value="10">Almaty, Kasachstan - UAAA</option>
+<option value="12">Amman, Jordanien - OJAI</option>
+<option value="13">Amsterdam, Niederlande - EHAM</option>
+<option value="293">Anchorage, USA - PANC</option>
+<option value="73">Ankara, Türkei - LTAC</option>
+<option value="21">Antalya, Türkei - LTAI</option>
+<option value="257">Antigua, Antigua - TAPA</option>
+<option value="253">Arvidsjaur, Schweden - ESNX</option>
+<option value="15">Ashgabat, Turkmenistan - UTAA</option>
+<option value="16">Asmara, Eritrea - HHAS</option>
+<option value="231">Astana, Kasachstan - UACC</option>
+<option value="18">Athen, Griechenland - LGAV</option>
+<option value="19">Atlanta, USA - KATL</option>
+<option value="22">Bahrain, Bahrain - OBBI</option>
+<option value="35">Bangalore, Indien - VOBL</option>
+<option value="32">Bangkok, Thailand - VTBS</option>
+<option value="31">Banjul, Gambia - GBYD</option>
+<option value="26">Barbados, Barbados - TBPB</option>
+<option value="23">Barcelona, Spanien - LEBL</option>
+<option value="41">Basel, Schweiz - LFSB</option>
+<option value="254">Bastia, Frankreich - LFKB</option>
+<option value="25">Beirut, Libanon - OLBA</option>
+<option value="24">Belgrad, Serbien - LYBE</option>
+<option value="28">Bergamo-Orio AlSerio, Italien - LIME</option>
+<option value="27">Bergen, Norwegen - ENBR</option>
+<option value="233">Berlin-Tegel, Deutschland - EDDT</option>
+<option value="30">Bilbao, Spanien - LEBB</option>
+<option value="33">Billund, Dänemark - EKBI</option>
+<option value="29">Birmingham, Großbritannien - EGBB</option>
+<option value="301">Boa Vista, Kap Verde - GVBA</option>
+<option value="300">Bodrum, Türkei - LTFE</option>
+<option value="36">Bogota, Kolumbien - SKBO</option>
+<option value="34">Bologna, Italien - LIPE</option>
+<option value="38">Boston, USA - KBOS</option>
+<option value="286">Brasilia, Brasilien - SBBR</option>
+<option value="39">Bremen, Deutschland - EDDW</option>
+<option value="40">Brüssel, Belgien - EBBR</option>
+<option value="42">Budapest, Ungarn - LHBP</option>
+<option value="75">Buenos Aires, Argentinien - SAEZ</option>
+<option value="173">Bukarest, Rumänien - LROP</option>
+<option value="305">Burgas, Bulgarien - LBBG</option>
+<option value="247">Calgary, Kanada - CYYC</option>
+<option value="54">Cancun, Mexiko - MMUN</option>
+<option value="45">Caracas, Venezuela - SVMI</option>
+<option value="50">Casablanca, Marokko - GMMN</option>
+<option value="53">Catania, Italien - LICC</option>
+<option value="313">Chania, Griechenland - LGSA</option>
+<option value="48">Charlotte, USA - KCLT</option>
+<option value="145">Chennai, Indien - VOMM</option>
+<option value="171">Chicago, USA - KORD</option>
+<option value="116">Chisinau, Moldawien - LUKK</option>
+<option value="269">Cleveland, USA - KCLE</option>
+<option value="259">Cochin, Indien - VOCI</option>
+<option value="49">Colombo, Sri Lanka - VCBI</option>
+<option value="287">Dalaman, Türkei - LTBS</option>
+<option value="59">Dallas-Fort Worth, USA - KDFW</option>
+<option value="55">Damaskus, Syrien - OSDI</option>
+<option value="62">Dammam, Saudi-Arabien - OEDF</option>
+<option value="57">Delhi, Indien - VIDP</option>
+<option value="58">Denver, USA - KDEN</option>
+<option value="65">Detroit, USA - KDTW</option>
+<option value="60">Djerba, Tunesien - DTTJ</option>
+<option value="63">Doha, Katar - OTBD</option>
+<option value="64">Dresden, Deutschland - EDDC</option>
+<option value="68">Dubai, Ver.Arab.Emirate - OMDB</option>
+<option value="66">Dublin, Irland - EIDW</option>
+<option value="56">Dubrovnik, Kroatien - LDDU</option>
+<option value="69">Duschanbe, Tadschikistan - UTDD</option>
+<option value="67">Düsseldorf, Deutschland - EDDL</option>
+<option value="72">East Midlands, Großbritannien - EGNX</option>
+<option value="71">Edinburgh, Großbritannien - EGPH</option>
+<option value="218">Ekaterinburg, Russland - USSS</option>
+<option value="162">Enfidha, Tunesien - DTNZ</option>
+<option value="70">Erbil, Irak - ORER</option>
+<option value="284">Erfurt, Deutschland - EDDE</option>
+<option value="297">Everett, USA - KPAE</option>
+<option value="76">Faro, Portugal - LPFR</option>
+<option value="80">Florenz, Italien - LIRQ</option>
+<option value="79">Fort Lauderdale, USA - KFLL</option>
+<option value="314">Frankfurt, Deutschland - EDDF</option>
+<option value="78">Friedrichshafen, Deutschland - EDNY</option>
+<option value="83">Fuerteventura, Spanien - GCFV</option>
+<option value="91">Gaziantep, Türkei - LTAJ</option>
+<option value="84">Gdansk/Danzig, Polen - EPGD</option>
+<option value="90">Genf, Schweiz - LSGG</option>
+<option value="263">Genua, Italien - LIMJ</option>
+<option value="256">Glasgow, Großbritannien - EGPF</option>
+<option value="86">Goa, Indien - VAGO</option>
+<option value="87">Göteborg, Schweden - ESGG</option>
+<option value="89">Graz, Österreich - LOWG</option>
+<option value="44">Guangzhou, China - ZGGG</option>
+<option value="295">Halifax, Kanada - CYHZ</option>
+<option value="93">Hamburg, Deutschland - EDDH</option>
+<option value="97">Hangzhou, China - ZSHC</option>
+<option value="92">Hannover, Deutschland - EDDV</option>
+<option value="94">Hanoi, Vietnam - VVNB</option>
+<option value="95">Havanna, Kuba - MUHA</option>
+<option value="96">Helsinki, Finnland - EFHK</option>
+<option value="282">Heraklion, Griechenland - LGIR</option>
+<option value="306">Heringsdorf, Deutschland - EDAH</option>
+<option value="202">Ho Chi Minh City, Vietnam - VVTS</option>
+<option value="101">Holguin, Kuba - MUHG</option>
+<option value="98">Hongkong, Hong Kong - VHHH</option>
+<option value="104">Houston, USA - KIAH</option>
+<option value="102">Hurghada, Ägypten - HEGN</option>
+<option value="294">Ibiza, Spanien - LEIB</option>
+<option value="107">Innsbruck, Österreich - LOWI</option>
+<option value="108">Islamabad, Pakistan - OPRN</option>
+<option value="197">Istanbul S-Gokcen, Türkei - LTFJ</option>
+<option value="109">Istanbul, Türkei - LTBA</option>
+<option value="6">Izmir, Türkei - LTBJ</option>
+<option value="110">Jeddah, Saudi-Arabien - OEJN</option>
+<option value="243">Jerez de la Frontera, Spanien - LEJR</option>
+<option value="309">Jersey, Großbritannien - EGJJ</option>
+<option value="112">Johannesburg, Südafrika - FAJS</option>
+<option value="43">Kairo, Ägypten - HECA</option>
+<option value="52">Kapstadt, Südafrika - FACT</option>
+<option value="121">Kattowitz, Polen - EPKT</option>
+<option value="317">Kavala, Griechenland - LGKV</option>
+<option value="17">Kayseri, Türkei - LTAU</option>
+<option value="124">Kazan, Russland - UWKD</option>
+<option value="292">Kerkyra, Griechenland - LGKR</option>
+<option value="120">Khartoum, Sudan - HSSS</option>
+<option value="114">Kiew-Borispol, Ukraine - UKBB</option>
+<option value="113">Kilimanjaro, Tansania - HTKJ</option>
+<option value="118">Klagenfurt, Österreich - LOWK</option>
+<option value="46">Kolkata, Indien - VECC</option>
+<option value="261">Köln Bonn, Deutschland - EDDK</option>
+<option value="51">Kopenhagen, Dänemark - EKCH</option>
+<option value="290">Kos, Griechenland - LGKO</option>
+<option value="119">Krakau, Polen - EPKK</option>
+<option value="122">Kuala Lumpur, Malaysia - WMKK</option>
+<option value="123">Kuwait, Kuwait - OKBK</option>
+<option value="210">La Palma, Spanien - GCLA</option>
+<option value="141">La Romana, Dominikan. Rep. - MDLR</option>
+<option value="139">Lagos, Nigeria - DNMM</option>
+<option value="133">Lahore, Pakistan - OPLA</option>
+<option value="310">Lamezia Terme, Italien - LICA</option>
+<option value="4">Lanzarote, Spanien - GCRR</option>
+<option value="128">Larnaca, Zypern - LCLK</option>
+<option value="140">Las Palmas, Spanien - GCLP</option>
+<option value="126">Las Vegas, USA - KLAS</option>
+<option value="131">Leipzig Halle, Deutschland - EDDP</option>
+<option value="138">Linz, Österreich - LOWL</option>
+<option value="136">Lissabon, Portugal - LPPT</option>
+<option value="137">Ljubljana, Slowenien - LJLJ</option>
+<option value="129">London-City Airport, Großbritannien - EGLC</option>
+<option value="132">London-Gatwick, Großbritannien - EGKK</option>
+<option value="134">London-Heathrow, Großbritannien - EGLL</option>
+<option value="127">Los Angeles, USA - KLAX</option>
+<option value="320">Lourdes, Frankreich - LFBT</option>
+<option value="125">Luanda, Angola - FNLU</option>
+<option value="142">Luxemburg, Luxemburg - ELLX</option>
+<option value="143">Luxor, Ägypten - HELX</option>
+<option value="144">Lyon, Frankreich - LFLL</option>
+<option value="82">Madeira, Portugal - LPMA</option>
+<option value="146">Madrid, Spanien - LEMD</option>
+<option value="252">Mahe, Seychellen - FSIA</option>
+<option value="135">Mailand-Linate, Italien - LIML</option>
+<option value="160">Mailand-Malpensa, Italien - LIMC</option>
+<option value="213">Malabo, Äquator.-Guinea - FGSL</option>
+<option value="9">Malaga, Spanien - LEMG</option>
+<option value="308">Malatya, Türkei - LTAT</option>
+<option value="155">Male, Malediven - VRMM</option>
+<option value="154">Malta, Malta - LMML</option>
+<option value="281">Manaus, Brasilien - SBEG</option>
+<option value="147">Manchester, Großbritannien - EGCC</option>
+<option value="192">Marsa Alam, Ägypten - HEMA</option>
+<option value="156">Marseille, Frankreich - LFML</option>
+<option value="157">Mauritius, Mauritius - FIMP</option>
+<option value="311">Menorca, Spanien - LEMH</option>
+<option value="152">Mexico City, Mexiko - MMMX</option>
+<option value="153">Miami, USA - KMIA</option>
+<option value="158">Minsk, Weißrussland - UMMS</option>
+<option value="148">Mombasa, Kenia - HKMO</option>
+<option value="316">Monastir, Tunesien - DTMB</option>
+<option value="149">Montego Bay, Jamaika - MKJS</option>
+<option value="245">Montreal-Trudeau, Kanada - CYUL</option>
+<option value="61">Moskau-Domodedovo, Russland - UUDD</option>
+<option value="217">Moskau-Sheremetyevo, Russland - UUEE</option>
+<option value="262">Moskau-Vnukovo, Russland - UUWW</option>
+<option value="37">Mumbai, Indien - VABB</option>
+<option value="159">München, Deutschland - EDDM</option>
+<option value="81">Münster Osnabrück, Deutschland - EDDG</option>
+<option value="151">Muscat, Oman - OOMS</option>
+<option value="319">Mykonos, Griechenland - LGMK</option>
+<option value="268">N. Novgorod, Russland - UWGG</option>
+<option value="165">Nador, Marokko - GMFN</option>
+<option value="166">Nagoya, Japan - RJGG</option>
+<option value="163">Nairobi, Kenia - HKJK</option>
+<option value="167">Nanking, China - ZSNJ</option>
+<option value="161">Neapel, Italien - LIRN</option>
+<option value="111">New York-J.F.Kennedy, USA - KJFK</option>
+<option value="74">New York-Newark, USA - KEWR</option>
+<option value="164">Nizza, Frankreich - LFMN</option>
+<option value="174">Novosibirsk, Russland - UNNT</option>
+<option value="169">Nürnberg, Deutschland - EDDN</option>
+<option value="266">Olbia, Italien - LIEO</option>
+<option value="273">Oran, Algerien - DAOO</option>
+<option value="150">Orlando, USA - KMCO</option>
+<option value="117">Osaka, Japan - RJBB</option>
+<option value="172">Oslo, Norwegen - ENGM</option>
+<option value="244">Ottawa, Kanada - CYOW</option>
+<option value="265">Palermo, Italien - LICJ</option>
+<option value="180">Palma de Mallorca, Spanien - LEPA</option>
+<option value="187">Panama City, Panama - MPTO</option>
+<option value="177">Paphos, Zypern - LCPH</option>
+<option value="47">Paris-Ch.De Gaulle, Frankreich - LFPG</option>
+<option value="302">Patras, Griechenland - LGRX</option>
+<option value="176">Peking, China - ZBAA</option>
+<option value="175">Perm, Russland - USPP</option>
+<option value="179">Philadelphia, USA - KPHL</option>
+<option value="272">Phoenix, USA - KPHX</option>
+<option value="99">Phuket - VTSP</option>
+<option value="224">Podgorica, Montenegro - LYPG</option>
+<option value="182">Pointe Noire, Kongo - FCPP</option>
+<option value="255">Ponta Delgada, Portugal - LPPD</option>
+<option value="178">Port Harcourt, Nigeria - DNPO</option>
+<option value="170">Porto, Portugal - LPPR</option>
+<option value="184">Poznan/Posen, Polen - EPPO</option>
+<option value="185">Prag, Tschechien - LKPR</option>
+<option value="303">Preveza/Lefkas, Griechenland - LGPZ</option>
+<option value="186">Pristina, Serbien - LYPR</option>
+<option value="183">Puerto Plata, Dominikan. Rep. - MDPP</option>
+<option value="181">Pune, Indien - VAPO</option>
+<option value="188">Punta Cana, Dominikan. Rep. - MDPC</option>
+<option value="275">Qingdao, China - ZSQD</option>
+<option value="277">Raleigh/Durham, USA - KRDU</option>
+<option value="258">Ras al Khaymah, Ver.Arab.Emirate - OMRK</option>
+<option value="190">Recife, Brasilien - SBRF</option>
+<option value="296">Reus, Spanien - LERS</option>
+<option value="115">Reykjavik, Island - BIKF</option>
+<option value="289">Rhodos, Griechenland - LGRP</option>
+<option value="194">Riad, Saudi-Arabien - OERK</option>
+<option value="191">Riga, Lettland - EVRA</option>
+<option value="307">Rijeka, Kroatien - LDRI</option>
+<option value="85">Rio de Janeiro, Brasilien - SBGL</option>
+<option value="77">Rom-Fiumicino, Italien - LIRF</option>
+<option value="283">Rostock Laage, Deutschland - ETNL</option>
+<option value="193">Rostow, Russland - URRR</option>
+<option value="195">Rzeszow, Polen - EPRZ</option>
+<option value="234">Saint Lucia, Saint Lucia - TLPL</option>
+<option value="298">Sal, Kap Verde - GVAC</option>
+<option value="212">Salvador, Brasilien - SBSV</option>
+<option value="220">Salzburg, Österreich - LOWS</option>
+<option value="267">Samara, Russland - UWWW</option>
+<option value="312">Samos, Griechenland - LGSM</option>
+<option value="276">Samsun-Carsamba, Türkei - LTFH</option>
+<option value="274">San Diego-Lindberg, USA - KSAN</option>
+<option value="201">San Francisco, USA - KSFO</option>
+<option value="205">San Jose, Costa Rica - MROC</option>
+<option value="206">San Juan, Puerto Rico - TJSJ</option>
+<option value="196">Sanaa, Jemen - OYSN</option>
+<option value="130">Sankt Petersburg, Russland - ULLI</option>
+<option value="260">Sansibar, Tansania - HTZA</option>
+<option value="198">Santiago de Chile, Chile - SCEL</option>
+<option value="199">Santo Domingo, Dominikan. Rep. - MDSD</option>
+<option value="315">Santorini, Griechenland - LGSR</option>
+<option value="88">Sao Paulo-Guarulhos, Brasilien - SBGR</option>
+<option value="285">Sarmellek, Ungarn - LHSM</option>
+<option value="200">Seattle, USA - KSEA</option>
+<option value="279">Seeheim, Deutschland - DUMI</option>
+<option value="105">Seoul-Incheon, Korea-Süd - RKSI</option>
+<option value="189">Shanghai PuDong, China - ZSPD</option>
+<option value="214">Sharm El Sheik, Ägypten - HESH</option>
+<option value="203">Shenyang, China - ZYTX</option>
+<option value="304">Simferopol, Ukraine - UKFF</option>
+<option value="204">Singapur, Singapur - WSSS</option>
+<option value="208">Sofia, Bulgarien - LBSF</option>
+<option value="209">Southampton, Großbritannien - EGHI</option>
+<option value="211">Split, Kroatien - LDSP</option>
+<option value="216">Stavanger, Norwegen - ENZV</option>
+<option value="14">Stockholm, Schweden - ESSA</option>
+<option value="215">Stuttgart, Deutschland - EDDS</option>
+<option value="219">Sydney, Australien - YSSY</option>
+<option value="229">Taipeh, Taiwan - RCTP</option>
+<option value="226">Tallinn, Estland - EETN</option>
+<option value="222">Taschkent, Usbekistan - UTTT</option>
+<option value="278">Tbilisi, Georgien - UGTB</option>
+<option value="106">Teheran ImamKhomeini, Iran - OIIE</option>
+<option value="228">Tel Aviv, Israel - LLBG</option>
+<option value="223">Teneriffa-Sur Reina, Spanien - GCTS</option>
+<option value="207">Thessaloniki, Griechenland - LGTS</option>
+<option value="221">Tobago, Trinidad Tobago - TTCP</option>
+<option value="100">Tokio Haneda, Japan - RJTT</option>
+<option value="168">Tokio Narita, Japan - RJAA</option>
+<option value="248">Toronto, Kanada - CYYZ</option>
+<option value="227">Toulouse, Frankreich - LFBO</option>
+<option value="225">Tripolis, Libyen - HLLT</option>
+<option value="264">Trondheim, Norwegen - ENVA</option>
+<option value="288">Tulcea Cataloi, Rumänien - LRTC</option>
+<option value="232">Tunis, Tunesien - DTTA</option>
+<option value="230">Turin, Italien - LIMF</option>
+<option value="291">Urgench, Usbekistan - UTNU</option>
+<option value="299">Valencia, Spanien - LEVC</option>
+<option value="246">Vancouver, Kanada - CYVR</option>
+<option value="238">Varadero, Kuba - MUVR</option>
+<option value="271">Varna, Bulgarien - LBWN</option>
+<option value="235">Venedig, Italien - LIPZ</option>
+<option value="239">Verona, Italien - LIPX</option>
+<option value="237">Vilnius, Litauen - EYVI</option>
+<option value="240">Warschau, Polen - EPWA</option>
+<option value="103">Washington, USA - KIAD</option>
+<option value="270">Westerland, Deutschland - EDXW</option>
+<option value="321">Whitehorse, Kanada - CYXY</option>
+<option value="236">Wien, Österreich - LOWW</option>
+<option value="241">Windhuk, Namibia - FYWH</option>
+<option value="242">Wroclaw/Breslau, Polen - EPWR</option>
+<option value="249">Zadar, Kroatien - LDZD</option>
+<option value="250">Zagreb, Kroatien - LDZA</option>
+<option value="318">Zakynthos, Griechenland - LGZA</option>
+<option value="251">Zürich, Schweiz - LSZH</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="cell label">Datum</div>
+				<div class="cell">
+					<input type="text" name="from" id="from"  value = "00.00.0000" />
+					<div style="display: inline;">STA:</div>
+					<div style="display: inline;">
+						<input type="text" name="time" id="time" style="margin-right: 0.5em;"
+							 value = "00:00" />HH:MM (lokal)
+					</div>
+					<div class="cell">
+						<label><input type="radio" name="interval" value="once" id="once" checked="checked" />Einmalig</label><br>
+						<label><input type="radio" name="interval" value="daily" id="daily"/>Täglich</label><br>
+						<label><input type="radio" name="interval" value="each" id="each"/>Jeden</label>
+						<div style="margin-left: 1em; display: inline;">
+							<label><input type="checkbox" name="day[1]" id="mon" disabled />Mo</label>
+							<label><input type="checkbox" name="day[2]" id="tue" disabled />Di</label>
+							<label><input type="checkbox" name="day[3]" id="wed" disabled />Mi</label>
+							<label><input type="checkbox" name="day[4]" id="thu" disabled />Do</label>
+							<label><input type="checkbox" name="day[5]" id="fri" disabled />Fr</label>
+							<label><input type="checkbox" name="day[6]" id="sat" disabled />Sa</label>
+							<label><input type="checkbox" name="day[7]" id="sun" disabled />So</label>
+							<label><input type="checkbox" name="day[0]" id="all" disabled /><b>Alle</b></label>
+						</div>
+						<div class="cell">
+							<div style="display: inline;">Bis:</div>
+							<input type="text" name="until" id="until"  value = "00.00.0000"  disabled>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+	<div class="center"><input id="submit" type="submit" name="submit"/></div>
+</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

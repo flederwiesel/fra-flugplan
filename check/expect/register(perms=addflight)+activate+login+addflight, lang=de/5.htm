@@ -1,0 +1,161 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Live Schedule &ndash; Frankfurt Aviation Friends</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="language" content="de">
+<meta name="author" content="Tobias Kühne">
+<meta name="description" content="24h flight forecast for Frankfurt/Main airport with aircraft registrations">
+<meta name="keywords" content="fra eddf frankfurt airport aircraft spotter schedule">
+<meta name="robots" content="index, nofollow">
+<meta name="generator" content="Programmer's Notepad">
+<link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
+<link rel="icon" href="favicon.gif" type="image/gif">
+<script type="text/javascript" src="script/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="script/jquery.sha256.min.js"></script>
+</head>
+<body>
+	<noscript>
+		<div class="noscript">JavaScript wird entweder nicht vom Browser unterstützt oder ist abgeschaltet.<br>Um diese in vollem Umfang nutzen zu können, bitte <a href="http://www.enable-javascript.com/de/">Javascript aktivieren</a>.</div>
+	</noscript>
+	<div id="body">
+		<div id="box">
+			<div>
+				<div id="head">
+					<h1 class="nobr">Frankfurt Aviation Friends</h1>
+					<h3>
+Live Flugplan &ndash; Ankunft</h3>
+				</div>
+				<div id="nav">
+<dl class="left">
+		<dt><a href="http://www.frankfurt-aviation-friends.de/">Startseite</a></dt>
+			<dt class="sep">Ankunft</dt>
+			<dt class="sep"><a href="?departure">Ablug</a></dt>
+				<dt class="sep"><a href="javascript:watchlist('show');">Beobachtungsliste</a></dt>
+					<dt class="sep"><a href="?page=addflight">Flug einfügen</a></dt>
+		<dt class="sep"><a href="?page=help">Hilfe</a></dt>
+</dl>
+<dl class="right">
+			<dt class="sep"><a href="?req=changepw">Benutzerprofil</a></dt>
+			<dt class="sep"><a href="?req=logout">Abmelden</a></dt>
+		<span style="vertical-align: baseline;">
+			<dt>
+				<a href="?lang=de">
+					<img src="img/de.png" alt="Deutsch" width="16" height="12">
+				</a>
+			</dt>
+			<dt>
+				<a href="?lang=en">
+					<img src="img/en.png" alt="Englisch" width="16" height="12">
+				</a>
+			</dt>
+		</span>
+</dl>
+				</div>
+			</div>
+		<div id="content">
+
+<!--[if IE]>
+<style type="text/css">
+#list { padding-right: 1.2em; }
+</style>
+<![endif]-->
+
+<script type="text/javascript">
+	wl_img_open = "img/wl-open-de.png";
+	wl_img_close = "img/wl-close-de.png";
+</script>
+<script type="text/javascript" src="script/watchlist.js"></script>
+<script type="text/javascript" src="script/sorttable.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+	});
+
+	$(document).keydown(function(event)
+	{
+		if (27 == event.keyCode)
+			watchlist("hide");
+	});
+
+	$(function()
+	{
+		$("#watch").submit(function(event) {
+			$("#submit").attr("disabled", "disabled");
+			PreparePostData(this);
+		});
+	});
+</script>
+
+
+<div id="rwy_cont">
+	<div id="rwy_div" style="float: left ;">
+		<span id="rwy_l" style="vertical-align: middle;">
+			<img alt="Betriebsrichtung" src="img/arrival-yellow-16x14.png">
+		</span>
+		<span id="rwy_r">99</span>
+	</div>
+</div>
+
+
+<div id="wl_cont">
+	<div id="wl_div">
+		<div id="wl_handle" class="cell top">
+			<img id="wl_img" src="img/wl-open-de.png" alt="watchlist">
+		</div>
+		<div class="cell top">
+			<div id="expandable" style="width: 0; visibility: hidden;">
+				<form id="watch" method="post" action="?"
+					onsubmit="document.getElementById('submit').disabled=true;">
+					<div class="center" style="padding: 6px 6px 6px 0;">
+						<div id="list">
+							<table summary="watchlist">
+								<thead>
+									<tr>
+										<th></th>
+										<th>Reg</th>
+										<th>Kommentar</th>
+										<th></th>
+										<th></th>
+									</tr>
+								</thead>
+								<tfoot></tfoot>
+								<tbody>
+									<tr>
+										<td><img src="img/a-net-ina.png" alt=""></td>
+										<td class="reg"><input type="text" value=""></td>
+										<td class="comment"><input type="text" value=""></td>
+										<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
+										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<input type="submit" value="Aktualisieren"
+						 style="margin: 0.5em 0;">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div id="schedule">
+	<table class="sortable" summary="schedule">
+		<thead>
+			<tr>
+				<th>Zeit				<th class="sep">Flug				<th class="sep">Fluggesellschaft				<th class="sep">IATA
+				<th class="sep">ICAO
+				<th class="sep">Von				<th class="sep">Typ				<th class="sep sorttable_alpha">Reg			</tr>
+		</thead>
+		<tfoot></tfoot>
+		<tbody>
+		</tbody>
+	</table>
+</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
