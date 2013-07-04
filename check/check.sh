@@ -153,6 +153,6 @@ diff expect results \
 		--ignore-all-space \
 		--ignore-blank-lines | \
 	grep -v '^diff' | \
-	sed -r $'s~^-(.*)$~\033[35m< \\1\033[m~g;
-			 s~^\+(.*)$~\033[36m> \\1\033[m~g;
+	sed -r $'s~^-(.*)$~\033[32m< \\1\033[m~g;
+			 s~^\+(.*)$~\033[35m> \\1\033[m~g;
 			 s~^@@.*@@$~\033[1;33m&\033[m~g'
