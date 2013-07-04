@@ -17,14 +17,8 @@
 </head>
 <body>
 	<noscript>
-		<div class="noscript">If you obtain this message, JavaScript is either not supported or disabled in in your browser options.
-			<br>In order to use full functionality of this site we advise you to
-			<a href="http://www.enable-javascript.com/de/">enable Javascript</a>.
-		</div>
+		<div class="noscript">If you obtain this message, JavaScript is either not supported or disabled in in your browser options.<br>In order to use full functionality of this site we advise you to <a href="http://www.enable-javascript.com/en/">enable Javascript</a>.</div>
 	</noscript>
-	<div id="debug">
-		<h1>Debug version.</h1>
-	</div>
 	<div id="body">
 		<div id="box">
 			<div>
@@ -60,7 +54,8 @@ Live Schedule</h3>
 			</div>
 		<div id="content">
 <div id="auth">
-<form id="form" method="post" action="?req=register">
+<form id="form" method="post" action="?req=register"
+	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
 		<legend>Registration</legend>
 		<div id="notification" style="display: none;"></div>
@@ -68,15 +63,15 @@ Live Schedule</h3>
 			<div class="row">
 				<div class="cell label">E-mail Address</div>
 				<div class="cell">
-					<input type="text" id="email"
-					 name="email" value="hausmeister@flederwiesel.com">
+					<input type="text" id="email" name="email"
+					 value="" autofocus>
 				</div>
 			</div>
 			<div class="row">
 				<div class="cell label">Username</div>
 				<div class="cell">
-					<input type="text" id="user"
-					 name="user" value="flederwiesel">
+					<input type="text" id="user" name="user"
+					 value="">
 					<div class="hint">
 						At least 4, at most 32 characters					</div>
 				</div>
@@ -87,15 +82,15 @@ Live Schedule</h3>
 			<div class="row">
 				<div class="cell label">Password</div>
 				<div class="cell">
-					<input type="password" id="passwd"
-					 name="passwd" value="elvizzz">
+					<input type="password" id="passwd" name="passwd"
+					 value="">
 				</div>
 			</div>
 			<div class="row">
 				<div class="cell label">Confirm Password</div>
 				<div class="cell">
-					<input type="password" id="passwd-confirm"
-					 name="passwd-confirm" value="elvizzz">
+					<input type="password" id="passwd-confirm" name="passwd-confirm"
+					 value="">
 					<div class="hint"></div>
 				</div>
 			</div>
