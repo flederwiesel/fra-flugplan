@@ -11,24 +11,13 @@
 #
 ###############################################################################
 
-###############################################################################
 # drop/re-create database
-###############################################################################
+initdb && rm -f .COOKIES
 
-initdb
-rm -f .COOKIES
-
-###############################################################################
-# default -- no COOKIES set -> default language=en
 ###############################################################################
 
 check "1" curl "$url/?lang=de"
-
-###############################################################################
-
 check "2" curl "$url/?req=register"
-
-###############################################################################
 
 check "3" curl "$url/?req=register" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
@@ -38,35 +27,22 @@ check "3" curl "$url/?req=register" \
 		--data-urlencode "timezone=UTC+1" \
 		--data-urlencode "lang=de"
 
-###############################################################################
-
+# grant addflight permission
 query "USE fra-schedule; UPDATE users SET permissions='1' WHERE name='flederwiesel'"
 
 token=$(query "USE fra-schedule;
 	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)
 
-###############################################################################
-
 check "4" curl "$url/?req=activate" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "token=$token"
-
-###############################################################################
-# click(submit)
-###############################################################################
 
 check "5" curl "$url/?req=login" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz"
 
-###############################################################################
-# click(addflight)
-###############################################################################
-
 check "6" curl "$url/?page=addflight" \
 	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
-
-###############################################################################
 
 check "7" curl "$url/?page=addflight" \
 		--data-urlencode "reg=D-AIRY" \
@@ -82,9 +58,6 @@ check "7" curl "$url/?page=addflight" \
 		--data-urlencode "interval=once" \
 	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
 
-###############################################################################
-# click(submit)
-###############################################################################
-
+# check inserted flight
 check "8" curl "$url/?arrival" \
 	"|" sed -r "s/'\+[0-9]{1,4} [0-9]{2}:[0-9]{2}'/'+0 00:00'/g"
