@@ -259,26 +259,41 @@ if (!$error)
 						}
 						else
 						{
-							if (preg_match('/^[A-Z0-9._%+-]+@([A-Z0-9-]+\.)*[A-Z0-9-]{2,}\.[A-Z]{2,6}$/i', $_POST['email']) != 1)
+							if (preg_match('/^([A-Z0-9._%+-]+)@([A-Z0-9-]+\.)*([A-Z0-9-]{2,})\.[A-Z]{2,6}$/i', $_POST['email'], $match) != 1)
 							{
-								$error = sprintf($lang['emailinvalid'], USERNAME_MAX);
+								$error = sprintf($lang['emailinvalid']);
 							}
 							else
 							{
-								if ($_POST['passwd'] != $_POST['passwd-confirm'])
+								for ($m = 1; $m < count($match); $m++)
 								{
-									$error = $lang['passwordsmismatch'];
-								}
-								else
-								{
-									if (!RegisterUser($_POST['user'], $_POST['email'], $_POST['passwd'], $_POST['lang'], $message))
+									if (strlen($match[$m]) > 1024)
 									{
-										$error = $message;
+										$error = sprintf($lang['emailinvalid']);
+										break;
+									}
+								}
+
+								if (!$error)
+								{
+									if ($_POST['passwd'] != $_POST['passwd-confirm'])
+									{
+										$error = $lang['passwordsmismatch'];
 									}
 									else
 									{
-										$_GET['user'] = $_POST['user'];
-										$_GET['req'] = 'activate';
+										if (isset($_POST['lang']))
+											$_POST['lang'] = $_SESSION['lang'];
+
+										if (!RegisterUser($_POST['user'], $_POST['email'], $_POST['passwd'], $_POST['lang'], $message))
+										{
+											$error = $message;
+										}
+										else
+										{
+											$_GET['user'] = $_POST['user'];
+											$_GET['req'] = 'activate';
+										}
 									}
 								}
 							}
@@ -327,7 +342,9 @@ if (!$error)
 			{
 				if (isset($_POST['user']))		/* else no post, we just followed a link */
 				{
-					$user = LoginUser($_POST['user'], $_POST['passwd'], false, isset($_POST['autologin']), $message);
+					$passwd =  isset($_POST['passwd']) ? $_POST['passwd'] : '';
+
+					$user = LoginUser($_POST['user'], $passwd, false, isset($_POST['autologin']), $message);
 
 					if (!$user)
 					{
