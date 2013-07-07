@@ -60,7 +60,7 @@ class User
 
 	public function __construct($id, $name, $email, $tz, $lang, $perms)
 	{
-		$this->id   = $id;
+		$this->id = $id;
 		$this->name = $name;
 		$this->email = $email;
 		$this->timezone = $tz;
@@ -179,7 +179,7 @@ function /*bool*/ LoginUser($user, $password, $byid, $remember, /*out*/ &$messag
 				else
 				{
 					setcookie('userID',  0, 0);
-					setcookie('hash',  null, 0);
+					setcookie('hash', null, 0);
 					setcookie('autologin', false, 0);
 
 					$error = $lang['authfailed'];
