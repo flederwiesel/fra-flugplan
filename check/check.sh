@@ -91,6 +91,8 @@ register(perms=addflight)+activate+login+addflight
 register(perms=addflight)+activate+login+addflight, lang=de
 register(perms=)+activate+addflight+login+addflight
 register(perms=)+activate+addflight+login+addflight, lang=de
+# failures
+register(failure)
 register(perms=)+activate(failure)
 register(perms=)+activate+login(failure)
 '
@@ -99,16 +101,19 @@ echo "$scripts" |
 while read script
 do
 	if [ -n "$script" ]; then
-
-		echo -e "\033[36m$script\033[m"
-
-		results="results/$script"
-		mkdir -p "$results"
+		echo "$script" | grep -vq '^[[:space:]]*#'
 
 		if [ 0 == $? ]; then
-			eval "$(cat 'tests/'$script'.sh')"
-			# Copy referenced scripts to properly view results
-			cp -a ../css ../img ../script "$results"
+			echo -e "\033[36m$script\033[m"
+
+			results="results/$script"
+			mkdir -p "$results"
+
+			if [ 0 == $? ]; then
+				eval "$(cat 'tests/'$script'.sh')"
+				# Copy referenced scripts to properly view results
+				cp -a ../css ../img ../script "$results"
+			fi
 		fi
 	fi
 done
