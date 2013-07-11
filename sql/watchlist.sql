@@ -84,6 +84,7 @@ VALUES
 (@uid, 'D-ABMC',	'Air Berlin -  oneworld'),
 (@uid, 'D-ABME',	'Air Berlin -  oneworld'),
 (@uid, 'D-ABON',	'Condor - Willi'),
+(@uid, 'D-ABUE',	'Condor - Janosch'),
 (@uid, 'D-ABUM',	'Condor - 70s Retro'),
 (@uid, 'D-ABUW',	'Lufthansa - Star Alliance /w white tail'),
 (@uid, 'D-ABXA',	'Air Berlin -  oneworld'),
