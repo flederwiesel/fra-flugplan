@@ -49,12 +49,8 @@
 			<?php echo $error; ?>
 		</div>
 <?php } else if ($message) { ?>
-		<div id="notification" class="auth-hint">
-			<?php echo $message; ?>
-		</div>
-<?php } else { ?>
 		<div id="notification" class="auth-ok">
-			<?php echo $lang['regsuccess']; ?>
+			<?php echo $message; ?>
 		</div>
 <?php } ?>
 		<div class="table">

@@ -74,7 +74,8 @@ $lang = array
 	'forgotpassword' => 'Forgot Password?',
 	'hintnumchars' => 'At least %lu, at most %lu characters',
 	'language' => 'Language',
-	'hintpassword' => '',
+	'hintpassword' => 'At least '.PASSWORD_MIN.' characters long',
+	'shortpassword' => 'Password must be at least '.PASSWORD_MIN.' characters long.',
 	'registration' => 'Registration',
 	'onefieldmandatory' => 'Only one of the above fields is mandatory.',
 	'passwdencrypted' => 'Your password is stored in encrypted form, so it cannot be retrieved. However, you can request a reset token, which will be sent to your registered e-mail address.',
@@ -103,7 +104,6 @@ $lang = array
 	'usernamelengthmax' => 'Username must be no longer than %lu characters.',
 	'emailinvalid' => 'E-mail address invalid.',
 	'activationfailed' => 'Activation failed',
-	'activationcode' => 'Please enter the activation code sent to you via e-mail.',
 	'subjpasswdchange' => 'Change Password',
 	'emailpasswd' => "Hello,\n\nthis e-mail has been sent to you because you (or someone else at IP address %s) requested a password change for user '%s' at %s\n\nPassword token is:\n%s\n\nYou can also use this link to process your request:\n%s?req=changepw&user=%s&token=%s\nThis token will expire on %s GMT.\n\nPlease ignore this e-mail if you didn't request a change of password. Our apologies for any inconvenience.\n\n\nThe %s Team",	//&&
 	'emailactivation' => "Hello,\n\nthis e-mail has been sent to you because you (or someone else at IP address %s) requested user registration as '%s' at %s (%s).\n\nActivation token is:\n%s\n\nYou can also use this link to process your request:\n%s?req=activate&user=%s&token=%s\nThis token will expire on %s GMT.\n\nPlease ignore this e-mail if you didn't request a registration. Our apologies for any inconvenience.\n\n\nThe %s Team",

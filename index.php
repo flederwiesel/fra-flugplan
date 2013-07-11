@@ -274,6 +274,12 @@ if (!$error)
 									}
 								}
 
+								if (!isset($_POST['passwd']))
+									$error = $lang['shortpassword'];
+								else
+									if (strlen($_POST['passwd']) < PASSWORD_MIN)
+										$error = $lang['shortpassword'];
+
 								if (!$error)
 								{
 									if ($_POST['passwd'] != $_POST['passwd-confirm'])
@@ -293,6 +299,8 @@ if (!$error)
 										{
 											$_GET['user'] = $_POST['user'];
 											$_GET['req'] = 'activate';
+
+											$message = $lang['regsuccess'];
 										}
 									}
 								}
@@ -316,7 +324,10 @@ if (!$error)
 					if (isset($_POST['user']) &&
 						isset($_POST['token']))		/* else no post, we just followed a link */
 					{
-						$req = $_POST;
+						if ($_POST['user'] && $_POST['token'])
+							$req = $_POST;
+						else
+							$error = $lang['activationfailed'];
 					}
 				}
 
