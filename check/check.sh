@@ -110,7 +110,7 @@ do
 			mkdir -p "$results"
 
 			if [ 0 == $? ]; then
-				eval "$(cat 'tests/'$script'.sh')"
+				eval "$(cat 'check/'$script'.sh')"
 				# Copy referenced scripts to properly view results
 				cp -a ../css ../img ../script "$results"
 			fi
