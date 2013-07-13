@@ -256,6 +256,7 @@ VALUES
 (@uid, 'PT-MVM',	'TAM - Star Alliance'),
 (@uid, 'PT-MVP',	'TAM - Seleção Brasileira (Football)'),
 (@uid, 'RA-89005',	'Aeroflot - Sky Team'),
+(@uid, 'RA-89009 ',	'Aeroflot - 90 years'),
 (@uid, 'S5-AAG',	'Adria - Star Alliance'),
 (@uid, 'SE-DIB',	'SAS - Star Alliance'),
 (@uid, 'SE-DHF',	'SAS - Star Alliance'),
