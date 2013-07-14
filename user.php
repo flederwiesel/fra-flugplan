@@ -118,13 +118,13 @@ function /*bool*/ LoginUser($user, $password, $byid, $remember, /*out*/ &$messag
 	if ($byid)
 	{
 		$id = $user;
-		$query = sprintf("SELECT `name`, `passwd`, `salt`, `email`, `timezone`, `language`, `permissions`".
+		$query = sprintf("SELECT `name`, `passwd`, `salt`, `email`, `timezone`, `language`, `permissions`, `token_type`".
 						 " FROM `users` WHERE `id`=$user");
 	}
 	else
 	{
 		$name = $user;
-		$query = sprintf("SELECT `id`, `passwd`, `salt`, `email`, `timezone`, `language`, `permissions`".
+		$query = sprintf("SELECT `id`, `passwd`, `salt`, `email`, `timezone`, `language`, `permissions`, `token_type`".
 						 " FROM `users` WHERE `name`='$user'");
 	}
 
@@ -155,34 +155,55 @@ function /*bool*/ LoginUser($user, $password, $byid, $remember, /*out*/ &$messag
 			}
 			else
 			{
-				$hash = $byid ? $password : hash_hmac('sha256', $password, $row['salt']);
-
-				if ($row['passwd'] == $hash)
+				if (isset($row['token_type']))
 				{
-					if ($byid)
-						$name = $row['name'];
-					else
-						$id = $row['id'];
-
-					$user = new User($id, $name, $row['email'], $row['timezone'], $row['language'], $row['permissions']);
-
-					if ($user)
+					switch ($row['token_type'])
 					{
-						$expires = (1 == $remember) ? time() + COOKIE_LIFETIME : 0;
+					case 'activation':
+						$error = $lang['activationrequired'];
+						break;
 
-						setcookie('userID',    $user->id(),   $expires);
-						setcookie('hash',      $hash,         $expires);
-						setcookie('autologin', true,          $expires);
-						setcookie('lang',      $user->lang(), $expires);
+					case 'password':
+						$error = $lang['authfailed'];
+						break;
+
+					case 'none':
+					default:
+						break;
 					}
 				}
-				else
-				{
-					setcookie('userID',  0, 0);
-					setcookie('hash', null, 0);
-					setcookie('autologin', false, 0);
 
-					$error = $lang['authfailed'];
+				if (!$error)
+				{
+					$hash = $byid ? $password : hash_hmac('sha256', $password, $row['salt']);
+
+					if ($row['passwd'] == $hash)
+					{
+						if ($byid)
+							$name = $row['name'];
+						else
+							$id = $row['id'];
+
+						$user = new User($id, $name, $row['email'], $row['timezone'], $row['language'], $row['permissions']);
+
+						if ($user)
+						{
+							$expires = (1 == $remember) ? time() + COOKIE_LIFETIME : 0;
+
+							setcookie('userID',    $user->id(),   $expires);
+							setcookie('hash',      $hash,         $expires);
+							setcookie('autologin', true,          $expires);
+							setcookie('lang',      $user->lang(), $expires);
+						}
+					}
+					else
+					{
+						setcookie('userID',  0, 0);
+						setcookie('hash', null, 0);
+						setcookie('autologin', false, 0);
+
+						$error = $lang['authfailed'];
+					}
 				}
 			}
 		}
@@ -311,7 +332,7 @@ function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$me
 		/* http://www.outlookfaq.net/index.php?action=artikel&cat=6&id=84&artlang=de */
 		$body = mb_convert_encoding($body, 'ISO-8859-1', 'UTF-8');
 
-		if (!@mail($email, $lang['subjactivate'], $body, $header))
+		if (!@mail($email, mb_encode_mimeheader($lang['subjactivate'], 'ISO-8859-1', 'Q'), $body, $header))
 		{
 			$error = error_get_last();
 			$error = $lang['mailfailed'].$error['message'];
@@ -342,7 +363,7 @@ function /*bool*/ ActivateUser($user, $token, /*out*/ &$message)
 	{
 		if (mysql_num_rows($result) != 1)
 		{
-			$error = $lang['nosuchuser'];
+			$error = $lang['activationfailed'];
 		}
 		else
 		{
@@ -560,7 +581,7 @@ function /*bool*/ RequestPasswordChange($user, $email, /*out*/ &$message)
 		/* http://www.outlookfaq.net/index.php?action=artikel&cat=6&id=84&artlang=de */
 		$body = mb_convert_encoding($body, 'ISO-8859-1', 'UTF-8');
 
-		if (!@mail($email, $lang['subjpasswdchange'], $body, $header))
+		if (!@mail($email, mb_encode_mimeheader($lang['subjpasswdchange'], 'ISO-8859-1', 'Q'), $body, $header))
 		{
 			$error = error_get_last();
 			$error = $lang['mailfailed'].$error['message'];
@@ -622,7 +643,7 @@ function /*bool*/ ChangePassword($user, $token, $password, /*out*/ &$message)
 					$uid = $row[0];
 					$salt = token();
 					$password = hash_hmac('sha256', $password, $salt);
-					$query = "UPDATE `users` SET `salt`='$salt', `passwd`='$password', `token`=NULL, `token_expires`=NULL WHERE `id`=$uid";
+					$query = "UPDATE `users` SET `salt`='$salt', `passwd`='$password', `token`=NULL, `token_type`='none', `token_expires`=NULL WHERE `id`=$uid";
 
 					if (!mysql_query($query))
 					{
@@ -630,8 +651,9 @@ function /*bool*/ ChangePassword($user, $token, $password, /*out*/ &$message)
 					}
 					else
 					{
-						if ($_COOKIE['autologin'])
-							setcookie('hash', $password, time() + COOKIE_LIFETIME);
+						if (isset($_COOKIE['autologin']))
+							if ($_COOKIE['autologin'])
+								setcookie('hash', $password, time() + COOKIE_LIFETIME);
 					}
 				}
 			}
