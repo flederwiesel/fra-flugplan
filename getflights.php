@@ -808,7 +808,7 @@ else
 
 									$query = "UPDATE `flights` SET ".
 										($f->expected ? "`expected`='$f->expected', " : "").	// Don't overwrite `expected`
-										"`aircraft`=".($reg ? "'$reg'" : "NULL").",".
+										"`aircraft`=".($reg ? $reg : "NULL").",".
 										"`model`=".($model ? "$model" : "NULL")." ".
 										"WHERE `id`=$id;";
 								}
@@ -824,7 +824,7 @@ else
 										"$uid, 'pax-regular', '$dir', $airline, '$f->code', ".
 										"'$f->scheduled', ".
 										($f->expected ? "'$f->expected'" : "NULL").", ".
-										($reg ? "$reg" : "NULL").", ".
+										($reg ? $reg : "NULL").", ".
 										($model ? "$model": "NULL").");";
 								}
 
