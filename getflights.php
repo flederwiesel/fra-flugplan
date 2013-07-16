@@ -24,7 +24,8 @@
 
 /******************************************************************************
  *
- *  Debug options: ?debug=[url,arrival,departure,airports,awk,query]&fmt=[htm|html|...]
+ *  Debug options: ?debug=[url,arrival,departure,airports,awk,query]
+ *                 &fmt=[htm|html|...]
  *
  ******************************************************************************/
 
@@ -406,13 +407,13 @@ $hdbc = mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
 
 if (!$hdbc)
 {
-	$error = seterrorinfo(__LINE__, mysql_error());
+	$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
 }
 else
 {
 	if (!mysql_select_db(DB_NAME, $hdbc))
 	{
-		$error = seterrorinfo(__LINE__, mysql_error());
+		$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
 	}
 	else
 	{
@@ -422,7 +423,7 @@ else
 
 		if (!$result)
 		{
-			$error = seterrorinfo(__LINE__, mysql_error());
+			$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
 		}
 		else
 		{
@@ -431,7 +432,7 @@ else
 			if ($row)
 				$uid = $row[0];
 			else
-				$error = seterrorinfo(__LINE__, mysql_error());
+				$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
 
 			mysql_free_result($result);
 		}
@@ -558,7 +559,8 @@ else
 
 							if (!$result)
 							{
-								$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+								$error = seterrorinfo(__LINE__,
+											sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
 							}
 							else
 							{
@@ -598,7 +600,8 @@ else
 									else
 									{
 										$airline = NULL;
-										$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+										$error = seterrorinfo(__LINE__,
+													sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
 									}
 								}
 
@@ -621,7 +624,8 @@ else
 
 									if (!$result)
 									{
-										$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+										$error = seterrorinfo(__LINE__,
+													sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
 									}
 									else
 									{
@@ -656,7 +660,8 @@ else
 											}
 											else
 											{
-												$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+												$error = seterrorinfo(__LINE__,
+															sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
 											}
 										}
 
@@ -677,7 +682,8 @@ else
 
 							if (!$result)
 							{
-								$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+								$error = seterrorinfo(__LINE__,
+											sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
 							}
 							else
 							{
@@ -712,7 +718,8 @@ else
 									}
 									else
 									{
-										$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+										$error = seterrorinfo(__LINE__,
+													sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
 									}
 								}
 
@@ -731,7 +738,8 @@ else
 
 								if (!$result)
 								{
-									$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+									$error = seterrorinfo(__LINE__,
+												sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
 								}
 								else
 								{
@@ -758,7 +766,8 @@ else
 
 										if (!mysql_query($query))
 										{
-											$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+											$error = seterrorinfo(__LINE__,
+														sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
 										}
 										else
 										{
