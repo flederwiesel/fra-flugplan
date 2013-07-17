@@ -511,7 +511,7 @@ if (!$error)
 	</div>
 <?php } ?>
 	<div id="body">
-		<div id="box">
+		<div class="box left">
 			<div>
 				<div id="head">
 					<h1 class="nobr">Frankfurt Aviation Friends</h1>
@@ -557,7 +557,7 @@ if (!$error)
 			else
 			{
 ?>
-		<div id="content">
+			<div id="content">
 <?php
 				if (!isset($_GET['req']))
 				{
@@ -590,8 +590,16 @@ if (!$error)
 				}
 ?>
 			</div>
-<?php } ?>
+<?php		} ?>
 		</div>
+<?php
+		if (!$mobile)
+		{
+?>
+		<div id="counter" class="box center">
+			<img src="http://s07.flagcounter.com/count/y9Ko/bg_ffffff/txt_a3aab7/border_ffffff/columns_8/maxflags_248/viewers_Live+Schedule+Visitors:/labels_1/pageviews_0/flags_0/" alt="Free counters!">
+		</div>
+<?php	} ?>
 	</div>
 </body>
 </html>

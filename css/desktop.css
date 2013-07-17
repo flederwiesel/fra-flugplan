@@ -153,19 +153,19 @@ ul.help > li.img
 	text-align: center;
 }
 
-#body
-{
-	text-align: center;
-}
-
-#box
+.box
 {
 	display: inline-block;
 	margin: auto;
 	padding: 10px;
 	background: #ffffff;
 	box-shadow: 0 0 3px #666666;
-	text-align: left;
+}
+
+#body
+{
+	padding: 0;
+	text-align: center;
 }
 
 #head h1,
@@ -466,6 +466,12 @@ ul.help > li.img
 {
 	color: #007f00;
 	font-weight: bold;
+}
+
+#counter
+{
+	margin: 5em auto 0 auto;
+	padding: 0;
 }
 
 #addflight

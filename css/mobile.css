@@ -140,20 +140,19 @@ ul.help > li.img
 	text-align: center;
 }
 
-#body
-{
-	padding: 0;
-	text-align: center;
-}
-
-#box
+.box
 {
 	display: inline-block;
 	margin: auto;
 	padding: 4px;
-	box-shadow: 0 0 3px #666666;
 	background: #ffffff;
-	text-align: left;
+	box-shadow: 0 0 3px #666666;
+}
+
+#body
+{
+	padding: 0;
+	text-align: center;
 }
 
 #head h1,
