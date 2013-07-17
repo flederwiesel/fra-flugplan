@@ -12,7 +12,7 @@ $lang_help = array(
 	8 => 'Probleme?',
 	9 => '(1) Ankunft oder Abflug zur Ansicht auswählen',
 	10 => '(2) Auswahl wird in der Überschrift angezeigt',
-	11 => '(3) Die <a href="http://de.wikipedia.org/wiki/Start-_und_Landebahn#Landebahnkennung">Betriebsichtung</a> wird im roten Kasten angezeigt',
+	11 => '(3) Die <a href="http://de.wikipedia.org/wiki/Start-_und_Landebahn#Landebahnkennung">Betriebsrichtung</a> wird im roten Kasten angezeigt',
 	12 => '(4) Flugzeiten werden im Format <span class="b">"+/-Tag Stunde:Minuten"</span> angezeigt, dabei bedeutet +0 heute, +1 bedeutet morgen, usw.&#20;',
 	13 => '(5) Zeiten für verfrühte Flüge werden in rot angezeigt',
 	14 => '(6) Flüge in der Vergangenheit werden ausgegraut angezeigt',
