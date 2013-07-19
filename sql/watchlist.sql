@@ -66,6 +66,7 @@ VALUES
 (@uid, 'B-HXG' ,	'Cathay Pacific Airways - oneworld'),
 (@uid, 'B-HYF' ,	'Dragonair - 25 years'),
 (@uid, 'B-LAD' ,	'Cathay Pacific - 100th aircraft (now w/o sticker)'),
+(@uid, 'B-LBB' ,	'Cathay Pacific - 1000th A330 family'),
 (@uid, 'B-LJA' ,	'Cathay Pacific - Hong Kong Trader'),
 (@uid, 'B-KPF' ,	'Cathay Pacific - Asias world city GRÜN'),
 (@uid, 'B-MAJ' ,	'Air Macau - 4th East Asian Games 2005*'),
