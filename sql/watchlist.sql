@@ -239,6 +239,7 @@ VALUES
 (@uid, 'OE-LBX',	'AUA - Star Alliance'),
 (@uid, 'OE-LVG',	'AUA - Star Alliance'),
 (@uid, 'OH-BLN',	'Blue1 - Star Alliance'),
+(@uid, 'OH-BLP',	'Blue1 - Star Alliance'),
 (@uid, 'OH-LQD',	'Finnair - Blumen'),
 (@uid, 'OH-LQE',	'Finnair - One World'),
 (@uid, 'OH-LVF',	'Finnair - One World'),
