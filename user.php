@@ -702,14 +702,14 @@ function Input_SetValue($name, $whence, $debug)
 
 	if (INP_POST & $whence)
 	{
- 		if ($_POST[$name])
+ 		if (isset($_POST[$name]))
  			$value = $_POST[$name];
  	}
 
 	if (INP_GET & $whence)
 	{
 		if (!$value)
-	 		if ($_GET[$name])
+	 		if (isset($_GET[$name]))
 	 			$value = $_GET[$name];
  	}
 
