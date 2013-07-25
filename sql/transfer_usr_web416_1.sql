@@ -1,8 +1,13 @@
 /* Entries in usr_web416_1 only */
 
+INSERT INTO `usr_web416_1`.`users`(`name`, `email`, `passwd`)
+VALUES ('transfer', 'crapmail@flederwiesel.com', '0d6be69b264717f2dd33652e212b173104b4a647b7c11ae72e9885f11cd312fb');
+
+SELECT (@uid:=`id`) FROM `usr_web416_1`.`users` WHERE `name`='transfer';
+
 INSERT INTO `fra-schedule`.`airlines`(`uid`, `code`, `name`)
 SELECT
- (SELECT `id` FROM `fra-schedule`.`users` WHERE `name`='root') AS `uid`,
+ @uid AS `uid`,
  `usr_web416_1`.`airlines`.`abbrev` AS `code`,
  `usr_web416_1`.`airlines`.`name` AS `name`
 FROM
@@ -32,7 +37,7 @@ ORDER BY src ASC;
 /* Entries in usr_web416_1 only */
 INSERT INTO `fra-schedule`.`models`(`uid`, `icao`, `name`)
 SELECT
- (SELECT `id` FROM `fra-schedule`.`users` WHERE `name`='root') AS `uid`,
+ @uid AS `uid`,
  `usr_web416_1`.`aircraft-types`.`icao` AS `icao`,
  `usr_web416_1`.`aircraft-types`.`name` AS `name`
 FROM
@@ -64,7 +69,7 @@ ORDER BY src ASC;
 
 INSERT INTO `fra-schedule`.`airports`(`uid`, `iata`, `icao`, `name`)
 SELECT
- (SELECT `id` FROM `fra-schedule`.`users` WHERE `name`='root') AS `uid`,
+ @uid AS `uid`,
  `usr_web416_1`.`airports`.`iata` AS `iata`,
  `usr_web416_1`.`airports`.`icao` AS `icao`,
  `usr_web416_1`.`airports`.`name` AS `name`
@@ -95,7 +100,7 @@ ORDER BY src ASC;
 
 INSERT INTO `fra-schedule`.`aircrafts`(`uid`, `reg`, `model`)
 SELECT
- (SELECT `id` FROM `fra-schedule`.`users` WHERE `name`='root') AS `uid`,
+ @uid AS `uid`,
  `usr_web416_1`.`aircrafts`.`reg` AS `reg`,
  `usr_web416_1`.`aircrafts`.`type` AS `type`
 FROM
