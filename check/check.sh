@@ -40,13 +40,13 @@ check() {
 
 initdb() {
 
-	unless $LINENO mysql -s --host=localhost --user=root --password= \
+	unless $LINENO mysql --host=localhost --user=root --password= \
 		--default-character-set=utf8 < ../sql/fra-schedule.sql > /dev/null
 }
 
 query() {
 
-	mysql -s --host=localhost --user=root --password= --skip-column-names \
+	mysql --host=localhost --user=root --password= --skip-column-names \
 		--execute="$@"
 }
 
@@ -95,6 +95,7 @@ register(perms=)+activate+addflight+login+addflight, lang=de
 register(failure)
 register(perms=)+activate(failure)
 register(perms=)+activate+login(failure)
+addflight(failure)
 '
 
 echo "$scripts" |
