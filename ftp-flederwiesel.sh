@@ -12,6 +12,8 @@ lftp <<EOF
 open web416:L2ppkt1fl2@www.flederwiesel.com
 
 !svn info . | awk '/^URL:/ { print $2; }' > revision
+!echo '------------------------------------------------------------------------' >> revision
+!svn log | sed -nr 'H; :a /---/ { x; s/\([a-z]+,[^)]+\) //g; s/[0-9]+ lines?//g; s/-*-$//g; s/\n//g; p; n; h; ba }' >> revision
 
 rm -rf ${root}/vault/${target}/$rev
 mkdir -p ${root}/vault/${target}/$rev
