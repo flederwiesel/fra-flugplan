@@ -568,6 +568,8 @@ if (!$error)
 					if ('logout' == $_GET['req'])
 					{
 						@require_once content();
+
+						unset($_GET['req']);
 					}
 					else
 					{
@@ -593,7 +595,7 @@ if (!$error)
 <?php		} ?>
 		</div>
 <?php
-		if (!$mobile)
+		if (!$mobile && !isset($_GET['req']) && !isset($_GET['page']))
 		{
 ?>
 		<div id="counter" class="box center">
