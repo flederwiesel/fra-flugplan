@@ -32,7 +32,7 @@ define('POST_HTTPS' , 0);
 define('DB_HOSTNAME', 'localhost');
 define('DB_NAME',     'usr_web416_2');
 define('DB_USERNAME', 'web416');
-define('DB_PASSWORD', '<<I'm a wizzz4rd!');
+define('DB_PASSWORD', 'web416');
 
 define('COOKIE_LIFETIME' , (3600 * 24 * 30)); // 30 days
 define('TOKEN_LIFETIME', 300);	// seconds
