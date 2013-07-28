@@ -96,7 +96,7 @@ register(perms=)+activate+addflight+login+addflight, lang=de
 register(failure)
 register(perms=)+activate(failure)
 register(perms=)+activate+login(failure)
-addflight(failure)
+#addflight(failure)
 '
 
 echo "$scripts" |
