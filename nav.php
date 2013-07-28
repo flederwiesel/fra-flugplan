@@ -140,7 +140,7 @@ function navitem($item, $active)
 		{
 			/* user has successfully logged in */
 ?>
-			<dt class="sep"><a href="?req=changepw"><?php navitem('changepw', false); ?></a></dt>
+			<dt class="sep"><a href="?req=changepw"><?php navitem('changepw', isset($_GET['req']) ? ('changepw' == $_GET['req'] ? true : false) : false); ?></a></dt>
 			<dt class="sep"><a href="?req=logout"><?php navitem('logout', false); ?></a></dt>
 <?php
 		}
