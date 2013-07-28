@@ -323,7 +323,7 @@ function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$me
 			"X-Mailer: PHP/%s\n",
 			mb_encode_mimeheader(ORGANISATION, 'ISO-8859-1', 'Q'),
 			ADMIN_EMAIL_FROM,
-			ADMIN_EMAIL_REPLY_TO,
+			ADMIN_EMAIL,
 			phpversion());
 
 		$body = sprintf($lang['emailactivation'], $client_ip, $user, ORGANISATION, SITE_URL,
@@ -572,7 +572,7 @@ function /*bool*/ RequestPasswordChange($user, $email, /*out*/ &$message)
 			"X-Mailer: PHP/%s\n",
 			mb_encode_mimeheader(ORGANISATION, 'ISO-8859-1', 'Q'),
 			ADMIN_EMAIL_FROM,
-			ADMIN_EMAIL_REPLY_TO,
+			ADMIN_EMAIL,
 			phpversion());
 
 		$body = sprintf($lang['emailpasswd'], $client_ip, $user, ORGANISATION, $token,

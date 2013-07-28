@@ -27,9 +27,8 @@ $lang_help = array(
 	23 => '(3) Press Refresh to commit the changes',
 	24 => 'Click one of the column headers to sort by a certain criteria',
 	25 => 'If you are logged in and have defined a watchlist, the watched aircrafts will be sorted first',
-	26 => 'For decent support of mobile devices there is still some work to do. Sorry. If you want support for a specific device/browser, do not hestitate to <a href="mailto:hausmeister(&auml;t)flederwiesel.com&subject=fra-schedule inquiry">send an inquiry</a><a href="#at"><sup style="font-style: italic;">[1]</sup></a>',
-	27 => 'Software is never error-free. I tested this site as much as possible within the limits of my spare time. If you however, have trouble using the site or need further help than is provided here, feel free to <a href="mailto:hausmeister(&auml;t)flederwiesel.com&subject=fra-schedule trouble">Contact me</a><a href="#at"><sup style="font-style: italic;">[1]</sup></a>',
-	28 => 'Contact: hausmeister(&auml;t)flederwiesel.com. Replace the (&auml;t) in the e-mail address with @',
+	26 => 'For decent support of mobile devices there is still some work to do. Sorry. If you want support for a specific device/browser, do not hestitate to contact me via <a href="content/emil.php?subject=fra-schedule%20inquiry"><img alt="email" src="content/emil-img.php" style="vertical-align: bottom;"></a>',
+	27 => 'Software is never error-free. I tested this site as much as possible within the limits of my spare time. If you however, have trouble using the site or need further help than is provided here, feel free to contact me via <a href="content/emil.php?subject=fra-schedule%20trouble"><img alt="email" src="content/emil-img.php" style="vertical-align: bottom;"></a>',
 );
 
 ?>

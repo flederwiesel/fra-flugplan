@@ -27,9 +27,8 @@ $lang_help = array(
 	23 => '(3) Aktualisieren speichert aktuelle Listeneinträge',
 	24 => 'Im Tabellenkopf auf eine Spalte klicken, um nach dieser zu sortieren',
 	25 => 'Bei aktiver Beobachtungsliste (Anmelden erforderlich) werden die markierten Flugzeuge zuoberst sortiert',
-	26 => 'Für die ordentliche Unterstützung mobiler Endgeräte gibt es noch einiges zu tun. Sorry. Unterstützung für spezielle Geräte/Browser kann jederzeit <a href="mailto:hausmeister(&auml;t)flederwiesel.com&subject=fra-schedule inquiry">angefragt</a><a href="#at"><sup style="font-style: italic;">[1]</sup></a> werden',
-	27 => 'Keine Software ist fehlerfrei. Diese Seite wurde getestet, so gut es innerhalb der Grenzen meiner Freizeit möglich war. Sollten trotzdem Probleme oder Fragen auftauchen, die über diese Hilfeseite hinausgehen, bitte <a href="mailto:hausmeister(&auml;t)flederwiesel.com&subject=fra-schedule trouble">Kontakt</a><a href="#at"><sup style="font-style: italic;">[1]</sup></a> mit mir aufnehmen',
-	28 => '(&auml;t) in der E-Mailadresse durch @ ersetzen',
+	26 => 'Für die ordentliche Unterstützung mobiler Endgeräte gibt es noch einiges zu tun. Sorry. Unterstützung für spezielle Geräte/Browser kann jederzeit unter <a href="content/emil.php?subject=FRA-schedule%20Anfrage"><img alt="email" src="content/emil-img.php" style="vertical-align: bottom;"></a> angefragt</a> werden',
+	27 => 'Keine Software ist fehlerfrei. Diese Seite wurde getestet, so gut es innerhalb der Grenzen meiner Freizeit möglich war. Sollten trotzdem Probleme oder Fragen auftauchen, die über diese Hilfeseite hinausgehen, bitte Kontakt mit mir unter <a href="content/emil.php?subject=FRA-schedule%20Problem"><img alt="email" src="content/emil-img.php" style="vertical-align: bottom;"></a> aufnehmen',
 );
 
 ?>

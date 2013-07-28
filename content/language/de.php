@@ -141,6 +141,7 @@ $lang = array
 	'notloggedin' => 'Bitte zuerst anmelden.',
 	'nopermission' => 'Nicht genügend Rechte, um diese Aktion auszuführen.',
 	'rwydir' => 'Betriebsrichtung',
+	'emil' => 'Danke, daß Du Dir die Zeit für eine Resonanz bezüglich unserer Seite nimmst.',
 );
 
 ?>

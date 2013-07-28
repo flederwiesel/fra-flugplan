@@ -122,12 +122,5 @@ include("help-$_SESSION[lang].php");
 			<li>Hans-Purrmann-Str. 2c
 			<li>67227 Frankenthal
 		</ul>
-
-		<a id="at"></a>
-		<div class="footnote">
-			<div style="margin: 1em 0; height: 1em; width: 6em; border-bottom: 1px solid grey;"></div>
-			<sup style="margin-right: 0.5em;">1</sup>
-			<span><?php echo $lang_help[28]; ?>.</span>
-		</div>
 	</div>
 </div>

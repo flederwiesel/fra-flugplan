@@ -483,7 +483,7 @@ if (!$error)
 <?php } ?>
 <html>
 <head>
-<title>Live Schedule &ndash; Frankfurt Aviation Friends</title>
+<title><?php echo PROJECT; ?> &ndash; <?php echo ORGANISATION; ?></title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta name="language" content="<?php echo $_SESSION['lang']; ?>">
 <meta name="author" content="Tobias Kühne">
@@ -514,7 +514,7 @@ if (!$error)
 		<div class="box left">
 			<div>
 				<div id="head">
-					<h1 class="nobr">Frankfurt Aviation Friends</h1>
+					<h1 class="nobr"><?php echo ORGANISATION; ?></h1>
 					<h3>
 <?php
 						echo "$lang[liveschedule]";
