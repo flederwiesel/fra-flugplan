@@ -56,6 +56,16 @@ if (!isset($_SESSION['lang']))
 <body>
 	<h1><?php echo ORGANISATION; ?></h1>
 	<div><?php echo $lang['emil']; ?></div>
-	<div><a href="history.back()"><?php echo $lang['back']; ?></a></div>
+	<div>
+	<?php
+		$ref = null;
+
+		if (isset($_SERVER['HTTP_REFERER']))
+			if (strlen($_SERVER['HTTP_REFERER']))
+				$ref = $_SERVER['HTTP_REFERER'];
+
+		echo '<a href="'.($ref ? $ref : 'javascript:history.back()').'">';
+		echo $lang['back'];
+	?></a></div>
 </body>
 </html>
