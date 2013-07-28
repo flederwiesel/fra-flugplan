@@ -256,7 +256,6 @@ VALUES
 (@uid, 'PH-BXO',	'KLM - Sky Team'),
 (@uid, 'PR-MBO',	'TAM - Star Alliance'),
 (@uid, 'PT-MVM',	'TAM - Star Alliance'),
-(@uid, 'PT-MVP',	'TAM - Seleção Brasileira (Football)'),
 (@uid, 'RA-89005',	'Aeroflot - Sky Team'),
 (@uid, 'RA-89009 ',	'Aeroflot - 90 years'),
 (@uid, 'S5-AAG',	'Adria - Star Alliance'),
@@ -329,6 +328,7 @@ VALUES
 (@uid, 'TC-JRO',	'Turkish Airlines - Euro League'),
 (@uid, 'TC-JYI',	'Turkish Airlines - 200th aircraft'),
 (@uid, 'PT-MVG',	'TAM - employees\' signatures'),
+(@uid, 'PT-MVP',	'TAM - Seleção Brasileira (Football)'),
 */
 
 /*
