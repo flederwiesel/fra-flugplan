@@ -11,6 +11,7 @@
 #
 ###############################################################################
 
+[ ! ../.config ] || cp ../.config.local ../.config
 #url="http://www.flederwiesel.com/vault/fra-schedule/$(svn info . | awk '/^Revision:/ { print $2; }')"
 url="http://localhost/fra-schedule"
 url=$(echo $url | sed -r 's/\$Rev: ([0-9]+) \$/\1/g')
