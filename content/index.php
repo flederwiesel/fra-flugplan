@@ -471,7 +471,7 @@ else
 		echo "<td>$row[model]</td>";
 
 		$reg = $row['reg'];
-		$hilite = 'class="left';
+		$hilite = ' class="left';
 
 		$dhhmmss = substr(str_replace(array(' ', '.', ':', '-'), '', $row['expected']), -7);
 
@@ -507,11 +507,11 @@ else
 		{
 			if ($mobile)
 			{
-				echo "<td>$reg";
+				echo "<td$hilite>$reg";
 			}
 			else
 			{
-				echo "<td $hilite$sortkey>";
+				echo "<td$hilite$sortkey>";
 ?>
 				<a href = "http://www.airliners.net/search/photo.search?q=<?php echo $reg ?>" target="a-net">
 					<img class="href" src="img/a-net.png" alt="www.airliners.net">
