@@ -890,18 +890,24 @@ else
 						if (isset($DEBUG['url']))
 							echo "$url\n";
 
-						$htm = curl_download($ch, $url);
+						$retry = 3;
 
-						if (0 == strlen($htm))
+						do
 						{
-							if (curl_errno($ch))
-								$error = seterrorinfo(__LINE__, curl_error($ch));
+							$htm = curl_download($ch, $url);
+
+							if (0 == strlen($htm))
+							{
+								if (curl_errno($ch))
+									$error = seterrorinfo(__LINE__, curl_error($ch));
+							}
+							else
+							{
+								if (isset($DEBUG['airports']))
+									echo "$htm\n";
+							}
 						}
-						else
-						{
-							if (isset($DEBUG['airports']))
-								echo "$htm\n";
-						}
+						while (0 == strlen($htm) && --$retry);
 
 						awk($airports_awk, $htm);
 
@@ -1033,8 +1039,9 @@ if ($warning)
 	echo $warning;
 
 if ($error || $warning)
-	mail('=?ISO-8859-1?Q?Tobias_K=FChne?= <hausmeister@flederwiesel.com>', $error ? 'error' : 'warning',
-		 "$error\n----\n\n$warning", 'From: fra-flights');
+	mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').'<'.ADMIN_EMAIL.'>',
+		 'fra-schedule - getflights.php: '.($error ? 'error' : 'warning'),
+		 "$error\n----\n\n$warning", 'From: fra-schedule');
 
 if (isset($DEBUG['any']))
 	echo "\n\n=== fin. ===\n";
