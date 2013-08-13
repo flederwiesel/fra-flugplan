@@ -249,7 +249,6 @@ VALUES
 (@uid, 'OY-KBO',	'SAS Retro'),
 (@uid, 'OY-KHE',	'SAS - Star Alliance'),
 (@uid, 'OY-KHP',	'SAS - Star Alliance'),
-(@uid, 'P4-KCB',	'20th anniversary of the independence of Kazakhstan'),
 (@uid, 'P4-MES',	'Untitled'),
 (@uid, 'PH-BVD',	'KLM - Sky Team'),
 (@uid, 'PH-BXA',	'KLM - Retro'),
@@ -329,6 +328,7 @@ VALUES
 (@uid, 'TC-JYI',	'Turkish Airlines - 200th aircraft'),
 (@uid, 'PT-MVG',	'TAM - employees\' signatures'),
 (@uid, 'PT-MVP',	'TAM - Seleção Brasileira (Football)'),
+(@uid, 'P4-KCB',	'20th anniversary of the independence of Kazakhstan'),
 */
 
 /*
