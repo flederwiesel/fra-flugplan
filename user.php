@@ -270,7 +270,9 @@ function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$me
 					}
 					else
 					{
-						$result2 = mysql_query("SELECT `token_expires` FROM `users` WHERE `id`=LAST_INSERT_ID()");
+						$result2 = mysql_query("SELECT `id`,`token_expires` ".
+											   "FROM `users` ".
+											   "WHERE `id`=LAST_INSERT_ID()");
 
 						if (!$result2)
 						{
@@ -292,7 +294,8 @@ function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$me
 								}
 								else
 								{
-									$expires = $row[0];
+									$uid = $row[0];
+									$expires = $row[1];
 									$_SESSION['lang'] = $language;
 								}
 							}
@@ -326,16 +329,35 @@ function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$me
 			ADMIN_EMAIL,
 			phpversion());
 
+		$subject = mb_encode_mimeheader($lang['subjactivate'], 'ISO-8859-1', 'Q');
+
 		$body = sprintf($lang['emailactivation'], $client_ip, $user, ORGANISATION, SITE_URL,
 						$token, php_self(), $user, $token, $expires, ORGANISATION);
 
 		/* http://www.outlookfaq.net/index.php?action=artikel&cat=6&id=84&artlang=de */
 		$body = mb_convert_encoding($body, 'ISO-8859-1', 'UTF-8');
 
-		if (!@mail($email, mb_encode_mimeheader($lang['subjactivate'], 'ISO-8859-1', 'Q'), $body, $header))
+		if (!@mail($email, $subject, $body, $header))
 		{
 			$error = error_get_last();
 			$error = $lang['mailfailed'].$error['message'];
+		}
+		else
+		{
+			$header = sprintf(
+				"From: FRA schedule <%s>\n".
+				"Reply-To: %s\n".
+				"Mime-Version: 1.0\n".
+				"Content-type: text/plain; charset=ISO-8859-1\n".
+				"Content-Transfer-Encoding: 8bit\n".
+				"X-Mailer: PHP/%s\n",
+				ADMIN_EMAIL_FROM,
+				ADMIN_EMAIL,
+				phpversion());
+
+			$admin = mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').' <'.ADMIN_EMAIL.'>';
+
+			@mail($admin, 'registration', "$uid:$user <$email> (expires $expires)\n", $header);
 		}
 	}
 
@@ -349,9 +371,9 @@ function /*bool*/ ActivateUser($user, $token, /*out*/ &$message)
 	global $lang;
 
 	$error = null;
-	$query = sprintf("SELECT `id`, `token`, `token_type`, IF (ISNULL(`token_expires`), %lu, ".
-			 		 "(SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`)))".
-			 		 " FROM `users` WHERE `name`='%s'", TOKEN_LIFETIME, $user);
+	$query = sprintf("SELECT `id`, `token`, `token_type`, UTC_TIMESTAMP() as `now`, ".
+			 		 "(SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`)) AS `expires`".
+			 		 " FROM `users` WHERE `name`='%s'", $user);
 
 	$result = mysql_query($query);
 
@@ -367,7 +389,7 @@ function /*bool*/ ActivateUser($user, $token, /*out*/ &$message)
 		}
 		else
 		{
-			$row = mysql_fetch_row($result);
+			$row = mysql_fetch_assoc($result);
 
 			if (!$row)
 			{
@@ -375,23 +397,47 @@ function /*bool*/ ActivateUser($user, $token, /*out*/ &$message)
 			}
 			else
 			{
-				$expires = $row[3];
-
-				if ($expires > 0)
+				if ('none' == $row['token_type'] ||
+					NULL == $row['token'] ||
+					NULL == $row['expires'])
 				{
-					$error = $lang['activationexpired'];
+					$error = $lang['badrequest'];
 				}
 				else
 				{
-					if ($token == $row[1])
-						$uid = $row[0];
+					$expires = $row['expires'];
+
+					if ($expires > 0)
+					{
+						$error = $lang['activationexpired'];
+					}
 					else
-						$error = $lang['activationfailed'];
+					{
+						if ($token == $row['token'])
+							$uid = $row['id'];
+						else
+							$error = $lang['activationfailed'];
+					}
 				}
 			}
 		}
 
 		mysql_free_result($result);
+
+		$header = sprintf(
+			"From: FRA schedule <%s>\n".
+			"Reply-To: %s\n".
+			"Mime-Version: 1.0\n".
+			"Content-type: text/plain; charset=ISO-8859-1\n".
+			"Content-Transfer-Encoding: 8bit\n".
+			"X-Mailer: PHP/%s\n",
+			ADMIN_EMAIL_FROM,
+			ADMIN_EMAIL,
+			phpversion());
+
+		$admin = mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').' <'.ADMIN_EMAIL.'>';
+
+		@mail($admin, 'activation', sprintf("$uid:$user ($row[now]) = %s\n", $error ? $error : "OK"), $header);
 	}
 
 	if (!$error)

@@ -113,6 +113,7 @@ $lang = array
 	'tokensent' => 'Aktivierungs-Token wurde an die angegebene E-mail-Addresse gesendet. Passwort kann nun geändert werden.',
 	'activation' => 'Aktivierung',
 	'activationexpired' => 'Aktivierungs-Token abgelaufen.',
+	'badrequest' => 'Ungültige Anfrage.',
 	'back' => 'Zurück',
 	'timezone' => 'Zeitzone',
 	'de' => 'Deutsch',

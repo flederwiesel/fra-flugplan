@@ -113,6 +113,7 @@ $lang = array
 	'tokensent' => 'A token has been sent to your e-mail address. You can now change your password.',
 	'activation' => 'Activation',
 	'activationexpired' => 'Activation token expired.',
+	'badrequest' => 'Bad request.',
 	'back' => 'Back',
 	'timezone' => 'Timezone',
 	'de' => 'German',
