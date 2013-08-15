@@ -335,6 +335,7 @@ VALUES
 (@uid, 'D-AIGR',	'2000th Airbus'),
 (@uid, 'A6-EDH',	'6000th Airbus'),
 (@uid, 'N552UW',	'7000th Airbus'),
+(@uid, 'PK-AZF',	'8000th Airbus'),
 
 (@uid, 'F-GRHD',	'1000th A320'),
 (@uid, 'B-6022',	'2000th A320'),
