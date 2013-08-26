@@ -476,7 +476,8 @@ if (!$error)
 	/*<html>*******************************************************************/
 ?>
 <?php if ($mobile) { ?>
-<!DOCTYPE HTML SYSTEM "html40-mobile.dtd">
+<!DOCTYPE HTML SYSTEM "html40-mobile.dtd"
+	"http://www.w3.org/TR/NOTE-html40-mobile/DTD/html40-mobile.dtd">
 <?php } else {  ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
    "http://www.w3.org/TR/html4/strict.dtd">
