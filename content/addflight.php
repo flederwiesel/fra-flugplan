@@ -789,7 +789,7 @@ $(function()
 						</div>
 						<div class="cell">
 							<div style="display: inline;"><?php echo $lang['until']; ?>:</div>
-							<input type="text" name="until" id="until" <?php DefaultValue('from', date('d.m.Y')); ?> disabled>
+							<input type="text" name="until" id="until" <?php DefaultValue('until', date('d.m.Y')); ?> disabled>
 						</div>
 					</div>
 				</div>
