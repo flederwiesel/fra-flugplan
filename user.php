@@ -49,6 +49,24 @@ function php_self($https=0)
 	return $pageURL;
 }
 
+function AdminMail($subject, $text)
+{
+	$header = sprintf(
+		"From: FRA schedule <%s>\n".
+		"Reply-To: %s\n".
+		"Mime-Version: 1.0\n".
+		"Content-type: text/plain; charset=ISO-8859-1\n".
+		"Content-Transfer-Encoding: 8bit\n".
+		"X-Mailer: PHP/%s\n",
+		ADMIN_EMAIL_FROM,
+		ADMIN_EMAIL,
+		phpversion());
+
+	return @mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').' <'.ADMIN_EMAIL.'>',
+				 mb_encode_mimeheader("admin:$subject", 'ISO-8859-1', 'Q'),
+				 mb_convert_encoding($text, 'ISO-8859-1', 'UTF-8'), $header);
+}
+
 class User
 {
 	private $id = 0;
@@ -220,7 +238,10 @@ function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$me
 {
 	global $lang;
 
+	$uid = null;
 	$error = null;
+	$expires = null;
+
 	$result = mysql_query("SELECT `id` FROM `users` WHERE `name`='$user'");
 
 	if (!$result)
@@ -342,24 +363,12 @@ function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$me
 			$error = error_get_last();
 			$error = $lang['mailfailed'].$error['message'];
 		}
-		else
-		{
-			$header = sprintf(
-				"From: FRA schedule <%s>\n".
-				"Reply-To: %s\n".
-				"Mime-Version: 1.0\n".
-				"Content-type: text/plain; charset=ISO-8859-1\n".
-				"Content-Transfer-Encoding: 8bit\n".
-				"X-Mailer: PHP/%s\n",
-				ADMIN_EMAIL_FROM,
-				ADMIN_EMAIL,
-				phpversion());
-
-			$admin = mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').' <'.ADMIN_EMAIL.'>';
-
-			@mail($admin, 'registration', "$uid:$user <$email> (expires $expires)\n", $header);
-		}
 	}
+
+	AdminMail('registration',
+		sprintf("$uid:$user <$email>%s = %s\n",
+				$expires ? " (expires $expires)" : "",
+				$error ? $error : "OK"));
 
 	$message = $error ? $error : null;
 
@@ -370,7 +379,10 @@ function /*bool*/ ActivateUser($user, $token, /*out*/ &$message)
 {
 	global $lang;
 
+	$uid = null;
+	$now = null;
 	$error = null;
+
 	$query = sprintf("SELECT `id`, `token`, `token_type`, UTC_TIMESTAMP() as `now`, ".
 			 		 "(SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`)) AS `expires`".
 			 		 " FROM `users` WHERE `name`='%s'", $user);
@@ -397,6 +409,8 @@ function /*bool*/ ActivateUser($user, $token, /*out*/ &$message)
 			}
 			else
 			{
+				$now = $row['now'];
+
 				if ('none' == $row['token_type'] ||
 					NULL == $row['token'] ||
 					NULL == $row['expires'])
@@ -423,30 +437,22 @@ function /*bool*/ ActivateUser($user, $token, /*out*/ &$message)
 		}
 
 		mysql_free_result($result);
-
-		$header = sprintf(
-			"From: FRA schedule <%s>\n".
-			"Reply-To: %s\n".
-			"Mime-Version: 1.0\n".
-			"Content-type: text/plain; charset=ISO-8859-1\n".
-			"Content-Transfer-Encoding: 8bit\n".
-			"X-Mailer: PHP/%s\n",
-			ADMIN_EMAIL_FROM,
-			ADMIN_EMAIL,
-			phpversion());
-
-		$admin = mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').' <'.ADMIN_EMAIL.'>';
-
-		@mail($admin, 'activation', sprintf("$uid:$user ($row[now]) = %s\n", $error ? $error : "OK"), $header);
 	}
 
 	if (!$error)
 	{
-		$query = "UPDATE `users` SET `token`=NULL, `token_type`='none', `token_expires`=NULL WHERE `id`=$uid";
+		$query = "UPDATE `users`".
+				 " SET `token`=NULL, `token_type`='none', `token_expires`=NULL".
+				 " WHERE `id`=$uid";
 
 		if (!mysql_query($query))
 			$error = mysql_error();
 	}
+
+	AdminMail('activation',
+		sprintf("$uid:$user%s = %s\n",
+				 $now ? " ($now)" : "",
+				 $error ? $error : "OK"));
 
 	$message = $error ? $error : null;
 
@@ -461,7 +467,10 @@ function /*bool*/ RequestPasswordChange($user, $email, /*out*/ &$message)
 	define('Q_NAME', 2);
 	define('Q_MAIL', 3);
 
+	$uid = null;
+	$expires = null;
 	$error = null;
+
 	$query = sprintf("SELECT `id`, `name`, `email`, `token_type`, IF (ISNULL(`token_expires`), %lu, ".
 			 		 "(SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`))) AS `expires`".
 			 		 "FROM `users` WHERE ",
@@ -634,6 +643,11 @@ function /*bool*/ RequestPasswordChange($user, $email, /*out*/ &$message)
 		}
 	}
 
+	AdminMail('reqpasswdch',
+		sprintf("$uid:$user%s = %s\n",
+				$expires ? " (expires $expires)" : "",
+				$error ? $error : "OK"));
+
 	$message = $error ? $error : null;
 
 	return $error ? false : true;
@@ -643,12 +657,14 @@ function /*bool*/ ChangePassword($user, $token, $password, /*out*/ &$message)
 {
 	global $lang;
 
+	$uid = null;
+	$now = null;
 	$error = null;
 
-	if (isset($token))
-		$query = "SELECT `id`, `token` FROM `users` WHERE `name`='$user'";
-	else
-		$query = "SELECT `id` FROM `users` WHERE `name`='$user'";
+	$query = sprintf("SELECT `id`,".
+					 " (SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`)) AS `expires`%s".
+					 " FROM `users` WHERE `name`='$user'",
+					 isset($token) ? ', `token`' : '');
 
 	$result = mysql_query($query);
 
@@ -667,7 +683,7 @@ function /*bool*/ ChangePassword($user, $token, $password, /*out*/ &$message)
 		}
 		else
 		{
-			$row = mysql_fetch_row($result);
+			$row = mysql_fetch_assoc($result);
 
 			if (!$row)
 			{
@@ -675,21 +691,32 @@ function /*bool*/ ChangePassword($user, $token, $password, /*out*/ &$message)
 			}
 			else
 			{
+				$expires = $row['expires'];
+
 				if (isset($token))
 				{
-					if (!isset($row[1]) /* No token has been requested! */ ||
-						$token != $row[1])
+					if (!isset($row['token']) /* No token has been requested! */ ||
+						$token != $row['token'])
 					{
 						$error = $lang['authfailedpasswdnotch'];
+					}
+					else
+					{
+						// check token exiration time
+						if ($expires > 0)
+							$error = $lang['authfailedpasswdnotch'];
 					}
 				}
 
 				if (!$error)
 				{
-					$uid = $row[0];
+					$uid = $row['id'];
 					$salt = token();
 					$password = hash_hmac('sha256', $password, $salt);
-					$query = "UPDATE `users` SET `salt`='$salt', `passwd`='$password', `token`=NULL, `token_type`='none', `token_expires`=NULL WHERE `id`=$uid";
+					$query = "UPDATE `users`".
+							 " SET `salt`='$salt', `passwd`='$password',".
+							 " `token`=NULL, `token_type`='none', `token_expires`=NULL".
+							 " WHERE `id`=$uid";
 
 					if (!mysql_query($query))
 					{
@@ -707,6 +734,11 @@ function /*bool*/ ChangePassword($user, $token, $password, /*out*/ &$message)
 
 		mysql_free_result($result);
 	}
+
+	AdminMail('passwdch',
+		sprintf("$uid:$user%s = %s\n",
+				$now ? " ($now)" : "",
+				$error ? $error : "OK"));
 
 	$message = $error ? $error : null;
 
@@ -739,32 +771,40 @@ function /*str*/ mysql_user_error($default)
 	return $error;
 }
 
-define('INP_POST', 0x1);
-define('INP_GET',  0x2);
+define('INP_ALWAYS', 0x1);
+define('INP_POST', 0x2);
+define('INP_GET',  0x4);
 
 function Input_SetValue($name, $whence, $debug)
 {
-	$value = null;
-
-	if (INP_POST & $whence)
+	if (INP_ALWAYS & $whence)
 	{
- 		if (isset($_POST[$name]))
- 			$value = $_POST[$name];
- 	}
-
-	if (INP_GET & $whence)
+		echo $debug;
+	}
+	else
 	{
-		if (!$value)
-	 		if (isset($_GET[$name]))
-	 			$value = $_GET[$name];
- 	}
+		$value = null;
 
- 	if (defined('DEBUG'))
-		if (!$value)
- 			$value = $debug;
+		if (INP_POST & $whence)
+		{
+ 			if (isset($_POST[$name]))
+ 				$value = $_POST[$name];
+ 		}
 
- 	if ($value)
-		echo $value;
+		if (INP_GET & $whence)
+		{
+			if (!$value)
+	 			if (isset($_GET[$name]))
+	 				$value = $_GET[$name];
+ 		}
+
+ 		if (defined('DEBUG'))
+			if (!$value)
+ 				$value = $debug;
+
+ 		if ($value)
+			echo $value;
+	}
 }
 
 ?>
