@@ -95,6 +95,7 @@ function get($get=null)
  ******************************************************************************/
 
 @require_once '.config';
+@require_once 'classes/etc.php';
 
 session_start();
 

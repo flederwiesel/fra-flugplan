@@ -55,33 +55,6 @@ function DefaultCheck($name, $value)
 		echo ' checked="checked" ';
 }
 
-function mktime_c($ddmmyyyy /* dd.mm.YYYY */, $hhmm /* HH.MM */)
-{
-	if (!preg_match('/([0-9]+).([0-9]+).([0-9]+)/', str_replace(' ', '', $ddmmyyyy), $day))
-	{
-		$date = -1;
-	}
-	else
-	{
-		if (!preg_match('/([0-9]+):([0-9]+)/', str_replace(' ', '', $hhmm), $time))
-		{
-			$date = -1;
-		}
-		else
-		{
-			$date = mktime($time[1], $time[2], 0, $day[2], $day[1], $day[3]);
-
-			if ($date > -1)
-			{
-				if (date("d.m.Y H:i", $date) != "$ddmmyyyy $hhmm")
-					$date = -1;
-			}
-		}
-	}
-
-	return $date;
-}
-
 function CheckPostVariables(&$notice)
 {
 	global $lang;
