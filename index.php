@@ -210,12 +210,7 @@ if (!$error)
 	}
 	else
 	{
-		if (!('logout' == $_GET['req']))
-		{
-			// try autologin from cookies
-			$user = LoginUserAutomatically();
-		}
-		else
+		if ('logout' == $_GET['req'])
 		{
 			// user requested logout, clear user data (cookies)
 			LogoutUser();
@@ -223,6 +218,15 @@ if (!$error)
 
 			if ('' == $_GET['req'])
 				unset($_GET['req']);
+		}
+		else
+		{
+			if (!('register' == $_GET['req']) &&
+				!('activate' == $_GET['req']))
+			{
+				// try autologin from cookies
+				$user = LoginUserAutomatically();
+			}
 		}
 	}
 
