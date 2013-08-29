@@ -10,7 +10,7 @@
  *
  ******************************************************************************
  *
- * Copyright ? Tobias K?hne
+ * Copyright © Tobias Kühne
  *
  * You may use and distribute this software free of charge for non-commercial
  * purposes. The software must be distributed in its entirety, i.e. containing
@@ -24,55 +24,9 @@
 
 $notice = null;
 
-if (isset($_GET['file']))
-{
-	if (!$hdbc)
-	{
-		//&&
-	}
-	else
-	{
-		header('Content-Type: text/comma-separated-values');
-		header('Content-Disposition: inline; filename="FRA-2013-08-23-arrival.csv"');
-		header("Content-Transfer-Encoding: binary\n");
-		header("Content-Length: 12345");
+if ($_POST)
+	header('Refresh: 0; url="content/getfile.php"');
 
-		echo "expected;scheduled;flight;airline;airport iata;airport icao;airport;model;model;reg\n";
-
-		$query = <<<QUERY
-SELECT `flights`.`expected`, `flights`.`scheduled`,
- CONCAT(`airlines`.`code`, `flights`.`code`) AS `flight`,
- `airlines`.`name` AS `airline`,
- `airports`.`iata` AS `airport iata`,
- `airports`.`icao`  AS `airport icao`,
- `airports`.`name`  AS `airport`,
- `models`.`icao`  AS `model`,
- `models`.`name`  AS `model`,
- `aircrafts`.`reg` AS `reg`
-FROM `flights`
-LEFT JOIN `airlines` ON `airlines`.`id` = `flights`.`airline`
-LEFT JOIN `airports` ON `airports`.`id` = `flights`.`airport`
-LEFT JOIN `models` ON `models`.`id` = `flights`.`model`
-LEFT JOIN `aircrafts` ON  `aircrafts`.`id` = `flights`.`aircraft`
-WHERE `flights`.`direction` = 'arrival'
- AND IFNULL(`flights`.`expected`, `flights`.`scheduled`)
-  BETWEEN '2013-08-23 00:00:00' AND '2013-08-24 00:00:00'
-ORDER BY IFNULL(`flights`.`expected`, `flights`.`scheduled`) ASC,
- `scheduled` ASC
-QUERY;
-	}
-
-	ob_flush();
-	flush();
-
-	mysql_close($hdbc);
-}
-else
-{
-	if ($_POST)
-	{
-		header('Refresh: 0; url="download.php?download"');
-	}
 ?>
 <html>
 <head>
@@ -111,33 +65,28 @@ $(function()
 </head>
 <body>
 <?php
-	if ($_POST)
-	{
-//- turn off compression on the server
-@apache_setenv('no-gzip', 1);
-@ini_set('zlib.output_compression', 'Off');
 
+if ($_POST)
+{
+	$message = "<div>your download should begin shortly.</div>";
 
-		echo "<div>your download should begin shortly.</div>";
-		echo '<span style="color: #dddddd;">';
+	echo '<span style="color: #dddddd;">';
 
 		for ($i = 0; $i < 50000; $i++)	// remove
 		{
-	echo <<<EOF
+echo <<<EOF
 Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
 EOF;
-			echo "<hr>";
-			ob_flush();
-			flush();
+		echo "<hr>";
+		ob_flush();
+		flush();
 		}
 
-		echo '</span>';
-	}
+	echo '</span>';
+}
 
-	$error = "hmm...";
 ?>
-
-	<form id="form" method="post" action="download.php">
+	<form id="form" method="post" action="content/getfile.php">
 		<fieldset>
 			<legend><?php echo $lang['addflight']; ?></legend>
 <?php if (isset($error)) { ?>
@@ -148,6 +97,13 @@ EOF;
 			<div id="notification" class="auth-ok"><?php echo $message; ?></div>
 <?php } ?>
 			<div class="table">
+				<div class="row">
+					<div class="cell"></div>
+					<div class="cell">
+						<label><input type="radio" name="direction" value="arrival" <?php if (!('departure' == $dir)) echo ' checked="checked" '; ?>/><?php echo $lang['arrival']; ?></label>
+						<label><input type="radio" name="direction" value="departure" <?php if ('departure' == $dir) echo ' checked="checked" '; ?>/><?php echo $lang['departure']; ?></label>
+					</div>
+				</div>
 				<div class="row">
 					<div class="cell label">From:</div>
 					<div class="cell">
@@ -168,6 +124,3 @@ EOF;
 	</form>
 </body>
 </html>
-<?php
-}
-?>
