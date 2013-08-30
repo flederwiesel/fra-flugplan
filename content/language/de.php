@@ -143,6 +143,7 @@ $lang = array
 	'nopermission' => 'Nicht genügend Rechte, um diese Aktion auszuführen.',
 	'rwydir' => 'Betriebsrichtung',
 	'emil' => 'Danke, daß Du Dir die Zeit für eine Resonanz bezüglich unserer Seite nimmst.',
+	'dlflights' => 'Flüge herunterladen',
 );
 
 ?>

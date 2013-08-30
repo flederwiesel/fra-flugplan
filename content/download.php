@@ -64,31 +64,9 @@ $(function()
 </script>
 </head>
 <body>
-<?php
-
-if ($_POST)
-{
-	$message = "<div>your download should begin shortly.</div>";
-
-	echo '<span style="color: #dddddd;">';
-
-		for ($i = 0; $i < 50000; $i++)	// remove
-		{
-echo <<<EOF
-Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-EOF;
-		echo "<hr>";
-		ob_flush();
-		flush();
-		}
-
-	echo '</span>';
-}
-
-?>
 	<form id="form" method="post" action="content/getfile.php">
 		<fieldset>
-			<legend><?php echo $lang['addflight']; ?></legend>
+			<legend><?php echo $lang['dlflights']; ?></legend>
 <?php if (isset($error)) { ?>
 			<div id="notification" class="auth-error"><?php echo $error; ?></div>
 <?php } else if (isset($notice)) { ?>
@@ -96,6 +74,7 @@ EOF;
 <?php } else if (isset($message)) { ?>
 			<div id="notification" class="auth-ok"><?php echo $message; ?></div>
 <?php } ?>
+
 			<div class="table">
 				<div class="row">
 					<div class="cell"></div>
@@ -105,17 +84,25 @@ EOF;
 					</div>
 				</div>
 				<div class="row">
-					<div class="cell label">From:</div>
+					<div class="cell label"><?php echo $lang['from']; ?></div>
 					<div class="cell">
-						<input type="text" name="from" id="from"
-						 value="<?php Input_SetValue('from', INP_ALWAYS, date('d.m.Y', strtotime('-1 day'))); ?>"/>
+						<input type="text" name="date-from" id="date-from"
+						 value="<?php Input_SetValue('date-from', INP_FORCE, date('d.m.Y', strtotime('-1 day'))); ?>"/>
+					</div>
+					<div style="display: inline;">
+						<input type="text" name="time-from" id="time-from" style="margin-right: 0.5em;"
+							value="<?php Input_SetValue('time-from', INP_FORCE, '00:00'); ?>"/>HH:MM (<?php echo $lang['local']; ?>)
 					</div>
 				</div>
 				<div class="row">
-					<div class="cell label">Until:</div>
+					<div class="cell label"><?php echo $lang['until']; ?></div>
 					<div class="cell">
-						<input type="text" name="until" id="until"
-						 value="<?php Input_SetValue('until', INP_ALWAYS, date('d.m.Y')); ?>"/>
+						<input type="text" name="date-until" id="date-until"
+						 value="<?php Input_SetValue('date-until', INP_FORCE, date('d.m.Y')); ?>"/>
+					</div>
+					<div style="display: inline;">
+						<input type="text" name="time-until" id="time-until" style="margin-right: 0.5em;"
+							value="<?php Input_SetValue('time-until', INP_FORCE, '00:00'); ?>"/>HH:MM (<?php echo $lang['local']; ?>)
 					</div>
 				</div>
 			</div>

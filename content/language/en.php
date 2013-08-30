@@ -143,6 +143,7 @@ $lang = array
 	'nopermission' => 'You do not have the permissions required for this operation.',
 	'rwydir' => 'active runway',
 	'emil' => 'Thank you for taking the time for feedback on our site.',
+	'dlflights' => 'Download flights',
 );
 
 ?>
