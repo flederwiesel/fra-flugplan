@@ -451,7 +451,7 @@ VALUES
 (@uid, 'B773', 'Boeing 777-300'),
 (@uid, 'B77L', 'Boeing 777-200LR'),
 (@uid, 'B77W', 'Boeing 777-300ER'),
-(@uid, 'B788', 'Boeing 787 "Dreamliner"'),
+(@uid, 'B788', 'Boeing 787'),
 (@uid, 'BA11', 'British Aerospace (BAC) One Eleven'),
 (@uid, 'BELF', 'Shorts SC-5 Belfast'),
 (@uid, 'BN2P', 'Pilatus Britten-Norman BN-2A/B Islander'),
