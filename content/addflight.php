@@ -36,19 +36,6 @@
 	mon,tue,wed,thu,fri,sat,sun
 */
 
-function DefaultValue($name, $dflt)
-{
-	if (isset($_POST[$name]))
-	{
-		echo ' value = "'.$_POST[$name].'" ';
-	}
-	else
-	{
-		if (DEBUG)
-			echo ' value="'.$dflt.'" ';
-	}
-}
-
 function DefaultCheck($name, $value)
 {
 	if ($value == $_POST[$name])
@@ -612,7 +599,8 @@ $(function()
 			<div class="row">
 				<div class="cell label"><?php echo $lang['reg']; ?></div>
 				<div class="cell">
-					<input type="text" name="reg" id="reg" <?php DefaultValue('reg', 'D-AIRY'); ?>/>
+					<input type="text" name="reg" id="reg"
+					 value="<?php Input_SetValue('reg', INP_POST, 'D-AIRY'); ?>"/>
 				</div>
 			</div>
 <?php if ($_POST && !$error && !$model) { ?>
@@ -620,7 +608,7 @@ $(function()
 				<div class="cell label"><?php echo $lang['icaomodel']; ?></div>
 				<div class="cell">
 					<input type="text" name="model" id="model"
-						<?php DefaultValue('model', 'A321'); ?>/>
+						value="<?php Input_SetValue('model', INP_POST, 'A321'); ?>"/>
 						<span>
 							<a href="http://www.airlinecodes.co.uk/arctypes.asp">[?]</a>
 							<a href="http://www.airframes.org/">[?]</a>
@@ -631,7 +619,8 @@ $(function()
 			<div class="row">
 				<div class="cell label"><?php echo $lang['flight']; ?></div>
 				<div class="cell">
-					<input type="text" name="flight" id="flight" <?php DefaultValue('flight', 'QQ9999'); ?>/>
+					<input type="text" name="flight" id="flight"
+					 value="<?php Input_SetValue('flight', INP_POST, 'QQ9999'); ?>"/>
 <?php
 					if ($mobile)
 					{
@@ -688,8 +677,8 @@ $(function()
 			<div class="row">
 				<div class="cell label"><?php echo $lang['airline']; ?></div>
 				<div class="cell">
-					<input type="text" name="code" <?php DefaultValue('code', ''); ?>/>
-					<input type="text" name="airline" <?php DefaultValue('airline', ''); ?>/>
+					<input type="text" name="code" value="<?php Input_SetValue('code', INP_POST, ''); ?>"/>
+					<input type="text" name="airline" value="<?php Input_SetValue('airline', INP_POST, ''); ?>"/>
 						<span>
 						<!--
 							Show tooltip leading to
@@ -740,11 +729,11 @@ $(function()
 			<div class="row">
 				<div class="cell label"><?php echo $lang['date']; ?></div>
 				<div class="cell">
-					<input type="text" name="from" id="from" <?php DefaultValue('from', date('d.m.Y')); ?>/>
+					<input type="text" name="from" id="from" value="<?php Input_SetValue('from', INP_POST | INP_FORCE, date('d.m.Y')); ?>"/>
 					<div style="display: inline;"><?php echo 'arrival' == $dir ? $lang['sta'] : $lang['std']; ?>:</div>
 					<div style="display: inline;">
 						<input type="text" name="time" id="time" style="margin-right: 0.5em;"
-							<?php DefaultValue('time', date('H:i')); ?>/>HH:MM (<?php echo $lang['local']; ?>)
+						 value="<?php Input_SetValue('time', INP_POST | INP_FORCE, date('H:i')); ?>"/>HH:MM (<?php echo $lang['local']; ?>)
 					</div>
 					<div class="cell">
 						<label><input type="radio" name="interval" value="once" id="once" checked="checked" /><?php echo $lang['once']; ?></label><br>
@@ -762,7 +751,8 @@ $(function()
 						</div>
 						<div class="cell">
 							<div style="display: inline;"><?php echo $lang['until']; ?>:</div>
-							<input type="text" name="until" id="until" <?php DefaultValue('until', date('d.m.Y')); ?> disabled>
+							<input type="text" name="until" id="until"
+							 value="<?php Input_SetValue('until', INP_POST | INP_FORCE, date('d.m.Y')); ?>" disabled>
 						</div>
 					</div>
 				</div>
