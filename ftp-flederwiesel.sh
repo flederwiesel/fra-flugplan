@@ -26,11 +26,11 @@ mirror --reverse \
 	--exclude-glob .config.* \
 	--exclude-glob data/*.* \
 	--exclude-glob ftp-*.sh \
-	--exclude .svn \
-	--exclude check \
-	--exclude etc \
-	--exclude sql \
-	--exclude METAR \
+	--exclude .svn/ \
+	--exclude check/ \
+	--exclude etc/ \
+	--exclude sql/ \
+	--exclude METAR/ \
 	--exclude ToDo.txt
 #	--dry-run \
 
