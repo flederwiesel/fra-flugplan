@@ -975,7 +975,7 @@ else
 				// /airport
 
 				/* betriebsrichtung.html */
-				$betriebsrichtung = curl_download($ch, 'http://apps.fraport.de/betriebsrichtng/betriebsrichtungNEW.html');
+				$betriebsrichtung = curl_download($ch, 'http://apps.fraport.de/betriebsrichtung/betriebsrichtung.html');
 
 				$file = @fopen('data/betriebsrichtung.html', 'w');
 
