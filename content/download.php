@@ -30,6 +30,7 @@ if ($_POST)
 ?>
 <html>
 <head>
+<!--meta http-equiv="refresh" content="0; url=getfile.php"-->
 <link type="text/css" rel="stylesheet" href="css/jquery.ui.datepicker.css">
 <script type="text/javascript" src="script/ui/jquery.ui.core.js"></script>
 <script type="text/javascript" src="script/ui/jquery.ui.widget.js"></script>
