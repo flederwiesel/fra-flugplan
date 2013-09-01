@@ -22,6 +22,31 @@
  *
  ******************************************************************************/
 
+function php_self($https = 0)
+{
+	if ($https)
+	{
+		$pageURL = 'https';
+	}
+	else
+	{
+		$pageURL = 'http';
+
+		if (isset($_SERVER['HTTPS']))
+			if ($_SERVER['HTTPS'] == 'on')
+				$pageURL .= 's';
+	}
+
+	$pageURL .= '://'.$_SERVER['SERVER_NAME'];
+
+	if ($_SERVER['SERVER_PORT'] != 80)
+		$pageURL .= ":".$_SERVER['SERVER_PORT'];
+
+	$pageURL .= $_SERVER['PHP_SELF'];
+
+	return $pageURL;
+}
+
 function mktime_c($ddmmyyyy /* dd.mm.YYYY */, $hhmm = '00:00')
 {
 	if (!preg_match('/([0-9]+).([0-9]+).([0-9]+)/', str_replace(' ', '', $ddmmyyyy), $day))
