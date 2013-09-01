@@ -398,13 +398,16 @@ if ($user && !$mobile)
 		<tbody>
 <?php
 
+$lookback = -15 * 60;						// -15min
+$lookahead = ($mobile ? 1 : 24) * 60 * 60;	// +24h
+
 $query = "SELECT `type`,".
 	" IFNULL(`expected`,`scheduled`) AS `expected`,".
-	" CASE".
-	"  WHEN `expected` IS NULL THEN 0".
-	"  WHEN `expected` < `scheduled` THEN -1".
-	"  WHEN `expected` > `scheduled` THEN 1".
-	" ELSE 0 end AS `timediff`,".
+	"  CASE".
+	"   WHEN `expected` IS NULL THEN 0".
+	"   WHEN `expected` < `scheduled` THEN -1".
+	"   WHEN `expected` > `scheduled` THEN 1".
+	"   ELSE 0 end AS `timediff`,".
 	" `airlines`.`code` AS `fl_airl`,".
 	" `flights`.`code` AS `fl_code`,".
 	($mobile ? "" :
@@ -420,8 +423,8 @@ $query = "SELECT `type`,".
 	" LEFT JOIN `models` ON `flights`.`model` = `models`.`id` ".
 	" LEFT JOIN `aircrafts` ON `flights`.`aircraft` = `aircrafts`.`id` ".
 	"WHERE `flights`.`direction`='$dir'".
-	" AND (TIME_TO_SEC(TIMEDIFF(IFNULL(`expected`, `scheduled`), now())) / 60) > -15 ".	// -15 min
-	($mobile ? " AND (TIME_TO_SEC(TIMEDIFF(IFNULL(`expected`, `scheduled`), now())) / 60 ) <= 60 " : "").	// +60 min
+	" AND TIME_TO_SEC(TIMEDIFF(IFNULL(`expected`, `scheduled`), now())) >= $lookback ".
+	" AND TIME_TO_SEC(TIMEDIFF(IFNULL(`expected`, `scheduled`), now())) <= $lookahead ".
 	"ORDER BY `expected` ASC, `airlines`.`code`, `flights`.`code`";
 
 $result = mysql_query($query);
