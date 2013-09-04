@@ -505,7 +505,6 @@ if (!$error)
 <?php } ?>
 <link rel="icon" href="favicon.gif" type="image/gif">
 <script type="text/javascript" src="script/jquery-1.8.0.min.js"></script>
-<script type="text/javascript" src="script/jquery.sha256.min.js"></script>
 </head>
 <body>
 	<noscript>

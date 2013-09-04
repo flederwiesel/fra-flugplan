@@ -490,7 +490,6 @@ if ($_POST)
 <script type="text/javascript" src="script/ui/jquery.ui.core.js"></script>
 <script type="text/javascript" src="script/ui/jquery.ui.widget.js"></script>
 <script type="text/javascript" src="script/ui/jquery.ui.datepicker.js"></script>
-<script type="text/javascript" src="script/ajax.js"></script>
 <script type="text/javascript">
 $(function()
 {
