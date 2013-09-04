@@ -453,31 +453,22 @@ else
 	unset($device);
 }
 
-if (!$error)
+if (isset($_GET))
 {
-	if (empty($_GET))
-	{
-		if (!isset($_SESSION['dir']))
-			$_SESSION['dir'] = 'arrival';
-	}
-	else
-	{
-		if (isset($_GET['departure']))
-			$_SESSION['dir'] = 'departure';
+	if (isset($_GET['departure']))
+		$_SESSION['dir'] = 'departure';
 
-		if (isset($_GET['arrival']))
-			$_SESSION['dir'] = 'arrival';
-	}
-
-	if (isset($_SESSION['dir']))
-		$dir = $_SESSION['dir'];
-	else
-		$dir = 'arrival';
-
-	$rev = 'arrival' == $dir ? 'departure' : 'arrival';
+	if (isset($_GET['arrival']))
+		$_SESSION['dir'] = 'arrival';
 }
 
-	/*<html>*******************************************************************/
+if (!isset($_SESSION['dir']))
+	$_SESSION['dir'] = 'arrival';
+
+$dir = $_SESSION['dir'];
+$rev = 'arrival' == $dir ? 'departure' : 'arrival';
+
+/*<html>*******************************************************************/
 ?>
 <?php if ($mobile) { ?>
 <!DOCTYPE HTML SYSTEM "html40-mobile.dtd"
