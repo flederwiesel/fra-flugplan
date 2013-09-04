@@ -217,8 +217,7 @@ if (!$error)
 			LogoutUser();
 			$user = null;
 
-			if ('' == $_GET['req'])
-				unset($_GET['req']);
+			unset($_GET['req']);
 		}
 		else
 		{
