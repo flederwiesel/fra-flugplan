@@ -100,6 +100,7 @@ $lang = array
 	'nosuchuseremail' => 'No such user associated with this e-mail address.',
 	'nonempty' => 'Either User name or e-mail address must be non-empty.',
 	'noretrybefore' => 'A password change token has recently been requested. Retry in %s.',
+	'passwdlengthmin' => 'Password must at least be %lu characters long.',
 	'usernamelengthmin' => 'User name must at least be %lu characters long.',
 	'usernamelengthmax' => 'User name must be no longer than %lu characters.',
 	'emailinvalid' => 'E-mail address invalid.',

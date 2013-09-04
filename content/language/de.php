@@ -100,6 +100,7 @@ $lang = array
 	'nosuchuseremail' => 'E-Mailadresse nicht mit diesem Benutzername verknüpft.',
 	'nonempty' => 'Entweder Benutzername oder E-Mail muß ausgefüllt werden.',
 	'noretrybefore' => 'Ein Passwort-Token wurde erst kürzlich angefordert. Bitte %s warten.',
+	'passwdlengthmin' => 'Passwort muß mindestens %lu Zeichen lang sein.',
 	'usernamelengthmin' => 'Benutzername muß mindestens %lu Zeichen enthalten.',
 	'usernamelengthmax' => 'Benutzername darf höchstens %lu Zeichen enthalten.',
 	'emailinvalid' => 'E-Mailadresse ungültig.',
