@@ -399,7 +399,7 @@ if ($user && !$mobile)
 <?php
 
 $lookback = -15 * 60;						// -15min
-$lookahead = ($mobile ? 1 : 24) * 60 * 60;	// +24h
+$lookahead = ($mobile ? 1 : 7 * 24) * 3600;	// +24h
 
 $query = "SELECT `type`,".
 	" IFNULL(`expected`,`scheduled`) AS `expected`,".
