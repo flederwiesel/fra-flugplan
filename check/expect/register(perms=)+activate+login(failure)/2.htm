@@ -13,7 +13,6 @@
 <link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
 <link rel="icon" href="favicon.gif" type="image/gif">
 <script type="text/javascript" src="script/jquery-1.8.0.min.js"></script>
-<script type="text/javascript" src="script/jquery.sha256.min.js"></script>
 </head>
 <body>
 	<noscript>
@@ -64,20 +63,20 @@ Live Schedule</h3>
 			<div class="row">
 				<div class="cell label">User name</div>
 				<div class="cell">
-					<input type="text" id="user" name="user"
+					<input type="text" id="user" name="user" tabindex="1"
 					 value="flederwiesel" autofocus>
 					<div class="hint">
-						<a href="?req=register">Not a member? Register!</a>
+						<a href="?req=register"  tabindex="5">Not a member? Register!</a>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="cell label">Password</div>
 				<div class="cell">
-					<input type="password" id="passwd" name="passwd"
+					<input type="password" id="passwd" name="passwd" tabindex="2"
 					 value="">
 					<div class="hint">
-						<a href="?req=reqtok">Forgot Password?</a>
+						<a href="?req=reqtok"  tabindex="6">Forgot Password?</a>
 					</div>
 				</div>
 			</div>
@@ -85,14 +84,14 @@ Live Schedule</h3>
 				<div class="cell">&nbsp;</div>
 				<div class="cell">
 						<label>
-							<input type="checkbox" id="autologin" name="autologin" checked>
+							<input type="checkbox" id="autologin" name="autologin"  tabindex="3" checked>
 								Remember me on this computer (requires cookies)						</label>
 				</div>
 			</div>
 		</div>
 	</fieldset>
 	<div class="center">
-		<input type="submit" id="submit" value="Submit">
+		<input type="submit" id="submit"  tabindex="4" value="Submit">
 	</div>
 </form>
 </div>			</div>
