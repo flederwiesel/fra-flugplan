@@ -59,20 +59,20 @@
 			<div class="row">
 				<div class="cell label"><?php echo $lang['username']; ?></div>
 				<div class="cell">
-					<input type="text" id="user" name="user"
+					<input type="text" id="user" name="user" tabindex="1"
 					 value="<?php Input_SetValue('user', INP_POST | INP_GET, 'flederwiesel'); ?>" autofocus>
 					<div class="hint">
-						<a href="?req=register"><?php echo $lang['notamember']; ?></a>
+						<a href="?req=register"  tabindex="5"><?php echo $lang['notamember']; ?></a>
 					</div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="cell label"><?php echo $lang['password']; ?></div>
 				<div class="cell">
-					<input type="password" id="passwd" name="passwd"
+					<input type="password" id="passwd" name="passwd" tabindex="2"
 					 value="<?php Input_SetValue('passwd', 0, 'elvizzz'); ?>">
 					<div class="hint">
-						<a href="?req=reqtok"><?php echo $lang['forgotpassword']; ?></a>
+						<a href="?req=reqtok"  tabindex="6"><?php echo $lang['forgotpassword']; ?></a>
 					</div>
 				</div>
 			</div>
@@ -80,7 +80,7 @@
 				<div class="cell">&nbsp;</div>
 				<div class="cell">
 						<label>
-							<input type="checkbox" id="autologin" name="autologin" checked>
+							<input type="checkbox" id="autologin" name="autologin"  tabindex="3" checked>
 								<?php echo $lang['rememberme']; ?>
 						</label>
 				</div>
@@ -88,6 +88,6 @@
 		</div>
 	</fieldset>
 	<div class="center">
-		<input type="submit" id="submit" value="<?php echo $lang['submit']; ?>">
+		<input type="submit" id="submit"  tabindex="4" value="<?php echo $lang['submit']; ?>">
 	</div>
 </form>
