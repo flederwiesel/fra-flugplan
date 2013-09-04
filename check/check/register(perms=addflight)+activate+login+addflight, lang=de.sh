@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ###############################################################################
 #
@@ -58,6 +58,20 @@ check "7" curl "$url/?page=addflight" \
 		--data-urlencode "interval=once" \
 	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
 
+check "7-1" curl "$url/?page=addflight" \
+		--data-urlencode "reg=D-AIRY" \
+		--data-urlencode "model=A321" \
+		--data-urlencode "flight=QQ9999" \
+		--data-urlencode "code=QQ" \
+		--data-urlencode "airline=QAirline" \
+		--data-urlencode "type=pax-regular" \
+		--data-urlencode "direction=arrival" \
+		--data-urlencode "airport=2" \
+		--data-urlencode "from=$(strftime '%d.%m.%Y' $(($(date +%s) + 604800)))" \
+		--data-urlencode "time=$(strftime '%H:%M'    $(($(date +%s) + 604800)))" \
+		--data-urlencode "interval=once" \
+	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
+
 # check inserted flight
 check "8" curl "$url/?arrival" \
-	"|" sed -r "s/'\+[0-9]{1,4} [0-9]{2}:[0-9]{2}'/'+0 00:00'/g"
+	"|" sed -r "'s/\+[0-9]{1,4} [0-9]{2}:[0-9]{2}/+0 00:00/g; s/(1:D-AIRY)[0-9]+/\1/g'"
