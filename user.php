@@ -226,86 +226,91 @@ function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$me
 	else
 	{
 		if (mysql_num_rows($result) != 0)
-		{
 			$error = $lang['userexists'];
-		}
-		else
-		{
-			$result1 = mysql_query("SELECT `id` FROM `users` WHERE `email`='$email'");
 
-			if (!$result1)
+		mysql_free_result($result);
+
+		if (!$error)
+		{
+			$result = mysql_query("SELECT `id` FROM `users` WHERE `email`='$email'");
+
+			if (!$result)
 			{
 				$error = mysql_error();
 			}
 			else
 			{
-				if (mysql_num_rows($result1) != 0)
-				{
+				if (mysql_num_rows($result) != 0)
 					$error = $lang['emailexists'];
-				}
-				else
+
+				mysql_free_result($result);
+
+				if (!$error)
 				{
-					$salt = token();
-					$token = token();
-					$password = hash_hmac('sha256', $password, $salt);
-
-					$query = sprintf(
-						"INSERT INTO ".
-						"`users`(".
-						" `name`, `email`, `passwd`, `salt`, `language`, `permissions`,".
-						" `token`, `token_type`, `token_expires`, `ip`)".
-						"VALUES(".
-						" '$user', '$email', '$password', '$salt', '$language', '0', ".
-						" '$token', 'activation', ".
-						" FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu), '%s' )",
-						TOKEN_LIFETIME, $_SERVER['REMOTE_ADDR']);
-
-					if (!mysql_query($query))
+					if (strlen($password) < PASSWORD_MIN)
 					{
-						$error = mysql_user_error($lang['regfailed']);
+						$error = sprintf($lang['passwdlengthmin'], PASSWORD_MIN);
 					}
 					else
 					{
-						$result2 = mysql_query("SELECT `id`,`token_expires` ".
-											   "FROM `users` ".
-											   "WHERE `id`=LAST_INSERT_ID()");
+						$salt = token();
+						$token = token();
+						$password = hash_hmac('sha256', $password, $salt);
 
-						if (!$result2)
+						$query = sprintf(
+							"INSERT INTO ".
+							"`users`(".
+							" `name`, `email`, `passwd`, `salt`, `language`, `permissions`,".
+							" `token`, `token_type`, `token_expires`, `ip`)".
+							"VALUES(".
+							" '$user', '$email', '$password', '$salt', '$language', '0', ".
+							" '$token', 'activation', ".
+							" FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu), '%s' )",
+							TOKEN_LIFETIME, $_SERVER['REMOTE_ADDR']);
+
+						if (!mysql_query($query))
 						{
-							$error = mysql_error();
+							$error = mysql_user_error($lang['regfailed']);
 						}
 						else
 						{
-							if (0 == mysql_num_rows($result2))
+							$result = mysql_query("SELECT `id`,`token_expires` ".
+												   "FROM `users` ".
+												   "WHERE `id`=LAST_INSERT_ID()");
+
+							if (!$result)
 							{
-								$error = $lang['regfailed'];
+								$error = mysql_error();
 							}
 							else
 							{
-								$row = mysql_fetch_row($result2);
-//&& $_POST['timezone'] -> localtime($expires)
-								if (!$row)
+								if (0 == mysql_num_rows($result))
 								{
-									$error = mysql_error();
+									$error = $lang['regfailed'];
 								}
 								else
 								{
-									$uid = $row[0];
-									$expires = $row[1];
-									$_SESSION['lang'] = $language;
+									$row = mysql_fetch_row($result);
+	//&& $_POST['timezone'] -> localtime($expires)
+									if (!$row)
+									{
+										$error = mysql_error();
+									}
+									else
+									{
+										$uid = $row[0];
+										$expires = $row[1];
+										$_SESSION['lang'] = $language;
+									}
 								}
-							}
 
-							mysql_free_result($result2);
+								mysql_free_result($result);
+							}
 						}
 					}
 				}
-
-				mysql_free_result($result1);
 			}
 		}
-
-		mysql_free_result($result);
 	}
 
 	if (!$error)
@@ -679,7 +684,14 @@ function /*bool*/ ChangePassword($user, $token, $password, /*out*/ &$message)
 					{
 						// check token exiration time
 						if ($expires > 0)
+						{
 							$error = $lang['authfailedpasswdnotch'];
+						}
+						else
+						{
+							if (strlen($password) < PASSWORD_MIN)
+								$error = sprintf($lang['passwdlengthmin'], PASSWORD_MIN);
+						}
 					}
 				}
 
