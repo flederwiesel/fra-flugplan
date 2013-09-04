@@ -560,29 +560,20 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 				}
 				else
 				{
-					if ('logout' == $_GET['req'])
+					switch ($_GET['req'])
 					{
+					case 'register':
+					case 'activate':
+					case 'login':
+					case 'reqtok':
+					case 'changepw':
+						echo '<div id="auth">';
+						@require_once("forms/$_GET[req].php");
+						echo '</div>';
+						break;
+
+					default:
 						@require_once content();
-
-						unset($_GET['req']);
-					}
-					else
-					{
-						switch ($_GET['req'])
-						{
-						case 'register':
-						case 'activate':
-						case 'login':
-						case 'reqtok':
-						case 'changepw':
-							echo '<div id="auth">';
-							@require_once("forms/$_GET[req].php");
-							echo '</div>';
-							break;
-
-						default:
-							@require_once content();
-						}
 					}
 				}
 ?>
