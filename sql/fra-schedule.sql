@@ -116,6 +116,12 @@ CREATE TABLE IF NOT EXISTS `flights`
 	FOREIGN KEY(`aircraft`) REFERENCES `aircrafts`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+/* Copy `flights` table structure (including indices!) */
+CREATE TABLE IF NOT EXISTS `flights:past` LIKE `flights`;
+
+/* Remove AUTO_INCREMENT */
+ALTER TABLE `flights:past` AUTO_INCREMENT = 0;
+
 CREATE TABLE IF NOT EXISTS `watchlist` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user` int(11) NOT NULL,
