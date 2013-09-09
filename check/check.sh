@@ -16,7 +16,7 @@
 url="http://localhost/fra-schedule"
 url=$(echo $url | sed -r 's/\$Rev: ([0-9]+) \$/\1/g')
 
-alias "mysql=mysql -s"
+alias "mysql=mysql --silent --host=localhost --user=root --password= --default-character-set=utf8"
 alias "curl=curl -s --cookie .COOKIES --cookie-jar .COOKIES"
 
 unless() {
@@ -42,14 +42,12 @@ check() {
 
 initdb() {
 
-	unless $LINENO mysql --host=localhost --user=root --password= \
-		--default-character-set=utf8 < ../sql/fra-schedule.sql > /dev/null
+	unless $LINENO mysql < ../sql/fra-schedule.sql > /dev/null
 }
 
 query() {
 
-	mysql --host=localhost --user=root --password= --skip-column-names \
-		--execute="$@"
+	mysql --skip-column-names --execute="$@"
 }
 
 strftime() {
