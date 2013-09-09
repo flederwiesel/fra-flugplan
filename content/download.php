@@ -28,8 +28,6 @@ if ($_POST)
 	header('Refresh: 0; url="content/getfile.php"');
 
 ?>
-<html>
-<head>
 <!--meta http-equiv="refresh" content="0; url=getfile.php"-->
 <link type="text/css" rel="stylesheet" href="css/jquery.ui.datepicker.css">
 <script type="text/javascript" src="script/ui/jquery.ui.core.js"></script>
@@ -63,52 +61,48 @@ $(function()
 	});
 });
 </script>
-</head>
-<body>
-	<form id="form" method="post" action="content/getfile.php">
-		<fieldset>
-			<legend><?php echo $lang['dlflights']; ?></legend>
+<form id="form" method="post" action="content/getfile.php">
+	<fieldset>
+		<legend><?php echo $lang['dlflights']; ?></legend>
 <?php if (isset($error)) { ?>
-			<div id="notification" class="auth-error"><?php echo $error; ?></div>
+		<div id="notification" class="auth-error"><?php echo $error; ?></div>
 <?php } else if (isset($notice)) { ?>
-			<div id="notification" class="auth-notice"><?php echo $notice; ?></div>
+		<div id="notification" class="auth-notice"><?php echo $notice; ?></div>
 <?php } else if (isset($message)) { ?>
-			<div id="notification" class="auth-ok"><?php echo $message; ?></div>
+		<div id="notification" class="auth-ok"><?php echo $message; ?></div>
 <?php } ?>
 
-			<div class="table">
-				<div class="row">
-					<div class="cell"></div>
-					<div class="cell">
-						<label><input type="radio" name="direction" value="arrival" <?php if (!('departure' == $dir)) echo ' checked="checked" '; ?>/><?php echo $lang['arrival']; ?></label>
-						<label><input type="radio" name="direction" value="departure" <?php if ('departure' == $dir) echo ' checked="checked" '; ?>/><?php echo $lang['departure']; ?></label>
-					</div>
-				</div>
-				<div class="row">
-					<div class="cell label"><?php echo $lang['from']; ?></div>
-					<div class="cell">
-						<input type="text" name="date-from" id="date-from"
-						 value="<?php Input_SetValue('date-from', INP_FORCE, date('d.m.Y', strtotime('-1 day'))); ?>"/>
-					</div>
-					<div style="display: inline;">
-						<input type="text" name="time-from" id="time-from" style="margin-right: 0.5em;"
-							value="<?php Input_SetValue('time-from', INP_FORCE, '00:00'); ?>"/>HH:MM (<?php echo $lang['local']; ?>)
-					</div>
-				</div>
-				<div class="row">
-					<div class="cell label"><?php echo $lang['until']; ?></div>
-					<div class="cell">
-						<input type="text" name="date-until" id="date-until"
-						 value="<?php Input_SetValue('date-until', INP_FORCE, date('d.m.Y')); ?>"/>
-					</div>
-					<div style="display: inline;">
-						<input type="text" name="time-until" id="time-until" style="margin-right: 0.5em;"
-							value="<?php Input_SetValue('time-until', INP_FORCE, '00:00'); ?>"/>HH:MM (<?php echo $lang['local']; ?>)
-					</div>
+		<div class="table">
+			<div class="row">
+				<div class="cell"></div>
+				<div class="cell">
+					<label><input type="radio" name="direction" value="arrival" <?php if (!('departure' == $dir)) echo ' checked="checked" '; ?>/><?php echo $lang['arrival']; ?></label>
+					<label><input type="radio" name="direction" value="departure" <?php if ('departure' == $dir) echo ' checked="checked" '; ?>/><?php echo $lang['departure']; ?></label>
 				</div>
 			</div>
-		</fieldset>
-		<div class="center"><input id="submit" type="submit" name="submit"/></div>
-	</form>
-</body>
-</html>
+			<div class="row">
+				<div class="cell label"><?php echo $lang['from']; ?></div>
+				<div class="cell">
+					<input type="text" name="date-from" id="date-from"
+					 value="<?php Input_SetValue('date-from', INP_FORCE, date('d.m.Y', strtotime('-1 day'))); ?>"/>
+				</div>
+				<div style="display: inline;">
+					<input type="text" name="time-from" id="time-from" style="margin-right: 0.5em;"
+						value="<?php Input_SetValue('time-from', INP_FORCE, '00:00'); ?>"/>HH:MM (<?php echo $lang['local']; ?>)
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell label"><?php echo $lang['until']; ?></div>
+				<div class="cell">
+					<input type="text" name="date-until" id="date-until"
+					 value="<?php Input_SetValue('date-until', INP_FORCE, date('d.m.Y')); ?>"/>
+				</div>
+				<div style="display: inline;">
+					<input type="text" name="time-until" id="time-until" style="margin-right: 0.5em;"
+						value="<?php Input_SetValue('time-until', INP_FORCE, '00:00'); ?>"/>HH:MM (<?php echo $lang['local']; ?>)
+				</div>
+			</div>
+		</div>
+	</fieldset>
+	<div class="center"><input id="submit" type="submit" name="submit"/></div>
+</form>
