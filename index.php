@@ -41,6 +41,11 @@ header('Pragma: no-cache');
 //&& 	$_SERVER[HTTP_ACCEPT_ENCODING]
 mb_internal_encoding('UTF-8');
 
+$jquery = 'jquery-1.10.1.min.js';
+$jqueryui = 'jquery-ui-1.10.3';
+$jquerymin = 'minified/';
+$jquerymin = '';
+
 function get($get=null)
 {
 	if (!$_GET)
@@ -494,7 +499,7 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 <link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
 <?php } ?>
 <link rel="icon" href="favicon.gif" type="image/gif">
-<script type="text/javascript" src="script/jquery-1.8.0.min.js"></script>
+<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/<?php echo $jquery; ?>"></script>
 </head>
 <body>
 	<noscript>
