@@ -30,7 +30,7 @@ USE `fra-schedule`;
  ******************************************************************************/
 
 CREATE TABLE IF NOT EXISTS `users` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   `email` varchar(255) NOT NULL,
   `name` varchar(64) NOT NULL,
   `salt` varchar(64) NOT NULL,
@@ -123,7 +123,7 @@ CREATE TABLE IF NOT EXISTS `flights:past` LIKE `flights`;
 ALTER TABLE `flights:past` AUTO_INCREMENT = 0;
 
 CREATE TABLE IF NOT EXISTS `watchlist` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` integer NOT NULL AUTO_INCREMENT,
   `user` int(11) NOT NULL,
   `reg` varchar(8) NOT NULL,
   `comment` varchar(255) DEFAULT NULL,
