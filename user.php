@@ -50,6 +50,7 @@ class User
 	private $timezone = null;
 	private $lang = null;
 	private $permissions = '';
+	private $options = array();
 
 	public function __construct($id, $name, $email, $tz, $lang, $perms)
 	{
@@ -70,6 +71,22 @@ class User
 	public function lang() { return $this->lang; }
 	public function language($lang) { $this->lang = $lang; }
 	public function permissions() { return $this->permissions; }
+
+	public function opt($name, $value = null)
+	{
+		if (null == $value)
+		{
+			if (isset($this->options[$name]))
+				return $this->options[$name];
+		}
+		else
+		{
+			$this->options[$name] = $value;
+			return $value;
+		}
+
+		 return null;
+	}
 }
 
 function /*str*/ token() { return hash('sha256', mcrypt_create_iv(32)); }
@@ -111,13 +128,13 @@ function /*bool*/ LoginUser($user, $password, $byid, $remember, /*out*/ &$messag
 	if ($byid)
 	{
 		$id = $user;
-		$query = sprintf("SELECT `name`, `passwd`, `salt`, `email`, `timezone`, `language`, `permissions`, `token_type`".
+		$query = sprintf("SELECT `name`, `passwd`, `salt`, `email`, `timezone`, `language`, `permissions`, `token_type`, `tm-`, `tm+`, `tt-`, `tt+`".
 						 " FROM `users` WHERE `id`=$user");
 	}
 	else
 	{
 		$name = $user;
-		$query = sprintf("SELECT `id`, `passwd`, `salt`, `email`, `timezone`, `language`, `permissions`, `token_type`".
+		$query = sprintf("SELECT `id`, `passwd`, `salt`, `email`, `timezone`, `language`, `permissions`, `token_type`, `tm-`, `tm+`, `tt-`, `tt+`".
 						 " FROM `users` WHERE `name`='$user'");
 	}
 
@@ -181,6 +198,11 @@ function /*bool*/ LoginUser($user, $password, $byid, $remember, /*out*/ &$messag
 
 						if ($user)
 						{
+							$user->opt('tm-', $row['tm-']);
+							$user->opt('tm+', $row['tm+']);
+							$user->opt('tt-', $row['tt-']);
+							$user->opt('tt+', $row['tt+']);
+
 							$expires = (1 == $remember) ? time() + COOKIE_LIFETIME : 0;
 
 							setcookie('userID',    $user->id(),   $expires);

@@ -505,3 +505,11 @@ ul.help > li.img
 	filter:alpha(opacity=40); /* For IE8 and earlier */
 	text-align: center;
 }
+
+#phone-slider,
+#tablet-slider
+{
+	display: inline-block;
+	margin: 0 1em;
+	min-width: 12em;
+}

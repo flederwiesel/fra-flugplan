@@ -215,7 +215,7 @@ if ($user)
 	wl_img_open = "img/wl-open-<?php echo $_SESSION['lang']; ?>.png";
 	wl_img_close = "img/wl-close-<?php echo $_SESSION['lang']; ?>.png";
 </script>
-<?php if (!$mobile) { ?>
+<?php if (!$mobile || $tablet) { ?>
 <script type="text/javascript" src="script/watchlist.js"></script>
 <?php } ?>
 <script type="text/javascript" src="script/sorttable.js"></script>
@@ -301,7 +301,7 @@ else
 </div>
 
 <?php
-if ($user && !$mobile)
+if ($user && (!$mobile || $tablet))
 {
 ?>
 
@@ -380,7 +380,7 @@ if ($user && !$mobile)
 				<th><?php echo $lang['time']; ?>
 				<th class="sep"><?php echo $lang['flight']; ?>
 <?php
-				if (!$mobile)
+				if (!$mobile || $tablet)
 				{
 ?>
 				<th class="sep"><?php echo $lang['airline']; ?>
@@ -398,8 +398,32 @@ if ($user && !$mobile)
 		<tbody>
 <?php
 
-$lookback = -15 * 60;						// -15min
-$lookahead = ($mobile ? 1 : 7 * 24) * 3600;	// +24h
+if (!$user)
+{
+	$lookback = -15 * 60;									// -15min
+	$lookahead = ($mobile && !$tablet ? 1 : 7 * 24) * 3600;	// +24h
+}
+else
+{
+	if (!$mobile)
+	{
+		$lookback = -15 * 60;		// -15min
+		$lookahead = 7 * 24 * 3600;	// +24h
+	}
+	else
+	{
+		if ($tablet)
+		{
+			$lookback = $user->opt('tt-');
+			$lookahead = $user->opt('tt+');
+		}
+		else
+		{
+			$lookback = $user->opt('tm-');
+			$lookahead = $user->opt('tm+');
+		}
+	}
+}
 
 $query = "SELECT `type`,".
 	" IFNULL(`expected`,`scheduled`) AS `expected`,".

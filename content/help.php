@@ -108,7 +108,15 @@ include("help-$_SESSION[lang].php");
 		</ul>
 
 		<a id="mobile"></a>
-		<h4><?php echo $lang_help[7]; ?></h4><?php echo $lang_help[26]; ?>.
+		<h4><?php echo $lang_help[7]; ?></h4>
+		<!--?php echo $lang_help[26]; ?-->//&&{{Place your text here}}.
+		<div><img src="img/arrival-grey-24x24.png"><?php echo $lang['arrival']; ?></div>
+		<div><img src="img/departure-grey-24x24.png"><?php echo $lang['departure']; ?></div>
+		<div><img src="img/help-grey-24x24.png"><?php echo $lang['help']; ?></div>
+		<div><img src="img/register-grey-24x24.png"><?php echo $lang['register']; ?></div>
+		<div><img src="img/login-grey-24x24.png"><?php echo $lang['login']; ?></div>
+		<div><img src="img/logout-grey-24x24.png"><?php echo $lang['logout']; ?></div>
+		<div><img src="img/profile-grey-24x24.png"><?php echo $lang['profile']; ?></div>
 		<a class="back" href="#"><?php echo $lang_help[0]; ?></a>
 
 		<a id="trouble"></a>
@@ -117,6 +125,7 @@ include("help-$_SESSION[lang].php");
 
 		<a id="copyright"></a>
 		<h4>About</h4>
+		//&&{{License disclaimer}}
 		<ul class="help">
 			<li>Tobias Kühne</li>
 			<li>Hans-Purrmann-Str. 2c

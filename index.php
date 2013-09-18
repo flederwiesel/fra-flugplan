@@ -203,7 +203,9 @@ if (!$error)
 
 	function content()
 	{
-		if (isset($_GET['page']))
+		if (isset($_GET['req']))
+			return "forms/$_GET[req].php";
+		else if (isset($_GET['page']))
 			return "content/$_GET[page].php";
 		else
 			return 'content/index.php';
@@ -416,6 +418,8 @@ if (!$error)
 						if ($user)
 						{
 							$message = $lang['passwdchanged'];
+
+							$_GET['req'] = 'profile';
 						}
 						else
 						{
@@ -436,8 +440,16 @@ if (!$error)
 }
 
 if ($user)
+{
 	if (isset($_GET['lang']))
 		$user->language($_GET['lang']);
+}
+else
+{
+	if (isset($_GET['req']))
+		if ('profile' == $_GET['req'])
+			unset($_GET['req']);
+}
 
 /******************************************************************************
  * detect device type
@@ -455,6 +467,7 @@ else
 {
 	/* Treat tablets as desktop */
 	$mobile = $device->isMobile() && !$device->isTablet();
+	$tablet = $device->isTablet();
 	unset($device);
 }
 
@@ -475,7 +488,7 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 
 /*<html>*******************************************************************/
 ?>
-<?php if ($mobile) { ?>
+<?php if ($mobile && !$tablet) { ?>
 <!DOCTYPE HTML SYSTEM "html40-mobile.dtd"
 	"http://www.w3.org/TR/NOTE-html40-mobile/DTD/html40-mobile.dtd">
 <?php } else {  ?>
@@ -492,7 +505,7 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 <meta name="keywords" content="fra eddf frankfurt airport aircraft spotter schedule">
 <meta name="robots" content="index, nofollow">
 <meta name="generator" content="Programmer's Notepad">
-<?php if ($mobile) { ?>
+<?php if ($mobile && !$tablet) { ?>
 <meta name="viewport" content="width=device-width; initial-scale=1.0;"/>
 <link rel="stylesheet" type="text/css" href="css/mobile.css">
 <?php } else { ?>
@@ -567,12 +580,9 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 				{
 					switch ($_GET['req'])
 					{
-					case 'register':
-					case 'activate':
-					case 'login':
-					case 'reqtok':
 					case 'changepw':
-						echo '<div id="auth">';
+					//&& case 'profile':
+						echo '<div id="auth">';//&&
 						@require_once("forms/$_GET[req].php");
 						echo '</div>';
 						break;
@@ -586,7 +596,7 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 <?php		} ?>
 		</div>
 <?php
-		if (!$mobile && !isset($_GET['req']) && !isset($_GET['page']))
+		if ((!$mobile || $tablet) && !isset($_GET['req']) && !isset($_GET['page']))
 		{
 ?>
 		<div>

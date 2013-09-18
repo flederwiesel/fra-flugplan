@@ -480,3 +480,11 @@ ul.help > li.img
 	filter:alpha(opacity=40);
 	text-align: center;
 }
+
+#phone-slider,
+#tablet-slider
+{
+	display: block;
+	margin: 0.5em 1em;
+	width: 12em;
+}

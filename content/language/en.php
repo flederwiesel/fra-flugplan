@@ -63,7 +63,8 @@ $lang = array
 	'login' => 'Login',
 	'logout' => 'Logout',
 	'register' => 'Register',
-	'changepw' => 'User profile',
+	'profile' => 'User profile',
+	'changepw' => 'Change password',
 	'username' => 'User name',
 	'emailaddress' => 'E-mail Address',
 	'password' => 'Password',
@@ -145,6 +146,10 @@ $lang = array
 	'rwydir' => 'active runway',
 	'emil' => 'Thank you for taking the time for feedback on our site.',
 	'dlflights' => 'Download flights',
+	'displayinterval' => 'Display Interval',
+	'displayintervaldesc' => 'For mobile devices &ndash; which might not always be within  range to a WLAN network &ndash;, it is possible to increase response times and reduce band width by adjusting the display interval. The default values are -15 min ... +24 hours.',
+	'cellphone' => 'Cell Phone',
+	'tablet' => 'Tablet',
 );
 
 ?>

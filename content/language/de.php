@@ -63,7 +63,8 @@ $lang = array
 	'login' => 'Anmelden',
 	'logout' => 'Abmelden',
 	'register' => 'Registrieren',
-	'changepw' => 'Benutzerprofil',
+	'profile' => 'Benutzerprofil',
+	'changepw' => 'Passwort ändern',
 	'username' => 'Benutzername',
 	'emailaddress' => 'E-Mail-Adresse',
 	'password' => 'Passwort',
@@ -145,6 +146,10 @@ $lang = array
 	'rwydir' => 'Betriebsrichtung',
 	'emil' => 'Danke, daß Du Dir die Zeit für eine Resonanz bezüglich unserer Seite nimmst.',
 	'dlflights' => 'Flüge herunterladen',
+	'displayinterval' => 'Anzeigeintervall',
+	'displayintervaldesc' => 'Für mobile Geräte &ndash; welche sich nicht unbedingt in Reichweite eines WLAN-Netzwerkes befinden mögen &ndash;, kann die Reaktionsgeschwindigkeit erhöht und die Bandbreite durch ein angepaßtes Anzeigeintervall verringert werden. Das Standardervall ist -15 min ... +24 h.',
+	'cellphone' => 'Mobiltelefon',
+	'tablet' => 'Tablet',
 );
 
 ?>
