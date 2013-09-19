@@ -42,9 +42,9 @@ CREATE TABLE IF NOT EXISTS `users` (
   `language` varchar(2) NOT NULL DEFAULT 'en',
   `permissions` varchar(1) NOT NULL DEFAULT '0' COMMENT '[0] - addflight',
   `ip` varchar(16) NOT NULL,	/* at the time of registration */
-  `tm-` integer NOT NULL DEFAULT 900,
+  `tm-` integer NOT NULL DEFAULT 0,
   `tm+` integer NOT NULL DEFAULT 3600,
-  `tt-` integer NOT NULL DEFAULT 900,
+  `tt-` integer NOT NULL DEFAULT 0,
   `tt+` integer NOT NULL DEFAULT 86400,
   PRIMARY KEY (`id`),
   UNIQUE KEY `name` (`name`),
