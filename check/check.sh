@@ -18,6 +18,8 @@ url=$(echo $url | sed -r 's/\$Rev: ([0-9]+) \$/\1/g')
 
 alias "mysql=mysql --silent --host=localhost --user=root --password= --default-character-set=utf8"
 alias "curl=curl -s --cookie .COOKIES --cookie-jar .COOKIES"
+# Mozilla/5.0 (Windows NT 6.1; WOW64; rv:17.0) Gecko/20100101 Firefox/17.0
+# Opera/9.80 (Android 2.3.6; Linux; Opera Mobi/ADR-1301071820) Presto/2.11.355 Version/12.10
 
 unless() {
 
