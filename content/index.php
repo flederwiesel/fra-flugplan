@@ -400,14 +400,14 @@ if ($user && (!$mobile || $tablet))
 
 if (!$user)
 {
-	$lookback = -15 * 60;									// -15min
+	$lookback = 0;
 	$lookahead = ($mobile && !$tablet ? 1 : 7 * 24) * 3600;	// +24h
 }
 else
 {
 	if (!$mobile)
 	{
-		$lookback = -15 * 60;		// -15min
+		$lookback = 0;
 		$lookahead = 7 * 24 * 3600;	// +24h
 	}
 	else
