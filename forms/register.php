@@ -42,17 +42,16 @@
  ******************************************************************************/
 
 ?>
-
-<form id="form" method="post" action="?req=register"
+<form class="stretched" method="post" action="?req=register"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
 		<legend><?php echo $lang['registration']; ?></legend>
 <?php if ($error) { ?>
-		<div id="notification" class="auth-error">
+		<div id="notification" class="error">
 			<?php echo $error; ?>
 		</div>
 <?php } else if ($message) { ?>
-		<div id="notification" class="auth-ok">
+		<div id="notification" class="success">
 			<?php echo $message; ?>
 		</div>
 <?php } else { ?>
@@ -100,7 +99,7 @@
 			<div class="row">
 				<div class="cell label"><?php echo $lang['timezone']; ?></div>
 				<div class="cell">
-					<select id="timezone" name="timezone">
+					<select class="stretched" id="timezone" name="timezone">
 						<option value="-43200" >GMT -12 Eniwetok, Kwajalein
 						<option value="-39600" >GMT -11 Midway Island, Samoa
 						<option value="-36000" >GMT -10 Hawaii
@@ -164,7 +163,7 @@
 			<div class="row">
 				<div class="cell label"><?php echo $lang['language']; ?></div>
 				<div class="cell">
-					<select id="lang" name="lang">
+					<select class="stretched" id="lang" name="lang">
 <?php
 						/* Sort languages by local denomination */
 						$language = array(

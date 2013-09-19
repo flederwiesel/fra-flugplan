@@ -62,7 +62,7 @@ $(function()
 	});
 });
 </script>
-<form id="form" method="post" action="content/getfile.php">
+<form method="post" action="content/getfile.php">
 	<fieldset>
 		<legend><?php echo $lang['dlflights']; ?></legend>
 <?php if (isset($error)) { ?>

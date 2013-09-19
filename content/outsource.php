@@ -83,13 +83,13 @@ $(function()
 	});
 });
 </script>
-<form id="form" method="post" action="?page=outsource">
+<form method="post" action="?page=outsource">
 	<fieldset>
 		<legend>...</legend>
 <?php if (isset($error)) { ?>
-		<div id="notification" class="auth-error"><?php echo $error; ?></div>
+		<div id="notification" class="error"><?php echo $error; ?></div>
 <?php } else if (isset($message)) { ?>
-		<div id="notification" class="auth-ok"><?php echo $message; ?></div>
+		<div id="notification" class="success"><?php echo $message; ?></div>
 <?php } ?>
 		<div class="table">
 			<div class="row">

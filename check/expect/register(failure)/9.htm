@@ -52,12 +52,11 @@ Live Schedule</h3>
 				</div>
 			</div>
 			<div id="content">
-<div id="auth">
-<form id="form" method="post" action="?req=register"
+<form class="stretched" method="post" action="?req=register"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
 		<legend>Registration</legend>
-		<div id="notification" class="auth-error">
+		<div id="notification" class="error">
 			User name must at least be 4 characters long.		</div>
 		<div class="table">
 			<div class="row">
@@ -100,7 +99,7 @@ Live Schedule</h3>
 			<div class="row">
 				<div class="cell label">Timezone</div>
 				<div class="cell">
-					<select id="timezone" name="timezone">
+					<select class="stretched" id="timezone" name="timezone">
 						<option value="-43200" >GMT -12 Eniwetok, Kwajalein
 						<option value="-39600" >GMT -11 Midway Island, Samoa
 						<option value="-36000" >GMT -10 Hawaii
@@ -164,7 +163,7 @@ Live Schedule</h3>
 			<div class="row">
 				<div class="cell label">Language</div>
 				<div class="cell">
-					<select id="lang" name="lang">
+					<select class="stretched" id="lang" name="lang">
 <option value="en"  selected>English</option><option value="de" >German</option>					</select>
 				</div>
 			</div>
@@ -174,7 +173,7 @@ Live Schedule</h3>
 		<input type="submit" id="submit" value="Submit">
 	</div>
 </form>
-</div>			</div>
+			</div>
 		</div>
 	</div>
 </body>

@@ -31,32 +31,10 @@ dl.left
 	margin-right: 4em;
 }
 
-dl.left dt.sep
-{
-	__border-left: 1px solid #A3AAB7;
-	__padding: 0 0.5em;
-}
-
-dl.right dt.sep
-{
-	__border-right: 1px solid #A3AAB7;
-	__padding: 0 0.5em;
-}
-
 div.table
 {
 	margin: auto;
 	display: table;
-	__padding-left: 2em;
-	__padding-right: 2em;
-}
-
-div.row
-{
-}
-
-div.cell
-{
 }
 
 div.footnote
@@ -89,13 +67,6 @@ fieldset
 	margin-bottom: 10px;
 }
 
-div.label
-{
-	__padding-right: 1em;
-	__text-align: left;
-	__white-space: nowrap;
-}
-
 input[type=submit],
 input[type=reset]
 {
@@ -125,10 +96,10 @@ ul.help > li.img
 .right { text-align: right; }
 .top { vertical-align: top; }
 .nobr { white-space: nowrap; }
-.auth-error { background: #FFEAEA; }
-.auth-notice { background: #FFFFEA; }
-.auth-hint { background: #EAEAFF; }
-.auth-ok { background: #EAFFEA; }
+.explain { background: #EAEAFF; }
+.success { background: #EAFFEA; }
+.notice { background: #FFFFEA; }
+.error { background: #FFEAEA; }
 .noscript
 {
 	z-index: 3;
@@ -203,7 +174,6 @@ ul.help > li.img
 #nav .left
 {
 	float: left;
-	__margin-right: 2.5em;
 	text-align: left;
 }
 
@@ -218,31 +188,36 @@ ul.help > li.img
 	font-size: 1.2em;
 }
 
-#auth
+form
 {
 	margin: auto;
 	text-align: left;
 }
 
-#auth .label
+form .label
 {
 	text-align: left;
 }
 
-#auth div.hint
+form div.hint
 {
 	text-align: right;
 	font-size: 0.85em;
 	font-style: italic;
 }
 
-#auth input[type=text],
-#auth input[type=password],
-#auth select
+form.stretched input[type=text],
+form.stretched input[type=password],
+form.stretched select
 {
-	width: 100%;
+	width: 98%;
 	padding: 0;
-	margin: 0;
+	margin: 0.2em 0;
+}
+
+form div.explainatory
+{
+	margin: 0.8em;
 }
 
 #notification
@@ -485,6 +460,6 @@ ul.help > li.img
 #tablet-slider
 {
 	display: block;
-	margin: 0.5em 1em;
+	margin: 0.8em 0em;
 	width: 12em;
 }

@@ -580,11 +580,13 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 				{
 					switch ($_GET['req'])
 					{
+					case 'register':
+					case 'activate':
+					case 'login':
+					case 'reqtok':
 					case 'changepw':
-					//&& case 'profile':
-						echo '<div id="auth">';//&&
+					case 'profile':
 						@require_once("forms/$_GET[req].php");
-						echo '</div>';
 						break;
 
 					default:

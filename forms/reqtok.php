@@ -39,21 +39,20 @@
  ******************************************************************************/
 
 ?>
-
-<form id="form" method="post" action="?req=reqtok"
+<form class="stretched" method="post" action="?req=reqtok"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
 		<legend><?php echo $lang['forgotpassword']; ?></legend>
 <?php if ($error) { ?>
-		<div id="notification" class="auth-error">
+		<div id="notification" class="error">
 			<?php echo $error; ?>
 		</div>
 <?php } else if ($message) { ?>
-		<div id="notification" class="auth-ok">
+		<div id="notification" class="success">
 			<?php echo $message; ?>
 		</div>
 <?php } else { ?>
-		<div id="notification" class="auth-hint">
+		<div id="notification" class="explain">
 			<?php echo $lang['passwdencrypted']; ?>
 		</div>
 <?php } ?>

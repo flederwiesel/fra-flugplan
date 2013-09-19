@@ -83,7 +83,7 @@ $(function()
 	});
 });
 </script>
-<form id="form" method="post" action="?req=profile"
+<form method="post" action="?req=profile"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<?php
 	/* At this point `user` is always set */
@@ -113,12 +113,12 @@ $(function()
 	?>
 	<fieldset>
 		<legend><?php echo $lang['displayinterval']; ?></legend>
+		<div class="explainatory"><?php echo $lang['displayintervaldesc']; ?></div>
 <?php if ($error_interval) { ?>
-		<div id="notification" class="auth-error">
+		<div id="notification" class="error">
 			<?php echo $error_interval; ?>
 		</div>
 <?php } ?>
-		<div class=""><?php echo $lang['displayintervaldesc']; ?></div>
 		<div class="table">
 			<div class="row">
 				<div class="cell label"><?php echo $lang['cellphone']; ?></div>

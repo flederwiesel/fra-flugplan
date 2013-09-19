@@ -585,16 +585,15 @@ $(function()
 	}
 });
 </script>
-
-<form id="form" method="post" action="?page=addflight">
+<form method="post" action="?page=addflight">
 	<fieldset>
 		<legend><?php echo $lang['addflight']; ?></legend>
 <?php if (isset($error)) { ?>
-		<div id="notification" class="auth-error"><?php echo $error; ?></div>
+		<div id="notification" class="error"><?php echo $error; ?></div>
 <?php } else if (isset($notice)) { ?>
-		<div id="notification" class="auth-notice"><?php echo $notice; ?></div>
+		<div id="notification" class="notice"><?php echo $notice; ?></div>
 <?php } else if (isset($message)) { ?>
-		<div id="notification" class="auth-ok"><?php echo $message; ?></div>
+		<div id="notification" class="success"><?php echo $message; ?></div>
 <?php } ?>
 		<div class="table">
 			<div class="row">

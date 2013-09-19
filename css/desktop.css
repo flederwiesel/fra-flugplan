@@ -138,10 +138,10 @@ ul.help > li.img
 .right { text-align: right; }
 .top { vertical-align: top; }
 .nobr { white-space: nowrap; }
-.auth-error { background: #FFEAEA; }
-.auth-notice { background: #FFFFEA; }
-.auth-hint { background: #EAEAFF; }
-.auth-ok { background: #EAFFEA; }
+.explain { background: #EAEAFF; }
+.success { background: #EAFFEA; }
+.notice { background: #FFFFEA; }
+.error { background: #FFEAEA; }
 .noscript
 {
 	z-index: 3;
@@ -235,33 +235,38 @@ ul.help > li.img
 	margin: 0;
 }
 
-#form div.cell
-{
-	min-width: 8em;
-	padding: 5px;
-}
-
-#auth
+form
 {
 	margin: auto;
 	padding: 1.5em;
 	text-align: left;
 }
 
-#auth div.hint
+form div.cell
+{
+	min-width: 8em;
+	padding: 5px;
+}
+
+form div.hint
 {
 	text-align: right;
 	font-size: 0.85em;
 	font-style: italic;
 }
 
-#auth input[type=text],
-#auth input[type=password],
-#auth select
+form.stretched input[type=text],
+form.stretched input[type=password],
+form.stretched select
 {
 	width: 100%;
 	padding: 0;
 	margin: 0;
+}
+
+form div.explainatory
+{
+	margin: 1em;
 }
 
 #notification
@@ -276,7 +281,7 @@ ul.help > li.img
 {
 	margin: 0;
 	padding: 6px 0;
-	min-width: 792px;
+	width: 792px;
 }
 
 #rwy_cont
