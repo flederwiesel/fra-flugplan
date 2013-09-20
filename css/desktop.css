@@ -120,14 +120,30 @@ img.href
 	margin-right: 2px;
 }
 
-ul.help > li
+ul.naked > li
 {
 	list-style: none;
 }
 
-ul.help > li.img
+ul.help li.img
 {
 	padding: 1em 0em;
+}
+
+ul.help div
+{
+	padding: 1em 0;
+}
+
+#help-mobile ul
+{
+	margin: 1em;
+}
+
+#help-mobile img
+{
+	margin-right: 1em;
+	vertical-align: middle;
 }
 
 .b { font-weight: bold; }

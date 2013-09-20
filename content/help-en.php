@@ -49,8 +49,12 @@ $lang_help = array(
 	23 => '(3) Press Refresh to commit the changes',
 	24 => 'Click one of the column headers to sort by a certain criteria',
 	25 => 'If you are logged in and have defined a watchlist, the watched aircrafts will be sorted first',
-	26 => 'For decent support of mobile devices there is still some work to do. Sorry. If you want support for a specific device/browser, do not hestitate to contact me via <a href="content/emil.php?subject=fra-schedule%20inquiry"><img alt="email" src="content/emil-img.php" style="vertical-align: bottom;"></a>',
+	26 => 'Mobile devices are supported through a device detection script which interprets your device browser\'s user agent string. If your device is not recognized and want support for this specific device/browser, do not hestitate to contact me via	<a href="content/emil.php?subject=fra-schedule%20inquiry"><img alt="email" src="content/emil-img.php" style="vertical-align: bottom;"></a>',
 	27 => 'Software is never error-free. I tested this site as much as possible within the limits of my spare time. If you however, have trouble using the site or need further help than is provided here, feel free to contact me via <a href="content/emil.php?subject=fra-schedule%20trouble"><img alt="email" src="content/emil-img.php" style="vertical-align: bottom;"></a>',
+	28 => 'Concept and programming Tobias Kühne with the exception of the following',
+	29 => 'by',
+	30 => 'If you feel this site is violating licences of one of these projects, please contact me:',
+	31 => 'Due to limited display space on mobile phones, the following icons are used instead of text',
 );
 
 ?>

@@ -47,7 +47,7 @@ include("help-$_SESSION[lang].php");
 	<div>
 		<a id="basic"></a>
 		<h4><?php echo $lang_help[2]; ?></h4>
-		<ul class="help">
+		<ul class="naked help">
 			<li><?php echo $lang_help[9]; ?>.
 			<li><?php echo $lang_help[10]; ?>.
 			<li><?php echo $lang_help[11]; ?>.
@@ -64,7 +64,7 @@ include("help-$_SESSION[lang].php");
 
 		<a id="watchlist"></a>
 		<h4><?php echo $lang_help[3]; ?></h4>
-		<ul class="help">
+		<ul class="naked help">
 			<li><?php echo $lang_help[17]; ?>.
 			<li><?php echo $lang_help[18]; ?>.
 			<li><?php echo $lang_help[19]; ?>
@@ -76,7 +76,7 @@ include("help-$_SESSION[lang].php");
 
 		<a id="watchlist_def"></a>
 		<h5><?php echo $lang_help[4]; ?></h5>
-		<ul class="help">
+		<ul class="naked help">
 			<li><?php echo $lang_help[20]; ?>
 			<li><?php echo $lang_help[21]; ?>.
 			<li><?php echo $lang_help[22]; ?>.
@@ -89,7 +89,7 @@ include("help-$_SESSION[lang].php");
 
 		<a id="sorting"></a>
 		<h4><?php echo $lang_help[5]; ?></h4>
-		<ul class="help">
+		<ul class="naked help">
 			<li><?php echo $lang_help[24]; ?>.
 			<li class="img">
 				<img src="content/img/<?php echo $_SESSION['lang']; ?>/4-sorting.png">
@@ -99,7 +99,7 @@ include("help-$_SESSION[lang].php");
 
 		<a id="sorting_reg"></a>
 		<h5><?php echo $lang_help[6]; ?></h5>
-		<ul class="help">
+		<ul class="naked help">
 			<li><?php echo $lang_help[25]; ?>.
 			<li class="img">
 				<img src="content/img/<?php echo $_SESSION['lang']; ?>/5-sorting-reg.png">
@@ -109,27 +109,55 @@ include("help-$_SESSION[lang].php");
 
 		<a id="mobile"></a>
 		<h4><?php echo $lang_help[7]; ?></h4>
-		<!--?php echo $lang_help[26]; ?-->//&&{{Place your text here}}.
-		<div><img src="img/arrival-grey-24x24.png"><?php echo $lang['arrival']; ?></div>
-		<div><img src="img/departure-grey-24x24.png"><?php echo $lang['departure']; ?></div>
-		<div><img src="img/help-grey-24x24.png"><?php echo $lang['help']; ?></div>
-		<div><img src="img/register-grey-24x24.png"><?php echo $lang['register']; ?></div>
-		<div><img src="img/login-grey-24x24.png"><?php echo $lang['login']; ?></div>
-		<div><img src="img/logout-grey-24x24.png"><?php echo $lang['logout']; ?></div>
-		<div><img src="img/profile-grey-24x24.png"><?php echo $lang['profile']; ?></div>
-		<a class="back" href="#"><?php echo $lang_help[0]; ?></a>
+		<ul class="naked help">
+			<li><?php echo $lang_help[26]; ?>.
+				<div id="help-mobile"><?php echo $lang_help[31]; ?>:
+					<ul class="naked help">
+						<li><img src="img/arrival-grey-24x24.png"><?php echo $lang['arrival']; ?></li>
+						<li><img src="img/departure-grey-24x24.png"><?php echo $lang['departure']; ?></li>
+						<li><img src="img/help-grey-24x24.png"><?php echo $lang['help']; ?></li>
+						<li><img src="img/register-grey-24x24.png"><?php echo $lang['register']; ?></li>
+						<li><img src="img/login-grey-24x24.png"><?php echo $lang['login']; ?></li>
+						<li><img src="img/logout-grey-24x24.png"><?php echo $lang['logout']; ?></li>
+						<li><img src="img/profile-grey-24x24.png"><?php echo $lang['profile']; ?></li>
+					</ul>
+				</div>
+			</li>
+			<a class="back" href="#"><?php echo $lang_help[0]; ?></a>
+		</ul>
 
 		<a id="trouble"></a>
-		<h4><?php echo $lang_help[8]; ?></h4><?php echo $lang_help[27]; ?>.
-		<a class="back" href="#"><?php echo $lang_help[0]; ?></a>
+		<h4><?php echo $lang_help[8]; ?></h4>
+		<ul class="naked help">
+			<?php echo $lang_help[27]; ?>.
+			<a class="back" href="#"><?php echo $lang_help[0]; ?></a>
+		</ul>
 
 		<a id="copyright"></a>
 		<h4>About</h4>
-		//&&{{License disclaimer}}
-		<ul class="help">
-			<li>Tobias Kühne</li>
-			<li>Hans-Purrmann-Str. 2c
-			<li>67227 Frankenthal
+		<ul class="naked help">
+			<?php echo $lang_help[28]; ?>:
+			<div>
+				<ul class="help">
+					<li><a href="http://jqueryui.com/">jQuery UI Library</a></li>
+					<li><a href="http://www.kryogenix.org/code/browser/sorttable/">SortTable <?php echo $lang_help[29]; ?> Stuart Langridge</a></li>
+					<li><a href="http://code.google.com/p/php-mobile-detect/wiki/Mobile_Detect">Mobile_Detect PHP class</a></li>
+				</ul>
+			</div>
+			<?php echo $lang_help[30]; ?>
+			<ul class="naked help">
+				<li>
+					<a href="content/emil.php?subject=fra-schedule%20trouble">
+					 	<img alt="email" src="content/emil-img.php" style="vertical-align: bottom;">
+					</a>
+				</li>
+				<li>Tobias Kühne</li>
+				<li>Hans-Purrmann-Str. 2c
+				<li>67227 Frankenthal
+			</ul>
+			<a class="back" href="#"><?php echo $lang_help[0]; ?></a>
 		</ul>
+
+		<div class="right footnote">$Rev$ $Date$</div>
 	</div>
 </div>
