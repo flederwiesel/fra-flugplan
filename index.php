@@ -383,10 +383,12 @@ if (!$error)
 			}
 			else if ('reqtok' == $_GET['req'])
 			{
-				if (isset($_POST['user']) &&
+				if (isset($_POST['user']) ||
 					isset($_POST['email']))		/* else no post, we just followed a link */
 				{
-					if (!RequestPasswordChange($_POST['user'], $_POST['email'], $message))
+					if (!RequestPasswordChange(isset($_POST['user']) ? $_POST['user'] : null,
+											   isset($_POST['email']) ? $_POST['email'] : null,
+											   $message))
 					{
 						$error = $message;
 					}

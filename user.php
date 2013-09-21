@@ -469,28 +469,38 @@ function /*bool*/ RequestPasswordChange($user, $email, /*out*/ &$message)
 	define('Q_NAME', 2);
 	define('Q_MAIL', 3);
 
+	$error = null;
 	$uid = null;
 	$expires = null;
-	$error = null;
+	$where = null;
 
-	$query = sprintf("SELECT `id`, `name`, `email`, `token_type`, IF (ISNULL(`token_expires`), %lu, ".
-			 		 "(SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`))) AS `expires`".
-			 		 "FROM `users` WHERE ",
-					 TOKEN_LIFETIME);
-
-	if (0 == strlen($user))
+	if ($user)
 	{
-		if (0 == strlen($email))
-			$error = $lang['nonempty'];
-		else
-			$query .= "`email`='$email'";
+		if (strlen($user))
+			$where = "`name`='$user'";
+	}
+
+	if ($email)
+	{
+		if (strlen($email))
+		{
+			if ($where)
+				$where .= " AND `email`='$email'";
+			else
+				$where = "`email`='$email'";
+		}
+	}
+
+	if (null == $where)
+	{
+		$error = $lang['nonempty'];
 	}
 	else
 	{
-		if (0 == strlen($email))
-			$query .= "`name`='$user'";
-		else
-			$query .= "`name`='$user' AND `email`='$email'";
+		$query = sprintf("SELECT `id`, `name`, `email`, `token_type`, IF (ISNULL(`token_expires`), %lu, ".
+				 		 "(SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`))) AS `expires`".
+				 		 "FROM `users` WHERE $where",
+						 TOKEN_LIFETIME);
 	}
 
 	if (!$error)
