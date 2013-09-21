@@ -87,18 +87,22 @@ EOF
 
 IFS=$'\n'
 
-scripts='
-register(perms=addflight)+activate+login+addflight
-register(perms=addflight)+activate+login+addflight, lang=de
-register(perms=)+activate+addflight+login+addflight
-register(perms=)+activate+addflight+login+addflight, lang=de
+if [ $# -gt 0 ]; then
+	scripts="$@"
+else
+	scripts='
+addflight(perms=1)
+addflight(perms=1), lang=de
+addflight(perms=0)
+addflight(perms=0), lang=de
 changepasswd
 # failures
 register(failure)
-register(perms=)+activate(failure)
-register(perms=)+activate+login(failure)
+activate(failure)
+login(failure)
 #addflight(failure)
 '
+fi
 
 echo "$scripts" |
 while read script
