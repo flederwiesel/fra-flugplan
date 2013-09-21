@@ -92,6 +92,7 @@ register(perms=addflight)+activate+login+addflight
 register(perms=addflight)+activate+login+addflight, lang=de
 register(perms=)+activate+addflight+login+addflight
 register(perms=)+activate+addflight+login+addflight, lang=de
+changepasswd
 # failures
 register(failure)
 register(perms=)+activate(failure)
