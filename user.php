@@ -89,14 +89,27 @@ class User
 	}
 }
 
+function /* bool */ pwmatch()
+{
+	if (isset($_POST['passwd']))
+	{
+		if (isset($_POST['passwd-confirm']))
+		{
+			if ($_POST['passwd'] == $_POST['passwd-confirm'])
+				return true;
+		}
+	}
+
+	return false;
+}
+
 function /*str*/ token() { return hash('sha256', mcrypt_create_iv(32)); }
 
-function LogoutUser()
+function LogoutUser(&$user)
 {
-	global $user;
-
-	unset($user);
 	$user = null;
+
+	unset($_GET['req']);
 
 	unset($_COOKIE['userID']);
 	unset($_COOKIE['hash']);
@@ -105,41 +118,66 @@ function LogoutUser()
 	setcookie('userID', 0, 0);
 	setcookie('hash', null, 0);
 	setcookie('autologin', false, 0);
+
+	return null;
 }
 
-function LoginUserAutomatically()
+function LoginUserAutomatically(&$user)
 {
+	$error = null;
 	$user = null;
 
 	if (isset($_COOKIE['userID']) &&
-		isset($_COOKIE['hash']))
+		isset($_COOKIE['hash']) &&
+		isset($_COOKIE['autologin']))
 	{
-		// verify
-		$user = LoginUser($_COOKIE['userID'], $_COOKIE['hash'], true, $_COOKIE['autologin'], $message);
+		$error = LoginUserSql($user, $_COOKIE['userID'], true, $_COOKIE['hash'], 1);
 	}
 
-	return $user;
+	return $error;
 }
 
-function /*bool*/ LoginUser($user, $password, $byid, $remember, /*out*/ &$message)
+function /*bool*/ LoginUser(&$user)
 {
 	global $lang;
 
-	if ($byid)
+	$error = null;
+
+	if (isset($_POST['user']))		/* else: no post, just display form */
 	{
-		$id = $user;
-		$query = sprintf("SELECT `name`, `passwd`, `salt`, `email`, `timezone`, `language`, `permissions`, `token_type`, `tm-`, `tm+`, `tt-`, `tt+`".
-						 " FROM `users` WHERE `id`=$user");
+		if (!isset($_POST['passwd']))
+		{
+			$error = $lang['authfailed'];
+		}
+		else
+		{
+			$error = LoginUserSql($user, $_POST['user'], false, $_POST['passwd'], isset($_POST['autologin']));
+
+			if (!$error)
+			{
+				//&&$_GET['req'] = ''; ?
+				unset($_GET['req']);
+			}
+		}
 	}
-	else
-	{
-		$name = $user;
-		$query = sprintf("SELECT `id`, `passwd`, `salt`, `email`, `timezone`, `language`, `permissions`, `token_type`, `tm-`, `tm+`, `tt-`, `tt+`".
-						 " FROM `users` WHERE `name`='$user'");
-	}
+
+	return $error;
+}
+
+function /* char *error */ LoginUserSql(&$user, $id, $byid, $password, $remember)
+{
+	global $lang;
 
 	$user = null;
 	$error = null;
+
+	$query = sprintf("SELECT `%s`, `passwd`, `salt`, `email`, `timezone`, `language`, `permissions`,".
+					 " `token_type`, `tm-`, `tm+`, `tt-`, `tt+`".
+					 " FROM `users` WHERE `%s`='%s'",
+					 $byid ? 'name' : 'id',
+					 $byid ? 'id' : 'name',
+					 $id);
+
 	$result = mysql_query($query);
 
 	if (!$result)
@@ -190,9 +228,14 @@ function /*bool*/ LoginUser($user, $password, $byid, $remember, /*out*/ &$messag
 					if ($row['passwd'] == $hash)
 					{
 						if ($byid)
+						{
 							$name = $row['name'];
+						}
 						else
+						{
+							$name = $id;
 							$id = $row['id'];
+						}
 
 						$user = new User($id, $name, $row['email'], $row['timezone'], $row['language'], $row['permissions']);
 
@@ -226,12 +269,86 @@ function /*bool*/ LoginUser($user, $password, $byid, $remember, /*out*/ &$messag
 		mysql_free_result($result);
 	}
 
-	$message = $error ? $error : null;
-
-	return $user;
+	return $error;
 }
 
-function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$message)
+function /* char *error */ RegisterUser(&$message)
+{
+	global $lang;
+
+	$error = null;
+	$message = null;
+
+	if (isset($_POST['user']) &&
+		isset($_POST['email']))		/* else: no request, just display form */
+	{
+		if (strlen($_POST['user']) < USERNAME_MIN)
+		{
+			$error = sprintf($lang['usernamelengthmin'], USERNAME_MIN);
+		}
+		else
+		{
+			if (strlen($_POST['user']) > USERNAME_MAX)
+			{
+				$error = sprintf($lang['usernamelengthmax'], USERNAME_MAX);
+			}
+			else
+			{
+				if (preg_match('/^([A-Z0-9._%+-]+)@'.
+							   '([A-Z0-9-]+\.)*([A-Z0-9-]{2,})\.'.
+							   '[A-Z]{2,6}$/i', $_POST['email'], $match) != 1)
+				{
+					$error = sprintf($lang['emailinvalid']);
+				}
+				else
+				{
+					for ($m = 1; $m < count($match); $m++)
+					{
+						if (strlen($match[$m]) > 1024)
+						{
+							$error = sprintf($lang['emailinvalid']);
+							break;
+						}
+					}
+
+					if (!isset($_POST['passwd']))
+						$error = $lang['shortpassword'];
+					else
+						if (strlen($_POST['passwd']) < PASSWORD_MIN)
+							$error = $lang['shortpassword'];
+
+					if (!$error)
+					{
+						if (!pwmatch())
+						{
+							$error = $lang['passwordsmismatch'];
+						}
+						else
+						{
+							if (isset($_POST['lang']))
+								$_POST['lang'] = $_SESSION['lang'];
+
+							$error = RegisterUserSql($_POST['user'], $_POST['email'],
+													 $_POST['passwd'], $_POST['lang']);
+
+							if (!$error)
+							{
+								$message = $lang['regsuccess'];
+
+								$_GET['req'] = 'activate';		// Form to be displayed next
+								$_GET['user'] = $_POST['user'];	// Pre-set user name in form
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+
+	return $error;
+}
+
+function /* char *error */ RegisterUserSql($user, $email, $password, $language)
 {
 	global $lang;
 
@@ -313,7 +430,8 @@ function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$me
 								else
 								{
 									$row = mysql_fetch_row($result);
-	//&& $_POST['timezone'] -> localtime($expires)
+									//&& $_POST['timezone'] -> localtime($expires)
+
 									if (!$row)
 									{
 										$error = mysql_error();
@@ -372,12 +490,52 @@ function /*bool*/ RegisterUser($user, $email, $password, $language, /*out*/ &$me
 				$expires ? " (expires $expires)" : "",
 				$error ? $error : "OK"));
 
-	$message = $error ? $error : null;
-
-	return $error ? false : true;
+	return $error;
 }
 
-function /*bool*/ ActivateUser($user, $token, /*out*/ &$message)
+function /* char *error */ ActivateUser(&$message)
+{
+	global $lang;
+
+	$error = null;
+	$message = null;
+	$req = null;
+
+	if (isset($_GET['user']) &&
+		isset($_GET['token']))		/* from email link */
+	{
+		if ($_GET['user'] && $_GET['token'])
+			$req = $_GET;
+	}
+	else
+	{
+		if (isset($_POST['user']) &&
+			isset($_POST['token']))		/* else: no request, just display form */
+		{
+			if ($_POST['user'] && $_POST['token'])
+				$req = $_POST;
+			else
+				$error = $lang['activationfailed'];
+		}
+	}
+
+	if ($req)
+	{
+		$error = ActivateUserSql($req['user'], $req['token']);
+
+		if (!$error)
+		{
+			$message = $lang['activationsuccess'];
+
+			$_GET['req'] = 'login';			// Form to be displayed next
+			$_GET['user'] = $req['user'];	// Pre-set user name in form
+		}
+	}
+
+	return $error;
+}
+
+function /* char *error */ ActivateUserSql(&$user, $token)
 {
 	global $lang;
 
@@ -456,18 +614,43 @@ function /*bool*/ ActivateUser($user, $token, /*out*/ &$message)
 				 $now ? " ($now)" : "",
 				 $error ? $error : "OK"));
 
-	$message = $error ? $error : null;
-
-	return $error ? false : true;
+	return $error;
 }
 
-function /*bool*/ RequestPasswordChange($user, $email, /*out*/ &$message)
+/*&&??
+define('Q_ID', 1);
+define('Q_NAME', 2);
+define('Q_MAIL', 3);
+*/
+
+function /* char *error */ RequestPasswordToken(&$message)
 {
 	global $lang;
 
-	define('Q_ID', 1);
-	define('Q_NAME', 2);
-	define('Q_MAIL', 3);
+	$error = null;
+	$message = null;
+
+	if (isset($_POST['user']) ||
+		isset($_POST['email']))		/* else: no post, just display form */
+	{
+		$error = RequestPasswordTokenSql(isset($_POST['user']) ? $_POST['user'] : null,
+										 isset($_POST['email']) ? $_POST['email'] : null);
+
+		if (!$error)
+		{
+			$message = $lang['tokensent'];
+
+			$_GET['req'] = 'changepw';			// Form to be displayed next
+			$_GET['user'] = $_POST['user'];		// Pre-set user name in form
+		}
+	}
+
+	return $error;
+}
+
+function /* char *error */ RequestPasswordTokenSql($user, $email)
+{
+	global $lang;
 
 	$error = null;
 	$uid = null;
@@ -660,12 +843,46 @@ function /*bool*/ RequestPasswordChange($user, $email, /*out*/ &$message)
 				$expires ? " (expires $expires)" : "",
 				$error ? $error : "OK"));
 
-	$message = $error ? $error : null;
-
-	return $error ? false : true;
+	return $error;
 }
 
-function /*bool*/ ChangePassword($user, $token, $password, /*out*/ &$message)
+function /* char *error */ ChangePassword(&$user, &$message)
+{
+	global $lang;
+
+	$error = null;
+	$message = null;
+
+	if ((isset($_POST['user']) || $user) &&
+		 isset($_POST['passwd']) &&
+		 isset($_POST['passwd-confirm']))		/* else: no post, display form */
+	{
+		$error = ChangePasswordSql(isset($_POST['user']) ? $_POST['user'] : $user->name(),
+								   isset($_POST['token']) ? $_POST['token'] : null,
+								   $_POST['passwd']);
+
+		if (!$error)
+		{
+			if ($user)
+			{
+				$message = $lang['passwdchanged'];
+
+				$_GET['req'] = 'profile';			// Form to be displayed next
+			}
+			else
+			{
+				$message = $lang['passwdchangedlogin'];
+
+				$_GET['req'] = 'login';				// Form to be displayed next
+				$_GET['user'] = $_POST['user'];		// Pre-set user name in form
+			}
+		}
+	}
+
+	return $error;
+}
+
+function /* char *error */ ChangePasswordSql($user, $token, $password)
 {
 	global $lang;
 
@@ -729,23 +946,34 @@ function /*bool*/ ChangePassword($user, $token, $password, /*out*/ &$message)
 
 				if (!$error)
 				{
-					$uid = $row['id'];
-					$salt = token();
-					$password = hash_hmac('sha256', $password, $salt);
-					$query = "UPDATE `users`".
-							 " SET `salt`='$salt', `passwd`='$password',".
-							 " `token`=NULL, `token_type`='none', `token_expires`=NULL".
-							 " WHERE `id`=$uid";
-
-					if (!mysql_query($query))
+					if (strlen($password) < PASSWORD_MIN)
 					{
-						$error = mysql_error();
+						$error = sprintf($lang['passwdlengthmin'], PASSWORD_MIN);
+					}
+					else if (!pwmatch())
+					{
+						$error = $lang['passwordsmismatch'];
 					}
 					else
 					{
-						if (isset($_COOKIE['autologin']))
-							if ($_COOKIE['autologin'])
-								setcookie('hash', $password, time() + COOKIE_LIFETIME);
+						$uid = $row['id'];
+						$salt = token();
+						$password = hash_hmac('sha256', $password, $salt);
+						$query = "UPDATE `users`".
+								 " SET `salt`='$salt', `passwd`='$password',".
+								 " `token`=NULL, `token_type`='none', `token_expires`=NULL".
+								 " WHERE `id`=$uid";
+
+						if (!mysql_query($query))
+						{
+							$error = mysql_error();
+						}
+						else
+						{
+							if (isset($_COOKIE['autologin']))
+								if ($_COOKIE['autologin'])
+									setcookie('hash', $password, time() + COOKIE_LIFETIME);
+						}
 					}
 				}
 			}
@@ -759,9 +987,7 @@ function /*bool*/ ChangePassword($user, $token, $password, /*out*/ &$message)
 				$now ? " ($now)" : "",
 				$error ? $error : "OK"));
 
-	$message = $error ? $error : null;
-
-	return $error ? false : true;
+	return $error;
 }
 
 function /*str*/ mysql_user_error($default)
@@ -790,39 +1016,56 @@ function /*str*/ mysql_user_error($default)
 	return $error;
 }
 
-define('INP_FORCE', 0x1);
-define('INP_POST', 0x2);
-define('INP_GET',  0x4);
-
-function Input_SetValue($name, $whence, $debug)
+function UserProcessRequest(&$user, &$message)
 {
-	$value = null;
+	$error = null;
 
-	if (INP_POST & $whence)
+	if (!isset($_GET['req']))
 	{
-		if (isset($_POST[$name]))
-			$value = $_POST[$name];
+		// try autologin from cookies
+		$error = LoginUserAutomatically($user);
+	}
+	else
+	{
+		switch ($_GET['req'])
+		{
+		case 'logout':
+			LogoutUser($user);
+			break;
+
+		case 'login':
+			$error = LoginUser($user);
+			break;
+
+		case 'register':
+			$error = RegisterUser($message);
+			break;
+
+		case 'activate':
+			$error = ActivateUser($message);
+			break;
+
+			break;
+
+		case 'reqtok':
+			$error = RequestPasswordToken($message);
+			break;
+
+		case 'changepw':
+			LoginUserAutomatically($user);
+			$error = ChangePassword($user, $message);
+			break;
+
+		default:
+			LoginUserAutomatically($user);
+		}
 	}
 
-	if (INP_GET & $whence)
-	{
-		if (!$value)
- 			if (isset($_GET[$name]))
- 				$value = $_GET[$name];
-	}
+	if (!$user)
+		if (isset($_GET['req']))
+			if ('profile' == $_GET['req'])
+				unset($_GET['req']);
 
-	if (null == $value)
-	{
-		if (INP_FORCE & $whence)
-			$value = $debug;
-	}
-
-	if (defined('DEBUG'))
-		if (!$value)
-			$value = $debug;
-
-	if ($value)
-		echo $value;
+	return $error;
 }
-
 ?>

@@ -95,6 +95,16 @@ function get($get=null)
 	return $strget;
 }
 
+function content()
+{
+	if (isset($_GET['req']))
+		return "forms/$_GET[req].php";
+	else if (isset($_GET['page']))
+		return "content/$_GET[page].php";
+	else
+		return 'content/index.php';
+}
+
 /******************************************************************************
  * Equal goes it loose
  ******************************************************************************/
@@ -201,256 +211,13 @@ if (!$error)
 	// permissions may be defined here
 	@require_once 'user.php';
 
-	function content()
-	{
-		if (isset($_GET['req']))
-			return "forms/$_GET[req].php";
-		else if (isset($_GET['page']))
-			return "content/$_GET[page].php";
-		else
-			return 'content/index.php';
-	}
-
-	if (!isset($_GET['req']))
-	{
-		// try autologin from cookies
-		$user = LoginUserAutomatically();
-	}
-	else
-	{
-		if ('logout' == $_GET['req'])
-		{
-			// user requested logout, clear user data (cookies)
-			LogoutUser();
-			$user = null;
-
-			unset($_GET['req']);
-		}
-		else
-		{
-			if (!('register' == $_GET['req']) &&
-				!('activate' == $_GET['req']))
-			{
-				// try autologin from cookies
-				$user = LoginUserAutomatically();
-			}
-		}
-	}
-
-	if (isset($_GET['req']))
-	{
-		if (isset($_POST['passwd']))
-		{
-			if (!('login' == $_GET['req']))
-			{
-				if (isset($_POST['passwd-confirm']))
-				{
-					if ($_POST['passwd'] != $_POST['passwd-confirm'])
-						$error = $lang['passwordsmismatch'];
-				}
-			}
-		}
-
-		if (!$error)
-		{
-			if ('register' == $_GET['req'])
-			{
-				if (isset($_POST['user']) &&
-					isset($_POST['email']))		/* else no post, we just followed a link */
-				{
-					if (strlen($_POST['user']) < USERNAME_MIN)
-					{
-						$error = sprintf($lang['usernamelengthmin'], USERNAME_MIN);
-					}
-					else
-					{
-						if (strlen($_POST['user']) > USERNAME_MAX)
-						{
-							$error = sprintf($lang['usernamelengthmax'], USERNAME_MAX);
-						}
-						else
-						{
-							if (preg_match('/^([A-Z0-9._%+-]+)@([A-Z0-9-]+\.)*([A-Z0-9-]{2,})\.[A-Z]{2,6}$/i', $_POST['email'], $match) != 1)
-							{
-								$error = sprintf($lang['emailinvalid']);
-							}
-							else
-							{
-								for ($m = 1; $m < count($match); $m++)
-								{
-									if (strlen($match[$m]) > 1024)
-									{
-										$error = sprintf($lang['emailinvalid']);
-										break;
-									}
-								}
-
-								if (!isset($_POST['passwd']))
-									$error = $lang['shortpassword'];
-								else
-									if (strlen($_POST['passwd']) < PASSWORD_MIN)
-										$error = $lang['shortpassword'];
-
-								if (!$error)
-								{
-									if ($_POST['passwd'] != $_POST['passwd-confirm'])
-									{
-										$error = $lang['passwordsmismatch'];
-									}
-									else
-									{
-										if (isset($_POST['lang']))
-											$_POST['lang'] = $_SESSION['lang'];
-
-										if (!RegisterUser($_POST['user'], $_POST['email'], $_POST['passwd'], $_POST['lang'], $message))
-										{
-											$error = $message;
-										}
-										else
-										{
-											$_GET['user'] = $_POST['user'];
-											$_GET['req'] = 'activate';
-
-											$message = $lang['regsuccess'];
-										}
-									}
-								}
-							}
-						}
-					}
-				}
-				/* 'register' */
-			}
-			else if ('activate' == $_GET['req'])
-			{
-				$req = null;
-
-				if (isset($_GET['user']) &&
-					isset($_GET['token']))		/* from email link */
-				{
-					$req = $_GET;
-				}
-				else
-				{
-					if (isset($_POST['user']) &&
-						isset($_POST['token']))		/* else no post, we just followed a link */
-					{
-						if ($_POST['user'] && $_POST['token'])
-							$req = $_POST;
-						else
-							$error = $lang['activationfailed'];
-					}
-				}
-
-				if ($req)
-				{
-					if (!ActivateUser($req['user'], $req['token'], $message))
-					{
-						$error = $message;
-					}
-					else
-					{
-						$message = $lang['activationsuccess'];
-
-						$_GET['req'] = 'login';
-						$_GET['user'] = $req['user'];
-					}
-
-					unset($req);
-				}
-				/* activate */
-			}
-			else if ('login' == $_GET['req'])
-			{
-				if (isset($_POST['user']))		/* else no post, we just followed a link */
-				{
-					$passwd =  isset($_POST['passwd']) ? $_POST['passwd'] : '';
-
-					$user = LoginUser($_POST['user'], $passwd, false, isset($_POST['autologin']), $message);
-
-					if (!$user)
-					{
-						$error = $message;
-					}
-					else
-					{
-						$message = NULL;
-
-						$_GET['req'] = '';
-					}
-				}
-				/* 'login' */
-			}
-			else if ('reqtok' == $_GET['req'])
-			{
-				if (isset($_POST['user']) ||
-					isset($_POST['email']))		/* else no post, we just followed a link */
-				{
-					if (!RequestPasswordChange(isset($_POST['user']) ? $_POST['user'] : null,
-											   isset($_POST['email']) ? $_POST['email'] : null,
-											   $message))
-					{
-						$error = $message;
-					}
-					else
-					{
-						$message = $lang['tokensent'];
-
-						$_GET['req'] = 'changepw';
-						$_GET['user'] = $_POST['user'];
-					}
-				}
-				/* 'reqtok' */
-			}
-			else if ('changepw' == $_GET['req'])
-			{
-				if ((isset($_POST['user']) || $user) &&
-					 isset($_POST['passwd']) &&
-					 isset($_POST['passwd-confirm']))		/* else no post, we just followed a link */
-				{
-					if (!ChangePassword(isset($_POST['user']) ? $_POST['user'] : $user->name(),//&& ->id()?
-									    isset($_POST['token']) ? $_POST['token'] : null,
-									    $_POST['passwd'],
-									    $message))
-					{
-						$error = $message;
-					}
-					else
-					{
-						if ($user)
-						{
-							$message = $lang['passwdchanged'];
-
-							$_GET['req'] = 'profile';
-						}
-						else
-						{
-							$message = $lang['passwdchangedlogin'];
-
-							$_GET['req'] = 'login';
-							$_GET['user'] = $_POST['user'];
-						}
-					}
-				}
-				/* changepw */
-			}
-		}
-
-		if ('' == $_GET['req'])
-			unset($_GET['req']);
-	}	/* if (isset($_GET['req'])) */
+	$error = UserProcessRequest($user, $message);
 }
 
 if ($user)
 {
 	if (isset($_GET['lang']))
-		$user->language($_GET['lang']);
-}
-else
-{
-	if (isset($_GET['req']))
-		if ('profile' == $_GET['req'])
-			unset($_GET['req']);
+		$user->language($_GET['lang']);	//&& -> hdbc
 }
 
 /******************************************************************************
