@@ -74,4 +74,39 @@ function mktime_c($ddmmyyyy /* dd.mm.YYYY */, $hhmm = '00:00')
 	return $date;
 }
 
+define('INP_FORCE', 0x1);
+define('INP_POST', 0x2);
+define('INP_GET',  0x4);
+
+function Input_SetValue($name, $whence, $debug)
+{
+	$value = null;
+
+	if (INP_POST & $whence)
+	{
+		if (isset($_POST[$name]))
+			$value = $_POST[$name];
+	}
+
+	if (INP_GET & $whence)
+	{
+		if (!$value)
+ 			if (isset($_GET[$name]))
+ 				$value = $_GET[$name];
+	}
+
+	if (null == $value)
+	{
+		if (INP_FORCE & $whence)
+			$value = $debug;
+	}
+
+	if (defined('DEBUG'))
+		if (!$value)
+			$value = $debug;
+
+	if ($value)
+		echo $value;
+}
+
 ?>
