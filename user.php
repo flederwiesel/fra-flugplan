@@ -934,7 +934,7 @@ function /* char *error */ ChangePasswordSql($user, $token, $password)
 						// check token exiration time
 						if ($expires > 0)
 						{
-							$error = $lang['authfailedpasswdnotch'];
+							$error = $lang['passwdtokenexpired'];
 						}
 						else
 						{

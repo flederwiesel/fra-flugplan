@@ -100,6 +100,7 @@ changepasswd
 register(failure)
 activate(failure)
 login(failure)
+changepasswd(failure)
 #addflight(failure)
 '
 fi
