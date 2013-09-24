@@ -151,9 +151,9 @@ include("help-$_SESSION[lang].php");
 					 	<img alt="email" src="content/emil-img.php" style="vertical-align: bottom;">
 					</a>
 				</li>
-				<li>Tobias Kühne</li>
-				<li>Hans-Purrmann-Str. 2c
-				<li>67227 Frankenthal
+				<li>T&#x006f;&#98;&#105;&#x61;s&ensp;&#x4b;&uuml;&#x68;&#110;e</li>
+				<li>&#x0048;an&#115;&ndash;&#x0050;u&#114;&#114;mann-&#x0053;tr&#x2e; &#x0032;c
+				<li>67&#x0032;&#x0032;7 F&#x0072;&#97;n&#x006b;en&#x0074;&#104;al
 			</ul>
 			<a class="back" href="#"><?php echo $lang_help[0]; ?></a>
 		</ul>
