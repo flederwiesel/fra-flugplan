@@ -151,6 +151,7 @@ $lang = array
 	'displayintervaldesc' => 'For mobile devices &ndash; which might not always be within  range to a WLAN network &ndash;, it is possible to increase response times and reduce band width by adjusting the display interval. The default values are -15 min ... +24 hours.',
 	'cellphone' => 'Cell Phone',
 	'tablet' => 'Tablet',
+	'settingsssaved' => 'Settings have been saved.',
 );
 
 ?>

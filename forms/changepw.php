@@ -45,15 +45,27 @@
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
 		<legend><?php echo $lang['changepasswd']; ?></legend>
-<?php if ($error) { ?>
+<?php
+		if (isset($_POST['changepasswd']))
+		{
+			if ($error)
+			{
+?>
 		<div id="notification" class="error">
 			<?php echo $error; ?>
 		</div>
-<?php } else if ($message) { ?>
+<?php
+			}
+			else if ($message)
+			{
+?>
 		<div id="notification" class="success">
 			<?php echo $message; ?>
 		</div>
-<?php }?>
+<?php
+			}
+		}
+?>
 		<div class="table">
 <?php if (!$user) { ?>
 			<div class="row">
@@ -91,6 +103,7 @@
 		</div>
 	</fieldset>
 	<div class="center">
+		<input type="hidden" name="changepasswd">
 		<input type="submit" id="submit" value="<?php echo $lang['submit']; ?>">
 	</div>
 </form>

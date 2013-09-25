@@ -113,12 +113,28 @@ $(function()
 	?>
 	<fieldset>
 		<legend><?php echo $lang['displayinterval']; ?></legend>
-		<div class="explainatory"><?php echo $lang['displayintervaldesc']; ?></div>
-<?php if ($error_interval) { ?>
+<?php
+		if (isset($_POST['interval']))
+		{
+			if ($error)
+			{
+?>
 		<div id="notification" class="error">
-			<?php echo $error_interval; ?>
+			<?php echo $error; ?>
 		</div>
-<?php } ?>
+<?php
+			}
+			else
+			{
+?>
+		<div id="notification" class="success">
+			<?php echo $lang['settingsssaved']; ?>
+		</div>
+<?php
+			}
+		}
+?>
+		<div class="explainatory"><?php echo $lang['displayintervaldesc']; ?></div>
 		<div class="table">
 			<div class="row">
 				<div class="cell label"><?php echo $lang['cellphone']; ?></div>

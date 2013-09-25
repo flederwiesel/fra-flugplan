@@ -151,6 +151,7 @@ $lang = array
 	'displayintervaldesc' => 'Für mobile Geräte &ndash; welche sich nicht unbedingt in Reichweite eines WLAN-Netzwerkes befinden mögen &ndash;, kann die Reaktionsgeschwindigkeit erhöht und die Bandbreite durch ein angepaßtes Anzeigeintervall verringert werden. Das Standardervall ist -15 min ... +24 h.',
 	'cellphone' => 'Mobiltelefon',
 	'tablet' => 'Tablet',
+	'settingsssaved' => 'Einstellungen wurden gespeichert.',
 );
 
 ?>
