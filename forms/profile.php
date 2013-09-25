@@ -87,9 +87,19 @@ $(function()
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<?php
 	/* At this point `user` is always set */
-	$error_interval = null;
+	if (!$_POST['submit'])
+	{
+		$notification = false;
+	}
+	else
+	{
+		if ('interval' == $_POST['submit'])
+			$notification = true;
+		else
+			$notification = false;
+	}
 
-	if (isset($_POST['interval']))
+	if ($notification)
 	{
 		$query = sprintf("UPDATE `users` ".
 						 "SET `tm-`=%ld, `tm+`=%ld, `tt-`=%ld, `tt+`=%ld WHERE `id`=%lu",
@@ -171,7 +181,7 @@ $(function()
 		</div>
 	</fieldset>
 	<div class="center">
-		<input type="hidden" name="interval">
+		<input type="hidden" name="submit" value="interval">
 		<input type="submit" id="submit" name="submit" value="<?php echo $lang['submit']; ?>">
 	</div>
 </form>

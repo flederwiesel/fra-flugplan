@@ -50,7 +50,8 @@ check "7" curl "$url/?req=changepw" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "token=$token" \
 		--data-urlencode "passwd=zwiebel" \
-		--data-urlencode "passwd-confirm=zwiebel"
+		--data-urlencode "passwd-confirm=zwiebel" \
+		--data-urlencode "submit=changepw"
 
 ###############################################################################
 # try login with new passwd
@@ -68,7 +69,7 @@ check "9" curl "$url/?req=profile" \
 	"|" sed -r "'s/(<option value=\"-?[0-9]+\")(\ selected)?>/\1>/g'"
 
 check "10" curl "$url/?req=changepw" \
-		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
+		--data-urlencode "submit=changepw" \
 	"|" sed -r "'s/(<option value=\"-?[0-9]+\")(\ selected)?>/\1>/g'"

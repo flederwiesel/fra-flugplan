@@ -50,25 +50,29 @@ check "7" curl "$url/?req=changepw" \
 		--data-urlencode "user=erwin" \
 		--data-urlencode "token=$token" \
 		--data-urlencode "passwd=zwiebel" \
-		--data-urlencode "passwd-confirm=zwiebel"
+		--data-urlencode "passwd-confirm=zwiebel" \
+		--data-urlencode "submit=changepw"
 
 check "8" curl "$url/?req=changepw" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "token=" \
 		--data-urlencode "passwd=zwiebel" \
-		--data-urlencode "passwd-confirm=zwiebel"
+		--data-urlencode "passwd-confirm=zwiebel" \
+		--data-urlencode "submit=changepw"
 
 check "9" curl "$url/?req=changepw" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "token=$token" \
 		--data-urlencode "passwd=" \
-		--data-urlencode "passwd-confirm=zwiebel"
+		--data-urlencode "passwd-confirm=zwiebel" \
+		--data-urlencode "submit=changepw"
 
 check "10" curl "$url/?req=changepw" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "token=$token" \
 		--data-urlencode "passwd=zwiebl" \
-		--data-urlencode "passwd-confirm=zwiebel"
+		--data-urlencode "passwd-confirm=zwiebel" \
+		--data-urlencode "submit=changepw"
 
 query "USE fra-schedule;
 	UPDATE users SET token_expires=
@@ -79,4 +83,5 @@ check "11" curl "$url/?req=changepw" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "token=$token" \
 		--data-urlencode "passwd=zwiebel" \
-		--data-urlencode "passwd-confirm=zwiebel"
+		--data-urlencode "passwd-confirm=zwiebel" \
+		--data-urlencode "submit=changepw"

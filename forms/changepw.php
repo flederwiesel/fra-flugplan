@@ -46,7 +46,26 @@
 	<fieldset>
 		<legend><?php echo $lang['changepasswd']; ?></legend>
 <?php
-		if (isset($_POST['changepasswd']))
+		if ('changepw' == $_GET['req'])
+		{
+			$notification = true;
+		}
+		else
+		{
+			if (!$_POST['submit'])
+			{
+				$notification = false;
+			}
+			else
+			{
+				if ('changepw' == $_POST['submit'])
+					$notification = true;
+				else
+					$notification = false;
+			}
+		}
+
+		if ($notification)
 		{
 			if ($error)
 			{
@@ -103,7 +122,7 @@
 		</div>
 	</fieldset>
 	<div class="center">
-		<input type="hidden" name="changepasswd">
+		<input type="hidden" name="submit" value="changepw">
 		<input type="submit" id="submit" value="<?php echo $lang['submit']; ?>">
 	</div>
 </form>

@@ -863,7 +863,8 @@ function /* char *error */ ChangePassword(&$user, &$message)
 
 		if ($error)
 		{
-			$_GET['req'] = 'profile';			// Form to be displayed next
+			if ($user)
+				$_GET['req'] = 'profile';			// Form to be displayed next
 		}
 		else
 		{
