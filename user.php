@@ -861,7 +861,11 @@ function /* char *error */ ChangePassword(&$user, &$message)
 								   isset($_POST['token']) ? $_POST['token'] : null,
 								   $_POST['passwd']);
 
-		if (!$error)
+		if ($error)
+		{
+			$_GET['req'] = 'profile';			// Form to be displayed next
+		}
+		else
 		{
 			if ($user)
 			{
