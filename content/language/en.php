@@ -91,6 +91,7 @@ $lang = array
 	'passwdchanged' => 'Password changed successfully.',
 	'passwdchangedlogin' => 'Password changed successfully. You can now login.',
 	'authfailed' => 'Authentication failed.',
+	'authfailedtoken' => 'Authentication denied because password change token has been requested.',
 	'userexists' => 'User name already in use.',
 	'emailexists' => 'Email address already in use.',
 	'regsuccess' => 'Registration successful. Please enter activation code.',

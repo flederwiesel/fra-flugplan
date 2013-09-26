@@ -212,7 +212,7 @@ function /* char *error */ LoginUserSql(&$user, $id, $byid, $password, $remember
 						break;
 
 					case 'password':
-						$error = $lang['authfailed'];
+						$error = $lang['authfailedtoken'];
 						break;
 
 					case 'none':
