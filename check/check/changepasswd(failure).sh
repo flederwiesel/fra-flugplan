@@ -85,3 +85,11 @@ check "11" curl "$url/?req=changepw" \
 		--data-urlencode "passwd=zwiebel" \
 		--data-urlencode "passwd-confirm=zwiebel" \
 		--data-urlencode "submit=changepw"
+
+###############################################################################
+# try login with new passwd
+###############################################################################
+
+check "12" curl "$url/?req=login" \
+		--data-urlencode "user=flederwiesel" \
+		--data-urlencode "passwd=elvizzz"
