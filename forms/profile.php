@@ -87,59 +87,52 @@ $(function()
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<?php
 	/* At this point `user` is always set */
-	if (!$_POST['submit'])
-	{
-		$notification = false;
-	}
-	else
+	$notification = false;
+
+	if ($_POST['submit'])
 	{
 		if ('interval' == $_POST['submit'])
+		{
 			$notification = true;
-		else
-			$notification = false;
-	}
 
-	if ($notification)
-	{
-		$query = sprintf("UPDATE `users` ".
-						 "SET `tm-`=%ld, `tm+`=%ld, `tt-`=%ld, `tt+`=%ld WHERE `id`=%lu",
-						 $_POST['tm-'], $_POST['tm+'], $_POST['tt-'], $_POST['tt+'],
-						  $user->id());
+			$query = sprintf("UPDATE `users` ".
+							 "SET `tm-`=%ld, `tm+`=%ld, `tt-`=%ld, `tt+`=%ld WHERE `id`=%lu",
+							 $_POST['tm-'], $_POST['tm+'], $_POST['tt-'], $_POST['tt+'],
+							  $user->id());
 
-		$result = mysql_query($query);
+			$result = mysql_query($query);
 
-		if (!$result)
-		{
-			$error = mysql_error();
-		}
-		else
-		{
-			$user->opt('tm-', $_POST['tm-']);
-			$user->opt('tm+', $_POST['tm+']);
-			$user->opt('tt-', $_POST['tt-']);
-			$user->opt('tt+', $_POST['tt+']);
+			if (!$result)
+			{
+				$error = mysql_error();
+			}
+			else
+			{
+				$user->opt('tm-', $_POST['tm-']);
+				$user->opt('tm+', $_POST['tm+']);
+				$user->opt('tt-', $_POST['tt-']);
+				$user->opt('tt+', $_POST['tt+']);
+
+				$message = $lang['settingsssaved'];
+			}
 		}
 	}
 	?>
 	<fieldset>
 		<legend><?php echo $lang['displayinterval']; ?></legend>
 <?php
-		if (isset($_POST['interval']))
+		if ($notification)
 		{
 			if ($error)
 			{
 ?>
-		<div id="notification" class="error">
-			<?php echo $error; ?>
-		</div>
+		<div id="notification" class="error"><?php echo $error; ?></div>
 <?php
 			}
 			else
 			{
 ?>
-		<div id="notification" class="success">
-			<?php echo $lang['settingsssaved']; ?>
-		</div>
+		<div id="notification" class="success"><?php echo $message; ?></div>
 <?php
 			}
 		}
