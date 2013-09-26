@@ -91,17 +91,19 @@ if [ $# -gt 0 ]; then
 	scripts="$@"
 else
 	scripts='
-addflight(perms=1)
-addflight(perms=1), lang=de
-addflight(perms=0)
-addflight(perms=0), lang=de
-changepasswd
 # failures
 register(failure)
 activate(failure)
 login(failure)
 changepasswd(failure)
 #addflight(failure)
+# success
+addflight(perms=1)
+addflight(perms=1), lang=de
+addflight(perms=0)
+addflight(perms=0), lang=de
+changepasswd
+profile
 '
 fi
 

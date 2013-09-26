@@ -1,0 +1,193 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Live Schedule &ndash; Frankfurt Aviation Friends</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="language" content="en">
+<meta name="author" content="Tobias Kühne">
+<meta name="description" content="24h flight forecast for Frankfurt/Main airport with aircraft registrations">
+<meta name="keywords" content="fra eddf frankfurt airport aircraft spotter schedule">
+<meta name="robots" content="index, nofollow">
+<meta name="generator" content="Programmer's Notepad">
+<link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
+<link rel="icon" href="favicon.gif" type="image/gif">
+<script type="text/javascript" src="script/jquery-ui-1.10.3/jquery-1.10.1.min.js"></script>
+</head>
+<body>
+	<noscript>
+		<div class="noscript">If you obtain this message, JavaScript is either not supported or disabled in in your browser options.<br>In order to use full functionality of this site we advise you to <a href="http://www.enable-javascript.com">enable Javascript</a>.</div>
+	</noscript>
+	<div id="body">
+		<div class="box left">
+			<div>
+				<div id="head">
+					<h1 class="nobr">Frankfurt Aviation Friends</h1>
+					<h3>
+Live Schedule</h3>
+				</div>
+				<div id="nav">
+<dl class="left">
+		<dt><a href="http://www.frankfurt-aviation-friends.de/">Home</a></dt>
+			<dt class="sep"><a href="?arrival">Arrival</a></dt>
+			<dt class="sep"><a href="?departure">Departure</a></dt>
+				<dt class="sep"><a href="?page=addflight">Add flight</a></dt>
+		<dt class="sep"><a href="?page=help">Help</a></dt>
+</dl>
+<dl class="right">
+			<dt class="sep"><a href="?req=profile">User profile</a></dt>
+			<dt class="sep"><a href="?req=logout">Logout</a></dt>
+		<span style="vertical-align: baseline;">
+			<dt>
+				<a href="?req=profile&lang=de">
+					<img src="img/de.png" alt="German" width="16" height="12">
+				</a>
+			</dt>
+			<dt>
+				<a href="?req=profile&lang=en">
+					<img src="img/en.png" alt="English" width="16" height="12">
+				</a>
+			</dt>
+		</span>
+</dl>
+				</div>
+			</div>
+			<div id="content">
+<link rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.base.css">
+<link rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.theme.css">
+<link rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.slider.css">
+<script src="script/jquery-ui-1.10.3/ui/jquery.ui.core.js"></script>
+<script src="script/jquery-ui-1.10.3/ui/jquery.ui.widget.js"></script>
+<script src="script/jquery-ui-1.10.3/ui/jquery.ui.mouse.js"></script>
+<script src="script/jquery-ui-1.10.3/ui/jquery.ui.slider.js"></script>
+<script>
+$(function()
+{
+	$.each(["phone", "tablet"], function(index, value) {
+		var min = $("#" + value + "-min");
+		var max = $("#" + value + "-max");
+		var divider = $("option", min).size();
+		var slider = $("<div id=\"" + value + "-slider\"></div>").insertAfter($(max)).slider({
+			min: 1,
+			max: 7,
+			range: true,
+
+			values: [$(min)[0].selectedIndex + 1,
+					 $(max)[0].selectedIndex + 1 + $("option", min).size()],
+
+			slide: function(event, ui)
+			{
+				/* Don't let min and max overlap! */
+				if (ui.values[0] > divider)
+					return false;
+
+				if (ui.values[1] < divider + 1)
+					return false;
+
+				$(min)[0].selectedIndex = ui.values[0] - 1;
+				$(max)[0].selectedIndex = ui.values[1] - 1 - $("option", min).size();
+			}
+		});
+	});
+
+	$("#phone-min").change(function()
+	{
+		$("#phone-slider").slider("values", 0, this.selectedIndex + 1);
+	});
+
+	$("#phone-max").change(function()
+	{
+		$("#phone-slider").slider("values", 1,
+			$("#phone-min option").size() + this.selectedIndex + 1);
+	});
+
+	$("#tablet-min").change(function()
+	{
+		$("#tablet-slider").slider("values", 0, this.selectedIndex + 1);
+	});
+
+	$("#tablet-max").change(function()
+	{
+		$("#tablet-slider").slider("values", 1,
+			$("#tablet-min option").size() + this.selectedIndex + 1);
+	});
+});
+</script>
+<form method="post" action="?req=profile"
+	onsubmit="document.getElementById('submit').disabled=true;">
+		<fieldset>
+		<legend>Display Interval</legend>
+		<div id="notification" class="success">Settings have been saved.</div>
+		<div class="explainatory">For mobile devices &ndash; which might not always be within  range to a WLAN network &ndash;, it is possible to increase response times and reduce band width by adjusting the display interval. The default values are -15 min ... +24 hours.</div>
+		<div class="table">
+			<div class="row">
+				<div class="cell label">Cell Phone</div>
+				<div class="cell">
+					<select name="tm-" id="phone-min">
+						<option value="-75" selected>-00:15 h</option>
+						<option value="0">00:00 h</option>
+					</select>
+					<select name="tm+" id="phone-max">
+						<option value="3600">01:00 h</option>
+						<option value="7200" selected>02:00 h</option>
+						<option value="14400">04:00 h</option>
+						<option value="28800">08:00 h</option>
+						<option value="86400">24:00 h</option>
+					</select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell label">Tablet</div>
+				<div class="cell">
+					<select name="tt-" id="tablet-min">
+						<option value="-75" selected>-00:15 h</option>
+						<option value="0">00:00 h</option>
+					</select>
+					<select name="tt+" id="tablet-max">
+						<option value="3600">01:00 h</option>
+						<option value="7200">02:00 h</option>
+						<option value="14400">04:00 h</option>
+						<option value="28800" selected>08:00 h</option>
+						<option value="86400">24:00 h</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+	<div class="center">
+		<input type="hidden" name="submit" value="interval">
+		<input type="submit" id="submit" name="submit" value="Submit">
+	</div>
+</form>
+<form class="stretched" method="post" action="?req=changepw"
+	onsubmit="document.getElementById('submit').disabled=true;">
+	<fieldset>
+		<legend>Change password</legend>
+		<div class="table">
+			<div class="row">
+				<div class="cell label">New Password</div>
+				<div class="cell">
+					<input type="password" id="passwd" name="passwd"
+					 value="">
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell label">Confirm Password</div>
+				<div class="cell">
+					<input type="password" id="passwd-confirm" name="passwd-confirm"
+					 value="">
+					<div class="hint">At least 4 characters long</div>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+	<div class="center">
+		<input type="hidden" name="submit" value="changepw">
+		<input type="submit" id="submit" value="Submit">
+	</div>
+</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
