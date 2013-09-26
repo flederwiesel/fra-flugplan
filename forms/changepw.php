@@ -46,22 +46,18 @@
 	<fieldset>
 		<legend><?php echo $lang['changepasswd']; ?></legend>
 <?php
+		$notification = false;
+
 		if ('changepw' == $_GET['req'])
 		{
 			$notification = true;
 		}
 		else
 		{
-			if (!$_POST['submit'])
-			{
-				$notification = false;
-			}
-			else
+			if ($_POST['submit'])
 			{
 				if ('changepw' == $_POST['submit'])
 					$notification = true;
-				else
-					$notification = false;
 			}
 		}
 
