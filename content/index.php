@@ -215,7 +215,7 @@ if ($user)
 	wl_img_open = "img/wl-open-<?php echo $_SESSION['lang']; ?>.png";
 	wl_img_close = "img/wl-close-<?php echo $_SESSION['lang']; ?>.png";
 </script>
-<?php if (!$mobile || $tablet) { ?>
+<?php if ($user && (!$mobile || $tablet)) { ?>
 <script type="text/javascript" src="script/watchlist.js"></script>
 <?php } ?>
 <script type="text/javascript" src="script/sorttable.js"></script>
