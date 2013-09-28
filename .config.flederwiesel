@@ -36,6 +36,6 @@ define('DB_USERNAME', 'web416');
 define('DB_PASSWORD', 'web416');
 
 define('COOKIE_LIFETIME' , (3600 * 24 * 30)); // 30 days
-define('TOKEN_LIFETIME', 900);	// seconds
+define('TOKEN_LIFETIME', '3600');	// seconds
 
 ?>
