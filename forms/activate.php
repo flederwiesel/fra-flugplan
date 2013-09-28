@@ -52,6 +52,7 @@
 			<?php echo $message; ?>
 		</div>
 <?php } ?>
+		<div class="explainatory"><?php echo $lang['snailmail']; ?>.</div>
 		<div class="table">
 			<div class="row">
 				<div class="cell label"><?php echo $lang['username']; ?></div>

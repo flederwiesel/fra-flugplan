@@ -148,7 +148,7 @@ include("help-$_SESSION[lang].php");
 			<ul class="naked help">
 				<li>
 					<a href="content/emil.php?subject=fra-schedule%20trouble">
-					 	<img alt="email" src="content/emil-img.php" style="vertical-align: bottom;">
+					 	<img class="emil" alt="email" src="content/emil-img.php">
 					</a>
 				</li>
 				<li>T&#x006f;&#98;&#105;&#x61;s&ensp;&#x4b;&uuml;&#x68;&#110;e</li>

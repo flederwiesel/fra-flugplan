@@ -47,6 +47,11 @@ img
 	border: none;
 }
 
+img.emil
+{
+	vertical-align: bottom;
+}
+
 a
 {
 	color: #000080;
