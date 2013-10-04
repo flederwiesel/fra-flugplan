@@ -63,6 +63,7 @@ $lang = array
 	'login' => 'Anmelden',
 	'logout' => 'Abmelden',
 	'register' => 'Registrieren',
+	'registernote' => 'Die Registrierung ist kostenlos, registrierten Benutzern werden keine Verpflichtungen auferlegt (vom Wohlverhalten gegenüber diese Seite abgesehen), das Benutzerkonto muß jedoch einmalig per E-Mail aktiviert werden.',
 	'profile' => 'Benutzerprofil',
 	'changepw' => 'Passwort ändern',
 	'username' => 'Benutzername',

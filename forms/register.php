@@ -57,6 +57,7 @@
 <?php } else { ?>
 		<div id="notification" style="display: none;"></div>
 <?php } ?>
+		<div class="explainatory"><?php echo $lang['registernote']; ?></div>
 		<div class="table">
 			<div class="row">
 				<div class="cell label"><?php echo $lang['emailaddress']; ?></div>

@@ -63,6 +63,7 @@ $lang = array
 	'login' => 'Login',
 	'logout' => 'Logout',
 	'register' => 'Register',
+	'registernote' => 'Registration is free of charge, as registered user you are not undergoing any obligations (except positive behaviour against this site). However, you need to activate your account in the next step.',
 	'profile' => 'User profile',
 	'changepw' => 'Change password',
 	'username' => 'User name',
