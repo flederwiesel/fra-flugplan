@@ -453,7 +453,7 @@ else
 				// http://en.php.net/curl_setopt
 
 				// Set a referer
-				curl_setopt($ch, CURLOPT_REFERER, "http://www.flederwiesel.com/fra-flights");
+				curl_setopt($ch, CURLOPT_REFERER, "http://www.flederwiesel.com/fra-schedule");
 
 				// User agent
 				//curl_setopt($ch, CURLOPT_USERAGENT, "User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.28) Gecko/20120306 Firefox/3.6.28 ( .NET CLR 3.5.30729; .NET4.0E)");
@@ -522,7 +522,6 @@ else
 						{
 							if (isset($DEBUG[$dir]))
 							{
-								//echo "$htm\n";
 								echo str_replace(array('<', '>'), array('&lt;', '&gt;'), $htm);
 								echo "\n";
 							}
@@ -885,7 +884,7 @@ else
 						$url = "http://www.frankfurt-airport.de/flugplan/airportcity?fi".
 									substr($fi[4], 0, 1)."=".	// 'a'/'d' -> arrival/departure
 									$fi[1].$fi[2].				// LH1234
-									$date;//."&sprache=de";		// 20120603
+									$date;						// 20120603
 
 						if (isset($DEBUG['url']))
 							echo "$url\n";
