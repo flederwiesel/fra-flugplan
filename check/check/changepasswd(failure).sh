@@ -40,6 +40,16 @@ check "4" curl "$url/?req=activate" \
 
 check "5" curl "$url/?req=reqtok"
 
+check "5-1" curl "$url/?req=reqtok" \
+		--data-urlencode "user=flederwiesel" \
+		--data-urlencode "email=fra-schedule@flederwiesel.com"
+
+check "5-2" curl "$url/?req=reqtok" \
+		--data-urlencode "user=unkown"
+
+check "5-3" curl "$url/?req=reqtok" \
+		--data-urlencode "email=unknown@flederwiesel.com"
+
 check "6" curl "$url/?req=reqtok" \
 		--data-urlencode "user=flederwiesel"
 
