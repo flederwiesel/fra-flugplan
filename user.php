@@ -154,10 +154,7 @@ function /*bool*/ LoginUser(&$user)
 			$error = LoginUserSql($user, $_POST['user'], false, $_POST['passwd'], isset($_POST['autologin']));
 
 			if (!$error)
-			{
-				//&&$_GET['req'] = ''; ?
 				unset($_GET['req']);
-			}
 		}
 	}
 
@@ -314,7 +311,7 @@ function /* char *error */ RegisterUser(&$message)
 					if (!isset($_POST['passwd']))
 						$error = $lang['shortpassword'];
 					else
-						if (strlen($_POST['passwd']) < PASSWORD_MIN)
+						if (strlen($_POST['passwd']) < $PASSWORD_MIN)
 							$error = $lang['shortpassword'];
 
 					if (!$error)
@@ -386,9 +383,9 @@ function /* char *error */ RegisterUserSql($user, $email, $password, $language)
 
 				if (!$error)
 				{
-					if (strlen($password) < PASSWORD_MIN)
+					if (strlen($password) < $PASSWORD_MIN)
 					{
-						$error = sprintf($lang['passwdlengthmin'], PASSWORD_MIN);
+						$error = sprintf($lang['passwdlengthmin'], $PASSWORD_MIN);
 					}
 					else
 					{
@@ -515,7 +512,7 @@ function /* char *error */ ActivateUser(&$message)
 			if ($_POST['user'] && $_POST['token'])
 				$req = $_POST;
 			else
-				$error = $lang['activationfailed'];
+				$error = sprintf($lang['activationfailed'], __LINE__);
 		}
 	}
 
@@ -557,7 +554,7 @@ function /* char *error */ ActivateUserSql(&$user, $token)
 	{
 		if (mysql_num_rows($result) != 1)
 		{
-			$error = $lang['activationfailed'];
+			$error = sprintf($lang['activationfailed'], __LINE__);
 		}
 		else
 		{
@@ -590,7 +587,7 @@ function /* char *error */ ActivateUserSql(&$user, $token)
 						if ($token == $row['token'])
 							$uid = $row['id'];
 						else
-							$error = $lang['activationfailed'];
+							$error = sprintf($lang['activationfailed'], __LINE__);
 					}
 				}
 			}
@@ -609,19 +606,23 @@ function /* char *error */ ActivateUserSql(&$user, $token)
 			$error = mysql_error();
 	}
 
-	AdminMail('activation',
-		sprintf("$uid:$user%s = %s\n",
-				 $now ? " ($now)" : "",
-				 $error ? $error : "OK"));
+	if ($error)
+	{
+		AdminMail('activation',
+			sprintf("$uid:$user%s = %s token='%s'\n",
+					 $now ? " ($now)" : "",
+					 $error ? $error : "OK",
+					 isset($token) ? $token : ""));
+	}
+	else
+	{
+		AdminMail('activation',
+			sprintf("$uid:$user%s = OK\n",
+					 $now ? " ($now)" : ""));
+	}
 
 	return $error;
 }
-
-/*&&??
-define('Q_ID', 1);
-define('Q_NAME', 2);
-define('Q_MAIL', 3);
-*/
 
 function /* char *error */ RequestPasswordToken(&$message)
 {
@@ -943,17 +944,17 @@ function /* char *error */ ChangePasswordSql($user, $token, $password)
 						}
 						else
 						{
-							if (strlen($password) < PASSWORD_MIN)
-								$error = sprintf($lang['passwdlengthmin'], PASSWORD_MIN);
+							if (strlen($password) < $PASSWORD_MIN)
+								$error = sprintf($lang['passwdlengthmin'], $PASSWORD_MIN);
 						}
 					}
 				}
 
 				if (!$error)
 				{
-					if (strlen($password) < PASSWORD_MIN)
+					if (strlen($password) < $PASSWORD_MIN)
 					{
-						$error = sprintf($lang['passwdlengthmin'], PASSWORD_MIN);
+						$error = sprintf($lang['passwdlengthmin'], $PASSWORD_MIN);
 					}
 					else if (!pwmatch())
 					{
