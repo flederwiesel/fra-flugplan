@@ -72,7 +72,7 @@
 					<input type="text" id="user" name="user"
 					 value="<?php Input_SetValue('user', INP_POST | INP_GET, 'flederwiesel'); ?>">
 					<div class="hint">
-						<?php echo sprintf($lang['hintnumchars'], $USERNAME_MIN, $USERNAME_MAX); ?>
+						<?php echo sprintf($lang['hintnumchars'], $GLOBALS['USERNAME_MIN'], $GLOBALS['USERNAME_MAX']); ?>
 					</div>
 				</div>
 			</div>
@@ -91,7 +91,7 @@
 				<div class="cell">
 					<input type="password" id="passwd-confirm" name="passwd-confirm"
 					 value="<?php Input_SetValue(null, 0, 'elvizzz'); ?>">
-					<div class="hint"><?php echo sprintf($lang['hintpassword'], $PASSWORD_MIN); ?></div>
+					<div class="hint"><?php echo sprintf($lang['hintpassword'], $GLOBALS['PASSWORD_MIN']); ?></div>
 				</div>
 			</div>
 			<div class="row">

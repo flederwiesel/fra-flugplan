@@ -96,7 +96,7 @@
 				<div class="cell">
 					<input type="text" id="token" name="token"
 					 value="<?php Input_SetValue('token', INP_GET, ''); ?>">
-					<div class="hint"><?php echo sprintf($lang['hintpassword'], $PASSWORD_MIN); ?></div>
+					<div class="hint"><?php echo $lang['tokenemail']; ?></div>
 				</div>
 			</div>
 <?php } ?>
@@ -112,7 +112,7 @@
 				<div class="cell">
 					<input type="password" id="passwd-confirm" name="passwd-confirm"
 					 value="<?php Input_SetValue('passwd-confirm', 0, 'elvizzz'); ?>">
-					<div class="hint"><?php echo $lang['hintpassword']; ?></div>
+					<div class="hint"><?php echo sprintf($lang['hintpassword'], $GLOBALS['PASSWORD_MIN']); ?></div>
 				</div>
 			</div>
 		</div>

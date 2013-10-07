@@ -279,15 +279,15 @@ function /* char *error */ RegisterUser(&$message)
 	if (isset($_POST['user']) &&
 		isset($_POST['email']))		/* else: no request, just display form */
 	{
-		if (strlen($_POST['user']) < $USERNAME_MIN)
+		if (strlen($_POST['user']) < $GLOBALS['USERNAME_MIN'])
 		{
-			$error = sprintf($lang['usernamelengthmin'], $USERNAME_MIN);
+			$error = sprintf($lang['usernamelengthmin'], $GLOBALS['USERNAME_MIN']);
 		}
 		else
 		{
-			if (strlen($_POST['user']) > $USERNAME_MAX)
+			if (strlen($_POST['user']) > $GLOBALS['USERNAME_MAX'])
 			{
-				$error = sprintf($lang['usernamelengthmax'], $USERNAME_MAX);
+				$error = sprintf($lang['usernamelengthmax'], $GLOBALS['USERNAME_MAX']);
 			}
 			else
 			{
@@ -309,10 +309,10 @@ function /* char *error */ RegisterUser(&$message)
 					}
 
 					if (!isset($_POST['passwd']))
-						$error = sprintf($lang['shortpassword'], $PASSWORD_MIN);
+						$error = sprintf($lang['shortpassword'], $GLOBALS['PASSWORD_MIN']);
 					else
-						if (strlen($_POST['passwd']) < $PASSWORD_MIN)
-							$error = $lang['shortpassword'];
+						if (strlen($_POST['passwd']) < $GLOBALS['PASSWORD_MIN'])
+							$error = sprintf($lang['shortpassword'], $GLOBALS['PASSWORD_MIN']);
 
 					if (!$error)
 					{
@@ -383,9 +383,9 @@ function /* char *error */ RegisterUserSql($user, $email, $password, $language)
 
 				if (!$error)
 				{
-					if (strlen($password) < $PASSWORD_MIN)
+					if (strlen($password) < $GLOBALS['PASSWORD_MIN'])
 					{
-						$error = sprintf($lang['passwdlengthmin'], $PASSWORD_MIN);
+						$error = sprintf($lang['passwdlengthmin'], $GLOBALS['PASSWORD_MIN']);
 					}
 					else
 					{
@@ -944,17 +944,17 @@ function /* char *error */ ChangePasswordSql($user, $token, $password)
 						}
 						else
 						{
-							if (strlen($password) < $PASSWORD_MIN)
-								$error = sprintf($lang['passwdlengthmin'], $PASSWORD_MIN);
+							if (strlen($password) < $GLOBALS['PASSWORD_MIN'])
+								$error = sprintf($lang['passwdlengthmin'], $GLOBALS['PASSWORD_MIN']);
 						}
 					}
 				}
 
 				if (!$error)
 				{
-					if (strlen($password) < $PASSWORD_MIN)
+					if (strlen($password) < $GLOBALS['PASSWORD_MIN'])
 					{
-						$error = sprintf($lang['passwdlengthmin'], $PASSWORD_MIN);
+						$error = sprintf($lang['passwdlengthmin'], $GLOBALS['PASSWORD_MIN']);
 					}
 					else if (!pwmatch())
 					{
@@ -1006,11 +1006,11 @@ function /*str*/ mysql_user_error($default)
 	switch ($errno)
 	{
 	case '400':
-		$error = sprintf($lang['usernamelengthmin'], $USERNAME_MIN);
+		$error = sprintf($lang['usernamelengthmin'], $GLOBALS['USERNAME_MIN']);
 		break;
 
 	case '401':
-		$error = sprintf($lang['usernamelengthmax'], $USERNAME_MAX);
+		$error = sprintf($lang['usernamelengthmax'], $GLOBALS['USERNAME_MAX']);
 		break;
 
 	case '402':
