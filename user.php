@@ -279,15 +279,15 @@ function /* char *error */ RegisterUser(&$message)
 	if (isset($_POST['user']) &&
 		isset($_POST['email']))		/* else: no request, just display form */
 	{
-		if (strlen($_POST['user']) < USERNAME_MIN)
+		if (strlen($_POST['user']) < $USERNAME_MIN)
 		{
-			$error = sprintf($lang['usernamelengthmin'], USERNAME_MIN);
+			$error = sprintf($lang['usernamelengthmin'], $USERNAME_MIN);
 		}
 		else
 		{
-			if (strlen($_POST['user']) > USERNAME_MAX)
+			if (strlen($_POST['user']) > $USERNAME_MAX)
 			{
-				$error = sprintf($lang['usernamelengthmax'], USERNAME_MAX);
+				$error = sprintf($lang['usernamelengthmax'], $USERNAME_MAX);
 			}
 			else
 			{
@@ -1006,11 +1006,11 @@ function /*str*/ mysql_user_error($default)
 	switch ($errno)
 	{
 	case '400':
-		$error = sprintf($lang['usernamelengthmin'], USERNAME_MIN);
+		$error = sprintf($lang['usernamelengthmin'], $USERNAME_MIN);
 		break;
 
 	case '401':
-		$error = sprintf($lang['usernamelengthmax'], USERNAME_MAX);
+		$error = sprintf($lang['usernamelengthmax'], $USERNAME_MAX);
 		break;
 
 	case '402':

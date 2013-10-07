@@ -72,7 +72,7 @@
 					<input type="text" id="user" name="user"
 					 value="<?php Input_SetValue('user', INP_POST | INP_GET, 'flederwiesel'); ?>">
 					<div class="hint">
-						<?php echo sprintf($lang['hintnumchars'], USERNAME_MIN, USERNAME_MAX); ?>
+						<?php echo sprintf($lang['hintnumchars'], $USERNAME_MIN, $USERNAME_MAX); ?>
 					</div>
 				</div>
 			</div>

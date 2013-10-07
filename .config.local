@@ -19,8 +19,8 @@ define('ADMIN_NAME',       'Tobias Kühne');	// UTF-8
 define('ADMIN_EMAIL_FROM', 'web416p1@server240.star-server.info');
 define('ADMIN_EMAIL',      'fra-schedule@flederwiesel.com');
 
-define('USERNAME_MIN', 4);
-define('USERNAME_MAX', 32);
+$USERNAME_MIN = 4;
+$USERNAME_MAX = 32;
 // USERNAME_OFFENCE_REGEX
 
 $PASSWORD_MIN = 4;
