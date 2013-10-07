@@ -701,7 +701,10 @@ function /* char *error */ RequestPasswordTokenSql($user, $email)
 			{
 				if ($user)
 				{
-					$error = $lang['nosuchuser'];
+					if ($email)
+						$error = $lang['nosuchuseremail'];
+					else
+						$error = $lang['nosuchuser'];
 				}
 				else
 				{
@@ -1074,4 +1077,5 @@ function UserProcessRequest(&$user, &$message)
 
 	return $error;
 }
+
 ?>
