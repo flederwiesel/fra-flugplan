@@ -103,6 +103,7 @@ addflight(perms=1), lang=de
 addflight(perms=0)
 addflight(perms=0), lang=de
 changepasswd
+changepasswd lang=de
 profile
 '
 fi
