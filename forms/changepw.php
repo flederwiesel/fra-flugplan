@@ -96,7 +96,7 @@
 				<div class="cell">
 					<input type="text" id="token" name="token"
 					 value="<?php Input_SetValue('token', INP_GET, ''); ?>">
-					<div class="hint"><?php echo $lang['tokenemail']; ?></div>
+					<div class="hint"><?php echo sprintf($lang['hintpassword'], $PASSWORD_MIN); ?></div>
 				</div>
 			</div>
 <?php } ?>
