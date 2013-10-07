@@ -91,7 +91,7 @@
 				<div class="cell">
 					<input type="password" id="passwd-confirm" name="passwd-confirm"
 					 value="<?php Input_SetValue(null, 0, 'elvizzz'); ?>">
-					<div class="hint"><?php echo $lang['hintpassword']; ?></div>
+					<div class="hint"><?php echo sprintf($lang['hintpassword'], $PASSWORD_MIN); ?></div>
 				</div>
 			</div>
 			<div class="row">

@@ -309,7 +309,7 @@ function /* char *error */ RegisterUser(&$message)
 					}
 
 					if (!isset($_POST['passwd']))
-						$error = $lang['shortpassword'];
+						$error = sprintf($lang['shortpassword'], $PASSWORD_MIN);
 					else
 						if (strlen($_POST['passwd']) < $PASSWORD_MIN)
 							$error = $lang['shortpassword'];
