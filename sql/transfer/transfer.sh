@@ -1,16 +1,41 @@
 #!/bin/bash
 
-url='http://localhost/fra-schedule/sql/transfer/transfer-flights.php'
+start='23:00'
+fin='05:30'
 
-from=$(date "+%Y-%m-%d 23:30")
-until=$(date -d "1 day " "+%Y-%m-%d 04:30")
+#url='http://localhost/fra-schedule/sql/transfer/transfer-flights.php'
+url='http://www.flederwiesel.com/fra-schedule/sql/transfer/transfer-flights.php'
 
-from=$(date -d "$from" +%s)
-until=$(date -d "$until" +%s)
+now() {
+	date +%s
+	#date -d '2013-11-04 22:00' +%s
+	#date -d '2013-11-05 06:00' +%s
+}
+
+from=$(date -d "$(date +%Y-%m-%dT$start)" +%s)
+until=$(date -d "$(date +%Y-%m-%dT$fin)" +%s)
+
+echo $from | awk '// { print strftime("%Y-%m-%d %H:%M", $0); }'
+echo $(now) | awk '// { print strftime("%Y-%m-%d %H:%M", $0); }'
+echo $until | awk '// { print strftime("%Y-%m-%d %H:%M", $0); }'
+
+if [[ "$(now)" < "$from" ]] &&
+   [[ "$(now)" < "$until" ]]; then
+	from=$(date -d "$(date -d '-1 day' +%Y-%m-%dT$start)" +%s)
+fi
+
+if [[ "$from" > "$until" ]]; then
+	until=$(date -d "$(date -d '1 day' +%Y-%m-%dT$fin)" +%s)
+	echo "=="
+	echo $from | awk '// { print strftime("%Y-%m-%d %H:%M", $0); }'
+	echo $(now) | awk '// { print strftime("%Y-%m-%d %H:%M", $0); }'
+	echo $until | awk '// { print strftime("%Y-%m-%d %H:%M", $0); }'
+fi
+
 diff=0
 n=0
 
-while [[ $(date +%s) < $from ]];
+while [[ "$(now)" < "$from" ]];
 do
 	echo -n .
 	sleep 60
@@ -18,7 +43,7 @@ done
 
 date +%Y-%m-%d~%H:%M:%S >&2
 
-while [[ $(date +%s) < $until ]];
+while [[ "$(now)" < "$until" ]];
 do
 	if [ $diff -gt 20 ]; then
 		sleep 60
@@ -47,11 +72,11 @@ do
 
 done
 
-[ 0 == $diff ] || printf "\n\n"
+[[ 0 == "$diff" ]] || printf "\n\n"
 
 date +%Y-%m-%d~%H:%M:%S >&2
 
-if [[ "$(date +%s") >= "$until" ]]; then
+if [[ "$(now)" >= "$until" ]]; then
 	echo "Finished due to runtime restrictions." >&2
 else
 	echo "Finished." >&2
