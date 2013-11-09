@@ -121,10 +121,10 @@ CREATE TABLE IF NOT EXISTS `flights`
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* Copy `flights` table structure (including indices!) */
-CREATE TABLE IF NOT EXISTS `flights:past` LIKE `flights`;
+CREATE TABLE IF NOT EXISTS `history` LIKE `flights`;
 
 /* Remove AUTO_INCREMENT */
-ALTER TABLE `flights:past` AUTO_INCREMENT = 0;
+ALTER TABLE `history` AUTO_INCREMENT = 0;
 
 CREATE TABLE IF NOT EXISTS `watchlist` (
   `id` integer NOT NULL AUTO_INCREMENT,
