@@ -782,7 +782,7 @@ else
 
 							// flight
 							$query = "SELECT `id` FROM `flights` ".
-								"WHERE `direction`='$dir' AND `airline`=$airline AND `code`='$f->code' AND `scheduled`='$f->scheduled';";
+								"WHERE `direction`='$dir' AND `airline`=$airline AND `code`='$f->code' AND `scheduled`='$f->scheduled'";
 
 							if (isset($DEBUG['query']))
 								echo "$query\n";
@@ -1024,6 +1024,65 @@ EOF;
 
 				curl_close($ch);
 			}
+		}
+
+		/* Move outdated flights to history table */
+		if (!$error)
+		{
+			$result = mysql_query('START TRANSACTION');
+
+			if (!$result)
+			{
+				$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
+			}
+			else
+			{
+				$result = mysql_query('CREATE TEMPORARY TABLE `move flights`(`id` integer)');
+
+				if (!$result)
+				{
+					$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
+				}
+				else
+				{
+					$result = mysql_query("INSERT INTO `move flights` ".
+										  "  SELECT `id` ".
+										  "    FROM `flights` ".
+										  "      WHERE IFNULL(`expected`, `scheduled`) < ".
+										  "        (SELECT DATE_FORMAT(SUBTIME(CONVERT_TZ(UTC_TIMESTAMP(), ".
+										  "         '+00:00', '+01:00'), '1 00:00:00.0'), '%Y-%m-%d')) ".
+										  "         LIMIT 100");
+
+					if (!$result)
+					{
+						$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
+					}
+					else
+					{
+						$result = mysql_query("INSERT INTO `history`".
+											  "  SELECT * FROM `flights`".
+											  "    INNER JOIN `move flights` USING(`id`);");
+
+						if (!$result)
+						{
+							$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
+						}
+						else
+						{
+							$result = mysql_query("DELETE `flights` FROM `flights`".
+												  "  INNER JOIN `move flights` USING(`id`)");
+
+							if (!$result)
+								$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
+						}
+					}
+				}
+			}
+
+			$result = mysql_query($error ? 'ROLLBACK' : 'COMMIT');
+
+			if (!$result)
+				$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
 		}
 	}
 
