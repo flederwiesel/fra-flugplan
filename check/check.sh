@@ -11,7 +11,6 @@
 #
 ###############################################################################
 
-[ -e ../.config ] || cp ../.config.local ../.config
 #url="http://www.flederwiesel.com/vault/fra-schedule/$(svn info . | awk '/^Revision:/ { print $2; }')"
 url="http://localhost/fra-schedule"
 url=$(echo $url | sed -r 's/\$Rev: ([0-9]+) \$/\1/g')
@@ -29,7 +28,7 @@ unless() {
 
 	if [ $? -ne 0 ]; then
 		echo -e "\033[1;31mTest seriously failed in line $line:"
-		echo -e "$1$@\033[m\n" >&2
+		echo -e "$@\033[m\n" >&2
 		echo -e "\033[1;31mCannot continue.\033[m" >&2
 		exit 1
 	fi
@@ -59,6 +58,9 @@ strftime() {
 ###############################################################################
 # <preparation>
 ###############################################################################
+
+unless $LINENO sed -r "\"s/^(define[ \t]*\('DB_NAME',[ \t]*')[^']+('\);)/\1fra-schedule\2/g\"" \
+	../.config.local '>' ../.config
 
 rm -rf results
 mkdir -p results
