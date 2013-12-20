@@ -516,16 +516,51 @@ function /* char *error */ ActivateUser(&$message)
 		}
 	}
 
-	if ($req)
+	if ($error)
 	{
-		$error = ActivateUserSql($req['user'], $req['token']);
-
-		if (!$error)
+		if (!$req)
 		{
-			$message = $lang['activationsuccess'];
+			$user = '';
+			$token = '';
+		}
+		else
+		{
+			// KLUDGE:
+			global $USERNAME_MAX;
 
-			$_GET['req'] = 'login';			// Form to be displayed next
-			$_GET['user'] = $req['user'];	// Pre-set user name in form
+			$token = $_POST['token'];
+
+			if (!isset($token))
+				$token = "";
+
+			$max = strlen(token());
+
+			if (strlen($token) > $max)	/* SHA-256 */
+				$token = substr($token, 0, $max + 1).'...';
+
+			$user = $_POST['user'];
+
+			if (strlen($user) > $USERNAME_MAX)
+				$user = substr($user, 0, $USERNAME_MAX + 1).'...';
+		}
+
+		AdminMail('activation',
+			sprintf("%s user='%s' token='%s'\n",
+					$error, $user, $token));
+	}
+	else
+	{
+		if ($req)
+		{
+			$error = ActivateUserSql($req['user'], $req['token']);
+
+			if (!$error)
+			{
+				$message = $lang['activationsuccess'];
+
+				$_GET['req'] = 'login';			// Form to be displayed next
+				$_GET['user'] = $req['user'];	// Pre-set user name in form
+			}
 		}
 	}
 
@@ -566,6 +601,7 @@ function /* char *error */ ActivateUserSql(&$user, $token)
 			}
 			else
 			{
+				$uid = $row['id'];
 				$now = $row['now'];
 
 				if ('none' == $row['token_type'] ||
@@ -584,9 +620,7 @@ function /* char *error */ ActivateUserSql(&$user, $token)
 					}
 					else
 					{
-						if ($token == $row['token'])
-							$uid = $row['id'];
-						else
+						if ($token != $row['token'])
 							$error = sprintf($lang['activationfailed'], __LINE__);
 					}
 				}
@@ -608,11 +642,25 @@ function /* char *error */ ActivateUserSql(&$user, $token)
 
 	if ($error)
 	{
+		// KLUDGE:
+		global $USERNAME_MAX;
+
+		if (!isset($token))
+			$token = "";
+
+		$max = strlen(token());
+
+		if (strlen($token) > $max)	/* SHA-256 */
+			$token = substr($token, 0, $max + 1).'...';
+
+		if (strlen($user) > $USERNAME_MAX)
+			$user = substr($user, 0, $USERNAME_MAX + 1).'...';
+
 		AdminMail('activation',
 			sprintf("$uid:$user%s = %s token='%s'\n",
 					 $now ? " ($now)" : "",
 					 $error ? $error : "OK",
-					 isset($token) ? $token : ""));
+					 $token));
 	}
 	else
 	{
