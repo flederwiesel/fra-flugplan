@@ -11,7 +11,7 @@ echo -e "\033[36mRevision: $rev\033[m"
 lftp <<EOF
 open web416:L2ppkt1fl2@www.flederwiesel.com
 
-!echo $rev > revision
+!echo "$(svn info . | awk '/^Last Changed (Rev|Date):/ { print $0; }')" > revision
 !svn info . | awk '/^URL:/ { print $2; }' > history
 !echo '------------------------------------------------------------------------' >> history
 !svn log | sed -nr 'H; :a /---/ { x; s/\([a-z]+,[^)]+\) //g; s/[0-9]+ lines?//g; s/-*-$//g; s/\n//g; p; n; h; ba }' >> history

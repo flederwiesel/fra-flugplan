@@ -158,6 +158,15 @@ include("help-$_SESSION[lang].php");
 			<a class="back" href="#"><?php echo $lang_help[0]; ?></a>
 		</ul>
 
-		<div class="right footnote">$Rev$ $Date$</div>
+		<div class="right footnote">
+		<?php
+			$rev = file('revision');
+
+			if ($rev)
+			{
+				foreach ($rev as $line)
+					echo "$line.<br>";
+			}
+		?></div>
 	</div>
 </div>
