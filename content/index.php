@@ -31,13 +31,13 @@ function ordinal($number, $lang)
 		$suffix = array('th','st','nd','rd','th','th','th','th','th','th');
 
 		if (($number % 100) >= 11 && ($number % 100) <= 13)
-			$ordinal = $number.'th';
+			$ordinal = "${number}th";
 		else
-			$ordinal = $number.$suffix[$number % 10];
+			$ordinal = "$number-".$suffix[$number % 10];
 	}
 	else
 	{
-		$ordinal =$number.'.';
+		$ordinal = "${number}.";
 	}
 
 	return $ordinal;
@@ -519,7 +519,7 @@ else
 		echo "<td>$row[model]</td>";
 
 		$reg = $row['reg'];
-		$vtf = $row['vtf'];
+		$vtf = $row['vtf'] ? $row['vtf'] : '9999';
 		$hilite = ' class="left';
 
 		if (0 == strlen($reg))
