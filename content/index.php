@@ -33,7 +33,7 @@ function ordinal($number, $lang)
 		if (($number % 100) >= 11 && ($number % 100) <= 13)
 			$ordinal = "${number}th";
 		else
-			$ordinal = "$number-".$suffix[$number % 10];
+			$ordinal = "${number}".$suffix[$number % 10];
 	}
 	else
 	{
