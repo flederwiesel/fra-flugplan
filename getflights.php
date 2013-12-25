@@ -916,7 +916,7 @@ else
 											echo "=OK\n";
 									}
 
-									if (!$error && $reg)
+									if (!$error && $reg && 'arrival' == $dir)
 									{
 										$query = "SELECT `num`,`last` FROM `visits` WHERE `aircraft`=$reg;";
 										$result = mysql_query($query);
