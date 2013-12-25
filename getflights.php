@@ -758,7 +758,7 @@ else
 										if ($row)
 										{
 											$model = $row[0];
-											unseet($row);
+											unset($row);
 										}
 
 										if (isset($DEBUG['query']))
