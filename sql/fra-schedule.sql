@@ -126,14 +126,25 @@ CREATE TABLE IF NOT EXISTS `history` LIKE `flights`;
 /* Remove AUTO_INCREMENT */
 ALTER TABLE `history` AUTO_INCREMENT = 0;
 
-CREATE TABLE IF NOT EXISTS `watchlist` (
-  `id` integer NOT NULL AUTO_INCREMENT,
-  `user` int(11) NOT NULL,
-  `reg` varchar(8) NOT NULL,
-  `comment` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `user, reg` (`user`, `reg`),
-  FOREIGN KEY(`user`) REFERENCES `users`(`id`)
+CREATE TABLE IF NOT EXISTS `watchlist`
+(
+	`id` integer NOT NULL AUTO_INCREMENT,
+	`user` int(11) NOT NULL,
+	`reg` varchar(8) NOT NULL,
+	`comment` varchar(255) DEFAULT NULL,
+	PRIMARY KEY (`id`),
+	UNIQUE KEY `user, reg` (`user`, `reg`),
+	FOREIGN KEY(`user`) REFERENCES `users`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+/* Count visits to FRA */
+CREATE TABLE IF NOT EXISTS `visits`
+(
+	`aircraft` integer NOT NULL,
+	`num` integer NOT NULL,
+	`last` datetime NOT NULL,
+	PRIMARY KEY (`aircraft`),
+	FOREIGN KEY(`aircraft`) REFERENCES `aircrafts`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /******************************************************************************
@@ -150,6 +161,8 @@ CREATE INDEX `flights:code` ON `flights`(`code` ASC);
 CREATE INDEX `flights:direction` ON `flights`(`direction` ASC);
 CREATE INDEX `watchlist:user` ON `watchlist`(`user` ASC);
 CREATE INDEX `watchlist:reg` ON `watchlist`(`reg` ASC);
+CREATE INDEX `visits:aircraft` ON `visits`(`aircraft` ASC);
+CREATE INDEX `visits:last` ON `visits`(`last` ASC);
 
 /******************************************************************************
  * Data
@@ -903,3 +916,25 @@ VALUES
 (@uid, 'LDE', 'LFBT', 'Lourdes, Frankreich'),
 (@uid, 'YXY', 'CYXY', 'Whitehorse, Kanada')
 ;
+
+INSERT INTO `visits`
+SELECT
+	`flights`.`aircraft` AS `aircraft`,
+	COUNT(`flights`.`scheduled`) AS `num`,
+	MAX(`flights`.`scheduled`) AS `last`
+FROM
+(
+	SELECT `direction`,`scheduled`, `aircraft`
+	FROM `flights`
+	WHERE `aircraft` IS NOT NULL
+
+	UNION ALL
+
+	SELECT `direction`,`scheduled`, `aircraft`
+	FROM `history`
+	WHERE `aircraft` IS NOT NULL
+) AS `flights`
+LEFT JOIN `aircrafts`
+	   ON `aircrafts`.`id`=`flights`.`aircraft`
+WHERE `direction`='arrival'
+GROUP BY `aircraft`;

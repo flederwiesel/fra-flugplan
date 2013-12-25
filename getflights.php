@@ -480,10 +480,16 @@ else
 		{
 			$row = mysql_fetch_row($result);
 
-			if ($row)
-				$uid = $row[0];
-			else
+			if (!$row)
+			{
 				$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
+			}
+			else
+			{
+				$uid = $row[0];
+				unset($row);
+			}
+
 
 			mysql_free_result($result);
 		}
@@ -619,10 +625,13 @@ else
 									if (1 == mysql_num_rows($result))
 									{
 										// Yes
-										$col = mysql_fetch_row($result);
+										$row = mysql_fetch_row($result);
 
-										if ($col)
-											$airline = $col[0];
+										if ($row)
+										{
+											$airline = $row[0];
+											unset($row);
+										}
 
 										if (isset($DEBUG['query']))
 											echo "=$airline\n";
@@ -683,10 +692,13 @@ else
 										{
 											if (mysql_num_rows($result))
 											{
-												$col = mysql_fetch_row($result);
+												$row = mysql_fetch_row($result);
 
-												if ($col)
-													$carrier = $col[0];
+												if ($row)
+												{
+													$carrier = $row[0];
+													unset($row);
+												}
 
 												if (isset($DEBUG['query']))
 													echo "=$carrier\n";
@@ -741,10 +753,13 @@ else
 								{
 									if (mysql_num_rows($result))
 									{
-										$col = mysql_fetch_row($result);
+										$row = mysql_fetch_row($result);
 
-										if ($col)
-											$model = $col[0];
+										if ($row)
+										{
+											$model = $row[0];
+											unseet($row);
+										}
 
 										if (isset($DEBUG['query']))
 											echo "=$model\n";
@@ -797,10 +812,13 @@ else
 									{
 										if (mysql_num_rows($result))
 										{
-											$col = mysql_fetch_row($result);
+											$row = mysql_fetch_row($result);
 
-											if ($col)
-												$reg = $col[0];
+											if ($row)
+											{
+												$reg = $row[0];
+												unset($row);
+											}
 
 											if (isset($DEBUG['query']))
 												echo "=$reg\n";
@@ -836,7 +854,10 @@ else
 
 								// flight
 								$query = "SELECT `id` FROM `flights` ".
-									"WHERE `direction`='$dir' AND `airline`=$airline AND `code`='$f->code' AND `scheduled`='$f->scheduled'";
+									"WHERE `direction`='$dir'".
+									" AND `airline`=$airline".
+									" AND `code`='$f->code'".
+									" AND `scheduled`='$f->scheduled'";
 
 								if (isset($DEBUG['query']))
 									echo "$query\n";
@@ -851,6 +872,8 @@ else
 								{
 									$id = mysql_fetch_row($result);
 
+									mysql_free_result($result);
+
 									if ($id)
 									{
 										$id = $id[0];
@@ -859,7 +882,7 @@ else
 											echo "=$id\n";
 
 										$query = "UPDATE `flights` SET ".
-											($f->expected ? "`expected`='$f->expected', " : "").	// Don't overwrite `expected`
+											($f->expected ? "`expected`='$f->expected', " : "").	// Don't overwrite `expected` with NULL!
 											"`aircraft`=".($reg ? $reg : "NULL").",".
 											"`model`=".($model ? "$model" : "NULL")." ".
 											"WHERE `id`=$id;";
@@ -893,7 +916,68 @@ else
 											echo "=OK\n";
 									}
 
-									mysql_free_result($result);
+									if (!$error && $reg)
+									{
+										$query = "SELECT `num`,`last` FROM `visits` WHERE `aircraft`=$reg;";
+										$result = mysql_query($query);
+
+										if (isset($DEBUG['query']))
+											echo "$query\n";
+
+										if (!$result)
+										{
+											$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+										}
+										else
+										{
+											$row = mysql_fetch_row($result);
+											mysql_free_result($result);
+
+											if (!$row)
+											{
+												$query = "INSERT INTO `visits`(`aircraft`, `num`, `last`)".
+														 "VALUES($reg, 1, '$f->scheduled');";
+
+												if (isset($DEBUG['query']))
+													echo "=\n$query\n";
+											}
+											else
+											{
+												$num = $row[0];
+												$last = $row[1];
+
+												if (isset($DEBUG['query']))
+													echo "=$num,$last\n";
+
+												if ($last >= $f->scheduled)
+												{
+													$query = null;
+												}
+												else
+												{
+													$query = "UPDATE `visits` ".
+															 "SET `num`=".($num + 1).", `last`='$f->scheduled' ".
+															 "WHERE `aircraft`=$reg";
+
+													if (isset($DEBUG['query']))
+														echo "$query\n";
+												}
+											}
+
+											if ($query)
+											{
+												if (!mysql_query($query))
+												{
+													$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+												}
+												else
+												{
+													if (isset($DEBUG['query']))
+														echo "=OK\n";
+												}
+											}
+										}
+									}
 								}
 							}
 
@@ -914,12 +998,20 @@ else
 				unset($vector);
 
 				// Get airport IATA/ICAO from flight details page
-				$query = "SELECT `flights`.`id`, `airlines`.`code`, `flights`.`code`, `flights`.`scheduled`, `flights`.`direction` ".
-							"FROM `flights` ".
-							"LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` ".
-							"WHERE `airport` IS NULL ".
-							"AND (`scheduled` >= now() OR `expected` >= now() OR (TIME_TO_SEC(timediff(now(), `scheduled`)) / 60 / 60) < 2) ".
-							"ORDER BY `scheduled`;";
+				$query = "SELECT".
+						 " `flights`.`id`,".
+						 " `airlines`.`code`,".
+						 " `flights`.`code`,".
+						 " `flights`.`scheduled`,".
+						 " `flights`.`direction` ".
+						 "FROM `flights` ".
+						 "LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` ".
+						 "WHERE `airport` IS NULL ".
+						 "AND (".
+						 " `scheduled` >= now()".
+						 "  OR `expected` >= now()".
+						 "  OR (TIME_TO_SEC(timediff(now(), `scheduled`)) / 60 / 60) < 2) ".
+						 "ORDER BY `scheduled`;";
 
 				$result = mysql_query($query);
 
