@@ -136,6 +136,9 @@ done
 
 rm -f .COOKIES
 
+# Restore DB
+cp -f ../.config.local ../.config
+
 diff expect results \
 		--recursive --ignore-file-name-case \
 		--unified=1 \
