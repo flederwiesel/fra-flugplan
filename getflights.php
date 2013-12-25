@@ -305,6 +305,54 @@ function awk_flights_reg($rule, $fields)
 	global $f; $f->reg = patchreg($fields[2]);
 }
 
+function awk_flights_remark($rule, $fields)
+{
+	global $f;
+	global $tz;
+
+	$remark = getline();
+
+	/*
+		$remark should be one of the following:
+
+		<p>annulliert</p>
+		--
+		<p>im Anflug</p>
+		<p>gelandet</p>
+		<p>Gepäckausgabe beendet</p>
+		<p>Gepäckausgabe</p>
+		--
+		<p>Gate offen</p>
+		<p>geschlossen</p>
+		<p>gestartet</p>
+	*/
+
+	if (preg_match('/<p>annulliert<\/p>/', $remark))
+	{
+		$f->scheduled = null;
+		$f->expected = null;
+		$f->airline = null;
+		$f->code = null;
+	}
+	else if (preg_match('/<p>gestartet<\/p>/', $remark))
+	{
+		// Don't update expected any more
+		$f->expected = null;
+	}
+	else if (preg_match('/<p>Gate offen<\/p>/', $remark) ||
+			 preg_match('/<p>geschlossen<\/p>/', $remark))
+	{
+		// Don't tamper with times, if we could not
+		// ensure that timezone is correct
+		if ($tz === true)
+		{
+			// Waiting for departure, but expected may not have been updated
+			if (null == $f->expected || $f->expected < time())
+				$f->expected = strftime("%Y-%m-%d %H:%M", time() + 60);
+		}
+	}
+}
+
 function awk_flights_next($rule, $fields)
 {
 	global $f;
@@ -375,6 +423,7 @@ $flights_awk = array(
 '/[0-9][0-9].[0-9][0-9].[0-9][0-9][0-9][0-9][\r]*$/',   'awk_flights_date',
 '/Flugzeugtyp:/',                                       'awk_flights_model',
 '/Registrierung:/',                                     'awk_flights_reg',
+//'/Bemerkung:/',                                         'awk_flights_remark',
 '/>weiter</',                                           'awk_flights_next',
 
 /******************************************************************************
@@ -401,6 +450,9 @@ $airports_awk = array(
 
 $error = NULL;
 $warning = NULL;
+
+// We need to adjust departure times, make sure we use the correct tz
+$tz = date_default_timezone_set('Europe/Berlin');
 
 $hdbc = mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
 
@@ -540,194 +592,140 @@ else
 
 					while ($f = $vector->shift())
 					{
-						if (0 == strcmp("TRN", $f->model))	// no trains...
+						if ($f->airline && $f->code && $f->scheduled)
 						{
-							$n--;
-						}
-						else
-						{
-							// Is airline already in database?
-							$airline = NULL;
-							$query = "SELECT `id` FROM `airlines` WHERE `code`='".$f->airline."';";
-
-							if (isset($DEBUG['query']))
-								echo "$query\n";
-
-							$result = mysql_query($query);
-
-							if (!$result)
+							if (0 == strcmp("TRN", $f->model))	// no trains...
 							{
-								$error = seterrorinfo(__LINE__,
-											sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+								$n--;
 							}
 							else
 							{
-								if (1 == mysql_num_rows($result))
+								// Is airline already in database?
+								$airline = NULL;
+								$query = "SELECT `id` FROM `airlines` WHERE `code`='".$f->airline."';";
+
+								if (isset($DEBUG['query']))
+									echo "$query\n";
+
+								$result = mysql_query($query);
+
+								if (!$result)
 								{
-									// Yes
-									$col = mysql_fetch_row($result);
-
-									if ($col)
-										$airline = $col[0];
-
-									if (isset($DEBUG['query']))
-										echo "=$airline\n";
+									$error = seterrorinfo(__LINE__,
+												sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
 								}
 								else
 								{
-									if (isset($DEBUG['query']))
-										echo "=<empty>\n";
-
-									// No, insert airline
-									$query = "INSERT INTO `airlines`(`uid`, `code`, `name`)".
-											 " VALUES($uid, '".$f->carrier['code']."', '".$f->carrier['name']."');";
-
-									if (isset($DEBUG['query']))
-										echo "$query\n";
-
-									if (mysql_query($query))
+									if (1 == mysql_num_rows($result))
 									{
-										$airline = mysql_insert_id();
+										// Yes
+										$col = mysql_fetch_row($result);
+
+										if ($col)
+											$airline = $col[0];
 
 										if (isset($DEBUG['query']))
 											echo "=$airline\n";
-
-										warn_once(__LINE__, "Inserted airline $f->airline as \"".$f->carrier['name']."\"".
-															" ($dir: flight $f->airline$f->code \"$f->scheduled\").");
 									}
 									else
 									{
-										$airline = NULL;
-										$error = seterrorinfo(__LINE__,
-													sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
-									}
-								}
+										if (isset($DEBUG['query']))
+											echo "=<empty>\n";
 
-								mysql_free_result($result);
-							}
+										// No, insert airline
+										$query = "INSERT INTO `airlines`(`uid`, `code`, `name`)".
+												 " VALUES($uid, '".$f->carrier['code']."', '".$f->carrier['name']."');";
 
-							if ($airline)
-							{
-								// Get carrier id, if different from airline
-								if ($airline != $f->carrier['code'])
-								{
-									// flight is operated by someone else
-									$carrier = NULL;
-									$query = "SELECT `id` FROM `airlines` WHERE `code`='".$f->carrier['code']."';";
+										if (isset($DEBUG['query']))
+											echo "$query\n";
 
-									if (isset($DEBUG['query']))
-										echo "$query\n";
-
-									$result = mysql_query($query);
-
-									if (!$result)
-									{
-										$error = seterrorinfo(__LINE__,
-													sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
-									}
-									else
-									{
-										if (mysql_num_rows($result))
+										if (mysql_query($query))
 										{
-											$col = mysql_fetch_row($result);
-
-											if ($col)
-												$carrier = $col[0];
+											$airline = mysql_insert_id();
 
 											if (isset($DEBUG['query']))
-												echo "=$carrier\n";
+												echo "=$airline\n";
+
+											warn_once(__LINE__, "Inserted airline $f->airline as \"".$f->carrier['name']."\"".
+																" ($dir: flight $f->airline$f->code \"$f->scheduled\").");
 										}
 										else
 										{
-											if (isset($DEBUG['query']))
-												echo "=<empty>\n";
+											$airline = NULL;
+											$error = seterrorinfo(__LINE__,
+														sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+										}
+									}
 
-											// Not found, insert airline
-											$query = "INSERT INTO `airlines`(`uid`, `code`, `name`)".
-													 " VALUES($uid, '".$f->carrier['code']."', '".$f->carrier['name']."');";
+									mysql_free_result($result);
+								}
 
-											if (isset($DEBUG['query']))
-												echo "$query\n";
+								if ($airline)
+								{
+									// Get carrier id, if different from airline
+									if ($airline != $f->carrier['code'])
+									{
+										// flight is operated by someone else
+										$carrier = NULL;
+										$query = "SELECT `id` FROM `airlines` WHERE `code`='".$f->carrier['code']."';";
 
-											if (mysql_query($query))
+										if (isset($DEBUG['query']))
+											echo "$query\n";
+
+										$result = mysql_query($query);
+
+										if (!$result)
+										{
+											$error = seterrorinfo(__LINE__,
+														sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+										}
+										else
+										{
+											if (mysql_num_rows($result))
 											{
-												$carrier = mysql_insert_id();
+												$col = mysql_fetch_row($result);
+
+												if ($col)
+													$carrier = $col[0];
 
 												if (isset($DEBUG['query']))
 													echo "=$carrier\n";
 											}
 											else
 											{
-												$error = seterrorinfo(__LINE__,
-															sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+												if (isset($DEBUG['query']))
+													echo "=<empty>\n";
+
+												// Not found, insert airline
+												$query = "INSERT INTO `airlines`(`uid`, `code`, `name`)".
+														 " VALUES($uid, '".$f->carrier['code']."', '".$f->carrier['name']."');";
+
+												if (isset($DEBUG['query']))
+													echo "$query\n";
+
+												if (mysql_query($query))
+												{
+													$carrier = mysql_insert_id();
+
+													if (isset($DEBUG['query']))
+														echo "=$carrier\n";
+												}
+												else
+												{
+													$error = seterrorinfo(__LINE__,
+																sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+												}
 											}
+
+											mysql_free_result($result);
 										}
-
-										mysql_free_result($result);
-									}
-								}
-							}
-
-							// model
-							$reg = NULL;
-							$model = NULL;
-							$query = "SELECT `id` FROM `models` WHERE `icao`='$f->model';";
-
-							if (isset($DEBUG['query']))
-								echo "$query\n";
-
-							$result = mysql_query($query);
-
-							if (!$result)
-							{
-								$error = seterrorinfo(__LINE__,
-											sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
-							}
-							else
-							{
-								if (mysql_num_rows($result))
-								{
-									$col = mysql_fetch_row($result);
-
-									if ($col)
-										$model = $col[0];
-
-									if (isset($DEBUG['query']))
-										echo "=$model\n";
-								}
-								else
-								{
-									if (isset($DEBUG['query']))
-										echo "=<empty>\n";
-
-									$query = "INSERT INTO `models`(`uid`, `icao`,`name`) VALUES($uid, '$f->model', '');";
-
-									if (isset($DEBUG['query']))
-										echo "$query\n";
-
-									if (mysql_query($query))
-									{
-										warn_once(__LINE__, "Aircraft '$f->model' is unknown (flight $f->airline$f->code $f->scheduled).");
-
-										$model = mysql_insert_id();
-
-										if (isset($DEBUG['query']))
-											echo "=$model\n";
-									}
-									else
-									{
-										$error = seterrorinfo(__LINE__,
-													sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
 									}
 								}
 
-								mysql_free_result($result);
-							}
-
-							// aircraft
-							if ($f->reg && $model)
-							{
-								$query = "SELECT `id` FROM `aircrafts` WHERE `reg`='$f->reg';";
+								// model
+								$reg = NULL;
+								$model = NULL;
+								$query = "SELECT `id` FROM `models` WHERE `icao`='$f->model';";
 
 								if (isset($DEBUG['query']))
 									echo "$query\n";
@@ -746,105 +744,162 @@ else
 										$col = mysql_fetch_row($result);
 
 										if ($col)
-											$reg = $col[0];
+											$model = $col[0];
 
 										if (isset($DEBUG['query']))
-											echo "=$reg\n";
+											echo "=$model\n";
 									}
 									else
 									{
 										if (isset($DEBUG['query']))
 											echo "=<empty>\n";
 
-										$query = "INSERT INTO `aircrafts`(`uid`, `reg`,`model`)".
-												 " VALUES($uid, '$f->reg', $model);";
+										$query = "INSERT INTO `models`(`uid`, `icao`,`name`) VALUES($uid, '$f->model', '');";
 
 										if (isset($DEBUG['query']))
 											echo "$query\n";
 
-										if (!mysql_query($query))
+										if (mysql_query($query))
+										{
+											warn_once(__LINE__, "Aircraft '$f->model' is unknown (flight $f->airline$f->code $f->scheduled).");
+
+											$model = mysql_insert_id();
+
+											if (isset($DEBUG['query']))
+												echo "=$model\n";
+										}
+										else
 										{
 											$error = seterrorinfo(__LINE__,
 														sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
 										}
-										else
+									}
+
+									mysql_free_result($result);
+								}
+
+								// aircraft
+								if ($f->reg && $model)
+								{
+									$query = "SELECT `id` FROM `aircrafts` WHERE `reg`='$f->reg';";
+
+									if (isset($DEBUG['query']))
+										echo "$query\n";
+
+									$result = mysql_query($query);
+
+									if (!$result)
+									{
+										$error = seterrorinfo(__LINE__,
+													sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+									}
+									else
+									{
+										if (mysql_num_rows($result))
 										{
-											$reg = mysql_insert_id();
+											$col = mysql_fetch_row($result);
+
+											if ($col)
+												$reg = $col[0];
 
 											if (isset($DEBUG['query']))
 												echo "=$reg\n";
 										}
+										else
+										{
+											if (isset($DEBUG['query']))
+												echo "=<empty>\n";
+
+											$query = "INSERT INTO `aircrafts`(`uid`, `reg`,`model`)".
+													 " VALUES($uid, '$f->reg', $model);";
+
+											if (isset($DEBUG['query']))
+												echo "$query\n";
+
+											if (!mysql_query($query))
+											{
+												$error = seterrorinfo(__LINE__,
+															sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+											}
+											else
+											{
+												$reg = mysql_insert_id();
+
+												if (isset($DEBUG['query']))
+													echo "=$reg\n";
+											}
+										}
+
+										mysql_free_result($result);
+									}
+								}
+
+								// flight
+								$query = "SELECT `id` FROM `flights` ".
+									"WHERE `direction`='$dir' AND `airline`=$airline AND `code`='$f->code' AND `scheduled`='$f->scheduled'";
+
+								if (isset($DEBUG['query']))
+									echo "$query\n";
+
+								$result = mysql_query($query);
+
+								if (!$result)
+								{
+									$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+								}
+								else
+								{
+									$id = mysql_fetch_row($result);
+
+									if ($id)
+									{
+										$id = $id[0];
+
+										if (isset($DEBUG['query']))
+											echo "=$id\n";
+
+										$query = "UPDATE `flights` SET ".
+											($f->expected ? "`expected`='$f->expected', " : "").	// Don't overwrite `expected`
+											"`aircraft`=".($reg ? $reg : "NULL").",".
+											"`model`=".($model ? "$model" : "NULL")." ".
+											"WHERE `id`=$id;";
+									}
+									else
+									{
+										if (isset($DEBUG['query']))
+											echo "=<empty>\n";
+
+										$query = "INSERT INTO `flights` ".
+											"(`uid`, `type`, `direction`, `airline`, `code`, ".
+											"`scheduled`, `expected`, `aircraft`, `model`) ".
+											"VALUES(".
+											"$uid, 'pax-regular', '$dir', $airline, '$f->code', ".
+											"'$f->scheduled', ".
+											($f->expected ? "'$f->expected'" : "NULL").", ".
+											($reg ? $reg : "NULL").", ".
+											($model ? "$model": "NULL").");";
+									}
+
+									if (isset($DEBUG['query']))
+										echo "$query\n";
+
+									if (!mysql_query($query))
+									{
+										$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+									}
+									else
+									{
+										if (isset($DEBUG['query']))
+											echo "=OK\n";
 									}
 
 									mysql_free_result($result);
 								}
 							}
 
-							// flight
-							$query = "SELECT `id` FROM `flights` ".
-								"WHERE `direction`='$dir' AND `airline`=$airline AND `code`='$f->code' AND `scheduled`='$f->scheduled'";
-
 							if (isset($DEBUG['query']))
-								echo "$query\n";
-
-							$result = mysql_query($query);
-
-							if (!$result)
-							{
-								$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
-							}
-							else
-							{
-								$id = mysql_fetch_row($result);
-
-								if ($id)
-								{
-									$id = $id[0];
-
-									if (isset($DEBUG['query']))
-										echo "=$id\n";
-
-									$query = "UPDATE `flights` SET ".
-										($f->expected ? "`expected`='$f->expected', " : "").	// Don't overwrite `expected`
-										"`aircraft`=".($reg ? $reg : "NULL").",".
-										"`model`=".($model ? "$model" : "NULL")." ".
-										"WHERE `id`=$id;";
-								}
-								else
-								{
-									if (isset($DEBUG['query']))
-										echo "=<empty>\n";
-
-									$query = "INSERT INTO `flights` ".
-										"(`uid`, `type`, `direction`, `airline`, `code`, ".
-										"`scheduled`, `expected`, `aircraft`, `model`) ".
-										"VALUES(".
-										"$uid, 'pax-regular', '$dir', $airline, '$f->code', ".
-										"'$f->scheduled', ".
-										($f->expected ? "'$f->expected'" : "NULL").", ".
-										($reg ? $reg : "NULL").", ".
-										($model ? "$model": "NULL").");";
-								}
-
-								if (isset($DEBUG['query']))
-									echo "$query\n";
-
-								if (!mysql_query($query))
-								{
-									$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
-								}
-								else
-								{
-									if (isset($DEBUG['query']))
-										echo "=OK\n";
-								}
-
-								mysql_free_result($result);
-							}
+								echo "\n/************************************/\n\n";
 						}
-
-						if (isset($DEBUG['query']))
-							echo "\n/************************************/\n\n";
 					}
 
 					if (isset($DEBUG['any']))
@@ -1049,8 +1104,8 @@ EOF;
 										  "  SELECT `id` ".
 										  "    FROM `flights` ".
 										  "      WHERE IFNULL(`expected`, `scheduled`) < ".
-										  "        (SELECT DATE_FORMAT(SUBTIME(CONVERT_TZ(UTC_TIMESTAMP(), ".
-										  "         '+00:00', '+01:00'), '1 00:00:00.0'), '%Y-%m-%d')) ".
+										  "        (SELECT SUBTIME(CONVERT_TZ(UTC_TIMESTAMP(), ".
+										  "         '+00:00', '+01:00'), '1 00:00:00.0')) ".
 										  "         LIMIT 100");
 
 					if (!$result)
