@@ -155,6 +155,7 @@ $lang = array
 	'cellphone' => 'Mobiltelefon',
 	'tablet' => 'Tablet',
 	'settingsssaved' => 'Einstellungen wurden gespeichert.',
+	'vtf' => ' Besuch in FRA',
 );
 
 ?>

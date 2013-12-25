@@ -501,6 +501,12 @@ form div.explainatory
 	font-weight: bold;
 }
 
+#schedule td.rare
+{
+	color: #000000;
+	font-weight: bold;
+}
+
 #counter
 {
 	margin: 3.6em auto 0.8em auto;

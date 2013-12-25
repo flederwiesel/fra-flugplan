@@ -155,6 +155,7 @@ $lang = array
 	'cellphone' => 'Cell Phone',
 	'tablet' => 'Tablet',
 	'settingsssaved' => 'Settings have been saved.',
+	'vtf' => ' visit to FRA',
 );
 
 ?>

@@ -22,7 +22,26 @@
  *
  ******************************************************************************/
 
- $error = null;
+$error = null;
+
+function ordinal($number, $lang)
+{
+	if ('en' == $lang)
+	{
+		$suffix = array('th','st','nd','rd','th','th','th','th','th','th');
+
+		if (($number % 100) >= 11 && ($number % 100) <= 13)
+			$ordinal = $number.'th';
+		else
+			$ordinal = $number.$suffix[$number % 10];
+	}
+	else
+	{
+		$ordinal =$number.'.';
+	}
+
+	return $ordinal;
+}
 
 /* Update watchlist from posted values */
 if (isset($_POST['del']) ||
@@ -440,12 +459,14 @@ $query = "SELECT `type`,".
 		" `airports`.`icao` AS `airport_icao`,".
 		" `airports`.`name` AS `airport_name`,").
 	" `models`.`icao` AS `model`,".
-	" `aircrafts`.`reg` AS `reg` ".
+	" `aircrafts`.`reg` AS `reg`, ".
+	" `visits`.`num` AS `vtf` ".
 	"FROM `flights`".
 	" LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` ".
 	" LEFT JOIN `airports` ON `flights`.`airport` = `airports`.`id` ".
 	" LEFT JOIN `models` ON `flights`.`model` = `models`.`id` ".
 	" LEFT JOIN `aircrafts` ON `flights`.`aircraft` = `aircrafts`.`id` ".
+	" LEFT JOIN `visits` ON `flights`.`aircraft` = `visits`.`aircraft` ".
 	"WHERE `flights`.`direction`='$dir'".
 	" AND TIME_TO_SEC(TIMEDIFF(IFNULL(`expected`, `scheduled`), now())) >= $lookback ".
 	" AND TIME_TO_SEC(TIMEDIFF(IFNULL(`expected`, `scheduled`), now())) <= $lookahead ".
@@ -498,9 +519,8 @@ else
 		echo "<td>$row[model]</td>";
 
 		$reg = $row['reg'];
+		$vtf = $row['vtf'];
 		$hilite = ' class="left';
-
-		$dhhmmss = substr(str_replace(array(' ', '.', ':', '-'), '', $row['expected']), -7);
 
 		if (0 == strlen($reg))
 		{
@@ -509,15 +529,22 @@ else
 		else
 		{
 			$sortkey = ' sorttable_customkey="%"';
+			$dhhmmss = substr(str_replace(array(' ', '.', ':', '-'), '', $row['expected']), -7);
 
-			if (!isset($watch[$reg]))
-			{
-				$sortkey = str_replace('%', '1:'.$reg.$dhhmmss, $sortkey);
-			}
-			else
+			if (isset($watch[$reg]))
 			{
 				$hilite .= ' watch" title="'.htmlspecialchars($watch[$reg]);
 				$sortkey = str_replace('%', '0:'.$reg.$dhhmmss, $sortkey);
+			}
+			else if ($vtf < 10)
+			{
+				$vtf = ordinal($vtf, $_SESSION['lang']);
+				$hilite .= ' rare" title="'.htmlspecialchars("$vtf$lang[vtf]");
+				$sortkey = str_replace('%', '0:'.$reg.$dhhmmss, $sortkey);
+			}
+			else
+			{
+				$sortkey = str_replace('%', '1:'.$reg.$dhhmmss, $sortkey);
 			}
 		}
 
@@ -544,7 +571,7 @@ else
 					<img class="href" src="img/a-net.png" alt="www.airliners.net">
 				</a>
 <?php
-				echo $reg;
+				echo "$reg";
 			}
 		}
 

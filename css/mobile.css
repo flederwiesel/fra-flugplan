@@ -436,6 +436,12 @@ form div.explainatory
 	font-weight: bold;
 }
 
+#schedule td.rare
+{
+	color: #000000;
+	font-weight: bold;
+}
+
 #addflight
 {
 	margin: auto;
