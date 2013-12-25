@@ -642,27 +642,31 @@ else
 											echo "=<empty>\n";
 
 										// No, insert airline
-										$query = "INSERT INTO `airlines`(`uid`, `code`, `name`)".
-												 " VALUES($uid, '".$f->carrier['code']."', '".$f->carrier['name']."');";
-
-										if (isset($DEBUG['query']))
-											echo "$query\n";
-
-										if (mysql_query($query))
+										if (strlen($f->carrier['code']) &&
+											strlen($f->carrier['name']))
 										{
-											$airline = mysql_insert_id();
+											$query = "INSERT INTO `airlines`(`uid`, `code`, `name`)".
+													 " VALUES($uid, '".$f->carrier['code']."', '".$f->carrier['name']."');";
 
 											if (isset($DEBUG['query']))
-												echo "=$airline\n";
+												echo "$query\n";
 
-											warn_once(__LINE__, "Inserted airline $f->airline as \"".$f->carrier['name']."\"".
-																" ($dir: flight $f->airline$f->code \"$f->scheduled\").");
-										}
-										else
-										{
-											$airline = NULL;
-											$error = seterrorinfo(__LINE__,
-														sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+											if (mysql_query($query))
+											{
+												$airline = mysql_insert_id();
+
+												if (isset($DEBUG['query']))
+													echo "=$airline\n";
+
+												warn_once(__LINE__, "Inserted airline $f->airline as \"".$f->carrier['name']."\"".
+																	" ($dir: flight $f->airline$f->code \"$f->scheduled\").");
+											}
+											else
+											{
+												$airline = NULL;
+												$error = seterrorinfo(__LINE__,
+															sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+											}
 										}
 									}
 
@@ -709,23 +713,26 @@ else
 													echo "=<empty>\n";
 
 												// Not found, insert airline
-												$query = "INSERT INTO `airlines`(`uid`, `code`, `name`)".
-														 " VALUES($uid, '".$f->carrier['code']."', '".$f->carrier['name']."');";
-
-												if (isset($DEBUG['query']))
-													echo "$query\n";
-
-												if (mysql_query($query))
+												if (strlen($f->carrier['name']))
 												{
-													$carrier = mysql_insert_id();
+													$query = "INSERT INTO `airlines`(`uid`, `code`, `name`)".
+															 " VALUES($uid, '".$f->carrier['code']."', '".$f->carrier['name']."');";
 
 													if (isset($DEBUG['query']))
-														echo "=$carrier\n";
-												}
-												else
-												{
-													$error = seterrorinfo(__LINE__,
-																sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+														echo "$query\n";
+
+													if (mysql_query($query))
+													{
+														$carrier = mysql_insert_id();
+
+														if (isset($DEBUG['query']))
+															echo "=$carrier\n";
+													}
+													else
+													{
+														$error = seterrorinfo(__LINE__,
+																	sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+													}
 												}
 											}
 
@@ -769,24 +776,27 @@ else
 										if (isset($DEBUG['query']))
 											echo "=<empty>\n";
 
-										$query = "INSERT INTO `models`(`uid`, `icao`,`name`) VALUES($uid, '$f->model', '');";
-
-										if (isset($DEBUG['query']))
-											echo "$query\n";
-
-										if (mysql_query($query))
+										if (strlen($f->model))
 										{
-											warn_once(__LINE__, "Aircraft '$f->model' is unknown (flight $f->airline$f->code $f->scheduled).");
-
-											$model = mysql_insert_id();
+											$query = "INSERT INTO `models`(`uid`, `icao`,`name`) VALUES($uid, '$f->model', '');";
 
 											if (isset($DEBUG['query']))
-												echo "=$model\n";
-										}
-										else
-										{
-											$error = seterrorinfo(__LINE__,
-														sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+												echo "$query\n";
+
+											if (mysql_query($query))
+											{
+												warn_once(__LINE__, "Aircraft '$f->model' is unknown (flight $f->airline$f->code $f->scheduled).");
+
+												$model = mysql_insert_id();
+
+												if (isset($DEBUG['query']))
+													echo "=$model\n";
+											}
+											else
+											{
+												$error = seterrorinfo(__LINE__,
+															sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+											}
 										}
 									}
 
@@ -828,23 +838,26 @@ else
 											if (isset($DEBUG['query']))
 												echo "=<empty>\n";
 
-											$query = "INSERT INTO `aircrafts`(`uid`, `reg`,`model`)".
-													 " VALUES($uid, '$f->reg', $model);";
-
-											if (isset($DEBUG['query']))
-												echo "$query\n";
-
-											if (!mysql_query($query))
+											if (strlen($f->reg))
 											{
-												$error = seterrorinfo(__LINE__,
-															sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
-											}
-											else
-											{
-												$reg = mysql_insert_id();
+												$query = "INSERT INTO `aircrafts`(`uid`, `reg`,`model`)".
+														 " VALUES($uid, '$f->reg', $model);";
 
 												if (isset($DEBUG['query']))
-													echo "=$reg\n";
+													echo "$query\n";
+
+												if (!mysql_query($query))
+												{
+													$error = seterrorinfo(__LINE__,
+																sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+												}
+												else
+												{
+													$reg = mysql_insert_id();
+
+													if (isset($DEBUG['query']))
+														echo "=$reg\n";
+												}
 											}
 										}
 
