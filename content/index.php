@@ -142,20 +142,37 @@ if (isset($_POST['del']) ||
 
 $watch = array();
 
+$ignore = array(
+	'___visitsToday ',
+	'__utma',
+	'__utmz',
+	'_et_coid',
+	'BIGipServerpool-proxy-http ',
+	'DBGSESSID',
+	'googleMapHomePin',
+	'googleMapOptions',
+	'ld893_s ',
+	'PHPSESSID',
+	'POPUPCHE',
+	'POPUPCHECK',
+	/* our cookies */
+	'autologin',
+	'userID',
+	'hash',
+	'lang',
+);
+
+foreach ($_COOKIE as $key =>$value)
+{
+	if (!in_array($key, $ignore))
+		$watch[$key] = $value;
+}
+
+unset($ignore);
+
 /******************************************************************************
  * move watchlist cookies into db
  ******************************************************************************/
-
-foreach ($_COOKIE as $key =>$value)
-	$watch[$key] = $value;
-
-unset($watch['lang']);
-unset($watch['userID']);
-unset($watch['hash']);
-unset($watch['autologin']);
-unset($watch['PHPSESSID']);
-unset($watch['DBGSESSID']);
-unset($watch['POPUPCHE']);
 
 if ($user)
 {
