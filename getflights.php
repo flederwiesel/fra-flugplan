@@ -485,7 +485,7 @@ $awk_flights = array(
 '/[0-9][0-9].[0-9][0-9].[0-9][0-9][0-9][0-9][\r]*$/',   'awk_flights_date',
 '/Flugzeugtyp:/',                                       'awk_flights_model',
 '/Registrierung:/',                                     'awk_flights_reg',
-//'/Bemerkung:/',                                         'awk_flights_remark',
+'/Bemerkung:/',                                         'awk_flights_remark',
 '/>weiter</',                                           'awk_flights_next',
 
 /******************************************************************************
