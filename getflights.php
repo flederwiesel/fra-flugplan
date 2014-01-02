@@ -35,6 +35,16 @@ include ".config";
 include "classes/vector.php";
 include "classes/awk.php";
 
+$baseurl = 'www.frankfurt-airport.de';
+$rwyinfo = 'apps.fraport.de';
+
+if (isset($_GET['baseurl']))
+{
+	/* Those may be overridden for testing */
+	$baseurl = $_GET['baseurl'];
+	$rwyinfo = $_GET['baseurl'];
+}
+
 if (isset($_GET['debug']))
 {
 	$flags = explode(",", $_GET['debug']);
@@ -119,7 +129,7 @@ function curl_setup()
 	// is cURL installed yet?
 	if (!function_exists('curl_init'))
 	{
-		$curl = null;
+		$curl = NULL;
 		seterrorinfo(__LINE__, 'cURL is not installed!');
 	}
 	else
@@ -138,6 +148,11 @@ function curl_setup()
 
 		// Include header in result? (0 = yes, 1 = no)
 		curl_setopt($curl, CURLOPT_HEADER, 0);
+
+		// Upon "301 Moved Permanently", follow the redirection
+		// This is necessary since local url '.../airportcity' is a directory,
+		// but url would have needed a trailing backslash then...
+		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
 
 		// Should cURL return or print out the data? (true = return, false = print)
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
@@ -356,12 +371,18 @@ function awk_flights_date($rule, $fields)
 
 function awk_flights_model($rule, $fields)
 {
-	global $f; $f->model = $fields[2];
+	global $f;
+
+	if (count($fields) > 2)
+		$f->model = $fields[2];
 }
 
 function awk_flights_reg($rule, $fields)
 {
-	global $f; $f->reg = patchreg($fields[2]);
+	global $f;
+
+	if (count($fields) > 2)
+		$f->reg = patchreg($fields[2]);
 }
 
 function awk_flights_remark($rule, $fields)
@@ -388,15 +409,12 @@ function awk_flights_remark($rule, $fields)
 
 	if (preg_match('/<p>annulliert<\/p>/', $remark))
 	{
-		$f->scheduled = null;
-		$f->expected = null;
-		$f->airline = null;
-		$f->code = null;
+		$f->model = '~NUL~';
 	}
 	else if (preg_match('/<p>gestartet<\/p>/', $remark))
 	{
 		// Don't update expected any more
-		$f->expected = null;
+		$f->expected = NULL;
 	}
 	else if (preg_match('/<p>Gate offen<\/p>/', $remark) ||
 			 preg_match('/<p>geschlossen<\/p>/', $remark))
@@ -406,7 +424,7 @@ function awk_flights_remark($rule, $fields)
 		if ($tz === true)
 		{
 			// Waiting for departure, but expected may not have been updated
-			if (null == $f->expected || $f->expected < time())
+			if (NULL == $f->expected || $f->expected < time())
 				$f->expected = strftime("%Y-%m-%d %H:%M", time() + 60);
 		}
 	}
@@ -512,12 +530,13 @@ $awk_airports = array(
 
 function GetFlights($curl, $dir, &$flights)
 {
+	global $baseurl;
 	global $DEBUG;
 	global $awk_flights;
 	global $f;
 	global $page;
 
-	$error = null;
+	$error = NULL;
 	$f = NULL;
 	$flights = new vector;
 	$action = 'init';
@@ -527,7 +546,7 @@ function GetFlights($curl, $dir, &$flights)
 
 	do
 	{
-		$url = "http://www.frankfurt-airport.de/flugplan/airportcity?".
+		$url = "http://$baseurl/flugplan/airportcity?".
 			   "type=$dir&typ=p&context=0&sprache=de&items=12&$action=true&page=$page";
 
 		if (isset($DEBUG['url']))
@@ -883,7 +902,7 @@ function UpdateVisitsToFra($f, $reg)
 
 			if ($last >= $f->scheduled)
 			{
-				$query = null;
+				$query = NULL;
 			}
 			else
 			{
@@ -915,6 +934,7 @@ function UpdateVisitsToFra($f, $reg)
 
 function GetFlightDetails($curl, &$airports)
 {
+	global $baseurl;
 	global $DEBUG;
 	global $awk_airports;
 	global $fi;
@@ -954,7 +974,7 @@ function GetFlightDetails($curl, &$airports)
 				echo "=$fi[0],...\n";
 
 			$date = substr($fi[3], 0, 4).substr($fi[3], 5, 2).substr($fi[3], 8, 2);
-			$url = "http://www.frankfurt-airport.de/flugplan/airportcity?fi".
+			$url = "http://$baseurl/flugplan/airportcity?fi".
 						substr($fi[4], 0, 1)."=".	// 'a'/'d' -> arrival/departure
 						$fi[1].$fi[2].				// LH1234
 						$date;						// 20120603
@@ -1146,9 +1166,79 @@ function InsertOrUpdateFlight($dir, $airline, $code,
 	return $error;
 }
 
+function DeleteFlight($dir, $airline, $code, $scheduled)
+{
+	global $DEBUG;
+	global $uid;
+
+	$error = NULL;
+
+	/* Determine whether there is something to be deleted at all */
+	$query = "SELECT `id` FROM `flights` ".
+		"WHERE `direction`='$dir'".
+		" AND `airline`=$airline".
+		" AND `code`='$code'".
+		" AND `scheduled`='$scheduled'";
+
+	if (isset($DEBUG['query']))
+		echo "$query\n";
+
+	$result = mysql_query($query);
+
+	if (!$result)
+	{
+		$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+	}
+	else
+	{
+		$n = mysql_num_rows($result);
+
+		if (isset($DEBUG['query']))
+			echo "=$n\n";
+
+		mysql_free_result($result);
+
+		if (isset($DEBUG['query']))
+			echo "=OK\n";
+
+		/* Although this should be enforced by a constriaint ... */
+		if ($n > 1)
+			warn_once(__LINE__, "Multiple flights deleted: $dir-$airline-'$code'-'$scheduled'");
+
+		if ($n > 0)
+		{
+			$query = "DELETE FROM `flights` ".
+				"WHERE `direction`='$dir'".
+				" AND `airline`=$airline".
+				" AND `code`='$code'".
+				" AND `scheduled`='$scheduled'";
+
+			if (isset($DEBUG['query']))
+				echo "$query\n";
+
+			$result = mysql_query($query);
+
+			if (!$result)
+			{
+				$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+			}
+			else
+			{
+				if (isset($DEBUG['query']))
+					echo "=OK\n";
+
+				if (0 == mysql_affected_rows())
+					warn_once(__LINE__, "No flight deleted: $dir-$airline-'$code'-'$scheduled'");
+			}
+		}
+	}
+
+	return $error;
+}
+
 function FlightsToHistory()
 {
-	$error = null;
+	$error = NULL;
 	$result = mysql_query('START TRANSACTION');
 
 	if (!$result)
@@ -1255,7 +1345,7 @@ else
 		{
 			$curl = curl_setup();
 
-			if (null == $curl)
+			if (NULL == $curl)
 			{
 				$error = geterrorinfo();
 			}
@@ -1266,6 +1356,9 @@ else
 
 				foreach ($direction as $dir)
 				{
+					if (isset($DEBUG['any']))
+						printf("%s\n", $dir);
+
 					$time_start = microtime(true);
 
 					$error = GetFlights($curl, $dir, $flights);
@@ -1277,54 +1370,58 @@ else
 
 					while ($f = $flights->shift())
 					{
-						if ($f->airline && $f->code && $f->scheduled)
+						if (0 == strcmp("TRN", $f->model))	// no trains...
 						{
-							if (0 == strcmp("TRN", $f->model))	// no trains...
-							{
-								$n--;
-							}
-							else
-							{
-								$airline = NULL;
-								$error = GetAirlineId($f, $airline);
-
-								if ($airline)
-								{
-									// Get carrier id, if different from flight airline code
-									// (operated by someone else)
-									if ($airline != $f->carrier['code'])
-										$error = GetCarrierId($f, $airline);
-								}
-
-								// model
-								$model = NULL;
-								$error = GetModelId($f, $model);
-
-								// aircraft
-								$reg = NULL;
-
-								if ($f->reg && $model)
-									$error = GetAircraftId($f, $model, $reg);
-
-								// flight
-								$error = InsertOrUpdateFlight($dir, $airline, $f->code,
-															  $f->scheduled, $f->expected, $model, $reg);
-
-								if (!$error && $reg && 'arrival' == $dir)
-									$error = UpdateVisitsToFra($f, $reg);
-							}
-
-							if (isset($DEBUG['query']))
-								echo "\n/************************************/\n\n";
+							$n--;
 						}
+						else if (0 == strcmp("~NUL~", $f->model))	// "annulliert"
+						{
+							$error = GetAirlineId($f, $airline);
+
+							if (!$error)
+								$error = DeleteFlight($dir, $airline, $f->code, $f->scheduled);
+						}
+						else
+						{
+							$airline = NULL;
+							$error = GetAirlineId($f, $airline);
+
+							if ($airline)
+							{
+								// Get carrier id, if different from flight airline code
+								// (operated by someone else)
+								if ($airline != $f->carrier['code'])
+									$error = GetCarrierId($f, $airline);
+							}
+
+							// model
+							$model = NULL;
+							$error = GetModelId($f, $model);
+
+							// aircraft
+							$reg = NULL;
+
+							if ($f->reg && $model)
+								$error = GetAircraftId($f, $model, $reg);
+
+							// flight
+							$error = InsertOrUpdateFlight($dir, $airline, $f->code,
+														  $f->scheduled, $f->expected, $model, $reg);
+
+							if (!$error && $reg && 'arrival' == $dir)
+								$error = UpdateVisitsToFra($f, $reg);
+						}
+
+						if (isset($DEBUG['query']))
+							echo "\n/************************************/\n\n";
 					}
 
 					if (isset($DEBUG['any']))
 					{
-						printf("%s\n---------------------------\n", $dir);
+						printf("---------------------------\n");
 						printf("%lu Flüge gefunden.\n", $n);
 						printf("    %s: %.3fs\n", 'Dauer', $time);
-						printf("    \n===========================\n\n");
+						printf("\n===========================\n\n");
 					}
 				}
 
@@ -1342,7 +1439,7 @@ else
 				unset($airport);
 
 				/* betriebsrichtung.html */
-				$betriebsrichtung = curl_download($curl, 'http://apps.fraport.de/betriebsrichtung/betriebsrichtung.html');
+				$betriebsrichtung = curl_download($curl, "http://$rwyinfo/betriebsrichtung/betriebsrichtung.html");
 
 				$file = @fopen('data/betriebsrichtung.html', 'w');
 
