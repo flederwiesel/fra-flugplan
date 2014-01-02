@@ -1,0 +1,151 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Live Schedule &ndash; Frankfurt Aviation Friends</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="language" content="en">
+<meta name="author" content="Tobias Kühne">
+<meta name="description" content="24h flight forecast for Frankfurt/Main airport with aircraft registrations">
+<meta name="keywords" content="fra eddf frankfurt airport aircraft spotter schedule">
+<meta name="robots" content="index, nofollow">
+<meta name="generator" content="Programmer's Notepad">
+<link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
+<link rel="icon" href="favicon.gif" type="image/gif">
+<script type="text/javascript" src="script/jquery-ui-1.10.3/jquery-1.10.1.min.js"></script>
+</head>
+<body>
+	<noscript>
+		<div class="noscript">If you obtain this message, JavaScript is either not supported or disabled in in your browser options.<br>In order to use full functionality of this site we advise you to <a href="http://www.enable-javascript.com">enable Javascript</a>.</div>
+	</noscript>
+	<div id="body">
+		<div class="box left">
+			<div>
+				<div id="head">
+					<h1 class="nobr">Frankfurt Aviation Friends</h1>
+					<h3>
+Live Schedule &ndash; Arrival</h3>
+				</div>
+				<div id="nav">
+<dl class="left">
+		<dt><a href="http://www.frankfurt-aviation-friends.de/">Home</a></dt>
+			<dt class="sep">Arrival</dt>
+			<dt class="sep"><a href="?departure">Departure</a></dt>
+		<dt class="sep"><a href="?page=help">Help</a></dt>
+</dl>
+<dl class="right">
+			<dt class="sep"><a href="?req=register">Register</a></dt>
+			<dt class="sep"><a href="?req=login">Login</a></dt>
+		<span style="vertical-align: baseline;">
+			<dt>
+				<a href="?arrival&lang=de">
+					<img src="img/de.png" alt="German" width="16" height="12">
+				</a>
+			</dt>
+			<dt>
+				<a href="?arrival&lang=en">
+					<img src="img/en.png" alt="English" width="16" height="12">
+				</a>
+			</dt>
+		</span>
+</dl>
+				</div>
+			</div>
+			<div id="content">
+
+<!--[if IE]>
+<style type="text/css">
+#list { padding-right: 1.2em; }
+</style>
+<![endif]-->
+
+<script type="text/javascript">
+	wl_img_open = "img/wl-open-en.png";
+	wl_img_close = "img/wl-close-en.png";
+</script>
+<script type="text/javascript" src="script/sorttable.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+	});
+
+	$(document).keydown(function(event)
+	{
+		if (27 == event.keyCode)
+			watchlist("hide");
+	});
+
+	$(function()
+	{
+		$("#watch").submit(function(event) {
+			$("#submit").attr("disabled", "disabled");
+			PreparePostData(this);
+		});
+	});
+</script>
+
+
+<div id="rwy_cont">
+	<div id="rwy_div" style="float: left ;">
+		<span id="rwy_l" style="vertical-align: middle;">
+			<img alt="active runway" src="img/arrival-yellow-16x14.png">
+		</span>
+		<span id="rwy_r">99</span>
+	</div>
+</div>
+
+
+<div id="schedule">
+	<table class="sortable" summary="schedule">
+		<thead>
+			<tr>
+				<th>Time				<th class="sep">Flight				<th class="sep">Airline				<th class="sep">IATA
+				<th class="sep">ICAO
+				<th class="sep">From				<th class="sep">Type				<th class="sep sorttable_alpha">Reg			</tr>
+		</thead>
+		<tfoot></tfoot>
+		<tbody>
+<tr><td class="early">+0 05:30</td><td>DE6369</td><td class='left'><div>Condor</div></td><td>HKT</td><td>VTSP</td><td class='left'><div>Phuket</div></td><td>B763</td><td class="left rare" title="1st visit to FRA" sorttable_customkey="0:D-ABUM2053000">				<a href = "http://www.airliners.net/search/photo.search?q=D-ABUM" target="a-net">
+					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+				</a>
+D-ABUM</td></tr>
+<tr><td class="early">+0 06:06</td><td>SA260</td><td class='left'><div>South African Airways</div></td><td>JNB</td><td>FAOR</td><td class='left'><div>Johannesburg</div></td><td>A346</td><td class="left rare" title="1st visit to FRA" sorttable_customkey="0:ZS-SNH2060600">				<a href = "http://www.airliners.net/search/photo.search?q=ZS-SNH" target="a-net">
+					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+				</a>
+ZS-SNH</td></tr>
+<tr><td class="early">+0 06:18</td><td>CX289</td><td class='left'><div>Cathay Pacific Airways</div></td><td>HKG</td><td>VHHH</td><td class='left'><div>Hongkong, Hong Kong</div></td><td>B77W</td><td class="left rare" title="1st visit to FRA" sorttable_customkey="0:B-KPE2061800">				<a href = "http://www.airliners.net/search/photo.search?q=B-KPE" target="a-net">
+					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+				</a>
+B-KPE</td></tr>
+<tr><td>+0 06:25</td><td>EY001</td><td class='left'><div>Etihad Airways</div></td><td>AUH</td><td>OMAA</td><td class='left'><div>Abu Dhabi, Ver.Arab.Emirate</div></td><td>A332</td><td sorttable_customkey="2"></td></tr>
+<tr><td>+0 07:00</td><td>AC872</td><td class='left'><div>Air Canada</div></td><td>YYZ</td><td>CYYZ</td><td class='left'><div>Toronto, Kanada</div></td><td>B77W</td><td class="left rare" title="1st visit to FRA" sorttable_customkey="0:C-FITW2070000">				<a href = "http://www.airliners.net/search/photo.search?q=C-FITW" target="a-net">
+					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+				</a>
+C-FITW</td></tr>
+<tr><td>+0 15:20</td><td>JP112</td><td class='left'><div>Adria Airways</div></td><td>LJU</td><td>LJLJ</td><td class='left'><div>Ljubljana, Slowenien</div></td><td></td><td sorttable_customkey="2"></td></tr>
+<tr><td>+0 15:34</td><td>DE5249</td><td class='left'><div>Condor</div></td><td>POP</td><td>MDPP</td><td class='left'><div>Puerto Plata, Dominikan. Rep.</div></td><td>B763</td><td class="left rare" title="1st visit to FRA" sorttable_customkey="0:D-ABUD2153400">				<a href = "http://www.airliners.net/search/photo.search?q=D-ABUD" target="a-net">
+					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+				</a>
+D-ABUD</td></tr>
+<tr><td>+0 20:15</td><td>LH031</td><td class='left'><div>Lufthansa</div></td><td>HAM</td><td>EDDH</td><td class='left'><div>Hamburg, Deutschland</div></td><td>A321</td><td class="left rare" title="1st visit to FRA" sorttable_customkey="0:D-AISQ2201500">				<a href = "http://www.airliners.net/search/photo.search?q=D-AISQ" target="a-net">
+					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+				</a>
+D-AISQ</td></tr>
+<tr><td class="early">+0 21:58</td><td>TP578</td><td class='left'><div>TAP Portugal</div></td><td>LIS</td><td>LPPT</td><td class='left'><div>Lissabon, Portugal</div></td><td>A320</td><td class="left rare" title="1st visit to FRA" sorttable_customkey="0:CS-TNP2215800">				<a href = "http://www.airliners.net/search/photo.search?q=CS-TNP" target="a-net">
+					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+				</a>
+CS-TNP</td></tr>
+		</tbody>
+	</table>
+</div>
+			</div>
+		</div>
+		<div>
+			<div id="counter" class="box center">
+				<a href="http://info.flagcounter.com/y9Ko">
+					<img src="http://s07.flagcounter.com/count/y9Ko/bg_ffffff/txt_a3aab7/border_ffffff/columns_8/maxflags_248/viewers_Live+Schedule+Visitors:/labels_1/pageviews_0/flags_0/" alt="Free counters!">
+				</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
