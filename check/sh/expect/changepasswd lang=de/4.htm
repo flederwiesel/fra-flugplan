@@ -1,0 +1,100 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Live Schedule &ndash; Frankfurt Aviation Friends</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="language" content="de">
+<meta name="author" content="Tobias Kühne">
+<meta name="description" content="24h flight forecast for Frankfurt/Main airport with aircraft registrations">
+<meta name="keywords" content="fra eddf frankfurt airport aircraft spotter schedule">
+<meta name="robots" content="index, nofollow">
+<meta name="generator" content="Programmer's Notepad">
+<link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
+<link rel="icon" href="favicon.gif" type="image/gif">
+<script type="text/javascript" src="script/jquery-ui-1.10.3/jquery-1.10.1.min.js"></script>
+</head>
+<body>
+	<noscript>
+		<div class="noscript">JavaScript wird entweder nicht vom Browser unterstützt oder ist abgeschaltet.<br>Um diese in vollem Umfang nutzen zu können, bitte <a href="http://www.enable-javascript.com/de/">Javascript aktivieren</a>.</div>
+	</noscript>
+	<div id="body">
+		<div class="box left">
+			<div>
+				<div id="head">
+					<h1 class="nobr">Frankfurt Aviation Friends</h1>
+					<h3>
+Live Flugplan</h3>
+				</div>
+				<div id="nav">
+<dl class="left">
+		<dt><a href="http://www.frankfurt-aviation-friends.de/">Startseite</a></dt>
+			<dt class="sep"><a href="?arrival">Ankunft</a></dt>
+			<dt class="sep"><a href="?departure">Abflug</a></dt>
+		<dt class="sep"><a href="?page=help">Hilfe</a></dt>
+</dl>
+<dl class="right">
+			<dt class="sep"><a href="?req=register">Registrieren</a></dt>
+			<dt class="sep"><a href="?req=login">Anmelden</a></dt>
+		<span style="vertical-align: baseline;">
+			<dt>
+				<a href="?req=login&user=flederwiesel&lang=de">
+					<img src="img/de.png" alt="Deutsch" width="16" height="12">
+				</a>
+			</dt>
+			<dt>
+				<a href="?req=login&user=flederwiesel&lang=en">
+					<img src="img/en.png" alt="Englisch" width="16" height="12">
+				</a>
+			</dt>
+		</span>
+</dl>
+				</div>
+			</div>
+			<div id="content">
+<form class="stretched" method="post" action="?req=login"
+	onsubmit="document.getElementById('submit').disabled=true;">
+	<fieldset>
+		<legend>Anmeldung</legend>
+		<div id="notification" class="success">
+			Aktivierung erfolgreich. Login steht zur Verfügung.		</div>
+		<div class="table">
+			<div class="row">
+				<div class="cell label">Benutzername</div>
+				<div class="cell">
+					<input type="text" id="user" name="user" tabindex="1"
+					 value="flederwiesel" autofocus>
+					<div class="hint">
+						<a href="?req=register"  tabindex="5">Kein Mitglied? Registrieren!</a>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell label">Passwort</div>
+				<div class="cell">
+					<input type="password" id="passwd" name="passwd" tabindex="2"
+					 value="">
+					<div class="hint">
+						<a href="?req=reqtok"  tabindex="6">Passwort vergessen?</a>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell">&nbsp;</div>
+				<div class="cell">
+						<label>
+							<input type="checkbox" id="autologin" name="autologin"  tabindex="3" checked>
+								Auf diesem Computer angemeldet bleiben (benötigt Cookies).						</label>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+	<div class="center">
+		<input type="submit" id="submit"  tabindex="4" value="Absenden">
+	</div>
+</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
