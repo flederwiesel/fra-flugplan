@@ -24,8 +24,11 @@
 
 /******************************************************************************
  *
- *  Debug options: ?debug=[url,arrival,departure,airports,awk,query]
- *                 &fmt=[htm|html|...]
+ *  Debug options: debug=[url,arrival,departure,airports,awk,query]
+ *                 fmt=[htm|html|...]
+ *
+ *   Test options: baseurl=www.frankfurt-airport.de
+ *                 now={localtime as '%Y-%m-%d %H:%M:%S'}
  *
  ******************************************************************************/
 
@@ -35,14 +38,21 @@ include ".config";
 include "classes/vector.php";
 include "classes/awk.php";
 
+// We need to adjust departure times, make sure we use the correct tz
+$tz = date_default_timezone_set('Europe/Berlin');
+
 $baseurl = 'www.frankfurt-airport.de';
 $rwyinfo = 'apps.fraport.de';
+$now = strftime('%Y-%m-%d %H:%M:%S');
 
 if (isset($_GET['baseurl']))
 {
 	/* Those may be overridden for testing */
 	$baseurl = $_GET['baseurl'];
 	$rwyinfo = $_GET['baseurl'];
+
+	if (isset($_GET['now']))
+		$now = $_GET['now'];
 }
 
 if (isset($_GET['debug']))
@@ -342,12 +352,18 @@ function awk_flights_airline($rule, $fields)
 
 function awk_flights_scheduled($rule, $fields)
 {
-	global $f; $f->scheduled = $fields[2];
+	global $f;
+
+	if (count($fields) > 2)
+		$f->scheduled = $fields[2];
 }
 
 function awk_flights_expected($rule, $fields)
 {
-	global $f; $f->expected = $fields[2];
+	global $f;
+
+	if (count($fields) > 2)
+		$f->expected = $fields[2];
 }
 
 function awk_flights_date($rule, $fields)
@@ -387,8 +403,9 @@ function awk_flights_reg($rule, $fields)
 
 function awk_flights_remark($rule, $fields)
 {
-	global $f;
 	global $tz;
+	global $now;
+	global $f;
 
 	$remark = getline();
 
@@ -413,8 +430,9 @@ function awk_flights_remark($rule, $fields)
 	}
 	else if (preg_match('/<p>gestartet<\/p>/', $remark))
 	{
-		// Don't update expected any more
-		$f->expected = NULL;
+		// Don't update flight any more
+		if (strtotime($f->expected) < strtotime($now))
+			$f->scheduled = NULL;
 	}
 	else if (preg_match('/<p>Gate offen<\/p>/', $remark) ||
 			 preg_match('/<p>geschlossen<\/p>/', $remark))
@@ -424,8 +442,13 @@ function awk_flights_remark($rule, $fields)
 		if ($tz === true)
 		{
 			// Waiting for departure, but expected may not have been updated
-			if (NULL == $f->expected || $f->expected < time())
-				$f->expected = strftime("%Y-%m-%d %H:%M", time() + 60);
+			// If `expected` is NULL here, but a timestamp in the DB exists,
+			// the latter will be overwritten by $now!
+			if (NULL == $f->expected)
+				$f->expected = $now;
+			else
+				if (strtotime($f->expected) < strtotime($now))
+					$f->expected = $now;
 		}
 	}
 }
@@ -530,8 +553,8 @@ $awk_airports = array(
 
 function GetFlights($curl, $dir, &$flights)
 {
-	global $baseurl;
 	global $DEBUG;
+	global $baseurl;
 	global $awk_flights;
 	global $f;
 	global $page;
@@ -934,8 +957,9 @@ function UpdateVisitsToFra($f, $reg)
 
 function GetFlightDetails($curl, &$airports)
 {
-	global $baseurl;
 	global $DEBUG;
+	global $baseurl;
+	global $now;
 	global $awk_airports;
 	global $fi;
 
@@ -951,10 +975,10 @@ function GetFlightDetails($curl, &$airports)
 			 "FROM `flights` ".
 			 "LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` ".
 			 "WHERE `airport` IS NULL ".
-			 "AND (".
-			 " `scheduled` >= now()".
-			 "  OR `expected` >= now()".
-			 "  OR (TIME_TO_SEC(timediff(now(), `scheduled`)) / 60 / 60) < 2) ".
+			 "AND ".
+			 " (`scheduled` >= '$now'".
+			 "  OR `expected` >= '$now'".
+			 "  OR (TIME_TO_SEC(TIMEDIFF('$now', `scheduled`)) / 60 / 60) < 2) ".
 			 "ORDER BY `scheduled`;";
 
 	if (isset($DEBUG['query']))
@@ -1298,9 +1322,6 @@ function FlightsToHistory()
 $error = NULL;
 $warning = NULL;
 
-// We need to adjust departure times, make sure we use the correct tz
-$tz = date_default_timezone_set('Europe/Berlin');
-
 $hdbc = mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
 
 if (!$hdbc)
@@ -1381,7 +1402,7 @@ else
 							if (!$error)
 								$error = DeleteFlight($dir, $airline, $f->code, $f->scheduled);
 						}
-						else
+						else if ($f->scheduled)
 						{
 							$airline = NULL;
 							$error = GetAirlineId($f, $airline);
