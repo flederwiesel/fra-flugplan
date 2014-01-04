@@ -76,7 +76,11 @@ class flight
 
 function LineReplaceFlightData($row, $flight)
 {
-	if (strlen($flight->expected))
+	if (0 == strlen($flight->expected))
+	{
+		$expected = '';
+	}
+	else
 	{
 		$expected = sprintf("Erwartet: %s Uhr\n        , %s\n        <br/>",
 						    $flight->expected, strftime('%d.%m.%Y'));
