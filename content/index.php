@@ -512,7 +512,8 @@ else
 		else
 			echo '<tr>';
 
-		$day = (int)((strtotime($row['expected']) - strtotime($now)) / 24 / 60 / 60);
+		$diff = strtotime(substr($row['expected'], 0, 10)) - strtotime(substr($now, 0, 10));
+		$day = (int)($diff / 24 / 60 / 60);
 
 		if ($day > 7)
 			$day = 7;
