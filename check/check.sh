@@ -55,6 +55,28 @@ strftime() {
 	awk "BEGIN { print strftime(\"$1\", $2); }"
 }
 
+rawurlencode() {
+	local string="${1}"
+	local strlen=${#string}
+	local encoded=""
+
+	for (( pos=0 ; pos<strlen ; pos++ ))
+	do
+		c=${string:$pos:1}
+		case "$c" in
+			[-_.~a-zA-Z0-9] )
+				o="${c}"
+				;;
+			* )
+				printf -v o '%%%02x' "'$c"
+		esac
+
+		encoded+="${o}"
+	done
+	echo "${encoded}"    # You can either set a return variable (FASTER)
+	REPLY="${encoded}"   #+or echo the result (EASIER)... or both... :p
+}
+
 ###############################################################################
 # <preparation>
 ###############################################################################
@@ -66,7 +88,7 @@ rm -rf results
 mkdir -p results
 
 # Test in release mode
-sed -r "s/^[[:space:]]*define.*'DEBUG'.*$/\/\/&/" --in-place ../.config
+sed "s/^[[:space:]]*define('DEBUG'.*$/\/\/&/" --in-place ../.config
 
 # On local system, check whether mta is running
 if [ 'kowalski' == $(uname --nodename) ]; then
@@ -137,7 +159,7 @@ done
 rm -f .COOKIES
 
 # Restore DB
-cp -f ../.config.local ../.config
+#cp -f ../.config.local ../.config
 
 diff expect results \
 		--recursive --ignore-file-name-case \
