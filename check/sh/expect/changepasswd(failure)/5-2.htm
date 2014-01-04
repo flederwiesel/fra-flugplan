@@ -1,0 +1,88 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Live Schedule &ndash; Frankfurt Aviation Friends</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="language" content="en">
+<meta name="author" content="Tobias Kühne">
+<meta name="description" content="24h flight forecast for Frankfurt/Main airport with aircraft registrations">
+<meta name="keywords" content="fra eddf frankfurt airport aircraft spotter schedule">
+<meta name="robots" content="index, nofollow">
+<meta name="generator" content="Programmer's Notepad">
+<link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
+<link rel="icon" href="favicon.gif" type="image/gif">
+<script type="text/javascript" src="script/jquery-ui-1.10.3/jquery-1.10.1.min.js"></script>
+</head>
+<body>
+	<noscript>
+		<div class="noscript">If you obtain this message, JavaScript is either not supported or disabled in in your browser options.<br>In order to use full functionality of this site we advise you to <a href="http://www.enable-javascript.com">enable Javascript</a>.</div>
+	</noscript>
+	<div id="body">
+		<div class="box left">
+			<div>
+				<div id="head">
+					<h1 class="nobr">Frankfurt Aviation Friends</h1>
+					<h3>
+Live Schedule</h3>
+				</div>
+				<div id="nav">
+<dl class="left">
+		<dt><a href="http://www.frankfurt-aviation-friends.de/">Home</a></dt>
+			<dt class="sep"><a href="?arrival">Arrival</a></dt>
+			<dt class="sep"><a href="?departure">Departure</a></dt>
+		<dt class="sep"><a href="?page=help">Help</a></dt>
+</dl>
+<dl class="right">
+			<dt class="sep"><a href="?req=register">Register</a></dt>
+			<dt class="sep"><a href="?req=login">Login</a></dt>
+		<span style="vertical-align: baseline;">
+			<dt>
+				<a href="?req=reqtok&lang=de">
+					<img src="img/de.png" alt="German" width="16" height="12">
+				</a>
+			</dt>
+			<dt>
+				<a href="?req=reqtok&lang=en">
+					<img src="img/en.png" alt="English" width="16" height="12">
+				</a>
+			</dt>
+		</span>
+</dl>
+				</div>
+			</div>
+			<div id="content">
+<form class="stretched" method="post" action="?req=reqtok"
+	onsubmit="document.getElementById('submit').disabled=true;">
+	<fieldset>
+		<legend>Forgot Password?</legend>
+		<div id="notification" class="error">
+			No such user.		</div>
+		<div class="table">
+			<div class="row">
+				<div class="cell label">User name</div>
+				<div class="cell">
+					<input type="text" id="user" name="user"
+					 value="unkown" autofocus>
+					<div class="hint"></div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell label">E-mail Address</div>
+				<div class="cell">
+					<input type="text" id="email" name="email"
+					 value="">
+					<div class="hint">Only one of the above fields is mandatory.</div>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+	<div class="center">
+		<input type="submit" id="submit" value="Submit">
+	</div>
+</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
