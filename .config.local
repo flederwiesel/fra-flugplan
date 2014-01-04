@@ -39,6 +39,8 @@ $PASSWORD_REQUIRES_SPECIAL = '!"#$%&\'()*+,-./:;<=>?[\]^_{|}~';
 define('POST_HTTPS' , 0);
 
 define('DB_HOSTNAME', 'localhost');
+#define('DB_NAME',     'fra-schedule');
+#define('DB_NAME',     'usr_web416_3');
 define('DB_NAME',     'usr_web416_3');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
