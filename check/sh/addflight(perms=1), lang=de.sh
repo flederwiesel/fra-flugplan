@@ -44,6 +44,7 @@ check "5" curl "$url/?req=login" \
 check "6" curl "$url/?page=addflight" \
 	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
 
+# Insert flight: once -> 2038-01-19 04:14 local (2147483640)
 check "7" curl "$url/?page=addflight" \
 		--data-urlencode "reg=D-AIRY" \
 		--data-urlencode "model=A321" \
@@ -58,6 +59,7 @@ check "7" curl "$url/?page=addflight" \
 		--data-urlencode "interval=once" \
 	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
 
+# Insert flight: once -> +1 week
 check "7-1" curl "$url/?page=addflight" \
 		--data-urlencode "reg=D-AIRY" \
 		--data-urlencode "model=A321" \
@@ -68,10 +70,21 @@ check "7-1" curl "$url/?page=addflight" \
 		--data-urlencode "direction=arrival" \
 		--data-urlencode "airport=2" \
 		--data-urlencode "from=$(strftime '%d.%m.%Y' $(($(date +%s) + 604800)))" \
-		--data-urlencode "time=$(strftime '%H:%M'    $(($(date +%s) + 604800)))" \
+		--data-urlencode "time=14:00" \
 		--data-urlencode "interval=once" \
 	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
 
-# check inserted flight
-check "8" curl "$url/?arrival" \
-	"|" sed -r "'s/\+[0-9]{1,4} [0-9]{2}:[0-9]{2}/+0 00:00/g; s/(1:D-AIRY)[0-9]+/\1/g'"
+# check inserted flights
+# 7 day preview only, so flight from "7" will not appear...
+
+now=$(date +'%Y-%m-%d %H:%M:%S' --date='14:00')
+now=$(rawurlencode $now)
+
+check "8" curl "$url/?arrival\&now=$now" \
+	"|" sed -r "'s/(\+[0-7]) [0-9]{2}:[0-9]{2}/\1 00:00/g; s/(1:D-AIRY\+[0-7])[0-2][0-9]{3}/\10000/g'"
+
+now=$(date +'%Y-%m-%d %H:%M:%S' --date='14:05')
+now=$(rawurlencode $now)
+
+check "9" curl "$url/?arrival\&now=$now" \
+	"|" sed -r "'s/(\+[0-7]) [0-9]{2}:[0-9]{2}/\1 00:00/g; s/(1:D-AIRY\+[0-7])[0-2][0-9]{3}/\10000/g'"
