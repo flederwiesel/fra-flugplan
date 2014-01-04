@@ -461,6 +461,14 @@ else
 	}
 }
 
+// Make sure we use the correct timezone
+$tz = date_default_timezone_set('Europe/Berlin');
+
+if (isset($_GET['now']))
+	$now = $_GET['now'];
+else
+	$now = strftime('%Y-%m-%d %H:%M:%S');
+
 $query = "SELECT `type`,".
 	" IFNULL(`expected`,`scheduled`) AS `expected`,".
 	"  CASE".
@@ -485,8 +493,8 @@ $query = "SELECT `type`,".
 	" LEFT JOIN `aircrafts` ON `flights`.`aircraft` = `aircrafts`.`id` ".
 	" LEFT JOIN `visits` ON `flights`.`aircraft` = `visits`.`aircraft` ".
 	"WHERE `flights`.`direction`='$dir'".
-	" AND TIME_TO_SEC(TIMEDIFF(IFNULL(`expected`, `scheduled`), now())) >= $lookback ".
-	" AND TIME_TO_SEC(TIMEDIFF(IFNULL(`expected`, `scheduled`), now())) <= $lookahead ".
+	" AND TIME_TO_SEC(TIMEDIFF(IFNULL(`expected`, `scheduled`), '$now')) >= $lookback ".
+	" AND TIME_TO_SEC(TIMEDIFF(IFNULL(`expected`, `scheduled`), '$now')) <= $lookahead ".
 	"ORDER BY `expected` ASC, `airlines`.`code`, `flights`.`code`";
 
 $result = mysql_query($query);
@@ -499,13 +507,17 @@ else
 {
 	while ($row = mysql_fetch_assoc($result))
 	{
-		if (strtotime($row['expected']) - time() < 0)
+		if (strtotime($row['expected']) - strtotime($now) < 0)
 			echo '<tr class="past">';
 		else
 			echo '<tr>';
 
-		$day = floor((strtotime($row['expected']) - strtotime(date('Y-m-d'))) / 24 / 60 / 60);
+		$day = (int)((strtotime($row['expected']) - strtotime($now)) / 24 / 60 / 60);
 
+		if ($day > 7)
+			$day = 7;
+
+		/* $day should always be >= 0 ... */
 		if ($day >= 0)
 			$day = '+'.$day;
 
@@ -546,22 +558,22 @@ else
 		else
 		{
 			$sortkey = ' sorttable_customkey="%"';
-			$dhhmmss = substr(str_replace(array(' ', '.', ':', '-'), '', $row['expected']), -7);
+			$hhmm = substr(str_replace(array(' ', '.', ':', '-'), '', $row['expected']), 8, 4);
 
 			if (isset($watch[$reg]))
 			{
 				$hilite .= ' watch" title="'.htmlspecialchars($watch[$reg]);
-				$sortkey = str_replace('%', '0:'.$reg.$dhhmmss, $sortkey);
+				$sortkey = str_replace('%', '0:'.$reg.$day.$hhmm, $sortkey);
 			}
 			else if ($vtf < 10)
 			{
 				$vtf = ordinal($vtf, $_SESSION['lang']);
 				$hilite .= ' rare" title="'.htmlspecialchars("$vtf$lang[vtf]");
-				$sortkey = str_replace('%', '0:'.$reg.$dhhmmss, $sortkey);
+				$sortkey = str_replace('%', '0:'.$reg.$day.$hhmm, $sortkey);
 			}
 			else
 			{
-				$sortkey = str_replace('%', '1:'.$reg.$dhhmmss, $sortkey);
+				$sortkey = str_replace('%', '1:'.$reg.$day.$hhmm, $sortkey);
 			}
 		}
 
