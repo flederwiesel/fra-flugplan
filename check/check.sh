@@ -84,8 +84,8 @@ rawurlencode() {
 unless $LINENO sed -r "\"s/^(define[ \t]*\('DB_NAME',[ \t]*')[^']+('\);)/\1fra-schedule\2/g\"" \
 	../.config.local '>' ../.config
 
-rm -rf results
-mkdir -p results
+rm -rf sh/results
+mkdir -p sh/results
 
 # Test in release mode
 sed "s/^[[:space:]]*define('DEBUG'.*$/\/\/&/" --in-place ../.config
@@ -94,9 +94,6 @@ sed "s/^[[:space:]]*define('DEBUG'.*$/\/\/&/" --in-place ../.config
 if [ 'kowalski' == $(uname --nodename) ]; then
 	unless $LINENO tasklist "|" grep -q 'mercury.exe'
 fi
-
-# This is the subdirectory where check places results
-results=
 
 ###############################################################################
 
@@ -141,7 +138,7 @@ do
 		if [ 0 == $? ]; then
 			echo -e "\033[36m$script\033[m"
 
-			results="results/$script"
+			results="sh/results/$script"
 			mkdir -p "$results"
 
 			if [ 0 == $? ]; then
@@ -161,7 +158,7 @@ rm -f .COOKIES
 # Restore DB
 #cp -f ../.config.local ../.config
 
-diff expect results \
+diff sh/expect sh/results \
 		--recursive --ignore-file-name-case \
 		--unified=1 \
 		--exclude=css \
