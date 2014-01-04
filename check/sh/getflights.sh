@@ -50,17 +50,19 @@ now=$(rawurlencode $now)
 
 check "1" curl "$url/getflights.php?baseurl=$baseurl\&now=$now\&debug=url\&fmt=html"\
 	"| sed -r '"\
-	"s/Dauer: [0-9]+.[0-9]+s/Dauer: 0.000s/g;" \
+	"s/Dauer: [0-9]+.[0-9]+s/Dauer: 0.000s/g;"\
 	"s/(fi[ad]=[A-Z0-9]+)$(date --date='06:30' +%Y%m%d)$/\100000000/g;"\
 	"s/[0-9]{4}-[0-9]{2}-[0-9]{2} ([0-9]{2}:[0-9]{2}(:[0-9]{2})?)/0000-00-00 \1/g"\
 	"'"
 
-check "2" curl "$url/?arrival\&now=$now"
+check "2" curl "$url/?arrival\&now=$now"\
+	"| sed -r 's/now=[0-9]{4}-[0-9]{2}-[0-9]{2}/now=0000-00-00/g'"
 
-# Note, that rare a/c will not be marked as such,
+# Note, that RARE A/C will not be marked as such,
 # since we use different a/c in arrival/departure.csv,
 # and only arrivals will evaluate visits
-check "3" curl "$url/?departure\&now=$now"
+check "3" curl "$url/?departure\&now=$now"\
+	"| sed -r 's/now=[0-9]{4}-[0-9]{2}-[0-9]{2}/now=0000-00-00/g'"
 
 cat > flugplan/airportcity/arrival.csv <<EOF
 06:15;06:06;SA;260;South African Airways;A346;ZSSNH;JNB;FAOR;Johannesburg; Südafrika;Gepäckausgabe beendet
@@ -99,9 +101,11 @@ check "4" curl "$url/getflights.php?baseurl=$baseurl\&now=$now\&debug=url,query\
 	"s/[0-9]{4}-[0-9]{2}-[0-9]{2} ([0-9]{2}:[0-9]{2}(:[0-9]{2})?)/0000-00-00 \1/g"\
 	"'"
 
-check "5" curl "$url/?arrival\&now=$now"
+check "5" curl "$url/?arrival\&now=$now"\
+	"| sed -r 's/now=[0-9]{4}-[0-9]{2}-[0-9]{2}/now=0000-00-00/g'"
 
 # Note, that rare a/c will not be marked as such,
 # since we use different a/c in arrival/departure.csv,
 # and only arrivals will evaluate visits
-check "6" curl "$url/?departure\&now=$now"
+check "6" curl "$url/?departure\&now=$now"\
+	"| sed -r 's/now=[0-9]{4}-[0-9]{2}-[0-9]{2}/now=0000-00-00/g'"
