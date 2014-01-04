@@ -126,6 +126,7 @@ addflight(perms=0), lang=de
 changepasswd
 changepasswd lang=de
 profile
+getflights
 '
 fi
 
