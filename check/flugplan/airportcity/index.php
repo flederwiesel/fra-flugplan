@@ -189,6 +189,8 @@ if (!$file)
 else
 {
 	$querytime = trim($file[0]);
+	list($query['day'], $query['time']) = explode(' ', $querytime);
+
 	unset($file);
 }
 
@@ -224,25 +226,24 @@ if ($direction)
 				{
 					$flight = array_combine($keys, explode(';', $line));
 
-					if ((int)$flight['querytime'] == $querytime)
+					if ($flight['querytime'] == $querytime)
 					{
-						/*&&
-						$i = 0;
-						$found = 0;
+						list($scheduled['day'], $scheduled['time']) = explode(' ', $flight['scheduled']);
+						$scheduled = ($query['day'] + $scheduled['day']).' '.$scheduled['time'];
 
-						while ($found < 2)
+						if (0 == strlen($flight['expected']))
 						{
-							if (';' == $line[$i])
-								$found++;
-
-							$i++;
+							$expected = '';
+						}
+						else
+						{
+							list($expected['day'], $expected['time']) = explode(' ', $flight['expected']);
+							$expected = ($query['day'] + $expected['day']).' '.$expected['time'];
 						}
 
-						$flights[] = substr($line, $i);
-*/
 						$flights[] = new flight(
-								$flight['scheduled'],
-								$flight['expected'],
+								$scheduled,
+								$expected,
 								new airline(
 									$flight['airline-code'],
 									$flight['airline-name']
@@ -259,7 +260,8 @@ if ($direction)
 								$flight['remark']
 						);
 
-						break;
+						unset($scheduled);
+						unset($expected);
 					}
 				}
 			}
