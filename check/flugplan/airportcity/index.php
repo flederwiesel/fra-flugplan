@@ -76,21 +76,26 @@ class flight
 
 function LineReplaceFlightData($row, $flight)
 {
+	list($scheduled['day'], $scheduled['time']) = explode(' ', $flight->scheduled);
+
 	if (0 == strlen($flight->expected))
 	{
-		$expected = '';
+		$expected['time'] = '';
+		$expected['timeday'] = '';
 	}
 	else
 	{
-		$expected = sprintf("Erwartet: %s Uhr\n        , %s\n        <br/>",
-						    $flight->expected, strftime('%d.%m.%Y'));
+		list($expected['day'], $expected['time']) = explode(' ', $flight->expected);
+
+		$expected['timeday'] = sprintf("Erwartet: %s Uhr\n        , %s\n        <br/>",
+						    $expected['time'], strftime('%d.%m.%Y', strtotime("$expected[day] days")));
 	}
 
 	return str_replace(
 
 		array(
-			'${YYYYmmdd}',
-			'${dd-mm-YYYY}',
+			'${YYYYmmdd}',		// scheduled
+			'${dd-mm-YYYY}',	// scheduled
 			'${scheduled-date}',
 			'${scheduled-time}',
 			'${expected}',
@@ -108,12 +113,12 @@ function LineReplaceFlightData($row, $flight)
 		),
 
 		array(
-			strftime('%Y%m%d'),
-			strftime('%d-%m-%Y'),
-			strftime('%d.%m.%Y'),
-			$flight->scheduled,
-			$expected,
-			$flight->expected,
+			strftime('%Y%m%d',   strtotime("$scheduled[day] days")),
+			strftime('%d-%m-%Y', strtotime("$scheduled[day] days")),
+			strftime('%d.%m.%Y', strtotime("$scheduled[day] days")),
+			$scheduled['time'],
+			$expected['timeday'],
+			$expected['time'],
 			$flight->airline->code,
 			$flight->airline->name,
 			$flight->code,
@@ -132,6 +137,7 @@ function LineReplaceFlightData($row, $flight)
 
 /* Description of the csv */
 $keys = array(
+	'querytime',
 	'scheduled',
 	'expected',
 	'airline-code',
@@ -159,52 +165,107 @@ else
 {
 	if (isset($_GET['fia']))
 	{
-		$flightno = $_GET['fia'];
+		$request = $_GET['fia'];
 		$direction = 'arrival';
 		$type = 'details';
 	}
 
 	if (isset($_GET['fid']))
 	{
-		$flightno = $_GET['fid'];
+		$request = $_GET['fid'];
 		$direction = 'departure';
 		$type = 'details';
 	}
 }
 
-if (NULL == $direction)
-	die;
+/* For testing, read current time to file */
+$file = file('querytime');
 
-$file = file("$direction.csv");
-
-if ($file)
+if (!$file)
 {
-	foreach ($file as $line)
+	/* Default to now, if no input file is found */
+	$querytime = strftime('0 %H:%M');
+}
+else
+{
+	$querytime = trim($file[0]);
+	unset($file);
+}
+
+if ($direction)
+{
+	$flights = array();
+
+	$dir = opendir("flights/$direction");
+
+	if ($dir)
 	{
-		/* Remove trailing '\n' */
-		$line = substr($line, 0,-1);
+		$files = array();
+		$file = readdir($dir);
 
-		/* Split line into associative array */
-		$flight = array_combine($keys, explode(';', $line));
+		while (false !== $file)
+		{
+			if ($file != '.' && $file != '..')
+				$files[] = $file;
 
-		$flights[] = new flight(
-				$flight['scheduled'],
-				$flight['expected'],
-				new airline(
-					$flight['airline-code'],
-					$flight['airline-name']
-				),
-				$flight['code'],
-				$flight['model'],
-				$flight['reg'],
-				new airport(
-					$flight['airport-iata'],
-					$flight['airport-icao'],
-					$flight['airport-name'],
-					$flight['airport-country']
-				),
-				$flight['remark']
-		);
+			$file = readdir($dir);
+		}
+
+		foreach ($files as $file)
+		{
+			$lines = file("flights/$direction/$file");
+
+			foreach ($lines as $line)
+			{
+				$line = rtrim($line);
+
+				/* if (strlen($line) == count($keys)) line is empty! */
+				if ($line[0] != '#' && strlen($line) > count($keys) - 1)
+				{
+					$flight = array_combine($keys, explode(';', $line));
+
+					if ((int)$flight['querytime'] == $querytime)
+					{
+						/*&&
+						$i = 0;
+						$found = 0;
+
+						while ($found < 2)
+						{
+							if (';' == $line[$i])
+								$found++;
+
+							$i++;
+						}
+
+						$flights[] = substr($line, $i);
+*/
+						$flights[] = new flight(
+								$flight['scheduled'],
+								$flight['expected'],
+								new airline(
+									$flight['airline-code'],
+									$flight['airline-name']
+								),
+								$flight['code'],
+								$flight['model'],
+								$flight['reg'],
+								new airport(
+									$flight['airport-iata'],
+									$flight['airport-icao'],
+									$flight['airport-name'],
+									$flight['airport-country']
+								),
+								$flight['remark']
+						);
+
+						break;
+					}
+				}
+			}
+		}
+
+		sort($flights);
 	}
 }
 
@@ -214,13 +275,18 @@ if ('details' == $type)
 
 	/* extract flight number */
 	/* fi[ad]=A{2,3}C{3,4}YYYYmmdd */
-	$flightno = substr($flightno, 0, -8);
-	$date = strftime('%Y%m%d');
+	$date = substr($request, -8);
+
+	if ('00000000' == $date)
+		$request = substr($request, 0, -8).strftime('%Y%m%d');
 
 	for ($i = 0; $i < count($flights); $i++)
 	{
-		if ($flights[$i]->airline->code.
-			$flights[$i]->code == $flightno)
+		list($scheduled['day'], $scheduled['time']) = explode(' ', $flights[$i]->scheduled);
+
+		$scheduled = strftime('%Y%m%d', strtotime("$scheduled[day] days"));
+
+		if ($flights[$i]->airline->code.$flights[$i]->code.$scheduled == $request)
 		{
 			$flight = $flights[$i];
 			break;
