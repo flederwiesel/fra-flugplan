@@ -1,0 +1,177 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+<head>
+<title>Live Schedule &ndash; Frankfurt Aviation Friends</title>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="language" content="en">
+<meta name="author" content="Tobias Kühne">
+<meta name="description" content="24h flight forecast for Frankfurt/Main airport with aircraft registrations">
+<meta name="keywords" content="fra eddf frankfurt airport aircraft spotter schedule">
+<meta name="robots" content="index, nofollow">
+<meta name="generator" content="Programmer's Notepad">
+<link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
+<link rel="icon" href="favicon.gif" type="image/gif">
+<script type="text/javascript" src="script/jquery-ui-1.10.3/jquery-1.10.1.min.js"></script>
+</head>
+<body>
+	<noscript>
+		<div class="noscript">If you obtain this message, JavaScript is either not supported or disabled in in your browser options.<br>In order to use full functionality of this site we advise you to <a href="http://www.enable-javascript.com">enable Javascript</a>.</div>
+	</noscript>
+	<div id="body">
+		<div class="box left">
+			<div>
+				<div id="head">
+					<h1 class="nobr">Frankfurt Aviation Friends</h1>
+					<h3>
+Live Schedule &ndash; Arrival</h3>
+				</div>
+				<div id="nav">
+<dl class="left">
+		<dt><a href="http://www.frankfurt-aviation-friends.de/">Home</a></dt>
+			<dt class="sep">Arrival</dt>
+			<dt class="sep"><a href="?departure">Departure</a></dt>
+		<dt class="sep"><a href="?page=help">Help</a></dt>
+</dl>
+<dl class="right">
+			<dt class="sep"><a href="?req=register">Register</a></dt>
+			<dt class="sep"><a href="?req=login">Login</a></dt>
+		<span style="vertical-align: baseline;">
+			<dt>
+				<a href="?arrival&now=0000-00-00+14%3A00%3A00&lang=de">
+					<img src="img/de.png" alt="German" width="16" height="12">
+				</a>
+			</dt>
+			<dt>
+				<a href="?arrival&now=0000-00-00+14%3A00%3A00&lang=en">
+					<img src="img/en.png" alt="English" width="16" height="12">
+				</a>
+			</dt>
+		</span>
+</dl>
+				</div>
+			</div>
+			<div id="content">
+
+<!--[if IE]>
+<style type="text/css">
+#list { padding-right: 1.2em; }
+</style>
+<![endif]-->
+
+<script type="text/javascript">
+	wl_img_open = "img/wl-open-en.png";
+	wl_img_close = "img/wl-close-en.png";
+</script>
+<script type="text/javascript" src="script/sorttable.js"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+	});
+
+	$(document).keydown(function(event)
+	{
+		if (27 == event.keyCode)
+			watchlist("hide");
+	});
+
+	$(function()
+	{
+		$("#watch").submit(function(event) {
+			$("#submit").attr("disabled", "disabled");
+			PreparePostData(this);
+		});
+	});
+</script>
+
+
+<div id="rwy_cont">
+	<div id="rwy_div" style="float: left ;">
+		<span id="rwy_l" style="vertical-align: middle;">
+			<img alt="active runway" src="img/arrival-yellow-16x14.png">
+		</span>
+		<span id="rwy_r">99</span>
+	</div>
+</div>
+
+
+<div id="schedule">
+	<table class="sortable" summary="schedule">
+		<thead>
+			<tr>
+				<th>Time				<th class="sep">Flight				<th class="sep">Airline				<th class="sep">IATA
+				<th class="sep">ICAO
+				<th class="sep">From				<th class="sep">Type				<th class="sep sorttable_alpha">Reg			</tr>
+		</thead>
+		<tfoot></tfoot>
+		<tbody>
+<tr><td>+0 18:25</td><td>TP576</td><td class='left'><div>TAP Portugal</div></td><td>LIS</td><td>LPPT</td><td class='left'><div>Lissabon, Portugal</div></td><td>A320</td><td class="left rare" title="4th visit to FRA" sorttable_customkey="0:CS-TNP+01825">				<a href = "http://www.airliners.net/search/photo.search?q=CS-TNP" target="a-net">
+					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+				</a>
+CS-TNP</td></tr>
+<tr><td>+0 20:30</td><td>SQ326</td><td class='left'><div>Singapore Airlines</div></td><td>SIN</td><td>WSSS</td><td class='left'><div>Singapur, Singapur</div></td><td>B77W</td><td class="left rare" title="1st visit to FRA" sorttable_customkey="0:9V-SWK+02030">				<a href = "http://www.airliners.net/search/photo.search?q=9V-SWK" target="a-net">
+					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+				</a>
+9V-SWK</td></tr>
+<tr><td>+0 22:30</td><td>TP578</td><td class='left'><div>TAP Portugal</div></td><td>LIS</td><td>LPPT</td><td class='left'><div>Lissabon, Portugal</div></td><td>A320</td><td class="left rare" title="4th visit to FRA" sorttable_customkey="0:CS-TNP+02230">				<a href = "http://www.airliners.net/search/photo.search?q=CS-TNP" target="a-net">
+					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+				</a>
+CS-TNP</td></tr>
+<tr><td class="early">+1 05:18</td><td>SA260</td><td class='left'><div>South African Airways</div></td><td>JNB</td><td>FAOR</td><td class='left'><div>Johannesburg, Südafrika</div></td><td>A346</td><td class="left rare" title="1st visit to FRA" sorttable_customkey="0:ZS-SNC+10518">				<a href = "http://www.airliners.net/search/photo.search?q=ZS-SNC" target="a-net">
+					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+				</a>
+ZS-SNC</td></tr>
+<tr><td>+1 06:20</td><td>CX289</td><td class='left'><div>Cathay Pacific Airways</div></td><td>HKG</td><td>VHHH</td><td class='left'><div>Hongkong, Hong Kong</div></td><td>B77W</td><td class="left rare" title="1st visit to FRA" sorttable_customkey="0:B-KQJ+10620">				<a href = "http://www.airliners.net/search/photo.search?q=B-KQJ" target="a-net">
+					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+				</a>
+B-KQJ</td></tr>
+<tr><td class="early">+1 06:59</td><td>AC874</td><td class='left'><div>Air Canada</div></td><td>YUL</td><td>CYUL</td><td class='left'><div>Montreal-Trudeau, Kanada</div></td><td>A333</td><td class="left rare" title="2nd visit to FRA" sorttable_customkey="0:C-GHLM+10659">				<a href = "http://www.airliners.net/search/photo.search?q=C-GHLM" target="a-net">
+					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+				</a>
+C-GHLM</td></tr>
+<tr><td>+1 09:45</td><td>UA903</td><td class='left'><div>United Airlines</div></td><td>SFO</td><td>KSFO</td><td class='left'><div>San Francisco, USA</div></td><td>B744</td><td class="left rare" title="2nd visit to FRA" sorttable_customkey="0:N116UA+10945">				<a href = "http://www.airliners.net/search/photo.search?q=N116UA" target="a-net">
+					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+				</a>
+N116UA</td></tr>
+<tr><td>+1 11:15</td><td>AC844</td><td class='left'><div>Air Canada</div></td><td>YYC</td><td>CYYC</td><td class='left'><div>Calgary, Kanada</div></td><td>A333</td><td class="left rare" title="2nd visit to FRA" sorttable_customkey="0:C-GFAH+11115">				<a href = "http://www.airliners.net/search/photo.search?q=C-GFAH" target="a-net">
+					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+				</a>
+C-GFAH</td></tr>
+<tr><td>+1 11:45</td><td>AC876</td><td class='left'><div>Air Canada</div></td><td>YYZ</td><td>CYYZ</td><td class='left'><div>Toronto, Kanada</div></td><td>A333</td><td class="left rare" title="2nd visit to FRA" sorttable_customkey="0:G-HKW+11145">				<a href = "http://www.airliners.net/search/photo.search?q=G-HKW" target="a-net">
+					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+				</a>
+G-HKW</td></tr>
+<tr><td>+1 12:35</td><td>TP572</td><td class='left'><div>TAP Portugal</div></td><td>LIS</td><td>LPPT</td><td class='left'><div>Lissabon, Portugal</div></td><td>A320</td><td class="left rare" title="4th visit to FRA" sorttable_customkey="0:CS-TNP+11235">				<a href = "http://www.airliners.net/search/photo.search?q=CS-TNP" target="a-net">
+					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+				</a>
+CS-TNP</td></tr>
+<tr><td>+1 13:20</td><td>KU171</td><td class='left'><div>Kuwait Airways</div></td><td>KWI</td><td>OKBK</td><td class='left'><div>Kuwait, Kuwait</div></td><td>A306</td><td class="left rare" title="2nd visit to FRA" sorttable_customkey="0:9K-AME+11320">				<a href = "http://www.airliners.net/search/photo.search?q=9K-AME" target="a-net">
+					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+				</a>
+9K-AME</td></tr>
+<tr><td>+1 18:25</td><td>TP576</td><td class='left'><div>TAP Portugal</div></td><td>LIS</td><td>LPPT</td><td class='left'><div>Lissabon, Portugal</div></td><td>A320</td><td sorttable_customkey="2"></td></tr>
+<tr><td>+1 20:30</td><td>SQ326</td><td class='left'><div>Singapore Airlines</div></td><td>SIN</td><td>WSSS</td><td class='left'><div>Singapur, Singapur</div></td><td>B77W</td><td sorttable_customkey="2"></td></tr>
+<tr><td>+1 22:30</td><td>TP578</td><td class='left'><div>TAP Portugal</div></td><td>LIS</td><td>LPPT</td><td class='left'><div>Lissabon, Portugal</div></td><td>A320</td><td sorttable_customkey="2"></td></tr>
+<tr><td>+2 06:15</td><td>SA260</td><td class='left'><div>South African Airways</div></td><td>JNB</td><td>FAOR</td><td class='left'><div>Johannesburg, Südafrika</div></td><td>A346</td><td sorttable_customkey="2"></td></tr>
+<tr><td>+2 06:20</td><td>CX289</td><td class='left'><div>Cathay Pacific Airways</div></td><td>HKG</td><td>VHHH</td><td class='left'><div>Hongkong, Hong Kong</div></td><td>B77W</td><td sorttable_customkey="2"></td></tr>
+<tr><td>+2 07:00</td><td>AC874</td><td class='left'><div>Air Canada</div></td><td>YUL</td><td>CYUL</td><td class='left'><div>Montreal-Trudeau, Kanada</div></td><td>A333</td><td sorttable_customkey="2"></td></tr>
+<tr><td>+2 09:45</td><td>UA903</td><td class='left'><div>United Airlines</div></td><td>SFO</td><td>KSFO</td><td class='left'><div>San Francisco, USA</div></td><td>B744</td><td sorttable_customkey="2"></td></tr>
+<tr><td>+2 10:40</td><td>TK1587</td><td class='left'><div>Turkish Airlines</div></td><td>IST</td><td>LTBA</td><td class='left'><div>Istanbul, Türkei</div></td><td>A343</td><td sorttable_customkey="2"></td></tr>
+<tr><td>+2 11:15</td><td>AC844</td><td class='left'><div>Air Canada</div></td><td>YYC</td><td>CYYC</td><td class='left'><div>Calgary, Kanada</div></td><td>A333</td><td sorttable_customkey="2"></td></tr>
+<tr><td>+2 11:45</td><td>AC876</td><td class='left'><div>Air Canada</div></td><td>YYZ</td><td>CYYZ</td><td class='left'><div>Toronto, Kanada</div></td><td>A333</td><td sorttable_customkey="2"></td></tr>
+<tr><td>+2 12:35</td><td>TP572</td><td class='left'><div>TAP Portugal</div></td><td>LIS</td><td>LPPT</td><td class='left'><div>Lissabon, Portugal</div></td><td>A320</td><td sorttable_customkey="2"></td></tr>
+<tr><td>+2 13:20</td><td>KU171</td><td class='left'><div>Kuwait Airways</div></td><td>KWI</td><td>OKBK</td><td class='left'><div>Kuwait, Kuwait</div></td><td>A306</td><td sorttable_customkey="2"></td></tr>
+		</tbody>
+	</table>
+</div>
+			</div>
+		</div>
+		<div>
+			<div id="counter" class="box center">
+				<a href="http://info.flagcounter.com/y9Ko">
+					<img src="http://s07.flagcounter.com/count/y9Ko/bg_ffffff/txt_a3aab7/border_ffffff/columns_8/maxflags_248/viewers_Live+Schedule+Visitors:/labels_1/pageviews_0/flags_0/" alt="Free counters!">
+				</a>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

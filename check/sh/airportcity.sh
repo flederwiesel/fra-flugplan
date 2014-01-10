@@ -16,19 +16,35 @@ initdb && rm -f .COOKIES
 
 ###############################################################################
 
-echo '0 05:00' > flugplan/airportcity/querytime
+for day in {0..1}
+do
 
-check "arrival-1" curl "$url/check/flugplan/airportcity/?type=arrival\&items=3\&page=1"
-check "arrival-2" curl "$url/check/flugplan/airportcity/?type=arrival\&items=3\&page=2"
-check "arrival-3" curl "$url/check/flugplan/airportcity/?type=arrival\&items=3\&page=3"
-check "arrival-4" curl "$url/check/flugplan/airportcity/?type=arrival\&items=3\&page=4"
-check "arrival-5" curl "$url/check/flugplan/airportcity/?type=arrival\&items=3\&page=5"
+	for time in {5..23}
+	do
+		echo $(printf '%u %02u:00' $day $time) > flugplan/airportcity/querytime
+		page=1
 
-check "departure-1" curl "$url/check/flugplan/airportcity/?type=departure\&items=3\&page=1"
-check "departure-2" curl "$url/check/flugplan/airportcity/?type=departure\&items=3\&page=2"
-check "departure-3" curl "$url/check/flugplan/airportcity/?type=departure\&items=3\&page=3"
-check "departure-4" curl "$url/check/flugplan/airportcity/?type=departure\&items=3\&page=4"
-check "departure-5" curl "$url/check/flugplan/airportcity/?type=departure\&items=3\&page=5"
+		while [ $page -gt 0 ]
+		do
+			htm=$(curl "$url/check/flugplan/airportcity/?type=arrival&items=3&page=$page")
+			next=$(awk 'BEGIN {
+					page = 0;
+				}
+				/class="next-page"[ \t]+href="#[0-9]+"/ {
+					page = gensub(/[^#]*#([0-9]+)[^#]*/, "\\1", "g", $0);
+				}
+				END {
+					print page;
+				}
+				' <<<"$htm")
 
-check "fia-00-0500" curl "$url/check/flugplan/airportcity/?fia=SA260$(date +%Y%m%d)"
-check "fid-00-0500" curl "$url/check/flugplan/airportcity/?fid=SA261$(date +%Y%m%d)"
+			check $(printf '%u-%02u00-arrival-%u' $day $time $page) "echo '$htm'"
+			page=$next
+		done
+
+		YYYYmmdd=$(date +%Y%m%d --date="+$day days")
+		check $(printf '%u-%02u00-fia' $day $time) curl "$url/check/flugplan/airportcity/?fia=SA260$YYYYmmdd"
+		check $(printf '%u-%02u00-fid' $day $time) curl "$url/check/flugplan/airportcity/?fid=SA261$YYYYmmdd"
+
+	done
+done
