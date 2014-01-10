@@ -20,10 +20,50 @@ alias "curl=curl -s --cookie .COOKIES --cookie-jar .COOKIES"
 # Mozilla/5.0 (Windows NT 6.1; WOW64; rv:17.0) Gecko/20100101 Firefox/17.0
 # Opera/9.80 (Android 2.3.6; Linux; Opera Mobi/ADR-1301071820) Presto/2.11.355 Version/12.10
 
+###############################################################################
+# parse command line options
+###############################################################################
+
+
+debug=0
+verbose=0
+
+declare -A argv=()
+
+while [ $# -gt 0 ]
+do
+	case "$1" in
+		'--help')
+			echo -e "\033[1;37m${0}\033[m\n"
+			exit 1
+			;;
+		'-d') ;&
+		'--debug')
+			debug=1
+			;;
+		'-v') ;&
+		'--verbose')
+			verbose=1
+			;;
+		'--'*'='*)
+			eval "${1##--}"
+			;;
+		*)
+			argv[${#argv[@]}]="$1"
+			;;
+	esac
+	shift
+done
+
+set -- "${argv[@]}"
+
+###############################################################################
+
 unless() {
 
 	line=$1; shift
 
+	[ 1 == $debug ] && echo "$@"
 	eval "$@"
 
 	if [ $? -ne 0 ]; then
@@ -38,6 +78,7 @@ check() {
 
 	name=$1
 	shift
+	[ 1 == $debug ] && echo "$@"
 	eval "$@" 2>&1 > "$results/$name.htm" | sed -r $'s~^.+$~\033[1;31mERROR: &\033[m~g'
 }
 
@@ -48,6 +89,7 @@ initdb() {
 
 query() {
 
+	[ 1 == $debug ] && echo "$@"
 	mysql --skip-column-names --execute="$@"
 }
 
@@ -126,6 +168,7 @@ addflight(perms=0), lang=de
 changepasswd
 changepasswd lang=de
 profile
+airportcity
 getflights
 '
 fi
@@ -160,8 +203,8 @@ rm -f .COOKIES
 #cp -f ../.config.local ../.config
 
 diff sh/expect sh/results \
+		--brief \
 		--recursive --ignore-file-name-case \
-		--unified=1 \
 		--exclude=css \
 		--exclude=img \
 		--exclude=script \
