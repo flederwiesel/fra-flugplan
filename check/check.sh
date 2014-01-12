@@ -78,7 +78,7 @@ check() {
 
 	name=$1
 	shift
-	[ 1 == $debug ] && echo "$@"
+	[ 1 == $debug ] && echo -e "\033[33m$@\033[m" >&2
 	eval "$@" 2>&1 > "$results/$name.htm" | sed -r $'s~^.+$~\033[1;31mERROR: &\033[m~g'
 }
 
@@ -89,7 +89,7 @@ initdb() {
 
 query() {
 
-	[ 1 == $debug ] && echo "$@"
+	[ 1 == $debug ] && echo -e "\033[1;33m$@\033[m" >&2
 	mysql --skip-column-names --execute="$@"
 }
 
