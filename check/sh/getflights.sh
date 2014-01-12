@@ -43,23 +43,37 @@ do
 			"s/[0-9]{4}-[0-9]{2}-[0-9]{2} ([0-9]{2}:[0-9]{2}(:[0-9]{2})?)/0000-00-00 \1/g"\
 			"'"
 
-		sql='USE fra-schedule;
+		flights=$(query 'USE `fra-schedule`;
+			SELECT
+			 `flights`.`direction`,
+			 `flights`.`scheduled`,
+			 `flights`.`expected`,
+			 `airports`.`iata` AS `airport:iata`,
+			 `airports`.`icao` AS `airport:icao`,
+			 `models`.`icao` AS `model`,
+			 `aircrafts`.`reg` AS `aircraft`
+			FROM `flights`
+			LEFT JOIN `airlines` ON `airlines`.`id` = `flights`.`airline`
+			LEFT JOIN `airports` ON `airports`.`id` = `flights`.`airport`
+			LEFT JOIN `aircrafts` ON `aircrafts`.`id` = `flights`.`aircraft`
+			LEFT JOIN `models` ON `models`.`id` = `flights`.`model`'
+		)
 
-				SELECT
-				 `flights`.`direction`,
-				 `flights`.`scheduled`,
-				 `flights`.`expected`,
-				 `airports`.`iata` AS `airport:iata`,
-				 `airports`.`icao` AS `airport:icao`,
-				 `models`.`icao` AS `model`,
-				 `aircrafts`.`reg` AS `aircraft`
-				FROM `flights`
-				LEFT JOIN `airlines` ON `airlines`.`id` = `flights`.`airline`
-				LEFT JOIN `airports` ON `airports`.`id` = `flights`.`airport`
-				LEFT JOIN `aircrafts` ON `aircrafts`.`id` = `flights`.`aircraft`
-				LEFT JOIN `models` ON `models`.`id` = `flights`.`model`'
-
-		check "$dHHMM-flights" "echo '<pre>'; query '$sql'; echo '</pre>'"
+		check "$dHHMM-flights" "echo '$flights'"\
+			"| sed -r '
+				1 i <html>
+				1 i <head>
+				1 i <title>$dHHMM-flights</title>
+				1 i </head>
+				1 i <body>
+				1 i <pre>
+				s/arrival/A/g
+				s/departure/D/g
+				s/[0-9]{4}-[0-9]{2}-[0-9]{2}/0000-00-00/g
+				$ a </pre>
+				$ a </body>
+				$ a </html>
+			'"
 
 		check "$dHHMM-arrival" curl "$url/?arrival\&now=$now"\
 			"| sed -r 's/now=[0-9]{4}-[0-9]{2}-[0-9]{2}/now=0000-00-00/g'"
@@ -74,7 +88,7 @@ do
 
 done
 
-sql='USE fra-schedule;
+visits=$(query 'USE fra-schedule;
 
 	SELECT
 	 `aircrafts`.`reg`,
@@ -82,5 +96,20 @@ sql='USE fra-schedule;
 	 `visits`.`last`
 	FROM `visits`
 	LEFT JOIN `aircrafts` ON `aircrafts`.`id` = `visits`.`aircraft`
+	ORDER BY `reg`
+'
+)
 
-check "visits" "echo '<pre>'; query '$sql'; echo '</pre>'"
+check "visits" "echo '$visits'"\
+	"| sed -r '
+		1 i <html>
+		1 i <head>
+		1 i <title>visits</title>
+		1 i </head>
+		1 i <body>
+		1 i <pre>
+		s/[0-9]{4}-[0-9]{2}-[0-9]{2}/0000-00-00/g
+		$ a </pre>
+		$ a </body>
+		$ a </html>
+	'"
