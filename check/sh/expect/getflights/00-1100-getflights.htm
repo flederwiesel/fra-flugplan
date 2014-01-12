@@ -13,6 +13,194 @@ http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&cont
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=3
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
+SELECT `id` FROM `airlines` WHERE `code`='UA';
+=120
+SELECT `id` FROM `airlines` WHERE `code`='UA';
+=120
+SELECT `id` FROM `models` WHERE `icao`='B744';
+=57
+SELECT `id` FROM `aircrafts` WHERE `reg`='N116UA';
+=4
+SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=120 AND `code`='903' AND `scheduled`='0000-00-00 09:45'
+=4
+UPDATE `flights` SET `aircraft`=4,`model`=57 WHERE `id`=4;
+=OK
+SELECT `num`,`last` FROM `visits` WHERE `aircraft`=4;
+=1,0000-00-00 09:45:00
+
+/************************************/
+
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='AC';
+=4
+SELECT `id` FROM `airlines` WHERE `code`='AC';
+=4
+SELECT `id` FROM `models` WHERE `icao`='A333';
+=14
+SELECT `id` FROM `aircrafts` WHERE `reg`='C-GHLM';
+=5
+SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=4 AND `code`='844' AND `scheduled`='0000-00-00 11:15'
+=6
+UPDATE `flights` SET `aircraft`=5,`model`=14 WHERE `id`=6;
+=OK
+SELECT `num`,`last` FROM `visits` WHERE `aircraft`=5;
+=1,0000-00-00 11:15:00
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='AC';
+=4
+SELECT `id` FROM `airlines` WHERE `code`='AC';
+=4
+SELECT `id` FROM `models` WHERE `icao`='A333';
+=14
+SELECT `id` FROM `aircrafts` WHERE `reg`='C-GHKW';
+=6
+SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=4 AND `code`='876' AND `scheduled`='0000-00-00 11:45'
+=7
+UPDATE `flights` SET `aircraft`=6,`model`=14 WHERE `id`=7;
+=OK
+SELECT `num`,`last` FROM `visits` WHERE `aircraft`=6;
+=1,0000-00-00 11:45:00
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='TP';
+=113
+SELECT `id` FROM `airlines` WHERE `code`='TP';
+=113
+SELECT `id` FROM `models` WHERE `icao`='A320';
+=9
+SELECT `id` FROM `aircrafts` WHERE `reg`='CS-TNP';
+=7
+SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=113 AND `code`='572' AND `scheduled`='0000-00-00 12:35'
+=8
+UPDATE `flights` SET `aircraft`=7,`model`=9 WHERE `id`=8;
+=OK
+SELECT `num`,`last` FROM `visits` WHERE `aircraft`=7;
+=
+INSERT INTO `visits`(`aircraft`, `num`, `last`)VALUES(7, 1, '0000-00-00 12:35');
+=OK
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='KU';
+=63
+SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=63 AND `code`='171' AND `scheduled`='0000-00-00 13:20'
+=0
+=OK
+
+/************************************/
+
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='TP';
+=113
+SELECT `id` FROM `airlines` WHERE `code`='TP';
+=113
+SELECT `id` FROM `models` WHERE `icao`='A320';
+=9
+SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=113 AND `code`='576' AND `scheduled`='0000-00-00 18:25'
+=10
+UPDATE `flights` SET `aircraft`=NULL,`model`=9 WHERE `id`=10;
+=OK
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='SQ';
+=105
+SELECT `id` FROM `airlines` WHERE `code`='SQ';
+=105
+SELECT `id` FROM `models` WHERE `icao`='B77W';
+=68
+SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=105 AND `code`='326' AND `scheduled`='0000-00-00 20:30'
+=11
+UPDATE `flights` SET `aircraft`=NULL,`model`=68 WHERE `id`=11;
+=OK
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='TP';
+=113
+SELECT `id` FROM `airlines` WHERE `code`='TP';
+=113
+SELECT `id` FROM `models` WHERE `icao`='A320';
+=9
+SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=113 AND `code`='578' AND `scheduled`='0000-00-00 22:30'
+=12
+UPDATE `flights` SET `aircraft`=NULL,`model`=9 WHERE `id`=12;
+=OK
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='SA';
+=99
+SELECT `id` FROM `airlines` WHERE `code`='SA';
+=99
+SELECT `id` FROM `models` WHERE `icao`='A346';
+=19
+SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=99 AND `code`='260' AND `scheduled`='0000-00-00 06:15'
+=25
+UPDATE `flights` SET `aircraft`=NULL,`model`=19 WHERE `id`=25;
+=OK
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='CX';
+=24
+SELECT `id` FROM `airlines` WHERE `code`='CX';
+=24
+SELECT `id` FROM `models` WHERE `icao`='B77W';
+=68
+SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=24 AND `code`='289' AND `scheduled`='0000-00-00 06:20'
+=26
+UPDATE `flights` SET `aircraft`=NULL,`model`=68 WHERE `id`=26;
+=OK
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='AC';
+=4
+SELECT `id` FROM `airlines` WHERE `code`='AC';
+=4
+SELECT `id` FROM `models` WHERE `icao`='A333';
+=14
+SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=4 AND `code`='874' AND `scheduled`='0000-00-00 07:00'
+=28
+UPDATE `flights` SET `aircraft`=NULL,`model`=14 WHERE `id`=28;
+=OK
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='UA';
+=120
+SELECT `id` FROM `airlines` WHERE `code`='UA';
+=120
+SELECT `id` FROM `models` WHERE `icao`='B744';
+=57
+SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=120 AND `code`='903' AND `scheduled`='0000-00-00 09:45'
+=29
+UPDATE `flights` SET `aircraft`=NULL,`model`=57 WHERE `id`=29;
+=OK
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='TK';
+=112
+SELECT `id` FROM `airlines` WHERE `code`='TK';
+=112
+SELECT `id` FROM `models` WHERE `icao`='A343';
+=17
+SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=112 AND `code`='1587' AND `scheduled`='0000-00-00 10:40'
+=<empty>
+INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled`, `expected`, `aircraft`, `model`) VALUES(1, 'pax-regular', 'arrival', 112, '1587', '0000-00-00 10:40', NULL, NULL, 17);
+=OK
+
+/************************************/
+
 ---------------------------
 14 Flüge gefunden.
     Dauer: 0.000s
@@ -25,14 +213,193 @@ http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&co
 http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=3
 http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
 http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
+SELECT `id` FROM `airlines` WHERE `code`='TK';
+=112
+SELECT `id` FROM `airlines` WHERE `code`='TK';
+=112
+SELECT `id` FROM `models` WHERE `icao`='A343';
+=17
+SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=112 AND `code`='1588' AND `scheduled`='0000-00-00 11:45'
+=15
+UPDATE `flights` SET `aircraft`=NULL,`model`=17 WHERE `id`=15;
+=OK
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='UA';
+=120
+SELECT `id` FROM `airlines` WHERE `code`='UA';
+=120
+SELECT `id` FROM `models` WHERE `icao`='B744';
+=57
+SELECT `id` FROM `aircrafts` WHERE `reg`='N116UA';
+=4
+SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=120 AND `code`='902' AND `scheduled`='0000-00-00 12:15'
+=16
+UPDATE `flights` SET `expected`='0000-00-00 11:00:00', `aircraft`=4,`model`=57 WHERE `id`=16;
+=OK
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='CX';
+=24
+SELECT `id` FROM `airlines` WHERE `code`='CX';
+=24
+SELECT `id` FROM `models` WHERE `icao`='B77W';
+=68
+SELECT `id` FROM `aircrafts` WHERE `reg`='B-KPE';
+=2
+SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=24 AND `code`='288' AND `scheduled`='0000-00-00 12:55'
+=17
+UPDATE `flights` SET `expected`='0000-00-00 11:00:00', `aircraft`=2,`model`=68 WHERE `id`=17;
+=OK
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='TP';
+=113
+SELECT `id` FROM `airlines` WHERE `code`='TP';
+=113
+SELECT `id` FROM `models` WHERE `icao`='A320';
+=9
+SELECT `id` FROM `aircrafts` WHERE `reg`='CS-TNP';
+=7
+SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=113 AND `code`='573' AND `scheduled`='0000-00-00 13:20'
+=18
+UPDATE `flights` SET `aircraft`=7,`model`=9 WHERE `id`=18;
+=OK
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='AC';
+=4
+SELECT `id` FROM `airlines` WHERE `code`='AC';
+=4
+SELECT `id` FROM `models` WHERE `icao`='A333';
+=14
+SELECT `id` FROM `aircrafts` WHERE `reg`='C-GHLM';
+=5
+SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=4 AND `code`='875' AND `scheduled`='0000-00-00 13:30'
+=19
+UPDATE `flights` SET `expected`='0000-00-00 11:00:00', `aircraft`=5,`model`=14 WHERE `id`=19;
+=OK
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='KU';
+=63
+SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=63 AND `code`='172' AND `scheduled`='0000-00-00 14:30'
+=0
+=OK
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='AC';
+=4
+SELECT `id` FROM `airlines` WHERE `code`='AC';
+=4
+SELECT `id` FROM `models` WHERE `icao`='A333';
+=14
+SELECT `id` FROM `aircrafts` WHERE `reg`='C-GHKW';
+=6
+SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=4 AND `code`='877' AND `scheduled`='0000-00-00 17:00'
+=21
+UPDATE `flights` SET `aircraft`=6,`model`=14 WHERE `id`=21;
+=OK
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='TP';
+=113
+SELECT `id` FROM `airlines` WHERE `code`='TP';
+=113
+SELECT `id` FROM `models` WHERE `icao`='A320';
+=9
+SELECT `id` FROM `aircrafts` WHERE `reg`='CS-TNP';
+=7
+SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=113 AND `code`='579' AND `scheduled`='0000-00-00 19:10'
+=22
+UPDATE `flights` SET `aircraft`=7,`model`=9 WHERE `id`=22;
+=OK
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='SA';
+=99
+SELECT `id` FROM `airlines` WHERE `code`='SA';
+=99
+SELECT `id` FROM `models` WHERE `icao`='A346';
+=19
+SELECT `id` FROM `aircrafts` WHERE `reg`='ZS-SNH';
+=1
+SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=99 AND `code`='261' AND `scheduled`='0000-00-00 20:45'
+=23
+UPDATE `flights` SET `aircraft`=1,`model`=19 WHERE `id`=23;
+=OK
+
+/************************************/
+
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='SQ';
+=105
+SELECT `id` FROM `airlines` WHERE `code`='SQ';
+=105
+SELECT `id` FROM `models` WHERE `icao`='B77W';
+=68
+SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=105 AND `code`='325' AND `scheduled`='0000-00-00 21:55'
+=24
+UPDATE `flights` SET `aircraft`=NULL,`model`=68 WHERE `id`=24;
+=OK
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='TP';
+=113
+SELECT `id` FROM `airlines` WHERE `code`='TP';
+=113
+SELECT `id` FROM `models` WHERE `icao`='A320';
+=9
+SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=113 AND `code`='571' AND `scheduled`='0000-00-00 06:20'
+=27
+UPDATE `flights` SET `aircraft`=NULL,`model`=9 WHERE `id`=27;
+=OK
+
+/************************************/
+
+SELECT `id` FROM `airlines` WHERE `code`='AC';
+=4
+SELECT `id` FROM `airlines` WHERE `code`='AC';
+=4
+SELECT `id` FROM `models` WHERE `icao`='A333';
+=14
+SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=4 AND `code`='845' AND `scheduled`='0000-00-00 10:30'
+=<empty>
+INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled`, `expected`, `aircraft`, `model`) VALUES(1, 'pax-regular', 'departure', 4, '845', '0000-00-00 10:30', NULL, NULL, 14);
+=OK
+
+/************************************/
+
 ---------------------------
 12 Flüge gefunden.
     Dauer: 0.000s
 
 ===========================
 
+SELECT `flights`.`id`, `airlines`.`code`, `flights`.`code`, `flights`.`scheduled`, `flights`.`direction` FROM `flights` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` WHERE `airport` IS NULL AND  (`scheduled` >= '0000-00-00 11:00:00'  OR `expected` >= '0000-00-00 11:00:00'  OR (TIME_TO_SEC(TIMEDIFF('0000-00-00 11:00:00', `scheduled`)) / 60 / 60) < 2) ORDER BY `scheduled`;
+=31,...
 http://localhost/fra-schedule/check/flugplan/airportcity?fid=AC84500000000
+=30,...
 http://localhost/fra-schedule/check/flugplan/airportcity?fia=TK158700000000
+SELECT `airports`.`id` FROM `airports` WHERE `iata`='YYC' AND `icao`='CYYC';
+=247
+UPDATE `flights` SET `airport`=247 WHERE `id`=31;
+=OK
+SELECT `airports`.`id` FROM `airports` WHERE `iata`='IST' AND `icao`='LTBA';
+=109
+UPDATE `flights` SET `airport`=109 WHERE `id`=30;
+=OK
 
 
 === fin. ===
