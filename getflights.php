@@ -44,6 +44,7 @@ $tz = date_default_timezone_set('Europe/Berlin');
 $baseurl = 'www.frankfurt-airport.de';
 $rwyinfo = 'apps.fraport.de';
 $now = strftime('%Y-%m-%d %H:%M:%S');
+$items = 15;
 
 if (isset($_GET['baseurl']))
 {
@@ -53,6 +54,8 @@ if (isset($_GET['baseurl']))
 
 	if (isset($_GET['now']))
 		$now = $_GET['now'];
+
+	$items = 3;
 }
 
 if (isset($_GET['debug']))
@@ -426,13 +429,14 @@ function awk_flights_remark($rule, $fields)
 
 	if (preg_match('/<p>annulliert<\/p>/', $remark))
 	{
-		$f->model = '~NUL~';
+		$f->expected = 'NULL';
 	}
 	else if (preg_match('/<p>gestartet<\/p>/', $remark))
 	{
 		// Don't update flight any more
-		if (strtotime($f->expected) < strtotime($now))
-			$f->scheduled = NULL;
+		if ($f->expected)
+			if (strtotime($f->expected) < strtotime($now))
+				$f->scheduled = NULL;
 	}
 	else if (preg_match('/<p>Gate offen<\/p>/', $remark) ||
 			 preg_match('/<p>geschlossen<\/p>/', $remark))
@@ -445,10 +449,15 @@ function awk_flights_remark($rule, $fields)
 			// If `expected` is NULL here, but a timestamp in the DB exists,
 			// the latter will be overwritten by $now!
 			if (NULL == $f->expected)
-				$f->expected = $now;
+			{
+				if (strtotime($f->scheduled) < strtotime($now))
+					$f->expected = strftime('%Y-%m-%d %H:%M', strtotime('+5 min', strtotime($now)));
+			}
 			else
+			{
 				if (strtotime($f->expected) < strtotime($now))
-					$f->expected = $now;
+					$f->expected = strftime('%Y-%m-%d %H:%M', strtotime('+5 min', strtotime($now)));
+			}
 		}
 	}
 }
@@ -557,6 +566,7 @@ function GetFlights($curl, $dir, &$flights)
 	global $baseurl;
 	global $awk_flights;
 	global $f;
+	global $items;
 	global $page;
 
 	$error = NULL;
@@ -570,7 +580,7 @@ function GetFlights($curl, $dir, &$flights)
 	do
 	{
 		$url = "http://$baseurl/flugplan/airportcity?".
-			   "type=$dir&typ=p&context=0&sprache=de&items=12&$action=true&page=$page";
+			   "type=$dir&typ=p&context=0&sprache=de&items=$items&$action=true&page=$page";
 
 		if (isset($DEBUG['url']))
 			echo "$url\n";
@@ -909,11 +919,18 @@ function UpdateVisitsToFra($f, $reg)
 
 		if (!$row)
 		{
-			$query = "INSERT INTO `visits`(`aircraft`, `num`, `last`)".
-					 "VALUES($reg, 1, '$f->scheduled');";
+			if ('NULL' == $f->expected)	// "annulliert"
+			{
+				warn_once(__LINE__, "No visits found for '$reg'.");
+			}
+			else
+			{
+				$query = "INSERT INTO `visits`(`aircraft`, `num`, `last`)".
+						 "VALUES($reg, 1, '$f->scheduled');";
 
-			if (isset($DEBUG['query']))
-				echo "=\n$query\n";
+				if (isset($DEBUG['query']))
+					echo "=\n$query\n";
+			}
 		}
 		else
 		{
@@ -930,7 +947,8 @@ function UpdateVisitsToFra($f, $reg)
 			else
 			{
 				$query = "UPDATE `visits` ".
-						 "SET `num`=".($num + 1).", `last`='$f->scheduled' ".
+						 "SET `num`=".('NULL' == $f->expected ? $num - 1 : $num + 1).",".
+						 " `last`='$f->scheduled' ".
 						 "WHERE `aircraft`=$reg";
 
 				if (isset($DEBUG['query']))
@@ -1395,7 +1413,7 @@ else
 						{
 							$n--;
 						}
-						else if (0 == strcmp("~NUL~", $f->model))	// "annulliert"
+						else if (0 == strcmp("NULL", $f->expected))	// "annulliert"
 						{
 							$error = GetAirlineId($f, $airline);
 
