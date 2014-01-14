@@ -914,7 +914,8 @@ function UpdateVisitsToFra($f, $reg)
 	}
 	else
 	{
-		$row = mysql_fetch_row($result);
+		$row = mysql_fetch_assoc($result);
+
 		mysql_free_result($result);
 
 		if (!$row)
@@ -934,26 +935,43 @@ function UpdateVisitsToFra($f, $reg)
 		}
 		else
 		{
-			$num = $row[0];
-			$last = $row[1];
+			$num = $row['num'];
+			$last = $row['last'];
 
 			if (isset($DEBUG['query']))
 				echo "=$num,$last\n";
 
-			if ($last >= $f->scheduled)
+			if ('NULL' == $f->expected)
 			{
-				$query = NULL;
+				if ($num < 1)
+				{
+					$query = NULL;
+				}
+				else
+				{
+					$query = "UPDATE `visits` ".
+							 "SET `num`=".($num - 1).",".
+							 " `last`='$f->scheduled' ".
+							 "WHERE `aircraft`=$reg";
+				}
 			}
 			else
 			{
-				$query = "UPDATE `visits` ".
-						 "SET `num`=".('NULL' == $f->expected ? $num - 1 : $num + 1).",".
-						 " `last`='$f->scheduled' ".
-						 "WHERE `aircraft`=$reg";
-
-				if (isset($DEBUG['query']))
-					echo "$query\n";
+				if ($f->scheduled <= $last)
+				{
+					$query = NULL;
+				}
+				else
+				{
+					$query = "UPDATE `visits` ".
+							 "SET `num`=".('NULL' == $f->expected ? ($num > 0 ? $num - 1 : 0) : $num + 1).",".
+							 " `last`='$f->scheduled' ".
+							 "WHERE `aircraft`=$reg";
+				}
 			}
+
+			if (isset($DEBUG['query']) && $query)
+				echo "$query\n";
 		}
 
 		if ($query)
@@ -1208,7 +1226,7 @@ function InsertOrUpdateFlight($dir, $airline, $code,
 	return $error;
 }
 
-function DeleteFlight($dir, $airline, $code, $scheduled)
+function DeleteFlight($dir, $airline, $code, $scheduled, &$aircraft)
 {
 	global $DEBUG;
 	global $uid;
@@ -1216,7 +1234,7 @@ function DeleteFlight($dir, $airline, $code, $scheduled)
 	$error = NULL;
 
 	/* Determine whether there is something to be deleted at all */
-	$query = "SELECT `id` FROM `flights` ".
+	$query = "SELECT `id`, `aircraft` FROM `flights` ".
 		"WHERE `direction`='$dir'".
 		" AND `airline`=$airline".
 		" AND `code`='$code'".
@@ -1233,27 +1251,30 @@ function DeleteFlight($dir, $airline, $code, $scheduled)
 	}
 	else
 	{
-		$n = mysql_num_rows($result);
+		$row = mysql_fetch_assoc($result);
 
-		if (isset($DEBUG['query']))
-			echo "=$n\n";
+		if (NULL == $row)
+		{
+			$id = NULL;
+			$aircraft = NULL;
+
+			if (isset($DEBUG['query']))
+				echo "=<empty>\n";
+		}
+		else
+		{
+			$id = $row['id'];
+			$aircraft = $row['aircraft'];
+
+			if (isset($DEBUG['query']))
+				echo "=$row[id],$aircraft\n";
+		}
 
 		mysql_free_result($result);
 
-		if (isset($DEBUG['query']))
-			echo "=OK\n";
-
-		/* Although this should be enforced by a constriaint ... */
-		if ($n > 1)
-			warn_once(__LINE__, "Multiple flights deleted: $dir-$airline-'$code'-'$scheduled'");
-
-		if ($n > 0)
+		if ($id)
 		{
-			$query = "DELETE FROM `flights` ".
-				"WHERE `direction`='$dir'".
-				" AND `airline`=$airline".
-				" AND `code`='$code'".
-				" AND `scheduled`='$scheduled'";
+			$query = "DELETE FROM `flights` WHERE `id`=$id";
 
 			if (isset($DEBUG['query']))
 				echo "$query\n";
@@ -1418,7 +1439,12 @@ else
 							$error = GetAirlineId($f, $airline);
 
 							if (!$error)
-								$error = DeleteFlight($dir, $airline, $f->code, $f->scheduled);
+							{
+								$error = DeleteFlight($dir, $airline, $f->code, $f->scheduled, $reg);
+
+								if (!$error && 'arrival' == $dir && $reg)
+									$error = UpdateVisitsToFra($f, $reg);
+							}
 						}
 						else if ($f->scheduled)
 						{
