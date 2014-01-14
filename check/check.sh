@@ -126,11 +126,13 @@ rawurlencode() {
 unless $LINENO sed -r "\"s/^(define[ \t]*\('DB_NAME',[ \t]*')[^']+('\);)/\1fra-schedule\2/g\"" \
 	../.config.local '>' ../.config
 
-rm -rf sh/results
 mkdir -p sh/results
 
 # Test in release mode
 sed "s/^[[:space:]]*define('DEBUG'.*$/\/\/&/" --in-place ../.config
+
+# No mainteance...
+[ -e ../adminmessage.php ] && mv ../adminmessage.php ../~adminmessage.php
 
 # On local system, check whether mta is running
 if [ 'kowalski' == $(uname --nodename) ]; then
@@ -182,13 +184,31 @@ do
 		if [ 0 == $? ]; then
 			echo -e "\033[36m$script\033[m"
 
+			expect="sh/expect/$script"
 			results="sh/results/$script"
+			rm -rf "$results"
 			mkdir -p "$results"
 
 			if [ 0 == $? ]; then
 				eval "$(cat 'sh/'$script'.sh')"
 				# Copy referenced scripts to properly view results
 				cp -a ../css ../img ../script "$results"
+
+			diff "$expect" "$results" \
+					--brief \
+					--recursive --ignore-file-name-case \
+					--exclude=css \
+					--exclude=img \
+					--exclude=script \
+					--suppress-blank-empty \
+					--ignore-tab-expansion \
+					--ignore-space-change \
+					--ignore-all-space \
+					--ignore-blank-lines | \
+				grep -v '^diff' | \
+				sed -r $'s~^-(.*)$~\033[32m< \\1\033[m~g;
+						 s~^\+(.*)$~\033[35m> \\1\033[m~g;
+						 s~^@@.*@@$~\033[1;33m&\033[m~g'
 			fi
 		fi
 	fi
@@ -201,19 +221,4 @@ rm -f .COOKIES
 
 # Restore DB
 #cp -f ../.config.local ../.config
-
-diff sh/expect sh/results \
-		--brief \
-		--recursive --ignore-file-name-case \
-		--exclude=css \
-		--exclude=img \
-		--exclude=script \
-		--suppress-blank-empty \
-		--ignore-tab-expansion \
-		--ignore-space-change \
-		--ignore-all-space \
-		--ignore-blank-lines | \
-	grep -v '^diff' | \
-	sed -r $'s~^-(.*)$~\033[32m< \\1\033[m~g;
-			 s~^\+(.*)$~\033[35m> \\1\033[m~g;
-			 s~^@@.*@@$~\033[1;33m&\033[m~g'
+[ -e ../~adminmessage.php ] && mv ../~adminmessage.php ../adminmessage.php
