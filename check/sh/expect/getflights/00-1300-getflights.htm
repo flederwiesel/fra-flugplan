@@ -68,8 +68,7 @@ SELECT `num`,`last` FROM `visits` WHERE `aircraft`=7;
 SELECT `id` FROM `airlines` WHERE `code`='KU';
 =63
 SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`=63 AND `code`='171' AND `scheduled`='0000-00-00 13:20'
-=0
-=OK
+=<empty>
 
 /************************************/
 
@@ -308,8 +307,7 @@ UPDATE `flights` SET `expected`='0000-00-00 13:35', `aircraft`=5,`model`=14 WHER
 SELECT `id` FROM `airlines` WHERE `code`='KU';
 =63
 SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='departure' AND `airline`=63 AND `code`='172' AND `scheduled`='0000-00-00 14:30'
-=0
-=OK
+=<empty>
 
 /************************************/
 
