@@ -244,7 +244,7 @@ INSERT INTO `aircrafts`(`uid`, `reg`,`model`) VALUES(1, 'CS-TNP', 9);
 =7
 SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=113 AND `code`='571' AND `scheduled`='0000-00-00 06:20'
 =<empty>
-INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled`, `expected`, `aircraft`, `model`) VALUES(1, 'pax-regular', 'departure', 113, '571', '0000-00-00 06:20', '0000-00-00 05:00:00', 7, 9);
+INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled`, `expected`, `aircraft`, `model`) VALUES(1, 'pax-regular', 'departure', 113, '571', '0000-00-00 06:20', NULL, 7, 9);
 =OK
 
 /************************************/
