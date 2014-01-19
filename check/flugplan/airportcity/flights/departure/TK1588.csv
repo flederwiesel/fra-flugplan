@@ -2,12 +2,12 @@
 0 06:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
 0 07:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
 0 08:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
-0 09:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
-0 10:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
-0 11:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
-0 12:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;gelandet
-0 13:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;Gepäckausgabe
-0 14:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;Gepäckausgabe beendet
+0 09:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;Gate offen
+0 10:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;Gate offen
+0 11:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;geschlossen
+0 12:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;gestartet
+0 13:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
+0 14:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
 0 12:00;1 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
 0 13:00;1 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
 0 14:00;1 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
@@ -25,12 +25,12 @@
 1 06:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
 1 07:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
 1 08:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
-1 09:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
-1 10:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
-1 11:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
-1 12:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;gelandet
-1 13:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;Gepäckausgabe
-1 14:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;Gepäckausgabe beendet
+1 09:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;Gate offen
+1 10:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;Gate offen
+1 11:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;geschlossen
+1 12:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;gestartet
+1 13:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
+1 14:00;0 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
 1 12:00;1 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
 1 13:00;1 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
 1 14:00;1 11:45;;TK;1588;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
