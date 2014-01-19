@@ -431,9 +431,14 @@ function awk_flights_remark($rule, $fields)
 	{
 		$f->expected = 'NULL';
 	}
+	else if (preg_match('/<p>Gepäckausgabe<\/p>/', $remark))
+	{
+		// Don't update any more
+		$f->scheduled = NULL;
+	}
 	else if (preg_match('/<p>gestartet<\/p>/', $remark))
 	{
-		// Don't update flight any more
+		// Don't update flight any more, unless $f->expected id in the future
 		if ($f->expected)
 			if (strtotime($f->expected) < strtotime($now))
 				$f->scheduled = NULL;
