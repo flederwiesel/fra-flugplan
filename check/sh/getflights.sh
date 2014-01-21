@@ -35,7 +35,8 @@ do
 
 		dHHMM=$(printf '%02u' $day)-$(date +'%H%M' --date="$time")
 
-		now=$(date +'%Y-%m-%d %H:%M:%S' --date="$time")
+		offset=$(date +'%Y-%m-%d' --date="+$day days")
+		now=$(date +'%Y-%m-%d %H:%M:%S' --date="$offset $time")
 		now=$(rawurlencode $now)
 
 		echo "$day $time" > flugplan/airportcity/querytime
