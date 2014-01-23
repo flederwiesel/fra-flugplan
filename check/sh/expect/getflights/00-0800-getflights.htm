@@ -48,20 +48,6 @@ SELECT `num`,`last` FROM `visits` WHERE `aircraft`=2;
 
 /************************************/
 
-SELECT `id` FROM `airlines` WHERE `code`='AC';
-=4
-SELECT `id` FROM `airlines` WHERE `code`='AC';
-=4
-SELECT `id` FROM `models` WHERE `icao`='A333';
-=14
-SELECT `id` FROM `aircrafts` WHERE `reg`='C-GFAH';
-=3
-SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=4 AND `code`='874' AND `scheduled`='0000-00-00 07:00'
-=3
-UPDATE `flights` SET `expected`='0000-00-00 07:00', `aircraft`=3,`model`=14 WHERE `id`=3;
-=OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=3;
-=1,0000-00-00 07:00:00
 
 /************************************/
 
@@ -312,11 +298,9 @@ SELECT `id` FROM `airlines` WHERE `code`='TP';
 =113
 SELECT `id` FROM `models` WHERE `icao`='A320';
 =9
-SELECT `id` FROM `aircrafts` WHERE `reg`='CS-TNP';
-=7
 SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=113 AND `code`='573' AND `scheduled`='0000-00-00 13:20'
 =18
-UPDATE `flights` SET `aircraft`=7,`model`=9 WHERE `id`=18;
+UPDATE `flights` SET `aircraft`=NULL,`model`=9 WHERE `id`=18;
 =OK
 
 /************************************/
@@ -366,11 +350,9 @@ SELECT `id` FROM `airlines` WHERE `code`='TP';
 =113
 SELECT `id` FROM `models` WHERE `icao`='A320';
 =9
-SELECT `id` FROM `aircrafts` WHERE `reg`='CS-TNP';
-=7
 SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=113 AND `code`='579' AND `scheduled`='0000-00-00 19:10'
 =22
-UPDATE `flights` SET `aircraft`=7,`model`=9 WHERE `id`=22;
+UPDATE `flights` SET `aircraft`=NULL,`model`=9 WHERE `id`=22;
 =OK
 
 /************************************/

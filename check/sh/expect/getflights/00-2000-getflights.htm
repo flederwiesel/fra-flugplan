@@ -13,20 +13,6 @@ http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&cont
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=3
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
-SELECT `id` FROM `airlines` WHERE `code`='TP';
-=113
-SELECT `id` FROM `airlines` WHERE `code`='TP';
-=113
-SELECT `id` FROM `models` WHERE `icao`='A320';
-=9
-SELECT `id` FROM `aircrafts` WHERE `reg`='CS-TNP';
-=7
-SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=113 AND `code`='576' AND `scheduled`='0000-00-00 18:25'
-=10
-UPDATE `flights` SET `aircraft`=7,`model`=9 WHERE `id`=10;
-=OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=7;
-=2,0000-00-00 18:25:00
 
 /************************************/
 
@@ -131,8 +117,8 @@ SELECT `id` FROM `airlines` WHERE `code`='TK';
 SELECT `id` FROM `models` WHERE `icao`='A343';
 =17
 SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=112 AND `code`='1587' AND `scheduled`='0000-00-01 10:40'
-=30
-UPDATE `flights` SET `aircraft`=NULL,`model`=17 WHERE `id`=30;
+=31
+UPDATE `flights` SET `aircraft`=NULL,`model`=17 WHERE `id`=31;
 =OK
 
 /************************************/
@@ -272,8 +258,8 @@ SELECT `id` FROM `models` WHERE `icao`='A333';
 SELECT `id` FROM `aircrafts` WHERE `reg`='C-GHLM';
 =5
 SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=4 AND `code`='845' AND `scheduled`='0000-00-01 10:30'
-=31
-UPDATE `flights` SET `aircraft`=5,`model`=14 WHERE `id`=31;
+=30
+UPDATE `flights` SET `aircraft`=5,`model`=14 WHERE `id`=30;
 =OK
 
 /************************************/
@@ -377,11 +363,9 @@ SELECT `id` FROM `airlines` WHERE `code`='TP';
 =113
 SELECT `id` FROM `models` WHERE `icao`='A320';
 =9
-SELECT `id` FROM `aircrafts` WHERE `reg`='CS-TNP';
-=7
 SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=113 AND `code`='579' AND `scheduled`='0000-00-01 19:10'
 =<empty>
-INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled`, `expected`, `aircraft`, `model`) VALUES(1, 'pax-regular', 'departure', 113, '579', '0000-00-01 19:10', NULL, 7, 9);
+INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled`, `expected`, `aircraft`, `model`) VALUES(1, 'pax-regular', 'departure', 113, '579', '0000-00-01 19:10', NULL, NULL, 9);
 =OK
 
 /************************************/

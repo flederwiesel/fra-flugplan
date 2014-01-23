@@ -137,8 +137,8 @@ SELECT `id` FROM `airlines` WHERE `code`='TK';
 SELECT `id` FROM `models` WHERE `icao`='A343';
 =17
 SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=112 AND `code`='1587' AND `scheduled`='0000-00-02 10:40'
-=54
-UPDATE `flights` SET `aircraft`=NULL,`model`=17 WHERE `id`=54;
+=55
+UPDATE `flights` SET `aircraft`=NULL,`model`=17 WHERE `id`=55;
 =OK
 
 /************************************/
@@ -282,8 +282,8 @@ SELECT `id` FROM `models` WHERE `icao`='A333';
 SELECT `id` FROM `aircrafts` WHERE `reg`='C-GFAH';
 =3
 SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=4 AND `code`='845' AND `scheduled`='0000-00-02 10:30'
-=55
-UPDATE `flights` SET `aircraft`=3,`model`=14 WHERE `id`=55;
+=54
+UPDATE `flights` SET `aircraft`=3,`model`=14 WHERE `id`=54;
 =OK
 
 /************************************/
@@ -387,11 +387,9 @@ SELECT `id` FROM `airlines` WHERE `code`='TP';
 =113
 SELECT `id` FROM `models` WHERE `icao`='A320';
 =9
-SELECT `id` FROM `aircrafts` WHERE `reg`='CS-TNP';
-=7
 SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=113 AND `code`='579' AND `scheduled`='0000-00-02 19:10'
 =68
-UPDATE `flights` SET `aircraft`=7,`model`=9 WHERE `id`=68;
+UPDATE `flights` SET `aircraft`=NULL,`model`=9 WHERE `id`=68;
 =OK
 
 /************************************/
@@ -403,8 +401,8 @@ SELECT `id` FROM `airlines` WHERE `code`='SA';
 SELECT `id` FROM `models` WHERE `icao`='A346';
 =19
 SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=99 AND `code`='261' AND `scheduled`='0000-00-02 20:45'
-=69
-UPDATE `flights` SET `aircraft`=NULL,`model`=19 WHERE `id`=69;
+=<empty>
+INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled`, `expected`, `aircraft`, `model`) VALUES(1, 'pax-regular', 'departure', 99, '261', '0000-00-02 20:45', NULL, NULL, 19);
 =OK
 
 /************************************/
@@ -415,12 +413,18 @@ UPDATE `flights` SET `aircraft`=NULL,`model`=19 WHERE `id`=69;
 
 ===========================
 
-SELECT `flights`.`id`, `airlines`.`code`, `flights`.`code`, `flights`.`scheduled`, `flights`.`direction` FROM `flights` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` WHERE `airport` IS NULL AND  (`scheduled` >= '0000-00-00 21:00:00'  OR `expected` >= '0000-00-00 21:00:00'  OR (TIME_TO_SEC(TIMEDIFF('0000-00-00 21:00:00', `scheduled`)) / 60 / 60) < 2) ORDER BY `scheduled`;
-=70,...
+SELECT `flights`.`id`, `airlines`.`code`, `flights`.`code`, `flights`.`scheduled`, `flights`.`direction` FROM `flights` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` WHERE `airport` IS NULL AND  (`scheduled` >= '0000-00-01 21:00:00'  OR `expected` >= '0000-00-01 21:00:00'  OR (TIME_TO_SEC(TIMEDIFF('0000-00-01 21:00:00', `scheduled`)) / 60 / 60) < 2) ORDER BY `scheduled`;
+=69,...
 http://localhost/fra-schedule/check/flugplan/airportcity?fia=SQ32600000002
+=70,...
+http://localhost/fra-schedule/check/flugplan/airportcity?fid=SA26100000002
 SELECT `airports`.`id` FROM `airports` WHERE `iata`='SIN' AND `icao`='WSSS';
 =204
-UPDATE `flights` SET `airport`=204 WHERE `id`=70;
+UPDATE `flights` SET `airport`=204 WHERE `id`=69;
+=OK
+SELECT `airports`.`id` FROM `airports` WHERE `iata`='JNB' AND `icao`='FAOR';
+=323
+UPDATE `flights` SET `airport`=323 WHERE `id`=70;
 =OK
 
 
