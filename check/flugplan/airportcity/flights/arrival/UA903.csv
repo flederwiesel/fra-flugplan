@@ -4,10 +4,10 @@
 0 08:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;
 0 09:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;
 0 10:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;gelandet
-0 11:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;Gepäckausgabe
-0 12:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;Gepäckausgabe beendet
 0 10:00;1 09:45;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
+0 11:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;Gepäckausgabe
 0 11:00;1 09:45;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
+0 12:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;Gepäckausgabe beendet
 0 12:00;1 09:45;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
 0 13:00;1 09:45;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
 0 14:00;1 09:45;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
@@ -27,10 +27,10 @@
 1 08:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;
 1 09:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;
 1 10:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;gelandet
-1 11:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;Gepäckausgabe
-1 12:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;Gepäckausgabe beendet
 1 10:00;1 09:45;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
+1 11:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;Gepäckausgabe
 1 11:00;1 09:45;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
+1 12:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;Gepäckausgabe beendet
 1 12:00;1 09:45;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
 1 13:00;1 09:45;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
 1 14:00;1 09:45;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;

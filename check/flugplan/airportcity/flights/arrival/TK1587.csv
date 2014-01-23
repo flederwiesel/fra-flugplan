@@ -5,8 +5,10 @@
 0 09:00;0 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
 0 10:00;0 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
 0 11:00;0 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;gelandet
-0 11:00;1 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;Gepäckausgabe
-0 12:00;1 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;Gepäckausgabe beendet
+0 11:00;1 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
+0 12:00;0 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;Gepäckausgabe
+0 12:00;1 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
+0 13:00;0 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;Gepäckausgabe beendet
 0 13:00;1 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
 0 14:00;1 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
 0 15:00;1 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
@@ -26,8 +28,10 @@
 1 09:00;0 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
 1 10:00;0 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
 1 11:00;0 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;gelandet
-1 11:00;1 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;Gepäckausgabe
-1 12:00;1 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;Gepäckausgabe beendet
+1 11:00;1 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
+1 12:00;0 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;Gepäckausgabe beendet
+1 12:00;1 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
+1 13:00;0 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;Gepäckausgabe beendet
 1 13:00;1 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
 1 14:00;1 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
 1 15:00;1 10:40;;TK;1587;Turkish Airlines;A343;;IST;LTBA;Istanbul-Atatuerk;Türkei;
