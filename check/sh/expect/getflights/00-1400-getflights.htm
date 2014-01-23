@@ -14,20 +14,6 @@ http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&cont
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=6
-SELECT `id` FROM `airlines` WHERE `code`='AC';
-=4
-SELECT `id` FROM `airlines` WHERE `code`='AC';
-=4
-SELECT `id` FROM `models` WHERE `icao`='A333';
-=14
-SELECT `id` FROM `aircrafts` WHERE `reg`='C-GHKW';
-=6
-SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=4 AND `code`='876' AND `scheduled`='0000-00-00 11:45'
-=7
-UPDATE `flights` SET `aircraft`=6,`model`=14 WHERE `id`=7;
-=OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=6;
-=1,0000-00-00 11:45:00
 
 /************************************/
 

@@ -13,20 +13,6 @@ http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&cont
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=3
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
-SELECT `id` FROM `airlines` WHERE `code`='TP';
-=113
-SELECT `id` FROM `airlines` WHERE `code`='TP';
-=113
-SELECT `id` FROM `models` WHERE `icao`='A320';
-=9
-SELECT `id` FROM `aircrafts` WHERE `reg`='CS-TNP';
-=7
-SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=113 AND `code`='576' AND `scheduled`='0000-00-01 18:25'
-=43
-UPDATE `flights` SET `aircraft`=7,`model`=9 WHERE `id`=43;
-=OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=7;
-=5,0000-00-01 18:25:00
 
 /************************************/
 

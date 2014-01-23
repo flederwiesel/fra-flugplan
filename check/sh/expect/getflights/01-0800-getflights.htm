@@ -14,37 +14,9 @@ http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&cont
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=6
-SELECT `id` FROM `airlines` WHERE `code`='SA';
-=99
-SELECT `id` FROM `airlines` WHERE `code`='SA';
-=99
-SELECT `id` FROM `models` WHERE `icao`='A346';
-=19
-SELECT `id` FROM `aircrafts` WHERE `reg`='ZS-SNC';
-=10
-SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=99 AND `code`='260' AND `scheduled`='0000-00-01 06:15'
-=25
-UPDATE `flights` SET `expected`='0000-00-01 05:18', `aircraft`=10,`model`=19 WHERE `id`=25;
-=OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=10;
-=1,0000-00-01 06:15:00
 
 /************************************/
 
-SELECT `id` FROM `airlines` WHERE `code`='CX';
-=24
-SELECT `id` FROM `airlines` WHERE `code`='CX';
-=24
-SELECT `id` FROM `models` WHERE `icao`='B77W';
-=68
-SELECT `id` FROM `aircrafts` WHERE `reg`='B-KQJ';
-=11
-SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=24 AND `code`='289' AND `scheduled`='0000-00-01 06:20'
-=26
-UPDATE `flights` SET `aircraft`=11,`model`=68 WHERE `id`=26;
-=OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=11;
-=1,0000-00-01 06:20:00
 
 /************************************/
 

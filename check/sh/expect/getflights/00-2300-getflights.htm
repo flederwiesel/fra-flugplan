@@ -14,20 +14,6 @@ http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&cont
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=6
-SELECT `id` FROM `airlines` WHERE `code`='SQ';
-=105
-SELECT `id` FROM `airlines` WHERE `code`='SQ';
-=105
-SELECT `id` FROM `models` WHERE `icao`='B77W';
-=68
-SELECT `id` FROM `aircrafts` WHERE `reg`='9V-SWK';
-=9
-SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=105 AND `code`='326' AND `scheduled`='0000-00-00 20:30'
-=11
-UPDATE `flights` SET `aircraft`=9,`model`=68 WHERE `id`=11;
-=OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=9;
-=1,0000-00-00 20:30:00
 
 /************************************/
 

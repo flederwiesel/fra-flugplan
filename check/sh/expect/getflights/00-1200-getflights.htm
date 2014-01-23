@@ -14,20 +14,6 @@ http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&cont
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=6
-SELECT `id` FROM `airlines` WHERE `code`='UA';
-=120
-SELECT `id` FROM `airlines` WHERE `code`='UA';
-=120
-SELECT `id` FROM `models` WHERE `icao`='B744';
-=57
-SELECT `id` FROM `aircrafts` WHERE `reg`='N116UA';
-=4
-SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=120 AND `code`='903' AND `scheduled`='0000-00-00 09:45'
-=4
-UPDATE `flights` SET `aircraft`=4,`model`=57 WHERE `id`=4;
-=OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=4;
-=1,0000-00-00 09:45:00
 
 /************************************/
 
