@@ -79,10 +79,10 @@ do
 
 	YYYYmmdd=$(date +%Y%m%d --date="+$day days")
 
-	check "$day-fia" curl "$url/check/flugplan/airportcity/?fia=SA260$YYYYmmdd" \
+	check "$day-0600-fia" curl "$url/check/flugplan/airportcity/?fia=SA260$YYYYmmdd" \
 		"| sed -r 's/[0-9]{2}\\.[0-9]{2}\\.[0-9]{4}/00.00.0000/g'"
 
-	check "$day-fid" curl "$url/check/flugplan/airportcity/?fid=SA261$YYYYmmdd" \
+	check "$day-0600-fid" curl "$url/check/flugplan/airportcity/?fid=SA261$YYYYmmdd" \
 		"| sed -r 's/[0-9]{2}\\.[0-9]{2}\\.[0-9]{4}/00.00.0000/g'"
 
 done
@@ -91,8 +91,8 @@ echo "1 23:00" > flugplan/airportcity/querytime
 
 YYYYmmdd=$(date +%Y%m%d --date="+$day days")
 
-check "$day-fia" curl "$url/check/flugplan/airportcity/?fia=SA260$YYYYmmdd" \
+check "1-2300-fia" curl "$url/check/flugplan/airportcity/?fia=SA260$YYYYmmdd" \
 	"| sed -r 's/[0-9]{2}\\.[0-9]{2}\\.[0-9]{4}/00.00.0000/g'"
 
-check "$day-fid" curl "$url/check/flugplan/airportcity/?fid=SA261$YYYYmmdd" \
+check "1-2300-fid" curl "$url/check/flugplan/airportcity/?fid=SA261$YYYYmmdd" \
 	"| sed -r 's/[0-9]{2}\\.[0-9]{2}\\.[0-9]{4}/00.00.0000/g'"
