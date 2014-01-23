@@ -431,7 +431,7 @@ function awk_flights_remark($rule, $fields)
 	{
 		$f->expected = 'NULL';
 	}
-	else if (preg_match('/<p>Gepäckausgabe<\/p>/', $remark))
+	else if (preg_match('/<p>Gepäckausgabe( beendet)?<\/p>/', $remark))
 	{
 		// Don't update any more
 		$f->scheduled = NULL;
