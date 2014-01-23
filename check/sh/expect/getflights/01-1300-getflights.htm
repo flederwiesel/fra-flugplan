@@ -14,6 +14,19 @@ http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&cont
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
 http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=6
+SELECT `id` FROM `airlines` WHERE `code`='TK';
+=112
+SELECT `id` FROM `airlines` WHERE `code`='TK';
+=112
+SELECT `id` FROM `models` WHERE `icao`='A343';
+=17
+SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=112 AND `code`='1587' AND `scheduled`='0000-00-01 10:40'
+=30
+UPDATE `flights` SET `aircraft`=NULL,`model`=17 WHERE `id`=30;
+=OK
+
+/************************************/
+
 SELECT `id` FROM `airlines` WHERE `code`='AC';
 =4
 SELECT `id` FROM `airlines` WHERE `code`='AC';
@@ -169,8 +182,8 @@ SELECT `id` FROM `airlines` WHERE `code`='TK';
 SELECT `id` FROM `models` WHERE `icao`='A343';
 =17
 SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=112 AND `code`='1587' AND `scheduled`='0000-00-02 10:40'
-=55
-UPDATE `flights` SET `aircraft`=NULL,`model`=17 WHERE `id`=55;
+=54
+UPDATE `flights` SET `aircraft`=NULL,`model`=17 WHERE `id`=54;
 =OK
 
 /************************************/
@@ -215,7 +228,7 @@ INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled
 /************************************/
 
 ---------------------------
-15 Flüge gefunden.
+16 Flüge gefunden.
     Dauer: 0.000s
 
 ===========================
@@ -394,8 +407,8 @@ SELECT `id` FROM `airlines` WHERE `code`='AC';
 SELECT `id` FROM `models` WHERE `icao`='A333';
 =14
 SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=4 AND `code`='845' AND `scheduled`='0000-00-02 10:30'
-=54
-UPDATE `flights` SET `aircraft`=NULL,`model`=14 WHERE `id`=54;
+=55
+UPDATE `flights` SET `aircraft`=NULL,`model`=14 WHERE `id`=55;
 =OK
 
 /************************************/

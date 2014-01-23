@@ -183,6 +183,16 @@ UPDATE `flights` SET `aircraft`=NULL,`model`=57 WHERE `id`=29;
 
 /************************************/
 
+SELECT `id` FROM `airlines` WHERE `code`='TK';
+=112
+SELECT `id` FROM `airlines` WHERE `code`='TK';
+=112
+SELECT `id` FROM `models` WHERE `icao`='A343';
+=17
+SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=112 AND `code`='1587' AND `scheduled`='0000-00-01 10:40'
+=<empty>
+INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled`, `expected`, `aircraft`, `model`) VALUES(1, 'pax-regular', 'arrival', 112, '1587', '0000-00-01 10:40', NULL, NULL, 17);
+=OK
 
 /************************************/
 
@@ -370,11 +380,17 @@ INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled
 ===========================
 
 SELECT `flights`.`id`, `airlines`.`code`, `flights`.`code`, `flights`.`scheduled`, `flights`.`direction` FROM `flights` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` WHERE `airport` IS NULL AND  (`scheduled` >= '0000-00-00 11:00:00'  OR `expected` >= '0000-00-00 11:00:00'  OR (TIME_TO_SEC(TIMEDIFF('0000-00-00 11:00:00', `scheduled`)) / 60 / 60) < 2) ORDER BY `scheduled`;
-=30,...
+=31,...
 http://localhost/fra-schedule/check/flugplan/airportcity?fid=AC84500000001
+=30,...
+http://localhost/fra-schedule/check/flugplan/airportcity?fia=TK158700000001
 SELECT `airports`.`id` FROM `airports` WHERE `iata`='YYC' AND `icao`='CYYC';
 =247
-UPDATE `flights` SET `airport`=247 WHERE `id`=30;
+UPDATE `flights` SET `airport`=247 WHERE `id`=31;
+=OK
+SELECT `airports`.`id` FROM `airports` WHERE `iata`='IST' AND `icao`='LTBA';
+=109
+UPDATE `flights` SET `airport`=109 WHERE `id`=30;
 =OK
 
 

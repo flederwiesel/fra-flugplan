@@ -34,6 +34,9 @@ SELECT `num`,`last` FROM `visits` WHERE `aircraft`=4;
 
 /************************************/
 
+
+/************************************/
+
 SELECT `id` FROM `airlines` WHERE `code`='AC';
 =4
 SELECT `id` FROM `airlines` WHERE `code`='AC';
@@ -176,8 +179,8 @@ SELECT `id` FROM `airlines` WHERE `code`='TK';
 SELECT `id` FROM `models` WHERE `icao`='A343';
 =17
 SELECT `id` FROM `flights` WHERE `direction`='arrival' AND `airline`=112 AND `code`='1587' AND `scheduled`='0000-00-01 10:40'
-=<empty>
-INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled`, `expected`, `aircraft`, `model`) VALUES(1, 'pax-regular', 'arrival', 112, '1587', '0000-00-01 10:40', NULL, NULL, 17);
+=30
+UPDATE `flights` SET `aircraft`=NULL,`model`=17 WHERE `id`=30;
 =OK
 
 /************************************/
@@ -209,7 +212,7 @@ INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled
 /************************************/
 
 ---------------------------
-15 Flüge gefunden.
+16 Flüge gefunden.
     Dauer: 0.000s
 
 ===========================
@@ -379,8 +382,8 @@ SELECT `id` FROM `airlines` WHERE `code`='AC';
 SELECT `id` FROM `models` WHERE `icao`='A333';
 =14
 SELECT `id` FROM `flights` WHERE `direction`='departure' AND `airline`=4 AND `code`='845' AND `scheduled`='0000-00-01 10:30'
-=30
-UPDATE `flights` SET `aircraft`=NULL,`model`=14 WHERE `id`=30;
+=31
+UPDATE `flights` SET `aircraft`=NULL,`model`=14 WHERE `id`=31;
 =OK
 
 /************************************/
@@ -405,18 +408,12 @@ INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled
 ===========================
 
 SELECT `flights`.`id`, `airlines`.`code`, `flights`.`code`, `flights`.`scheduled`, `flights`.`direction` FROM `flights` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` WHERE `airport` IS NULL AND  (`scheduled` >= '0000-00-00 12:00:00'  OR `expected` >= '0000-00-00 12:00:00'  OR (TIME_TO_SEC(TIMEDIFF('0000-00-00 12:00:00', `scheduled`)) / 60 / 60) < 2) ORDER BY `scheduled`;
-=31,...
-http://localhost/fra-schedule/check/flugplan/airportcity?fia=TK158700000001
 =32,...
 http://localhost/fra-schedule/check/flugplan/airportcity?fia=AC84400000001
 =33,...
 http://localhost/fra-schedule/check/flugplan/airportcity?fia=AC87600000001
 =34,...
 http://localhost/fra-schedule/check/flugplan/airportcity?fid=TK158800000001
-SELECT `airports`.`id` FROM `airports` WHERE `iata`='IST' AND `icao`='LTBA';
-=109
-UPDATE `flights` SET `airport`=109 WHERE `id`=31;
-=OK
 SELECT `airports`.`id` FROM `airports` WHERE `iata`='YYC' AND `icao`='CYYC';
 =247
 UPDATE `flights` SET `airport`=247 WHERE `id`=32;
