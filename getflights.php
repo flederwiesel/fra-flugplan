@@ -701,7 +701,7 @@ function CURL_GetFlightDetails($curl, &$airports)
 	return $error;
 }
 
-function SQL_GetAirlineId($f, &$airline)
+function SQL_GetAirlineId(/* in */ $f, /* out */ &$airline)
 {
 	global $DEBUG;
 	global $uid;
@@ -984,6 +984,52 @@ function SQL_GetAircraftId($f, $model, &$reg)
 	return $error;
 }
 
+function SQL_GetFlightDetails($dir, $scheduled, $airline, $code, &$details)
+{
+	global $DEBUG;
+
+	$error = NULL;
+	$details = NULL;
+
+	$query = "SELECT `id`, `aircraft` ".
+		"FROM `flights` ".
+		"WHERE `direction`='$dir'".
+		" AND `airline`=$airline".
+		" AND `code`='$code'".
+		" AND `scheduled`='$scheduled'";
+
+	if (isset($DEBUG['query']))
+		echo "$query\n";
+
+	$result = mysql_query($query);
+
+	if (!$result)
+	{
+		$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+	}
+	else
+	{
+		$row = mysql_fetch_assoc($result);
+
+		if (NULL == $row)
+		{
+			if (isset($DEBUG['query']))
+				echo "=<empty>\n";
+		}
+		else
+		{
+			$details = $row;
+
+			if (isset($DEBUG['query']))
+				echo "=$details[id],$details[aircraft]\n";
+		}
+
+		mysql_free_result($result);
+	}
+
+	return $error;
+}
+
 function SQL_UpdateVisitsToFra($f, $reg)
 {
 	global $DEBUG;
@@ -1156,76 +1202,64 @@ function SQL_GetAirportId($airport)
 	return $error;
 }
 
-function SQL_InsertOrUpdateFlight($dir, $airline, $code,
-								  $scheduled, $expected, $model, $reg)
+function SQL_InsertFlight($dir, $airline, $code,
+						  $scheduled, $expected, $model, $reg)
 {
 	global $DEBUG;
 	global $uid;
 
 	$error = NULL;
 
-	$query = "SELECT `id` FROM `flights` ".
-		"WHERE `direction`='$dir'".
-		" AND `airline`=$airline".
-		" AND `code`='$code'".
-		" AND `scheduled`='$scheduled'";
+	$query = "INSERT INTO `flights` ".
+		"(`uid`, `type`, `direction`, `airline`, `code`, ".
+		"`scheduled`, `expected`, `aircraft`, `model`) ".
+		"VALUES(".
+		"$uid, 'pax-regular', '$dir', $airline, '$code', ".
+		"'$scheduled', ".
+		($expected ? "'$expected'" : "NULL").", ".
+		($reg ? $reg : "NULL").", ".
+		($model ? "$model": "NULL").");";
 
 	if (isset($DEBUG['query']))
 		echo "$query\n";
 
-	$result = mysql_query($query);
-
-	if (!$result)
+	if (!mysql_query($query))
 	{
 		$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
 	}
 	else
 	{
-		$id = mysql_fetch_row($result);
-
-		mysql_free_result($result);
-
-		if ($id)
-		{
-			$id = $id[0];
-
-			if (isset($DEBUG['query']))
-				echo "=$id\n";
-
-			$query = "UPDATE `flights` SET ".
-				($expected ? "`expected`='$expected', " : "").	// Don't overwrite `expected` with NULL!
-				"`aircraft`=".($reg ? $reg : "NULL").",".
-				"`model`=".($model ? "$model" : "NULL")." ".
-				"WHERE `id`=$id;";
-		}
-		else
-		{
-			if (isset($DEBUG['query']))
-				echo "=<empty>\n";
-
-			$query = "INSERT INTO `flights` ".
-				"(`uid`, `type`, `direction`, `airline`, `code`, ".
-				"`scheduled`, `expected`, `aircraft`, `model`) ".
-				"VALUES(".
-				"$uid, 'pax-regular', '$dir', $airline, '$code', ".
-				"'$scheduled', ".
-				($expected ? "'$expected'" : "NULL").", ".
-				($reg ? $reg : "NULL").", ".
-				($model ? "$model": "NULL").");";
-		}
-
 		if (isset($DEBUG['query']))
-			echo "$query\n";
+			echo "=OK\n";
+	}
 
-		if (!mysql_query($query))
-		{
-			$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
-		}
-		else
-		{
-			if (isset($DEBUG['query']))
-				echo "=OK\n";
-		}
+	return $error;
+}
+
+function SQL_UpdateFlight($id, $expected, $model, $reg)
+{
+	global $DEBUG;
+	global $uid;
+
+	$error = NULL;
+
+	$query = "UPDATE `flights` SET ".
+		($expected ? "`expected`='$expected', " : "").	// Don't overwrite `expected` with NULL!
+		"`aircraft`=".($reg ? $reg : "NULL").",".
+		"`model`=".($model ? "$model" : "NULL")." ".
+		"WHERE `id`=$id;";
+
+	if (isset($DEBUG['query']))
+		echo "$query\n";
+
+	if (!mysql_query($query))
+	{
+		$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+	}
+	else
+	{
+		if (isset($DEBUG['query']))
+			echo "=OK\n";
 	}
 
 	return $error;
@@ -1475,8 +1509,29 @@ else
 								$error = SQL_GetAircraftId($f, $model, $reg);
 
 							// flight
-							$error = SQL_InsertOrUpdateFlight($dir, $airline, $f->code,
-															  $f->scheduled, $f->expected, $model, $reg);
+							$details = NULL;
+							$error = SQL_GetFlightDetails($dir, $f->scheduled, $airline, $f->code, $details);
+
+							if (NULL == $details)
+							{
+							{
+								$error = SQL_InsertFlight($dir, $airline, $f->code,
+														  $f->scheduled, $f->expected, $model, $reg);
+							}
+							}
+							else
+							{
+								if ($details['aircraft'])
+								{
+									if ($details['aircraft'] != $reg)
+									{
+										//TODO: --VTF($details['aircraft'])
+										//TODO: ++VTF($reg)
+									}
+								}
+
+								$error = SQL_UpdateFlight($details['id'], $f->expected, $model, $reg);
+							}
 
 							if (!$error && $reg && 'arrival' == $dir)
 								$error = SQL_UpdateVisitsToFra($f, $reg);
