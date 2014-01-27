@@ -215,53 +215,56 @@ if ($direction)
 
 		foreach ($files as $file)
 		{
-			$lines = file("flights/$direction/$file");
-
-			foreach ($lines as $line)
+			if (preg_match('/.*\.csv$/i', $file))
 			{
-				$line = rtrim($line);
+				$lines = file("flights/$direction/$file");
 
-				/* if (strlen($line) == count($keys)) line is empty! */
-				if ($line[0] != '#' && strlen($line) > count($keys) - 1)
+				foreach ($lines as $line)
 				{
-					$flight = array_combine($keys, explode(';', $line));
+					$line = rtrim($line);
 
-					if ($flight['querytime'] == $querytime)
+					/* if (strlen($line) == count($keys)) line is empty! */
+					if ($line[0] != '#' && strlen($line) > count($keys) - 1)
 					{
-						list($scheduled['day'], $scheduled['time']) = explode(' ', $flight['scheduled']);
-						$scheduled = ($query['day'] + $scheduled['day']).' '.$scheduled['time'];
+						$flight = array_combine($keys, explode(';', $line));
 
-						if (0 == strlen($flight['expected']))
+						if ($flight['querytime'] == $querytime)
 						{
-							$expected = '';
-						}
-						else
-						{
-							list($expected['day'], $expected['time']) = explode(' ', $flight['expected']);
-							$expected = ($query['day'] + $expected['day']).' '.$expected['time'];
-						}
+							list($scheduled['day'], $scheduled['time']) = explode(' ', $flight['scheduled']);
+							$scheduled = ($query['day'] + $scheduled['day']).' '.$scheduled['time'];
 
-						$flights[] = new flight(
-								$scheduled,
-								$expected,
-								new airline(
-									$flight['airline-code'],
-									$flight['airline-name']
-								),
-								$flight['code'],
-								$flight['model'],
-								$flight['reg'],
-								new airport(
-									$flight['airport-iata'],
-									$flight['airport-icao'],
-									$flight['airport-name'],
-									$flight['airport-country']
-								),
-								$flight['remark']
-						);
+							if (0 == strlen($flight['expected']))
+							{
+								$expected = '';
+							}
+							else
+							{
+								list($expected['day'], $expected['time']) = explode(' ', $flight['expected']);
+								$expected = ($query['day'] + $expected['day']).' '.$expected['time'];
+							}
 
-						unset($scheduled);
-						unset($expected);
+							$flights[] = new flight(
+									$scheduled,
+									$expected,
+									new airline(
+										$flight['airline-code'],
+										$flight['airline-name']
+									),
+									$flight['code'],
+									$flight['model'],
+									$flight['reg'],
+									new airport(
+										$flight['airport-iata'],
+										$flight['airport-icao'],
+										$flight['airport-name'],
+										$flight['airport-country']
+									),
+									$flight['remark']
+							);
+
+							unset($scheduled);
+							unset($expected);
+						}
 					}
 				}
 			}
