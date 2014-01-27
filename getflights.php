@@ -565,7 +565,7 @@ $awk_airports = array(
 
 );
 
-function GetFlights($curl, $dir, &$flights)
+function CURL_GetFlights($curl, $dir, &$flights)
 {
 	global $DEBUG;
 	global $baseurl;
@@ -619,7 +619,89 @@ function GetFlights($curl, $dir, &$flights)
 	return $error;
 }
 
-function GetAirlineId($f, &$airline)
+function CURL_GetFlightDetails($curl, &$airports)
+{
+	global $DEBUG;
+	global $baseurl;
+	global $now;
+	global $awk_airports;
+	global $fi;
+
+	$error = NULL;
+
+	// Get airport IATA/ICAO from flight details page
+	$query = "SELECT".
+			 " `flights`.`id`,".
+			 " `airlines`.`code`,".
+			 " `flights`.`code`,".
+			 " `flights`.`scheduled`,".
+			 " `flights`.`direction` ".
+			 "FROM `flights` ".
+			 "LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` ".
+			 "WHERE `airport` IS NULL ".
+			 "AND ".
+			 " (`scheduled` >= '$now'".
+			 "  OR `expected` >= '$now'".
+			 "  OR (TIME_TO_SEC(TIMEDIFF('$now', `scheduled`)) / 60 / 60) < 2) ".
+			 "ORDER BY `scheduled`;";
+
+	if (isset($DEBUG['query']))
+		echo "$query\n";
+
+	$result = mysql_query($query);
+
+	if (!$result)
+	{
+		$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+	}
+	else
+	{
+		while ($fi = mysql_fetch_row($result))
+		{
+			if (isset($DEBUG['query']))
+				echo "=$fi[0],...\n";
+
+			$date = substr($fi[3], 0, 4).substr($fi[3], 5, 2).substr($fi[3], 8, 2);
+			$url = "http://$baseurl/flugplan/airportcity?fi".
+						substr($fi[4], 0, 1)."=".	// 'a'/'d' -> arrival/departure
+						$fi[1].$fi[2].				// LH1234
+						$date;						// 20120603
+
+			if (isset($DEBUG['url']))
+				echo "$url\n";
+
+			$retry = 3;
+
+			do
+			{
+				$htm = curl_download($curl, $url);
+
+				if (0 == strlen($htm))
+				{
+					if (curl_errno($curl))
+						$error = seterrorinfo(__LINE__, curl_error($curl));
+				}
+				else
+				{
+					if (isset($DEBUG['airports']))
+						echo "$htm\n";
+				}
+			}
+			while (0 == strlen($htm) && --$retry);
+
+			awk($awk_airports, $htm);
+
+			/* Set srcipt execution limit. If set to zero, no time limit is imposed. */
+			set_time_limit(0);
+		}
+
+		mysql_free_result($result);
+	}
+
+	return $error;
+}
+
+function SQL_GetAirlineId($f, &$airline)
 {
 	global $DEBUG;
 	global $uid;
@@ -696,7 +778,7 @@ function GetAirlineId($f, &$airline)
 	return $error;
 }
 
-function GetCarrierId($f, &$carrier)
+function SQL_GetCarrierId($f, &$carrier)
 {
 	global $DEBUG;
 	global $uid;
@@ -765,7 +847,7 @@ function GetCarrierId($f, &$carrier)
 	return $error;
 }
 
-function GetModelId($f, &$model)
+function SQL_GetModelId($f, &$model)
 {
 	global $DEBUG;
 	global $uid;
@@ -835,7 +917,7 @@ function GetModelId($f, &$model)
 	return $error;
 }
 
-function GetAircraftId($f, $model, &$reg)
+function SQL_GetAircraftId($f, $model, &$reg)
 {
 	global $DEBUG;
 	global $uid;
@@ -902,7 +984,7 @@ function GetAircraftId($f, $model, &$reg)
 	return $error;
 }
 
-function UpdateVisitsToFra($f, $reg)
+function SQL_UpdateVisitsToFra($f, $reg)
 {
 	global $DEBUG;
 
@@ -996,89 +1078,7 @@ function UpdateVisitsToFra($f, $reg)
 	return $error;
 }
 
-function GetFlightDetails($curl, &$airports)
-{
-	global $DEBUG;
-	global $baseurl;
-	global $now;
-	global $awk_airports;
-	global $fi;
-
-	$error = NULL;
-
-	// Get airport IATA/ICAO from flight details page
-	$query = "SELECT".
-			 " `flights`.`id`,".
-			 " `airlines`.`code`,".
-			 " `flights`.`code`,".
-			 " `flights`.`scheduled`,".
-			 " `flights`.`direction` ".
-			 "FROM `flights` ".
-			 "LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` ".
-			 "WHERE `airport` IS NULL ".
-			 "AND ".
-			 " (`scheduled` >= '$now'".
-			 "  OR `expected` >= '$now'".
-			 "  OR (TIME_TO_SEC(TIMEDIFF('$now', `scheduled`)) / 60 / 60) < 2) ".
-			 "ORDER BY `scheduled`;";
-
-	if (isset($DEBUG['query']))
-		echo "$query\n";
-
-	$result = mysql_query($query);
-
-	if (!$result)
-	{
-		$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
-	}
-	else
-	{
-		while ($fi = mysql_fetch_row($result))
-		{
-			if (isset($DEBUG['query']))
-				echo "=$fi[0],...\n";
-
-			$date = substr($fi[3], 0, 4).substr($fi[3], 5, 2).substr($fi[3], 8, 2);
-			$url = "http://$baseurl/flugplan/airportcity?fi".
-						substr($fi[4], 0, 1)."=".	// 'a'/'d' -> arrival/departure
-						$fi[1].$fi[2].				// LH1234
-						$date;						// 20120603
-
-			if (isset($DEBUG['url']))
-				echo "$url\n";
-
-			$retry = 3;
-
-			do
-			{
-				$htm = curl_download($curl, $url);
-
-				if (0 == strlen($htm))
-				{
-					if (curl_errno($curl))
-						$error = seterrorinfo(__LINE__, curl_error($curl));
-				}
-				else
-				{
-					if (isset($DEBUG['airports']))
-						echo "$htm\n";
-				}
-			}
-			while (0 == strlen($htm) && --$retry);
-
-			awk($awk_airports, $htm);
-
-			/* Set srcipt execution limit. If set to zero, no time limit is imposed. */
-			set_time_limit(0);
-		}
-
-		mysql_free_result($result);
-	}
-
-	return $error;
-}
-
-function GetAirportId($airport)
+function SQL_GetAirportId($airport)
 {
 	global $DEBUG;
 	global $uid;
@@ -1156,8 +1156,8 @@ function GetAirportId($airport)
 	return $error;
 }
 
-function InsertOrUpdateFlight($dir, $airline, $code,
-							  $scheduled, $expected, $model, $reg)
+function SQL_InsertOrUpdateFlight($dir, $airline, $code,
+								  $scheduled, $expected, $model, $reg)
 {
 	global $DEBUG;
 	global $uid;
@@ -1231,7 +1231,7 @@ function InsertOrUpdateFlight($dir, $airline, $code,
 	return $error;
 }
 
-function DeleteFlight($dir, $airline, $code, $scheduled, &$aircraft)
+function SQL_DeleteFlight($dir, $airline, $code, $scheduled, &$aircraft)
 {
 	global $DEBUG;
 	global $uid;
@@ -1304,7 +1304,7 @@ function DeleteFlight($dir, $airline, $code, $scheduled, &$aircraft)
 	return $error;
 }
 
-function FlightsToHistory()
+function SQL_FlightsToHistory()
 {
 	$error = NULL;
 	$result = mysql_query('START TRANSACTION');
@@ -1426,7 +1426,7 @@ else
 
 					$time_start = microtime(true);
 
-					$error = GetFlights($curl, $dir, $flights);
+					$error = CURL_GetFlights($curl, $dir, $flights);
 
 					$time_end = microtime(true);
 					$time = $time_end - $time_start;
@@ -1441,45 +1441,45 @@ else
 						}
 						else if (0 == strcmp("NULL", $f->expected))	// "annulliert"
 						{
-							$error = GetAirlineId($f, $airline);
+							$error = SQL_GetAirlineId($f, $airline);
 
 							if (!$error)
 							{
-								$error = DeleteFlight($dir, $airline, $f->code, $f->scheduled, $reg);
+								$error = SQL_DeleteFlight($dir, $airline, $f->code, $f->scheduled, $reg);
 
 								if (!$error && 'arrival' == $dir && $reg)
-									$error = UpdateVisitsToFra($f, $reg);
+									$error = SQL_UpdateVisitsToFra($f, $reg);
 							}
 						}
 						else if ($f->scheduled)
 						{
 							$airline = NULL;
-							$error = GetAirlineId($f, $airline);
+							$error = SQL_GetAirlineId($f, $airline);
 
 							if ($airline)
 							{
 								// Get carrier id, if different from flight airline code
 								// (operated by someone else)
 								if ($airline != $f->carrier['code'])
-									$error = GetCarrierId($f, $airline);
+									$error = SQL_GetCarrierId($f, $airline);
 							}
 
 							// model
 							$model = NULL;
-							$error = GetModelId($f, $model);
+							$error = SQL_GetModelId($f, $model);
 
 							// aircraft
 							$reg = NULL;
 
 							if ($f->reg && $model)
-								$error = GetAircraftId($f, $model, $reg);
+								$error = SQL_GetAircraftId($f, $model, $reg);
 
 							// flight
-							$error = InsertOrUpdateFlight($dir, $airline, $f->code,
-														  $f->scheduled, $f->expected, $model, $reg);
+							$error = SQL_InsertOrUpdateFlight($dir, $airline, $f->code,
+															  $f->scheduled, $f->expected, $model, $reg);
 
 							if (!$error && $reg && 'arrival' == $dir)
-								$error = UpdateVisitsToFra($f, $reg);
+								$error = SQL_UpdateVisitsToFra($f, $reg);
 						}
 
 						if (isset($DEBUG['query']))
@@ -1500,10 +1500,10 @@ else
 
 				/* Get airports from flight details page */
 				$airports = new vector;
-				$error = GetFlightDetails($curl, $airports);
+				$error = CURL_GetFlightDetails($curl, $airports);
 
 				while ($airport = $airports->shift())
-					$error = GetAirportId($airport);
+					$error = SQL_GetAirportId($airport);
 
 				unset($airports);
 				unset($airport);
@@ -1525,7 +1525,7 @@ else
 
 		/* Move outdated flights to history table */
 		if (!$error)
-			$error = FlightsToHistory();
+			$error = SQL_FlightsToHistory();
 	}
 
 	mysql_close($hdbc);
