@@ -41,8 +41,8 @@ SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`
 =6,5
 UPDATE `flights` SET `aircraft`=5,`model`=14 WHERE `id`=6;
 =OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=5;
-=1,0000-00-00 11:15:00
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=5;
+=1,0000-00-00 11:15:00,NULL
 
 /************************************/
 
@@ -58,8 +58,8 @@ SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`
 =7,6
 UPDATE `flights` SET `aircraft`=6,`model`=14 WHERE `id`=7;
 =OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=6;
-=1,0000-00-00 11:45:00
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=6;
+=1,0000-00-00 11:45:00,NULL
 
 /************************************/
 
@@ -75,9 +75,9 @@ SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`
 =8,
 UPDATE `flights` SET `aircraft`=7,`model`=9 WHERE `id`=8;
 =OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=7;
-=
-INSERT INTO `visits`(`aircraft`, `num`, `last`)VALUES(7, 1, '0000-00-00 12:35');
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=7;
+=<empty>
+INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`)VALUES(7, 1, '0000-00-00 12:35', NULL);
 =OK
 
 /************************************/

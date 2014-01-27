@@ -25,8 +25,8 @@ SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`
 =10,7
 UPDATE `flights` SET `aircraft`=7,`model`=9 WHERE `id`=10;
 =OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=7;
-=2,0000-00-00 18:25:00
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=7;
+=2,0000-00-00 18:25:00,0000-00-00 12:35:00
 
 /************************************/
 
@@ -42,8 +42,8 @@ SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`
 =11,9
 UPDATE `flights` SET `aircraft`=9,`model`=68 WHERE `id`=11;
 =OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=9;
-=1,0000-00-00 20:30:00
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=9;
+=1,0000-00-00 20:30:00,NULL
 
 /************************************/
 

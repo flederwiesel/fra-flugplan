@@ -1030,12 +1030,15 @@ function SQL_GetFlightDetails($dir, $scheduled, $airline, $code, &$details)
 	return $error;
 }
 
-function SQL_UpdateVisitsToFra($f, $reg)
+define('VTF_DECREASE', 0);
+define('VTF_INCREASE', 1);
+
+function SQL_UpdateVisitsToFra($scheduled, $reg, $op)
 {
 	global $DEBUG;
 
 	$error = NULL;
-	$query = "SELECT `num`,`last` FROM `visits` WHERE `aircraft`=$reg;";
+	$query = "SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=$reg;";
 	$result = mysql_query($query);
 
 	if (isset($DEBUG['query']))
@@ -1053,52 +1056,59 @@ function SQL_UpdateVisitsToFra($f, $reg)
 
 		if (!$row)
 		{
-			if ('NULL' == $f->expected)	// "annulliert"
+			echo "=<empty>\n";
+
+			if (VTF_DECREASE == $op)	// "annulliert"
 			{
 				warn_once(__LINE__, "No visits found for '$reg'.");
 			}
 			else
 			{
-				$query = "INSERT INTO `visits`(`aircraft`, `num`, `last`)".
-						 "VALUES($reg, 1, '$f->scheduled');";
+				$query = "INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`)".
+						 "VALUES($reg, 1, '$scheduled', NULL);";
 
 				if (isset($DEBUG['query']))
-					echo "=\n$query\n";
+					echo "$query\n";
 			}
 		}
 		else
 		{
 			$num = $row['num'];
-			$last = $row['last'];
+			$current = $row['current'];
+			$previous = $row['previous'];
 
 			if (isset($DEBUG['query']))
-				echo "=$num,$last\n";
+				echo "=$num,$current,".($previous ? $previous : "NULL")."\n";
 
-			if ('NULL' == $f->expected)
+			if (VTF_DECREASE == $op)
 			{
 				if ($num < 1)
 				{
 					$query = NULL;
 				}
+				else if ($num == 1)
+				{
+					$query = "DELETE FROM`visits` ".
+							 "WHERE `aircraft`=$reg";
+				}
 				else
 				{
 					$query = "UPDATE `visits` ".
-							 "SET `num`=".($num - 1).",".
-							 " `last`='$f->scheduled' ".
+							 "SET `num`=".($num - 1).", `current`='$previous' ".
 							 "WHERE `aircraft`=$reg";
 				}
 			}
 			else
 			{
-				if ($f->scheduled <= $last)
+				if ($scheduled <= $current)
 				{
 					$query = NULL;
 				}
 				else
 				{
 					$query = "UPDATE `visits` ".
-							 "SET `num`=".('NULL' == $f->expected ? ($num > 0 ? $num - 1 : 0) : $num + 1).",".
-							 " `last`='$f->scheduled' ".
+							 "SET `num`=".($num + 1).", `current`='$scheduled'".
+							 ($current ? ", `previous`='$current' " : " ").
 							 "WHERE `aircraft`=$reg";
 				}
 			}
@@ -1469,11 +1479,11 @@ else
 
 					while ($f = $flights->shift())
 					{
-						if (0 == strcmp("TRN", $f->model))	// no trains...
+						if (0 == strcmp('TRN', $f->model))	// no trains...
 						{
 							$n--;
 						}
-						else if (0 == strcmp("NULL", $f->expected))	// "annulliert"
+						else if (0 == strcmp('NULL', $f->expected))	// "annulliert"
 						{
 							$error = SQL_GetAirlineId($f, $airline);
 
@@ -1482,7 +1492,7 @@ else
 								$error = SQL_DeleteFlight($dir, $airline, $f->code, $f->scheduled, $reg);
 
 								if (!$error && 'arrival' == $dir && $reg)
-									$error = SQL_UpdateVisitsToFra($f, $reg);
+									$error = SQL_UpdateVisitsToFra($f->scheduled, $reg, VTF_DECREASE);
 							}
 						}
 						else if ($f->scheduled)
@@ -1521,20 +1531,17 @@ else
 							}
 							else
 							{
-								if ($details['aircraft'])
+								$error = SQL_UpdateFlight($details['id'], $f->expected, $model, $reg);
+
+								if (!$error && 'arrival' == $dir && $reg && $details['aircraft'])
 								{
 									if ($details['aircraft'] != $reg)
-									{
-										//TODO: --VTF($details['aircraft'])
-										//TODO: ++VTF($reg)
-									}
+										$error = SQL_UpdateVisitsToFra($f->scheduled, $details['aircraft'], VTF_DECREASE);
 								}
-
-								$error = SQL_UpdateFlight($details['id'], $f->expected, $model, $reg);
 							}
 
-							if (!$error && $reg && 'arrival' == $dir)
-								$error = SQL_UpdateVisitsToFra($f, $reg);
+							if (!$error && 'arrival' == $dir && $reg)
+								$error = SQL_UpdateVisitsToFra($f->scheduled, $reg, VTF_INCREASE);
 						}
 
 						if (isset($DEBUG['query']))

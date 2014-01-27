@@ -142,7 +142,8 @@ CREATE TABLE IF NOT EXISTS `visits`
 (
 	`aircraft` integer NOT NULL,
 	`num` integer NOT NULL,
-	`last` datetime NOT NULL,
+	`current` datetime NOT NULL,
+	`previous` datetime DEFAULT NULL,
 	PRIMARY KEY (`aircraft`),
 	FOREIGN KEY(`aircraft`) REFERENCES `aircrafts`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -162,7 +163,7 @@ CREATE INDEX `flights:direction` ON `flights`(`direction` ASC);
 CREATE INDEX `watchlist:user` ON `watchlist`(`user` ASC);
 CREATE INDEX `watchlist:reg` ON `watchlist`(`reg` ASC);
 CREATE INDEX `visits:aircraft` ON `visits`(`aircraft` ASC);
-CREATE INDEX `visits:last` ON `visits`(`last` ASC);
+CREATE INDEX `visits:current` ON `visits`(`current` ASC);
 
 /******************************************************************************
  * Data
@@ -1026,11 +1027,11 @@ VALUES
 (@uid, 'PTP', 'TFFR', 'Pointe a Pitre, Guadeloupe')
 ;
 
-INSERT INTO `visits`
+INSERT INTO `visits`(`aircraft`, `num`, `current`)
 SELECT
 	`flights`.`aircraft` AS `aircraft`,
 	COUNT(`flights`.`scheduled`) AS `num`,
-	MAX(`flights`.`scheduled`) AS `last`
+	MAX(`flights`.`scheduled`) AS `current`
 FROM
 (
 	SELECT `direction`,`scheduled`, `aircraft`

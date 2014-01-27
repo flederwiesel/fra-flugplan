@@ -16,6 +16,13 @@ initdb && rm -f .COOKIES
 
 baseurl=$(rawurlencode localhost/fra-schedule/check)
 
+YYYYmmdd_0=$(date +'%Y%m%d')
+YYYYmmdd_1=$(date +'%Y%m%d' --date="+1 days")
+YYYYmmdd_2=$(date +'%Y%m%d' --date="+2 days")
+YYYY_mm_dd_0=$(date +'%Y-%m-%d')
+YYYY_mm_dd_1=$(date +'%Y-%m-%d' --date="+1 days")
+YYYY_mm_dd_2=$(date +'%Y-%m-%d' --date="+2 days")
+
 ###############################################################################
 
 for day in {0..1}
@@ -25,13 +32,6 @@ do
 	do
 
 		time=$(printf '%02u:00' $t)
-
-		YYYYmmdd_0=$(date +'%Y%m%d')
-		YYYYmmdd_1=$(date +'%Y%m%d' --date="+1 days")
-		YYYYmmdd_2=$(date +'%Y%m%d' --date="+2 days")
-		YYYY_mm_dd_0=$(date +'%Y-%m-%d')
-		YYYY_mm_dd_1=$(date +'%Y-%m-%d' --date="+1 days")
-		YYYY_mm_dd_2=$(date +'%Y-%m-%d' --date="+2 days")
 
 		dHHMM=$(printf '%02u' $day)-$(date +'%H%M' --date="$time")
 
@@ -112,7 +112,8 @@ visits=$(query 'USE fra-schedule;
 	SELECT
 	 `aircrafts`.`reg`,
 	 `visits`.`num`,
-	 `visits`.`last`
+	 `visits`.`current`,
+	 `visits`.`previous`
 	FROM `visits`
 	LEFT JOIN `aircrafts` ON `aircrafts`.`id` = `visits`.`aircraft`
 	ORDER BY `reg`
@@ -127,7 +128,9 @@ check "visits" "echo '$visits'"\
 		1 i </head>
 		1 i <body>
 		1 i <pre>
-		s/[0-9]{4}-[0-9]{2}-[0-9]{2}/0000-00-00/g
+		s/$YYYY_mm_dd_0/0000-00-00/g
+		s/$YYYY_mm_dd_1/0000-00-01/g
+		s/$YYYY_mm_dd_2/0000-00-02/g
 		$ a </pre>
 		$ a </body>
 		$ a </html>

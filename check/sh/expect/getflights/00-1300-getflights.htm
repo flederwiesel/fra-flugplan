@@ -35,8 +35,8 @@ SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`
 =8,7
 UPDATE `flights` SET `aircraft`=7,`model`=9 WHERE `id`=8;
 =OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=7;
-=1,0000-00-00 12:35:00
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=7;
+=1,0000-00-00 12:35:00,NULL
 
 /************************************/
 

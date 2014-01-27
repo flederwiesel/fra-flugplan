@@ -27,9 +27,9 @@ SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`
 =<empty>
 INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled`, `expected`, `aircraft`, `model`) VALUES(1, 'pax-regular', 'arrival', 99, '260', '0000-00-00 06:15', '0000-00-00 05:55', 1, 19);
 =OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=1;
-=
-INSERT INTO `visits`(`aircraft`, `num`, `last`)VALUES(1, 1, '0000-00-00 06:15');
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=1;
+=<empty>
+INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`)VALUES(1, 1, '0000-00-00 06:15', NULL);
 =OK
 
 /************************************/
@@ -48,9 +48,9 @@ SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`
 =<empty>
 INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled`, `expected`, `aircraft`, `model`) VALUES(1, 'pax-regular', 'arrival', 24, '289', '0000-00-00 06:20', NULL, 2, 68);
 =OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=2;
-=
-INSERT INTO `visits`(`aircraft`, `num`, `last`)VALUES(2, 1, '0000-00-00 06:20');
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=2;
+=<empty>
+INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`)VALUES(2, 1, '0000-00-00 06:20', NULL);
 =OK
 
 /************************************/
@@ -69,9 +69,9 @@ SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`
 =<empty>
 INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled`, `expected`, `aircraft`, `model`) VALUES(1, 'pax-regular', 'arrival', 4, '874', '0000-00-00 07:00', '0000-00-00 07:00', 3, 14);
 =OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=3;
-=
-INSERT INTO `visits`(`aircraft`, `num`, `last`)VALUES(3, 1, '0000-00-00 07:00');
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=3;
+=<empty>
+INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`)VALUES(3, 1, '0000-00-00 07:00', NULL);
 =OK
 
 /************************************/
@@ -90,9 +90,9 @@ SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`
 =<empty>
 INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled`, `expected`, `aircraft`, `model`) VALUES(1, 'pax-regular', 'arrival', 120, '903', '0000-00-00 09:45', NULL, 4, 57);
 =OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=4;
-=
-INSERT INTO `visits`(`aircraft`, `num`, `last`)VALUES(4, 1, '0000-00-00 09:45');
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=4;
+=<empty>
+INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`)VALUES(4, 1, '0000-00-00 09:45', NULL);
 =OK
 
 /************************************/
@@ -124,9 +124,9 @@ SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`
 =<empty>
 INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled`, `expected`, `aircraft`, `model`) VALUES(1, 'pax-regular', 'arrival', 4, '844', '0000-00-00 11:15', NULL, 5, 14);
 =OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=5;
-=
-INSERT INTO `visits`(`aircraft`, `num`, `last`)VALUES(5, 1, '0000-00-00 11:15');
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=5;
+=<empty>
+INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`)VALUES(5, 1, '0000-00-00 11:15', NULL);
 =OK
 
 /************************************/
@@ -145,9 +145,9 @@ SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`
 =<empty>
 INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled`, `expected`, `aircraft`, `model`) VALUES(1, 'pax-regular', 'arrival', 4, '876', '0000-00-00 11:45', NULL, 6, 14);
 =OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=6;
-=
-INSERT INTO `visits`(`aircraft`, `num`, `last`)VALUES(6, 1, '0000-00-00 11:45');
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=6;
+=<empty>
+INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`)VALUES(6, 1, '0000-00-00 11:45', NULL);
 =OK
 
 /************************************/

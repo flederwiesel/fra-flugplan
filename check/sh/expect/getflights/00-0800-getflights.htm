@@ -35,8 +35,8 @@ SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`
 =4,4
 UPDATE `flights` SET `aircraft`=4,`model`=57 WHERE `id`=4;
 =OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=4;
-=1,0000-00-00 09:45:00
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=4;
+=1,0000-00-00 09:45:00,NULL
 
 /************************************/
 
@@ -65,8 +65,8 @@ SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`
 =6,5
 UPDATE `flights` SET `aircraft`=5,`model`=14 WHERE `id`=6;
 =OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=5;
-=1,0000-00-00 11:15:00
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=5;
+=1,0000-00-00 11:15:00,NULL
 
 /************************************/
 
@@ -82,8 +82,8 @@ SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`
 =7,6
 UPDATE `flights` SET `aircraft`=6,`model`=14 WHERE `id`=7;
 =OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=6;
-=1,0000-00-00 11:45:00
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=6;
+=1,0000-00-00 11:45:00,NULL
 
 /************************************/
 
@@ -106,9 +106,9 @@ SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`
 =9,8
 DELETE FROM `flights` WHERE `id`=9
 =OK
-SELECT `num`,`last` FROM `visits` WHERE `aircraft`=8;
-=1,0000-00-00 13:20:00
-UPDATE `visits` SET `num`=0, `last`='0000-00-00 13:20' WHERE `aircraft`=8
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=8;
+=1,0000-00-00 13:20:00,NULL
+DELETE FROM`visits` WHERE `aircraft`=8
 =OK
 
 /************************************/
