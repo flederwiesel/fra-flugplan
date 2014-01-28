@@ -198,6 +198,7 @@ if ($direction)
 {
 	$flights = array();
 
+	/* Look for CVS file in arrival/departure directory */
 	$dir = opendir("flights/$direction");
 
 	if ($dir)
@@ -226,6 +227,9 @@ if ($direction)
 					/* if (strlen($line) == count($keys)) line is empty! */
 					if ($line[0] != '#' && strlen($line) > count($keys) - 1)
 					{
+						/* Delete all C-Comments from line */
+						$line = preg_replace('/[ \t]*\/*(\*[^\/]+|[^*]\/)\*\/[ \t]*/', '', $line);
+						/* Create an assiciative array from line */
 						$flight = array_combine($keys, explode(';', $line));
 
 						if ($flight['querytime'] == $querytime)
