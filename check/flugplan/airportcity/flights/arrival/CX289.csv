@@ -1,7 +1,7 @@
-0 05:00;0 06:20;;CX;289;Cathay Pacific Airways;B77W;BKPE;HKG;VHHH;Hongkong;Hong Kong;
+0 05:00;0 06:20 /* * */;;CX;289;Cathay Pacific Airways;B77W;BKPE /* =2,1 */;HKG;VHHH;Hongkong;Hong Kong;
 0 06:00;0 06:20;;CX;289;Cathay Pacific Airways;B77W;BKPE;HKG;VHHH;Hongkong;Hong Kong;im Anflug
 0 07:00;0 06:20;;CX;289;Cathay Pacific Airways;B77W;BKPE;HKG;VHHH;Hongkong;Hong Kong;Gepäckausgabe
-0 07:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;;HKG;VHHH;Hongkong;Hong Kong;
+0 07:00;1 06:20 /* * */;;CX;289;Cathay Pacific Airways;B77W;;HKG;VHHH;Hongkong;Hong Kong;
 0 08:00;0 06:20;;CX;289;Cathay Pacific Airways;B77W;BKPE;HKG;VHHH;Hongkong;Hong Kong;Gepäckausgabe beendet
 0 08:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;;HKG;VHHH;Hongkong;Hong Kong;
 0 09:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;;HKG;VHHH;Hongkong;Hong Kong;
@@ -13,7 +13,7 @@
 0 15:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;;HKG;VHHH;Hongkong;Hong Kong;
 0 16:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;;HKG;VHHH;Hongkong;Hong Kong;
 0 17:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;;HKG;VHHH;Hongkong;Hong Kong;
-0 18:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;BKQJ;HKG;VHHH;Hongkong;Hong Kong;
+0 18:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;BKQJ /* =11,1 */;HKG;VHHH;Hongkong;Hong Kong;
 0 19:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;BKQJ;HKG;VHHH;Hongkong;Hong Kong;
 0 20:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;BKQJ;HKG;VHHH;Hongkong;Hong Kong;
 0 21:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;BKQJ;HKG;VHHH;Hongkong;Hong Kong;
@@ -23,7 +23,7 @@
 1 05:00;0 06:20;;CX;289;Cathay Pacific Airways;B77W;BKQJ;HKG;VHHH;Hongkong;Hong Kong;
 1 06:00;0 06:20;;CX;289;Cathay Pacific Airways;B77W;BKQJ;HKG;VHHH;Hongkong;Hong Kong;im Anflug
 1 07:00;0 06:20;;CX;289;Cathay Pacific Airways;B77W;BKQJ;HKG;VHHH;Hongkong;Hong Kong;Gepäckausgabe
-1 07:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;;HKG;VHHH;Hongkong;Hong Kong;
+1 07:00;1 06:20 /* * */;;CX;289;Cathay Pacific Airways;B77W;;HKG;VHHH;Hongkong;Hong Kong;
 1 08:00;0 06:20;;CX;289;Cathay Pacific Airways;B77W;BKQJ;HKG;VHHH;Hongkong;Hong Kong;Gepäckausgabe beendet
 1 08:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;;HKG;VHHH;Hongkong;Hong Kong;
 1 09:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;;HKG;VHHH;Hongkong;Hong Kong;
@@ -35,7 +35,7 @@
 1 15:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;;HKG;VHHH;Hongkong;Hong Kong;
 1 16:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;;HKG;VHHH;Hongkong;Hong Kong;
 1 17:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;;HKG;VHHH;Hongkong;Hong Kong;
-1 18:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;BKPE;HKG;VHHH;Hongkong;Hong Kong;
+1 18:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;BKPE /* =2,2 */;HKG;VHHH;Hongkong;Hong Kong;
 1 19:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;BKPE;HKG;VHHH;Hongkong;Hong Kong;
 1 20:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;BKPE;HKG;VHHH;Hongkong;Hong Kong;
 1 21:00;1 06:20;;CX;289;Cathay Pacific Airways;B77W;BKPE;HKG;VHHH;Hongkong;Hong Kong;
