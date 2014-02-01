@@ -52,14 +52,20 @@ SELECT `id` FROM `airlines` WHERE `code`='SA';
 =99
 SELECT `id` FROM `models` WHERE `icao`='A346';
 =19
-SELECT `id` FROM `aircrafts` WHERE `reg`='ZS-SNB';
-=13
+SELECT `id` FROM `aircrafts` WHERE `reg`='ZS-SNH';
+=1
 SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`=99 AND `code`='260' AND `scheduled`='0000-00-02 06:15'
 =49,13
-UPDATE `flights` SET `aircraft`=13,`model`=19 WHERE `id`=49;
+UPDATE `flights` SET `aircraft`=1,`model`=19 WHERE `id`=49;
 =OK
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=13;
 =1,0000-00-02 06:15:00,NULL
+DELETE FROM `visits` WHERE `aircraft`=13
+=OK
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=1;
+=1,0000-00-00 06:15:00,NULL
+UPDATE `visits` SET `num`=2, `current`='0000-00-02 06:15', `previous`='0000-00-00 06:15:00' WHERE `aircraft`=1
+=OK
 
 /************************************/
 
@@ -106,7 +112,7 @@ SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`
 UPDATE `flights` SET `aircraft`=4,`model`=57 WHERE `id`=53;
 =OK
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=4;
-=3,0000-00-02 09:45:00,0000-00-01 09:45:00
+=2,0000-00-02 09:45:00,0000-00-00 09:45:00
 
 /************************************/
 

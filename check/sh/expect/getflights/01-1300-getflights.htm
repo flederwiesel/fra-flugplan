@@ -233,13 +233,13 @@ SELECT `id` FROM `airlines` WHERE `code`='UA';
 =120
 SELECT `id` FROM `airlines` WHERE `code`='UA';
 =120
-SELECT `id` FROM `models` WHERE `icao`='B744';
-=57
-SELECT `id` FROM `aircrafts` WHERE `reg`='N116UA';
-=4
+SELECT `id` FROM `models` WHERE `icao`='B772';
+=65
+SELECT `id` FROM `aircrafts` WHERE `reg`='N794UA';
+=12
 SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='departure' AND `airline`=120 AND `code`='902' AND `scheduled`='0000-00-01 12:15'
-=36,4
-UPDATE `flights` SET `aircraft`=4,`model`=57 WHERE `id`=36;
+=36,12
+UPDATE `flights` SET `aircraft`=12,`model`=65 WHERE `id`=36;
 =OK
 
 /************************************/
