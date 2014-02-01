@@ -227,7 +227,7 @@ if ($direction)
 					/* if (strlen($line) == count($keys)) line is empty! */
 					if ($line[0] != '#' && strlen($line) > count($keys) - 1)
 					{
-						/* Delete all C-Comments from line */
+						/* Delete all C-Comments (and surrounding spaces) from line */
 						$line = preg_replace('/[ \t]*\/*(\*[^\/]+|[^*]\/)\*\/[ \t]*/', '', $line);
 						/* Create an assiciative array from line */
 						$flight = array_combine($keys, explode(';', $line));
