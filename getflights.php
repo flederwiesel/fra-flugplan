@@ -1088,7 +1088,7 @@ function SQL_UpdateVisitsToFra($scheduled, $reg, $op)
 				}
 				else if ($num == 1)
 				{
-					$query = "DELETE FROM`visits` ".
+					$query = "DELETE FROM `visits` ".
 							 "WHERE `aircraft`=$reg";
 				}
 				else
