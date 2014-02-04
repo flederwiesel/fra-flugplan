@@ -207,6 +207,21 @@ http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&co
 http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=3
 http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
 http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
+SELECT `id` FROM `airlines` WHERE `code`='SA';
+=99
+SELECT `id` FROM `airlines` WHERE `code`='SA';
+=99
+SELECT `id` FROM `models` WHERE `icao`='A346';
+=19
+SELECT `id` FROM `aircrafts` WHERE `reg`='ZS-SNH';
+=1
+SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='departure' AND `airline`=99 AND `code`='261' AND `scheduled`='0000-00-00 20:45'
+=23,1
+UPDATE `flights` SET `expected`='0000-00-00 21:59', `aircraft`=1,`model`=19 WHERE `id`=23;
+=OK
+
+/************************************/
+
 SELECT `id` FROM `airlines` WHERE `code`='SQ';
 =105
 SELECT `id` FROM `airlines` WHERE `code`='SQ';
@@ -388,7 +403,7 @@ INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled
 /************************************/
 
 ---------------------------
-13 Flüge gefunden.
+14 Flüge gefunden.
     Dauer: 0.000s
 
 ===========================

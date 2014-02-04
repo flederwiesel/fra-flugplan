@@ -1,6 +1,6 @@
-0 05:00;0 14:30 /* * */;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;
+0 05:00;0 14:30 /***/;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;
 0 06:00;0 14:30;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;
-0 07:00;0 14:30;;KU;172;Kuwait Airways;A306;9KAME /* =8 */;KWI;OKBK;Kuwait;Kuwait;
+0 07:00;0 14:30;;KU;172;Kuwait Airways;A306;9KAME /*=8*/;KWI;OKBK;Kuwait;Kuwait;
 0 08:00;0 14:30 /* † */;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;annulliert
 0 09:00;0 14:30;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;annulliert
 0 10:00;0 14:30;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;annulliert
@@ -9,7 +9,7 @@
 0 13:00;0 14:30;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;annulliert
 0 14:00;0 14:30;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;annulliert
 0 15:00;0 14:30;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;annulliert
-0 15:00;1 14:30 /* * */;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;
+0 15:00;1 14:30 /***/;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;
 0 16:00;1 14:30;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;
 0 17:00;1 14:30;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;
 0 18:00;1 14:30;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;
@@ -21,7 +21,7 @@
 ;;;;;;;;;;;;
 1 05:00;0 14:30;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;
 1 06:00;0 14:30;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;
-1 07:00;0 14:30;;KU;172;Kuwait Airways;A306;9KAME /* =8 */;KWI;OKBK;Kuwait;Kuwait;
+1 07:00;0 14:30;;KU;172;Kuwait Airways;A306;9KAME /*=8*/;KWI;OKBK;Kuwait;Kuwait;
 1 08:00;0 14:30;;KU;172;Kuwait Airways;A306;9KAME;KWI;OKBK;Kuwait;Kuwait;
 1 09:00;0 14:30;;KU;172;Kuwait Airways;A306;9KAME;KWI;OKBK;Kuwait;Kuwait;
 1 10:00;0 14:30;;KU;172;Kuwait Airways;A306;9KAME;KWI;OKBK;Kuwait;Kuwait;
@@ -30,7 +30,7 @@
 1 13:00;0 14:30;;KU;172;Kuwait Airways;A306;9KAME;KWI;OKBK;Kuwait;Kuwait;Gate offen
 1 14:00;0 14:30;;KU;172;Kuwait Airways;A306;9KAME;KWI;OKBK;Kuwait;Kuwait;geschlossen
 1 15:00;0 14:30;;KU;172;Kuwait Airways;A306;9KAME;KWI;OKBK;Kuwait;Kuwait;gestartet
-1 15:00;1 14:30 /* * */;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;
+1 15:00;1 14:30 /***/;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;
 1 16:00;1 14:30;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;
 1 17:00;1 14:30;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;
 1 18:00;1 14:30;;KU;172;Kuwait Airways;A306;;KWI;OKBK;Kuwait;Kuwait;

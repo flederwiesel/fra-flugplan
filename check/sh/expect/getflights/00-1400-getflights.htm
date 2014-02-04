@@ -227,6 +227,18 @@ UPDATE `flights` SET `aircraft`=7,`model`=9 WHERE `id`=18;
 
 /************************************/
 
+SELECT `id` FROM `airlines` WHERE `code`='AC';
+=4
+SELECT `id` FROM `airlines` WHERE `code`='AC';
+=4
+SELECT `id` FROM `models` WHERE `icao`='A333';
+=14
+SELECT `id` FROM `aircrafts` WHERE `reg`='C-GHLM';
+=5
+SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='departure' AND `airline`=4 AND `code`='875' AND `scheduled`='0000-00-00 13:30'
+=19,5
+UPDATE `flights` SET `expected`='0000-00-00 13:40', `aircraft`=5,`model`=14 WHERE `id`=19;
+=OK
 
 /************************************/
 

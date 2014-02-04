@@ -238,7 +238,7 @@ SELECT `id` FROM `aircrafts` WHERE `reg`='ZS-SNH';
 =1
 SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='departure' AND `airline`=99 AND `code`='261' AND `scheduled`='0000-00-00 20:45'
 =23,1
-UPDATE `flights` SET `aircraft`=1,`model`=19 WHERE `id`=23;
+UPDATE `flights` SET `expected`='0000-00-00 22:00', `aircraft`=1,`model`=19 WHERE `id`=23;
 =OK
 
 /************************************/

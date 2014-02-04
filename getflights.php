@@ -44,6 +44,7 @@ $tz = date_default_timezone_set('Europe/Berlin');
 $baseurl = 'www.frankfurt-airport.de';
 $rwyinfo = 'apps.fraport.de';
 $now = strftime('%Y-%m-%d %H:%M:%S');
+$cycle = '5 min';
 $items = 15;
 
 if (isset($_GET['baseurl']))
@@ -55,6 +56,7 @@ if (isset($_GET['baseurl']))
 	if (isset($_GET['now']))
 		$now = $_GET['now'];
 
+	$cycle = '60 min';
 	$items = 3;
 }
 
@@ -409,11 +411,12 @@ function awk_flights_remark($rule, $fields)
 	global $tz;
 	global $now;
 	global $f;
+	global $cycle;
 
 	$remark = getline();
 
 	/*
-		$remark should be one of the following:
+		$remark is one of the following:
 
 		<p>annulliert</p>
 		--
@@ -438,9 +441,10 @@ function awk_flights_remark($rule, $fields)
 	}
 	else if (preg_match('/<p>gestartet<\/p>/', $remark))
 	{
-		// Don't update flight any more, unless $f->expected id in the future
+		// Don't update flight any more, unless $f->expected is
+		// in the future (respecting an offset of $cycle)
 		if ($f->expected)
-			if (strtotime($f->expected) < strtotime($now))
+			if (strtotime($f->expected) < strtotime("-$cycle", strtotime($now)))
 				$f->scheduled = NULL;
 	}
 	else if (preg_match('/<p>Gate offen<\/p>/', $remark) ||
@@ -456,12 +460,12 @@ function awk_flights_remark($rule, $fields)
 			if (NULL == $f->expected)
 			{
 				if (strtotime($f->scheduled) < strtotime($now))
-					$f->expected = strftime('%Y-%m-%d %H:%M', strtotime('+5 min', strtotime($now)));
+					$f->expected = strftime('%Y-%m-%d %H:%M', strtotime("+$cycle", strtotime($now)));
 			}
 			else
 			{
 				if (strtotime($f->expected) < strtotime($now))
-					$f->expected = strftime('%Y-%m-%d %H:%M', strtotime('+5 min', strtotime($now)));
+					$f->expected = strftime('%Y-%m-%d %H:%M', strtotime("+$cycle", strtotime($now)));
 			}
 		}
 	}
@@ -1056,7 +1060,8 @@ function SQL_UpdateVisitsToFra($scheduled, $reg, $op)
 
 		if (!$row)
 		{
-			echo "=<empty>\n";
+			if (isset($DEBUG['query']))
+				echo "=<empty>\n";
 
 			if (VTF_DECREASE == $op)	// "annulliert"
 			{

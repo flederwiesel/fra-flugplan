@@ -209,6 +209,18 @@ http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&co
 http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=3
 http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
 http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
+SELECT `id` FROM `airlines` WHERE `code`='SA';
+=99
+SELECT `id` FROM `airlines` WHERE `code`='SA';
+=99
+SELECT `id` FROM `models` WHERE `icao`='A346';
+=19
+SELECT `id` FROM `aircrafts` WHERE `reg`='ZS-SNC';
+=10
+SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='departure' AND `airline`=99 AND `code`='261' AND `scheduled`='0000-00-01 20:45'
+=46,10
+UPDATE `flights` SET `expected`='0000-00-01 19:56', `aircraft`=10,`model`=19 WHERE `id`=46;
+=OK
 
 /************************************/
 

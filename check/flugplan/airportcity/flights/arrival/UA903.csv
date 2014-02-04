@@ -1,10 +1,10 @@
-0 05:00;0 09:45 /* * */;;UA;903;United Airlines;B744;N116UA /* =4,1*/;SFO;KSFO;San Francisco;USA;
+0 05:00;0 09:45 /***/;;UA;903;United Airlines;B744;N116UA /* =4,1*/;SFO;KSFO;San Francisco;USA;
 0 06:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;
 0 07:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;
 0 08:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;
 0 09:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;
 0 10:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;gelandet
-0 10:00;1 09:45 /* * */;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
+0 10:00;1 09:45 /***/;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
 0 11:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;Gepäckausgabe
 0 11:00;1 09:45;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
 0 12:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;Gepäckausgabe beendet
@@ -14,7 +14,7 @@
 0 15:00;1 09:45;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
 0 16:00;1 09:45;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
 0 17:00;1 09:45;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
-0 18:00;1 09:45;;UA;903;United Airlines;B744;N116UA /* =4,2 */;SFO;KSFO;San Francisco;USA;
+0 18:00;1 09:45;;UA;903;United Airlines;B744;N116UA /*=4,2*/;SFO;KSFO;San Francisco;USA;
 0 19:00;1 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;
 0 20:00;1 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;
 0 21:00;1 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;
@@ -22,12 +22,12 @@
 0 23:00;1 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;
 ;;;;;;;;;;;;
 1 05:00;0 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;
-1 06:00;0 09:45;;UA;903;United Airlines;B772;N794UA /* =4,1&12,1 */;SFO;KSFO;San Francisco;USA;
+1 06:00;0 09:45;;UA;903;United Airlines;B772;N794UA /*=4,1&12,1*/;SFO;KSFO;San Francisco;USA;
 1 07:00;0 09:45;;UA;903;United Airlines;B772;N794UA;SFO;KSFO;San Francisco;USA;
 1 08:00;0 09:45;;UA;903;United Airlines;B772;N794UA;SFO;KSFO;San Francisco;USA;
 1 09:00;0 09:45;;UA;903;United Airlines;B772;N794UA;SFO;KSFO;San Francisco;USA;
 1 10:00;0 09:45;;UA;903;United Airlines;B772;N794UA;SFO;KSFO;San Francisco;USA;gelandet
-1 10:00;1 09:45 /* * */;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
+1 10:00;1 09:45 /***/;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
 1 11:00;0 09:45;;UA;903;United Airlines;B772;N794UA;SFO;KSFO;San Francisco;USA;Gepäckausgabe
 1 11:00;1 09:45;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
 1 12:00;0 09:45;;UA;903;United Airlines;B772;N794UA;SFO;KSFO;San Francisco;USA;Gepäckausgabe beendet
@@ -37,7 +37,7 @@
 1 15:00;1 09:45;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
 1 16:00;1 09:45;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
 1 17:00;1 09:45;;UA;903;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
-1 18:00;1 09:45;;UA;903;United Airlines;B744;N116UA /* =4,2 */;SFO;KSFO;San Francisco;USA;
+1 18:00;1 09:45;;UA;903;United Airlines;B744;N116UA /*=4,2*/;SFO;KSFO;San Francisco;USA;
 1 19:00;1 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;
 1 20:00;1 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;
 1 21:00;1 09:45;;UA;903;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;
