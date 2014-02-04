@@ -193,14 +193,26 @@ For Each dir In directions
 	If Not match Is Nothing Then
 		start = match.Address
 		Do
+			Dim comment
+			Dim myMatch
+
 			re.Global = True
 			re.IgnoreCase = True
 			' C-Comment with spaces around and in between
-			re.Pattern = "[ \t]*/\*[ \t]*([^/]*|[^*]/)[ \t]*\*/"
+			re.Pattern = "[ \t]*/\*([ \t]*[^/]*|[^*]/[ \t]*)\*/"
+
+			Set comment = re.Execute(match.Value)
 
 			match.Value = re.Replace(match.Text, "$1")
-			match.Font.Color = Rgb(255,0,0)
-			match.Font.Bold = True
+
+			If comment Is Nothing Then
+				match.Font.Color = Rgb(255,0,0)
+				match.Font.Bold = True
+			Else
+				match.Characters(1, comment(0).FirstIndex).Font.Color = Rgb(255,0,0)
+				match.Characters(1, comment(0).FirstIndex).Font.Bold = True
+			End If
+
 
 			Set match = range.FindNext(match)
 		Loop While Not match Is Nothing
