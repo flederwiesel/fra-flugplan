@@ -80,11 +80,15 @@ check "7-1" curl "$url/?page=addflight" \
 now=$(date +'%Y-%m-%d %H:%M:%S' --date='14:00')
 now=$(rawurlencode $now)
 
-check "8" curl "$url/?arrival\&now=$now" \
-	"|" sed -r "'s/(\+[0-7]) [0-9]{2}:[0-9]{2}/\1 00:00/g; s/(1:D-AIRY\+[0-7])[0-2][0-9]{3}/\10000/g'"
+check "8" curl "$url/?arrival\&now=$now | sed -r '
+	s/(\+[0-7]) [0-9]{2}:[0-9]{2}/\1 00:00/g;
+	s/(1:D-AIRY\+[0-7])[0-2][0-9]{3}/\10000/g;
+	s/$(date +%Y-%m-%d)/0000-00-00/g'"
 
 now=$(date +'%Y-%m-%d %H:%M:%S' --date='14:05')
 now=$(rawurlencode $now)
 
-check "9" curl "$url/?arrival\&now=$now" \
-	"|" sed -r "'s/(\+[0-7]) [0-9]{2}:[0-9]{2}/\1 00:00/g; s/(1:D-AIRY\+[0-7])[0-2][0-9]{3}/\10000/g'"
+check "9" curl "$url/?arrival\&now=$now | sed -r '
+	s/(\+[0-7]) [0-9]{2}:[0-9]{2}/\1 00:00/g;
+	s/(1:D-AIRY\+[0-7])[0-2][0-9]{3}/\10000/g;
+	s/$(date +%Y-%m-%d)/0000-00-00/g'"
