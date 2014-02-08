@@ -39,7 +39,7 @@ $lang_help = array(
 	13 => '(5) Premature flights are indicated by times in red',
 	14 => '(6) Flights in the past will be grayed out',
 	15 => '(7) Registrations are linked to <a href="http://www.airliners.net">www.airliners.net</a> (click on the icon to the left)',
-	16 => '(8) Register/Login to benefit from the <span class="bi">watchlist</span> feature',
+	16 => '(9) Register/Login to benefit from the <span class="bi">watchlist</span> feature',
 	17 => '(1) Let your favourite aircrafts be hilighted in green. A list thereof - including a comment per aircraft - will be stored within your user profile',
 	18 => '(2) Click onto the watchlist tab or the link in the navigation area to let it slide into view. This list can be edited as you wish',
 	19 => '<span class="b">The watchlist feature requires <span class="i"><a href="http://www.enable-javascript.com/">JavaScript to be enabled</a></span>.</span>',
@@ -55,6 +55,7 @@ $lang_help = array(
 	29 => 'by',
 	30 => 'If you feel this site is violating licences of one of these projects, please contact me:',
 	31 => 'Due to limited display space on mobile phones, the following icons are used instead of text',
+	32 => '(8) Rare aircrafts (i.e. visits to FRA < 10) are display in <span style="font-weight: bold">bold</span> font',
 );
 
 ?>

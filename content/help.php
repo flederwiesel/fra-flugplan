@@ -55,6 +55,7 @@ include("help-$_SESSION[lang].php");
 			<li><?php echo $lang_help[13]; ?>.
 			<li><?php echo $lang_help[14]; ?>.
 			<li><?php echo $lang_help[15]; ?>.
+			<li><?php echo $lang_help[32]; ?>.
 			<li><?php echo $lang_help[16]; ?>.
 			<li class="img">
 				<img src="content/img/<?php echo $_SESSION['lang']; ?>/1-basic.png">
