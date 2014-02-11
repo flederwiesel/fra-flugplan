@@ -1,0 +1,9 @@
+User-agent: *
+
+Disallow: /classes
+Disallow: /content
+Disallow: /css
+Disallow: /data
+Disallow: /forms
+Disallow: /img
+Disallow: /script
