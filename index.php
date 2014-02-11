@@ -241,10 +241,13 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta name="language" content="<?php echo $_SESSION['lang']; ?>">
 <meta name="author" content="Tobias Kühne">
-<meta name="description" content="24h flight forecast for Frankfurt/Main airport with aircraft registrations">
-<meta name="keywords" content="fra eddf frankfurt airport aircraft spotter schedule">
+<meta name="description" lang="en" content="Spotter schedule for Frankfurt airport (FRA/EDDF) including aircraft registrations">
+<meta name="description" lang="en" content="Spotter-Flugplan für Frankfurt (FRA/EDDF) einschließlich Flugzeugkennungen">
+<meta name="keywords" content="fra, eddf, frankfurt, fraspotter, fraspotting, planespotting, fra-flights, fra-schedule, flederwiesel">
+<meta name="keywords" lang="en" content="airport, aircraft, aviation, spotter, spotting, schedule, flights, flight schedule, flight plan">
+<meta name="keywords" lang="de" content="Flughafen, Flugzeug, Luftfahrt, Spotter, Spotting, Flugzeugfotografie, Flüge, Flugplan">
 <meta name="robots" content="index, nofollow">
-<meta name="generator" content="Programmer's Notepad">
+<meta name="generator" content="http://www.ultraedit.com/">
 <?php if ($mobile && !$tablet) { ?>
 <meta name="viewport" content="width=device-width; initial-scale=1.0;"/>
 <link rel="stylesheet" type="text/css" href="css/mobile.css">
