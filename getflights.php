@@ -1081,11 +1081,26 @@ function SQL_UpdateVisitsToFra($scheduled, $reg, $op)
 			$num = $row['num'];
 			$current = $row['current'];
 			$previous = $row['previous'];
+			$row = NULL;
 
 			if (isset($DEBUG['query']))
 				echo "=$num,$current,".($previous ? $previous : "NULL")."\n";
 
-			if (VTF_DECREASE == $op)
+			if (VTF_INCREASE == $op)
+			{
+				if ($scheduled <= $current)
+				{
+					$query = NULL;
+				}
+				else
+				{
+					$query = "UPDATE `visits` ".
+							 "SET `num`=".($num + 1).", `current`='$scheduled'".
+							 ($current ? ", `previous`='$current' " : " ").
+							 "WHERE `aircraft`=$reg";
+				}
+			}
+			else
 			{
 				if ($num < 1)
 				{
@@ -1098,23 +1113,62 @@ function SQL_UpdateVisitsToFra($scheduled, $reg, $op)
 				}
 				else
 				{
-					$query = "UPDATE `visits` ".
-							 "SET `num`=".($num - 1).", `current`='$previous' ".
-							 "WHERE `aircraft`=$reg";
-				}
-			}
-			else
-			{
-				if ($scheduled <= $current)
-				{
-					$query = NULL;
-				}
-				else
-				{
-					$query = "UPDATE `visits` ".
-							 "SET `num`=".($num + 1).", `current`='$scheduled'".
-							 ($current ? ", `previous`='$current' " : " ").
-							 "WHERE `aircraft`=$reg";
+					/*	From bulk INSERT in "fra-schedule.sql" we do not get `previous`
+						even for `num` > 1, where normally this would be NOT NULL.
+						Need to check for this also... */
+					if (!$previous)
+					{
+						$query = "SELECT MAX(`scheduled`) AS `scheduled`".
+									"FROM".
+									"(".
+									"	SELECT `scheduled`".
+									"	FROM `flights`".
+									"	WHERE `direction`='arrival' AND `aircraft` = $reg".
+									"	UNION ALL".
+									"	SELECT `scheduled`".
+									"	FROM `history`".
+									"	WHERE `direction`='arrival' AND `aircraft` = $reg".
+									") AS `flights`";
+
+						if (isset($DEBUG['query']))
+							echo "$query\n";
+
+						$result = mysql_query($query);
+
+						if (!$result)
+						{
+							$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+							$query = NULL;
+						}
+						else
+						{
+							$row = mysql_fetch_assoc($result);
+
+							mysql_free_result($result);
+
+							if ($row)
+							{
+								$previous = $row['scheduled'];
+
+								if (isset($DEBUG['query']))
+									echo "=$previous\n";
+							}
+							else
+							{
+								$previous = NULL;
+
+								if (isset($DEBUG['query']))
+									echo "=<empty>\n";
+							}
+						}
+					}
+
+					if ($previous)
+					{
+						$query = "UPDATE `visits` ".
+								 "SET `num`=".($num - 1).", `current`='$previous' ".
+								 "WHERE `aircraft`=$reg";
+					}
 				}
 			}
 
@@ -1529,16 +1583,14 @@ else
 
 							if (NULL == $details)
 							{
-							{
 								$error = SQL_InsertFlight($dir, $airline, $f->code,
 														  $f->scheduled, $f->expected, $model, $reg);
-							}
 							}
 							else
 							{
 								$error = SQL_UpdateFlight($details['id'], $f->expected, $model, $reg);
 
-								if (!$error && 'arrival' == $dir && $reg && $details['aircraft'])
+								if (!$error && 'arrival' == $dir && $details['aircraft'])
 								{
 									if ($details['aircraft'] != $reg)
 										$error = SQL_UpdateVisitsToFra($f->scheduled, $details['aircraft'], VTF_DECREASE);

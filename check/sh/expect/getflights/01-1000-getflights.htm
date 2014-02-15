@@ -84,8 +84,14 @@ SELECT `id` FROM `airlines` WHERE `code`='TP';
 SELECT `id` FROM `models` WHERE `icao`='A320';
 =9
 SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`=113 AND `code`='572' AND `scheduled`='0000-00-01 12:35'
-=35,
+=35,7
 UPDATE `flights` SET `aircraft`=NULL,`model`=9 WHERE `id`=35;
+=OK
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=7;
+=4,0000-00-01 12:35:00,NULL
+SELECT MAX(`scheduled`) AS `scheduled`FROM(	SELECT `scheduled`	FROM `flights`	WHERE `direction`='arrival' AND `aircraft` = 7	UNION ALL	SELECT `scheduled`	FROM `history`	WHERE `direction`='arrival' AND `aircraft` = 7) AS `flights`
+=0000-00-00 22:30:00
+UPDATE `visits` SET `num`=3, `current`='0000-00-00 22:30:00' WHERE `aircraft`=7
 =OK
 
 /************************************/

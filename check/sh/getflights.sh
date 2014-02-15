@@ -41,6 +41,16 @@ do
 
 		echo "$day $time" > flugplan/airportcity/querytime
 
+		#[ 1 == $day ] && [ 10 == $t ] && exit 1
+
+		# From bulk INSERT in "fra-schedule.sql" we do not get `previous`
+		# even for `num` > 1, where normally this would be NOT NULL.
+		# Need to check for this also...
+		if [ 1 == $day ] && [ 10 == $t ]; then
+			# '0000-00-00 22:30:00' -> NULL
+			query "USE fra-schedule; UPDATE visits SET previous=NULL WHERE aircraft=7"
+		fi
+
 		check "$dHHMM-getflights" curl "$url/getflights.php?baseurl=$baseurl\&now=$now\&debug=url,query\&fmt=html"\
 			"| sed -r '
 			s/Dauer: [0-9]+.[0-9]+s/Dauer: 0.000s/g

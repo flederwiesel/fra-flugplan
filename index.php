@@ -28,7 +28,7 @@ error_reporting(E_ALL | E_NOTICE);
  * header
  ******************************************************************************/
 
- // always modified
+// always modified
 header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
 
 // HTTP/1.1

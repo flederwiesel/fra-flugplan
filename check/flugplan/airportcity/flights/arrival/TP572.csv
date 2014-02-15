@@ -25,8 +25,8 @@
 1 06:00;0 12:35;;TP;572;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
 1 07:00;0 12:35;;TP;572;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
 1 08:00;0 12:35;;TP;572;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-1 09:00;0 12:35;;TP;572;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-1 10:00;0 12:35;;TP;572;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
+1 09:00;0 12:35;;TP;572;TAP Portugal;A320;CSTNP /*=7,4*/;LIS;LPPT;Lissabon;Portugal;
+1 10:00;0 12:35;;TP;572;TAP Portugal;A320;/*=7,3*/;LIS;LPPT;Lissabon;Portugal;
 1 11:00;0 12:35;;TP;572;TAP Portugal;A320;CSTNP /*=7,4*/;LIS;LPPT;Lissabon;Portugal;
 1 12:00;0 12:35;;TP;572;TAP Portugal;A320;CSTNP;LIS;LPPT;Lissabon;Portugal;
 1 13:00;0 12:35;;TP;572;TAP Portugal;A320;CSTNP;LIS;LPPT;Lissabon;Portugal;gelandet

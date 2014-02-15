@@ -76,7 +76,7 @@ SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`
 UPDATE `flights` SET `aircraft`=7,`model`=9 WHERE `id`=35;
 =OK
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=7;
-=3,0000-00-00 22:30:00,0000-00-00 18:25:00
+=3,0000-00-00 22:30:00,NULL
 UPDATE `visits` SET `num`=4, `current`='0000-00-01 12:35', `previous`='0000-00-00 22:30:00' WHERE `aircraft`=7
 =OK
 
