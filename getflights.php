@@ -1464,6 +1464,8 @@ function SQL_FlightsToHistory()
 
 	if (!$result)
 		$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
+
+	return $error;
 }
 
 $error = NULL;
