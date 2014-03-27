@@ -135,8 +135,20 @@ sed "s/^[[:space:]]*define('DEBUG'.*$/\/\/&/" --in-place ../.config
 [ -e ../adminmessage.php ] && mv ../adminmessage.php ../~adminmessage.php
 
 # On local system, check whether mta is running
+mercury=0
+
 if [ 'kowalski' == $(uname --nodename) ]; then
-	unless $LINENO tasklist "|" grep -q 'mercury.exe'
+	tasklist | grep -q 'mercury.exe'
+	if [ 1 = $? ]; then
+		path=$(reg query "HKEY_CURRENT_USER\Software\Mercury32\Command" |
+				grep '(Default)' |
+				sed 's/^[ \t]*(Default)[ \t]*REG_SZ[ \t]*//g
+					s/\\/\\\\/g
+					s/[ \t]*\/m//g')
+		path=$(cygpath -u "$path")
+		eval "$path /m &"
+		mercury=$!
+	fi
 fi
 
 ###############################################################################
@@ -219,6 +231,5 @@ done
 
 rm -f .COOKIES
 
-# Restore DB
-#cp -f ../.config.local ../.config
+# Restore admin message
 [ -e ../~adminmessage.php ] && mv ../~adminmessage.php ../adminmessage.php
