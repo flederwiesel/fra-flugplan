@@ -69,7 +69,7 @@ check "7-1" curl "$url/?page=addflight" \
 		--data-urlencode "type=pax-regular" \
 		--data-urlencode "direction=arrival" \
 		--data-urlencode "airport=2" \
-		--data-urlencode "from=$(strftime '%d.%m.%Y' $(($(date +%s) + 604800)))" \
+		--data-urlencode "from=$(date +'%d.%m.%Y' --date='+1 week')" \
 		--data-urlencode "time=14:00" \
 		--data-urlencode "interval=once" \
 	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
@@ -78,7 +78,7 @@ check "7-1" curl "$url/?page=addflight" \
 # 7 day preview only, so flight from "7" will not appear...
 
 now=$(date +'%Y-%m-%d %H:%M:%S' --date='14:00')
-now=$(rawurlencode $now)
+now=$(rawurlencode "$now")
 
 check "8" curl "$url/?arrival\&now=$now | sed -r '
 	s/(\+[0-7]) [0-9]{2}:[0-9]{2}/\1 00:00/g;
