@@ -2,7 +2,7 @@
 
 /******************************************************************************
  *
- *       project: FRA-flights Live Schedule
+ *       project: FRA-schedule
  *
  *       $Author$
  *         $Date$
@@ -22,82 +22,100 @@
  *
  ******************************************************************************/
 
-function trim_r(&$item, $key)
+class awkrule
 {
-    // If the item is an array, recursively use array_walk
-    if (is_array($item))
-        array_walk($item, 'trim_r');
-    // Trim the item
-    else if (is_string($item))
-        $item = trim($item);
-}
+	/* Those should be protected, but since there are no
+	 * friend classes, leave them public for the pure
+	 * reason of greater speed over access functions */
+	public $start    = NULL;
+	public $fin      = NULL;
+	public $action   = NULL;
+	public $underway = false;
 
-function awk($rules, $text, $FS=" ", $RS="\n")
-{
-	/**/
-	$action = array();
-	$pregex = array();
-	$re_fin = array();
-	$active = array();
-
-	$j = 0;
-
-	for ($i = 0; $i < count($rules); $i += 2)
+	function __construct($regex, $action)
 	{
-		if (preg_match("?(/(\\\/|[^/])+/)[[:space:]]*,[[:space:]]*(/(\\\/|[^/])+/)?", $rules[$i], $match))
+		/* If token consists of start and end token for everything to be mathed in between ... */
+		if (preg_match("?(/(\\\/|[^/])+/)[[:space:]]*,[[:space:]]*(/(\\\/|[^/])+/)?", $regex, $match))
 		{
-			$pregex[$j] = $match[1];
-			$re_fin[$j] = $match[3];
+			$this->start = $match[1];
+			$this->fin   = $match[3];
 		}
 		else
 		{
-			$pregex[$j] = $rules[$i];
-			$re_fin[$j] = NULL;
+			$this->start = $regex;
 		}
 
-		$action[$j] = $rules[$i + 1];
-		$active[$j] = 0;
+		$this->action = $action;
+	}
+};
 
-		$j++;
+class awk
+{
+	function __construct($rules, $FS = NULL, $RS = NULL)
+	{
+		foreach ($rules as $regex => $action)
+			$this->rules[] = new awkrule($regex, $action);
 	}
 
-	/**/
-	$record = strtok($text, $RS);
-
-	while ($record)
+	public function execute($text)
 	{
-		for ($i = 0; $i < count($pregex); $i++)
+		if (isset($this->rules['BEGIN']))
+			call_user_func($this->rules['BEGIN']);
+
+		/* Get first line */
+		$record = strtok($text, $this->RS);
+
+		while ($record)
 		{
-			if (preg_match($pregex[$i], $record) || $active[$i])
+			/* Check against each rule */
+			foreach ($this->rules as $rule)
 			{
-				$record = trim($record);
-				$fields = $f = preg_split("/$FS+/", $record);
-				array_unshift($fields, $record);
-				// Trim the array
-				array_walk($fields, 'trim_r');
-
-				call_user_func($action[$i], $pregex[$i], $fields);
-
-				if ($active[$i])
+				if (preg_match($rule->start, $record) || $rule->underway)
 				{
-					if (preg_match($re_fin[$i], $record))
-						$active[$i] = 0;
+					/* Split into groups "$1" .. "$N" */
+					$record = trim($record);
+					$fields = preg_split("/$this->FS+/", $record);
+
+					/* Prepend "$0" */
+					array_unshift($fields, $record);
+
+					foreach ($fields as $key => $value)
+						$fields[$key] = trim($value);
+
+					/* Execute action */
+					call_user_func($rule->action, $this, $fields);
+
+					if ($rule->fin)
+						$rule->underway = true;
 				}
-				else
+
+				if ($rule->underway)
 				{
-					if ($re_fin[$i])
-						$active[$i] = 1;
+					/* If rule is to be valid between two tokens,
+					 * check for matching end token */
+					if (preg_match($rule->fin, $record))
+						$rule->underway = false;
 				}
 			}
+
+			/* Basically getline(), but no stack frame required */
+			$record = strtok($this->RS);
 		}
 
-		$record = strtok($RS);
+		if (isset($this->rules['END']))
+			call_user_func($this->rules['END']);
 	}
-}
 
-function getline()
-{
-	return strtok("\n");
-}
+	protected function getline()
+	{
+		return strtok($this->RS);
+	}
+
+	protected $FS = " ";
+	protected $RS = "\n";
+
+	private $rules = NULL;
+
+};
 
 ?>

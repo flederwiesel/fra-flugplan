@@ -34,6 +34,8 @@
 
 error_reporting(E_ALL);
 
+mb_internal_encoding('UTF-8');
+
 include ".config";
 include "classes/vector.php";
 include "classes/awk.php";
@@ -294,8 +296,9 @@ class flight
 	}
 }
 
-class airport_info
+class AirportInfo
 {
+	public $id;
 	public $fid;	// db id of flight to this particular airport
 	public $iata;
 	public $icao;
@@ -312,273 +315,275 @@ class airport_info
 	}
 }
 
-function awk_flights_number($rule, $fields)
+class awkFlights extends awk
 {
-	global $DEBUG;
-	global $flights;
-	global $f;
+	private $flights = NULL;
+	private $top = NULL;		/* on vector `$flights` */
+	private $page = 0;
 
-	if (preg_match('/<h3>/', $fields[0], $match))
+	public function execute($text, &$flights, &$page)
 	{
-		if ($f)
-			if (isset($DEBUG['awk']))
-				print_r($f);
+		$this->flights = $flights;
+		$this->page = $page;
 
-		if (0 == strncmp('<h3>Leider ', $fields[0], 11))
+		awk::execute($text);
+
+		$page = $this->page;
+	}
+
+	static function code($obj, $fields)
+	{
+		global $DEBUG;
+
+		if (preg_match('/<h3>/', $fields[0], $match))
 		{
-			// Leider liegen keine Daten aktueller Abflüge vor.
-			// Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut oder
-			// wenden Sie sich an das Fraport Communication Center unter der Telefonnummer 01805-3 72 46 36 (FRAINFO).
-		}
-		else
-		{
-			$f = $flights->push(new flight(str_replace('<h3>', '', $fields[1]), $fields[2]));
+			if ($obj->flights->count())
+				if (isset($DEBUG['awk']))
+					print_r($obj->top);
 
-			if (NULL == $f)
-				$error = seterrorinfo(__LINE__, implode(",", error_get_last()));
-		}
-	}
-}
-
-function awk_flights_airline($rule, $fields)
-{
-	global $f;
-
-	// "a-z.html#OZ\">Asiana Airlines</"
-
-	$fields = explode("#", $fields[0]);
-	$code   = explode("\"", $fields[1]);
-	$name   = explode(">", $fields[1]);
-	$name   = explode("<", $name[1]);
-
-	$f->carrier['name'] = $name[0];
-	$f->carrier['code'] = $code[0];
-}
-
-function awk_flights_scheduled($rule, $fields)
-{
-	global $f;
-
-	if (count($fields) > 2)
-		$f->scheduled = $fields[2];
-}
-
-function awk_flights_expected($rule, $fields)
-{
-	global $f;
-
-	if (count($fields) > 2)
-		$f->expected = $fields[2];
-}
-
-function awk_flights_date($rule, $fields)
-{
-	global $f;
-
-	// different for arrival and departure
-	if (preg_match('/[0-9][0-9].[0-9][0-9].[0-9][0-9][0-9][0-9]/', $fields[2]))
-		$col = 2;
-	else
-		$col = 5;
-
-	$date = explode(".", $fields[$col]);
-
-	// prepend "YYYY-mm-dd" to "HH:MM"
-	if ($f->expected)
-		$f->expected = $date[2].'-'.$date[1].'-'.$date[0].' '.$f->expected;
-	else if ($f->scheduled)
-		$f->scheduled = $date[2].'-'.$date[1].'-'.$date[0].' '.$f->scheduled;
-}
-
-function awk_flights_model($rule, $fields)
-{
-	global $f;
-
-	if (count($fields) > 2)
-		$f->model = $fields[2];
-}
-
-function awk_flights_reg($rule, $fields)
-{
-	global $f;
-
-	if (count($fields) > 2)
-		$f->reg = patchreg($fields[2]);
-}
-
-function awk_flights_remark($rule, $fields)
-{
-	global $tz;
-	global $now;
-	global $f;
-	global $cycle;
-
-	$remark = getline();
-
-	/*
-		$remark is one of the following:
-
-		<p>annulliert</p>
-		--
-		<p>im Anflug</p>
-		<p>gelandet</p>
-		<p>Gepäckausgabe beendet</p>
-		<p>Gepäckausgabe</p>
-		--
-		<p>Gate offen</p>
-		<p>geschlossen</p>
-		<p>gestartet</p>
-	*/
-
-	if (preg_match('/<p>annulliert<\/p>/', $remark))
-	{
-		$f->expected = 'NULL';
-	}
-	else if (preg_match('/<p>Gepäckausgabe( beendet)?<\/p>/', $remark))
-	{
-		// Don't update any more
-		$f->scheduled = NULL;
-	}
-	else if (preg_match('/<p>gestartet<\/p>/', $remark))
-	{
-		// Don't update flight any more, unless $f->expected is
-		// in the future (respecting an offset of $cycle)
-		if ($f->expected)
-			if (strtotime($f->expected) < strtotime("-$cycle", strtotime($now)))
-				$f->scheduled = NULL;
-	}
-	else if (preg_match('/<p>Gate offen<\/p>/', $remark) ||
-			 preg_match('/<p>geschlossen<\/p>/', $remark))
-	{
-		// Don't tamper with times, if we could not
-		// ensure that timezone is correct
-		if ($tz === true)
-		{
-			// Waiting for departure, but expected may not have been updated
-			// If `expected` is NULL here, but a timestamp in the DB exists,
-			// the latter will be overwritten by $now!
-			if (NULL == $f->expected)
+			if (0 == strncmp('<h3>Leider ', $fields[0], 11))
 			{
-				if (strtotime($f->scheduled) < strtotime($now))
-					$f->expected = strftime('%Y-%m-%d %H:%M', strtotime("+$cycle", strtotime($now)));
+				// Leider liegen keine Daten aktueller Abflüge vor.
+				// Bitte versuchen Sie es zu einem späteren Zeitpunkt erneut oder
+				// wenden Sie sich an das Fraport Communication Center unter der Telefonnummer 01805-3 72 46 36 (FRAINFO).
 			}
 			else
 			{
-				if (strtotime($f->expected) < strtotime($now))
-					$f->expected = strftime('%Y-%m-%d %H:%M', strtotime("+$cycle", strtotime($now)));
+				$obj->top = $obj->flights->push(
+								new flight(str_replace('<h3>', '', $fields[1]), $fields[2]));
+
+				if (NULL == $obj->top)
+					$error = seterrorinfo(__LINE__, implode(",", error_get_last()));
+			}
+		}
+	}
+
+	static function airline($obj, $fields)
+	{
+		// "a-z.html#OZ\">Asiana Airlines</"
+		$fields = explode("#", $fields[0]);
+
+		if (count($fields) > 1)
+		{
+			$code = explode("\"", $fields[1]);
+			$name = explode(">", $fields[1]);
+
+			if (count($name) > 1)
+				$name   = explode("<", $name[1]);
+
+			if ($obj->top)
+			{
+				$obj->top->carrier['name'] = $name[0];
+				$obj->top->carrier['code'] = $code[0];
+			}
+		}
+	}
+
+	static function scheduled($obj, $fields)
+	{
+		if (count($fields) > 2)
+		{
+			if ($obj->top)
+				$obj->top->scheduled = $fields[2];
+		}
+	}
+
+	static function expected($obj, $fields)
+	{
+		if (count($fields) > 2)
+		{
+			if ($obj->top)
+				$obj->top->expected = $fields[2];
+		}
+	}
+
+	static function date($obj, $fields)
+	{
+		if (count($fields) > 2)
+		{
+			// different for arrival and departure
+			if (preg_match('/[0-9][0-9].[0-9][0-9].[0-9][0-9][0-9][0-9]/', $fields[2]))
+				$col = 2;
+			else
+				$col = 5;
+
+			$date = explode(".", $fields[$col]);
+
+			if ($obj->top)
+			{
+				// prepend "YYYY-mm-dd" to "HH:MM"
+				if ($obj->top->expected)
+					$obj->top->expected = "$date[2]-$date[1]-$date[0] ".$obj->top->expected;
+				else if ($obj->top->scheduled)
+					$obj->top->scheduled = "$date[2]-$date[1]-$date[0] ".$obj->top->scheduled;
+			}
+		}
+	}
+
+	static function model($obj, $fields)
+	{
+		if (count($fields) > 2)
+		{
+			if ($obj->top)
+				$obj->top->model = $fields[2];
+		}
+	}
+
+	static function reg($obj, $fields)
+	{
+		if (count($fields) > 2)
+		{
+			if ($obj->top)
+				$obj->top->reg = patchreg($fields[2]);
+		}
+	}
+
+	static function remark($obj, $fields)
+	{
+		global $tz;
+		global $now;
+		global $cycle;
+
+		if ($obj->top)
+		{
+			$remark = $obj->getline();
+
+			/*
+				$remark is one of the following:
+
+				<p>annulliert</p>
+				--
+				<p>im Anflug</p>
+				<p>gelandet</p>
+				<p>Gepäckausgabe beendet</p>
+				<p>Gepäckausgabe</p>
+				--
+				<p>Gate offen</p>
+				<p>geschlossen</p>
+				<p>gestartet</p>
+			*/
+
+			if (preg_match('/<p>annulliert<\/p>/', $remark))
+			{
+				$obj->top->expected = 'NULL';
+			}
+			else if (preg_match('/<p>Gepäckausgabe( beendet)?<\/p>/', $remark))
+			{
+				// Don't update any more
+				$obj->top->scheduled = NULL;
+			}
+			else if (preg_match('/<p>gestartet<\/p>/', $remark))
+			{
+				// Don't update flight any more, unless $flight->expected is
+				// in the future (respecting an offset of $cycle)
+				if ($obj->top->expected)
+					if (strtotime($obj->top->expected) < strtotime("-$cycle", strtotime($now)))
+						$obj->top->scheduled = NULL;
+			}
+			else if (preg_match('/<p>Gate offen<\/p>/', $remark) ||
+					 preg_match('/<p>geschlossen<\/p>/', $remark))
+			{
+				// Don't tamper with times, if we could not
+				// ensure that timezone is correct
+				if ($tz === true)
+				{
+					// Waiting for departure, but expected may not have been updated
+					// If `expected` is NULL here, but a timestamp in the DB exists,
+					// the latter will be overwritten by $now!
+					if (NULL == $obj->top->expected)
+					{
+						if (strtotime($obj->top->scheduled) < strtotime($now))
+							$obj->top->expected = strftime('%Y-%m-%d %H:%M', strtotime("+$cycle", strtotime($now)));
+					}
+					else
+					{
+						if (strtotime($obj->top->expected) < strtotime($now))
+							$obj->top->expected = strftime('%Y-%m-%d %H:%M', strtotime("+$cycle", strtotime($now)));
+					}
+				}
+			}
+		}
+	}
+
+	static function next($obj, $fields)
+	{
+		global $DEBUG;
+
+		if (count($fields) < 2)
+		{
+			$obj->page = 0;
+		}
+		else
+		{
+			$fields = explode("#", $fields[0]);
+
+			if (count($fields) < 2)
+				$obj->page = 0;
+			else
+				$obj->page = 0 + $fields[1];
+		}
+
+		if (isset($DEBUG['awk']))
+		{
+			if ($obj->top)
+			{
+				print_r($obj->top);
+				echo "page=".$obj->page."\n";
 			}
 		}
 	}
 }
 
-function awk_flights_next($rule, $fields)
+class awkAirports extends awk
 {
-	global $f;
-	global $page;
-	global $DEBUG;
+	private $airport;
+	private $previous;	/* upon match for iata, `$previous` contains airport name */
 
-	if (count($fields) < 2)
+	public function execute($text, &$airport)
 	{
-		$page = 0;
-	}
-	else
-	{
-		$fields = explode("#", $fields[0]);
-
-		if (count($fields) < 2)
-			$page = 0;
-		else
-			$page = 0 + $fields[1];
+		if ($airport)
+		{
+			$this->airport = $airport;
+			$previous = '';
+			awk::execute($text);
+		}
 	}
 
-	if (isset($DEBUG['awk']))
+	static function iata($obj, $fields)
 	{
-		print_r($f);
-		echo "page=$page\n";
+		if ($obj->airport)
+		{
+			$obj->airport->iata = $fields[2];
+			$obj->airport->name = $obj->previous;
+		}
+	}
+
+	static function icao($obj, $fields)
+	{
+		global $DEBUG;
+
+		if ($obj->airport)
+		{
+			$obj->airport->icao = $fields[2];
+
+			if (isset($DEBUG['awk']))
+				print_r($obj->airport);
+		}
+	}
+
+	static function all($obj, $fields)
+	{
+		/* remember last line for rule awk_airports_iata() */
+		$obj->previous = $fields[0];
 	}
 }
-
-function awk_airports_iata($rule, $fields)
-{
-	global $airports;
-	global $airport;
-	global $previous;
-	global $fi;
-
-	$airport = $airports->push(new airport_info($fi[0]));
-
-	if ($airport)
-	{
-		$airport->iata = $fields[2];
-		$airport->name = $previous;
-	}
-}
-
-function awk_airports_icao($rule, $fields)
-{
-	global $airport;
-	global $DEBUG;
-
-	$airport->icao = $fields[2];
-
-	if (isset($DEBUG['awk']))
-		print_r($airport);
-}
-
-function awk_airports_all($rule, $fields)
-{
-	// remember last line for rule awk_airports_iata()
-	global $previous; $previous = $fields[0];
-}
-
-$awk_flights = array(
-
-/******************************************************************************
- * flights.awk
- ******************************************************************************/
-
-'/<h3>/,/<\/h3>/',                                      'awk_flights_number',
-'/airlines_a-z/',                                       'awk_flights_airline',
-'/Planm\xc3\xa4\xc3\x9fig, [0-9][0-9]:[0-9][0-9] Uhr/', 'awk_flights_scheduled',
-'/Erwartet: [0-9][0-9]:[0-9][0-9] Uhr/',                'awk_flights_expected',
-'/[0-9][0-9].[0-9][0-9].[0-9][0-9][0-9][0-9][\r]*$/',   'awk_flights_date',
-'/Flugzeugtyp:/',                                       'awk_flights_model',
-'/Registrierung:/',                                     'awk_flights_reg',
-'/Bemerkung:/',                                         'awk_flights_remark',
-'/>weiter</',                                           'awk_flights_next',
-
-/******************************************************************************
- * /flights.awk
- ******************************************************************************/
-
-);
-
-$awk_airports = array(
-
-/******************************************************************************
- * airports.awk
- ******************************************************************************/
-
-'/IATA-Code:/', 'awk_airports_iata',
-'/ICAO-Code:/', 'awk_airports_icao',
-'//',           'awk_airports_all',
-
-/******************************************************************************
- * /airports.awk
- ******************************************************************************/
-
-);
 
 function CURL_GetFlights($curl, $dir, &$flights)
 {
 	global $DEBUG;
 	global $baseurl;
-	global $awk_flights;
-	global $f;
 	global $items;
-	global $page;
 
-	$error = NULL;
 	$f = NULL;
 	$flights = new vector;
 	$action = 'init';
@@ -586,39 +591,68 @@ function CURL_GetFlights($curl, $dir, &$flights)
 	$date = 0;
 	$previous = 0;
 
-	do
+	/* Create $flights[$n<flight>] from pager html */
+
+	/* Actions can be declared as anonymous function for PHP versions >= 5.3.0 */
+	$awk = new awkFlights(
+		array(
+			'/<h3>/,/<\/h3>/'                                      => 'awkFlights::code',
+			'/airlines_a-z/'                                       => 'awkFlights::airline',
+			'/Planm\xc3\xa4\xc3\x9fig, [0-9][0-9]:[0-9][0-9] Uhr/' => 'awkFlights::scheduled',
+			'/Erwartet: [0-9][0-9]:[0-9][0-9] Uhr/'                => 'awkFlights::expected',
+			'/[0-9][0-9].[0-9][0-9].[0-9][0-9][0-9][0-9][\r]*$/'   => 'awkFlights::date',
+			'/Flugzeugtyp:/'                                       => 'awkFlights::model',
+			'/Registrierung:/'                                     => 'awkFlights::reg',
+			'/Bemerkung:/'                                         => 'awkFlights::remark',
+			'/>weiter</'                                           => 'awkFlights::next',
+		));
+
+	if (NULL == $awk)
 	{
-		$url = "http://$baseurl/flugplan/airportcity?".
-			   "type=$dir&typ=p&context=0&sprache=de&items=$items&$action=true&page=$page";
+		$error = seterrorinfo(__LINE__, implode(",", error_get_last()));
+	}
+	else
+	{
+		$error = NULL;
 
-		if (isset($DEBUG['url']))
-			echo "$url\n";
-
-		$page = 0;
-		$htm = curl_download($curl, $url);
-
-		curl_setopt($curl, CURLOPT_COOKIESESSION, FALSE);	// reuse session cookie
-
-		if (0 == strlen($htm))
+		do
 		{
-			if (curl_errno($curl))
-				$error = seterrorinfo(__LINE__, curl_error($curl));
-		}
-		else
-		{
-			if (isset($DEBUG[$dir]))
+			/* Build request URL */
+			$url = "http://$baseurl/flugplan/airportcity?".
+				   "type=$dir&typ=p&context=0&sprache=de&items=$items&$action=true&page=$page";
+
+			if (isset($DEBUG['url']))
+				echo "$url\n";
+
+			/* Fetch HTML data */
+			$htm = curl_download($curl, $url);
+
+			curl_setopt($curl, CURLOPT_COOKIESESSION, FALSE);	// reuse session cookie
+
+			if (0 == strlen($htm))
 			{
-				echo str_replace(array('<', '>'), array('&lt;', '&gt;'), $htm);
-				echo "\n";
+				$page = 0;
+
+				if (curl_errno($curl))
+					$error = seterrorinfo(__LINE__, curl_error($curl));
+			}
+			else
+			{
+				if (isset($DEBUG[$dir]))
+				{
+					echo str_replace(array('<', '>'), array('&lt;', '&gt;'), $htm);
+					echo "\n";
+				}
+
+				/* Interpret HTML into `$flights` vector */
+				if ($awk)
+					$awk->execute($htm, $flights, $page);
+
+				$action = 'usepager';
 			}
 		}
-
-		// create $flights[$n<flight>] from pager html
-		awk($awk_flights, $htm);
-
-		$action = 'usepager';
+		while ($page > 0);
 	}
-	while ($page > 0);
 
 	return $error;
 }
@@ -628,78 +662,97 @@ function CURL_GetFlightDetails($curl, &$airports)
 	global $DEBUG;
 	global $baseurl;
 	global $now;
-	global $awk_airports;
-	global $fi;
 
-	$error = NULL;
+	/* Actions can be declared as anonymous function for PHP versions >= 5.3.0 */
+	$awk = new awkAirports(
+		array(
+			'/IATA-Code:/' => 'awkAirports::iata',
+			'/ICAO-Code:/' => 'awkAirports::icao',
+			'//'           => 'awkAirports::all',
+		));
 
-	// Get airport IATA/ICAO from flight details page
-	$query = "SELECT".
-			 " `flights`.`id`,".
-			 " `airlines`.`code`,".
-			 " `flights`.`code`,".
-			 " `flights`.`scheduled`,".
-			 " `flights`.`direction` ".
-			 "FROM `flights` ".
-			 "LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` ".
-			 "WHERE `airport` IS NULL ".
-			 "AND ".
-			 " (`scheduled` >= '$now'".
-			 "  OR `expected` >= '$now'".
-			 "  OR (TIME_TO_SEC(TIMEDIFF('$now', `scheduled`)) / 60 / 60) < 2) ".
-			 "ORDER BY `scheduled`;";
-
-	if (isset($DEBUG['query']))
-		echo "$query\n";
-
-	$result = mysql_query($query);
-
-	if (!$result)
+	if (NULL == $awk)
 	{
-		$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+		$error = seterrorinfo(__LINE__, implode(",", error_get_last()));
 	}
 	else
 	{
-		while ($fi = mysql_fetch_row($result))
+		$error = NULL;
+
+		/* Get airport IATA/ICAO from flight details page */
+		$query = "SELECT".
+				 " `flights`.`id`,".
+				 " `airlines`.`code`,".
+				 " `flights`.`code`,".
+				 " `flights`.`scheduled`,".
+				 " `flights`.`direction` ".
+				 "FROM `flights` ".
+				 "LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` ".
+				 "WHERE `airport` IS NULL ".
+				 "AND ".
+				 " (`scheduled` >= '$now'".
+				 "  OR `expected` >= '$now'".
+				 "  OR (TIME_TO_SEC(TIMEDIFF('$now', `scheduled`)) / 60 / 60) < 2) ".
+				 "ORDER BY `scheduled`;";
+
+		if (isset($DEBUG['query']))
+			echo "$query\n";
+
+		$result = mysql_query($query);
+
+		if (!$result)
 		{
-			if (isset($DEBUG['query']))
-				echo "=$fi[0],...\n";
-
-			$date = substr($fi[3], 0, 4).substr($fi[3], 5, 2).substr($fi[3], 8, 2);
-			$url = "http://$baseurl/flugplan/airportcity?fi".
-						substr($fi[4], 0, 1)."=".	// 'a'/'d' -> arrival/departure
-						$fi[1].$fi[2].				// LH1234
-						$date;						// 20120603
-
-			if (isset($DEBUG['url']))
-				echo "$url\n";
-
-			$retry = 3;
-
-			do
-			{
-				$htm = curl_download($curl, $url);
-
-				if (0 == strlen($htm))
-				{
-					if (curl_errno($curl))
-						$error = seterrorinfo(__LINE__, curl_error($curl));
-				}
-				else
-				{
-					if (isset($DEBUG['airports']))
-						echo "$htm\n";
-				}
-			}
-			while (0 == strlen($htm) && --$retry);
-
-			awk($awk_airports, $htm);
-
-			/* Set srcipt execution limit. If set to zero, no time limit is imposed. */
-			set_time_limit(0);
+			$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
 		}
+		else
+		{
+			while ($fi = mysql_fetch_row($result))
+			{
+				if (isset($DEBUG['query']))
+					echo "=$fi[0],...\n";
 
-		mysql_free_result($result);
+				$date = substr($fi[3], 0, 4).substr($fi[3], 5, 2).substr($fi[3], 8, 2);
+				$url = "http://$baseurl/flugplan/airportcity?fi".
+							substr($fi[4], 0, 1)."=".	// 'a'/'d' -> arrival/departure
+							$fi[1].$fi[2].				// LH1234
+							$date;						// 20120603
+
+				if (isset($DEBUG['url']))
+					echo "$url\n";
+
+				$retry = 3;
+
+
+				do
+				{
+					$htm = curl_download($curl, $url);
+					$len = strlen($htm);
+
+					if (0 == $len)
+					{
+						if (curl_errno($curl))
+							$error = seterrorinfo(__LINE__, curl_error($curl));
+					}
+					else
+					{
+						if (isset($DEBUG['airports']))
+							echo "$htm\n";
+					}
+				}
+				while (0 == $len && --$retry);
+
+				if ($len > 0)
+				{
+					$airport = $airports->push(new AirportInfo($fi[0]));
+					$awk->execute($htm, $airport);
+				}
+
+				/* Set srcipt execution limit. If set to zero, no time limit is imposed. */
+				set_time_limit(0);
+			}
+
+			mysql_free_result($result);
+		}
 	}
 
 	return $error;
@@ -1605,6 +1658,8 @@ else
 
 						if (isset($DEBUG['query']))
 							echo "\n/************************************/\n\n";
+
+						unset($f);
 					}
 
 					if (isset($DEBUG['any']))
@@ -1617,17 +1672,18 @@ else
 				}
 
 				unset($flights);
-				unset($f);
 
 				/* Get airports from flight details page */
 				$airports = new vector;
 				$error = CURL_GetFlightDetails($curl, $airports);
 
 				while ($airport = $airports->shift())
+				{
 					$error = SQL_GetAirportId($airport);
+					unset($airport);
+				}
 
 				unset($airports);
-				unset($airport);
 
 				/* betriebsrichtung.html */
 				$betriebsrichtung = curl_download($curl, "http://$rwyinfo/betriebsrichtung/betriebsrichtung.html");
