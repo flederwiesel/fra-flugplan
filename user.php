@@ -24,6 +24,138 @@
 
 require_once '.config';
 
+function /* char* */ token() { return hash('sha256', mcrypt_create_iv(32)); }
+
+function /* char* */ PasswordRegex($min, $letter, $upper, $lower, $digit, $specials)
+{
+	$regex = '/^';
+
+	if ($min)
+	{
+		if ($letter)
+		{
+			$regex .= '(?=.*[A-Za-z])';
+		}
+		else
+		{
+			if ($upper)
+				$regex .= '(?=.*[A-Z])';
+
+			if ($lower)
+				$regex .= '(?=.*[a-z])';
+		}
+
+		if ($digit)
+			$regex .= '(?=.*[0-9])';
+
+		if (strlen($specials) > 0)
+		{
+			// Quote everything with (possibly) special meaning within
+			// regex character class definition
+			$escaped = '';
+
+			for ($i = 0; $i < strlen($specials); $i++)
+			{
+				$c = $specials[$i];
+
+				if (strchr('/[^(-)]\#', $c))
+					$escaped .= "\\$c";
+				else
+					$escaped .= "$c";
+			}
+
+			$regex .= "(?=.*[$escaped])";
+		}
+	}
+
+	$regex .= sprintf('.{%lu,}', $min);
+	$regex .= '$/';
+
+	return $regex;
+}
+
+function /* char* */ PasswordHint()
+{
+	global $lang;
+
+	$sep = 0;
+	$text = sprintf($lang['passwd-min'], $GLOBALS['PASSWORD_MIN']);
+
+	if ($GLOBALS['PASSWORD_REQUIRES_LETTER'])
+	{
+		$text .= sprintf($lang['passwd-letter']);
+		$sep++;
+	}
+
+	if ($GLOBALS['PASSWORD_REQUIRES_UPPER'])
+	{
+		$text .= sprintf($lang['passwd-upper']);
+		$sep++;
+	}
+
+	if ($GLOBALS['PASSWORD_REQUIRES_LOWER'])
+	{
+		$text .= sprintf($lang['passwd-lower']);
+		$sep++;
+	}
+
+	if ($GLOBALS['PASSWORD_REQUIRES_DIGIT'])
+	{
+		$text .= sprintf($lang['passwd-digit']);
+		$sep++;
+	}
+
+	if (strlen($GLOBALS['PASSWORD_REQUIRES_SPECIAL']))
+	{
+		$text .= sprintf($lang['passwd-special'], str_replace('%', '%%', $specials));
+		$sep++;
+	}
+
+	$separators = array();
+
+	if ($sep > 0)
+	{
+		if ($sep > 1)
+			$separators[] = $lang['passwd-separator-0'];
+
+		for ($i = 1; $i < $sep - 1; $i++)
+			$separators[] = ',';
+
+		$separators[] = ' '.$lang['and'];
+	}
+
+	$text = vsprintf($text, $separators);
+	$text .= $sep ? $lang['passwd-postfix-N'] : $lang['passwd-postfix-0'];
+
+	return $text;
+}
+
+function /* bool */ PasswordConstraintMet($passwd)
+{
+	$regex = PasswordRegex($GLOBALS['PASSWORD_MIN'],
+						   $GLOBALS['PASSWORD_REQUIRES_LETTER'],
+						   $GLOBALS['PASSWORD_REQUIRES_UPPER'],
+						   $GLOBALS['PASSWORD_REQUIRES_LOWER'],
+						   $GLOBALS['PASSWORD_REQUIRES_DIGIT'],
+						   $GLOBALS['PASSWORD_REQUIRES_SPECIAL']);
+
+	return preg_match($regex, $passwd);
+}
+
+function /* bool */ PasswordsMatch($password, $confirm)
+{
+	if (isset($password))
+	{
+		if (isset($confirm))
+		{
+			if ($password == $confirm)
+				return true;
+		}
+	}
+
+	return false;
+}
+
 function AdminMail($subject, $text)
 {
 	$header = sprintf(
@@ -102,8 +234,6 @@ function /* bool */ pwmatch()
 
 	return false;
 }
-
-function /*str*/ token() { return hash('sha256', mcrypt_create_iv(32)); }
 
 function LogoutUser(&$user)
 {
@@ -291,9 +421,13 @@ function /* char *error */ RegisterUser(&$message)
 			}
 			else
 			{
-				if (preg_match('/^([A-Z0-9._%+-]+)@'.
-							   '([A-Z0-9-]+\.)*([A-Z0-9-]{2,})\.'.
-							   '[A-Z]{2,6}$/i', $_POST['email'], $match) != 1)
+				if (strlen($_POST['email']) > $GLOBALS['EMAIL_MAX'])
+				{
+					$error = sprintf($lang['emailinvalid']);
+				}
+				else if (preg_match('/^([A-Z0-9._%+-]+)@'.
+									'([A-Z0-9-]+\.)*([A-Z0-9-]{2,})\.'.
+									'[A-Z]{2,6}$/i', $_POST['email'], $match) != 1)
 				{
 					$error = sprintf($lang['emailinvalid']);
 				}
@@ -308,33 +442,28 @@ function /* char *error */ RegisterUser(&$message)
 						}
 					}
 
-					if (!isset($_POST['passwd']))
-						$error = sprintf($lang['shortpassword'], $GLOBALS['PASSWORD_MIN']);
-					else
-						if (strlen($_POST['passwd']) < $GLOBALS['PASSWORD_MIN'])
-							$error = sprintf($lang['shortpassword'], $GLOBALS['PASSWORD_MIN']);
-
-					if (!$error)
+					if (!PasswordConstraintMet($_POST['passwd']))
 					{
-						if (!pwmatch())
+						$error = PasswordHint();
+					}
+					else if (!PasswordsMatch($_POST['passwd'], $_POST['passwd-confirm']))
+					{
+						$error = $lang['passwordsmismatch'];
+					}
+					else
+					{
+						if (!isset($_POST['lang']))
+							$_POST['lang'] = $_SESSION['lang'];
+
+						$error = RegisterUserSql($_POST['user'], $_POST['email'],
+												 $_POST['passwd'], $_POST['lang']);
+
+						if (!$error)
 						{
-							$error = $lang['passwordsmismatch'];
-						}
-						else
-						{
-							if (isset($_POST['lang']))
-								$_POST['lang'] = $_SESSION['lang'];
+							$message = $lang['regsuccess'];
 
-							$error = RegisterUserSql($_POST['user'], $_POST['email'],
-													 $_POST['passwd'], $_POST['lang']);
-
-							if (!$error)
-							{
-								$message = $lang['regsuccess'];
-
-								$_GET['req'] = 'activate';		// Form to be displayed next
-								$_GET['user'] = $_POST['user'];	// Pre-set user name in form
-							}
+							$_GET['req'] = 'activate';		// Form to be displayed next
+							$_GET['user'] = $_POST['user'];	// Pre-set user name in form
 						}
 					}
 				}
@@ -383,66 +512,59 @@ function /* char *error */ RegisterUserSql($user, $email, $password, $language)
 
 				if (!$error)
 				{
-					if (strlen($password) < $GLOBALS['PASSWORD_MIN'])
+					$salt = token();
+					$token = token();
+					$password = hash_hmac('sha256', $password, $salt);
+
+					$query = sprintf(
+						"INSERT INTO ".
+						"`users`(".
+						" `name`, `email`, `passwd`, `salt`, `language`, `permissions`,".
+						" `token`, `token_type`, `token_expires`, `ip`)".
+						"VALUES(".
+						" '$user', '$email', '$password', '$salt', '$language', '0', ".
+						" '$token', 'activation', ".
+						" FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu), '%s' )",
+						TOKEN_LIFETIME, $_SERVER['REMOTE_ADDR']);
+
+					if (!mysql_query($query))
 					{
-						$error = sprintf($lang['passwdlengthmin'], $GLOBALS['PASSWORD_MIN']);
+						$error = mysql_user_error($lang['regfailed']);
 					}
 					else
 					{
-						$salt = token();
-						$token = token();
-						$password = hash_hmac('sha256', $password, $salt);
+						$result = mysql_query("SELECT `id`,`token_expires` ".
+											   "FROM `users` ".
+											   "WHERE `id`=LAST_INSERT_ID()");
 
-						$query = sprintf(
-							"INSERT INTO ".
-							"`users`(".
-							" `name`, `email`, `passwd`, `salt`, `language`, `permissions`,".
-							" `token`, `token_type`, `token_expires`, `ip`)".
-							"VALUES(".
-							" '$user', '$email', '$password', '$salt', '$language', '0', ".
-							" '$token', 'activation', ".
-							" FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu), '%s' )",
-							TOKEN_LIFETIME, $_SERVER['REMOTE_ADDR']);
-
-						if (!mysql_query($query))
+						if (!$result)
 						{
-							$error = mysql_user_error($lang['regfailed']);
+							$error = mysql_error();
 						}
 						else
 						{
-							$result = mysql_query("SELECT `id`,`token_expires` ".
-												   "FROM `users` ".
-												   "WHERE `id`=LAST_INSERT_ID()");
-
-							if (!$result)
+							if (0 == mysql_num_rows($result))
 							{
-								$error = mysql_error();
+								$error = $lang['regfailed'];
 							}
 							else
 							{
-								if (0 == mysql_num_rows($result))
+								$row = mysql_fetch_row($result);
+								//&& $_POST['timezone'] -> localtime($expires)
+
+								if (!$row)
 								{
-									$error = $lang['regfailed'];
+									$error = mysql_error();
 								}
 								else
 								{
-									$row = mysql_fetch_row($result);
-									//&& $_POST['timezone'] -> localtime($expires)
-
-									if (!$row)
-									{
-										$error = mysql_error();
-									}
-									else
-									{
-										$uid = $row[0];
-										$expires = $row[1];
-										$_SESSION['lang'] = $language;
-									}
+									$uid = $row[0];
+									$expires = $row[1];
+									$_SESSION['lang'] = $language;
 								}
-
-								mysql_free_result($result);
 							}
+
+							mysql_free_result($result);
 						}
 					}
 				}
@@ -525,9 +647,6 @@ function /* char *error */ ActivateUser(&$message)
 		}
 		else
 		{
-			// KLUDGE:
-			global $USERNAME_MAX;
-
 			$token = $_POST['token'];
 
 			if (!isset($token))
@@ -540,8 +659,8 @@ function /* char *error */ ActivateUser(&$message)
 
 			$user = $_POST['user'];
 
-			if (strlen($user) > $USERNAME_MAX)
-				$user = substr($user, 0, $USERNAME_MAX + 1).'...';
+			if (strlen($user) > $GLOBALS['USERNAME_MAX'])
+				$user = substr($user, 0, $GLOBALS['USERNAME_MAX'] + 1).'...';
 		}
 
 		AdminMail('activation',
@@ -642,9 +761,6 @@ function /* char *error */ ActivateUserSql(&$user, $token)
 
 	if ($error)
 	{
-		// KLUDGE:
-		global $USERNAME_MAX;
-
 		if (!isset($token))
 			$token = "";
 
@@ -653,8 +769,8 @@ function /* char *error */ ActivateUserSql(&$user, $token)
 		if (strlen($token) > $max)	/* SHA-256 */
 			$token = substr($token, 0, $max + 1).'...';
 
-		if (strlen($user) > $USERNAME_MAX)
-			$user = substr($user, 0, $USERNAME_MAX + 1).'...';
+		if (strlen($user) > $GLOBALS['USERNAME_MAX'])
+			$user = substr($user, 0, $GLOBALS['USERNAME_MAX'] + 1).'...';
 
 		AdminMail('activation',
 			sprintf("$uid:$user%s = %s token='%s'\n",
@@ -990,24 +1106,17 @@ function /* char *error */ ChangePasswordSql($user, $token, $password)
 					{
 						// check token exiration time
 						if ($expires > 0)
-						{
 							$error = $lang['passwdtokenexpired'];
-						}
-						else
-						{
-							if (strlen($password) < $GLOBALS['PASSWORD_MIN'])
-								$error = sprintf($lang['passwdlengthmin'], $GLOBALS['PASSWORD_MIN']);
-						}
 					}
 				}
 
 				if (!$error)
 				{
-					if (strlen($password) < $GLOBALS['PASSWORD_MIN'])
+					if (!PasswordConstraintMet($_POST['passwd']))
 					{
-						$error = sprintf($lang['passwdlengthmin'], $GLOBALS['PASSWORD_MIN']);
+						$error = PasswordHint();
 					}
-					else if (!pwmatch())
+					else if (!PasswordsMatch($_POST['passwd'], $_POST['passwd-confirm']))
 					{
 						$error = $lang['passwordsmismatch'];
 					}

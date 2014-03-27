@@ -4,7 +4,7 @@
 <head>
 <title>Live Schedule &ndash; Frankfurt Aviation Friends</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<meta name="language" content="en">
+<meta name="language" content="de">
 <meta name="author" content="Tobias Kühne">
 <meta name="description" lang="en" content="Spotter schedule for Frankfurt airport (FRA/EDDF) including aircraft registrations">
 <meta name="description" lang="en" content="Spotter-Flugplan für Frankfurt (FRA/EDDF) einschließlich Flugzeugkennungen">
@@ -19,7 +19,7 @@
 </head>
 <body>
 	<noscript>
-		<div class="noscript">If you obtain this message, JavaScript is either not supported or disabled in in your browser options.<br>In order to use full functionality of this site we advise you to <a href="http://www.enable-javascript.com">enable Javascript</a>.</div>
+		<div class="noscript">JavaScript wird entweder nicht vom Browser unterstützt oder ist abgeschaltet.<br>Um diese in vollem Umfang nutzen zu können, bitte <a href="http://www.enable-javascript.com/de/">Javascript aktivieren</a>.</div>
 	</noscript>
 	<div id="body">
 		<div class="box left">
@@ -27,28 +27,28 @@
 				<div id="head">
 					<h1 class="nobr">Frankfurt Aviation Friends</h1>
 					<h3>
-Live Schedule</h3>
+Live Flugplan</h3>
 				</div>
 				<div id="nav">
 <dl class="left">
-		<dt><a href="http://www.frankfurt-aviation-friends.de/">Home</a></dt>
-			<dt class="sep"><a href="?arrival">Arrival</a></dt>
-			<dt class="sep"><a href="?departure">Departure</a></dt>
-				<dt class="sep"><a href="?page=addflight">Add flight</a></dt>
-		<dt class="sep"><a href="?page=help">Help</a></dt>
+		<dt><a href="http://www.frankfurt-aviation-friends.de/">Startseite</a></dt>
+			<dt class="sep"><a href="?arrival">Ankunft</a></dt>
+			<dt class="sep"><a href="?departure">Abflug</a></dt>
+				<dt class="sep"><a href="?page=addflight">Flug einfügen</a></dt>
+		<dt class="sep"><a href="?page=help">Hilfe</a></dt>
 </dl>
 <dl class="right">
-			<dt class="sep"><a href="?req=profile">User profile</a></dt>
-			<dt class="sep"><a href="?req=logout">Logout</a></dt>
+			<dt class="sep"><a href="?req=profile">Benutzerprofil</a></dt>
+			<dt class="sep"><a href="?req=logout">Abmelden</a></dt>
 		<span style="vertical-align: baseline;">
 			<dt>
 				<a href="?req=profile&lang=de">
-					<img src="img/de.png" alt="German" width="16" height="12">
+					<img src="img/de.png" alt="Deutsch" width="16" height="12">
 				</a>
 			</dt>
 			<dt>
 				<a href="?req=profile&lang=en">
-					<img src="img/en.png" alt="English" width="16" height="12">
+					<img src="img/en.png" alt="Englisch" width="16" height="12">
 				</a>
 			</dt>
 		</span>
@@ -119,12 +119,12 @@ $(function()
 <form method="post" action="?req=profile"
 	onsubmit="document.getElementById('submit').disabled=true;">
 		<fieldset>
-		<legend>Display Interval</legend>
-		<div id="notification" class="success">Settings have been saved.</div>
-		<div class="explainatory">For mobile devices &ndash; which might not always be within  range to a WLAN network &ndash;, it is possible to increase response times and reduce band width by adjusting the display interval. The default values are -15 min ... +24 hours.</div>
+		<legend>Anzeigeintervall</legend>
+		<div id="notification" class="success">Einstellungen wurden gespeichert.</div>
+		<div class="explainatory">Für mobile Geräte &ndash; welche sich nicht unbedingt in Reichweite eines WLAN-Netzwerkes befinden mögen &ndash;, kann die Reaktionsgeschwindigkeit erhöht und die Bandbreite durch ein angepaßtes Anzeigeintervall verringert werden. Das Standardervall ist -15 min ... +24 h.</div>
 		<div class="table">
 			<div class="row">
-				<div class="cell label">Cell Phone</div>
+				<div class="cell label">Mobiltelefon</div>
 				<div class="cell">
 					<select name="tm-" id="phone-min">
 						<option value="-75" selected>-00:15 h</option>
@@ -159,34 +159,34 @@ $(function()
 	</fieldset>
 	<div class="center">
 		<input type="hidden" name="submit" value="interval">
-		<input type="submit" id="submit" name="submit" value="Submit">
+		<input type="submit" id="submit" name="submit" value="Absenden">
 	</div>
 </form>
 <form class="stretched" method="post" action="?req=changepw"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
-		<legend>Change password</legend>
+		<legend>Passwort ändern</legend>
 		<div class="table">
 			<div class="row">
-				<div class="cell label">New Password</div>
+				<div class="cell label">Neues Passwort</div>
 				<div class="cell">
 					<input type="password" id="passwd" name="passwd"
 					 value="">
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label">Confirm Password</div>
+				<div class="cell label">Passwort bestätigen</div>
 				<div class="cell">
 					<input type="password" id="passwd-confirm" name="passwd-confirm"
 					 value="">
-					<div class="hint">At least 4 characters long</div>
+					<div class="hint">Passwort muß aus mindestens 4 Zeichen bestehen.</div>
 				</div>
 			</div>
 		</div>
 	</fieldset>
 	<div class="center">
 		<input type="hidden" name="submit" value="changepw">
-		<input type="submit" id="submit" value="Submit">
+		<input type="submit" id="submit" value="Absenden">
 	</div>
 </form>
 			</div>

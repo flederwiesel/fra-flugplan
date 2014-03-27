@@ -2,7 +2,7 @@
 
 /******************************************************************************
  *
- *       project: FRA-flights Live Schedule
+ *       project: FRA-schedule
  *        author: Tobias Kühne
  *       changed:
  *       $Author$
@@ -19,17 +19,22 @@ define('ADMIN_NAME',       'Tobias Kühne');	// UTF-8
 define('ADMIN_EMAIL_FROM', 'web416p1@server240.star-server.info');
 define('ADMIN_EMAIL',      'fra-schedule@flederwiesel.com');
 
+$EMAIL_MAX = 255;
+
 $USERNAME_MIN = 4;
 $USERNAME_MAX = 32;
 // USERNAME_OFFENCE_REGEX
 
 $PASSWORD_MIN = 4;
-$PASSWORD_REQUIRES_UPPER = true;
-$PASSWORD_REQUIRES_LOWER = true;
-$PASSWORD_REQUIRES_DIGIT = true;
+$PASSWORD_REQUIRES_LETTER = false;
+// Letter takes precedence over Upper/Lower
+$PASSWORD_REQUIRES_UPPER = false;
+$PASSWORD_REQUIRES_LOWER = false;
+$PASSWORD_REQUIRES_DIGIT = false;
 // If special chars contain ' (single quote),
 // below must be escaped by prepending a backslash as '\''
-$PASSWORD_REQUIRES_SPECIAL = '!"#$%&\'()*+,-./:;<=>?[\]^_{|}~';
+//$PASSWORD_REQUIRES_SPECIAL = '!"#$%&\'()*+,-./:;<=>?[\]^_{|}~';
+$PASSWORD_REQUIRES_SPECIAL = '';
 
 // -> PASSWORD_REGEX
 //((?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%]).{8,16})
