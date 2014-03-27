@@ -512,11 +512,24 @@ else
 		else
 			echo '<tr>';
 
-		$diff = strtotime(substr($row['expected'], 0, 10)) - strtotime(substr($now, 0, 10));
-		$day = (int)($diff / 24 / 60 / 60);
+		/* Calculate day offset, considering that when dst changes,
+		 * one week is 604800 +/- 3600 ... */
+		$t_expected = strtotime(substr($row['expected'], 0, 10));
+		$t_now = strtotime(substr($now, 0, 10));
+		$diff = 0;
 
-		if ($day > 7)
-			$day = 7;
+		$tm = localtime($t_expected, true);
+
+		if ($tm['tm_isdst'])
+			$diff -= 3600;
+
+		$tm = localtime($t_now, true);
+
+		if ($tm['tm_isdst'])
+			$diff += 3600;
+
+		$diff = $t_expected - $t_now - $diff;
+		$day = (int)($diff / 24 / 60 / 60);
 
 		/* $day should always be >= 0 ... */
 		if ($day >= 0)
