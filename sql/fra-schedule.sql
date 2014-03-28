@@ -29,26 +29,27 @@ USE `fra-schedule`;
  * Tables
  ******************************************************************************/
 
-CREATE TABLE IF NOT EXISTS `users` (
-  `id` integer NOT NULL AUTO_INCREMENT,
-  `email` varchar(255) NOT NULL,
-  `name` varchar(64) NOT NULL,
-  `salt` varchar(64) NOT NULL,
-  `passwd` varchar(64) NOT NULL,
-  `token` varchar(64) NULL DEFAULT NULL,
-  `token_type` enum('none', 'activation', 'password') NOT NULL,
-  `token_expires` timestamp NULL DEFAULT NULL,
-  `timezone` smallint DEFAULT 3600,
-  `language` varchar(2) NOT NULL DEFAULT 'en',
-  `permissions` varchar(1) NOT NULL DEFAULT '0' COMMENT '[0] - addflight',
-  `ip` varchar(16) NOT NULL,	/* at the time of registration */
-  `tm-` integer NOT NULL DEFAULT 0,
-  `tm+` integer NOT NULL DEFAULT 3600,
-  `tt-` integer NOT NULL DEFAULT 0,
-  `tt+` integer NOT NULL DEFAULT 86400,
-  PRIMARY KEY (`id`),
-  UNIQUE KEY `name` (`name`),
-  UNIQUE KEY `email` (`email`)
+CREATE TABLE IF NOT EXISTS `users`
+(
+	`id` integer NOT NULL AUTO_INCREMENT,
+	`email` varchar(255) NOT NULL,
+	`name` varchar(64) NOT NULL,
+	`salt` varchar(64) NOT NULL,
+	`passwd` varchar(64) NOT NULL,
+	`token` varchar(64) NULL DEFAULT NULL,
+	`token_type` enum('none', 'activation', 'password') NOT NULL,
+	`token_expires` timestamp NULL DEFAULT NULL,
+	`timezone` smallint DEFAULT 3600,
+	`language` varchar(2) NOT NULL DEFAULT 'en',
+	`permissions` varchar(1) NOT NULL DEFAULT '0' COMMENT '[0] - addflight',
+	`ip` varchar(16) NOT NULL,	/* at the time of registration */
+	`tm-` integer NOT NULL DEFAULT 0,
+	`tm+` integer NOT NULL DEFAULT 3600,
+	`tt-` integer NOT NULL DEFAULT 0,
+	`tt+` integer NOT NULL DEFAULT 86400,
+	PRIMARY KEY (`id`),
+	UNIQUE KEY `name` (`name`),
+	UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE IF NOT EXISTS `airlines`
@@ -239,7 +240,8 @@ VALUES
 (@uid, 'JFU', 'Jet4you'),
 (@uid, 'JJ',  'TAM Linhas Aéreas'),
 (@uid, 'JL',  'JAL Japan Airlines'),
-(@uid, 'JU',  'JAT Airways'),
+#(@uid, 'JU',  'JAT Airways'),
+(@uid, 'JU', 'Air Serbia'),
 (@uid, 'KC',  'Air Astana'),
 (@uid, 'KE',  'Korean Air'),
 (@uid, 'KIL', 'Kuban Airlines'),
@@ -385,9 +387,9 @@ VALUES
 (@uid, 'AEA', 'Air Europa'),
 (@uid, 'QS',  'Travel Servis/Smartwings'),
 (@uid, 'BIE', 'Air Mediterranee'),
-(@uid, 'I2',  'MunichAirlines'),
+(@uid, 'I2',  'Iberia Express'),
 (@uid, 'HC',  'Aero Tropics'),
-(@uid, 'BM',  'BM'),
+(@uid, 'BM',  'BMI regional'),
 (@uid, 'FQ',  'Thomas Cook Belgium Airlines'),
 (@uid, 'IQ',  'Augsburg Airways'),
 (@uid, 'ZZZ', 'ZZZ'),
@@ -401,7 +403,7 @@ VALUES
 (@uid, 'S4',  'SATA International'),
 (@uid, 'IA',  'Iraqi Airways'),
 (@uid, 'AHY', 'Azerbaijan Airlines'),
-(@uid, 'SZ',  'Air Southwest'),
+(@uid, 'SZ',  'Somon Air'),
 (@uid, 'UT',  'UTAir'),
 (@uid, 'TDR', 'Trade Air'),
 (@uid, 'QY',  'DHL'),
@@ -428,7 +430,8 @@ VALUES
 (@uid, 'A9',  'Air Zena'),
 (@uid, 'DTR', 'Danish Air Transport'),
 (@uid, 'NJ',  'Nordic Global Airlines'),
-(@uid, 'ORB', 'Oren Air')
+(@uid, 'ORB', 'Oren Air'),
+(@uid, 'EZY', 'easyJet')
 ;
 
 INSERT INTO `models`(`uid`, `icao`, `name`)
@@ -501,7 +504,7 @@ VALUES
 (@uid, 'B773', 'Boeing 777-300'),
 (@uid, 'B77L', 'Boeing 777-200LR'),
 (@uid, 'B77W', 'Boeing 777-300ER'),
-(@uid, 'B788', 'Boeing 787'),
+(@uid, 'B788', 'Boeing 787 "Dreamliner"'),
 (@uid, 'BA11', 'British Aerospace (BAC) One Eleven'),
 (@uid, 'BELF', 'Shorts SC-5 Belfast'),
 (@uid, 'BN2P', 'Pilatus Britten-Norman BN-2A/B Islander'),
@@ -618,7 +621,7 @@ VALUES
 (@uid, 'CRJX', 'Canadair Regional Jet 1000'),
 (@uid, 'AT73', 'Aerospatiale/Alenia ATR72-200'),
 (@uid, 'GLF4', 'Gulfstream 4'),
-(@uid, 'H25B', 'Hawker-Siddeley 	HS-125-700'),
+(@uid, 'H25B', 'Hawker-Siddeley HS-125-700'),
 (@uid, 'A32B', 'Airbus A321-100/200 (Sharklets)')
 ;
 
@@ -1024,8 +1027,32 @@ VALUES
 (@uid, 'IND', 'KIND', 'Indianapolis, USA'),
 (@uid, 'OSI', 'LDOS', 'Osijek, Kroatien'),
 (@uid, 'NJF', 'ORNI', 'Al Najaf, Irak'),
-(@uid, 'PTP', 'TFFR', 'Pointe a Pitre, Guadeloupe')
+(@uid, 'PTP', 'TFFR', 'Pointe a Pitre, Guadeloupe'),
+(@uid, 'DNZ', 'LTAY', 'Denizli, Türkei'),
+(@uid, 'ACA', 'MMAA', 'Acapulco, Mexiko'),
+(@uid, 'MJV', 'LELC', 'Murcia, Spanien'),
+(@uid, 'AER', 'URSS', 'Sochi, Russland'),
+(@uid, 'LIM', 'SPIM', 'Lima, Peru'),
+(@uid, 'LME', 'LFRM', 'Le Mans, Frankreich'),
+(@uid, 'QPX', '', 'FICTITIOUS POINT,'),
+(@uid, 'HHN', 'EDFH', 'Frankfurt-Hahn, Deutschland'),
+(@uid, 'BQN', 'TJBQ', 'Aguadilla, Puerto Rico'),
+(@uid, 'CKG', 'ZUCK', 'Chongqing, China'),
+(@uid, 'CVT', 'EGBE', 'Coventry'),
+(@uid, 'CUR', 'TNCC', 'Curaçao'),
+(@uid, 'CWB', 'SBCT', 'Curitiba, Brasilien'),
+(@uid, 'DKR', 'GOOY', 'Dakar, Senegal'),
+(@uid, 'DAC', 'VGHS', 'Dhaka, Bangladesh'),
+(@uid, 'GDL', 'MMGL', 'Guadalajara, Mexiko'),
+(@uid, 'KAN', 'DNKN', 'Kano, Nigeria'),
+(@uid, 'KJA', 'UNKL', 'Krasnojarsk, Russland'),
+(@uid, 'MEM', 'KMEM', 'Memphis, USA'),
+(@uid, 'MVD', 'SUMU', 'Montevideo, Uruguay'),
+(@uid, 'UIO', 'SEQM', 'Quito, Ecuador'),
+(@uid, 'VCP', 'SBKP', 'São Paulo-Viracopos, Brasilien')
 ;
+
+TRUNCATE `visits`;
 
 INSERT INTO `visits`(`aircraft`, `num`, `current`)
 SELECT
@@ -1034,7 +1061,7 @@ SELECT
 	MAX(`flights`.`scheduled`) AS `current`
 FROM
 (
-	SELECT `direction`,`scheduled`, `aircraft`
+	SELECT `direction`, `scheduled`, `aircraft`
 	FROM `flights`
 	WHERE `aircraft` IS NOT NULL
 
