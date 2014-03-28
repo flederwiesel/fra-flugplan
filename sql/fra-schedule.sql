@@ -1034,7 +1034,6 @@ VALUES
 (@uid, 'AER', 'URSS', 'Sochi, Russland'),
 (@uid, 'LIM', 'SPIM', 'Lima, Peru'),
 (@uid, 'LME', 'LFRM', 'Le Mans, Frankreich'),
-(@uid, 'QPX', '', 'FICTITIOUS POINT,'),
 (@uid, 'HHN', 'EDFH', 'Frankfurt-Hahn, Deutschland'),
 (@uid, 'BQN', 'TJBQ', 'Aguadilla, Puerto Rico'),
 (@uid, 'CKG', 'ZUCK', 'Chongqing, China'),
