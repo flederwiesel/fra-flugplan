@@ -38,8 +38,20 @@
 
 function DefaultCheck($name, $value)
 {
-	if ($value == $_POST[$name])
-		echo ' checked="checked" ';
+	if (is_array($_POST[$name]))
+	{
+		/* Checkboxes "day[1] .. day[7], day[0]" */
+		$a = $_POST[$name];
+
+		if (isset($a[$value]))
+			echo ' checked ';
+	}
+	else
+	{
+		/* Everything else */
+		if ($value == $_POST[$name])
+			echo ' checked="checked" ';
+	}
 }
 
 function CheckPostVariables(&$notice)
@@ -48,8 +60,7 @@ function CheckPostVariables(&$notice)
 
 	$error = null;
 
-	if (!(isset($_POST['reg']) &&
-		  isset($_POST['flight']) &&
+	if (!(isset($_POST['flight']) &&
 		  isset($_POST['type']) &&
 		  isset($_POST['direction']) &&
 		  isset($_POST['airport'])) &&
@@ -131,14 +142,27 @@ function GetPostVariables(&$type, &$reg, &$flight, &$dir, &$scheduled, &$until)
 	$dir = $_POST['direction'];
 	$flight = null;
 
-	if (!preg_match('/^[a-zA-Z]+-?[a-zA-Z0-9]+$/', $_POST['reg'], $reg))
+	if (!isset($_POST['reg']))
 	{
-		$error = $lang['invalidreg'];
+		$reg = NULL;
 	}
 	else
 	{
-		$reg = $reg[0];
+		if (0 == strlen($_POST['reg']))
+		{
+			$reg = NULL;
+		}
+		else
+		{
+			if (preg_match('/^[a-zA-Z]+-?[a-zA-Z0-9]+$/', $_POST['reg'], $reg))
+				$reg = $reg[0];
+			else
+				$error = $lang['invalidreg'];
+		}
+	}
 
+	if (!$error)
+	{
 		if (!preg_match('/^([0-9][A-Z]|[A-Z][0-9]|[A-Z]{2,3})([0-9]{3,4}[A-Z]?)$/',
 						strtoupper($_POST['flight']), $flight))
 		{
@@ -388,7 +412,7 @@ if ($_POST)
 								{
 									if (!$model)
 									{
-										$notice = $reg ? $lang['typeunknown'] : $lang['needtype'];
+										//&&$notice = $reg ? $lang['typeunknown'] : $lang['needtype'];
 
 										/* Set $airline to something different from null to suppress notice, since
 										   we are already notifiying about unknown aircraft type... */
@@ -399,10 +423,10 @@ if ($_POST)
 						}
 					}
 
-					if (!$error && $model)
+					if (!$error)
 					{
 						$airline = null;
-		            	$error = GetAirlineId($airline, $flight);
+						$error = GetAirlineId($airline, $flight);
 
 						if (!$error)
 						{
@@ -444,10 +468,12 @@ if ($_POST)
 											"  `scheduled`, `airport`, `model`, `aircraft`)".
 											"VALUES(".
 											" '%s', '$type', '$dir', $airline, '$flight[1]', ".
-											" '%s', %lu, $model, $reg);",
+											" '%s', %lu, %s, %s);",
 											$user->id(),
 											strftime('%Y-%m-%d %H:%M:%S', $scheduled),
-											$_POST['airport']);
+											$_POST['airport'],
+											$model ? $model : 'NULL',
+											$reg ? $reg : 'NULL');
 
 										if (!mysql_query($query))
 											$error = mysql_error();
@@ -469,11 +495,11 @@ if ($_POST)
 									unset($_POST['code']);
 									unset($_POST['airline']);
 									//unset($_POST['direction']);
-									unset($_POST['airport']);
+									//unset($_POST['airport']);
 									unset($_POST['time']);
-									unset($_POST['from']);
+									//unset($_POST['from']);
 									//unset($_POST['interval']);
-									unset($_POST['until']);
+									//unset($_POST['until']);
 								}
 							}
 						}
@@ -543,25 +569,16 @@ $(function()
 	});
 
 	$('#all').click(function() {
-		days_check($(this).attr('checked'));
+		days_check($(this).prop('checked'));
 	});
 
 	var days = [ 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun' ];
 
 	function days_check(b) {
 
-		if (b)
-		{
-			jQuery.each(days, function() {
-				$('#' + this).attr('checked', '');
-			});
-		}
-		else
-		{
-			jQuery.each(days, function() {
-				$('#' + this).removeAttr('checked', '');
-			});
-		}
+		jQuery.each(days, function() {
+			$('#' + this).prop('checked', b);
+		});
 	}
 
 	function days_enable(b) {
@@ -603,7 +620,7 @@ $(function()
 					 value="<?php Input_SetValue('reg', INP_POST, 'D-AIRY'); ?>"/>
 				</div>
 			</div>
-<?php if ($_POST && !$error && !$model) { ?>
+<?php if (isset($_POST['flight']) && !$error && !$model) { ?>
 			<div class="row">
 				<div class="cell label"><?php echo $lang['icaomodel']; ?></div>
 				<div class="cell">
@@ -673,7 +690,7 @@ $(function()
 ?>
 				</div>
 			</div>
-<?php if ($_POST && !$error && !$airline) { ?>
+<?php if (isset($_POST['flight']) && !$error && !$airline) { ?>
 			<div class="row">
 				<div class="cell label"><?php echo $lang['airline']; ?></div>
 				<div class="cell">
@@ -736,6 +753,10 @@ $(function()
 						 value="<?php Input_SetValue('time', INP_POST | INP_FORCE, date('H:i')); ?>"/>HH:MM (<?php echo $lang['local']; ?>)
 					</div>
 					<div class="cell">
+<?php
+					if (!isset($_POST['interval']))
+					{
+?>
 						<label><input type="radio" name="interval" value="once" id="once" checked="checked" /><?php echo $lang['once']; ?></label><br>
 						<label><input type="radio" name="interval" value="daily" id="daily"/><?php echo $lang['daily']; ?></label><br>
 						<label><input type="radio" name="interval" value="each" id="each"/><?php echo $lang['each']; ?></label>
@@ -754,6 +775,58 @@ $(function()
 							<input type="text" name="until" id="until"
 							 value="<?php Input_SetValue('until', INP_POST | INP_FORCE, date('d.m.Y')); ?>" disabled>
 						</div>
+<?php
+					}
+					else
+					{
+						if ('each' == $_POST['interval'])
+						{
+?>
+						<label><input type="radio" name="interval" value="once" id="once" <?php DefaultCheck('interval', 'once'); ?>/><?php echo $lang['once']; ?></label><br>
+						<label><input type="radio" name="interval" value="daily" id="daily" <?php DefaultCheck('interval', 'daily'); ?>/><?php echo $lang['daily']; ?></label><br>
+						<label><input type="radio" name="interval" value="each" id="each" <?php DefaultCheck('interval', 'each'); ?>/><?php echo $lang['each']; ?></label>
+						<div style="margin-left: 1em; display: inline;">
+							<label><input type="checkbox" name="day[1]" id="mon" <?php DefaultCheck('day', 1); ?>/><?php echo $lang['mon']; ?></label>
+							<label><input type="checkbox" name="day[2]" id="tue" <?php DefaultCheck('day', 2); ?>/><?php echo $lang['tue']; ?></label>
+							<label><input type="checkbox" name="day[3]" id="wed" <?php DefaultCheck('day', 3); ?>/><?php echo $lang['wed']; ?></label>
+							<label><input type="checkbox" name="day[4]" id="thu" <?php DefaultCheck('day', 4); ?>/><?php echo $lang['thu']; ?></label>
+							<label><input type="checkbox" name="day[5]" id="fri" <?php DefaultCheck('day', 5); ?>/><?php echo $lang['fri']; ?></label>
+							<label><input type="checkbox" name="day[6]" id="sat" <?php DefaultCheck('day', 6); ?>/><?php echo $lang['sat']; ?></label>
+							<label><input type="checkbox" name="day[7]" id="sun" <?php DefaultCheck('day', 7); ?>/><?php echo $lang['sun']; ?></label>
+							<label><input type="checkbox" name="day[0]" id="all" <?php DefaultCheck('day', 0); ?>/><b><?php echo $lang['all']; ?></b></label>
+						</div>
+						<div class="cell">
+							<div style="display: inline;"><?php echo $lang['until']; ?>:</div>
+							<input type="text" name="until" id="until"
+							 value="<?php Input_SetValue('until', INP_POST | INP_FORCE, date('d.m.Y')); ?>">
+						</div>
+<?php
+						}
+						else
+						{
+?>
+						<label><input type="radio" name="interval" value="once" id="once" <?php DefaultCheck('interval', 'once'); ?>/><?php echo $lang['once']; ?></label><br>
+						<label><input type="radio" name="interval" value="daily" id="daily" <?php DefaultCheck('interval', 'daily'); ?>/><?php echo $lang['daily']; ?></label><br>
+						<label><input type="radio" name="interval" value="each" id="each" <?php DefaultCheck('interval', 'each'); ?>/><?php echo $lang['each']; ?></label>
+						<div style="margin-left: 1em; display: inline;">
+							<label><input type="checkbox" name="day[1]" id="mon" disabled <?php DefaultCheck('day', 1); ?>/><?php echo $lang['mon']; ?></label>
+							<label><input type="checkbox" name="day[2]" id="tue" disabled <?php DefaultCheck('day', 2); ?>/><?php echo $lang['tue']; ?></label>
+							<label><input type="checkbox" name="day[3]" id="wed" disabled <?php DefaultCheck('day', 3); ?>/><?php echo $lang['wed']; ?></label>
+							<label><input type="checkbox" name="day[4]" id="thu" disabled <?php DefaultCheck('day', 4); ?>/><?php echo $lang['thu']; ?></label>
+							<label><input type="checkbox" name="day[5]" id="fri" disabled <?php DefaultCheck('day', 5); ?>/><?php echo $lang['fri']; ?></label>
+							<label><input type="checkbox" name="day[6]" id="sat" disabled <?php DefaultCheck('day', 6); ?>/><?php echo $lang['sat']; ?></label>
+							<label><input type="checkbox" name="day[7]" id="sun" disabled <?php DefaultCheck('day', 7); ?>/><?php echo $lang['sun']; ?></label>
+							<label><input type="checkbox" name="day[0]" id="all" disabled <?php DefaultCheck('day', 0); ?>/><b><?php echo $lang['all']; ?></b></label>
+						</div>
+						<div class="cell">
+							<div style="display: inline;"><?php echo $lang['until']; ?>:</div>
+							<input type="text" name="until" id="until"
+							 value="<?php Input_SetValue('until', INP_POST | INP_FORCE, date('d.m.Y')); ?>" disabled>
+						</div>
+<?php
+						}
+					}
+?>
 					</div>
 				</div>
 			</div>
