@@ -356,6 +356,8 @@ class awkFlights extends awk
 					$error = seterrorinfo(__LINE__, implode(",", error_get_last()));
 			}
 		}
+
+		$obj->next();
 	}
 
 	static function airline($obj, $fields)
@@ -376,6 +378,8 @@ class awkFlights extends awk
 				$obj->top->carrier['name'] = $name[0];
 				$obj->top->carrier['code'] = $code[0];
 			}
+
+			$obj->next();
 		}
 	}
 
@@ -385,6 +389,9 @@ class awkFlights extends awk
 		{
 			if ($obj->top)
 				$obj->top->scheduled = $fields[2];
+
+			// IMPORTANT: Do not call `$obj->next()`
+			//  since date will follow on same line!!!
 		}
 	}
 
@@ -394,6 +401,8 @@ class awkFlights extends awk
 		{
 			if ($obj->top)
 				$obj->top->expected = $fields[2];
+
+			$obj->next();
 		}
 	}
 
@@ -426,6 +435,8 @@ class awkFlights extends awk
 		{
 			if ($obj->top)
 				$obj->top->model = $fields[2];
+
+			$obj->next();
 		}
 	}
 
@@ -435,6 +446,8 @@ class awkFlights extends awk
 		{
 			if ($obj->top)
 				$obj->top->reg = patchreg($fields[2]);
+
+			$obj->next();
 		}
 	}
 
@@ -503,9 +516,11 @@ class awkFlights extends awk
 				}
 			}
 		}
+
+		$obj->next();
 	}
 
-	static function next($obj, $fields)
+	static function page($obj, $fields)
 	{
 		global $DEBUG;
 
@@ -521,6 +536,8 @@ class awkFlights extends awk
 				$obj->page = 0;
 			else
 				$obj->page = 0 + $fields[1];
+
+			$obj->next();
 		}
 
 		if (isset($DEBUG['awk']))
@@ -604,7 +621,7 @@ function CURL_GetFlights($curl, $dir, &$flights)
 			'/Flugzeugtyp:/'                                       => 'awkFlights::model',
 			'/Registrierung:/'                                     => 'awkFlights::reg',
 			'/Bemerkung:/'                                         => 'awkFlights::remark',
-			'/>weiter</'                                           => 'awkFlights::next',
+			'/>weiter</'                                           => 'awkFlights::page',
 		));
 
 	if (NULL == $awk)
@@ -761,6 +778,7 @@ function CURL_GetFlightDetails($curl, &$airports)
 function SQL_GetAirlineId(/* in */ $f, /* out */ &$airline)
 {
 	global $DEBUG;
+	global $dir;
 	global $uid;
 
 	$error = NULL;
@@ -1575,7 +1593,7 @@ else
 			else
 			{
 				// Iterate through arrival/departure tables awk()ing basic flight info
-				$direction = array('arrival', 'departure');
+				$direction = array('departure');
 
 				foreach ($direction as $dir)
 				{
