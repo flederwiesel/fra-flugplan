@@ -1593,7 +1593,7 @@ else
 			else
 			{
 				// Iterate through arrival/departure tables awk()ing basic flight info
-				$direction = array('departure');
+				$direction = array('arrival', 'departure');
 
 				foreach ($direction as $dir)
 				{
