@@ -67,6 +67,8 @@ class awk
 
 		while ($record)
 		{
+			$this->next = false;
+
 			/* Check against each rule */
 			foreach ($this->rules as $rule)
 			{
@@ -96,6 +98,9 @@ class awk
 					if (preg_match($rule->fin, $record))
 						$rule->underway = false;
 				}
+
+				if ($this->next)
+					break;
 			}
 
 			/* Basically getline(), but no stack frame required */
@@ -104,6 +109,11 @@ class awk
 
 		if (isset($this->rules['END']))
 			call_user_func($this->rules['END']);
+	}
+
+	protected function next()
+	{
+		$this->next = true;
 	}
 
 	protected function getline()
@@ -115,6 +125,7 @@ class awk
 	protected $RS = "\n";
 
 	private $rules = NULL;
+	private $next = false;
 
 };
 
