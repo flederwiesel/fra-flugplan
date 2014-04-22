@@ -113,25 +113,16 @@ $(function()
 	});
 
 	$('#all').click(function() {
-		days_check($(this).attr('checked'));
+		days_check($(this).prop('checked'));
 	});
 
 	var days = [ 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun' ];
 
 	function days_check(b) {
 
-		if (b)
-		{
-			jQuery.each(days, function() {
-				$('#' + this).attr('checked', '');
-			});
-		}
-		else
-		{
-			jQuery.each(days, function() {
-				$('#' + this).removeAttr('checked', '');
-			});
-		}
+		jQuery.each(days, function() {
+			$('#' + this).prop('checked', b);
+		});
 	}
 
 	function days_enable(b) {
@@ -197,10 +188,12 @@ $(function()
 <option value="2">Aberdeen, Großbritannien - EGPD</option>
 <option value="20">Abu Dhabi, Ver.Arab.Emirate - OMAA</option>
 <option value="1">Abuja, Nigeria - DNAA</option>
+<option value="403">Acapulco, Mexiko - MMAA</option>
 <option value="3">Accra, Ghana - DGAA</option>
 <option value="5">Adana, Türkei - LTAF</option>
 <option value="7">Addis Abeba, Äthiopien - HAAB</option>
 <option value="8">Agadir, Marokko - GMAD</option>
+<option value="409">Aguadilla, Puerto Rico - TJBQ</option>
 <option value="400">Al Najaf, Irak - ORNI</option>
 <option value="11">Algier, Algerien - DAAG</option>
 <option value="280">Alicante, Spanien - LEAL</option>
@@ -269,16 +262,23 @@ $(function()
 <option value="145">Chennai, Indien - VOMM</option>
 <option value="171">Chicago, USA - KORD</option>
 <option value="116">Chisinau, Moldawien - LUKK</option>
+<option value="410">Chongqing, China - ZUCK</option>
 <option value="269">Cleveland, USA - KCLE</option>
 <option value="259">Cochin, Indien - VOCI</option>
 <option value="49">Colombo, Sri Lanka - VCBI</option>
+<option value="411">Coventry - EGBE</option>
+<option value="412">Curaçao - TNCC</option>
+<option value="413">Curitiba, Brasilien - SBCT</option>
+<option value="414">Dakar, Senegal - GOOY</option>
 <option value="287">Dalaman, Türkei - LTBS</option>
 <option value="59">Dallas-Fort Worth, USA - KDFW</option>
 <option value="55">Damaskus, Syrien - OSDI</option>
 <option value="62">Dammam, Saudi-Arabien - OEDF</option>
 <option value="57">Delhi, Indien - VIDP</option>
+<option value="402">Denizli, Türkei - LTAY</option>
 <option value="58">Denver, USA - KDEN</option>
 <option value="65">Detroit, USA - KDTW</option>
+<option value="415">Dhaka, Bangladesh - VGHS</option>
 <option value="60">Djerba, Tunesien - DTTJ</option>
 <option value="63">Doha, Katar - OTBD</option>
 <option value="384">Dortmund, Deutschland - EDLW</option>
@@ -305,6 +305,7 @@ $(function()
 <option value="80">Florenz, Italien - LIRQ</option>
 <option value="79">Fort Lauderdale, USA - KFLL</option>
 <option value="314">Frankfurt, Deutschland - EDDF</option>
+<option value="408">Frankfurt-Hahn, Deutschland - EDFH</option>
 <option value="78">Friedrichshafen, Deutschland - EDNY</option>
 <option value="83">Fuerteventura, Spanien - GCFV</option>
 <option value="91">Gaziantep, Türkei - LTAJ</option>
@@ -318,6 +319,7 @@ $(function()
 <option value="87">Göteborg, Schweden - ESGG</option>
 <option value="366">Granada, Spanien - LEGR</option>
 <option value="89">Graz, Österreich - LOWG</option>
+<option value="416">Guadalajara, Mexiko - MMGL</option>
 <option value="44">Guangzhou, China - ZGGG</option>
 <option value="340">Guernsey, Großbritannien - EGJB</option>
 <option value="295">Halifax, Kanada - CYHZ</option>
@@ -352,6 +354,7 @@ $(function()
 <option value="43">Kairo, Ägypten - HECA</option>
 <option value="358">Kalamata, Griechenland - LGKL</option>
 <option value="363">Kangerlussuaq, Grönland - BGSF</option>
+<option value="417">Kano, Nigeria - DNKN</option>
 <option value="52">Kapstadt, Südafrika - FACT</option>
 <option value="336">Kassel, Deutschland - EDVK</option>
 <option value="121">Kattowitz, Polen - EPKT</option>
@@ -372,6 +375,7 @@ $(function()
 <option value="290">Kos, Griechenland - LGKO</option>
 <option value="119">Krakau, Polen - EPKK</option>
 <option value="374">Krasnodar, Russland - URKK</option>
+<option value="418">Krasnojarsk, Russland - UNKL</option>
 <option value="122">Kuala Lumpur, Malaysia - WMKK</option>
 <option value="123">Kuwait, Kuwait - OKBK</option>
 <option value="210">La Palma, Spanien - GCLA</option>
@@ -383,9 +387,11 @@ $(function()
 <option value="128">Larnaca, Zypern - LCLK</option>
 <option value="140">Las Palmas, Spanien - GCLP</option>
 <option value="126">Las Vegas, USA - KLAS</option>
+<option value="407">Le Mans, Frankreich - LFRM</option>
 <option value="131">Leipzig Halle, Deutschland - EDDP</option>
 <option value="351">Libreville, Gabun - FOOL</option>
 <option value="349">Lille, Frankreich - LFQQ</option>
+<option value="406">Lima, Peru - SPIM</option>
 <option value="138">Linz, Österreich - LOWL</option>
 <option value="136">Lissabon, Portugal - LPPT</option>
 <option value="342">Liverpool, Großbritannien - EGGP</option>
@@ -421,6 +427,7 @@ $(function()
 <option value="157">Mauritius, Mauritius - FIMP</option>
 <option value="355">Medina, Saudi-Arabien - OEMA</option>
 <option value="383">Melbourne, Australien - YMML</option>
+<option value="419">Memphis, USA - KMEM</option>
 <option value="311">Menorca, Spanien - LEMH</option>
 <option value="152">Mexico City, Mexiko - MMMX</option>
 <option value="153">Miami, USA - KMIA</option>
@@ -429,6 +436,7 @@ $(function()
 <option value="148">Mombasa, Kenia - HKMO</option>
 <option value="316">Monastir, Tunesien - DTMB</option>
 <option value="149">Montego Bay, Jamaika - MKJS</option>
+<option value="420">Montevideo, Uruguay - SUMU</option>
 <option value="245">Montreal-Trudeau, Kanada - CYUL</option>
 <option value="61">Moskau-Domodedovo, Russland - UUDD</option>
 <option value="217">Moskau-Sheremetyevo, Russland - UUEE</option>
@@ -436,6 +444,7 @@ $(function()
 <option value="37">Mumbai, Indien - VABB</option>
 <option value="159">München, Deutschland - EDDM</option>
 <option value="81">Münster Osnabrück, Deutschland - EDDG</option>
+<option value="404">Murcia, Spanien - LELC</option>
 <option value="151">Muscat, Oman - OOMS</option>
 <option value="319">Mykonos, Griechenland - LGMK</option>
 <option value="268">N. Novgorod, Russland - UWGG</option>
@@ -486,6 +495,7 @@ $(function()
 <option value="181">Pune, Indien - VAPO</option>
 <option value="188">Punta Cana, Dominikan. Rep. - MDPC</option>
 <option value="275">Qingdao, China - ZSQD</option>
+<option value="421">Quito, Ecuador - SEQM</option>
 <option value="277">Raleigh/Durham, USA - KRDU</option>
 <option value="258">Ras al Khaymah, Ver.Arab.Emirate - OMRK</option>
 <option value="190">Recife, Brasilien - SBRF</option>
@@ -523,6 +533,7 @@ $(function()
 <option value="199">Santo Domingo, Dominikan. Rep. - MDSD</option>
 <option value="315">Santorini, Griechenland - LGSR</option>
 <option value="88">Sao Paulo-Guarulhos, Brasilien - SBGR</option>
+<option value="422">São Paulo-Viracopos, Brasilien - SBKP</option>
 <option value="392">Sarajevo, Bosnien-Herzegow - LQSA</option>
 <option value="357">Saratov, Russland - UWSS</option>
 <option value="285">Sarmellek, Ungarn - LHSM</option>
@@ -538,6 +549,7 @@ $(function()
 <option value="373">Siem Reap, Kambodscha - VDSR</option>
 <option value="304">Simferopol, Ukraine - UKFF</option>
 <option value="204">Singapur, Singapur - WSSS</option>
+<option value="405">Sochi, Russland - URSS</option>
 <option value="208">Sofia, Bulgarien - LBSF</option>
 <option value="209">Southampton, Großbritannien - EGHI</option>
 <option value="211">Split, Kroatien - LDSP</option>
