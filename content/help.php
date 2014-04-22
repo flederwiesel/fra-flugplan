@@ -142,7 +142,7 @@ include("help-$_SESSION[lang].php");
 				<ul class="help">
 					<li><a href="http://jqueryui.com/">jQuery UI Library</a></li>
 					<li><a href="http://www.kryogenix.org/code/browser/sorttable/">SortTable <?php echo $lang_help[29]; ?> Stuart Langridge</a></li>
-					<li><a href="http://code.google.com/p/php-mobile-detect/wiki/Mobile_Detect">Mobile_Detect PHP class</a></li>
+					<li><a href="http://mobiledetect.net">Serban Ghita / Mobile_Detect PHP class</a></li>
 				</ul>
 			</div>
 			<?php echo $lang_help[30]; ?>
