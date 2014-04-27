@@ -8,12 +8,12 @@
 <body>
 <pre>
 arrival
-http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&init=true&page=1
-http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=2
-http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=3
-http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
-http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
-http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=6
+http://localhost/.../flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&init=true&page=1
+http://localhost/.../flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=2
+http://localhost/.../flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=3
+http://localhost/.../flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
+http://localhost/.../flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
+http://localhost/.../flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=6
 
 /************************************/
 
@@ -193,12 +193,12 @@ INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled
 ===========================
 
 departure
-http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&init=true&page=1
-http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=2
-http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=3
-http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
-http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
-http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=6
+http://localhost/.../flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&init=true&page=1
+http://localhost/.../flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=2
+http://localhost/.../flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=3
+http://localhost/.../flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
+http://localhost/.../flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
+http://localhost/.../flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=6
 SELECT `id` FROM `airlines` WHERE `code`='TK';
 =112
 SELECT `id` FROM `airlines` WHERE `code`='TK';
@@ -407,11 +407,11 @@ INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled
 
 SELECT `flights`.`id`, `airlines`.`code`, `flights`.`code`, `flights`.`scheduled`, `flights`.`direction` FROM `flights` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` WHERE `airport` IS NULL AND  (`scheduled` >= '0000-00-00 14:00:00'  OR `expected` >= '0000-00-00 14:00:00'  OR (TIME_TO_SEC(TIMEDIFF('0000-00-00 14:00:00', `scheduled`)) / 60 / 60) < 2) ORDER BY `scheduled`;
 =38,...
-http://localhost/fra-schedule/check/flugplan/airportcity?fia=KU17100000001
+http://localhost/.../flugplan/airportcity?fia=KU17100000001
 =39,...
-http://localhost/fra-schedule/check/flugplan/airportcity?fid=TP57300000001
+http://localhost/.../flugplan/airportcity?fid=TP57300000001
 =40,...
-http://localhost/fra-schedule/check/flugplan/airportcity?fid=AC87500000001
+http://localhost/.../flugplan/airportcity?fid=AC87500000001
 SELECT `airports`.`id` FROM `airports` WHERE `iata`='KWI' AND `icao`='OKBK';
 =123
 UPDATE `flights` SET `airport`=123 WHERE `id`=38;

@@ -8,12 +8,12 @@
 <body>
 <pre>
 arrival
-http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&init=true&page=1
-http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=2
-http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=3
-http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
-http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
-http://localhost/fra-schedule/check/flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=6
+http://localhost/.../flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&init=true&page=1
+http://localhost/.../flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=2
+http://localhost/.../flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=3
+http://localhost/.../flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
+http://localhost/.../flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
+http://localhost/.../flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=6
 
 /************************************/
 
@@ -231,11 +231,11 @@ INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled
 ===========================
 
 departure
-http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&init=true&page=1
-http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=2
-http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=3
-http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
-http://localhost/fra-schedule/check/flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
+http://localhost/.../flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&init=true&page=1
+http://localhost/.../flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=2
+http://localhost/.../flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=3
+http://localhost/.../flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
+http://localhost/.../flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
 SELECT `id` FROM `airlines` WHERE `code`='TP';
 =113
 SELECT `id` FROM `airlines` WHERE `code`='TP';
@@ -413,7 +413,7 @@ UPDATE `flights` SET `aircraft`=NULL,`model`=68 WHERE `id`=47;
 
 SELECT `flights`.`id`, `airlines`.`code`, `flights`.`code`, `flights`.`scheduled`, `flights`.`direction` FROM `flights` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` WHERE `airport` IS NULL AND  (`scheduled` >= '0000-00-00 23:00:00'  OR `expected` >= '0000-00-00 23:00:00'  OR (TIME_TO_SEC(TIMEDIFF('0000-00-00 23:00:00', `scheduled`)) / 60 / 60) < 2) ORDER BY `scheduled`;
 =48,...
-http://localhost/fra-schedule/check/flugplan/airportcity?fia=TP57800000001
+http://localhost/.../flugplan/airportcity?fia=TP57800000001
 SELECT `airports`.`id` FROM `airports` WHERE `iata`='LIS' AND `icao`='LPPT';
 =136
 UPDATE `flights` SET `airport`=136 WHERE `id`=48;
