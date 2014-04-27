@@ -383,7 +383,7 @@ if ($user && (!$mobile || $tablet))
 									{
 ?>
 										<tr>
-											<td><a href="http://www.airliners.net/search/photo.search?q=<?php echo $reg; ?>" target="a-net"><img src="img/a-net.png" alt="www.airliners.net"></a></td>
+											<td><a href="http://www.airliners.net/search/photo.search?q=<?php echo $reg; ?>&sort_order=year+desc" target="a-net"><img src="img/a-net.png" alt="www.airliners.net"></a></td>
 											<td class="reg"><input type="text" value="<?php echo $reg; ?>"></td>
 											<td class="comment"><input type="text" value="<?php echo htmlspecialchars($comment); ?>"></td>
 											<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
