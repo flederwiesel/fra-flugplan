@@ -14,7 +14,7 @@
 # drop/re-create database
 initdb && rm -f .COOKIES
 
-baseurl=$(rawurlencode localhost/fra-schedule/check)
+baseurl=$(rawurlencode $(echo $url | sed s?http://??g)/check)
 
 YYYYmmdd_0=$(date +'%Y%m%d')
 YYYYmmdd_1=$(date +'%Y%m%d' --date="+1 days")
@@ -60,6 +60,7 @@ do
 			s/$YYYY_mm_dd_0 ([0-9]{2}:[0-9]{2}(:[0-9]{2})?)/0000-00-00 \1/g
 			s/$YYYY_mm_dd_1 ([0-9]{2}:[0-9]{2}(:[0-9]{2})?)/0000-00-01 \1/g
 			s/$YYYY_mm_dd_2 ([0-9]{2}:[0-9]{2}(:[0-9]{2})?)/0000-00-02 \1/g
+			s#(http://[^/]+/).*/check/(.*)#\1.../\2#g
 			'"
 
 		flights=$(query 'USE `fra-schedule`;
