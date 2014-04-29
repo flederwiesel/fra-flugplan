@@ -610,7 +610,7 @@ else
 			{
 				echo "<td$hilite$sortkey>";
 ?>
-				<a href = "http://www.airliners.net/search/photo.search?q=<?php echo $reg ?>" target="a-net">
+				<a href = "http://www.airliners.net/search/photo.search?q=<?php echo $reg ?>&sort_order=year+desc" target="a-net">
 					<img class="href" src="img/a-net.png" alt="www.airliners.net">
 				</a>
 <?php
