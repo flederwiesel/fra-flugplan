@@ -165,6 +165,9 @@ function query_style($query)
 	$query = preg_replace('/[ \t]*(;?)$/', '\\1', $query);
 	$query = preg_replace('/^[ \t]*/', '', $query);
 
+	$query = preg_replace('/\([ \t]+/', '(', $query);
+	$query = preg_replace('/[ \t]+\)/', ')', $query);
+
 	return $query."\n";
 }
 
@@ -827,8 +830,8 @@ SQL;
 	if (!$result)
 	{
 		$error = seterrorinfo(__LINE__,
-						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+					sprintf("[%d] %s: %s",
+						mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -858,28 +861,30 @@ SQL;
 			if (strlen($f->carrier['code']) &&
 				strlen($f->carrier['name']))
 			{
-				$query = "INSERT INTO `airlines`(`uid`, `code`, `name`)".
-						 " VALUES($uid, '".$f->carrier['code']."', '".$f->carrier['name']."');";
+				$query = <<<SQL
+					INSERT INTO `airlines`(`uid`, `code`, `name`)
+					VALUES($uid, '{$f->carrier["code"]}', '{$f->carrier["name"]}');
+SQL;
 
-				if (mysql_query($query))
-				{
-					if (isset($DEBUG['query']))
-						echo query_style($query);
-
-					$airline = mysql_insert_id();
-
-					if (isset($DEBUG['query']))
-						echo "=$airline\n";
-
-					warn_once(__LINE__, "Inserted airline $f->airline as \"".$f->carrier['name']."\"".
-										" ($dir: flight $f->airline$f->code \"$f->scheduled\").");
-				}
-				else
+				if (!mysql_query($query))
 				{
 					$airline = NULL;
 					$error = seterrorinfo(__LINE__,
 								sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+									mysql_errno(), mysql_error(), query_style($query)));
+				}
+				else
+				{
+					$airline = mysql_insert_id();
+
+					if (isset($DEBUG['query']))
+					{
+						echo query_style($query);
+						echo "=$airline\n";
+					}
+
+					warn_once(__LINE__, "Inserted airline $f->airline as \"".$f->carrier['name']."\"".
+										" ($dir: flight $f->airline$f->code \"$f->scheduled\").");
 				}
 			}
 		}
@@ -898,15 +903,19 @@ function SQL_GetCarrierId($f, &$carrier)
 	$error = NULL;
 	$carrier = NULL;
 
-	$query = "SELECT `id` FROM `airlines` WHERE `code`='".$f->carrier['code']."';";
+	$query = <<<SQL
+		SELECT `id`
+		FROM `airlines`
+		WHERE `code`='{$f->carrier["code"]}';
+SQL;
 
 	$result = mysql_query($query);
 
 	if (!$result)
 	{
 		$error = seterrorinfo(__LINE__,
-						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+					sprintf("[%d] %s: %s",
+						mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -934,24 +943,26 @@ function SQL_GetCarrierId($f, &$carrier)
 			// Not found, insert airline
 			if (strlen($f->carrier['name']))
 			{
-				$query = "INSERT INTO `airlines`(`uid`, `code`, `name`)".
-						 " VALUES($uid, '".$f->carrier['code']."', '".$f->carrier['name']."');";
+				$query = <<<SQL
+					INSERT INTO `airlines`(`uid`, `code`, `name`)
+					VALUES($uid, '{$f->carrier["code"]}', '{$f->carrier["name"]}');
+SQL;
 
-				if (mysql_query($query))
-				{
-					if (isset($DEBUG['query']))
-						echo query_style($query);
-
-					$carrier = mysql_insert_id();
-
-					if (isset($DEBUG['query']))
-						echo "=$carrier\n";
-				}
-				else
+				if (!mysql_query($query))
 				{
 					$error = seterrorinfo(__LINE__,
 								sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+									mysql_errno(), mysql_error(), query_style($query)));
+				}
+				else
+				{
+					$carrier = mysql_insert_id();
+
+					if (isset($DEBUG['query']))
+					{
+						echo query_style($query);
+						echo "=$carrier\n";
+					}
 				}
 			}
 		}
@@ -981,8 +992,8 @@ SQL;
 	if (!$result)
 	{
 		$error = seterrorinfo(__LINE__,
-						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+					sprintf("[%d] %s: %s",
+						mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -1030,7 +1041,7 @@ SQL;
 				{
 					$error = seterrorinfo(__LINE__,
 								sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+									mysql_errno(), mysql_error(), query_style($query)));
 				}
 			}
 		}
@@ -1058,8 +1069,8 @@ SQL;
 	if (!$result)
 	{
 		$error = seterrorinfo(__LINE__,
-						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+					sprintf("[%d] %s: %s",
+						mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -1095,7 +1106,7 @@ SQL;
 				{
 					$error = seterrorinfo(__LINE__,
 								sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+									mysql_errno(), mysql_error(), query_style($query)));
 				}
 				else
 				{
@@ -1137,8 +1148,8 @@ SQL;
 	if (!$result)
 	{
 		$error = seterrorinfo(__LINE__,
-						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+					sprintf("[%d] %s: %s",
+						mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -1184,8 +1195,8 @@ SQL;
 	if (!$result)
 	{
 		$error = seterrorinfo(__LINE__,
-						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+					sprintf("[%d] %s: %s",
+						mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -1277,7 +1288,7 @@ SQL;
 						{
 							$error = seterrorinfo(__LINE__,
 										sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+											mysql_errno(), mysql_error(), query_style($query)));
 						}
 						else
 						{
@@ -1353,8 +1364,8 @@ SQL;
 	if (!$result)
 	{
 		$error = seterrorinfo(__LINE__,
-						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+					sprintf("[%d] %s: %s",
+						mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -1384,7 +1395,7 @@ SQL;
 			{
 				$error = seterrorinfo(__LINE__,
 							sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+								mysql_errno(), mysql_error(), query_style($query)));
 			}
 			else
 			{
@@ -1411,7 +1422,7 @@ SQL;
 			{
 				$error = seterrorinfo(__LINE__,
 							sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+								mysql_errno(), mysql_error(), query_style($query)));
 			}
 			else
 			{
@@ -1450,8 +1461,8 @@ function SQL_InsertFlight($dir, $airline, $code,
 	if (!mysql_query($query))
 	{
 		$error = seterrorinfo(__LINE__,
-						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+					sprintf("[%d] %s: %s",
+						mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -1482,8 +1493,8 @@ function SQL_UpdateFlight($id, $expected, $model, $reg)
 	if (!mysql_query($query))
 	{
 		$error = seterrorinfo(__LINE__,
-						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+					sprintf("[%d] %s: %s",
+						mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -1518,8 +1529,8 @@ SQL;
 	if (!$result)
 	{
 		$error = seterrorinfo(__LINE__,
-						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+					sprintf("[%d] %s: %s",
+						mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -1560,7 +1571,7 @@ SQL;
 			{
 				$error = seterrorinfo(__LINE__,
 							sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+								mysql_errno(), mysql_error(), query_style($query)));
 			}
 			else
 			{
