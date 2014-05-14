@@ -40,6 +40,9 @@ include ".config";
 include "classes/vector.php";
 include "classes/awk.php";
 
+$errorinfo = NULL;
+$warning = NULL;
+
 // We need to adjust departure times, make sure we use the correct tz
 $tz = date_default_timezone_set('Europe/Berlin');
 
@@ -118,23 +121,26 @@ function geterrorinfo()
 
 function seterrorinfo($line, $info)
 {
-	global $error;
+	global $errorinfo;
 
-	if (!$error)
-		$error = '';
-
-	$error .= __FILE__;
+	$error = __FILE__;
 
 	if ($info)
 	{
-		$error .= "($line): ERROR: $info\n";
+		$error .= "($line): $info\n";
 	}
 	else
 	{
-		$info = error_get_last();
-		$error .= sprintf("(%u): " , $line ? $line : $info['line']);
-		$error .= sprintf("[%d] %s", $info['type'], $info['message']);
+		$e = error_get_last();
+
+		if (!$line)
+			$line = $e['line'];
+
+		$error .= sprintf("(%u): " , $line);
+		$error .= sprintf("[%d] %s", $e['type'], $e['message']);
 	}
+
+	$errorinfo .= $error;
 
 	return $error;
 }
@@ -155,8 +161,9 @@ function warn_once($line, $info)
 function query_style($query)
 {
 	// Cleanup query for single line display with 1 space separator
-	$query = preg_replace('/[ \t\r]*\n[ \r]*/', ' ', $query);
+	$query = preg_replace('/[ \t\r]*\n[ \t]*/', ' ', $query);
 	$query = preg_replace('/[ \t]*(;?)$/', '\\1', $query);
+	$query = preg_replace('/^[ \t]*/', '', $query);
 
 	return $query."\n";
 }
@@ -373,7 +380,7 @@ class awkFlights extends awk
 								new flight(str_replace('<h3>', '', $fields[1]), $fields[2]));
 
 				if (NULL == $obj->top)
-					$error = seterrorinfo(__LINE__, implode(",", error_get_last()));
+					$error = seterrorinfo(__LINE__, NULL);
 			}
 		}
 
@@ -646,7 +653,7 @@ function CURL_GetFlights($curl, $dir, &$flights)
 
 	if (NULL == $awk)
 	{
-		$error = seterrorinfo(__LINE__, implode(",", error_get_last()));
+		$error = seterrorinfo(__LINE__, NULL);
 	}
 	else
 	{
@@ -710,7 +717,7 @@ function CURL_GetFlightDetails($curl, &$airports)
 
 	if (NULL == $awk)
 	{
-		$error = seterrorinfo(__LINE__, implode(",", error_get_last()));
+		$error = seterrorinfo(__LINE__, NULL);
 	}
 	else
 	{
@@ -718,20 +725,20 @@ function CURL_GetFlightDetails($curl, &$airports)
 
 		/* Get airport IATA/ICAO from flight details page */
 		$query = <<<SQL
-SELECT
- `flights`.`id`,
- `airlines`.`code`,
- `flights`.`code`,
- `flights`.`scheduled`,
- `flights`.`direction`
-FROM `flights`
-LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id`
-WHERE `airport` IS NULL
-AND
- (`scheduled` >= '$now'
-  OR `expected` >= '$now'
-  OR (TIME_TO_SEC(TIMEDIFF('$now', `scheduled`)) / 60 / 60) < 2)
-ORDER BY `scheduled`;
+			SELECT
+			 `flights`.`id`,
+			 `airlines`.`code`,
+			 `flights`.`code`,
+			 `flights`.`scheduled`,
+			 `flights`.`direction`
+			FROM `flights`
+			LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id`
+			WHERE `airport` IS NULL
+			AND
+			 (`scheduled` >= '$now'
+			  OR `expected` >= '$now'
+			  OR (TIME_TO_SEC(TIMEDIFF('$now', `scheduled`)) / 60 / 60) < 2)
+			ORDER BY `scheduled`;
 SQL;
 
 		$result = mysql_query($query);
@@ -739,7 +746,8 @@ SQL;
 		if (!$result)
 		{
 			$error = seterrorinfo(__LINE__,
-						sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+						sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 		}
 		else
 		{
@@ -808,14 +816,19 @@ function SQL_GetAirlineId(/* in */ $f, /* out */ &$airline)
 	$airline = NULL;
 
 	// Is airline already in database?
-	$query = "SELECT `id` FROM `airlines` WHERE `code`='".$f->airline."';";
+	$query = <<<SQL
+		SELECT `id`
+		FROM `airlines`
+		WHERE `code`='$f->airline';
+SQL;
 
 	$result = mysql_query($query);
 
 	if (!$result)
 	{
 		$error = seterrorinfo(__LINE__,
-					sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+						sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -865,7 +878,8 @@ function SQL_GetAirlineId(/* in */ $f, /* out */ &$airline)
 				{
 					$airline = NULL;
 					$error = seterrorinfo(__LINE__,
-								sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+								sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 				}
 			}
 		}
@@ -883,6 +897,7 @@ function SQL_GetCarrierId($f, &$carrier)
 
 	$error = NULL;
 	$carrier = NULL;
+
 	$query = "SELECT `id` FROM `airlines` WHERE `code`='".$f->carrier['code']."';";
 
 	$result = mysql_query($query);
@@ -890,7 +905,8 @@ function SQL_GetCarrierId($f, &$carrier)
 	if (!$result)
 	{
 		$error = seterrorinfo(__LINE__,
-					sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+						sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -934,7 +950,8 @@ function SQL_GetCarrierId($f, &$carrier)
 				else
 				{
 					$error = seterrorinfo(__LINE__,
-								sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+								sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 				}
 			}
 		}
@@ -953,14 +970,19 @@ function SQL_GetModelId($f, &$model)
 	$error = NULL;
 	$model = NULL;
 
-	$query = "SELECT `id` FROM `models` WHERE `icao`='$f->model';";
+	$query = <<<SQL
+		SELECT `id`
+		FROM `models`
+		WHERE `icao`='$f->model';
+SQL;
 
 	$result = mysql_query($query);
 
 	if (!$result)
 	{
 		$error = seterrorinfo(__LINE__,
-					sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+						sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -987,7 +1009,10 @@ function SQL_GetModelId($f, &$model)
 
 			if (strlen($f->model))
 			{
-				$query = "INSERT INTO `models`(`uid`, `icao`,`name`) VALUES($uid, '$f->model', '');";
+				$query = <<<SQL
+					INSERT INTO `models`(`uid`, `icao`,`name`)
+					VALUES($uid, '$f->model', '');
+SQL;
 
 				if (mysql_query($query))
 				{
@@ -1004,7 +1029,8 @@ function SQL_GetModelId($f, &$model)
 				else
 				{
 					$error = seterrorinfo(__LINE__,
-								sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+								sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 				}
 			}
 		}
@@ -1021,14 +1047,19 @@ function SQL_GetAircraftId($f, $model, &$reg)
 	global $uid;
 
 	$error = NULL;
-	$query = "SELECT `id` FROM `aircrafts` WHERE `reg`='$f->reg';";
+	$query = <<<SQL
+		SELECT `id`
+		FROM `aircrafts`
+		WHERE `reg`='$f->reg';
+SQL;
 
 	$result = mysql_query($query);
 
 	if (!$result)
 	{
 		$error = seterrorinfo(__LINE__,
-					sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+						sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -1055,13 +1086,16 @@ function SQL_GetAircraftId($f, $model, &$reg)
 
 			if (strlen($f->reg))
 			{
-				$query = "INSERT INTO `aircrafts`(`uid`, `reg`,`model`)".
-						 " VALUES($uid, '$f->reg', $model);";
+				$query = <<<SQL
+					INSERT INTO `aircrafts`(`uid`, `reg`,`model`)
+					VALUES($uid, '$f->reg', $model);
+SQL;
 
 				if (!mysql_query($query))
 				{
 					$error = seterrorinfo(__LINE__,
-								sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+								sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 				}
 				else
 				{
@@ -1089,19 +1123,22 @@ function SQL_GetFlightDetails($dir, $scheduled, $airline, $code, &$details)
 	$error = NULL;
 	$details = NULL;
 
-	$query = "SELECT `id`, `aircraft` ".
-		"FROM `flights` ".
-		"WHERE `direction`='$dir'".
-		" AND `airline`=$airline".
-		" AND `code`='$code'".
-		" AND `scheduled`='$scheduled'";
+	$query = <<<SQL
+		SELECT `id`, `aircraft`
+		FROM `flights`
+		WHERE `direction`='$dir'
+		 AND `airline`=$airline
+		 AND `code`='$code'
+		 AND `scheduled`='$scheduled'
+SQL;
 
 	$result = mysql_query($query);
 
 	if (!$result)
 	{
 		$error = seterrorinfo(__LINE__,
-					sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+						sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -1137,13 +1174,18 @@ function SQL_UpdateVisitsToFra($scheduled, $reg, $op)
 	global $DEBUG;
 
 	$error = NULL;
-	$query = "SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=$reg;";
+	$query = <<<SQL
+		SELECT `num`, `current`, `previous`
+		FROM `visits`
+		WHERE `aircraft`=$reg;
+SQL;
 	$result = mysql_query($query);
 
 	if (!$result)
 	{
 		$error = seterrorinfo(__LINE__,
-					sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+						sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -1165,8 +1207,10 @@ function SQL_UpdateVisitsToFra($scheduled, $reg, $op)
 			}
 			else
 			{
-				$query = "INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`) ".
-						 "VALUES($reg, 1, '$scheduled', NULL);";
+				$query = <<<SQL
+					INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`)
+					VALUES($reg, 1, '$scheduled', NULL);
+SQL;
 			}
 		}
 		else
@@ -1201,8 +1245,10 @@ function SQL_UpdateVisitsToFra($scheduled, $reg, $op)
 				}
 				else if ($num == 1)
 				{
-					$query = "DELETE FROM `visits` ".
-							 "WHERE `aircraft`=$reg";
+					$query = <<<SQL
+						DELETE FROM `visits`
+						WHERE `aircraft`=$reg
+SQL;
 				}
 				else
 				{
@@ -1211,24 +1257,27 @@ function SQL_UpdateVisitsToFra($scheduled, $reg, $op)
 						Need to check for this also... */
 					if (!$previous)
 					{
-						$query = "SELECT MAX(`scheduled`) AS `scheduled`".
-									"FROM".
-									"(".
-									"	SELECT `scheduled`".
-									"	FROM `flights`".
-									"	WHERE `direction`='arrival' AND `aircraft` = $reg".
-									"	UNION ALL".
-									"	SELECT `scheduled`".
-									"	FROM `history`".
-									"	WHERE `direction`='arrival' AND `aircraft` = $reg".
-									") AS `flights`";
+						$query = <<<SQL
+							SELECT MAX(`scheduled`) AS `scheduled`
+							FROM
+							(
+								SELECT `scheduled`
+								FROM `flights`
+								WHERE `direction`='arrival' AND `aircraft` = $reg
+								UNION ALL
+								SELECT `scheduled`
+								FROM `history`
+								WHERE `direction`='arrival' AND `aircraft` = $reg
+							) AS `flights`
+SQL;
 
 						$result = mysql_query($query);
 
 						if (!$result)
 						{
 							$error = seterrorinfo(__LINE__,
-										sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+										sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 						}
 						else
 						{
@@ -1292,15 +1341,20 @@ function SQL_GetAirportId($airport)
 	global $uid;
 
 	$error = NULL;
-	$query = "SELECT `airports`.`id` FROM `airports` WHERE `iata`='".$airport->iata."'".
-			 " AND `icao`='".$airport->icao."';";
+	$query = <<<SQL
+		SELECT `airports`.`id`
+		FROM `airports`
+		WHERE `iata`='$airport->iata'
+		 AND `icao`='$airport->icao';
+SQL;
 
 	$result = mysql_query($query);
 
 	if (!$result)
 	{
 		$error = seterrorinfo(__LINE__,
-					sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+						sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -1320,14 +1374,17 @@ function SQL_GetAirportId($airport)
 		else
 		{
 			// Not found, insert airport
-			$query = "INSERT INTO `airports`(`uid`, `iata`, `icao`, `name`)".
-					 " VALUES($uid, '".$airport->iata."', '".
-					 $airport->icao."', '".$airport->name."');";
+			$query = <<<SQL
+				INSERT INTO `airports`(`uid`, `iata`, `icao`, `name`)
+				VALUES($uid, '$airport->iata',
+					'$airport->icao', '$airport->name');
+SQL;
 
 			if (!mysql_query($query))
 			{
 				$error = seterrorinfo(__LINE__,
-							sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+							sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 			}
 			else
 			{
@@ -1344,12 +1401,17 @@ function SQL_GetAirportId($airport)
 		if ($airport->id)
 		{
 			// Update flight with airport id
-			$query = "UPDATE `flights` SET `airport`=$airport->id WHERE `id`=$airport->fid;";
+			$query = <<<SQL
+				UPDATE `flights`
+				SET `airport`=$airport->id
+				WHERE `id`=$airport->fid;
+SQL;
 
 			if (!mysql_query($query))
 			{
 				$error = seterrorinfo(__LINE__,
-							sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+							sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 			}
 			else
 			{
@@ -1388,7 +1450,8 @@ function SQL_InsertFlight($dir, $airline, $code,
 	if (!mysql_query($query))
 	{
 		$error = seterrorinfo(__LINE__,
-					sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+						sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -1419,7 +1482,8 @@ function SQL_UpdateFlight($id, $expected, $model, $reg)
 	if (!mysql_query($query))
 	{
 		$error = seterrorinfo(__LINE__,
-					sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+						sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -1441,18 +1505,21 @@ function SQL_DeleteFlight($dir, $airline, $code, $scheduled, &$aircraft)
 	$error = NULL;
 
 	/* Determine whether there is something to be deleted at all */
-	$query = "SELECT `id`, `aircraft` FROM `flights` ".
-		"WHERE `direction`='$dir'".
-		" AND `airline`=$airline".
-		" AND `code`='$code'".
-		" AND `scheduled`='$scheduled'";
+	$query = <<<SQL
+		SELECT `id`, `aircraft` FROM `flights`
+		WHERE `direction`='$dir'
+		 AND `airline`=$airline
+		 AND `code`='$code'
+		 AND `scheduled`='$scheduled'
+SQL;
 
 	$result = mysql_query($query);
 
 	if (!$result)
 	{
 		$error = seterrorinfo(__LINE__,
-					sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+						sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 	}
 	else
 	{
@@ -1482,14 +1549,18 @@ function SQL_DeleteFlight($dir, $airline, $code, $scheduled, &$aircraft)
 
 		if ($id)
 		{
-			$query = "DELETE FROM `flights` WHERE `id`=$id";
+			$query = <<<SQL
+				DELETE FROM `flights`
+				WHERE `id`=$id
+SQL;
 
 			$result = mysql_query($query);
 
 			if (!$result)
 			{
 				$error = seterrorinfo(__LINE__,
-							sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+							sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 			}
 			else
 			{
@@ -1570,7 +1641,6 @@ function SQL_FlightsToHistory()
 }
 
 $error = NULL;
-$warning = NULL;
 
 $hdbc = mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
 
@@ -1604,6 +1674,7 @@ else
 			}
 			else
 			{
+				$error = 0;
 				$uid = $row[0];
 				unset($row);
 			}
@@ -1756,16 +1827,16 @@ else
 	mysql_close($hdbc);
 }
 
-if ($error)
-	echo $error;
+if ($errorinfo)
+	echo $errorinfo;
 
 if ($warning)
 	echo $warning;
 
-if ($error || $warning)
+if ($errorinfo || $warning)
 	mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').'<'.ADMIN_EMAIL.'>',
 		 'fra-schedule - getflights.php: '.($error ? 'error' : 'warning'),
-		 "$error\n----\n\n$warning", 'From: fra-schedule');
+		 "$errorinfo\n----\n\n$warning", 'From: fra-schedule');
 
 if (isset($DEBUG['any']))
 	echo "\n\n=== fin. ===\n";
