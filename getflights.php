@@ -1242,10 +1242,16 @@ SQL;
 				}
 				else
 				{
-					$query = "UPDATE `visits` ".
-							 "SET `num`=".($num + 1).", `current`='$scheduled'".
-							 ($current ? ", `previous`='$current' " : " ").
-							 "WHERE `aircraft`=$reg";
+					$num++;
+					$previous = $current ? "'$current'" : "NULL";
+
+					$query = <<<SQL
+						UPDATE `visits`
+						SET `num`=$num,
+							`current`='$scheduled',
+							`previous`=$previous
+						WHERE `aircraft`=$reg
+SQL;
 				}
 			}
 			else
@@ -1318,9 +1324,12 @@ SQL;
 
 					if ($previous)
 					{
-						$query = "UPDATE `visits` ".
-								 "SET `num`=".($num - 1).", `current`='$previous' ".
-								 "WHERE `aircraft`=$reg";
+						$num--;
+						$query = <<<SQL
+							UPDATE `visits`
+							SET `num`=$num, `current`='$previous'
+							WHERE `aircraft`=$reg
+SQL;
 					}
 				}
 			}
@@ -1448,15 +1457,22 @@ function SQL_InsertFlight($dir, $airline, $code,
 
 	$error = NULL;
 
-	$query = "INSERT INTO `flights` ".
-		"(`uid`, `type`, `direction`, `airline`, `code`, ".
-		"`scheduled`, `expected`, `aircraft`, `model`) ".
-		"VALUES(".
-		"$uid, 'pax-regular', '$dir', $airline, '$code', ".
-		"'$scheduled', ".
-		($expected ? "'$expected'" : "NULL").", ".
-		($reg ? $reg : "NULL").", ".
-		($model ? "$model": "NULL").");";
+	$expected = $expected ? "'$expected'" : "NULL";
+
+	if (!$reg)
+		$reg = 'NULL';
+
+	if (!$model)
+		$model = 'NULL';
+
+	$query = <<<SQL
+		INSERT INTO `flights`
+		(`uid`, `type`, `direction`, `airline`, `code`,
+		 `scheduled`, `expected`, `aircraft`, `model`)
+		VALUES(
+		 $uid, 'pax-regular', '$dir', $airline, '$code',
+		 '$scheduled', $expected, $reg, $model);
+SQL;
 
 	if (!mysql_query($query))
 	{
@@ -1484,11 +1500,22 @@ function SQL_UpdateFlight($id, $expected, $model, $reg)
 
 	$error = NULL;
 
-	$query = "UPDATE `flights` SET ".
-		($expected ? "`expected`='$expected', " : "").	// Don't overwrite `expected` with NULL!
-		"`aircraft`=".($reg ? $reg : "NULL").",".
-		"`model`=".($model ? "$model" : "NULL")." ".
-		"WHERE `id`=$id;";
+	// Don't overwrite `expected` with NULL!
+	$expected = $expected ? "`expected`='$expected', " : "";
+
+	if (!$reg)
+		$reg = 'NULL';
+
+	if (!$model)
+		$model = 'NULL';
+
+	$query = <<<SQL
+		UPDATE `flights`
+		SET $expected
+		 `aircraft`=$reg,
+		 `model`=$model
+		WHERE `id`=$id;
+SQL;
 
 	if (!mysql_query($query))
 	{
@@ -1517,7 +1544,8 @@ function SQL_DeleteFlight($dir, $airline, $code, $scheduled, &$aircraft)
 
 	/* Determine whether there is something to be deleted at all */
 	$query = <<<SQL
-		SELECT `id`, `aircraft` FROM `flights`
+		SELECT `id`, `aircraft`
+		FROM `flights`
 		WHERE `direction`='$dir'
 		 AND `airline`=$airline
 		 AND `code`='$code'
@@ -1561,7 +1589,8 @@ SQL;
 		if ($id)
 		{
 			$query = <<<SQL
-				DELETE FROM `flights`
+				DELETE
+				FROM `flights`
 				WHERE `id`=$id
 SQL;
 

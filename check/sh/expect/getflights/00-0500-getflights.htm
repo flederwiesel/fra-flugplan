@@ -29,7 +29,7 @@ INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled
 =OK
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=1;
 =<empty>
-INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`)VALUES(1, 1, '0000-00-00 06:15', NULL);
+INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`) VALUES(1, 1, '0000-00-00 06:15', NULL);
 =OK
 
 /************************************/
@@ -50,7 +50,7 @@ INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled
 =OK
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=2;
 =<empty>
-INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`)VALUES(2, 1, '0000-00-00 06:20', NULL);
+INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`) VALUES(2, 1, '0000-00-00 06:20', NULL);
 =OK
 
 /************************************/
@@ -71,7 +71,7 @@ INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled
 =OK
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=3;
 =<empty>
-INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`)VALUES(3, 1, '0000-00-00 07:00', NULL);
+INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`) VALUES(3, 1, '0000-00-00 07:00', NULL);
 =OK
 
 /************************************/
@@ -92,7 +92,7 @@ INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled
 =OK
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=4;
 =<empty>
-INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`)VALUES(4, 1, '0000-00-00 09:45', NULL);
+INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`) VALUES(4, 1, '0000-00-00 09:45', NULL);
 =OK
 
 /************************************/
@@ -126,7 +126,7 @@ INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled
 =OK
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=5;
 =<empty>
-INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`)VALUES(5, 1, '0000-00-00 11:15', NULL);
+INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`) VALUES(5, 1, '0000-00-00 11:15', NULL);
 =OK
 
 /************************************/
@@ -147,7 +147,7 @@ INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled
 =OK
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=6;
 =<empty>
-INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`)VALUES(6, 1, '0000-00-00 11:45', NULL);
+INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`) VALUES(6, 1, '0000-00-00 11:45', NULL);
 =OK
 
 /************************************/
@@ -411,7 +411,7 @@ INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled
 
 ===========================
 
-SELECT `flights`.`id`, `airlines`.`code`, `flights`.`code`, `flights`.`scheduled`, `flights`.`direction` FROM `flights` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` WHERE `airport` IS NULL AND  (`scheduled` >= '0000-00-00 05:00:00'  OR `expected` >= '0000-00-00 05:00:00'  OR (TIME_TO_SEC(TIMEDIFF('0000-00-00 05:00:00', `scheduled`)) / 60 / 60) < 2) ORDER BY `scheduled`;
+SELECT `flights`.`id`, `airlines`.`code`, `flights`.`code`, `flights`.`scheduled`, `flights`.`direction` FROM `flights` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` WHERE `airport` IS NULL AND (`scheduled` >= '0000-00-00 05:00:00' OR `expected` >= '0000-00-00 05:00:00' OR (TIME_TO_SEC(TIMEDIFF('0000-00-00 05:00:00', `scheduled`)) / 60 / 60) < 2) ORDER BY `scheduled`;
 =1,...
 http://localhost/.../flugplan/airportcity?fia=SA26000000000
 =13,...
