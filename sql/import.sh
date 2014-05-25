@@ -9,7 +9,26 @@ else
 
 	eval mysql <<<$(echo "DROP DATABASE IF EXISTS \`$schema\`")
 	eval mysql <<<$(echo "CREATE DATABASE \`$schema\`")
-	unzip="gunzip -c '$1'"
-	eval mysql <<<"USE \`$schema\`; $(eval $unzip)"
+
+	case "${1##*.}" in
+	'bz2')
+		cmd="bunzip2 -c '$1'"
+		;;
+	'gz')
+		cmd="gunzip -c '$1'"
+		;;
+	'sql')
+		cmd="cat '$1'"
+		;;
+	'zip')
+		cmd="unzip -cp '$1'"
+		;;
+	*)
+		echo "Don't know what to do for ${1##*.}." >&2
+		exit 1
+		;;
+	esac
+
+	eval mysql <<<"USE \`$schema\`; $(eval $cmd)"
 
 fi
