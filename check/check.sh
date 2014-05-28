@@ -11,19 +11,7 @@
 #
 ###############################################################################
 
-#url="http://www.flederwiesel.com/vault/fra-schedule/$(svn info . | awk '/^Revision:/ { print $2; }')"
-url="http://localhost/fra-schedule"
-url=$(echo $url | sed -r 's/\$Rev: ([0-9]+) \$/\1/g')
-
-alias "mysql=mysql --silent --host=localhost --user=root --password= --default-character-set=utf8"
-alias "curl=curl -s --noproxy localhost --cookie .COOKIES --cookie-jar .COOKIES"
-# Mozilla/5.0 (Windows NT 6.1; WOW64; rv:17.0) Gecko/20100101 Firefox/17.0
-# Opera/9.80 (Android 2.3.6; Linux; Opera Mobi/ADR-1301071820) Presto/2.11.355 Version/12.10
-
-###############################################################################
 # parse command line options
-###############################################################################
-
 
 debug=0
 verbose=0
@@ -58,6 +46,9 @@ done
 set -- "${argv[@]}"
 
 ###############################################################################
+
+alias "mysql=mysql --silent --host=localhost --user=root --password= --default-character-set=utf8"
+alias "curl=curl -s --noproxy localhost --cookie .COOKIES --cookie-jar .COOKIES"
 
 unless() {
 
@@ -122,6 +113,9 @@ rawurlencode() {
 ###############################################################################
 # <preparation>
 ###############################################################################
+
+prj="$(readlink -f ..)"
+url=http://localhost/$(rawurlencode "${prj##*/}")
 
 unless $LINENO sed -r "\"s/^(define[ \t]*\('DB_NAME',[ \t]*')[^']+('\);)/\1fra-schedule\2/g\"" \
 	../.config.local '>' ../.config
