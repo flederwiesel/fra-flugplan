@@ -24,7 +24,9 @@
 
 $lang = array
 (
-	'noscript' => 'JavaScript wird entweder nicht vom Browser unterstützt oder ist abgeschaltet.<br>Um diese in vollem Umfang nutzen zu können, bitte <a href="http://www.enable-javascript.com/de/">Javascript aktivieren</a>.',
+	'noscript' => 'JavaScript wird entweder nicht vom Browser unterstützt oder ist abgeschaltet.<br>'.
+		'Um diese in vollem Umfang nutzen zu können, bitte '.
+		'<a href="http://www.enable-javascript.com/de/">Javascript aktivieren</a>.',
 	'cookies' => 'Cookies müssen aktiviert sein, um diese Seite benutzen zu können!',
 	'liveschedule' => 'Live Flugplan',
 	'home' => 'Startseite',
@@ -63,7 +65,11 @@ $lang = array
 	'login' => 'Anmelden',
 	'logout' => 'Abmelden',
 	'register' => 'Registrieren',
-	'registernote' => 'Um die Funktionalität dieser Seite in vollem Umfang benutzen zu können, bedarf es einer einmaligen, kostenlosen Registrierung. Es entstehen hierbei keine Folgekosten, angegebene Daten werden entsprechend den Datenschutzrichtlinien behandelt.<br><br>Aus Sicherheitsgründen muß das Benutzerkonto mittels einem per E-Mail zugesendeten Token anschließend einmalig aktiviert werden. Nicht aktivierte Konten werden regelmäßig gelöscht.',
+	'registernote' => 'Um die Funktionalität dieser Seite in vollem Umfang benutzen zu können, '.
+		'bedarf es einer einmaligen, kostenlosen Registrierung. Es entstehen hierbei keine Folgekosten, '.
+		'angegebene Daten werden entsprechend den Datenschutzrichtlinien behandelt.<br><br>'.
+		'Aus Sicherheitsgründen muß das Benutzerkonto mittels einem per E-Mail zugesendeten Token '.
+		'anschließend einmalig aktiviert werden. Nicht aktivierte Konten werden regelmäßig gelöscht.',
 	'profile' => 'Benutzerprofil',
 	'changepw' => 'Passwort ändern',
 	'username' => 'Benutzername',
@@ -88,7 +94,9 @@ $lang = array
 	'passwd-postfix-N' => ' enthalten.',
 	'registration' => 'Registrierung',
 	'onefieldmandatory' => 'Nur eines der obigen Felder muß ausgefüllt werden.',
-	'passwdencrypted' => 'Passwörter werden verschlüsselt gespeichert, und können deshalb nicht wiederhergestellt werden. Es kann jedoch ein Token via E-Mail angefordert werden, um ein neues zu vergeben.',
+	'passwdencrypted' => 'Passwörter werden verschlüsselt gespeichert, und können deshalb '.
+		'nicht wiederhergestellt werden. Es kann jedoch ein Token via E-Mail angefordert werden, '.
+		'um ein neues zu vergeben.',
 	'submit' => 'Absenden',
 	'changepasswd' => 'Passwort ändern',
 	'token' => 'Token',
@@ -104,7 +112,12 @@ $lang = array
 	'userexists' => 'Benutzername bereits vergeben.',
 	'emailexists' => 'E-Mailadresse bereits vergeben.',
 	'regsuccess' => 'Registrierung erfolgreich. Aktivierungs-Token eingeben.',
-	'snailmail' => 'Bitte Token aus der E-Mail eigeben, die an die angegebene Adresse gesendet wurde.<br><br>Je nach Internetanbieter und Mailserver kann es vorkommen, daß die Zustellung von E-Mails länger dauert als das Token gültig ist. In diesem Fall, bitte Kontakt mit mir unter <a href="content/emil.php?subject=fra-schedule%20Aktivierungsproblem"><img alt="email" src="content/emil-img.php"></a> aufnehmen.<br>',
+	'snailmail' => 'Bitte Token aus der E-Mail eigeben, die an die angegebene Adresse gesendet wurde.<br><br>'.
+		'Sollte keine Aktivierungs-Mail im Posteingang auftauchen, bitte den Spam-Ordner prüfen.<br><br>'.
+		'Je nach Internetanbieter und Mailserver kann es vorkommen, daß die Zustellung von E-Mails '.
+		'länger dauert als das Token gültig ist. In diesem Fall, bitte Kontakt mit mir unter '.
+		'<a href="content/emil.php?subject=fra-schedule%20Aktivierungsproblem"><img alt="email" '.
+		'src="content/emil-img.php"></a> aufnehmen.<br>',
 	'regfailed' => 'Registrierung fehlgeschlagen. Bitte Administrator kontaktieren.',
 	'activationsuccess' => 'Aktivierung erfolgreich. Login steht zur Verfügung.',
 	'nosuchuser' => 'Benutzername unbekannt.',
@@ -118,9 +131,17 @@ $lang = array
 	'emailinvalid' => 'E-Mailadresse ungültig.',
 	'activationfailed' => 'Aktivierung fehlgeschlagen (code %lu).',
 	'activationrequired' => 'Konto nicht aktiviert.',
+	'activatefirst' => 'Bitte Konto zuvor <a href="?req=activate&user=%s">aktivieren</a>!',
 	'subjpasswdchange' => 'Passwortänderung',
-	'emailpasswd' => "Hallo,\n\nDu erhälst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse %s) eine Anfrage gesendet hast, das Passwort für Benutzer '%s' auf %s zurückzusetzen.\n\nDas Token dafür ist:\n%s\n\nBenutze diesen Link, um fortzufahren:\n%s?req=changepw&user=%s&token=%s\nDieses Token läuft um %s GMT ab.\n\nFalls Du das Zurücksetzen Deines Passworts nicht veranlaßt hast, ignoriere diese Mail einfach.\n\n\nDas %s Team",
-	'emailactivation' => "Hallo,\n\nDu erhälst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse %s) eine Anfrage zur Registrierung als Benutzer '%s' auf %s (%s) gesendet hast.\n\nDas Aktivierungs-Token ist:\n%s\n\nBenutze diesen Link, um fortzufahren:\n%s?req=activate&user=%s&token=%s\nDieses Token läuft um %s GMT ab.\n\nFalls Du keine Registrierung veranlaßt hast, ignoriere diese Mail einfach.\n\n\nDas %s Team",
+	'emailpasswd' => "Hallo,\n\nDu erhälst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse %s) '.
+		'eine Anfrage gesendet hast, das Passwort für Benutzer '%s' auf %s zurückzusetzen.\n\n'.
+		'Das Token dafür ist:\n%s\n\nBenutze diesen Link, um fortzufahren:\n%s?req=changepw&user=%s&token=%s\n'.
+		'Dieses Token läuft um %s GMT ab.\n\nFalls Du das Zurücksetzen Deines Passworts nicht veranlaßt hast, '.
+		'ignoriere diese Mail einfach.\n\n\nDas %s Team",
+	'emailactivation' => "Hallo,\n\nDu erhälst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse %s) '.
+		'eine Anfrage zur Registrierung als Benutzer '%s' auf %s (%s) gesendet hast.\n\n'.
+		'Das Aktivierungs-Token ist:\n%s\n\nBenutze diesen Link, um fortzufahren:\n%s?req=activate&user=%s&token=%s\n'.
+		'Dieses Token läuft um %s GMT ab.\n\nFalls Du keine Registrierung veranlaßt hast, ignoriere diese Mail einfach.\n\n\nDas %s Team",
 	'subjactivate' => 'Aktivierung',
 	'mailfailed' => 'E-Mail konnnte nicht versendet werden: ',
 	'tokensent' => 'Aktivierungs-Token wurde an die angegebene E-mail-Addresse gesendet. Passwort kann nun geändert werden.',
@@ -159,7 +180,9 @@ $lang = array
 	'emil' => 'Danke, daß Du Dir die Zeit für eine Resonanz bezüglich unserer Seite nimmst.',
 	'dlflights' => 'Flüge herunterladen',
 	'displayinterval' => 'Anzeigeintervall',
-	'displayintervaldesc' => 'Für mobile Geräte &ndash; welche sich nicht unbedingt in Reichweite eines WLAN-Netzwerkes befinden mögen &ndash;, kann die Reaktionsgeschwindigkeit erhöht und die Bandbreite durch ein angepaßtes Anzeigeintervall verringert werden. Das Standardervall ist -15 min ... +24 h.',
+	'displayintervaldesc' => 'Für mobile Geräte &ndash; welche sich nicht unbedingt in Reichweite '.
+		'eines WLAN-Netzwerkes befinden mögen &ndash;, kann die Reaktionsgeschwindigkeit erhöht und die '.
+		'Bandbreite durch ein angepaßtes Anzeigeintervall verringert werden. Das Standardervall ist -15 min ... +24 h.',
 	'cellphone' => 'Mobiltelefon',
 	'tablet' => 'Tablet',
 	'settingsssaved' => 'Einstellungen wurden gespeichert.',

@@ -431,7 +431,8 @@ VALUES
 (@uid, 'DTR', 'Danish Air Transport'),
 (@uid, 'NJ',  'Nordic Global Airlines'),
 (@uid, 'ORB', 'Oren Air'),
-(@uid, 'EZY', 'easyJet')
+(@uid, 'EZY', 'easyJet'),
+(@uid, 'UX',  'Air Europa')
 ;
 
 INSERT INTO `models`(`uid`, `icao`, `name`)

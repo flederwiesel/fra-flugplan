@@ -512,59 +512,66 @@ function /* char *error */ RegisterUserSql($user, $email, $password, $language)
 
 				if (!$error)
 				{
-					$salt = token();
-					$token = token();
-					$password = hash_hmac('sha256', $password, $salt);
-
-					$query = sprintf(
-						"INSERT INTO ".
-						"`users`(".
-						" `name`, `email`, `passwd`, `salt`, `language`, `permissions`,".
-						" `token`, `token_type`, `token_expires`, `ip`)".
-						"VALUES(".
-						" '$user', '$email', '$password', '$salt', '$language', '0', ".
-						" '$token', 'activation', ".
-						" FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu), '%s' )",
-						TOKEN_LIFETIME, $_SERVER['REMOTE_ADDR']);
-
-					if (!mysql_query($query))
+					if (!PasswordConstraintMet($password))
 					{
-						$error = mysql_user_error($lang['regfailed']);
+						$error = PasswordHint();
 					}
 					else
 					{
-						$result = mysql_query("SELECT `id`,`token_expires` ".
-											   "FROM `users` ".
-											   "WHERE `id`=LAST_INSERT_ID()");
+						$salt = token();
+						$token = token();
+						$password = hash_hmac('sha256', $password, $salt);
 
-						if (!$result)
+						$query = sprintf(
+							"INSERT INTO ".
+							"`users`(".
+							" `name`, `email`, `passwd`, `salt`, `language`, `permissions`,".
+							" `token`, `token_type`, `token_expires`, `ip`)".
+							"VALUES(".
+							" '$user', '$email', '$password', '$salt', '$language', '0', ".
+							" '$token', 'activation', ".
+							" FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu), '%s' )",
+							TOKEN_LIFETIME, $_SERVER['REMOTE_ADDR']);
+
+						if (!mysql_query($query))
 						{
-							$error = mysql_error();
+							$error = mysql_user_error($lang['regfailed']);
 						}
 						else
 						{
-							if (0 == mysql_num_rows($result))
+							$result = mysql_query("SELECT `id`,`token_expires` ".
+												   "FROM `users` ".
+												   "WHERE `id`=LAST_INSERT_ID()");
+
+							if (!$result)
 							{
-								$error = $lang['regfailed'];
+								$error = mysql_error();
 							}
 							else
 							{
-								$row = mysql_fetch_row($result);
-								//&& $_POST['timezone'] -> localtime($expires)
-
-								if (!$row)
+								if (0 == mysql_num_rows($result))
 								{
-									$error = mysql_error();
+									$error = $lang['regfailed'];
 								}
 								else
 								{
-									$uid = $row[0];
-									$expires = $row[1];
-									$_SESSION['lang'] = $language;
-								}
-							}
+									$row = mysql_fetch_row($result);
+									//&& $_POST['timezone'] -> localtime($expires)
 
-							mysql_free_result($result);
+									if (!$row)
+									{
+										$error = mysql_error();
+									}
+									else
+									{
+										$uid = $row[0];
+										$expires = $row[1];
+										$_SESSION['lang'] = $language;
+									}
+								}
+
+								mysql_free_result($result);
+							}
 						}
 					}
 				}
@@ -891,39 +898,47 @@ function /* char *error */ RequestPasswordTokenSql($user, $email)
 					$uid = $row['id'];
 					$user = $row['name'];
 					$email = $row['email'];
+					$type = $row['token_type'];
 					$left = $row['expires'];
 
-					if ($left < 0)
+					if ('activation' == $type)
 					{
-						$left *= -1;
-						$retry = '';
-
-						if ($left > 3600)
+						$error = sprintf($lang['activatefirst'], $user);
+					}
+					else if ('password' == $type)
+					{
+						if ($left < 0)
 						{
-							$h = (($left - $left % 3600) / 3600);
-							$left -= 3600 * $h;
-							$retry .= "$h h";
+							$left *= -1;
+							$retry = '';
+
+							if ($left > 3600)
+							{
+								$h = (($left - $left % 3600) / 3600);
+								$left -= 3600 * $h;
+								$retry .= "$h h";
+							}
+
+							if ($left > 60)
+							{
+								if (strlen($retry))
+									$retry .= ' ';
+
+								$min = (($left - $left % 60) / 60);
+								$left -= 60 * $min;
+								$retry .= "$min min";
+							}
+
+							if ($left > 0)
+							{
+								if (strlen($retry))
+									$retry .= ' ';
+
+								$retry .= "$left s";
+							}
+
+							$error = sprintf($lang['noretrybefore'], $retry);
 						}
-
-						if ($left > 60)
-						{
-							if (strlen($retry))
-								$retry .= ' ';
-
-							$min = (($left - $left % 60) / 60);
-							$left -= 60 * $min;
-							$retry .= "$min min";
-						}
-
-						if ($left > 0)
-						{
-							if (strlen($retry))
-								$retry .= ' ';
-
-							$retry .= "$left s";
-						}
-
-						$error = sprintf($lang['noretrybefore'], $retry);
 					}
 				}
 			}

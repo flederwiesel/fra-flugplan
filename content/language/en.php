@@ -24,7 +24,9 @@
 
 $lang = array
 (
-	'noscript' => 'If you obtain this message, JavaScript is either not supported or disabled in in your browser options.<br>In order to use full functionality of this site we advise you to <a href="http://www.enable-javascript.com">enable Javascript</a>.',
+	'noscript' => 'If you obtain this message, JavaScript is either not supported or disabled '.
+		'in in your browser options.<br>In order to use full functionality of this site we advise you '.
+		'to <a href="http://www.enable-javascript.com">enable Javascript</a>.',
 	'cookies' => 'Cookies must be enabled in order to use this site!',
 	'liveschedule' => 'Live Schedule',
 	'home' => 'Home',
@@ -63,7 +65,11 @@ $lang = array
 	'login' => 'Login',
 	'logout' => 'Logout',
 	'register' => 'Register',
-	'registernote' => 'In order to use the complete set of features this site provides, you need to register once, which is free of charge. No consequential charges will arise, data entered here will be handled according to the German Federal Data Protection Act.<br><br>For security reasons, you need to activate your account with a token, which will be sent to your email address in the next step. Accounts not having been activated will be deleted on a regular basis.',
+	'registernote' => 'In order to use the complete set of features this site provides, '.
+		'you need to register once, which is free of charge. No consequential charges will arise, '.
+		'data entered here will be handled according to the German Federal Data Protection Act.<br><br>'.
+		'For security reasons, you need to activate your account with a token, which will be sent to your '.
+		'email address in the next step. Accounts not having been activated will be deleted on a regular basis.',
 	'profile' => 'User profile',
 	'changepw' => 'Change password',
 	'username' => 'User name',
@@ -88,7 +94,8 @@ $lang = array
 	'passwd-postfix-N' => '.',
 	'registration' => 'Registration',
 	'onefieldmandatory' => 'Only one of the above fields is mandatory.',
-	'passwdencrypted' => 'Your password is stored in encrypted form, so it cannot be retrieved. However, you can request a reset token, which will be sent to your registered e-mail address.',
+	'passwdencrypted' => 'Your password is stored in encrypted form, so it cannot be retrieved. '.
+		'However, you can request a reset token, which will be sent to your registered e-mail address.',
 	'submit' => 'Submit',
 	'changepasswd' => 'Change password',
 	'token' => 'Token',
@@ -104,7 +111,11 @@ $lang = array
 	'userexists' => 'User name already in use.',
 	'emailexists' => 'Email address already in use.',
 	'regsuccess' => 'Registration successful. Please enter activation token.',
-	'snailmail' => 'Please enter the token which you should have received on the e-mail address you provided.<br><br>Depending on your internet service provider and mail transport agent settings, delivery of e-mails can take longer than the activation token is valid. In this case, don\'t hesitate to contact us at <a href="content/emil.php?subject=fra-schedule%20activation trouble"><img alt="email" src="content/emil-img.php"></a>.<br>',
+	'snailmail' => 'Please enter the token which you should have received on the e-mail address you provided.<br><br>'.
+		'If no activation mail arrives on your inbox, please also check your spam folder.<br><br>'.
+		'Depending on your internet service provider and mail transport agent settings, delivery of e-mails can take '.
+		'longer than the activation token is valid. In this case, don\'t hesitate to contact us at '.
+		'<a href="content/emil.php?subject=fra-schedule%20activation trouble"><img alt="email" src="content/emil-img.php"></a>.',
 	'regfailed' => 'Registration failed. Please contact an administrator.',
 	'activationsuccess' => 'Activation successful. You may now login.',
 	'nosuchuser' => 'No such user.',
@@ -118,9 +129,17 @@ $lang = array
 	'emailinvalid' => 'E-mail address invalid.',
 	'activationfailed' => 'Activation failed (code %lu).',
 	'activationrequired' => 'Activation required.',
+	'activatefirst' => 'Please <a href="?req=activate&user=%s">activate</a> account first!',
 	'subjpasswdchange' => 'Change Password',
-	'emailpasswd' => "Hello,\n\nthis e-mail has been sent to you because you (or someone else at IP address %s) requested a password change for user '%s' at %s\n\nPassword token is:\n%s\n\nYou can also use this link to process your request:\n%s?req=changepw&user=%s&token=%s\nThis token will expire on %s GMT.\n\nPlease ignore this e-mail if you didn't request a change of password. Our apologies for any inconvenience.\n\n\nThe %s Team",	//&&
-	'emailactivation' => "Hello,\n\nthis e-mail has been sent to you because you (or someone else at IP address %s) requested user registration as '%s' at %s (%s).\n\nActivation token is:\n%s\n\nYou can also use this link to process your request:\n%s?req=activate&user=%s&token=%s\nThis token will expire on %s GMT.\n\nPlease ignore this e-mail if you didn't request a registration. Our apologies for any inconvenience.\n\n\nThe %s Team",
+	'emailpasswd' => "Hello,\n\nthis e-mail has been sent to you because you (or someone else at IP address %s) '.
+		'requested a password change for user '%s' at %s\n\nPassword token is:\n%s\n\n'.
+		'You can also use this link to process your request:\n%s?req=changepw&user=%s&token=%s\n'.
+		'This token will expire on %s GMT.\n\nPlease ignore this e-mail if you didn't request a change of password. '.
+		'Our apologies for any inconvenience.\n\n\nThe %s Team",	//&&
+	'emailactivation' => "Hello,\n\nthis e-mail has been sent to you because you (or someone else at IP address %s) '.
+		'requested user registration as '%s' at %s (%s).\n\nActivation token is:\n%s\n\nYou can also use this link '.
+		'to process your request:\n%s?req=activate&user=%s&token=%s\nThis token will expire on %s GMT.\n\n'.
+		'Please ignore this e-mail if you didn't request a registration. Our apologies for any inconvenience.\n\n\nThe %s Team",
 	'subjactivate' => 'Account activation',
 	'mailfailed' => 'Unable to send e-mail: ',
 	'tokensent' => 'A token has been sent to your e-mail address. You can now change your password.',
@@ -159,7 +178,9 @@ $lang = array
 	'emil' => 'Thank you for taking the time for feedback on our site.',
 	'dlflights' => 'Download flights',
 	'displayinterval' => 'Display Interval',
-	'displayintervaldesc' => 'For mobile devices &ndash; which might not always be within  range to a WLAN network &ndash;, it is possible to increase response times and reduce band width by adjusting the display interval. The default values are -15 min ... +24 hours.',
+	'displayintervaldesc' => 'For mobile devices &ndash; which might not always be within range to a WLAN network '.
+		'&ndash;, it is possible to increase response times and reduce band width by adjusting the display interval. '.
+		'The default values are -15 min ... +24 hours.',
 	'cellphone' => 'Cell Phone',
 	'tablet' => 'Tablet',
 	'settingsssaved' => 'Settings have been saved.',

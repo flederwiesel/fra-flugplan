@@ -461,6 +461,20 @@ else
 	}
 }
 
+$watch['wildcards'] = array();
+
+foreach ($watch as $reg => $comment)
+{
+	if ($reg != 'wildcards')
+	{
+		if (strpbrk($reg, "?*"))
+		{
+			$watch['wildcards'][$reg] = $comment;
+			unset($watch[$reg]);
+		}
+	}
+}
+
 // Make sure we use the correct timezone
 $tz = date_default_timezone_set('Europe/Berlin');
 
@@ -538,6 +552,7 @@ else
 		$early = $row['timediff'] < 0 ? ' class="early"' : '';
 		$hhmm = substr($row['expected'], 11, 5);
 
+		/* <td> inherits 'class="left"' from div.box */
 		echo "<td$early>$day $hhmm</td>";
 
 		switch ($row['type'])
@@ -553,17 +568,17 @@ else
 
 		if (!$mobile)
 		{
-			echo "<td class='left'><div>$row[airline]</div></td>";
+			echo "<td><div>$row[airline]</div></td>";
 			echo "<td>$row[airport_iata]</td>";
 			echo "<td>$row[airport_icao]</td>";
-			echo "<td class='left'><div>$row[airport_name]</div></td>";
+			echo "<td><div>$row[airport_name]</div></td>";
 		}
 
 		echo "<td>$row[model]</td>";
 
 		$reg = $row['reg'];
 		$vtf = $row['vtf'] ? $row['vtf'] : '9999';
-		$hilite = ' class="left';
+		$hilite = NULL;
 
 		if (0 == strlen($reg))
 		{
@@ -576,24 +591,40 @@ else
 
 			if (isset($watch[$reg]))
 			{
-				$hilite .= ' watch" title="'.htmlspecialchars($watch[$reg]);
-				$sortkey = str_replace('%', '0:'.$reg.$day.$hhmm, $sortkey);
-			}
-			else if ($vtf < 10)
-			{
-				$vtf = ordinal($vtf, $_SESSION['lang']);
-				$hilite .= ' rare" title="'.htmlspecialchars("$vtf$lang[vtf]");
+				$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($watch[$reg]));
 				$sortkey = str_replace('%', '0:'.$reg.$day.$hhmm, $sortkey);
 			}
 			else
 			{
-				$sortkey = str_replace('%', '1:'.$reg.$day.$hhmm, $sortkey);
+				if (isset($watch['wildcards']))
+				{
+					foreach ($watch['wildcards'] as $key => $comment)
+					{
+						if (fnmatch($key, $reg))
+						{
+							$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($comment));
+							$sortkey = str_replace('%', '0:'.$reg.$day.$hhmm, $sortkey);
+							break;
+						}
+					}
+				}
+
+				if (!$hilite)
+				{
+					if ($vtf < 10)
+					{
+						$vtf = ordinal($vtf, $_SESSION['lang']);
+						$hilite = sprintf(' class="rare" title="%s"', htmlspecialchars("$vtf$lang[vtf]"));
+						$sortkey = str_replace('%', '0:'.$reg.$day.$hhmm, $sortkey);
+					}
+					else
+					{
+						$sortkey = str_replace('%', '1:'.$reg.$day.$hhmm, $sortkey);
+					}
+				}
 			}
 		}
 
-		flush();
-
-		$hilite .= '"';
 		$href = NULL;
 
 		if (!$reg)
