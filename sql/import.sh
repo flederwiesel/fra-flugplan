@@ -5,7 +5,7 @@ if [ $# -lt 1 ]; then
 else
 	schema="usr_web416_3"
 
-	alias "mysql=mysql --silent --host=localhost --user=root --password= --default-character-set=utf8"
+	alias "mysql=mysql --host=localhost --user=root --password= --default-character-set=utf8"
 
 	eval mysql <<<$(echo "DROP DATABASE IF EXISTS \`$schema\`")
 	eval mysql <<<$(echo "CREATE DATABASE \`$schema\`")
