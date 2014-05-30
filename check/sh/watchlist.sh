@@ -64,7 +64,7 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | mysql
 	INSERT INTO `users`
 	(
 		`id`, `name`, `email`, `salt`, `passwd`,
-		`language`, `permissions`, `notification-from`, `notification-until`
+		`language`, `permissions`
 	)
 	VALUES
 	(
@@ -74,9 +74,7 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | mysql
 		'cf78aafd5c5410b7b12c2794a52cda1bccd01316f30df57aa29c5609ba979c15',
 		'c4ae99aa0209ce5bea9687cf0548d8ebc942ba14e166c45957a876bcec194fed', # elvizzz
 		'en',
-		'1',
-		'07:00',
-		'23:00'
+		'1'
 	);
 SQL
 
