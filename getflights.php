@@ -794,8 +794,14 @@ SQL;
 
 				if ($len > 0)
 				{
-					$airport = $airports->push(new AirportInfo($fi[0]));
+					$airport = new AirportInfo($fi[0]);
+
 					$awk->execute($htm, $airport);
+
+					if ($airport->iata && $airport->icao)
+						$airports->push($airport);
+					else
+						unset($airport);
 				}
 
 				/* Set srcipt execution limit. If set to zero, no time limit is imposed. */
@@ -1658,7 +1664,20 @@ function SQL_FlightsToHistory()
 
 				if (!$result)
 				{
-					$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
+					$error = mysql_errno();
+					$result = mysql_error();
+
+					// [1062] Duplicate entry 'arrival-67-511-2014-04-27 11:15:00'
+					if (1062 == $error)
+					{
+						if (preg_match("/(.*Duplicate entry ')([^']+)('.*)/i", $result, $m))
+						{
+							$result = sprintf('%s<a href="./?page=rmdup&key=%s">%s</a>%s',
+											  $m[1], urlencode($m[2]), $m[2], $m[3]);
+						}
+					}
+
+					$error = seterrorinfo(__LINE__, sprintf("[%d] %s", $error, $result));
 				}
 				else
 				{
