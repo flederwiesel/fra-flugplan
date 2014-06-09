@@ -1,6 +1,6 @@
 #!/bin/sh
 
-root=/html
+root=
 target=fra-schedule
 
 cp -f .config.flederwiesel .config
@@ -9,16 +9,16 @@ rev=$(LC_MESSAGES=en_US svn info . | awk '/^Revision:/ { print $2; }')
 echo -e "\033[36mRevision: $rev\033[m"
 
 lftp <<EOF
-open web416:L2ppkt1fl2@www.flederwiesel.com
+open "web416f3:Fox@- 2>&1"@www.flederwiesel.com
 
 !LC_MESSAGES=en_US svn info . | awk '/^Last Changed (Rev|Date):/ { print \$0; }' > revision
 !LC_MESSAGES=en_US svn info . | awk '/^URL:/ { print \$2; }' > history
 !echo '------------------------------------------------------------------------' >> history
 !svn log | sed -nr 'H; :a /---/ { x; s/\([a-z]+,[^)]+\) //g; s/[0-9]+ lines?//g; s/-*-\$//g; s/\n//g; p; n; h; ba }' >> history
 
-rm -rf ${root}/vault/${target}/$rev
-mkdir -p ${root}/vault/${target}/$rev
-cd ${root}/vault/${target}/$rev
+rm -rf ${root}/$rev
+mkdir -p ${root}/$rev
+cd ${root}/$rev
 
 mirror --reverse \
 	--verbose \
@@ -38,7 +38,7 @@ mirror --reverse \
 #	--dry-run \
 
 !echo $rev > target
-cd ${root}/vault/${target}
+cd ${root}
 put target
 !rm target
 
