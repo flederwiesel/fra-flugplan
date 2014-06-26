@@ -676,7 +676,7 @@ function CURL_GetFlights($curl, $dir, &$flights)
 
 			curl_setopt($curl, CURLOPT_COOKIESESSION, FALSE);	// reuse session cookie
 
-			if (0 == strlen($htm))
+			if (0 == strlen($htm) || strstr($htm, "Error 404"))
 			{
 				$page = 0;
 
@@ -1544,7 +1544,6 @@ SQL;
 function SQL_DeleteFlight($dir, $airline, $code, $scheduled, &$aircraft)
 {
 	global $DEBUG;
-	global $uid;
 
 	$error = NULL;
 
@@ -1594,15 +1593,15 @@ SQL;
 
 		if ($id)
 		{
+			/* Delete from `watchlist-notifications` first, which uses
+			   `flights`.`is` a foreign key... */
 			$query = <<<SQL
 				DELETE
-				FROM `flights`
-				WHERE `id`=$id
+				FROM `watchlist-notifications`
+				WHERE `flight`=$id
 SQL;
 
-			$result = mysql_query($query);
-
-			if (!$result)
+			if (!mysql_query($query))
 			{
 				$error = seterrorinfo(__LINE__,
 							sprintf("[%d] %s: %s",
@@ -1611,13 +1610,33 @@ SQL;
 			else
 			{
 				if (isset($DEBUG['query']))
-				{
 					echo query_style($query);
-					echo "=OK\n";
-				}
 
-				if (0 == mysql_affected_rows())
-					warn_once(__LINE__, "No flight deleted: $dir-$airline-'$code'-'$scheduled'");
+				$query = <<<SQL
+					DELETE
+					FROM `flights`
+					WHERE `id`=$id
+SQL;
+
+				$result = mysql_query($query);
+
+				if (!$result)
+				{
+					$error = seterrorinfo(__LINE__,
+								sprintf("[%d] %s: %s",
+									mysql_errno(), mysql_error(), query_style($query)));
+				}
+				else
+				{
+					if (isset($DEBUG['query']))
+					{
+						echo query_style($query);
+						echo "=OK\n";
+					}
+
+					if (0 == mysql_affected_rows())
+						warn_once(__LINE__, "No flight deleted: $dir-$airline-'$code'-'$scheduled'");
+				}
 			}
 		}
 	}
@@ -1644,13 +1663,15 @@ function SQL_FlightsToHistory()
 		}
 		else
 		{
-			$result = mysql_query("INSERT INTO `move flights` ".
-								  "  SELECT `id` ".
-								  "    FROM `flights` ".
-								  "      WHERE IFNULL(`expected`, `scheduled`) < ".
-								  "        (SELECT SUBTIME(CONVERT_TZ(UTC_TIMESTAMP(), ".
-								  "         '+00:00', '+01:00'), '1 00:00:00.0')) ".
-								  "         LIMIT 100");
+			$query = <<<SQL
+							INSERT INTO `move flights`
+								SELECT `id`
+								FROM `flights`
+								WHERE (DATEDIFF(NOW(), IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 2)
+								LIMIT 100
+SQL;
+
+			$result = mysql_query($query);
 
 			if (!$result)
 			{
@@ -1697,6 +1718,68 @@ function SQL_FlightsToHistory()
 		$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
 
 	return $error;
+}
+
+function SendWatchlistNotification($name, $email, $notifications, $now)
+{
+	global $DEBUG;
+
+	if (isset($DEBUG['any']))
+		echo "$email:\n";
+
+	$n = 0;
+	$text = '';
+	$update = '';
+
+	foreach ($notifications as $notification)
+	{
+		$text .= "$notification[expected]\t$notification[reg]";
+
+		if ($notification['comment'])
+			$text .= "\t\"$notification[comment]\"\n";
+		else
+			$text .= "\n";
+
+		if ($n++ > 0)
+			$update .= ',';
+
+		$update .= $notification['id'];
+	}
+
+	if (isset($DEBUG['any']))
+		echo "$text";
+
+	$to = mb_encode_mimeheader($name, 'ISO-8859-1', 'Q')."<$email>";
+	$from = "From: FRA schedule <fra-schedule@flederwiesel.com>\n";
+	$subject = "watchlist";
+
+	if (!mail($to, $subject, $text, $from))
+	{
+		$error = seterrorinfo(0, NULL);
+	}
+	else
+	{
+		$query = <<<SQL
+			UPDATE `watchlist-notifications`
+			LEFT JOIN `watchlist`
+				   ON `watchlist`.`id`=`watchlist-notifications`.`watch`
+			INNER JOIN `users`
+					ON `users`.`id`=`watchlist`.`user`
+						AND `users`.`email`='$email'
+			SET `watchlist-notifications`.`notified`=$now
+			WHERE `watchlist-notifications`.`id` IN(%s)
+SQL;
+
+		$query = sprintf($query, $update);
+
+		if (isset($DEBUG['query']))
+			echo query_style($query);
+
+		if (mysql_query($query))
+			$error = NULL;
+		else
+			$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
+	}
 }
 
 $error = NULL;
@@ -1877,6 +1960,150 @@ else
 				curl_close($curl);
 			}
 		}
+
+		/* Add watches to `watchlist-notifications` table */
+		if (isset($DEBUG['any']))
+			echo "\n";
+
+		if (isset($_GET['now']))
+			$now = "'$_GET[now]'";
+		else
+			$now = 'NOW()';
+
+		$query = <<<SQL
+			INSERT INTO `watchlist-notifications`(`watch`, `flight`)
+
+			SELECT `watchlist`.`id`, `flights`.`id`
+			FROM `watchlist`
+			INNER JOIN `aircrafts`
+				ON `aircrafts`.`reg` LIKE REPLACE(REPLACE(`watchlist`.`reg`, '*', '%'), '?', '_')
+			INNER JOIN
+				(SELECT
+					`id`,
+					`direction`,
+					IFNULL(`expected`, `scheduled`) AS `expected`,
+					`aircraft`
+				 FROM `flights`
+				 WHERE `aircraft` IS NOT NULL)
+				 	AS `flights`
+				ON `aircrafts`.`id` = `flights`.`aircraft`
+			LEFT JOIN `watchlist-notifications`
+				ON `watchlist-notifications`.`flight` = `flights`.`id`
+			WHERE `watchlist`.`notify` = TRUE
+				AND `watchlist-notifications`.`flight` IS NULL
+				AND 'arrival' = `flights`.`direction`
+				AND `expected` > $now
+SQL;
+
+		if (!mysql_query($query))
+		{
+				$error = seterrorinfo(__LINE__,
+							sprintf("[%d] %s: %s",
+								mysql_errno(), mysql_error(), query_style($query)));
+		}
+		else
+		{
+			/* Check whether or which notifications are to be sent */
+			if (isset($DEBUG['query']))
+				echo query_style($query);
+
+			$query = <<<SQL
+				SELECT
+					`watchlist-notifications`.`id`,
+					CONCAT('+', DATEDIFF(IFNULL(`flights`.`expected`, `flights`.`scheduled`), $now),
+						   ' ', TIME_FORMAT(IFNULL(`flights`.`expected`, `flights`.`scheduled`), '%H:%i')) AS `expected`,
+					CONCAT(`airlines`.`code`,
+						   `flights`.`code`) AS `flight`,
+					`watchlist`.`id` AS `watch`,
+					`aircrafts`.`reg` AS `reg`,
+					`watchlist`.`comment` AS `comment`,
+					`users`.`name` AS `user`,
+					`users`.`email` AS `email`
+				FROM `watchlist-notifications`
+				LEFT JOIN `watchlist`
+					ON `watchlist-notifications`.`watch` = `watchlist`.`id`
+				LEFT JOIN `flights`
+					ON `watchlist-notifications`.`flight` = `flights`.`id`
+				LEFT JOIN `airlines`
+					ON `flights`.`airline` = `airlines`.`id`
+				LEFT JOIN `aircrafts`
+					ON `flights`.`aircraft` = `aircrafts`.`id`
+				LEFT JOIN `users`
+					ON `watchlist`.`user` = `users`.`id`
+				WHERE IFNULL(`flights`.`expected`, `flights`.`scheduled`) > $now
+				AND `notified` IS NULL
+				AND
+				 TIME($now)
+				 BETWEEN `users`.`notification-from`
+					 AND `users`.`notification-until`
+				ORDER BY
+					`email` ASC,
+					`expected` ASC
+SQL;
+
+			$result = mysql_query($query);
+
+			if (!$result)
+			{
+				$error = seterrorinfo(__LINE__,
+							sprintf("[%d] %s: %s",
+								mysql_errno(), mysql_error(), query_style($query)));
+			}
+			else
+			{
+				if (isset($DEBUG['query']))
+					echo query_style($query);
+
+				$text = NULL;
+				$email = NULL;
+				$watch = NULL;
+
+				$notifications = array();
+
+				$row = mysql_fetch_assoc($result);
+
+				while ($row)
+				{
+					if ($email != $row['email'])
+					{
+						/* Flush */
+						if ($email != NULL)
+						{
+							SendWatchlistNotification($user, $email, $notifications, $now);
+							$notifications = array();
+						}
+
+						/* Remember first ID of new email */
+						$user = $row['user'];
+						$email = $row['email'];
+					}
+
+					$notifications[] = $row;
+
+					$row = mysql_fetch_assoc($result);
+				}
+
+				if ($email)
+					SendWatchlistNotification($user, $email, $notifications, $now);
+
+				mysql_free_result($result);
+			}
+		}
+
+		/* Delete notifications for flights having been arrived prior to yesterday */
+		$query = <<<SQL
+			DELETE `watchlist-notifications`
+			FROM `watchlist-notifications`
+			INNER JOIN `flights`
+			        ON `flights`.`id`=`watchlist-notifications`.`flight`
+			WHERE (DATEDIFF($now, IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 1)
+SQL;
+
+		if (isset($DEBUG['query']))
+			echo query_style($query);
+
+		if (!mysql_query($query))
+			$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
 
 		/* Move outdated flights to history table */
 		if (!$error)

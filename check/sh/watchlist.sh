@@ -108,3 +108,29 @@ check "4" curl "$url/?arrival\&now=$now" \
 	"| sed -r '
 		s/now=$today/now=0000-00-00/g
 	'"
+
+sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | mysql
+	USE fra-schedule;
+
+	SELECT `id` INTO @uid FROM `users` WHERE `name`='flederwiesel';
+
+	INSERT INTO `watchlist-notifications`(`watch`, `flight`)
+
+	SELECT `flights`.`id`, `watchlist`.`id`
+	FROM `flights` AS `flights`
+	LEFT JOIN `aircrafts`
+	       ON `aircrafts`.`id`=`flights`.`aircraft`
+	LEFT JOIN (
+					SELECT `watchlist`.`id`, `watchlist`.`reg`
+					FROM `watchlist` AS `watchlist`
+					WHERE `reg`='ZS-SNC') AS `watchlist`
+	       ON `watchlist`.`reg`=`aircrafts`.`reg`
+	WHERE `aircraft`=
+		(SELECT `id` FROM `aircrafts` AS `aircraft` WHERE `reg`='ZS-SNC')
+SQL
+
+check "5" curl "$url/?arrival\&now=$now" \
+		--data-urlencode "'del[ZS-SNC]='" \
+	"| sed -r '
+		s/now=$today/now=0000-00-00/g
+	'"

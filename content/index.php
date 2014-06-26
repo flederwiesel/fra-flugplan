@@ -22,7 +22,8 @@
  *
  ******************************************************************************/
 
-$error = null;
+$error = NULL;
+$message = NULL;
 
 function ordinal($number, $lang)
 {
@@ -49,14 +50,12 @@ if (isset($_POST['del']) ||
 {
 	if (!$user)
 	{
-		$error = '...';
+		$error = $lang['unexpected'];
 	}
 	else
 	{
 		if ($hdbc)
 		{
-			$error = NULL;
-
 			if (!mysql_query('SET AUTOCOMMIT=0'))
 			{
 				$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
@@ -69,6 +68,8 @@ if (isset($_POST['del']) ||
 				}
 				else
 				{
+					$uid = $user->id();
+
 					if (isset($_POST['del']))
 					foreach ($_POST['del'] as $reg => $comment)
 					{
@@ -81,41 +82,89 @@ if (isset($_POST['del']) ||
 							$reg = str_replace("'", "", $reg);
 						}
 
-						$query = "DELETE FROM `watchlist` WHERE `user`=".$user->id().
-								 " AND `reg`='$reg'";
+						$query = <<<SQL
+							DELETE `watchlist-notifications`
+							FROM `watchlist-notifications`
+							INNER JOIN (SELECT `id` FROM `watchlist`
+										WHERE `user`=$uid
+										AND `reg`='$reg') AS `watchlist`
+							        ON `watchlist`.`id`=`watchlist-notifications`.`watch`
+SQL;
 
 						if (!mysql_query($query))
 						{
 							$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
 							break;
 						}
-					}
-
-					if (!$error)
-					{
-						if (isset($_POST['reg']))
-						foreach ($_POST['reg'] as $reg => $comment)
+						else
 						{
-							$watch[$reg] = $comment;
-							$reg = strtoupper(trim($reg));
-
-							if (!get_magic_quotes_gpc())
-							{
-								// escape backslashes and single quotes
-								$reg     = str_replace("\\", "", $reg);
-								$reg     = str_replace("'", "", $reg);
-								$comment = str_replace("\\", "\\\\", $comment);
-								$comment = str_replace("'", "\\'", $comment);
-							}
-
-							$query = "INSERT INTO `watchlist`(`user`,`reg`,`comment`) ".
-									 "VALUES((SELECT `id` FROM `users` WHERE `name`='".$user->name()."'), '$reg', '$comment')".
-									 "ON DUPLICATE KEY UPDATE `comment`='$comment'";
+							$query = <<<SQL
+								DELETE FROM `watchlist`
+								WHERE `user`=$uid
+									AND `reg`='$reg'
+SQL;
 
 							if (!mysql_query($query))
 							{
 								$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
 								break;
+							}
+						}
+					}
+
+					if (!$error)
+					{
+						if (isset($_POST['reg']))
+						{
+							$notif_req = 0;
+
+							if (isset($_POST['notify']))
+								$notifications = $_POST['notify'];
+
+							foreach ($_POST['reg'] as $reg => $comment)
+							{
+								$watch[$reg] = $comment;
+								$reg = strtoupper(trim($reg));
+
+								if (!get_magic_quotes_gpc())
+								{
+									// escape backslashes and single quotes
+									$reg     = str_replace("\\", "", $reg);
+									$reg     = str_replace("'", "", $reg);
+									$comment = str_replace("\\", "\\\\", $comment);
+									$comment = str_replace("'", "\\'", $comment);
+								}
+
+								if (isset($notifications[$reg]))
+								{
+									$notif_req = TRUE;
+									$notify = 'TRUE';
+								}
+								else
+								{
+									$notify = 'FALSE';
+								}
+
+								$query = <<<SQL
+									INSERT INTO `watchlist`(`user`,`reg`,`comment`, `notify`)
+									VALUES($uid, '$reg', '$comment', $notify)
+									ON DUPLICATE KEY UPDATE `comment`='$comment', `notify`=$notify
+SQL;
+
+								if (!mysql_query($query))
+								{
+									$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+									break;
+								}
+							}
+
+							if (!$error)
+							{
+								if ($notif_req)
+								{
+									if ($user->opt('notification-from') == $user->opt('notification-until'))
+										$message = $lang['notif-setinterval'];
+								}
 							}
 						}
 					}
@@ -136,117 +185,12 @@ if (isset($_POST['del']) ||
 	}
 }
 
-/******************************************************************************
- * Watchlist
- ******************************************************************************/
-
-$watch = array();
-
-$ignore = array(
-	'___visitsToday ',
-	'__utma',
-	'__utmz',
-	'_et_coid',
-	'BIGipServerpool-proxy-http ',
-	'DBGSESSID',
-	'googleMapHomePin',
-	'googleMapOptions',
-	'ld893_s ',
-	'PHPSESSID',
-	'POPUPCHE',
-	'POPUPCHECK',
-	/* our cookies */
-	'autologin',
-	'userID',
-	'hash',
-	'lang',
-);
-
-foreach ($_COOKIE as $key =>$value)
-{
-	if (!in_array($key, $ignore))
-		$watch[$key] = $value;
-}
-
-unset($ignore);
-
-/******************************************************************************
- * move watchlist cookies into db
- ******************************************************************************/
-
-if ($user)
-{
-	if ($hdbc)
-	{
-		foreach ($watch as $reg => $comment)
-		{
-			$query = "SELECT `id` FROM `watchlist` WHERE `user`=".$user->id()." AND `reg`='$reg'";
-			$result = mysql_query($query);
-
-			if (!$result)
-			{
-				$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
-			}
-			else
-			{
-				if (0 == mysql_num_rows($result))
-				{
-					$query = "INSERT INTO `watchlist`(`user`, `reg`, `comment`)".
-							 " VALUES(".$user->id().", '$reg', '$comment')";
-
-					if (mysql_query($query))
-					{
-						setcookie($reg, NULL, 0);
-					}
-					else
-					{
-						$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
-						break;
-					}
-				}
-
-				mysql_free_result($result);
-			}
-
-			unset($watch[$reg]);
-		}
-	}
-}
-
-/******************************************************************************
- * get watchlist from db
- ******************************************************************************/
-
-if ($user)
-{
-	if ($hdbc)
-	{
-		$result = mysql_query("SELECT `reg`,`comment` FROM `watchlist`".
-							  " WHERE `user`=".$user->id().
-							  " ORDER BY `reg`");
-
-		if (!$result)
-		{
-			$error .= sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
-		}
-		else
-		{
-			while ($row = mysql_fetch_row($result))
-				$watch[$row[0]] = $row[1];
-
-			mysql_free_result($result);
-		}
-	}
-}
-
 ?>
-
 <!--[if IE]>
 <style type="text/css">
 #list { padding-right: 1.2em; }
 </style>
 <![endif]-->
-
 <script type="text/javascript">
 	wl_img_open = "img/wl-open-<?php echo $_SESSION['lang']; ?>.png";
 	wl_img_close = "img/wl-close-<?php echo $_SESSION['lang']; ?>.png";
@@ -273,20 +217,28 @@ if ($user)
 		});
 	});
 </script>
-
 <?php
 
 if ($error)
 {
 ?>
-<div id="error">
-	<h1><?php echo $lang['fatal']; ?></h1>
-	<?php echo $error; ?>
-</div>
+<div id="notification" class="error"><?php echo $error; ?></div>
 <?php
 }
+else
+{
+	if ($message)
+	{
+?>
+<div id="notification" class="explain"><?php echo $message; ?></div>
+<?php
+	}
+}
 
-/* Runway direction */
+/******************************************************************************
+ * Runway direction
+ ******************************************************************************/
+
 $file = @file("data/betriebsrichtung.html");
 
 if (!$file)
@@ -326,7 +278,6 @@ else
 }
 
 ?>
-
 <div id="rwy_cont">
 	<div id="rwy_div" style="float: <?php echo 'arrival' == $dir ? 'left' : 'right'; ?> ;">
 		<span id="rwy_l" style="vertical-align: middle;">
@@ -335,12 +286,16 @@ else
 		<span id="rwy_r"><?php echo $rwydir; ?></span>
 	</div>
 </div>
-
 <?php
+/******************************************************************************
+ * Watchlist
+ ******************************************************************************/
+
+$watch = array();
+
 if ($user && (!$mobile || $tablet))
 {
 ?>
-
 <div id="wl_cont">
 	<div id="wl_div">
 		<div id="wl_handle" class="cell top">
@@ -358,6 +313,7 @@ if ($user && (!$mobile || $tablet))
 										<th></th>
 										<th><?php echo $lang['reg']; ?></th>
 										<th><?php echo $lang['comment']; ?></th>
+										<th><a href="javascript:ToggleNotifications()"><img src="img/mail.png"></a></th>
 										<th></th>
 										<th></th>
 									</tr>
@@ -365,33 +321,53 @@ if ($user && (!$mobile || $tablet))
 								<tfoot></tfoot>
 								<tbody>
 <?php
-								if (0 == count($watch))
-								{
+	if ($hdbc)
+	{
+		$result = mysql_query("SELECT `reg`, `comment`, `notify` ".
+							  "FROM `watchlist`".
+							  " WHERE `user`=".$user->id().
+							  " ORDER BY `reg`");
+
+		if (!$result)
+		{
+			$error .= sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+		}
+		else
+		{
+			if (0 == mysql_num_rows($result))
+			{
 ?>
 									<tr>
 										<td><img src="img/a-net-ina.png" alt=""></td>
 										<td class="reg"><input type="text" value=""></td>
 										<td class="comment"><input type="text" value=""></td>
+										<td class="comment"><input type="checkbox" value=""></td>
 										<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
 										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
 									</tr>
 <?php
-								}
-								else
-								{
-									foreach ($watch as $reg => $comment)
-									{
+			}
+			else
+			{
+				while (list($reg, $comment, $notify) = mysql_fetch_row($result))
+				{
+					$watch[$reg] = $comment;
 ?>
-										<tr>
-											<td><a href="http://www.airliners.net/search/photo.search?q=<?php echo $reg; ?>&sort_order=year+desc" target="a-net"><img src="img/a-net.png" alt="www.airliners.net"></a></td>
-											<td class="reg"><input type="text" value="<?php echo $reg; ?>"></td>
-											<td class="comment"><input type="text" value="<?php echo htmlspecialchars($comment); ?>"></td>
-											<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
-											<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
-										</tr>
+									<tr>
+										<td><a href="http://www.airliners.net/search/photo.search?q=<?php echo $reg; ?>&sort_order=year+desc" target="a-net"><img src="img/a-net.png" alt="www.airliners.net"></a></td>
+										<td class="reg"><input type="text" value="<?php echo $reg; ?>"></td>
+										<td class="comment"><input type="text" value="<?php echo htmlspecialchars($comment); ?>"></td>
+										<td class="comment"><input type="checkbox" value=""<?php if ($notify) echo " checked"; ?>></td>
+										<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
+										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
+									</tr>
 <?php
-									}
-								}
+				}
+			}
+
+			mysql_free_result($result);
+		}
+	}
 ?>
 								</tbody>
 							</table>
@@ -404,11 +380,18 @@ if ($user && (!$mobile || $tablet))
 		</div>
 	</div>
 </div>
+<?php
+}
 
+if ($error)
+{
+?>
+<div id="notification" class="error">
+	<?php echo $error; ?>
+</div>
 <?php
 }
 ?>
-
 <div id="schedule">
 	<table class="sortable" summary="schedule">
 		<thead>
@@ -642,7 +625,7 @@ else
 				echo "<td$hilite$sortkey>";
 ?>
 				<a href = "http://www.airliners.net/search/photo.search?q=<?php echo $reg ?>&sort_order=year+desc" target="a-net">
-					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+					<img src="img/a-net.png" alt="www.airliners.net">
 				</a>
 <?php
 				echo "$reg";

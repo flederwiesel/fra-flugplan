@@ -14,8 +14,18 @@
 <meta name="robots" content="index, nofollow">
 <meta name="generator" content="http://www.ultraedit.com/">
 <link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
-<link rel="icon" href="favicon.gif" type="image/gif">
+<link type="text/css" rel="icon" href="favicon.gif" type="image/gif">
+<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.core.css">
+<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.base.css">
+<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.theme.css">
+<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.slider.css">
+<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.datepicker.css">
 <script type="text/javascript" src="script/jquery-ui-1.10.3/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/jquery.ui.mouse.js"></script>
+<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/jquery.ui.slider.js"></script>
+<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/jquery.ui.datepicker.js"></script>
 </head>
 <body>
 	<noscript>
@@ -30,43 +40,35 @@
 Live Flugplan</h3>
 				</div>
 				<div id="nav">
-<dl class="left">
-		<dt><a href="http://www.frankfurt-aviation-friends.de/">Startseite</a></dt>
-			<dt class="sep"><a href="?arrival">Ankunft</a></dt>
-			<dt class="sep"><a href="?departure">Abflug</a></dt>
-				<dt class="sep"><a href="?page=addflight">Flug einfügen</a></dt>
-		<dt class="sep"><a href="?page=help">Hilfe</a></dt>
-</dl>
-<dl class="right">
-			<dt class="sep"><a href="?req=profile">Benutzerprofil</a></dt>
-			<dt class="sep"><a href="?req=logout">Abmelden</a></dt>
-		<span style="vertical-align: baseline;">
-			<dt>
-				<a href="?req=profile&lang=de">
-					<img src="img/de.png" alt="Deutsch" width="16" height="12">
-				</a>
-			</dt>
-			<dt>
-				<a href="?req=profile&lang=en">
-					<img src="img/en.png" alt="Englisch" width="16" height="12">
-				</a>
-			</dt>
-		</span>
-</dl>
+<ul class="menu left">
+		<li><a href="http://www.frankfurt-aviation-friends.de/">Startseite</a></li>
+			<li class="sep"><a href="?arrival">Ankunft</a></li>
+			<li class="sep"><a href="?departure">Abflug</a></li>
+				<li class="sep"><a href="?page=addflight">Flug einfügen</a></li>
+		<li class="sep"><a href="?page=help">Hilfe</a></li>
+</ul>
+<ul class="menu right">
+			<li class="sep">Benutzerprofil</li>
+			<li class="sep"><a href="?req=logout">Abmelden</a></li>
+		<li style="vertical-align: baseline;">
+			<a href="?req=profile&dispinterval&lang=de">
+				<img src="img/de.png" alt="Deutsch" width="16" height="12">
+			</a>
+		</li>
+		<li style="vertical-align: baseline;">
+			<a href="?req=profile&dispinterval&lang=en">
+				<img src="img/en.png" alt="Englisch" width="16" height="12">
+			</a>
+		</li>
+</ul>
 				</div>
 			</div>
 			<div id="content">
-<link rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.base.css">
-<link rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.theme.css">
-<link rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.slider.css">
-<script src="script/jquery-ui-1.10.3/ui/jquery.ui.core.js"></script>
-<script src="script/jquery-ui-1.10.3/ui/jquery.ui.widget.js"></script>
-<script src="script/jquery-ui-1.10.3/ui/jquery.ui.mouse.js"></script>
-<script src="script/jquery-ui-1.10.3/ui/jquery.ui.slider.js"></script>
-<script>
+<script type="text/javascript">
 $(function()
 {
-	$.each(["phone", "tablet"], function(index, value) {
+	$.each(["phone", "tablet"], function(index, value)
+	{
 		var min = $("#" + value + "-min");
 		var max = $("#" + value + "-max");
 		var divider = $("option", min).size();
@@ -116,9 +118,15 @@ $(function()
 	});
 });
 </script>
-<form method="post" action="?req=profile"
+<ul class="menu left">
+	<li>Anzeigeintervall</li>
+	<li class="sep"><a href="?req=profile&notifinterval">Benachrichtigungszeitraum</a></li>
+	<li class="sep"><a href="?req=profile&changepw">Passwort ändern</a></li>
+</ul>
+<div style="clear: both;">
+<form method="post" action="?req=profile&dispinterval"
 	onsubmit="document.getElementById('submit').disabled=true;">
-		<fieldset>
+	<fieldset>
 		<legend>Anzeigeintervall</legend>
 		<div id="notification" class="success">Einstellungen wurden gespeichert.</div>
 		<div class="explainatory">Für mobile Geräte &ndash; welche sich nicht unbedingt in Reichweite eines WLAN-Netzwerkes befinden mögen &ndash;, kann die Reaktionsgeschwindigkeit erhöht und die Bandbreite durch ein angepaßtes Anzeigeintervall verringert werden. Das Standardervall ist -15 min ... +24 h.</div>
@@ -162,33 +170,7 @@ $(function()
 		<input type="submit" id="submit" name="submit" value="Absenden">
 	</div>
 </form>
-<form class="stretched" method="post" action="?req=changepw"
-	onsubmit="document.getElementById('submit').disabled=true;">
-	<fieldset>
-		<legend>Passwort ändern</legend>
-		<div class="table">
-			<div class="row">
-				<div class="cell label">Neues Passwort</div>
-				<div class="cell">
-					<input type="password" id="passwd" name="passwd"
-					 value="">
-				</div>
-			</div>
-			<div class="row">
-				<div class="cell label">Passwort bestätigen</div>
-				<div class="cell">
-					<input type="password" id="passwd-confirm" name="passwd-confirm"
-					 value="">
-					<div class="hint">Passwort muß aus mindestens 4 Zeichen bestehen.</div>
-				</div>
-			</div>
-		</div>
-	</fieldset>
-	<div class="center">
-		<input type="hidden" name="submit" value="changepw">
-		<input type="submit" id="submit" value="Absenden">
-	</div>
-</form>
+</div>
 			</div>
 		</div>
 	</div>

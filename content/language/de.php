@@ -179,14 +179,23 @@ $lang = array
 	'rwydir' => 'Betriebsrichtung',
 	'emil' => 'Danke, daß Du Dir die Zeit für eine Resonanz bezüglich unserer Seite nimmst.',
 	'dlflights' => 'Flüge herunterladen',
-	'displayinterval' => 'Anzeigeintervall',
-	'displayintervaldesc' => 'Für mobile Geräte &ndash; welche sich nicht unbedingt in Reichweite '.
+	'dispinterval' => 'Anzeigeintervall',
+	'dispintervaldesc' => 'Für mobile Geräte &ndash; welche sich nicht unbedingt in Reichweite '.
 		'eines WLAN-Netzwerkes befinden mögen &ndash;, kann die Reaktionsgeschwindigkeit erhöht und die '.
 		'Bandbreite durch ein angepaßtes Anzeigeintervall verringert werden. Das Standardervall ist -15 min ... +24 h.',
 	'cellphone' => 'Mobiltelefon',
 	'tablet' => 'Tablet',
 	'settingsssaved' => 'Einstellungen wurden gespeichert.',
 	'vtf' => ' Besuch in FRA',
+	'notifinterval' => 'Benachrichtigungszeitraum',
+	'notifintervaldesc' => 'Sobald eine der in der Beobachtungsliste festgelegten Kennungen im Flugplan auftaucht,
+		wird eine Benachrichtigung an die hinterlegte E-Mail-Adresse versendet.<br><br>
+		Bitte Zeiten festlegen, zwischen denen Benachrichtigungen gesendet werden sollen.<br>
+		Soll keine Benachrichtigung erfolgen, bitte für beide Zeiten "00:00" auswählen.',
+	'notif-from-until' => 'Benachrichtigen zwischen: ',
+	'notif-setinterval' => 'Es wurden Benachrichtigungen aktiviert, jedoch kein Benachrichtigungsintervall ausgewählt.
+		Um Benachrichtigungen zu erhalten, muß im <a href="?req=profile&notifinterval">Benutzerprofil</a>
+		ein Zeitraum angegeben werden.',
 );
 
 ?>

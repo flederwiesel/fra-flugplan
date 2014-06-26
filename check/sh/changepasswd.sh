@@ -65,11 +65,9 @@ check "8" curl "$url/?req=login" \
 # change password whilst logged in
 ###############################################################################
 
-check "9" curl "$url/?req=profile" \
-	"|" sed -r "'s/(<option value=\"-?[0-9]+\")(\ selected)?>/\1>/g'"
+check "9" curl "$url/?req=profile\&changepw"
 
 check "10" curl "$url/?req=changepw" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
-		--data-urlencode "submit=changepw" \
-	"|" sed -r "'s/(<option value=\"-?[0-9]+\")(\ selected)?>/\1>/g'"
+		--data-urlencode "submit=changepw"

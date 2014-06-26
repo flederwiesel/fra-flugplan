@@ -69,6 +69,7 @@ check() {
 
 	name=$1
 	shift
+	[ 1 == $verbose ] && echo -e "$name" >&2
 	[ 1 == $debug ] && echo -e "\033[33m$@\033[m" >&2
 	eval "$@" 2>&1 > "$results/$name.htm" | sed -r $'s~^.+$~\033[1;31mERROR: &\033[m~g'
 }

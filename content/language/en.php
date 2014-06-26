@@ -177,14 +177,23 @@ $lang = array
 	'rwydir' => 'active runway',
 	'emil' => 'Thank you for taking the time for feedback on our site.',
 	'dlflights' => 'Download flights',
-	'displayinterval' => 'Display Interval',
-	'displayintervaldesc' => 'For mobile devices &ndash; which might not always be within range to a WLAN network '.
+	'dispinterval' => 'Display Interval',
+	'dispintervaldesc' => 'For mobile devices &ndash; which might not always be within range to a WLAN network '.
 		'&ndash;, it is possible to increase response times and reduce band width by adjusting the display interval. '.
 		'The default values are -15 min ... +24 hours.',
 	'cellphone' => 'Cell Phone',
 	'tablet' => 'Tablet',
 	'settingsssaved' => 'Settings have been saved.',
 	'vtf' => ' visit to FRA',
+	'notifinterval' => 'Notification Interval',
+	'notifintervaldesc' => 'If any of the registrations of your watchlist appears in the schedule,
+		a notification will be sent to your e-mail address.<br>
+		Please select the times between notifications will should be sent.<br><br>
+		If you do not wish to be notified, set both to "00:00".',
+	'notif-from-until' => 'Notify me between: ',
+	'notif-setinterval' => 'Notifications have been activated, however, no notification interval has been selected.
+		To receive notificationsm, choose a time interval in your
+		<a href="?req=profile&notifinterval">user profile</a>',
 );
 
 ?>

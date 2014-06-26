@@ -46,39 +46,31 @@
 	<fieldset>
 		<legend><?php echo $lang['changepasswd']; ?></legend>
 <?php
-		$notification = false;
-
-		if ('changepw' == $_GET['req'])
+		if (isset($_POST['submit']))
 		{
-			$notification = true;
-		}
-		else
-		{
-			if ($_POST['submit'])
+			if ($_POST['submit'] != 'changepw')
 			{
-				if ('changepw' == $_POST['submit'])
-					$notification = true;
+				$error = NULL;
+				$message = NULL;
 			}
 		}
 
-		if ($notification)
+		if ($error)
 		{
-			if ($error)
-			{
 ?>
 		<div id="notification" class="error">
 			<?php echo $error; ?>
 		</div>
 <?php
-			}
-			else if ($message)
-			{
+		}
+
+		if ($message)
+		{
 ?>
 		<div id="notification" class="success">
 			<?php echo $message; ?>
 		</div>
 <?php
-			}
 		}
 ?>
 		<div class="table">

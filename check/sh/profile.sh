@@ -40,7 +40,7 @@ check "5" curl "$url/?req=login" \
 
 check "6" curl "$url/?req=profile"
 
-check "7" curl "$url/?req=profile" \
+check "7" curl "$url/?req=profile\&dispinterval" \
 	--data-urlencode "tm-=-75" \
 	--data-urlencode "tm%2b=7200" \
 	--data-urlencode "tt-=-75" \

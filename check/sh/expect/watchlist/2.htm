@@ -14,8 +14,18 @@
 <meta name="robots" content="index, nofollow">
 <meta name="generator" content="http://www.ultraedit.com/">
 <link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
-<link rel="icon" href="favicon.gif" type="image/gif">
+<link type="text/css" rel="icon" href="favicon.gif" type="image/gif">
+<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.core.css">
+<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.base.css">
+<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.theme.css">
+<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.slider.css">
+<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.datepicker.css">
 <script type="text/javascript" src="script/jquery-ui-1.10.3/jquery-1.10.1.min.js"></script>
+<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/jquery.ui.core.js"></script>
+<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/jquery.ui.widget.js"></script>
+<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/jquery.ui.mouse.js"></script>
+<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/jquery.ui.slider.js"></script>
+<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/jquery.ui.datepicker.js"></script>
 </head>
 <body>
 	<noscript>
@@ -30,40 +40,36 @@
 Live Schedule &ndash; Arrival</h3>
 				</div>
 				<div id="nav">
-<dl class="left">
-		<dt><a href="http://www.frankfurt-aviation-friends.de/">Home</a></dt>
-			<dt class="sep">Arrival</dt>
-			<dt class="sep"><a href="?departure">Departure</a></dt>
-				<dt class="sep"><a href="javascript:watchlist('show');">Watchlist</a></dt>
-					<dt class="sep"><a href="?page=addflight">Add flight</a></dt>
-		<dt class="sep"><a href="?page=help">Help</a></dt>
-</dl>
-<dl class="right">
-			<dt class="sep"><a href="?req=profile">User profile</a></dt>
-			<dt class="sep"><a href="?req=logout">Logout</a></dt>
-		<span style="vertical-align: baseline;">
-			<dt>
-				<a href="?arrival&now=0000-00-00+23%3A59%3A00&lang=de">
-					<img src="img/de.png" alt="German" width="16" height="12">
-				</a>
-			</dt>
-			<dt>
-				<a href="?arrival&now=0000-00-00+23%3A59%3A00&lang=en">
-					<img src="img/en.png" alt="English" width="16" height="12">
-				</a>
-			</dt>
-		</span>
-</dl>
+<ul class="menu left">
+		<li><a href="http://www.frankfurt-aviation-friends.de/">Home</a></li>
+			<li class="sep">Arrival</li>
+			<li class="sep"><a href="?departure">Departure</a></li>
+				<li class="sep"><a href="javascript:watchlist('show');">Watchlist</a></li>
+					<li class="sep"><a href="?page=addflight">Add flight</a></li>
+		<li class="sep"><a href="?page=help">Help</a></li>
+</ul>
+<ul class="menu right">
+			<li class="sep"><a href="?req=profile">User profile</a></li>
+			<li class="sep"><a href="?req=logout">Logout</a></li>
+		<li style="vertical-align: baseline;">
+			<a href="?arrival&now=0000-00-00+23%3A59%3A00&lang=de">
+				<img src="img/de.png" alt="German" width="16" height="12">
+			</a>
+		</li>
+		<li style="vertical-align: baseline;">
+			<a href="?arrival&now=0000-00-00+23%3A59%3A00&lang=en">
+				<img src="img/en.png" alt="English" width="16" height="12">
+			</a>
+		</li>
+</ul>
 				</div>
 			</div>
 			<div id="content">
-
 <!--[if IE]>
 <style type="text/css">
 #list { padding-right: 1.2em; }
 </style>
 <![endif]-->
-
 <script type="text/javascript">
 	wl_img_open = "img/wl-open-en.png";
 	wl_img_close = "img/wl-close-en.png";
@@ -88,8 +94,6 @@ Live Schedule &ndash; Arrival</h3>
 		});
 	});
 </script>
-
-
 <div id="rwy_cont">
 	<div id="rwy_div" style="float: left ;">
 		<span id="rwy_l" style="vertical-align: middle;">
@@ -98,8 +102,6 @@ Live Schedule &ndash; Arrival</h3>
 		<span id="rwy_r">99</span>
 	</div>
 </div>
-
-
 <div id="wl_cont">
 	<div id="wl_div">
 		<div id="wl_handle" class="cell top">
@@ -117,6 +119,7 @@ Live Schedule &ndash; Arrival</h3>
 										<th></th>
 										<th>Reg</th>
 										<th>Comment</th>
+										<th><a href="javascript:ToggleNotifications()"><img src="img/mail.png"></a></th>
 										<th></th>
 										<th></th>
 									</tr>
@@ -127,6 +130,7 @@ Live Schedule &ndash; Arrival</h3>
 										<td><img src="img/a-net-ina.png" alt=""></td>
 										<td class="reg"><input type="text" value=""></td>
 										<td class="comment"><input type="text" value=""></td>
+										<td class="comment"><input type="checkbox" value=""></td>
 										<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
 										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
 									</tr>
@@ -141,8 +145,6 @@ Live Schedule &ndash; Arrival</h3>
 		</div>
 	</div>
 </div>
-
-
 <div id="schedule">
 	<table class="sortable" summary="schedule">
 		<thead>
@@ -154,15 +156,15 @@ Live Schedule &ndash; Arrival</h3>
 		<tfoot></tfoot>
 		<tbody>
 <tr><td>+1 06:15</td><td>SA260</td><td><div>South African Airways</div></td><td>JNB</td><td>FAOR</td><td><div>Johannesburg, Südafrika</div></td><td>A346</td><td sorttable_customkey="1:ZS-SNC+10615">				<a href = "http://www.airliners.net/search/photo.search?q=ZS-SNC&sort_order=year+desc" target="a-net">
-					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+					<img src="img/a-net.png" alt="www.airliners.net">
 				</a>
 ZS-SNC</td></tr>
 <tr><td>+1 06:20</td><td>CX289</td><td><div>Cathay Pacific Airways</div></td><td>HKG</td><td>VHHH</td><td><div>Hongkong, Hong Kong</div></td><td>B77W</td><td sorttable_customkey="1:B-KPE+10620">				<a href = "http://www.airliners.net/search/photo.search?q=B-KPE&sort_order=year+desc" target="a-net">
-					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+					<img src="img/a-net.png" alt="www.airliners.net">
 				</a>
 B-KPE</td></tr>
 <tr><td>+1 07:00</td><td>AC874</td><td><div>Air Canada</div></td><td>YUL</td><td>CYUL</td><td><div>Montreal-Trudeau, Kanada</div></td><td>A333</td><td sorttable_customkey="1:C-GFAH+10700">				<a href = "http://www.airliners.net/search/photo.search?q=C-GFAH&sort_order=year+desc" target="a-net">
-					<img class="href" src="img/a-net.png" alt="www.airliners.net">
+					<img src="img/a-net.png" alt="www.airliners.net">
 				</a>
 C-GFAH</td></tr>
 		</tbody>

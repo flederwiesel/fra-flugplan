@@ -47,6 +47,8 @@ CREATE TABLE IF NOT EXISTS `users`
 	`tm+` integer NOT NULL DEFAULT 3600,
 	`tt-` integer NOT NULL DEFAULT 0,
 	`tt+` integer NOT NULL DEFAULT 86400,
+	`notification-from` time NOT NULL DEFAULT '00:00',
+	`notification-until` time NOT NULL DEFAULT '00:00',
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `name` (`name`),
 	UNIQUE KEY `email` (`email`)
@@ -127,17 +129,6 @@ CREATE TABLE IF NOT EXISTS `history` LIKE `flights`;
 /* Remove AUTO_INCREMENT */
 ALTER TABLE `history` AUTO_INCREMENT = 0;
 
-CREATE TABLE IF NOT EXISTS `watchlist`
-(
-	`id` integer NOT NULL AUTO_INCREMENT,
-	`user` int(11) NOT NULL,
-	`reg` varchar(8) NOT NULL,
-	`comment` varchar(255) DEFAULT NULL,
-	PRIMARY KEY (`id`),
-	UNIQUE KEY `user, reg` (`user`, `reg`),
-	FOREIGN KEY(`user`) REFERENCES `users`(`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
 /* Count visits to FRA */
 CREATE TABLE IF NOT EXISTS `visits`
 (
@@ -147,6 +138,30 @@ CREATE TABLE IF NOT EXISTS `visits`
 	`previous` datetime DEFAULT NULL,
 	PRIMARY KEY (`aircraft`),
 	FOREIGN KEY(`aircraft`) REFERENCES `aircrafts`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `watchlist`
+(
+	`id` integer NOT NULL AUTO_INCREMENT,
+	`user` int(11) NOT NULL,
+	`notify` bool DEFAULT FALSE,
+	`reg` varchar(8) NOT NULL,
+	`comment` varchar(255) DEFAULT NULL,
+	PRIMARY KEY (`id`),
+	UNIQUE KEY `user, reg` (`user`, `reg`),
+	FOREIGN KEY(`user`) REFERENCES `users`(`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `watchlist-notifications`
+(
+	`id` integer NOT NULL AUTO_INCREMENT,
+	`watch` integer NOT NULL,
+	`flight` integer NOT NULL,
+	`notified` datetime DEFAULT NULL,
+	PRIMARY KEY(`id`),
+	UNIQUE KEY(`watch`, `flight`),
+	FOREIGN KEY(`watch`) REFERENCES `watchlist`(`id`),
+	FOREIGN KEY(`flight`) REFERENCES `flights`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /******************************************************************************

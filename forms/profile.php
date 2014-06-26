@@ -22,18 +22,44 @@
  *
  ******************************************************************************/
 
+if (isset($_GET['dispinterval']))
+{
+	$item = 'dispinterval';
+}
+else
+{
+	if (isset($_GET['notifinterval']))
+	{
+		$item = 'notifinterval';
+	}
+	else
+	{
+		if (isset($_GET['changepw']))
+		{
+			$item = 'changepw';
+		}
+		else
+		{
+			if (isset($_COOKIE['profile-item']))
+				$item = $_COOKIE['profile-item'];
+			else
+				$item = 'dispinterval';
+		}
+	}
+}
+
+setcookie('profile-item', $item, time() + COOKIE_LIFETIME);
+
 ?>
-<link rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.base.css">
-<link rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.theme.css">
-<link rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.slider.css">
-<script src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jquerymin; ?>jquery.ui.core.js"></script>
-<script src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jquerymin; ?>jquery.ui.widget.js"></script>
-<script src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jquerymin; ?>jquery.ui.mouse.js"></script>
-<script src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jquerymin; ?>jquery.ui.slider.js"></script>
-<script>
+<script type="text/javascript">
 $(function()
 {
-	$.each(["phone", "tablet"], function(index, value) {
+<?php
+if ('dispinterval' == $item)
+{
+?>
+	$.each(["phone", "tablet"], function(index, value)
+	{
 		var min = $("#" + value + "-min");
 		var max = $("#" + value + "-max");
 		var divider = $("option", min).size();
@@ -81,63 +107,125 @@ $(function()
 		$("#tablet-slider").slider("values", 1,
 			$("#tablet-min option").size() + this.selectedIndex + 1);
 	});
+<?php
+}
+
+if ('notifinterval' == $item)
+{
+?>
+	$.each(["notification"], function(index, value)
+	{
+		var min = $("#" + value + "-from");
+		var max = $("#" + value + "-until");
+		var divider = $("option", min).size();
+		var slider = $("<div id=\"" + value + "-slider\"></div>").insertAfter($(max)).slider({
+			min: 1,
+			max: 25,
+			range: true,
+
+			values: [$(min)[0].selectedIndex + 1,
+					 $(max)[0].selectedIndex + 1],
+
+			slide: function(event, ui)
+			{
+				$(min)[0].selectedIndex = ui.values[0] - 1;
+				$(max)[0].selectedIndex = ui.values[1] - 1;
+			}
+		});
+	});
+
+	$("#notification-from").change(function()
+	{
+		if ($("#notification-until").prop("selectedIndex") <= this.selectedIndex)
+			this.selectedIndex = $("#notification-until").prop("selectedIndex");
+
+		$("#notification-slider").slider("values", 0, this.selectedIndex + 1);
+	});
+
+	$("#notification-until").change(function()
+	{
+		if ($("#notification-from").prop("selectedIndex") >= this.selectedIndex)
+			this.selectedIndex = $("#notification-from").prop("selectedIndex");
+
+		$("#notification-slider").slider("values", 1, this.selectedIndex + 1);
+	});
+<?php
+}
+?>
 });
 </script>
-<form method="post" action="?req=profile"
+<ul class="menu left">
+	<li><?php navitem('dispinterval', 'dispinterval' == $item ? NULL : '?req=profile&dispinterval'); ?></li>
+	<li class="sep"><?php navitem('notifinterval', 'notifinterval' == $item ? NULL : '?req=profile&notifinterval'); ?></li>
+	<li class="sep"><?php navitem('changepw', 'changepw' == $item ? NULL : '?req=profile&changepw'); ?></li>
+</ul>
+<div style="clear: both;">
+<?php
+if ('dispinterval' == $item)
+{
+?>
+<form method="post" action="?req=profile&dispinterval"
 	onsubmit="document.getElementById('submit').disabled=true;">
-	<?php
+	<fieldset>
+		<legend><?php echo $lang['dispinterval']; ?></legend>
+<?php
 	/* At this point `user` is always set */
-	$notification = false;
-
-	if ($_POST['submit'])
+	if (isset($_POST['submit']))
 	{
 		if ('interval' == $_POST['submit'])
 		{
-			$notification = true;
-
-			$query = sprintf("UPDATE `users` ".
-							 "SET `tm-`=%ld, `tm+`=%ld, `tt-`=%ld, `tt+`=%ld WHERE `id`=%lu",
-							 $_POST['tm-'], $_POST['tm+'], $_POST['tt-'], $_POST['tt+'],
-							  $user->id());
-
-			$result = mysql_query($query);
-
-			if (!$result)
+			if (isset($_POST['tm-']) &&
+				isset($_POST['tm+']) &&
+				isset($_POST['tt-']) &&
+				isset($_POST['tt+']))
 			{
-				$error = mysql_error();
-			}
-			else
-			{
-				$user->opt('tm-', $_POST['tm-']);
-				$user->opt('tm+', $_POST['tm+']);
-				$user->opt('tt-', $_POST['tt-']);
-				$user->opt('tt+', $_POST['tt+']);
+				$query = <<<SQL
+					UPDATE `users`
+					SET `tm-`=%ld,
+						`tm+`=%ld,
+						`tt-`=%ld,
+						`tt+`=%ld
+					WHERE `id`=%lu
+SQL;
 
-				$message = $lang['settingsssaved'];
+				$query = sprintf($query,
+								 $_POST['tm-'], $_POST['tm+'], $_POST['tt-'], $_POST['tt+'],
+								 $user->id());
+
+				$result = mysql_query($query);
+
+				if (!$result)
+				{
+					$error = mysql_error();
+				}
+				else
+				{
+					$user->opt('tm-', $_POST['tm-']);
+					$user->opt('tm+', $_POST['tm+']);
+					$user->opt('tt-', $_POST['tt-']);
+					$user->opt('tt+', $_POST['tt+']);
+
+					$message = $lang['settingsssaved'];
+				}
 			}
-		}
-	}
-	?>
-	<fieldset>
-		<legend><?php echo $lang['displayinterval']; ?></legend>
-<?php
-		if ($notification)
-		{
+
 			if ($error)
 			{
 ?>
 		<div id="notification" class="error"><?php echo $error; ?></div>
 <?php
 			}
-			else
+
+			if ($message)
 			{
 ?>
 		<div id="notification" class="success"><?php echo $message; ?></div>
 <?php
 			}
 		}
+	}
 ?>
-		<div class="explainatory"><?php echo $lang['displayintervaldesc']; ?></div>
+		<div class="explainatory"><?php echo $lang['dispintervaldesc']; ?></div>
 		<div class="table">
 			<div class="row">
 				<div class="cell label"><?php echo $lang['cellphone']; ?></div>
@@ -178,4 +266,114 @@ $(function()
 		<input type="submit" id="submit" name="submit" value="<?php echo $lang['submit']; ?>">
 	</div>
 </form>
-<?php include('forms/changepw.php'); ?>
+<?php
+}
+else
+if ('notifinterval' == $item)
+{
+?>
+<form method="post" action="?req=profile&notifinterval"
+	onsubmit="document.getElementById('submit').disabled=true;">
+	<fieldset>
+		<legend><?php echo $lang['notifinterval']; ?></legend>
+<?php
+	/* At this point `user` is always set */
+	if (isset($_POST['submit']))
+	{
+		if ('notifications' == $_POST['submit'])
+		{
+			if (isset($_POST['from']) &&
+				isset($_POST['until']))
+			{
+				$query = <<<SQL
+					UPDATE `users`
+					SET `notification-from`='%s',
+						`notification-until`='%s'
+					WHERE `id`=%lu
+SQL;
+				$query = sprintf($query,
+								 $_POST['from'],
+								 $_POST['until'],
+								 $user->id());
+
+				$result = mysql_query($query);
+
+				if (!$result)
+				{
+					$error = mysql_error();
+				}
+				else
+				{
+					$user->opt('notification-from', $_POST['from']);
+					$user->opt('notification-until', $_POST['until']);
+
+					$message = $lang['settingsssaved'];
+				}
+			}
+
+			if ($error)
+			{
+?>
+		<div id="notification" class="error"><?php echo $error; ?></div>
+<?php
+			}
+
+			if ($message)
+			{
+?>
+		<div id="notification" class="success"><?php echo $message; ?></div>
+<?php
+			}
+		}
+	}
+?>
+		<div class="explainatory"><?php echo $lang['notifintervaldesc']; ?></div>
+		<div class="table">
+			<div class="row">
+				<div class="cell label"><?php echo $lang['notif-from-until']; ?></div>
+				<div class="cell">
+					<select name="from" id="notification-from">
+<?php
+		if ($user->opt('notification-from'))
+			$from = intval($user->opt('notification-from'));
+		else
+			$from = 8;
+
+		for ($i = 0; $i <= 24; $i++)
+		{
+			echo sprintf('<option%s value="%02u:00">%02u:00</option>',
+					$from == $i ? " selected" : "", $i, $i)."\n";
+		}
+?>
+					</select>
+					<select name="until" id="notification-until">
+<?php
+		if ($user->opt('notification-until'))
+			$until = intval($user->opt('notification-until'));
+		else
+			$until = 22;
+
+		for ($i = 0; $i <= 24; $i++)
+		{
+			echo sprintf('<option%s value="%02u:00">%02u:00</option>',
+					$until == $i ? " selected" : "", $i, $i)."\n";
+		}
+?>
+					</select>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+	<div class="center">
+		<input type="hidden" name="submit" value="notifications">
+		<input type="submit" id="submit" value="<?php echo $lang['submit']; ?>">
+	</div>
+</form>
+<?php
+}
+else
+{
+	include('forms/changepw.php');
+}
+?>
+</div>

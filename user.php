@@ -299,7 +299,7 @@ function /* char *error */ LoginUserSql(&$user, $id, $byid, $password, $remember
 	$error = null;
 
 	$query = sprintf("SELECT `%s`, `passwd`, `salt`, `email`, `timezone`, `language`, `permissions`,".
-					 " `token_type`, `tm-`, `tm+`, `tt-`, `tt+`".
+					 " `token_type`, `tm-`, `tm+`, `tt-`, `tt+`, `notification-from`, `notification-until`".
 					 " FROM `users` WHERE `%s`='%s'",
 					 $byid ? 'name' : 'id',
 					 $byid ? 'id' : 'name',
@@ -372,6 +372,8 @@ function /* char *error */ LoginUserSql(&$user, $id, $byid, $password, $remember
 							$user->opt('tm+', $row['tm+']);
 							$user->opt('tt-', $row['tt-']);
 							$user->opt('tt+', $row['tt+']);
+							$user->opt('notification-from', $row['notification-from']);
+							$user->opt('notification-until', $row['notification-until']);
 
 							$expires = (1 == $remember) ? time() + COOKIE_LIFETIME : 0;
 
@@ -1224,8 +1226,6 @@ function UserProcessRequest(&$user, &$message)
 
 		case 'activate':
 			$error = ActivateUser($message);
-			break;
-
 			break;
 
 		case 'reqtok':

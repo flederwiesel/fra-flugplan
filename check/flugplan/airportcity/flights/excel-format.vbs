@@ -201,18 +201,14 @@ For Each dir In directions
 			Set comment = re.Execute(match.Value)
 
 			If Not comment Is Nothing Then
-				match.Value = re.Replace(match.Value, ";1")
-'				match.Characters(1, comment(0).FirstIndex).Font.Color = Rgb(255,0,0)
-'				match.Characters(1, comment(0).FirstIndex).Font.Bold = True
-				match.Characters(comment(0).FirstIndex + 1, comment(0).Length).Font.Color = Rgb(255,0 , 0)
-				match.Characters(comment(0).FirstIndex + 1, comment(0).Length).Font.Bold = True
+				match.Value = re.Replace(match.Value, "$1")
+				match.Characters(comment(0).FirstIndex + 1, 0).Font.Color = Rgb(255,0 , 0)
+				match.Characters(comment(0).FirstIndex + 1, 0).Font.Bold = True
 			End If
 
 			Set match = range.FindNext(match)
 		Loop While Not match Is Nothing
 	End If
-
-	range.Replace ";", "", xlPart
 
 	' Set font of all sheet's cells
 	With sheet.Cells.Font

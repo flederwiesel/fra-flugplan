@@ -218,10 +218,40 @@ function PreparePostData(button)
 			if (inp[0] && inp[1])
 			{
 				if (0 == inp[0].value.length)
+				{
 					inp[1].name = "";
+					inp[2].name = "";
+				}
 				else
+				{
 					inp[1].name = "reg[" + inp[0].value + "]";
+					inp[2].name = "notify[" + inp[0].value + "]";
+				}
 			}
+		}
+	}
+}
+
+function ToggleNotifications()
+{
+	var form = document.getElementById("watch");
+	var inp = form.getElementsByTagName("input");
+	var value = true;
+
+	for (i = 0; i < inp.length; i++)
+	{
+		if ("checkbox" == inp[i].type)
+		{
+			value = inp[i].checked;
+			break;
+		}
+	}
+
+	for (i = 0; i < inp.length; i++)
+	{
+		if ("checkbox" == inp[i].type)
+		{
+			inp[i].checked = !value;
 		}
 	}
 }

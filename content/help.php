@@ -110,18 +110,24 @@ include("help-$_SESSION[lang].php");
 
 		<a id="mobile"></a>
 		<h4><?php echo $lang_help[7]; ?></h4>
-		<ul class="naked help">
+		<ul class="help">
 			<li><?php echo $lang_help[26]; ?>.
-				<div id="help-mobile"><?php echo $lang_help[31]; ?>:
-					<ul class="naked help">
-						<li><img src="img/arrival-grey-24x24.png"><?php echo $lang['arrival']; ?></li>
-						<li><img src="img/departure-grey-24x24.png"><?php echo $lang['departure']; ?></li>
-						<li><img src="img/help-grey-24x24.png"><?php echo $lang['help']; ?></li>
-						<li><img src="img/register-grey-24x24.png"><?php echo $lang['register']; ?></li>
-						<li><img src="img/login-grey-24x24.png"><?php echo $lang['login']; ?></li>
-						<li><img src="img/logout-grey-24x24.png"><?php echo $lang['logout']; ?></li>
-						<li><img src="img/profile-grey-24x24.png"><?php echo $lang['profile']; ?></li>
-					</ul>
+				<div><?php echo $lang_help[31]; ?>:
+					<div>
+						<ul class="help">
+							<li><img src="img/arrival-grey-24x24.png"><?php echo $lang['arrival']; ?></li>
+							<li><img src="img/departure-grey-24x24.png"><?php echo $lang['departure']; ?></li>
+							<li><img src="img/help-grey-24x24.png"><?php echo $lang['help']; ?></li>
+							<li><img src="img/register-grey-24x24.png"><?php echo $lang['register']; ?></li>
+							<li><img src="img/login-grey-24x24.png"><?php echo $lang['login']; ?></li>
+							<li><img src="img/logout-grey-24x24.png"><?php echo $lang['logout']; ?></li>
+							<li><img src="img/profile-grey-24x24.png"><?php echo $lang['profile']; ?></li>
+							<li>&nbsp;</li>
+							<li><img src="img/dispinterval-grey-24x24.png"><?php echo $lang['dispinterval']; ?></li>
+							<li><img src="img/notifinterval-grey-24x24.png"><?php echo $lang['notifinterval']; ?></li>
+							<li><img src="img/changepw-grey-24x24.png"><?php echo $lang['changepw']; ?></li>
+						</ul>
+					</div>
 				</div>
 			</li>
 			<a class="back" href="#"><?php echo $lang_help[0]; ?></a>

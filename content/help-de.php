@@ -23,7 +23,7 @@
  ******************************************************************************/
 
 $lang_help = array(
-	0 => 'Nach oben',
+	0 => '[Nach oben]',
 	1 => 'Hilfe - Inhalt',
 	2 => 'Grundlegende Bedienung',
 	3 => 'Beobachtungsliste',

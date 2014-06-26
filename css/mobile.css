@@ -13,22 +13,37 @@ pre
 	text-align: left;
 }
 
-dl
+ul.menu
 {
 	margin: 0;
-	padding: 0;
+	padding: 2px;
+	background: #000000;
+	color: #ffffff;
+	font-size: 0.8em;
 }
 
-dt
+ul.menu.left
+{
+	float:left;
+	margin-right: 2.5em;
+	text-align: left;
+}
+
+ul.menu > li
 {
 	display: inline;
 	white-space: nowrap;
 	margin: 0;
 }
 
-dl.left
+ul.menu li a
 {
-	margin-right: 4em;
+	color: #A3AAB7;
+}
+
+#nav img
+{
+	background: #A3AAB7;
 }
 
 div.table
@@ -156,30 +171,6 @@ ul.help > li.img
 	background-size: auto 100%;
 	background-position: right center;
 	color: white;
-}
-
-#nav
-{
-	padding: 2px;
-	background: #000000;
-	color: #ffffff;
-	font-size: 0.8em;
-}
-
-#nav img
-{
-	background: #A3AAB7;
-}
-
-#nav a
-{
-	color: #A3AAB7;
-}
-
-#nav .left
-{
-	float: left;
-	text-align: left;
 }
 
 #error
@@ -378,9 +369,6 @@ form div.explainatory
 
 #schedule
 {
-/*
-	margin-right: 24px;
-*/
 	width: auto;
 }
 
@@ -401,7 +389,6 @@ form div.explainatory
 	font-weight: normal;
 	text-align: center;
 	vertical-align: bottom;
-	__padding: 1px 4px;
 }
 
 #schedule th.sep
@@ -475,7 +462,8 @@ form div.explainatory
 }
 
 #phone-slider,
-#tablet-slider
+#tablet-slider,
+#notification-slider
 {
 	display: block;
 	margin: 0.8em 0em;

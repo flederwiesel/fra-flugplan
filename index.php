@@ -22,7 +22,10 @@
  *
  ******************************************************************************/
 
-error_reporting(E_ALL | E_NOTICE);
+if (isset($_COOKIE['DBGSESSID']))
+	error_reporting(E_ALL | E_NOTICE);
+else
+	error_reporting(0);
 
 /******************************************************************************
  * header
@@ -109,8 +112,8 @@ function content()
  * Equal goes it loose
  ******************************************************************************/
 
-@require_once '.config';
-@require_once 'classes/etc.php';
+require_once '.config';
+require_once 'classes/etc.php';
 
 session_start();
 
@@ -144,9 +147,9 @@ header('Content-Language: '.$_SESSION['lang']);
 $file = 'content/language/'.$_SESSION['lang'].'.php';
 
 if (file_exists($file))
-	@require_once $file;
+	require_once $file;
 else
-	@require_once 'content/language/en.php';
+	require_once 'content/language/en.php';
 
 /******************************************************************************
  * initialise variables
@@ -180,7 +183,7 @@ if (!$error)
 {
 	// callback function for user login, register, etc.
 	// permissions may be defined here
-	@require_once 'user.php';
+	require_once 'user.php';
 
 	$error = UserProcessRequest($user, $message);
 }
@@ -195,7 +198,7 @@ if ($user)
  * detect device type
  ******************************************************************************/
 
-@require_once 'classes/Mobile_Detect.php';
+require_once 'classes/Mobile_Detect.php';
 
 $device = new Mobile_Detect();
 
@@ -254,8 +257,18 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 <?php } else { ?>
 <link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
 <?php } ?>
-<link rel="icon" href="favicon.gif" type="image/gif">
+<link type="text/css" rel="icon" href="favicon.gif" type="image/gif">
+<link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.core.css">
+<link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.base.css">
+<link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.theme.css">
+<link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.slider.css">
+<link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.datepicker.css">
 <script type="text/javascript" src="script/<?php echo $jqueryui; ?>/<?php echo $jquery; ?>"></script>
+<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jquerymin; ?>jquery.ui.core.js"></script>
+<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jquerymin; ?>jquery.ui.widget.js"></script>
+<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jquerymin; ?>jquery.ui.mouse.js"></script>
+<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jquerymin; ?>jquery.ui.slider.js"></script>
+<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jquerymin; ?>jquery.ui.datepicker.js"></script>
 </head>
 <body>
 	<noscript>
@@ -307,7 +320,7 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 				if (isset($_GET['page']))
 				{
 					if ('help' == $_GET['page'])
-						@require_once 'content/help.php';
+						require_once 'content/help.php';
 				}
 			}
 			else
@@ -355,7 +368,7 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 				}
 				if (!isset($_GET['req']))
 				{
-					@require_once content();
+					require_once content();
 				}
 				else
 				{
@@ -367,11 +380,11 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 					case 'reqtok':
 					case 'changepw':
 					case 'profile':
-						@require_once("forms/$_GET[req].php");
+						require_once("forms/$_GET[req].php");
 						break;
 
 					default:
-						@require_once content();
+						require_once content();
 					}
 				}
 ?>

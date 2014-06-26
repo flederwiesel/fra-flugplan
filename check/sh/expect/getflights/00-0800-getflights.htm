@@ -104,6 +104,7 @@ SELECT `id` FROM `airlines` WHERE `code`='KU';
 =63
 SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`=63 AND `code`='171' AND `scheduled`='0000-00-00 13:20'
 =9,8
+DELETE FROM `watchlist-notifications` WHERE `flight`=9
 DELETE FROM `flights` WHERE `id`=9
 =OK
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=8;
@@ -296,6 +297,7 @@ SELECT `id` FROM `airlines` WHERE `code`='KU';
 =63
 SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='departure' AND `airline`=63 AND `code`='172' AND `scheduled`='0000-00-00 14:30'
 =20,8
+DELETE FROM `watchlist-notifications` WHERE `flight`=20
 DELETE FROM `flights` WHERE `id`=20
 =OK
 
@@ -384,6 +386,14 @@ SELECT `airports`.`id` FROM `airports` WHERE `iata`='YUL' AND `icao`='CYUL';
 =245
 UPDATE `flights` SET `airport`=245 WHERE `id`=28;
 =OK
+
+INSERT INTO `watchlist-notifications`(`watch`, `flight`)  SELECT `watchlist`.`id`, `flights`.`id` FROM `watchlist` INNER JOIN `aircrafts` ON `aircrafts`.`reg` LIKE REPLACE(REPLACE(`watchlist`.`reg`, '*', '%'), '?', '_') INNER JOIN (SELECT `id`, `direction`, IFNULL(`expected`, `scheduled`) AS `expected`, `aircraft` FROM `flights` WHERE `aircraft` IS NOT NULL) AS `flights` ON `aircrafts`.`id` = `flights`.`aircraft` LEFT JOIN `watchlist-notifications` ON `watchlist-notifications`.`flight` = `flights`.`id` WHERE `watchlist`.`notify` = TRUE AND `watchlist-notifications`.`flight` IS NULL AND 'arrival' = `flights`.`direction` AND `expected` > '0000-00-00 08:00:00'
+SELECT `watchlist-notifications`.`id`, CONCAT('+', DATEDIFF(IFNULL(`flights`.`expected`, `flights`.`scheduled`), '0000-00-00 08:00:00'), ' ', TIME_FORMAT(IFNULL(`flights`.`expected`, `flights`.`scheduled`), '%H:%i')) AS `expected`, CONCAT(`airlines`.`code`, `flights`.`code`) AS `flight`, `watchlist`.`id` AS `watch`, `aircrafts`.`reg` AS `reg`, `watchlist`.`comment` AS `comment`, `users`.`name` AS `user`, `users`.`email` AS `email` FROM `watchlist-notifications` LEFT JOIN `watchlist` ON `watchlist-notifications`.`watch` = `watchlist`.`id` LEFT JOIN `flights` ON `watchlist-notifications`.`flight` = `flights`.`id` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` LEFT JOIN `aircrafts` ON `flights`.`aircraft` = `aircrafts`.`id` LEFT JOIN `users` ON `watchlist`.`user` = `users`.`id` WHERE IFNULL(`flights`.`expected`, `flights`.`scheduled`) > '0000-00-00 08:00:00' AND `notified` IS NULL AND TIME('0000-00-00 08:00:00') BETWEEN `users`.`notification-from` AND `users`.`notification-until` ORDER BY `email` ASC, `expected` ASC
+hausmeister@flederwiesel.com:
++0 11:15	C-GHLM	"Air Canada - 938"
++0 11:45	C-GHKW	"Air Canada - 936"
+UPDATE `watchlist-notifications` LEFT JOIN `watchlist` ON `watchlist`.`id`=`watchlist-notifications`.`watch` INNER JOIN `users` ON `users`.`id`=`watchlist`.`user` AND `users`.`email`='hausmeister@flederwiesel.com' SET `watchlist-notifications`.`notified`='0000-00-00 08:00:00' WHERE `watchlist-notifications`.`id` IN(3,4)
+DELETE `watchlist-notifications` FROM `watchlist-notifications` INNER JOIN `flights` ON `flights`.`id`=`watchlist-notifications`.`flight` WHERE (DATEDIFF('0000-00-00 08:00:00', IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 1)
 
 
 === fin. ===

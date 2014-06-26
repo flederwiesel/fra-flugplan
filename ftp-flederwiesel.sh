@@ -14,7 +14,7 @@ open "web416f3:Fox@- 2>&1"@www.flederwiesel.com
 !LC_MESSAGES=en_US svn info . | awk '/^Last Changed (Rev|Date):/ { print \$0; }' > revision
 !LC_MESSAGES=en_US svn info . | awk '/^URL:/ { print \$2; }' > history
 !echo '------------------------------------------------------------------------' >> history
-!svn log | sed -nr 'H; :a /---/ { x; s/\([a-z]+,[^)]+\) //g; s/[0-9]+ lines?//g; s/-*-\$//g; s/\n//g; p; n; h; ba }' >> history
+!LC_MESSAGES=en_US svn log | sed -nr 'H; :a /---/ { x; s/\([a-z]+,[^)]+\) //g; s/[0-9]+ lines?//g; s/-*-\$//g; s/\n//g; p; n; h; ba }' >> history
 
 rm -rf ${root}/$rev
 mkdir -p ${root}/$rev

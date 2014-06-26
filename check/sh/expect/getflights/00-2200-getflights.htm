@@ -416,6 +416,10 @@ SELECT `airports`.`id` FROM `airports` WHERE `iata`='SIN' AND `icao`='WSSS';
 UPDATE `flights` SET `airport`=204 WHERE `id`=47;
 =OK
 
+INSERT INTO `watchlist-notifications`(`watch`, `flight`)  SELECT `watchlist`.`id`, `flights`.`id` FROM `watchlist` INNER JOIN `aircrafts` ON `aircrafts`.`reg` LIKE REPLACE(REPLACE(`watchlist`.`reg`, '*', '%'), '?', '_') INNER JOIN (SELECT `id`, `direction`, IFNULL(`expected`, `scheduled`) AS `expected`, `aircraft` FROM `flights` WHERE `aircraft` IS NOT NULL) AS `flights` ON `aircrafts`.`id` = `flights`.`aircraft` LEFT JOIN `watchlist-notifications` ON `watchlist-notifications`.`flight` = `flights`.`id` WHERE `watchlist`.`notify` = TRUE AND `watchlist-notifications`.`flight` IS NULL AND 'arrival' = `flights`.`direction` AND `expected` > '0000-00-00 22:00:00'
+SELECT `watchlist-notifications`.`id`, CONCAT('+', DATEDIFF(IFNULL(`flights`.`expected`, `flights`.`scheduled`), '0000-00-00 22:00:00'), ' ', TIME_FORMAT(IFNULL(`flights`.`expected`, `flights`.`scheduled`), '%H:%i')) AS `expected`, CONCAT(`airlines`.`code`, `flights`.`code`) AS `flight`, `watchlist`.`id` AS `watch`, `aircrafts`.`reg` AS `reg`, `watchlist`.`comment` AS `comment`, `users`.`name` AS `user`, `users`.`email` AS `email` FROM `watchlist-notifications` LEFT JOIN `watchlist` ON `watchlist-notifications`.`watch` = `watchlist`.`id` LEFT JOIN `flights` ON `watchlist-notifications`.`flight` = `flights`.`id` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` LEFT JOIN `aircrafts` ON `flights`.`aircraft` = `aircrafts`.`id` LEFT JOIN `users` ON `watchlist`.`user` = `users`.`id` WHERE IFNULL(`flights`.`expected`, `flights`.`scheduled`) > '0000-00-00 22:00:00' AND `notified` IS NULL AND TIME('0000-00-00 22:00:00') BETWEEN `users`.`notification-from` AND `users`.`notification-until` ORDER BY `email` ASC, `expected` ASC
+DELETE `watchlist-notifications` FROM `watchlist-notifications` INNER JOIN `flights` ON `flights`.`id`=`watchlist-notifications`.`flight` WHERE (DATEDIFF('0000-00-00 22:00:00', IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 1)
+
 
 === fin. ===
 </pre>
