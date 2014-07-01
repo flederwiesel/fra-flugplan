@@ -293,8 +293,30 @@ else
 
 $watch = array();
 
-if ($user && (!$mobile || $tablet))
+if ($user)
 {
+	if ($hdbc)
+	{
+		$result = mysql_query("SELECT `reg`, `comment`, `notify` ".
+							  "FROM `watchlist`".
+							  " WHERE `user`=".$user->id().
+							  " ORDER BY `reg`");
+
+		if (!$result)
+		{
+			$error .= sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+		}
+		else
+		{
+			while (list($reg, $comment, $notify) = mysql_fetch_row($result))
+				$watch[$reg] = array($comment, $notify);
+
+			mysql_free_result($result);
+		}
+	}
+
+	if (!$mobile || $tablet)
+	{
 ?>
 <div id="wl_cont">
 	<div id="wl_div">
@@ -321,21 +343,8 @@ if ($user && (!$mobile || $tablet))
 								<tfoot></tfoot>
 								<tbody>
 <?php
-	if ($hdbc)
-	{
-		$result = mysql_query("SELECT `reg`, `comment`, `notify` ".
-							  "FROM `watchlist`".
-							  " WHERE `user`=".$user->id().
-							  " ORDER BY `reg`");
-
-		if (!$result)
+		if (0 == count($watch))
 		{
-			$error .= sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
-		}
-		else
-		{
-			if (0 == mysql_num_rows($result))
-			{
 ?>
 									<tr>
 										<td><img src="img/a-net-ina.png" alt=""></td>
@@ -346,12 +355,15 @@ if ($user && (!$mobile || $tablet))
 										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
 									</tr>
 <?php
-			}
-			else
-			{
-				while (list($reg, $comment, $notify) = mysql_fetch_row($result))
-				{
-					$watch[$reg] = $comment;
+		}
+		else
+		{
+			 //+while (list($reg, $comment, $notify) = each($watch))
+			 //-foreach ($watch as list($reg, $comment, $notify))
+			 foreach ($watch as $reg => $entry)
+			 {
+			 	 list($notify, $comment) = each($entry);
+			 	 $watch[$reg] = $comment;
 ?>
 									<tr>
 										<td><a href="http://www.airliners.net/search/photo.search?q=<?php echo $reg; ?>&sort_order=year+desc" target="a-net"><img src="img/a-net.png" alt="www.airliners.net"></a></td>
@@ -362,12 +374,8 @@ if ($user && (!$mobile || $tablet))
 										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
 									</tr>
 <?php
-				}
-			}
-
-			mysql_free_result($result);
+			 }
 		}
-	}
 ?>
 								</tbody>
 							</table>
@@ -381,6 +389,7 @@ if ($user && (!$mobile || $tablet))
 	</div>
 </div>
 <?php
+	}
 }
 
 if ($error)
