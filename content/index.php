@@ -309,7 +309,7 @@ if ($user)
 		else
 		{
 			while (list($reg, $comment, $notify) = mysql_fetch_row($result))
-				$watch[$reg] = array($comment, $notify);
+				$watch[$reg] = array('comment' => $comment, 'notify' => $notify);
 
 			mysql_free_result($result);
 		}
@@ -362,7 +362,8 @@ if ($user)
 			 //-foreach ($watch as list($reg, $comment, $notify))
 			 foreach ($watch as $reg => $entry)
 			 {
-			 	 list($notify, $comment) = each($entry);
+			 	 $comment = $entry['comment'];
+			 	 $notify = $entry['notify'];
 			 	 $watch[$reg] = $comment;
 ?>
 									<tr>

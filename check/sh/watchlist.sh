@@ -96,6 +96,7 @@ check "2" curl "$url/?arrival\&now=$now" \
 	'"
 
 check "3" curl "$url/?arrival\&now=$now" \
+		--data-urlencode "'notify[ZS-SNC]=1'" \
 		--data-urlencode "'reg[ZS-SNC]=South African Airways - Star Alliance'" \
 		--data-urlencode "'reg[C-????]=Air Canada ?'" \
 	"| sed -r '
