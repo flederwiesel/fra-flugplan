@@ -257,7 +257,7 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 <?php } else { ?>
 <link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
 <?php } ?>
-<link type="text/css" rel="icon" href="favicon.gif" type="image/gif">
+<link type="image/gif" rel="icon" href="favicon.gif">
 <link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.core.css">
 <link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.base.css">
 <link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.theme.css">
