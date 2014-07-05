@@ -335,7 +335,7 @@ if ($user)
 										<th></th>
 										<th><?php echo $lang['reg']; ?></th>
 										<th><?php echo $lang['comment']; ?></th>
-										<th><a href="javascript:ToggleNotifications()"><img src="img/mail.png"></a></th>
+										<th><a href="javascript:ToggleNotifications()"><img src="img/mail.png" alt="e-mail"></a></th>
 										<th></th>
 										<th></th>
 									</tr>
