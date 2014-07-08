@@ -163,12 +163,12 @@ function navitem($item, $href)
 ?>
 		<li style="vertical-align: baseline;">
 			<a href="<?php echo get('lang=de'); ?>">
-				<img src="img/de.png" alt="<?php echo $lang['de']; ?>" width="16" height="12">
+				<img class="flag" src="img/de.png" alt="<?php echo $lang['de']; ?>" width="16" height="12">
 			</a>
 		</li>
 		<li style="vertical-align: baseline;">
 			<a href="<?php echo get('lang=en'); ?>">
-				<img src="img/en.png" alt="<?php echo $lang['en']; ?>" width="16" height="12">
+				<img class="flag" src="img/en.png" alt="<?php echo $lang['en']; ?>" width="16" height="12">
 			</a>
 		</li>
 </ul>
