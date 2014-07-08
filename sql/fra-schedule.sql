@@ -1,13 +1,5 @@
 /******************************************************************************
  *
- *       project: FRA-flights Live Schedule
- *
- *       $Author$
- *         $Date$
- *          $Rev$
- *
- ******************************************************************************
- *
  * Copyright © Tobias Kühne
  *
  * You may use and distribute this software free of charge for non-commercial

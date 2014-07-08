@@ -1,4 +1,21 @@
-﻿<html>
+﻿<?php
+
+/******************************************************************************
+ *
+ * Copyright © Tobias Kühne
+ *
+ * You may use and distribute this software free of charge for non-commercial
+ * purposes. The software must be distributed in its entirety, i.e. containing
+ * ALL binary and source files without modification.
+ * Publication of modified versions of the source code provided herein,
+ * is permitted only with the author's written consent. In this case the
+ * copyright notice must not be removed or altered, all modifications to the
+ * source code must be clearly marked as such.
+ *
+ ******************************************************************************/
+
+?>
+<html>
 <body>
 <div style="font-size: 8pt;">
 <div><img src="img/BCFG.png"><br>BCFG - patches of fog</div>
@@ -20,32 +37,6 @@
 <div><img src="img/SN.png"><br>SN - snow</div>
 <div><img src="img/NSW.png"><br>NSW - nil significant weather</div>
 </div>
-
-<?php
-
-/******************************************************************************
- *
- *       project: FRA-flights Live Schedule
- *
- *       $Author$
- *         $Date$
- *          $Rev$
- *
- ******************************************************************************
- *
- * Copyright © Tobias Kühne
- *
- * You may use and distribute this software free of charge for non-commercial
- * purposes. The software must be distributed in its entirety, i.e. containing
- * ALL binary and source files without modification.
- * Publication of modified versions of the source code provided herein,
- * is permitted only with the author's written consent. In this case the
- * copyright notice must not be removed or altered, all modifications to the
- * source code must be clearly marked as such.
- *
- ******************************************************************************/
-
-?>
 <title>METAR.php</title>
 <pre>
 <?php

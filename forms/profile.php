@@ -2,14 +2,6 @@
 
 /******************************************************************************
  *
- *       project: FRA-flights Live Schedule
- *
- *       $Author: flederwiesel $
- *         $Date: 2013-07-02 20:26:27 +0200 (Di, 02 Jul 2013) $
- *          $Rev: 337 $
- *
- ******************************************************************************
- *
  * Copyright © Tobias Kühne
  *
  * You may use and distribute this software free of charge for non-commercial

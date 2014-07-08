@@ -2,14 +2,6 @@
 
 /******************************************************************************
  *
- *       project: FRA-flights Live Schedule
- *
- *       $Author: flederwiesel $
- *         $Date: 2013-12-25 16:11:59 +0100 (Mi, 25 Dez 2013) $
- *          $Rev: 540 $
- *
- ******************************************************************************
- *
  * Copyright © Tobias Kühne
  *
  * You may use and distribute this software free of charge for non-commercial
@@ -20,6 +12,10 @@
  * copyright notice must not be removed or altered, all modifications to the
  * source code must be clearly marked as such.
  *
+ ******************************************************************************/
+
+/******************************************************************************
+ * Fraport server mockup - Generates html paginated schedule based on CSV files
  ******************************************************************************/
 
 class airline

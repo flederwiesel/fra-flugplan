@@ -2,14 +2,6 @@
 
 /******************************************************************************
  *
- *       project: FRA-schedule
- *
- *       $Author$
- *         $Date$
- *          $Rev$
- *
- ******************************************************************************
- *
  * Copyright © Tobias Kühne
  *
  * You may use and distribute this software free of charge for non-commercial
@@ -20,6 +12,13 @@
  * copyright notice must not be removed or altered, all modifications to the
  * source code must be clearly marked as such.
  *
+ ******************************************************************************/
+
+/******************************************************************************
+ * This is a simple mimicry of awk
+ * (http://en.wikipedia.org/wiki/AWK,
+ *  http://www.gnu.org/software/gawk/manual/gawk.html#Foreword),
+ * supporting regex rules only
  ******************************************************************************/
 
 class awkrule

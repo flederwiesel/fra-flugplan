@@ -1,3 +1,17 @@
+'##############################################################################
+'
+'  Copyright © Tobias Kühne
+'
+'  You may use and distribute this software free of charge for non-commercial
+'  purposes. The software must be distributed in its entirety, i.e. containing
+'  ALL binary and source files without modification.
+'  Publication of modified versions of the source code provided herein,
+'  is permitted only with the author's written consent. In this case the
+'  copyright notice must not be removed or altered, all modifications to the
+'  source code must be clearly marked as such.
+'
+'##############################################################################
+
 'http://stackoverflow.com/questions/2050505/way-to-run-excel-macros-from-command-line-or-batch-file
 'http://support.microsoft.com/kb/219151
 'http://support.microsoft.com/kb/291308
