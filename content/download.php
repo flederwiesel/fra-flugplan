@@ -16,15 +16,35 @@
 
 $notice = null;
 
-if ($_POST)
-	header('Refresh: 0; url="content/getfile.php"');
+if (!$user)
+{
+	$error = $lang['notloggedin'];
+
+	session_regenerate_id();
+}
+else
+{
+	if (isset($_SESSION['error']))
+	{
+		$error = $_SESSION['error'];
+		unset($_SESSION['error']);
+	}
+	else
+	{
+		if (isset($_SESSION['message']))
+		{
+			$message = $_SESSION['message'];
+			unset($_SESSION['message']);
+		}
+	}
+}
 
 ?>
 <!--meta http-equiv="refresh" content="0; url=getfile.php"-->
 <script type="text/javascript">
 $(function()
 {
-	$('#from').datepicker({
+	$('#date-from').datepicker({
 		dateFormat: 'dd.mm.yy',
 		firstDay: 1,
 		minDate: '-1Y',
@@ -33,7 +53,7 @@ $(function()
 		changeYear: true
 	});
 
-	$('#until').datepicker({
+	$('#date-until').datepicker({
 		dateFormat: 'dd.mm.yy',
 		firstDay: 1,
 		minDate: '-1Y',
@@ -48,15 +68,15 @@ $(function()
 	});
 });
 </script>
-<form method="post" action="content/getfile.php">
+<form method="post" action="content/getfile.php?session=<?php echo session_id(); ?>">
 	<fieldset>
 		<legend><?php echo $lang['dlflights']; ?></legend>
 <?php if (isset($error)) { ?>
-		<div id="notification" class="auth-error"><?php echo $error; ?></div>
+		<div id="notification" class="error"><?php echo $error; ?></div>
 <?php } else if (isset($notice)) { ?>
-		<div id="notification" class="auth-notice"><?php echo $notice; ?></div>
+		<div id="notification" class="notice"><?php echo $notice; ?></div>
 <?php } else if (isset($message)) { ?>
-		<div id="notification" class="auth-ok"><?php echo $message; ?></div>
+		<div id="notification" class="success"><?php echo $message; ?></div>
 <?php } ?>
 
 		<div class="table">

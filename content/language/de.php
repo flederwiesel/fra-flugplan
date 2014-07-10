@@ -196,6 +196,7 @@ $lang = array
 	'notif-setinterval' => 'Es wurden Benachrichtigungen aktiviert, jedoch kein Benachrichtigungsintervall ausgewählt.
 		Um Benachrichtigungen zu erhalten, muß im <a href="?req=profile&notifinterval">Benutzerprofil</a>
 		ein Zeitraum angegeben werden.',
+	'invalidsession' => 'Ungültige Sitzung.',
 );
 
 ?>

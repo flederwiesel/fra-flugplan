@@ -194,6 +194,7 @@ $lang = array
 	'notif-setinterval' => 'Notifications have been activated, however, no notification interval has been selected.
 		To receive notificationsm, choose a time interval in your
 		<a href="?req=profile&notifinterval">user profile</a>',
+	'invalidsession' => 'Invalid Session.',
 );
 
 ?>
