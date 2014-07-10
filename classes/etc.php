@@ -57,7 +57,10 @@ function mktime_c($ddmmyyyy /* dd.mm.YYYY */, $hhmm = '00:00')
 
 			if ($date > -1)
 			{
-				if (date("d.m.Y H:i", $date) != "$ddmmyyyy $hhmm")
+				$ddmmyyyy = sprintf('%02d.%02d.%04d %02d:%02d',
+									$day[1], $day[2], $day[3], $time[1], $time[2]);
+
+				if (date("d.m.Y H:i", $date) != "$ddmmyyyy")
 					$date = -1;
 			}
 		}
