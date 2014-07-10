@@ -13,6 +13,7 @@
  * source code must be clearly marked as such.
  *
  ******************************************************************************/
+
 mb_internal_encoding('UTF-8');
 
 @require_once '../.config';
@@ -43,6 +44,8 @@ function seterrorinfo($line, $info)
 
 	return $error;
 }
+
+$error = null;
 
 session_start();
 
@@ -77,13 +80,6 @@ if (file_exists($file))
 else
 	require_once 'language/en.php';
 
-//&& On error:
-//&& header('Content-Type: text/html; charset=UTF-8');
-//&& header('Content-Language: '.$_SESSION['lang']);
-
-$error = null;
-
-//
 if (!isset($_GET['session']))
 {
 	$error = $lang['invalidsession'];
