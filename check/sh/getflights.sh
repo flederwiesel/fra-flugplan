@@ -2,7 +2,7 @@
 
 ###############################################################################
 #
-#  Copyright © Tobias Kühne
+#  Copyright Â© Tobias KÃ¼hne
 #
 #  You may use and distribute this software free of charge for non-commercial
 #  purposes. The software must be distributed in its entirety, i.e. containing
@@ -67,7 +67,8 @@ mysql <<-"SQL"
 	(3, @flederwiesel, TRUE, 'C-GHKW', 'Air Canada - 936'),
 	(4, @flederwiesel, TRUE, 'C-GHLM', 'Air Canada - 938'),
 	(5, @flederwiesel, TRUE, 'CS-TNP', 'TAP - Star Alliance'),
-	(7, @flederwiesel, FALSE, 'ZS-SNB', 'South African Airways');
+	(7, @flederwiesel, FALSE, 'ZS-SNB', 'South African Airways'),
+	(8, @flederwiesel, TRUE, 'B-KPF', 'Cathay Pacific - Asias world city GRÃœN');
 SQL
 
 YYYYmmdd_0=$(date +'%Y%m%d')

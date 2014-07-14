@@ -1742,10 +1742,22 @@ function SendWatchlistNotification($name, $email, $notifications, $now)
 		echo "$text";
 
 	$to = mb_encode_mimeheader($name, 'ISO-8859-1', 'Q')."<$email>";
-	$from = "From: FRA schedule <fra-schedule@flederwiesel.com>\n";
-	$subject = "watchlist";
+	$subject = mb_encode_mimeheader('watchlist', 'ISO-8859-1', 'Q');
+	$header = sprintf(
+		"From: %s <%s>\n".
+		"Reply-To: %s\n".
+		"Mime-Version: 1.0\n".
+		"Content-type: text/plain; charset=ISO-8859-1\n".
+		"Content-Transfer-Encoding: 8bit\n".
+		"X-Mailer: PHP/%s\n",
+		"FRA schedule",
+		ADMIN_EMAIL_FROM,
+		ADMIN_EMAIL,
+		phpversion());
 
-	if (!mail($to, $subject, $text, $from))
+	$text = mb_convert_encoding($text, 'ISO-8859-1', 'UTF-8');
+
+	if (!mail($to, $subject, $text, $header))
 	{
 		$error = seterrorinfo(0, NULL);
 	}

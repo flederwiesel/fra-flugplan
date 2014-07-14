@@ -87,9 +87,9 @@ SELECT `id` FROM `airlines` WHERE `code`='CX';
 =24
 SELECT `id` FROM `models` WHERE `icao`='B77W';
 =68
-SELECT `id` FROM `aircrafts` WHERE `reg`='B-KQJ';
+SELECT `id` FROM `aircrafts` WHERE `reg`='B-KPF';
 =<empty>
-INSERT INTO `aircrafts`(`uid`, `reg`,`model`) VALUES(1, 'B-KQJ', 68);
+INSERT INTO `aircrafts`(`uid`, `reg`,`model`) VALUES(1, 'B-KPF', 68);
 =11
 SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='arrival' AND `airline`=24 AND `code`='289' AND `scheduled`='0000-00-01 06:20'
 =26,
@@ -320,7 +320,7 @@ SELECT `id` FROM `airlines` WHERE `code`='CX';
 =24
 SELECT `id` FROM `models` WHERE `icao`='B77W';
 =68
-SELECT `id` FROM `aircrafts` WHERE `reg`='B-KQJ';
+SELECT `id` FROM `aircrafts` WHERE `reg`='B-KPF';
 =11
 SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='departure' AND `airline`=24 AND `code`='288' AND `scheduled`='0000-00-01 12:55'
 =37,
@@ -394,7 +394,10 @@ SELECT `watchlist-notifications`.`id`, CONCAT('+', DATEDIFF(IFNULL(`flights`.`ex
 fra-schedule@flederwiesel.com:
 +1 06:15	ZS-SNC	"South African Airways - Star Alliance"
 +1 09:45	N116UA	"United"
-UPDATE `watchlist-notifications` LEFT JOIN `watchlist` ON `watchlist`.`id`=`watchlist-notifications`.`watch` INNER JOIN `users` ON `users`.`id`=`watchlist`.`user` AND `users`.`email`='fra-schedule@flederwiesel.com' SET `watchlist-notifications`.`notified`='0000-00-00 18:00:00' WHERE `watchlist-notifications`.`id` IN(10,11)
+UPDATE `watchlist-notifications` LEFT JOIN `watchlist` ON `watchlist`.`id`=`watchlist-notifications`.`watch` INNER JOIN `users` ON `users`.`id`=`watchlist`.`user` AND `users`.`email`='fra-schedule@flederwiesel.com' SET `watchlist-notifications`.`notified`='0000-00-00 18:00:00' WHERE `watchlist-notifications`.`id` IN(10,12)
+hausmeister@flederwiesel.com:
++1 06:20	B-KPF	"Cathay Pacific - Asias world city GRÜN"
+UPDATE `watchlist-notifications` LEFT JOIN `watchlist` ON `watchlist`.`id`=`watchlist-notifications`.`watch` INNER JOIN `users` ON `users`.`id`=`watchlist`.`user` AND `users`.`email`='hausmeister@flederwiesel.com' SET `watchlist-notifications`.`notified`='0000-00-00 18:00:00' WHERE `watchlist-notifications`.`id` IN(11)
 DELETE `watchlist-notifications` FROM `watchlist-notifications` INNER JOIN `flights` ON `flights`.`id`=`watchlist-notifications`.`flight` WHERE (DATEDIFF('0000-00-00 18:00:00', IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 1)
 
 
