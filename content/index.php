@@ -348,15 +348,18 @@ if ($user)
 									</tr>
 <?php
 		}
-		else
+	}
+
+	//+while (list($reg, $comment, $notify) = each($watch))
+	//-foreach ($watch as list($reg, $comment, $notify))
+	foreach ($watch as $reg => $entry)
+	{
+		$comment = $entry['comment'];
+	 	$notify = $entry['notify'];
+	 	$watch[$reg] = $comment;
+
+		if (!$mobile || $tablet)
 		{
-			 //+while (list($reg, $comment, $notify) = each($watch))
-			 //-foreach ($watch as list($reg, $comment, $notify))
-			 foreach ($watch as $reg => $entry)
-			 {
-			 	 $comment = $entry['comment'];
-			 	 $notify = $entry['notify'];
-			 	 $watch[$reg] = $comment;
 ?>
 									<tr>
 										<td><a href="http://www.airliners.net/search/photo.search?q=<?php echo $reg; ?>&sort_order=year+desc" target="a-net"><img src="img/a-net.png" alt="www.airliners.net"></a></td>
@@ -367,8 +370,11 @@ if ($user)
 										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
 									</tr>
 <?php
-			 }
 		}
+	}
+
+	if (!$mobile || $tablet)
+	{
 ?>
 								</tbody>
 							</table>
@@ -618,20 +624,21 @@ else
 		}
 		else
 		{
+			echo "<td$hilite$sortkey>";
+
 			if ($mobile)
 			{
-				echo "<td$hilite>$reg";
 			}
 			else
 			{
-				echo "<td$hilite$sortkey>";
 ?>
 				<a href = "http://www.airliners.net/search/photo.search?q=<?php echo $reg ?>&sort_order=year+desc" target="a-net">
 					<img src="img/a-net.png" alt="www.airliners.net">
 				</a>
 <?php
-				echo "$reg";
 			}
+
+			echo "$reg";
 		}
 
 		echo "</td></tr>\n";

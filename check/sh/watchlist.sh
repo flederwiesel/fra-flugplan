@@ -67,17 +67,16 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | mysql
 	INSERT INTO `users`
 	(
 		`id`, `name`, `email`, `salt`, `passwd`,
-		`language`, `permissions`
+		`language`, `permissions`,
+		`tt-`, `tt+`, `tm-`, `tm+`
 	)
 	VALUES
 	(
-		2,
-		'flederwiesel',
-		'hausmeister@flederwiesel.com',
+		2, 'flederwiesel', 'hausmeister@flederwiesel.com',
 		'cf78aafd5c5410b7b12c2794a52cda1bccd01316f30df57aa29c5609ba979c15',
 		'c4ae99aa0209ce5bea9687cf0548d8ebc942ba14e166c45957a876bcec194fed', # elvizzz
-		'en',
-		'1'
+		'en', '1',
+		-75, 86400, -75, 86400
 	);
 SQL
 
@@ -135,6 +134,12 @@ SQL
 
 check "5" curl "$url/?arrival\&now=$now" \
 		--data-urlencode "'del[ZS-SNC]='" \
+	"| sed -r '
+		s/now=$today/now=0000-00-00/g
+	'"
+
+check "6" curl "$url/?arrival\&now=$now" \
+	--user-agent "'Opera/9.80 (Android 2.3.7; Linux; Opera Mobi/46154) Presto/2.11.355 Version/12.10'" \
 	"| sed -r '
 		s/now=$today/now=0000-00-00/g
 	'"
