@@ -344,7 +344,15 @@ function /* char *error */ LoginUserSql(&$user, $id, $byid, $password, $remember
 				{
 					$hash = $byid ? $password : hash_hmac('sha256', $password, $row['salt']);
 
-					if ($row['passwd'] == $hash)
+					if ($row['passwd'] != $hash)
+					{
+						setcookie('userID',  0, 0);
+						setcookie('hash', null, 0);
+						setcookie('autologin', false, 0);
+
+						$error = $lang['authfailed'];
+					}
+					else
 					{
 						if ($byid)
 						{
@@ -373,15 +381,12 @@ function /* char *error */ LoginUserSql(&$user, $id, $byid, $password, $remember
 							setcookie('hash',      $hash,         $expires);
 							setcookie('autologin', true,          $expires);
 							setcookie('lang',      $user->lang(), $expires);
-						}
-					}
-					else
-					{
-						setcookie('userID',  0, 0);
-						setcookie('hash', null, 0);
-						setcookie('autologin', false, 0);
 
-						$error = $lang['authfailed'];
+							$query = sprintf("UPDATE `users` SET `last login`='%s' WHERE `id`=%u",
+											 strftime('%Y-%m-%d %H:%M:%S'), $user->id());
+
+							mysql_query($query);
+						}
 					}
 				}
 			}

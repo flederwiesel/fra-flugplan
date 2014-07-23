@@ -31,6 +31,8 @@ CREATE TABLE IF NOT EXISTS `users`
 	`token` varchar(64) NULL DEFAULT NULL,
 	`token_type` enum('none', 'activation', 'password') NOT NULL,
 	`token_expires` timestamp NULL DEFAULT NULL,
+	# ALTER TABLE `users` ADD COLUMN `last login` timestamp NULL DEFAULT NULL
+	`last login` timestamp NULL DEFAULT NULL,
 	`timezone` smallint DEFAULT 3600,
 	`language` varchar(2) NOT NULL DEFAULT 'en',
 	`permissions` varchar(1) NOT NULL DEFAULT '0' COMMENT '[0] - addflight',
