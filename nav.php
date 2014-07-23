@@ -23,7 +23,7 @@ function navitem($item, $href)
 		echo '<a href="'.$href.'">';
 
 	if ($mobile)
-		echo '<img src="img/'.$item.'-'.($href ? 'grey' : 'white').'-24x24.png">';
+		echo '<img src="img/'.$item.'-'.($href ? 'grey' : 'white').'-24x24.png" width="24" height="24" alt="'.$lang[$item].'">';
 	else
 		echo $lang[$item];
 
