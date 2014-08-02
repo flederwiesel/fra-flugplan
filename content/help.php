@@ -50,7 +50,7 @@ include("help-$_SESSION[lang].php");
 			<li><?php echo $lang_help[32]; ?>.
 			<li><?php echo $lang_help[16]; ?>.
 			<li class="img">
-				<img src="content/img/<?php echo $_SESSION['lang']; ?>/1-basic.png">
+				<img class="screen" src="content/img/<?php echo $_SESSION['lang']; ?>/1-basic.png">
 				<a class="back" href="#"><?php echo $lang_help[0]; ?></a>
 			</li>
 		</ul>
@@ -62,7 +62,7 @@ include("help-$_SESSION[lang].php");
 			<li><?php echo $lang_help[18]; ?>.
 			<li><?php echo $lang_help[19]; ?>
 			<li class="img">
-				<img src="content/img/<?php echo $_SESSION['lang']; ?>/2-watchlist.png">
+				<img class="screen" src="content/img/<?php echo $_SESSION['lang']; ?>/2-watchlist.png">
 				<a class="back" href="#"><?php echo $lang_help[0]; ?></a>
 			</li>
 		</ul>
@@ -75,7 +75,7 @@ include("help-$_SESSION[lang].php");
 			<li><?php echo $lang_help[22]; ?>.
 			<li><?php echo $lang_help[23]; ?>.
 			<li class="img">
-				<img src="content/img/<?php echo $_SESSION['lang']; ?>/3-watchlist-def.png">
+				<img class="screen" src="content/img/<?php echo $_SESSION['lang']; ?>/3-watchlist-def.png">
 				<a class="back" href="#"><?php echo $lang_help[0]; ?></a>
 			</li>
 		</ul>
@@ -85,7 +85,7 @@ include("help-$_SESSION[lang].php");
 		<ul class="naked help">
 			<li><?php echo $lang_help[24]; ?>.
 			<li class="img">
-				<img src="content/img/<?php echo $_SESSION['lang']; ?>/4-sorting.png">
+				<img class="screen" src="content/img/<?php echo $_SESSION['lang']; ?>/4-sorting.png">
 				<a class="back" href="#"><?php echo $lang_help[0]; ?></a>
 			</li>
 		</ul>
@@ -95,7 +95,7 @@ include("help-$_SESSION[lang].php");
 		<ul class="naked help">
 			<li><?php echo $lang_help[25]; ?>.
 			<li class="img">
-				<img src="content/img/<?php echo $_SESSION['lang']; ?>/5-sorting-reg.png">
+				<img class="screen" src="content/img/<?php echo $_SESSION['lang']; ?>/5-sorting-reg.png">
 				<a class="back" href="#"><?php echo $lang_help[0]; ?></a>
 			</li>
 		</ul>
@@ -105,7 +105,7 @@ include("help-$_SESSION[lang].php");
 		<ul class="help">
 			<li><?php echo $lang_help[26]; ?>.
 				<div><?php echo $lang_help[31]; ?>:
-					<div>
+					<div id="mobile">
 						<ul class="help">
 							<li><img src="img/arrival-grey-24x24.png"><?php echo $lang['arrival']; ?></li>
 							<li><img src="img/departure-grey-24x24.png"><?php echo $lang['departure']; ?></li>
@@ -144,16 +144,15 @@ include("help-$_SESSION[lang].php");
 				</ul>
 			</div>
 			<?php echo $lang_help[30]; ?>
-			<ul class="naked help">
-				<li>
-					<a href="content/emil.php?subject=fra-schedule%20trouble">
-					 	<img class="emil" alt="email" src="content/emil-img.php">
-					</a>
-				</li>
-				<li>T&#x006f;&#98;&#105;&#x61;s&ensp;&#x4b;&uuml;&#x68;&#110;e</li>
-				<li>&#x0048;an&#115;&ndash;&#x0050;u&#114;&#114;mann-&#x0053;tr&#x2e; &#x0032;c
-				<li>67&#x0032;&#x0032;7 F&#x0072;&#97;n&#x006b;en&#x0074;&#104;al
-			</ul>
+			<div>
+				<ul class="help">
+					<li>
+						<a href="content/emil.php?subject=fra-schedule%20trouble">
+							<img id="address" class="emil" alt="email" src="content/mkpng.php?font=verdana&size=10&text=ADMIN_SNAILMAIL">
+						</a>
+					</li>
+				</ul>
+			</div>
 			<a class="back" href="#"><?php echo $lang_help[0]; ?></a>
 		</ul>
 

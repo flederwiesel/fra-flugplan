@@ -150,7 +150,7 @@ ul.help > li
 	list-style: none;
 }
 
-ul.help > li.img
+ul.help img.screen
 {
 	padding: 1em 0em;
 }
@@ -160,10 +160,22 @@ ul.help div
 	margin: 1em;
 }
 
-ul.help img
+ul.help img.screen
 {
 	margin: 0.1em;
 	margin-right: 1em;
+	vertical-align: middle;
+}
+
+#mobile ul.help img
+{
+	margin: 0.1em;
+	margin-right: 1em;
+	vertical-align: middle;
+}
+
+img.emil
+{
 	vertical-align: middle;
 }
 
