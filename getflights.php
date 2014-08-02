@@ -1685,8 +1685,9 @@ SQL;
 					{
 						if (preg_match("/(.*Duplicate entry ')([^']+)('.*)/i", $result, $m))
 						{
-							$result = sprintf('%s<a href="./?page=rmdup&key=%s">%s</a>%s',
-											  $m[1], urlencode($m[2]), $m[2], $m[3]);
+							$result = sprintf("%s<a href='http://$_SERVER[SERVER_NAME]/".
+											  "?page=rmdup&key=%s'>%s</a>%s",
+											  $m[1],  urlencode($m[2]), $m[2], $m[3]);
 						}
 					}
 
