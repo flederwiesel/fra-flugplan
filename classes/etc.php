@@ -39,6 +39,25 @@ function php_self($https = 0)
 	return $pageURL;
 }
 
+function htmlget()
+{
+	$get = '';
+
+	if (isset($_GET))
+	{
+		foreach ($_GET as $key => $value)
+		{
+			$get .= 0 == strlen($get) ? '?' : '&';
+			$get .= urlencode($key);
+
+			if (strlen($value) > 0)
+				$get .= '='.urlencode($value);
+		}
+	}
+
+	return $get;
+}
+
 function mktime_c($ddmmyyyy /* dd.mm.YYYY */, $hhmm = '00:00')
 {
 	if (!preg_match('/([0-9]+).([0-9]+).([0-9]+)/', str_replace(' ', '', $ddmmyyyy), $day))
