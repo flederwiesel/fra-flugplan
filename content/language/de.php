@@ -2,14 +2,6 @@
 
 /******************************************************************************
  *
- *       project: FRA-flights Live Schedule
- *
- *       $Author$
- *         $Date$
- *          $Rev$
- *
- ******************************************************************************
- *
  * Copyright © Tobias Kühne
  *
  * You may use and distribute this software free of charge for non-commercial
@@ -133,15 +125,15 @@ $lang = array
 	'activationrequired' => 'Konto nicht aktiviert.',
 	'activatefirst' => 'Bitte Konto zuvor <a href="?req=activate&user=%s">aktivieren</a>!',
 	'subjpasswdchange' => 'Passwortänderung',
-	'emailpasswd' => "Hallo,\n\nDu erhälst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse %s) '.
-		'eine Anfrage gesendet hast, das Passwort für Benutzer '%s' auf %s zurückzusetzen.\n\n'.
-		'Das Token dafür ist:\n%s\n\nBenutze diesen Link, um fortzufahren:\n%s?req=changepw&user=%s&token=%s\n'.
-		'Dieses Token läuft um %s GMT ab.\n\nFalls Du das Zurücksetzen Deines Passworts nicht veranlaßt hast, '.
-		'ignoriere diese Mail einfach.\n\n\nDas %s Team",
-	'emailactivation' => "Hallo,\n\nDu erhälst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse %s) '.
-		'eine Anfrage zur Registrierung als Benutzer '%s' auf %s (%s) gesendet hast.\n\n'.
-		'Das Aktivierungs-Token ist:\n%s\n\nBenutze diesen Link, um fortzufahren:\n%s?req=activate&user=%s&token=%s\n'.
-		'Dieses Token läuft um %s GMT ab.\n\nFalls Du keine Registrierung veranlaßt hast, ignoriere diese Mail einfach.\n\n\nDas %s Team",
+	'emailpasswd' => "Hallo,\n\nDu erhälst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse %s) ".
+		"eine Anfrage gesendet hast, das Passwort für Benutzer '%s' auf %s zurückzusetzen.\n\n".
+		"Das Token dafür ist:\n%s\n\nBenutze diesen Link, um fortzufahren:\n%s?req=changepw&user=%s&token=%s\n".
+		"Dieses Token läuft um %s GMT ab.\n\nFalls Du das Zurücksetzen Deines Passworts nicht veranlaßt hast, ".
+		"ignoriere diese Mail einfach.\n\n\nDas %s Team",
+	'emailactivation' => "Hallo,\n\nDu erhälst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse %s) ".
+		"eine Anfrage zur Registrierung als Benutzer '%s' auf %s (%s) gesendet hast.\n\n".
+		"Das Aktivierungs-Token ist:\n%s\n\nBenutze diesen Link, um fortzufahren:\n%s?req=activate&user=%s&token=%s\n".
+		"Dieses Token läuft um %s GMT ab.\n\nFalls Du keine Registrierung veranlaßt hast, ignoriere diese Mail einfach.\n\n\nDas %s Team",
 	'subjactivate' => 'Aktivierung',
 	'mailfailed' => 'E-Mail konnnte nicht versendet werden: ',
 	'tokensent' => 'Aktivierungs-Token wurde an die angegebene E-mail-Addresse gesendet. Passwort kann nun geändert werden.',

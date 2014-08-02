@@ -2,14 +2,6 @@
 
 /******************************************************************************
  *
- *       project: FRA-flights Live Schedule
- *
- *       $Author$
- *         $Date$
- *          $Rev$
- *
- ******************************************************************************
- *
  * Copyright © Tobias Kühne
  *
  * You may use and distribute this software free of charge for non-commercial
@@ -131,15 +123,15 @@ $lang = array
 	'activationrequired' => 'Activation required.',
 	'activatefirst' => 'Please <a href="?req=activate&user=%s">activate</a> account first!',
 	'subjpasswdchange' => 'Change Password',
-	'emailpasswd' => "Hello,\n\nthis e-mail has been sent to you because you (or someone else at IP address %s) '.
-		'requested a password change for user '%s' at %s\n\nPassword token is:\n%s\n\n'.
-		'You can also use this link to process your request:\n%s?req=changepw&user=%s&token=%s\n'.
-		'This token will expire on %s GMT.\n\nPlease ignore this e-mail if you didn't request a change of password. '.
-		'Our apologies for any inconvenience.\n\n\nThe %s Team",	//&&
-	'emailactivation' => "Hello,\n\nthis e-mail has been sent to you because you (or someone else at IP address %s) '.
-		'requested user registration as '%s' at %s (%s).\n\nActivation token is:\n%s\n\nYou can also use this link '.
-		'to process your request:\n%s?req=activate&user=%s&token=%s\nThis token will expire on %s GMT.\n\n'.
-		'Please ignore this e-mail if you didn't request a registration. Our apologies for any inconvenience.\n\n\nThe %s Team",
+	'emailpasswd' => "Hello,\n\nthis e-mail has been sent to you because you (or someone else at IP address %s) ".
+		"requested a password change for user '%s' at %s\n\nPassword token is:\n%s\n\n".
+		"You can also use this link to process your request:\n%s?req=changepw&user=%s&token=%s\n".
+		"This token will expire on %s GMT.\n\nPlease ignore this e-mail if you didn't request a change of password. ".
+		"Our apologies for any inconvenience.\n\n\nThe %s Team",
+	'emailactivation' => "Hello,\n\nthis e-mail has been sent to you because you (or someone else at IP address %s) ".
+		"requested user registration as '%s' at %s (%s).\n\nActivation token is:\n%s\n\nYou can also use this link '".
+		"to process your request:\n%s?req=activate&user=%s&token=%s\nThis token will expire on %s GMT.\n\n".
+		"Please ignore this e-mail if you did not request a registration. Our apologies for any inconvenience.\n\n\nThe %s Team",
 	'subjactivate' => 'Account activation',
 	'mailfailed' => 'Unable to send e-mail: ',
 	'tokensent' => 'A token has been sent to your e-mail address. You can now change your password.',
