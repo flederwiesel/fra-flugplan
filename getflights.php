@@ -29,8 +29,9 @@ error_reporting(E_ALL);
 mb_internal_encoding('UTF-8');
 
 include ".config";
-include "classes/vector.php";
+include "classes/etc.php";
 include "classes/awk.php";
+include "classes/vector.php";
 
 $errorinfo = NULL;
 $warning = NULL;
@@ -161,71 +162,6 @@ function query_style($query)
 	$query = preg_replace('/[ \t]+\)/', ')', $query);
 
 	return $query."\n";
-}
-
-function curl_setup()
-{
-	// is cURL installed yet?
-	if (!function_exists('curl_init'))
-	{
-		$curl = NULL;
-		seterrorinfo(__LINE__, 'cURL is not installed!');
-	}
-	else
-	{
-		// OK cool - then let's create a new cURL resource handle
-		$curl = curl_init();
-
-		// Now set some options (most are optional)
-		// http://en.php.net/curl_setopt
-
-		// Set a referer
-		curl_setopt($curl, CURLOPT_REFERER, "http://www.flederwiesel.com/fra-schedule");
-
-		// User agent
-		//curl_setopt($curl, CURLOPT_USERAGENT, "User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.28) Gecko/20120306 Firefox/3.6.28 ( .NET CLR 3.5.30729; .NET4.0E)");
-
-		// Include header in result? (0 = yes, 1 = no)
-		curl_setopt($curl, CURLOPT_HEADER, 0);
-
-		// Upon "301 Moved Permanently", follow the redirection
-		// This is necessary since local url '.../airportcity' is a directory,
-		// but url would have needed a trailing backslash then...
-		curl_setopt($curl, CURLOPT_FOLLOWLOCATION, 1);
-
-		// Should cURL return or print out the data? (true = return, false = print)
-		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
-
-		curl_setopt($curl, CURLOPT_COOKIESESSION, TRUE);	// start new cookie "session"
-		curl_setopt($curl, CURLOPT_FRESH_CONNECT, FALSE);
-
-		// Timeout in seconds
-		curl_setopt($curl, CURLOPT_TIMEOUT, 30);
-
-		// Need to use a proxy?
-		if (file_exists('.curlrc'))
-		{
-			$curlrc = file('.curlrc');
-
-			if ($curlrc)
-			{
-				curl_setopt($curl, CURLOPT_HTTPPROXYTUNNEL, 0);
-				curl_setopt($curl, CURLOPT_PROXY, trim($curlrc[0]));
-				curl_setopt($curl, CURLOPT_PROXYUSERPWD, trim($curlrc[1]));
-
-				unset($curlrc);
-			}
-		}
-	}
-
-	return $curl;
-}
-
-function curl_download($curl, $url)
-{
-	curl_setopt($curl, CURLOPT_URL, $url);
-
-	return curl_exec($curl);
 }
 
 function patchreg($reg)
