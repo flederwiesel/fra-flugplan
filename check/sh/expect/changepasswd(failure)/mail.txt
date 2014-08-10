@@ -1,0 +1,195 @@
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: Account activation
+To: hausmeister@flederwiesel.com
+From: Frankfurt Aviation Friends <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
+Hello,
+
+this e-mail has been sent to you because you (or someone else at IP address 127.0.0.1) requested user registration as 'flederwiesel' at Frankfurt Aviation Friends (www.frankfurt-aviation-friends.de).
+
+Activation token is:
+***
+
+You can also use this link to process your request:
+http://localhost/.../index.php?req=activate&user=flederwiesel&token=***
+This token will expire on 0000-00-00 00:00:00 GMT.
+
+Please ignore this e-mail if you did not request a registration. Our apologies for any inconvenience.
+
+
+The Frankfurt Aviation Friends Team
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: admin:registration
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
+2:flederwiesel <hausmeister@flederwiesel.com> (expires 0000-00-00 00:00:00) = OK
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: admin:activation
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
+2:flederwiesel (0000-00-00 00:00:00) = OK
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: admin:reqpasswdch
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
+:flederwiesel = No such user associated with this e-mail address.
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: admin:reqpasswdch
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
+:unkown = No such user.
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: admin:reqpasswdch
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
+: = E-mail address not registered.
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: Change Password
+To: hausmeister@flederwiesel.com
+From: Frankfurt Aviation Friends <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
+Hello,
+
+this e-mail has been sent to you because you (or someone else at IP address ::1) requested a password change for user 'flederwiesel' at Frankfurt Aviation Friends
+
+Password token is:
+***
+
+You can also use this link to process your request:
+http://localhost/.../index.php?req=changepw&user=flederwiesel&token=***
+This token will expire on 0000-00-00 00:00:00 GMT.
+
+Please ignore this e-mail if you didn't request a change of password. Our apologies for any inconvenience.
+
+
+The Frankfurt Aviation Friends Team
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: admin:reqpasswdch
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
+2:flederwiesel (expires 0000-00-00 00:00:00) = OK
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: admin:passwdch
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
+:erwin = Authentication failed. Password has not been changed.
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: admin:passwdch
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
+:flederwiesel = Authentication failed. Password has not been changed.
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: admin:passwdch
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
+:flederwiesel = Password must consist of 4 or more characters.
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: admin:passwdch
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
+:flederwiesel = Passwords do not match!
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: admin:passwdch
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
+:flederwiesel = Token expired. Password has not been changed
+
+======================================================

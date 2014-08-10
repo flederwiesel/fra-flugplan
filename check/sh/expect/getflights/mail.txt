@@ -1,0 +1,160 @@
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: watchlist
+To: root<fra-schedule@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
++0 09:45	N116UA	"United"
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: watchlist
+To: flederwiesel<hausmeister@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
++0 11:15	C-GHLM	"Air Canada - 938"
++0 11:45	C-GHKW	"Air Canada - 936"
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: watchlist
+To: flederwiesel<hausmeister@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
++0 12:35	CS-TNP	"TAP - Star Alliance"
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: watchlist
+To: flederwiesel<hausmeister@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
++0 18:25	CS-TNP	"TAP - Star Alliance"
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: watchlist
+To: root<fra-schedule@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
++1 06:15	ZS-SNC	"South African Airways - Star Alliance"
++1 09:45	N116UA	"United"
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: watchlist
+To: flederwiesel<hausmeister@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
++1 06:20	B-KPF	"Cathay Pacific - Asias world city GRÜN"
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: watchlist
+To: flederwiesel<hausmeister@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
++0 22:30	CS-TNP	"TAP - Star Alliance"
++1 11:45	C-GHKW	"Air Canada - 936"
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: watchlist
+To: flederwiesel<hausmeister@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
++0 11:15	C-GFAH	"Air Canada - 932"
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: watchlist
+To: flederwiesel<hausmeister@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
++0 12:35	CS-TNP	"TAP - Star Alliance"
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: watchlist
+To: flederwiesel<hausmeister@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
++0 18:25	CS-TNP	"TAP - Star Alliance"
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: watchlist
+To: root<fra-schedule@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
++1 09:45	N116UA	"United"
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: watchlist
+To: flederwiesel<hausmeister@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
++0 22:30	CS-TNP	"TAP - Star Alliance"
++1 11:45	C-GHKW	"Air Canada - 936"
+
+======================================================

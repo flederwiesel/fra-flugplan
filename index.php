@@ -19,21 +19,6 @@ if (isset($_COOKIE['DBGSESSID']))
 else
 	error_reporting(0);
 
-/******************************************************************************
- * header
- ******************************************************************************/
-
-// always modified
-header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
-
-// HTTP/1.1
-header('Cache-control: private'); // IE 6 FIX
-header('Cache-Control: no-store, no-cache, must-revalidate');
-header('Cache-Control: post-check=0, pre-check=0', false);
-// HTTP/1.0
-header('Pragma: no-cache');
-
-//&& 	$_SERVER[HTTP_ACCEPT_ENCODING]
 mb_internal_encoding('UTF-8');
 
 $jquery = 'jquery-1.10.1.min.js';
@@ -96,6 +81,8 @@ function content()
 		return "forms/$_GET[req].php";
 	else if (isset($_GET['page']))
 		return "content/$_GET[page].php";
+	else if (isset($_GET['admin']))
+		return "content/admin.php";
 	else
 		return 'content/index.php';
 }
@@ -116,8 +103,19 @@ session_start();
 /* Set session language from $_POST or $_COOKIE */
 if (isset($_GET['lang']))
 {
-	setcookie('lang', $_GET['lang'], time() + COOKIE_LIFETIME);
-	$_SESSION['lang'] = $_GET['lang'];
+	if (strlen($_GET['lang']))
+	{
+		setcookie('lang', $_GET['lang'], time() + COOKIE_LIFETIME);
+		$_SESSION['lang'] = $_GET['lang'];
+	}
+}
+else if (isset($_POST['lang']))
+{
+	if (strlen($_POST['lang']))
+	{
+		setcookie('lang', $_POST['lang'], time() + COOKIE_LIFETIME);
+		$_SESSION['lang'] = $_POST['lang'];
+	}
 }
 else
 {
@@ -125,13 +123,27 @@ else
 	{
 		if (isset($_COOKIE['lang']))
 			$_SESSION['lang'] = $_COOKIE['lang'];
-		else
-			$_SESSION['lang'] = 'en';
-//&& 	$_SERVER[HTTP_ACCEPT_LANGUAGE]
 	}
-
-	setcookie('lang', $_SESSION['lang'], time() + COOKIE_LIFETIME);
 }
+
+if (!isset($_SESSION['lang']))
+	$_SESSION['lang'] = http_preferred_language(array('en', 'de'));
+else if (0 == strlen($_SESSION['lang']))
+	$_SESSION['lang'] = http_preferred_language(array('en', 'de'));
+
+/******************************************************************************
+ * header
+ ******************************************************************************/
+
+// always modified
+header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
+
+// HTTP/1.1
+header('Cache-control: private'); // IE 6 FIX
+header('Cache-Control: no-store, no-cache, must-revalidate');
+header('Cache-Control: post-check=0, pre-check=0', false);
+// HTTP/1.0
+header('Pragma: no-cache');
 
 header('Content-Type: text/html; charset=UTF-8');
 header('Content-Language: '.$_SESSION['lang']);
@@ -139,9 +151,11 @@ header('Content-Language: '.$_SESSION['lang']);
 $file = 'content/language/'.$_SESSION['lang'].'.php';
 
 if (file_exists($file))
-	require_once $file;
+	include "$file";
 else
-	require_once 'content/language/en.php';
+	include "content/language/en.php";
+
+setcookie('lang', $_SESSION['lang'], time() + COOKIE_LIFETIME);
 
 /******************************************************************************
  * initialise variables

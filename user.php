@@ -15,6 +15,8 @@
  ******************************************************************************/
 
 require_once '.config';
+require_once 'classes/etc.php';
+
 
 function /* char* */ token() { return hash('sha256', mcrypt_create_iv(32)); }
 
@@ -451,11 +453,8 @@ function /* char *error */ RegisterUser(&$message)
 					}
 					else
 					{
-						if (!isset($_POST['lang']))
-							$_POST['lang'] = $_SESSION['lang'];
-
-						$error = RegisterUserSql($_POST['user'], $_POST['email'],
-												 $_POST['passwd'], $_POST['lang']);
+						$error = RegisterUserSql($_POST['user'], $_POST['email'], $_POST['passwd'],
+												 isset($_POST['lang']) ? $_POST['lang'] : 'en');
 
 						if (!$error)
 						{
@@ -578,10 +577,18 @@ function /* char *error */ RegisterUserSql($user, $email, $password, $language)
 		}
 	}
 
+	$admin = sprintf("$uid:$user <$email>%s = %s\n",
+					 $expires ? " (expires $expires)" : "",
+					 $error ? $error : "OK");
+
 	if (!$error)
 	{
-		$client_ip = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ?
-			$_SERVER['HTTP_X_FORWARDED_FOR'] : $_SERVER['REMOTE_ADDR'];
+		/* Send registration email to user */
+		$ipaddr = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ?
+						$_SERVER['HTTP_X_FORWARDED_FOR'] :
+						$_SERVER['REMOTE_ADDR'];
+
+		$ipaddr = str_replace('::1', '127.0.0.1', $ipaddr);
 
 		$header = sprintf(
 			"From: %s <%s>\n".
@@ -597,7 +604,7 @@ function /* char *error */ RegisterUserSql($user, $email, $password, $language)
 
 		$subject = mb_encode_mimeheader($lang['subjactivate'], 'ISO-8859-1', 'Q');
 
-		$body = sprintf($lang['emailactivation'], $client_ip, $user, ORGANISATION, SITE_URL,
+		$body = sprintf($lang['emailactivation'], $ipaddr, $user, ORGANISATION, SITE_URL,
 						$token, php_self(), $user, $token, $expires, ORGANISATION);
 
 		/* http://www.outlookfaq.net/index.php?action=artikel&cat=6&id=84&artlang=de */
@@ -608,12 +615,73 @@ function /* char *error */ RegisterUserSql($user, $email, $password, $language)
 			$error = error_get_last();
 			$error = $lang['mailfailed'].$error['message'];
 		}
+
+		/* Check for forum spam and provide hrefs */
+		$curl = curl_setup();
+
+		if ($curl)
+		{
+			// http://api.stopforumspam.org/api?ip=127.0.0.1&email=hausmeister%40flederwiesel.com&username=flederwiesel
+			// api.stopforumspam.org/api?ip=27.153.229.119&email=compactzmtn@gmail.com&username=ljdwefdsyrovtq
+			$htm = curl_download($curl,
+						sprintf("http://api.stopforumspam.org/api?ip=%s&email=%s&username=%s",
+								$ipaddr, urlencode($email), urlencode($user)));
+
+			/*
+			$htm = <<<EOF
+			<response success="true">
+				<type>ip</type>
+				<appears>no</appears>
+				<frequency>0</frequency>
+				<type>email</type>
+				<appears>no</appears>
+				<frequency>0</frequency>
+				<type>username</type>
+				<appears>no</appears>
+				<frequency>0</frequency>
+			</response>
+EOF;
+			$htm = <<<EOF
+			<response success="true">
+				<type>ip</type>
+				<appears>yes</appears>
+				<lastseen>2014-08-09 09:09:05</lastseen>
+				<frequency>290</frequency>
+				<type>email</type>
+				<appears>yes</appears>
+				<lastseen>2014-08-09 09:09:05</lastseen>
+				<frequency>3597</frequency>
+				<type>username</type>
+				<appears>yes</appears>
+				<lastseen>2014-08-09 09:02:02</lastseen>
+				<frequency>51</frequency>
+			</response>
+EOF;
+			*/
+
+			$htm = preg_replace('/.*<\/?response.*/', '', $htm);
+			$htm = preg_replace('/.*<frequency>([0-9]+).*/', '$1,', $htm);
+			$htm = preg_replace('/.*<type>([^<]+).*/', '$1=', $htm);
+			$htm = preg_replace('/.*<appears>.*/', '$1', $htm);
+			$htm = preg_replace('/.*<lastseen>.*/', '$1', $htm);
+			$htm = preg_replace('/[\t\n]+/', '', $htm);
+			$htm = preg_replace('/,$/', '', $htm);
+
+			if ($htm != 'ip=0,email=0,username=0')
+			{
+				/* Suspected spam */
+				$admin .=
+					sprintf("\nSuspected spam: $htm:".
+							"\nReport: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz".
+							"&ip_addr=%s&email=%s&username=%s&evidence=Automated%%20registration%%2e".
+							"\nDelete: http://%s?admin=userdel&uid=$uid\n",
+							$ipaddr, urlencode($email), urlencode($user),
+							$_SERVER['SERVER_NAME']);
+			}
+		}
 	}
 
-	AdminMail('registration',
-		sprintf("$uid:$user <$email>%s = %s\n",
-				$expires ? " (expires $expires)" : "",
-				$error ? $error : "OK"));
+	AdminMail('registration', $admin);
 
 	return $error;
 }

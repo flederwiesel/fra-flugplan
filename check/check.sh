@@ -121,6 +121,8 @@ rawurlencode() {
 # <preparation>
 ###############################################################################
 
+IFS=$'\n'
+
 prj="$(readlink -f ..)"
 url=http://localhost/$(rawurlencode "${prj##*/}")
 
@@ -135,22 +137,39 @@ sed "s/^[[:space:]]*define('DEBUG'.*$/\/\/&/" --in-place ../.config
 # No mainteance...
 [ -e ../adminmessage.php ] && mv ../adminmessage.php ../~adminmessage.php
 
-# On local system, check whether mta is running
-mercury=0
+cat <<EOF > ./mailer.py
+#! /usr/bin/python2.6
 
-if [ 'kowalski' == $(uname --nodename) ]; then
-	tasklist | grep -q 'mercury.exe'
-	if [ 1 = $? ]; then
-		path=$(reg query "HKEY_CURRENT_USER\Software\Mercury32\Command" |
-				grep '(Default)' |
-				sed 's/^[ \t]*(Default)[ \t]*REG_SZ[ \t]*//g
-					s/\\/\\\\/g
-					s/[ \t]*\/m//g')
-		path=$(cygpath -u "$path")
-		eval "$path /m &"
-		mercury=$!
-	fi
-fi
+import sys
+import asyncore
+
+from smtpd import *
+
+class DebuggingServer(SMTPServer):
+	def __init__(self, localaddr, remoteaddr, file):
+		SMTPServer.__init__(self, localaddr, remoteaddr)
+		self.outfile = file
+
+	# Do something with the gathered message
+	def process_message(self, peer, mailfrom, rcpttos, data):
+		with open(self.outfile, 'a+') as f:
+			f.write('%s\n' % data)
+			f.write('======================================================\n');
+		f.closed
+
+if __name__ == '__main__':
+	if len(sys.argv) < 2:
+		print 'Too few arguments: Destination file required.'
+		sys.exit(0)
+
+	proxy = DebuggingServer(('127.0.0.1', 25), ('127.0.0.1', 2525), sys.argv[1])
+	try:
+		asyncore.loop()
+	except KeyboardInterrupt:
+		pass
+EOF
+
+chmod +x ./mailer.py
 
 ###############################################################################
 
@@ -162,8 +181,6 @@ EOF
 ###############################################################################
 # </preparation>
 ###############################################################################
-
-IFS=$'\n'
 
 if [ $# -gt 0 ]; then
 	scripts="$@"
@@ -204,11 +221,45 @@ do
 			mkdir -p "$results"
 
 			if [ 0 == $? ]; then
-				eval "$(cat 'sh/'$script'.sh')"
+
+				./mailer.py "$results/mail.txt" &
+				mailer=$!
+				# Make sure mailer will be terminated and port freed
+				[ 0 == $? ] && trap "kill $mailer; exit" SIGINT
+				chkmail=0
+
+				eval "$(cat sh/$script.sh)"
+
+				# wait only to suppress `check.sh: Zeile NNN:
+				#   NNNN Terminated /tmp/mailer.py "$results/mail.txt"`
+				kill $mailer
+				wait $mailer 2>/dev/null
+
+				if [ 0 == $chkmail ]; then
+					# Mails might be generated without the need to be checked...
+					rm -f "$results/mail.txt"
+				else
+					if [ -e "$results/mail.txt" ]; then
+						LANG=de_DE.utf8 sed -ri "
+							s#(http://[^/]+/).*/([^/?]+\?.*)#\1.../\2#g
+							s/^(Date:[ \t]+).+\$/\1Day, 0 Month 0000 00:00:00 +0000/g
+							s/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/0000-00-00 00:00:00/g
+							s/token=[0-9a-f]+/token=***/g
+							s/token='[0-9a-f.]+'/token='***'/g
+							s/\(code [0-9]+\)/(code ***)/g
+							/(Activation|Password) token is:/ { N; s/\n.+\$/\n***/g }
+							/Das (Aktivierungs-)?Token( dafür)? ist:/ { N; s/\n.+\$/\n***/g }
+						" "$results/mail.txt"
+					else
+						# Suppress file not found error
+						echo > "$results/mail.txt"
+					fi
+				fi
+
 				# Copy referenced scripts to properly view results
 				cp -a ../css ../img ../script "$results"
 
-			diff "$expect" "$results" \
+				diff "$expect" "$results" \
 					--brief \
 					--recursive --ignore-file-name-case \
 					--exclude=css \
