@@ -129,7 +129,7 @@ $lang = array
 		"This token will expire on %s GMT.\n\nPlease ignore this e-mail if you didn't request a change of password. ".
 		"Our apologies for any inconvenience.\n\n\nThe %s Team",
 	'emailactivation' => "Hello,\n\nthis e-mail has been sent to you because you (or someone else at IP address %s) ".
-		"requested user registration as '%s' at %s (%s).\n\nActivation token is:\n%s\n\nYou can also use this link '".
+		"requested user registration as '%s' at %s (%s).\n\nActivation token is:\n%s\n\nYou can also use this link ".
 		"to process your request:\n%s?req=activate&user=%s&token=%s\nThis token will expire on %s GMT.\n\n".
 		"Please ignore this e-mail if you did not request a registration. Our apologies for any inconvenience.\n\n\nThe %s Team",
 	'subjactivate' => 'Account activation',
