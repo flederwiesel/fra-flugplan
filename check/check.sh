@@ -227,6 +227,7 @@ do
 				# Make sure mailer will be terminated and port freed
 				[ 0 == $? ] && trap "kill $mailer; exit" SIGINT
 				chkmail=0
+				sed=
 
 				eval "$(cat sh/$script.sh)"
 
@@ -250,6 +251,8 @@ do
 							/(Activation|Password) token is:/ { N; s/\n.+\$/\n***/g }
 							/Das (Aktivierungs-)?Token( dafür)? ist:/ { N; s/\n.+\$/\n***/g }
 						" "$results/mail.txt"
+
+						[ -n "$sed" ] && sed -ri "$sed" "$results/mail.txt"
 					else
 						# Suppress file not found error
 						echo > "$results/mail.txt"
