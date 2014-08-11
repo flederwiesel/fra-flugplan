@@ -1,0 +1,43 @@
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: Account activation
+To: compactzmtn@gmail.com
+From: Frankfurt Aviation Friends <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
+Hello,
+
+this e-mail has been sent to you because you (or someone else at IP address 127.0.0.1) requested user registration as 'ljdwefdsyrovtq' at Frankfurt Aviation Friends (www.frankfurt-aviation-friends.de).
+
+Activation token is:
+***
+
+You can also use this link to process your request:
+http://localhost/.../index.php?req=activate&user=ljdwefdsyrovtq&token=***
+This token will expire on 0000-00-00 00:00:00 GMT.
+
+Please ignore this e-mail if you did not request a registration. Our apologies for any inconvenience.
+
+
+The Frankfurt Aviation Friends Team
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+Subject: admin:registration
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+From: FRA schedule <web416p1@server240.star-server.info>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/5.3.8
+
+2:ljdwefdsyrovtq <compactzmtn@gmail.com> (expires 0000-00-00 00:00:00) = OK
+
+Suspected spam: ip=0,email=4290,username=52:
+Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=127.0.0.1&email=compactzmtn%40gmail.com&username=ljdwefdsyrovtq&evidence=Automated%20registration%2e
+Delete: http://localhost?admin=userdel&uid=2
+
+======================================================
