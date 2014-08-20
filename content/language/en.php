@@ -185,7 +185,7 @@ $lang = array
 		If you do not wish to be notified, set both to "00:00".',
 	'notif-from-until' => 'Notify me between: ',
 	'notif-setinterval' => 'Notifications have been activated, however, no notification interval has been selected.
-		To receive notificationsm, choose a time interval in your
+		To receive notifications, choose a time interval in your
 		<a href="?req=profile&notifinterval">user profile</a>',
 	'invalidsession' => 'Invalid Session.',
 );
