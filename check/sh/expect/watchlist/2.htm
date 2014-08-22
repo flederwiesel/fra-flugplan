@@ -13,17 +13,20 @@
 <meta name="keywords" lang="de" content="Flughafen, Flugzeug, Luftfahrt, Spotter, Spotting, Flugzeugfotografie, Flüge, Flugplan">
 <meta name="robots" content="index, nofollow">
 <meta name="generator" content="http://www.ultraedit.com/">
-<link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
 <link type="image/gif" rel="icon" href="favicon.gif">
 <link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.core.css">
 <link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.base.css">
 <link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.theme.css">
+<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.tooltip.css">
 <link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.slider.css">
 <link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/jquery.ui.datepicker.css">
+<link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
 <script type="text/javascript" src="script/jquery-ui-1.10.3/jquery-1.10.1.min.js"></script>
 <script type="text/javascript" src="script/jquery-ui-1.10.3/ui/jquery.ui.core.js"></script>
 <script type="text/javascript" src="script/jquery-ui-1.10.3/ui/jquery.ui.widget.js"></script>
 <script type="text/javascript" src="script/jquery-ui-1.10.3/ui/jquery.ui.mouse.js"></script>
+<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/jquery.ui.position.js"></script>
+<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/jquery.ui.tooltip.js"></script>
 <script type="text/javascript" src="script/jquery-ui-1.10.3/ui/jquery.ui.slider.js"></script>
 <script type="text/javascript" src="script/jquery-ui-1.10.3/ui/jquery.ui.datepicker.js"></script>
 </head>
@@ -70,6 +73,24 @@ Live Schedule &ndash; Arrival</h3>
 #list { padding-right: 1.2em; }
 </style>
 <![endif]-->
+<style type="text/css">
+/* jQuery UI Tooltip 1.10.3 */
+.ui-tooltip
+{
+	z-index: 9999;
+	position: absolute;
+	padding: 0.1em 0.2em;
+	max-width: 300px;
+	background: #FFFFE1;
+	-webkit-box-shadow: 0 0 2px #AAA;
+	box-shadow: 0 0 2px #AAA;
+	border-radius: 0;
+	font-size: 0.85em;
+}
+body .ui-tooltip {
+	border: 1px solid black;
+}
+</style>
 <script type="text/javascript">
 	wl_img_open = "img/wl-open-en.png";
 	wl_img_close = "img/wl-close-en.png";
@@ -78,6 +99,11 @@ Live Schedule &ndash; Arrival</h3>
 <script type="text/javascript" src="script/sorttable.js"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
+	});
+
+	$(function()
+	{
+		$(document).tooltip( { position: { my: "left top", at: "right top", collision: "flipfit" } } );
 	});
 
 	$(document).keydown(function(event)
