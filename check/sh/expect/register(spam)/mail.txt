@@ -36,7 +36,7 @@ X-Mailer: PHP/5.3.8
 
 2:ljdwefdsyrovtq <compactzmtn@gmail.com> (expires 0000-00-00 00:00:00) = OK
 
-Suspected spam: ip=*,email=*,username=52*:
+Suspected spam: ip=*,email=*,username=*:
 Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=127.0.0.1&email=compactzmtn%40gmail.com&username=ljdwefdsyrovtq&evidence=Automated%20registration%2e
 Delete: http://localhost?admin=userdel&uid=2
 
