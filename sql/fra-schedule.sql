@@ -43,6 +43,8 @@ CREATE TABLE IF NOT EXISTS `users`
 	`tt+` integer NOT NULL DEFAULT 86400,
 	`notification-from` time NOT NULL DEFAULT '00:00',
 	`notification-until` time NOT NULL DEFAULT '00:00',
+	# ALTER TABLE `users` ADD COLUMN `send mail` BOOL DEFAULT TRUE
+	`send mail` BOOL DEFAULT TRUE,
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `name` (`name`),
 	UNIQUE KEY `email` (`email`)
