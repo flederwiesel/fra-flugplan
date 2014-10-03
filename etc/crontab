@@ -2,4 +2,4 @@ MAILTO=hausmeister@flederwiesel.com
 
 # M H d m u
 #0 0 * * *	cron.sh
-*/5 * * * * e=$(curl 'http://www.flederwiesel.com/fra-schedule/getflights.php'); if [ ${#e} -gt 0 ]; then echo $(date --rfc-3339=seconds) $e >> /srv/www/htdocs/web416/html/fra-schedule/getflights.log; fi
+*/5 	* 	* 	* 	* 	php -f /home/flederwi/public_html/fra-schedule/getflights.php >> /home/flederwi/logs/getflights.log
