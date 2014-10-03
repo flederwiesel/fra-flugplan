@@ -32,7 +32,7 @@ if (isset($_GET))
 	}
 }
 
-header("Location: http://www.flederwiesel.com/fra-flights$_get"); /* Redirect browser */
+header("Location: http://www.flederwiesel.com/fra-schedule$_get"); /* Redirect browser */
 ?>
 
 <!DOCTYPE html>
@@ -54,5 +54,5 @@ header("Location: http://www.flederwiesel.com/fra-flights$_get"); /* Redirect br
 </head>
 <body>
 If you are not being redirected properly, please use the following link to go to the
-<a href="http://www.flederwiesel.com/fra-flights">Live Schedule</a>
+<a href="http://www.flederwiesel.com/fra-schedule">Live Schedule</a>
 </body>
