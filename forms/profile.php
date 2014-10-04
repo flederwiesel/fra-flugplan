@@ -365,7 +365,7 @@ SQL;
 }
 else
 {
-	include('forms/changepw.php');
+	include 'forms/changepw.php';
 }
 ?>
 </div>
