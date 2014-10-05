@@ -263,6 +263,7 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 <?php if ($mobile && !$tablet) { ?>
 <meta name="viewport" content="width=device-width; initial-scale=1.0;"/>
 <?php } ?>
+<link rel="apple-touch-icon" href="http://www.flederwiesel.com/apple-touch-icon.png"/>
 <link type="image/gif" rel="icon" href="favicon.gif">
 <link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.core.css">
 <link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.base.css">
