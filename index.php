@@ -318,7 +318,7 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 						}
 ?></h3>
 				</div>
-				<div id="nav"><?php require_once('nav.php'); ?>
+				<div id="nav"><?php require_once 'nav.php'; ?>
 				</div>
 			</div>
 <?php
@@ -345,7 +345,7 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 <?php
 				if (file_exists('adminmessage.php'))
 				{
-					require_once('adminmessage.php');
+					require_once 'adminmessage.php';
 
 					/*
 						$adminmessage = array(
@@ -395,7 +395,7 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 					case 'reqtok':
 					case 'changepw':
 					case 'profile':
-						require_once("forms/$_GET[req].php");
+						require_once "forms/$_GET[req].php";
 						break;
 
 					default:
