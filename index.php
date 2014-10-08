@@ -14,12 +14,15 @@
  *
  ******************************************************************************/
 
-if (isset($_COOKIE['DBGSESSID']))
+if ('localhost' == $_SERVER['SERVER_NAME'])
 	error_reporting(E_ALL | E_NOTICE);
 else
 	error_reporting(0);
 
 mb_internal_encoding('UTF-8');
+
+require_once '.config';
+require_once 'classes/etc.php';
 
 $jquery = 'jquery-1.10.1.min.js';
 $jqueryui = 'jquery-ui-1.10.3';
@@ -94,9 +97,6 @@ function content()
  * Equal goes it loose
  ******************************************************************************/
 
-require_once '.config';
-require_once 'classes/etc.php';
-
 session_start();
 
 /******************************************************************************
@@ -133,6 +133,80 @@ if (!isset($_SESSION['lang']))
 	$_SESSION['lang'] = http_preferred_language(array('en', 'de'));
 else if (0 == strlen($_SESSION['lang']))
 	$_SESSION['lang'] = http_preferred_language(array('en', 'de'));
+
+/******************************************************************************
+ * detect device type
+ ******************************************************************************/
+
+require_once 'classes/Mobile_Detect.php';
+
+$device = new Mobile_Detect();
+
+if (!$device)
+{
+	$mobile = false;
+}
+else
+{
+	/* Treat tablets as desktop */
+	$mobile = $device->isMobile() && !$device->isTablet();
+	$tablet = $device->isTablet();
+	unset($device);
+}
+
+if (isset($_GET))
+{
+	if (isset($_GET['departure']))
+		$_SESSION['dir'] = 'departure';
+
+	if (isset($_GET['arrival']))
+		$_SESSION['dir'] = 'arrival';
+}
+
+if (!isset($_SESSION['dir']))
+	$_SESSION['dir'] = 'arrival';
+
+$dir = $_SESSION['dir'];
+$rev = 'arrival' == $dir ? 'departure' : 'arrival';
+
+/******************************************************************************
+ * set profile cookies
+ ******************************************************************************/
+
+if (isset($_GET['req']))
+{
+	if ('profile'  == $_GET['req'] ||
+		'changepw' == $_GET['req'])
+	{
+		if (isset($_GET['dispinterval']))
+		{
+			$item = 'dispinterval';
+		}
+		else
+		{
+			if (isset($_GET['notifinterval']))
+			{
+				$item = 'notifinterval';
+			}
+			else
+			{
+				if (isset($_GET['changepw']))
+				{
+					$item = 'changepw';
+				}
+				else
+				{
+					if (isset($_COOKIE['profile-item']))
+						$item = $_COOKIE['profile-item'];
+					else
+						$item = 'dispinterval';
+				}
+			}
+		}
+
+		setcookie('profile-item', $item, time() + COOKIE_LIFETIME);
+	}
+}
 
 /******************************************************************************
  * header
@@ -203,41 +277,6 @@ if ($user)
 		$user->language($_GET['lang']);	//&& -> hdbc
 }
 
-/******************************************************************************
- * detect device type
- ******************************************************************************/
-
-require_once 'classes/Mobile_Detect.php';
-
-$device = new Mobile_Detect();
-
-if (!$device)
-{
-	$mobile = false;
-}
-else
-{
-	/* Treat tablets as desktop */
-	$mobile = $device->isMobile() && !$device->isTablet();
-	$tablet = $device->isTablet();
-	unset($device);
-}
-
-if (isset($_GET))
-{
-	if (isset($_GET['departure']))
-		$_SESSION['dir'] = 'departure';
-
-	if (isset($_GET['arrival']))
-		$_SESSION['dir'] = 'arrival';
-}
-
-if (!isset($_SESSION['dir']))
-	$_SESSION['dir'] = 'arrival';
-
-$dir = $_SESSION['dir'];
-$rev = 'arrival' == $dir ? 'departure' : 'arrival';
-
 /*<html>*******************************************************************/
 ?>
 <?php if ($mobile && !$tablet) { ?>
@@ -263,7 +302,7 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 <?php if ($mobile && !$tablet) { ?>
 <meta name="viewport" content="width=device-width; initial-scale=1.0;"/>
 <?php } ?>
-<link rel="apple-touch-icon" href="http://www.flederwiesel.com/apple-touch-icon.png"/>
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 <link type="image/gif" rel="icon" href="favicon.gif">
 <link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.core.css">
 <link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.base.css">
