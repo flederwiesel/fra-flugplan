@@ -14,34 +14,6 @@
  *
  ******************************************************************************/
 
-if (isset($_GET['dispinterval']))
-{
-	$item = 'dispinterval';
-}
-else
-{
-	if (isset($_GET['notifinterval']))
-	{
-		$item = 'notifinterval';
-	}
-	else
-	{
-		if (isset($_GET['changepw']))
-		{
-			$item = 'changepw';
-		}
-		else
-		{
-			if (isset($_COOKIE['profile-item']))
-				$item = $_COOKIE['profile-item'];
-			else
-				$item = 'dispinterval';
-		}
-	}
-}
-
-setcookie('profile-item', $item, time() + COOKIE_LIFETIME);
-
 ?>
 <script type="text/javascript">
 $(function()

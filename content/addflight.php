@@ -30,19 +30,22 @@
 
 function DefaultCheck($name, $value)
 {
-	if (is_array($_POST[$name]))
+	if (isset($_POST[$name]))
 	{
-		/* Checkboxes "day[1] .. day[7], day[0]" */
-		$a = $_POST[$name];
+		if (is_array($_POST[$name]))
+		{
+			/* Checkboxes "day[1] .. day[7], day[0]" */
+			$a = $_POST[$name];
 
-		if (isset($a[$value]))
-			echo ' checked ';
-	}
-	else
-	{
-		/* Everything else */
-		if ($value == $_POST[$name])
-			echo ' checked="checked" ';
+			if (isset($a[$value]))
+				echo ' checked ';
+		}
+		else
+		{
+			/* Everything else */
+			if ($value == $_POST[$name])
+				echo ' checked="checked" ';
+		}
 	}
 }
 
@@ -435,7 +438,7 @@ if ($_POST)
 							else
 							{
 								$insert = true;
-								$days = $_POST['day'];
+								$days = isset($_POST['day']) ? $_POST['day'] : array();
 
 								do
 								{
