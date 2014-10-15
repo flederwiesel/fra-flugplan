@@ -15,18 +15,92 @@
 
 @require_once '../.config';
 
-// Get the size of the string
+/* Simple RGB colour class */
+class RGB
+{
+	public $r;
+	public $g;
+	public $b;
+
+	function __construct($string)
+	{
+		$pos = 0;
+
+		if ('#' == $string[0])
+		{
+			if (sscanf($string, "#%2x%2x%2x",
+					   $this->r, $this->g, $this->b) != 3)
+			{
+				$this->r = 255;
+				$this->g = 255;
+				$this->b = 0;
+			}
+		}
+		else
+		{
+			switch ($string)
+			{
+			case 'white':
+				$this->r = 255;
+				$this->g = 255;
+				$this->b = 255;
+				break;
+
+			case 'red':
+				$this->r = 255;
+				$this->g = 0;
+				$this->b = 0;
+				break;
+
+			case 'green':
+				$this->r = 0;
+				$this->g = 255;
+				$this->b = 0;
+				break;
+
+			case 'blue':
+				$this->r = 0;
+				$this->g = 0;
+				$this->b = 255;
+				break;
+
+			case 'yellow':
+				$this->r = 255;
+				$this->g = 255;
+				$this->b = 0;
+				break;
+
+			case 'black':
+				$this->r = 0;
+				$this->g = 0;
+				$this->b = 0;
+				break;
+			}
+		}
+	}
+};
+
+/* Parameters */
 $font = 'verdana.ttf';
 
 if (isset($_GET['font']))
 	if (file_exists($_GET['font'].'ttf'))
-	$font = $_GET['font'].'ttf';
-
+		$font = $_GET['font'].'ttf';
 
 if (isset($_GET['size']))
 	$size = $_GET['size'];
 else
-	$size = 10;
+	$size = 9;
+
+if (isset($_GET['bg']))
+	$bg = new RGB($_GET['bg']);
+else
+	$bg = new RGB('white');
+
+if (isset($_GET['fg']))
+	$fg = new RGB($_GET['fg']);
+else
+	$fg = new RGB('black');
 
 $text = '';
 
@@ -34,20 +108,26 @@ if (isset($_GET['text']))
 	if (defined($_GET['text']))
 		$text = constant($_GET['text']);
 
+if (isset($_GET['res']))
+	if (defined($_GET['res']))
+		$text = constant($_GET['res']);
+
+/* Get image geometry */
 $box = ImageTTFBbox($size, 0, $font, $text);
-$width = abs($box[4] - $box[0]) + 4;
-$height = abs($box[3] - $box[7]) + 4;
+$width = abs($box[4] - $box[0]) + 2;
+$height = abs($box[3] - $box[7]) + 2;
 
 $img = ImageCreateTrueColor($width, $height);
 
-// Fill background with transparent colour
-ImageAlphaBlending($img, false);
-ImageFill($img, 0, 0, ImageColorAllocateAlpha($img, 255, 255, 255, 127));
+/* Fill background with transparent colour */
+ImageAlphaBlending($img, true);
+ImageFill($img, 0, 0, ImageColorAllocateAlpha($img, $bg->r, $bg->g, $bg->b, 0));
 
-// Draw Text
-ImageTTFText($img, $size, 0, 0, $size + 2, ImageColorAllocate($img, 0, 0, 0), $font, $text);
+/* Draw Text */
+ImageTTFText($img, $size, 0, 0, $size + 2,
+	ImageColorAllocate($img, $fg->r, $fg->g, $fg->b), $font, $text);
 
-// Output image
+/* Finally... */
 header('Content-Type: image/png');
 
 ImageSaveAlpha($img, true);
