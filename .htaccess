@@ -1,0 +1,3 @@
+ErrorDocument 403 /fra-schedule/403.php
+ErrorDocument 404 /fra-schedule/404.php
+ErrorDocument 500 /fra-schedule/500.php
