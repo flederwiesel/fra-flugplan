@@ -109,14 +109,6 @@ body .ui-tooltip {
 		if (27 == event.keyCode)
 			watchlist("hide");
 	});
-
-	$(function()
-	{
-		$("#watch").submit(function(event) {
-			$("#submit").attr("disabled", "disabled");
-			PreparePostData(this);
-		});
-	});
 </script>
 <div id="rwy_cont">
 	<div id="rwy_div" style="float: left ;">
