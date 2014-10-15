@@ -178,51 +178,42 @@ function RemoveRow(input)
 	}
 }
 
-function PreparePostData(button)
+$(function()	// PreparePostData()
 {
-	var inp;
-	var table = document.getElementById("list");
-	var tr = table.getElementsByTagName("tr");
+	$("#watch").submit(function(event) {
 
-	for (i = 0; i < tr.length; i++)
-	{
-		inp = tr[i].getElementsByTagName("input");
+		var add = "";
+		var del = "";
 
-		if ("none" == tr[i].style.display)
-		{
-			//remove
-			if (inp[0])
+		$("input:submit", $(this)).attr("disabled", "disabled");
+
+		$("#watch tbody tr").each(function() {
+			reg     = $(".reg     input", $(this))[0];
+			comment = $(".comment input", $(this))[0];
+			notify  = $(".notify  input", $(this))[0];
+
+			if ($(reg).is(":visible"))
 			{
-				if (0 == inp[0].value.length)
-				{
-					inp[1].name = "";
-				}
-				else
-				{
-					inp[1].name = "del[" + inp[0].value + "]";
-					inp[1].value = "";
-				}
+				if (add.length > 0)
+					add += "\n";
+				add += $(reg).val() + "\t" + $(comment).val() + "\t" + ($(notify).is(":checked") ? 1 : 0);
 			}
-		}
-		else
-		{
-			// keep
-			if (inp[0] && inp[1])
+			else
 			{
-				if (0 == inp[0].value.length)
-				{
-					inp[1].name = "";
-					inp[2].name = "";
-				}
-				else
-				{
-					inp[1].name = "reg[" + inp[0].value + "]";
-					inp[2].name = "notify[" + inp[0].value + "]";
-				}
+				if (del.length > 0)
+					del += "\n";
+
+				del += $(reg).val();
 			}
-		}
-	}
-}
+		});
+
+		$("#watch").append($("<input>").attr("type", "hidden").attr("name", "add").val(add));
+		$("#watch").append($("<input>").attr("type", "hidden").attr("name", "del").val(del));
+
+		event.preventDefault();
+		this.submit();
+	});
+});
 
 function ToggleNotifications()
 {

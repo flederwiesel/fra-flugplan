@@ -112,14 +112,6 @@ body .ui-tooltip {
 		if (27 == event.keyCode)
 			watchlist("hide");
 	});
-
-	$(function()
-	{
-		$("#watch").submit(function(event) {
-			$("#submit").attr("disabled", "disabled");
-			PreparePostData(this);
-		});
-	});
 </script>
 <div id="notification" class="explain">Notifications have been activated, however, no notification interval has been selected.
 		To receive notifications, choose a time interval in your
@@ -139,8 +131,7 @@ body .ui-tooltip {
 		</div>
 		<div class="cell top">
 			<div id="expandable" style="width: 0; visibility: hidden;">
-				<form id="watch" method="post" action="?"
-					onsubmit="document.getElementById('submit').disabled=true;">
+				<form id="watch" method="post" action="?">
 					<div class="center" style="padding: 6px 6px 6px 0;">
 						<div id="list">
 							<table summary="watchlist">
@@ -160,7 +151,7 @@ body .ui-tooltip {
 										<td><a href="http://www.airliners.net/search/photo.search?q=C-????&sort_order=year+desc" target="a-net"><img src="img/a-net.png" alt="www.airliners.net"></a></td>
 										<td class="reg"><input type="text" value="C-????"></td>
 										<td class="comment"><input type="text" value="Air Canada ?"></td>
-										<td class="comment"><input type="checkbox" value=""></td>
+										<td class="notify"><input type="checkbox" value=""></td>
 										<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
 										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
 									</tr>
@@ -168,7 +159,7 @@ body .ui-tooltip {
 										<td><a href="http://www.airliners.net/search/photo.search?q=ZS-SNC&sort_order=year+desc" target="a-net"><img src="img/a-net.png" alt="www.airliners.net"></a></td>
 										<td class="reg"><input type="text" value="ZS-SNC"></td>
 										<td class="comment"><input type="text" value="South African Airways - Star Alliance"></td>
-										<td class="comment"><input type="checkbox" value="" checked></td>
+										<td class="notify"><input type="checkbox" value="" checked></td>
 										<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
 										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
 									</tr>

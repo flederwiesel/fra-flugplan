@@ -37,8 +37,8 @@ function ordinal($number, $lang)
 }
 
 /* Update watchlist from posted values */
-if (isset($_POST['del']) ||
-	isset($_POST['reg']))
+if (isset($_POST['add']) ||
+	isset($_POST['del']))
 {
 	if (!$user)
 	{
@@ -63,90 +63,96 @@ if (isset($_POST['del']) ||
 					$uid = $user->id();
 
 					if (isset($_POST['del']))
-					foreach ($_POST['del'] as $reg => $comment)
 					{
-						$reg = strtoupper(trim($reg));
+						$del = explode("\n", $_POST['del']);
 
-						if (!get_magic_quotes_gpc())
+						foreach ($del as $reg)
 						{
-							// escape backslashes and single quotes
-							$reg = str_replace("\\", "", $reg);
-							$reg = str_replace("'", "", $reg);
-						}
-
-						$query = <<<SQL
-							DELETE `watchlist-notifications`
-							FROM `watchlist-notifications`
-							INNER JOIN (SELECT `id` FROM `watchlist`
-										WHERE `user`=$uid
-										AND `reg`='$reg') AS `watchlist`
-							        ON `watchlist`.`id`=`watchlist-notifications`.`watch`
-SQL;
-
-						if (!mysql_query($query))
-						{
-							$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
-							break;
-						}
-						else
-						{
-							$query = <<<SQL
-								DELETE FROM `watchlist`
-								WHERE `user`=$uid
-									AND `reg`='$reg'
-SQL;
-
-							if (!mysql_query($query))
+							if (strlen($reg))
 							{
-								$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
-								break;
-							}
-						}
-					}
-
-					if (!$error)
-					{
-						if (isset($_POST['reg']))
-						{
-							$notif_req = 0;
-
-							if (isset($_POST['notify']))
-								$notifications = $_POST['notify'];
-
-							foreach ($_POST['reg'] as $reg => $comment)
-							{
-								$watch[$reg] = $comment;
 								$reg = strtoupper(trim($reg));
 
 								if (!get_magic_quotes_gpc())
 								{
 									// escape backslashes and single quotes
-									$reg     = str_replace("\\", "", $reg);
-									$reg     = str_replace("'", "", $reg);
-									$comment = str_replace("\\", "\\\\", $comment);
-									$comment = str_replace("'", "\\'", $comment);
-								}
-
-								if (isset($notifications[$reg]))
-								{
-									$notif_req = TRUE;
-									$notify = 'TRUE';
-								}
-								else
-								{
-									$notify = 'FALSE';
+									$reg = str_replace("\\", "", $reg);
+									$reg = str_replace("'", "", $reg);
 								}
 
 								$query = <<<SQL
-									INSERT INTO `watchlist`(`user`,`reg`,`comment`, `notify`)
-									VALUES($uid, '$reg', '$comment', $notify)
-									ON DUPLICATE KEY UPDATE `comment`='$comment', `notify`=$notify
+									DELETE `watchlist-notifications`
+									FROM `watchlist-notifications`
+									INNER JOIN (SELECT `id` FROM `watchlist`
+												WHERE `user`=$uid
+												AND `reg`='$reg') AS `watchlist`
+									        ON `watchlist`.`id`=`watchlist-notifications`.`watch`
 SQL;
 
 								if (!mysql_query($query))
 								{
 									$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
 									break;
+								}
+								else
+								{
+									$query = <<<SQL
+										DELETE FROM `watchlist`
+										WHERE `user`=$uid
+											AND `reg`='$reg'
+SQL;
+
+									if (!mysql_query($query))
+									{
+										$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+										break;
+									}
+								}
+							}
+						}
+					}
+
+					if (!$error)
+					{
+						if (isset($_POST['add']))
+						{
+							$notif_req = FALSE;
+
+							$add = explode("\n", $_POST['add']);
+
+							foreach ($add as $line)
+							{
+								list($reg, $comment, $notify) = explode("\t", $line);
+
+								if (strlen($reg))
+								{
+									$reg = strtoupper(trim($reg));
+									$notify = trim($notify);
+
+									$watch[$reg] = $comment;
+
+									if ($notify)
+										$notif_req = TRUE;
+
+									if (!get_magic_quotes_gpc())
+									{
+										// escape backslashes and single quotes
+										$reg     = str_replace("\\", "", $reg);
+										$reg     = str_replace("'", "", $reg);
+										$comment = str_replace("\\", "\\\\", $comment);
+										$comment = str_replace("'", "\\'", $comment);
+									}
+
+									$query = <<<SQL
+										INSERT INTO `watchlist`(`user`,`reg`,`comment`, `notify`)
+										VALUES($uid, '$reg', '$comment', $notify)
+										ON DUPLICATE KEY UPDATE `comment`='$comment', `notify`=$notify
+SQL;
+
+									if (!mysql_query($query))
+									{
+										$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+										break;
+									}
 								}
 							}
 
@@ -222,14 +228,6 @@ body .ui-tooltip {
 	{
 		if (27 == event.keyCode)
 			watchlist("hide");
-	});
-
-	$(function()
-	{
-		$("#watch").submit(function(event) {
-			$("#submit").attr("disabled", "disabled");
-			PreparePostData(this);
-		});
 	});
 </script>
 <?php
@@ -340,8 +338,7 @@ if ($user)
 		</div>
 		<div class="cell top">
 			<div id="expandable" style="width: 0; visibility: hidden;">
-				<form id="watch" method="post" action="?"
-					onsubmit="document.getElementById('submit').disabled=true;">
+				<form id="watch" method="post" action="?">
 					<div class="center" style="padding: 6px 6px 6px 0;">
 						<div id="list">
 							<table summary="watchlist">
@@ -362,10 +359,11 @@ if ($user)
 		{
 ?>
 									<tr>
+										<!-- inputs do not have names, POST values will be generated upon submit -->
 										<td><img src="img/a-net-ina.png" alt=""></td>
 										<td class="reg"><input type="text" value=""></td>
 										<td class="comment"><input type="text" value=""></td>
-										<td class="comment"><input type="checkbox" value=""></td>
+										<td class="notify"><input type="checkbox" value=""></td>
 										<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
 										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
 									</tr>
@@ -373,8 +371,6 @@ if ($user)
 		}
 	}
 
-	//+while (list($reg, $comment, $notify) = each($watch))
-	//-foreach ($watch as list($reg, $comment, $notify))
 	foreach ($watch as $reg => $entry)
 	{
 		$comment = $entry['comment'];
@@ -388,7 +384,7 @@ if ($user)
 										<td><a href="http://www.airliners.net/search/photo.search?q=<?php echo $reg; ?>&sort_order=year+desc" target="a-net"><img src="img/a-net.png" alt="www.airliners.net"></a></td>
 										<td class="reg"><input type="text" value="<?php echo $reg; ?>"></td>
 										<td class="comment"><input type="text" value="<?php echo htmlspecialchars($comment); ?>"></td>
-										<td class="comment"><input type="checkbox" value=""<?php if ($notify) echo " checked"; ?>></td>
+										<td class="notify"><input type="checkbox" value=""<?php if ($notify) echo " checked"; ?>></td>
 										<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
 										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
 									</tr>

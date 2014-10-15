@@ -97,17 +97,18 @@ check "2" curl "$url/?arrival\&now=$now" \
 		s/now=$today/now=0000-00-00/g
 	'"
 
+# DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
 check "3" curl "$url/?arrival\&now=$now" \
-		--data-urlencode "'notify[ZS-SNC]=1'" \
-		--data-urlencode "'reg[ZS-SNC]=South African Airways - Star Alliance'" \
-		--data-urlencode "'reg[C-????]=Air Canada ?'" \
+		--data-urlencode "add='ZS-SNC	South African Airways - Star Alliance	1
+                               C-????	Air Canada ?	0'" \
 	"| sed -r '
 		s/now=$today/now=0000-00-00/g
 	'"
 
+# DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
 check "4" curl "$url/?arrival\&now=$now" \
-		--data-urlencode "'reg[C-*]=Air Canada *'" \
-		--data-urlencode "'del[C-????]='" \
+		--data-urlencode "add='C-*	Air Canada *	0'" \
+		--data-urlencode "del='C-????'" \
 	"| sed -r '
 		s/now=$today/now=0000-00-00/g
 	'"
@@ -132,8 +133,9 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | mysql
 		(SELECT `id` FROM `aircrafts` AS `aircraft` WHERE `reg`='ZS-SNC')
 SQL
 
+# DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
 check "5" curl "$url/?arrival\&now=$now" \
-		--data-urlencode "'del[ZS-SNC]='" \
+		--data-urlencode "del='ZS-SNC'" \
 	"| sed -r '
 		s/now=$today/now=0000-00-00/g
 	'"
