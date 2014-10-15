@@ -244,7 +244,7 @@ $hdbc = NULL;
 					<div style="margin-top: 1em">If you think this is an error, please <a href="content/emil.php?subject=403%20Takeoff%20rejected&body=<?php
 						$url = "http".(isset($_SERVER['HTTPS']) ? "s" : "")."://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 						echo urlencode("$url."); ?>"> contact the author at
-					<img alt="email" src="content/mkpng.php?font=verdana&size=10&text=ADMIN_EMAIL" style="vertical-align: bottom;"></a>.</div>
+					<img alt="email" src="content/mkpng.php?font=verdana&size=10&bg=while&fg=%2300007f&res=ADMIN_EMAIL" style="vertical-align: bottom;"></a>.</div>
 				</div>
 			</div>
 		</div>

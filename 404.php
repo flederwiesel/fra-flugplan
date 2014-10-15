@@ -249,7 +249,7 @@ $hdbc = NULL;
 						$url = "http".(isset($_SERVER['HTTPS']) ? "s" : "")."://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
 						$ref = "$_SERVER[HTTP_REFERER]";
 						echo urlencode("$url not found. Referrer: $ref"); ?>"> inform the author at
-						<img alt="email" src="content/mkpng.php?font=verdana&size=10&text=ADMIN_EMAIL" style="vertical-align: bottom;"></a>.
+						<img alt="email" src="content/mkpng.php?font=verdana&size=10&bg=while&fg=%2300007f&res=ADMIN_EMAIL" style="vertical-align: bottom;"></a>.
 					</div>
 <?php
 		}

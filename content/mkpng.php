@@ -104,13 +104,16 @@ else
 
 $text = '';
 
-if (isset($_GET['text']))
-	if (defined($_GET['text']))
-		$text = constant($_GET['text']);
-
 if (isset($_GET['res']))
+{
 	if (defined($_GET['res']))
 		$text = constant($_GET['res']);
+}
+else
+{
+	if (isset($_GET['text']))
+		$text = $_GET['text'];
+}
 
 /* Get image geometry */
 $box = ImageTTFBbox($size, 0, $font, $text);

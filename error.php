@@ -308,7 +308,7 @@ else
 					if ($referrer)
 						$emil .= urlencode(" from $referrer");
 
-					$img = "content/mkpng.php?font=verdana&size=10&bg=white&fg=%2300007f&text=ADMIN_EMAIL";
+					$img = "content/mkpng.php?font=verdana&size=10&bg=white&fg=%2300007f&res=ADMIN_EMAIL";
 					$email = "<a href='$emil'><img alt='email' src='$img' style='vertical-align: bottom;'></a>";
 
 					switch ($code)

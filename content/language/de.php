@@ -110,7 +110,7 @@ $lang = array
 		'Je nach Internetanbieter und Mailserver kann es vorkommen, daß die Zustellung von E-Mails '.
 		'länger dauert als das Token gültig ist. In diesem Fall, bitte Kontakt mit mir unter '.
 		'<a href="content/emil.php?subject=fra-schedule%20Aktivierungsproblem"><img alt="email" '.
-		'src="content/mkpng.php?font=verdana&size=10&text=ADMIN_EMAIL"></a> aufnehmen.<br>',
+		'src="content/mkpng.php?font=verdana&size=10&bg=while&fg=%2300007f&res=ADMIN_EMAIL"></a> aufnehmen.<br>',
 	'regfailed' => 'Registrierung fehlgeschlagen. Bitte Administrator kontaktieren.',
 	'activationsuccess' => 'Aktivierung erfolgreich. Login steht zur Verfügung.',
 	'nosuchuser' => 'Benutzername unbekannt.',
