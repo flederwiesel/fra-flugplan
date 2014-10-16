@@ -263,17 +263,10 @@ else
 				<div id="text">
 					<h1 style="display: inline">
 <?php
-					if (isset($_SERVER['REDIRECT_STATUS']))
-					{
-						$code = $_SERVER['REDIRECT_STATUS'];
-					}
+					if (isset($_GET['code']))
+						$code = $_GET['code'];
 					else
-					{
-						if (isset($_GET['code']))
-							$code = $_GET['code'];
-						else
-							$code = 500;
-					}
+						$code = 500;
 
 					echo "$code ";
 
