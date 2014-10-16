@@ -17,6 +17,7 @@
 root=
 target=fra-schedule
 
+cd $(dirname "$0")
 cp -f .config.flederwiesel .config
 
 rev=$(LC_MESSAGES=en_US svn info . | awk '/^Revision:/ { print $2; }')
@@ -62,3 +63,5 @@ EOF
 
 rm revision
 rm history
+
+echo -e "\033[36mRevision: $rev\033[m"
