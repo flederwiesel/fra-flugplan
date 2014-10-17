@@ -164,7 +164,7 @@ function AdminMail($subject, $text)
 		phpversion());
 
 	return @mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').' <'.ADMIN_EMAIL.'>',
-				 mb_encode_mimeheader("admin:$subject", 'ISO-8859-1', 'Q'),
+				 mb_encode_mimeheader("user $subject", 'ISO-8859-1', 'Q'),
 				 mb_convert_encoding($text, 'ISO-8859-1', 'UTF-8'), $header);
 }
 

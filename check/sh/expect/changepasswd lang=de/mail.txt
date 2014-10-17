@@ -25,7 +25,7 @@ Falls Du keine Registrierung veranlaßt hast, ignoriere diese Mail einfach.
 Das Frankfurt Aviation Friends Team
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-Subject: admin:registration
+Subject: user registration
 To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
 From: FRA schedule <web416p1@server240.star-server.info>
 Reply-To: fra-schedule@flederwiesel.com
@@ -38,7 +38,7 @@ X-Mailer: PHP/5.3.8
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-Subject: admin:activation
+Subject: user activation
 To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
 From: FRA schedule <web416p1@server240.star-server.info>
 Reply-To: fra-schedule@flederwiesel.com
@@ -77,7 +77,7 @@ Falls Du das Zurücksetzen Deines Passworts nicht veranlaßt hast, ignoriere diese
 Das Frankfurt Aviation Friends Team
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-Subject: admin:reqpasswdch
+Subject: user reqpasswdch
 To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
 From: FRA schedule <web416p1@server240.star-server.info>
 Reply-To: fra-schedule@flederwiesel.com
@@ -90,7 +90,7 @@ X-Mailer: PHP/5.3.8
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-Subject: admin:passwdch
+Subject: user passwdch
 To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
 From: FRA schedule <web416p1@server240.star-server.info>
 Reply-To: fra-schedule@flederwiesel.com
@@ -103,7 +103,7 @@ X-Mailer: PHP/5.3.8
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-Subject: admin:passwdch
+Subject: user passwdch
 To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
 From: FRA schedule <web416p1@server240.star-server.info>
 Reply-To: fra-schedule@flederwiesel.com

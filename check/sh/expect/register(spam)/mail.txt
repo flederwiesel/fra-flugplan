@@ -25,7 +25,7 @@ Please ignore this e-mail if you did not request a registration. Our apologies f
 The Frankfurt Aviation Friends Team
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-Subject: admin:registration
+Subject: user registration
 To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
 From: FRA schedule <web416p1@server240.star-server.info>
 Reply-To: fra-schedule@flederwiesel.com
