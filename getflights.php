@@ -1912,9 +1912,9 @@ else
 			$now = 'NOW()';
 
 		$query = <<<SQL
-			INSERT INTO `watchlist-notifications`(`watch`, `flight`)
+			INSERT INTO `watchlist-notifications`(`flight`, `watch`)
 
-			SELECT `watchlist`.`id`, `flights`.`id`
+			SELECT `flights`.`id`, `watchlist`.`id`
 			FROM `watchlist`
 			INNER JOIN `aircrafts`
 				ON `aircrafts`.`reg` LIKE REPLACE(REPLACE(`watchlist`.`reg`, '*', '%'), '?', '_')
