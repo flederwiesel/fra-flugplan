@@ -3,7 +3,7 @@
 if [ $# -lt 1 ]; then
 	echo "Usage: $(basename $0) <file>"
 else
-	schema="usr_web416_3"
+	schema="flederwi_fra-schedule"
 
 	alias "mysql=mysql --host=localhost --user=root --password= --default-character-set=utf8"
 
