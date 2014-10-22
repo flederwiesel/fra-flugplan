@@ -1936,6 +1936,7 @@ else
 				AND `watchlist-notifications`.`flight` IS NULL
 				AND 'arrival' = `flights`.`direction`
 				AND `expected` > $now
+			FOR UPDATE
 SQL;
 
 		if (!mysql_query($query))
