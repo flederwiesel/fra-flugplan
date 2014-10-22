@@ -7,7 +7,7 @@ define('ORGANISATION', 'Frankfurt Aviation Friends');
 define('SITE_URL',     'www.frankfurt-aviation-friends.de');
 
 define('ADMIN_NAME',       'Tobias Kühne');	// UTF-8
-define('ADMIN_EMAIL_FROM', 'fra-schedule@flederwiesel.com');
+define('ADMIN_EMAIL_FROM', 'fra-schedule@cluster04.vc-server.de');
 define('ADMIN_EMAIL',      'fra-schedule@flederwiesel.com');
 define('ADMIN_SNAILMAIL', <<<EOF
 fra-schedule@flederwiesel.com
