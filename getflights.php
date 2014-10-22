@@ -102,7 +102,7 @@ if (isset($DEBUG['fmt']))
 </head>
 <body>
 <pre>
-<?
+<?php
 	}
 }
 
@@ -2077,7 +2077,7 @@ if (isset($DEBUG['fmt']))
 </pre>
 </body>
 </html>
-<?
+<?php
 	}
 }
 
