@@ -28,6 +28,8 @@ error_reporting(E_ALL);
 
 mb_internal_encoding('UTF-8');
 
+ini_set('max_execution_time', 180);
+
 include ".config";
 include "classes/etc.php";
 include "classes/awk.php";
