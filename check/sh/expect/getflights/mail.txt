@@ -1,7 +1,7 @@
 Date: Day, 0 Month 0000 00:00:00 +0000
 Subject: watchlist
 To: root<fra-schedule@flederwiesel.com>
-From: FRA schedule <web416p1@server240.star-server.info>
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
@@ -14,7 +14,7 @@ X-Mailer: PHP/*
 Date: Day, 0 Month 0000 00:00:00 +0000
 Subject: watchlist
 To: flederwiesel<hausmeister@flederwiesel.com>
-From: FRA schedule <web416p1@server240.star-server.info>
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
@@ -28,7 +28,7 @@ X-Mailer: PHP/*
 Date: Day, 0 Month 0000 00:00:00 +0000
 Subject: watchlist
 To: flederwiesel<hausmeister@flederwiesel.com>
-From: FRA schedule <web416p1@server240.star-server.info>
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
@@ -41,7 +41,7 @@ X-Mailer: PHP/*
 Date: Day, 0 Month 0000 00:00:00 +0000
 Subject: watchlist
 To: flederwiesel<hausmeister@flederwiesel.com>
-From: FRA schedule <web416p1@server240.star-server.info>
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
@@ -54,7 +54,7 @@ X-Mailer: PHP/*
 Date: Day, 0 Month 0000 00:00:00 +0000
 Subject: watchlist
 To: root<fra-schedule@flederwiesel.com>
-From: FRA schedule <web416p1@server240.star-server.info>
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
@@ -68,7 +68,7 @@ X-Mailer: PHP/*
 Date: Day, 0 Month 0000 00:00:00 +0000
 Subject: watchlist
 To: flederwiesel<hausmeister@flederwiesel.com>
-From: FRA schedule <web416p1@server240.star-server.info>
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
@@ -81,7 +81,7 @@ X-Mailer: PHP/*
 Date: Day, 0 Month 0000 00:00:00 +0000
 Subject: watchlist
 To: flederwiesel<hausmeister@flederwiesel.com>
-From: FRA schedule <web416p1@server240.star-server.info>
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
@@ -95,7 +95,7 @@ X-Mailer: PHP/*
 Date: Day, 0 Month 0000 00:00:00 +0000
 Subject: watchlist
 To: flederwiesel<hausmeister@flederwiesel.com>
-From: FRA schedule <web416p1@server240.star-server.info>
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
@@ -108,7 +108,7 @@ X-Mailer: PHP/*
 Date: Day, 0 Month 0000 00:00:00 +0000
 Subject: watchlist
 To: flederwiesel<hausmeister@flederwiesel.com>
-From: FRA schedule <web416p1@server240.star-server.info>
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
@@ -121,7 +121,7 @@ X-Mailer: PHP/*
 Date: Day, 0 Month 0000 00:00:00 +0000
 Subject: watchlist
 To: flederwiesel<hausmeister@flederwiesel.com>
-From: FRA schedule <web416p1@server240.star-server.info>
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
@@ -134,7 +134,7 @@ X-Mailer: PHP/*
 Date: Day, 0 Month 0000 00:00:00 +0000
 Subject: watchlist
 To: root<fra-schedule@flederwiesel.com>
-From: FRA schedule <web416p1@server240.star-server.info>
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
@@ -147,7 +147,7 @@ X-Mailer: PHP/*
 Date: Day, 0 Month 0000 00:00:00 +0000
 Subject: watchlist
 To: flederwiesel<hausmeister@flederwiesel.com>
-From: FRA schedule <web416p1@server240.star-server.info>
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
