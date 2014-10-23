@@ -6,7 +6,7 @@ Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-X-Mailer: PHP/5.3.8
+X-Mailer: PHP/*
 
 Hello,
 
@@ -32,7 +32,7 @@ Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-X-Mailer: PHP/5.3.8
+X-Mailer: PHP/*
 
 2:flederwiesel <hausmeister@flederwiesel.com> (expires 0000-00-00 00:00:00) = OK
 
@@ -45,7 +45,7 @@ Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-X-Mailer: PHP/5.3.8
+X-Mailer: PHP/*
 
 Activation failed (code ***). user='' token=''
 
@@ -58,7 +58,7 @@ Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-X-Mailer: PHP/5.3.8
+X-Mailer: PHP/*
 
 Activation failed (code ***). user='' token=''
 
@@ -71,7 +71,7 @@ Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-X-Mailer: PHP/5.3.8
+X-Mailer: PHP/*
 
 2:flederwiesel (0000-00-00 00:00:00) = Activation failed (code ***). token='***'
 
@@ -84,7 +84,7 @@ Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-X-Mailer: PHP/5.3.8
+X-Mailer: PHP/*
 
 Activation failed (code ***). user='' token=''
 
@@ -97,7 +97,7 @@ Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-X-Mailer: PHP/5.3.8
+X-Mailer: PHP/*
 
 :afb923eb88df155f28f68cb054502f788... = Activation failed (code ***). token='***'
 
@@ -110,7 +110,7 @@ Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-X-Mailer: PHP/5.3.8
+X-Mailer: PHP/*
 
 2:flederwiesel (0000-00-00 00:00:00) = Activation token expired. token='***'
 
@@ -123,7 +123,7 @@ Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-X-Mailer: PHP/5.3.8
+X-Mailer: PHP/*
 
 2:flederwiesel = Please <a href="?req=activate&user=flederwiesel">activate</a> account first!
 

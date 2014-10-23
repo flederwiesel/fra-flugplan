@@ -6,7 +6,7 @@ Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-X-Mailer: PHP/5.3.8
+X-Mailer: PHP/*
 
 Hello,
 
@@ -32,7 +32,7 @@ Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-X-Mailer: PHP/5.3.8
+X-Mailer: PHP/*
 
 2:flederwiesel <hausmeister@flederwiesel.com> (expires 0000-00-00 00:00:00) = OK
 
@@ -45,7 +45,7 @@ Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-X-Mailer: PHP/5.3.8
+X-Mailer: PHP/*
 
 :flederwiesel <hausmeister@flederwiesel.com> = User name already in use.
 
@@ -58,7 +58,7 @@ Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-X-Mailer: PHP/5.3.8
+X-Mailer: PHP/*
 
 :erwin <hausmeister@flederwiesel.com> = Email address already in use.
 
@@ -71,7 +71,7 @@ Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
-X-Mailer: PHP/5.3.8
+X-Mailer: PHP/*
 
 :flederwiesel <invalid@flederwiesel.com> = User name already in use.
 
