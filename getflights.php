@@ -24,7 +24,8 @@
  *
  ******************************************************************************/
 
-error_reporting(E_ALL);
+/* Suppress warning "Declaration of awkFlights::execute() should be compatible with awk::execute($text)" */
+error_reporting(E_ALL & ~E_STRICT);
 
 mb_internal_encoding('UTF-8');
 
