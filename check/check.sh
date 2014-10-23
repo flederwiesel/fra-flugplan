@@ -243,7 +243,7 @@ do
 				else
 					if [ -e "$results/mail.txt" ]; then
 						LANG=de_DE.utf8 sed -ri "
-							s#(X-Mailer: PHP/).*$#\1*#g
+							s#(X-Mailer: PHP/).*\$#\1*#g
 							s#(http://[^/]+/).*/([^/?]+\?.*)#\1.../\2#g
 							s/^(Date:[ \t]+).+\$/\1Day, 0 Month 0000 00:00:00 +0000/g
 							s/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/0000-00-00 00:00:00/g
