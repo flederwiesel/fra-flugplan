@@ -361,8 +361,8 @@ if ($user)
 									<tr>
 										<!-- inputs do not have names, POST values will be generated upon submit -->
 										<td><img src="img/a-net-ina.png" alt=""></td>
-										<td class="reg"><input type="text" value=""></td>
-										<td class="comment"><input type="text" value=""></td>
+										<td class="reg"><input type="text" value="" maxlength="31"></td>
+										<td class="comment"><input type="text" value="" maxlength="255"></td>
 										<td class="notify"><input type="checkbox" value=""></td>
 										<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
 										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
@@ -381,9 +381,23 @@ if ($user)
 		{
 ?>
 									<tr>
-										<td><a href="http://www.airliners.net/search/photo.search?q=<?php echo $reg; ?>&sort_order=year+desc" target="a-net"><img src="img/a-net.png" alt="www.airliners.net"></a></td>
-										<td class="reg"><input type="text" value="<?php echo $reg; ?>"></td>
-										<td class="comment"><input type="text" value="<?php echo htmlspecialchars($comment); ?>"></td>
+										<td>
+<?php		if (preg_match('/^\/.*\/$|[*?]/', $reg))
+			{
+?>
+											<img src="img/a-net-ina.png" alt="">
+<?php
+			}
+			else
+			{
+?>
+											<a href="http://www.airliners.net/search/photo.search?q=<?php echo $reg; ?>&sort_order=year+desc" target="a-net"><img src="img/a-net.png" alt="www.airliners.net"></a>
+<?php
+			}
+?>
+										</td>
+										<td class="reg"><input type="text" value="<?php echo $reg; ?>" maxlength="31"></td>
+										<td class="comment"><input type="text" value="<?php echo htmlspecialchars($comment); ?>" maxlength="31"></td>
 										<td class="notify"><input type="checkbox" value=""<?php if ($notify) echo " checked"; ?>></td>
 										<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
 										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
@@ -477,7 +491,7 @@ foreach ($watch as $reg => $comment)
 {
 	if ($reg != 'wildcards')
 	{
-		if (strpbrk($reg, "?*"))
+		if (preg_match('/^\/.*\/$|[*?]/', $reg))
 		{
 			$watch['wildcards'][$reg] = $comment;
 			unset($watch[$reg]);
@@ -610,11 +624,25 @@ else
 				{
 					foreach ($watch['wildcards'] as $key => $comment)
 					{
-						if (fnmatch($key, $reg))
+						if (preg_match('/^\/.*\/$/', $key))
 						{
-							$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($comment));
-							$sortkey = str_replace('%', '0:'.$reg.$day.$hhmm, $sortkey);
-							break;
+							/* Regex */
+							if (preg_match($key, $reg))
+							{
+								$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($comment));
+								$sortkey = str_replace('%', '0:'.$reg.$day.$hhmm, $sortkey);
+								break;
+							}
+						}
+						else
+						{
+							if (fnmatch($key, $reg))
+							{
+								/* Wildcard */
+								$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($comment));
+								$sortkey = str_replace('%', '0:'.$reg.$day.$hhmm, $sortkey);
+								break;
+							}
 						}
 					}
 				}

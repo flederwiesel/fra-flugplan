@@ -141,7 +141,7 @@ CREATE TABLE IF NOT EXISTS `watchlist`
 	`id` integer NOT NULL AUTO_INCREMENT,
 	`user` int(11) NOT NULL,
 	`notify` bool DEFAULT FALSE,
-	`reg` varchar(8) NOT NULL,
+	`reg` varchar(31) NOT NULL,
 	`comment` varchar(255) DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `user, reg` (`user`, `reg`),

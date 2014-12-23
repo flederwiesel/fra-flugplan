@@ -145,10 +145,32 @@ body .ui-tooltip {
 								<tfoot></tfoot>
 								<tbody>
 									<tr>
-										<td><a href="http://www.airliners.net/search/photo.search?q=C-*&sort_order=year+desc" target="a-net"><img src="img/a-net.png" alt="www.airliners.net"></a></td>
-										<td class="reg"><input type="text" value="C-*"></td>
-										<td class="comment"><input type="text" value="Air Canada *"></td>
+										<td>
+											<img src="img/a-net-ina.png" alt="">
+										</td>
+										<td class="reg"><input type="text" value="/C-G(TSTS[FHWY]|[FLPS]AT)/" maxlength="31"></td>
+										<td class="comment"><input type="text" value="Air Transat - A310" maxlength="31"></td>
+										<td class="notify"><input type="checkbox" value="" checked></td>
+										<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
+										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
+									</tr>
+									<tr>
+										<td>
+											<img src="img/a-net-ina.png" alt="">
+										</td>
+										<td class="reg"><input type="text" value="C-*" maxlength="31"></td>
+										<td class="comment"><input type="text" value="Air Canada *" maxlength="31"></td>
 										<td class="notify"><input type="checkbox" value=""></td>
+										<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
+										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
+									</tr>
+									<tr>
+										<td>
+											<a href="http://www.airliners.net/search/photo.search?q=C-FDAT&sort_order=year+desc" target="a-net"><img src="img/a-net.png" alt="www.airliners.net"></a>
+										</td>
+										<td class="reg"><input type="text" value="C-FDAT" maxlength="31"></td>
+										<td class="comment"><input type="text" value="Air Transat - A310" maxlength="31"></td>
+										<td class="notify"><input type="checkbox" value="" checked></td>
 										<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
 										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
 									</tr>
@@ -185,6 +207,10 @@ B-KPE</td></tr>
 					<img src="img/a-net.png" alt="www.airliners.net">
 				</a>
 C-GFAH</td></tr>
+<tr><td>+1 07:00</td><td>TSXXX</td><td><div>Air Transat</div></td><td>YVR</td><td>CYVR</td><td><div>Vancouver, Kanada</div></td><td>A310</td><td class="watch" title="Air Transat - A310" sorttable_customkey="0:C-GSAT+10700">				<a href = "http://www.airliners.net/search/photo.search?q=C-GSAT&sort_order=year+desc" target="a-net">
+					<img src="img/a-net.png" alt="www.airliners.net">
+				</a>
+C-GSAT</td></tr>
 		</tbody>
 	</table>
 </div>

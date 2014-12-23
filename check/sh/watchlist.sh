@@ -31,7 +31,8 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | mysql
 	VALUES
 	(@uid, (SELECT `id` FROM `models` WHERE `icao` = 'B77W'), 'B-KPE'),
 	(@uid, (SELECT `id` FROM `models` WHERE `icao` = 'A333'), 'C-GFAH'),
-	(@uid, (SELECT `id` FROM `models` WHERE `icao` = 'A346'), 'ZS-SNC');
+	(@uid, (SELECT `id` FROM `models` WHERE `icao` = 'A346'), 'ZS-SNC'),
+	(@uid, (SELECT `id` FROM `models` WHERE `icao` = 'A310'), 'C-GSAT');
 
 	INSERT INTO `flights`
 	(
@@ -62,6 +63,14 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | mysql
 		(SELECT `id` FROM `airports` WHERE `icao`='CYUL'),
 		(SELECT `id` FROM `models` WHERE `icao`='A333'),
 		(SELECT `id` FROM `aircrafts` WHERE `reg`='C-GFAH')
+	),
+	(
+		@uid, 'pax-regular', 'arrival',
+		(SELECT `id` FROM `airlines` WHERE `code`='TS'), 'XXX',
+		'%{date} 07:00', NULL,
+		(SELECT `id` FROM `airports` WHERE `icao`='CYVR'),
+		(SELECT `id` FROM `models` WHERE `icao`='A310'),
+		(SELECT `id` FROM `aircrafts` WHERE `reg`='C-GSAT')
 	);
 
 	INSERT INTO `users`
@@ -100,7 +109,9 @@ check "2" curl "$url/?arrival\&now=$now" \
 # DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
 check "3" curl "$url/?arrival\&now=$now" \
 		--data-urlencode "add='ZS-SNC	South African Airways - Star Alliance	1
-                               C-????	Air Canada ?	0'" \
+                               C-????	Air Canada ?	0
+                               C-FDAT	Air Transat - A310	1
+                               /C-G(TSTS[FHWY]|[FLPS]AT)/	Air Transat - A310	1'" \
 	"| sed -r '
 		s/now=$today/now=0000-00-00/g
 	'"
