@@ -287,9 +287,9 @@ if ('details' == $type)
 
 	for ($i = 0; $i < count($flights); $i++)
 	{
-		list($scheduled['day'], $scheduled['time']) = explode(' ', $flights[$i]->scheduled);
+		list($dHHMM['day'], $dHHMM['time']) = explode(' ', $flights[$i]->scheduled);
 
-		$scheduled = strftime('%Y%m%d', strtotime("$scheduled[day] days"));
+		$scheduled = strftime('%Y%m%d', strtotime("$dHHMM[day] days"));
 
 		if ($flights[$i]->airline->code.$flights[$i]->code.$scheduled == $request)
 		{
