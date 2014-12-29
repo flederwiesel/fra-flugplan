@@ -102,7 +102,7 @@ Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
 X-Mailer: PHP/*
 
-+0 11:15	C-GFAH	"Air Canada - 932"
+Day, 00/00/00 11:15:00	C-GFAH	"Air Canada - 932"
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
@@ -115,7 +115,7 @@ Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
 X-Mailer: PHP/*
 
-+0 12:35	CS-TNP	"TAP - Star Alliance"
+Day, 00/00/00 12:35:00	CS-TNP	"TAP - Star Alliance"
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
@@ -128,7 +128,7 @@ Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
 X-Mailer: PHP/*
 
-+0 18:25	CS-TNP	"TAP - Star Alliance"
+Tag, 00. Monat 0000 18:25	CS-TNP	"TAP - Star Alliance"
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
@@ -154,7 +154,7 @@ Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
 X-Mailer: PHP/*
 
-+0 22:30	CS-TNP	"TAP - Star Alliance"
-+1 11:45	C-GHKW	"Air Canada - 936"
+Tag, 00. Monat 0000 22:30	CS-TNP	"TAP - Star Alliance"
+Tag, 00. Monat 0000 11:45	C-GHKW	"Air Canada - 936"
 
 ======================================================

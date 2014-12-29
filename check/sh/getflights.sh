@@ -98,6 +98,30 @@ do
 
 		echo "$day $time" > flugplan/airportcity/querytime
 
+		# Check notification time format string
+		case "$day $time" in
+		"1 05:00")
+			mysql <<-"SQL"
+				USE fra-schedule;
+
+				UPDATE `users`
+				SET `notification-timefmt`='%A, %c'
+				WHERE `id`=2
+SQL
+			;;
+
+		"1 12:00")
+			mysql <<-"SQL"
+				USE fra-schedule;
+
+				UPDATE `users`
+				SET `notification-timefmt`='%A, %d. %B %Y %H:%M',
+					`language`='de'
+				WHERE `id`=2
+SQL
+			;;
+		esac
+
 		#[ 1 == $day ] && [ 10 == $t ] && exit 1
 
 		# From bulk INSERT in "fra-schedule.sql" we do not get `previous`
@@ -117,6 +141,8 @@ do
 			s/$YYYY_mm_dd_0 ([0-9]{2}:[0-9]{2}(:[0-9]{2})?)/0000-00-00 \1/g
 			s/$YYYY_mm_dd_1 ([0-9]{2}:[0-9]{2}(:[0-9]{2})?)/0000-00-01 \1/g
 			s/$YYYY_mm_dd_2 ([0-9]{2}:[0-9]{2}(:[0-9]{2})?)/0000-00-02 \1/g
+			s/((Mon|Diens|Donners|Frei|Sams|Sonn)tag|Mittwoch), [0-9]+\. (Januar|Februar|M.rz|April|Mai|Ju[nl]i|August|(Sept|Nov|Dez)ember|Oktober) [0-9]+/Tag, 00. Monat 0000/g
+			s#((Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day), [0-9]+/[0-9]+/[0-9]+#Day, 00/00/00#g
 			s#(http://[^/]+/).*/check/(.*)#\1.../\2#g
 			'"
 
@@ -192,7 +218,6 @@ do
 			'"
 
 	done
-
 done
 
 for day in {2..3}

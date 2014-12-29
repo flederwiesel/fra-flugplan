@@ -45,6 +45,8 @@ CREATE TABLE IF NOT EXISTS `users`
 	`notification-until` time NOT NULL DEFAULT '00:00',
 	# ALTER TABLE `users` ADD COLUMN `send mail` BOOL DEFAULT TRUE
 	`send mail` BOOL DEFAULT TRUE,
+	# ALTER TABLE `users` ADD COLUMN `notification-timefmt` varchar(24)
+	`notification-timefmt` varchar(24) DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `name` (`name`),
 	UNIQUE KEY `email` (`email`)
@@ -141,6 +143,7 @@ CREATE TABLE IF NOT EXISTS `watchlist`
 	`id` integer NOT NULL AUTO_INCREMENT,
 	`user` int(11) NOT NULL,
 	`notify` bool DEFAULT FALSE,
+	# ALTER TABLE `watchlist` MODIFY `reg` varchar(31)
 	`reg` varchar(31) NOT NULL,
 	`comment` varchar(255) DEFAULT NULL,
 	PRIMARY KEY (`id`),
@@ -376,7 +379,7 @@ VALUES
 (@uid, 'EXH', 'Executive AG'),
 (@uid, 'EXT', 'Nightexpress'),
 (@uid, 'FFD', 'Stuttgarter Flugdienst'),
-(@uid, 'FMY', 'Aviation Legere de l''Armee de Terre'),
+(@uid, 'FMY', 'Aviation Legere de l\'Armee de Terre'),
 (@uid, 'IAM', 'Aeronautica Militare Italiana'),
 (@uid, 'JEI', 'Jet Executive International Charter'),
 (@uid, 'KAC', 'Kuwait Airways'),
@@ -447,7 +450,34 @@ VALUES
 (@uid, 'NJ',  'Nordic Global Airlines'),
 (@uid, 'ORB', 'Oren Air'),
 (@uid, 'EZY', 'easyJet'),
-(@uid, 'UX',  'Air Europa')
+(@uid, 'BG',  'Biman Bangladesh Airlines'),
+(@uid, 'UX',  'Air Europa'),
+(@uid, 'CKS', 'Kalitta Air'),
+(@uid, 'HQ',  'Thomas Cook Airlines Belgium'),
+(@uid, 'SRK', 'SkyWork Airlines'),
+(@uid, 'DNM', 'Denim Air'),
+(@uid, 'DK',  'Thomas Cook Airlines Scandinavia'),
+(@uid, 'DY',  'Norwegian Air Shuttle'),
+(@uid, 'WLC', 'Welcome Air'),
+(@uid, 'SN',  'Brussels Airlines'),
+(@uid, 'ISR', 'Israir Airlines'),
+(@uid, 'AIB', 'Airbus Industrie'),
+(@uid, 'NMA', 'Nesma Airlines'),
+(@uid, 'AJD', 'flyVista'),
+(@uid, 'QN',  'Air Armenia'),
+(@uid, 'V7',  'Volotea'),
+(@uid, 'OV',  'Estonian Air'),
+(@uid, 'OR',  'Arkefly'),
+(@uid, '8Q',  'Onur Air'),
+(@uid, 'AAB', 'Abelag Aviation'),
+(@uid, 'AV',  'Avianca'),
+(@uid, 'GA',  'Garuda Indonesia'),
+(@uid, 'HM',  'Air Seychelles'),
+(@uid, 'JAI', 'Jet Airways'),
+(@uid, 'LPV', 'Air Alps Aviation'),
+(@uid, 'NZ',  'Air New Zealand'),
+(@uid, 'TUL', 'Tulpar Air'),
+(@uid, 'HRM', 'Hermes Airlines')
 ;
 
 INSERT INTO `models`(`uid`, `icao`, `name`)

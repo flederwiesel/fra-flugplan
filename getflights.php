@@ -1652,20 +1652,35 @@ SQL;
 	return $error;
 }
 
-function SendWatchlistNotification($name, $email, $notifications, $now)
+function SendWatchlistNotification($name, $email, $now, $fmt, $lang, $notifications)
 {
 	global $DEBUG;
 
-	if (isset($DEBUG['any']))
-		echo "$email:\n";
+	if ('de' == $lang)
+		$lang = setlocale(LC_TIME, 'deu', 'deu_deu');
+	else
+		$lang = setlocale(LC_TIME, 'eng', 'english-uk', 'uk', 'enu', 'english-us', 'us', 'english', 'C');
+
+	$today = mktime_c(gmstrftime('%d.%m.%Y', $now));
+
+	if (NULL == $fmt)
+		$fmt = '%+ %H:%M';
 
 	$n = 0;
 	$text = '';
 	$update = '';
 
+	if (isset($DEBUG['any']))
+		echo "$email:\n";
+
 	foreach ($notifications as $notification)
 	{
-		$text .= "$notification[expected]\t$notification[reg]";
+		$offset = (int)(($notification['expected'] - $today) / 86400);
+
+		$expected = strftime(preg_replace('/%\+/', "+$offset", $fmt),
+							 $notification['expected']);
+
+		$text .= "$expected\t$notification[reg]";
 
 		if ($notification['comment'])
 			$text .= "\t\"$notification[comment]\"\n";
@@ -1703,6 +1718,11 @@ function SendWatchlistNotification($name, $email, $notifications, $now)
 	}
 	else
 	{
+		if (isset($_GET['now']))
+			$now = $_GET['now'];
+		else
+			$now = gmstrftime('%Y-%m-%d %H:%M:%S', $now);	/* $now is UTC */
+
 		$query = <<<SQL
 			UPDATE `watchlist-notifications`
 			LEFT JOIN `watchlist`
@@ -1710,7 +1730,7 @@ function SendWatchlistNotification($name, $email, $notifications, $now)
 			INNER JOIN `users`
 					ON `users`.`id`=`watchlist`.`user`
 						AND `users`.`email`='$email'
-			SET `watchlist-notifications`.`notified`=$now
+			SET `watchlist-notifications`.`notified`='$now'
 			WHERE `watchlist-notifications`.`id` IN(%s)
 SQL;
 
@@ -1954,16 +1974,17 @@ SQL;
 
 			$query = <<<SQL
 				SELECT
-					`watchlist-notifications`.`id`,
-					CONCAT('+', DATEDIFF(IFNULL(`flights`.`expected`, `flights`.`scheduled`), $now),
-						   ' ', TIME_FORMAT(IFNULL(`flights`.`expected`, `flights`.`scheduled`), '%H:%i')) AS `expected`,
+					`watchlist-notifications`.`id` AS `id`,
+					UNIX_TIMESTAMP($now) AS `now`,
+					UNIX_TIMESTAMP(IFNULL(`flights`.`expected`, `flights`.`scheduled`)) AS `expected`,
 					CONCAT(`airlines`.`code`,
 						   `flights`.`code`) AS `flight`,
-					`watchlist`.`id` AS `watch`,
 					`aircrafts`.`reg` AS `reg`,
 					`watchlist`.`comment` AS `comment`,
-					`users`.`name` AS `user`,
-					`users`.`email` AS `email`
+					`users`.`name` AS `name`,
+					`users`.`email` AS `email`,
+					`users`.`notification-timefmt` AS `fmt`,
+					`users`.`language` AS `lang`
 				FROM `watchlist-notifications`
 				LEFT JOIN `watchlist`
 					ON `watchlist-notifications`.`watch` = `watchlist`.`id`
@@ -2000,8 +2021,12 @@ SQL;
 					echo query_style($query);
 
 				$text = NULL;
+				$name = NULL;
 				$email = NULL;
 				$watch = NULL;
+				$time = NULL;
+				$fmt = NULL;
+				$lang = 'en';
 
 				$notifications = array();
 
@@ -2011,25 +2036,39 @@ SQL;
 				{
 					if ($email != $row['email'])
 					{
-						/* Flush */
+						/* We get here every time $row['email'] changes, at least */
+						/* once at the beginning, i.e. $now and $fmt will be set, */
+						/* if one row has been found  */
 						if ($email != NULL)
 						{
-							SendWatchlistNotification($user, $email, $notifications, $now);
+							/* Flush */
+							SendWatchlistNotification($name, $email, $time, $fmt, $lang, $notifications);
 							$notifications = array();
 						}
 
 						/* Remember first ID of new email */
-						$user = $row['user'];
 						$email = $row['email'];
+						$name = $row['name'];
+						$time = $row['now'];
+						$fmt = $row['fmt'];
+						$lang = $row['lang'];
 					}
 
-					$notifications[] = $row;
+					$notifications[] = array(
+							'id'       => $row['id'],
+							'expected' => $row['expected'],
+							'flight'   => $row['flight'],
+							'reg'      => $row['reg'],
+							'comment'  => $row['comment'],
+						);
 
 					$row = mysql_fetch_assoc($result);
 				}
 
 				if ($email)
-					SendWatchlistNotification($user, $email, $notifications, $now);
+					SendWatchlistNotification($name, $email, $time, $fmt, $lang, $notifications);
+
+				unset($notifications);
 
 				mysql_free_result($result);
 			}
