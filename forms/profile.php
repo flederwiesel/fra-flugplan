@@ -249,29 +249,69 @@ if ('notifinterval' == $item)
 			if (isset($_POST['from']) &&
 				isset($_POST['until']))
 			{
-				$query = <<<SQL
-					UPDATE `users`
-					SET `notification-from`='%s',
-						`notification-until`='%s'
-					WHERE `id`=%lu
-SQL;
-				$query = sprintf($query,
-								 $_POST['from'],
-								 $_POST['until'],
-								 $user->id());
-
-				$result = mysql_query($query);
-
-				if (!$result)
+				if (!isset($_POST['timefmt']))
 				{
-					$error = mysql_error();
+					$_POST_timefmt = NULL;
 				}
 				else
 				{
-					$user->opt('notification-from', $_POST['from']);
-					$user->opt('notification-until', $_POST['until']);
+					if (!$_POST['timefmt'])
+					{
+						$_POST_timefmt = NULL;
+					}
+					else
+					{
+						if (0 == strlen($_POST['timefmt']))
+							$_POST_timefmt = NULL;
+						else
+							$_POST_timefmt = $_POST['timefmt'];
+					}
+				}
 
-					$message = $lang['settingsssaved'];
+				if (NULL == $_POST_timefmt)
+				{
+					$time = strftime('+0 %H:%M');
+				}
+				else
+				{
+					$timefmt = preg_replace('/%\+/', '+0', $_POST_timefmt);
+					$time = strftime($timefmt);
+				}
+
+				if (FALSE === $time)
+				{
+					$error = sprintf($lang['strftime-false'], $_POST_timefmt);
+				}
+				else
+				{
+					$query = <<<SQL
+						UPDATE `users`
+						SET `notification-from`='%s',
+							`notification-until`='%s',
+							`notification-timefmt`=%s
+						WHERE `id`=%lu
+SQL;
+					$query = sprintf($query,
+									 $_POST['from'],
+									 $_POST['until'],
+									 $_POST_timefmt ? "'$_POST_timefmt'" : "NULL",
+									 $user->id());
+
+					$result = mysql_query($query);
+
+					if (!$result)
+					{
+						$error = mysql_error();
+					}
+					else
+					{
+						$user->opt('notification-from', $_POST['from']);
+						$user->opt('notification-until', $_POST['until']);
+						$user->opt('notification-timefmt', $_POST_timefmt);
+
+						$message = "$lang[settingsssaved] ".
+									sprintf($lang['strftime-true'], $time);
+					}
 				}
 			}
 
@@ -298,8 +338,10 @@ SQL;
 				<div class="cell">
 					<select name="from" id="notification-from">
 <?php
-		if ($user->opt('notification-from'))
-			$from = intval($user->opt('notification-from'));
+		$from = $user->opt('notification-from');
+
+		if ($from)
+			$from = intval($from);
 		else
 			$from = 8;
 
@@ -312,8 +354,10 @@ SQL;
 					</select>
 					<select name="until" id="notification-until">
 <?php
-		if ($user->opt('notification-until'))
-			$until = intval($user->opt('notification-until'));
+		$until = $user->opt('notification-until');
+
+		if ($until)
+			$until = intval($until);
 		else
 			$until = 22;
 
@@ -324,6 +368,51 @@ SQL;
 		}
 ?>
 					</select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell label"><?php echo $lang['notification-timefmt']; ?></div>
+				<div class="cell">
+					<div>
+						<input type="text" name="timefmt" id="timefmt" style="width: 90%;"
+						 value="<?php echo isset($_POST['timefmt']) ? $_POST['timefmt'] : $user->opt('notification-timefmt'); ?>">
+						<sup>*</sup>
+					</div>
+					<div>
+		<div class="explainatory">
+			<div style="font-size: smaller;">
+				<sup>*</sup>
+<?php
+				echo sprintf($lang['notification-strftime_1'],
+					'de' == $_SESSION['lang'] ?
+						'<a href="http://php.net/manual/de/function.strftime.php">strftime()</a>' :
+						'<a href="http://php.net/manual/en/function.strftime.php#refsect1-function.strftime-parameters">strftime()</a>');
+?>
+				<div>
+					<div style="padding-top: 1.3em; text-decoration: underline;">
+						<?php echo $lang['notification-strftime_2']; ?>
+					</div>
+					<dl class="inline">
+						<dt>%a</dt><dd><?php echo $lang['notification-strftime_a']; ?></dd>
+						<dt>%A</dt><dd><?php echo $lang['notification-strftime_A']; ?></dd>
+						<dt>%c</dt><dd><?php echo $lang['notification-strftime_c']; ?></dd>
+						<dt>%d</dt><dd><?php echo $lang['notification-strftime_d']; ?></dd>
+						<dt>%e</dt><dd><?php echo $lang['notification-strftime_e']; ?></dd>
+						<dt>%H</dt><dd><?php echo $lang['notification-strftime_H']; ?></dd>
+						<dt>%I</dt><dd><?php echo $lang['notification-strftime_I']; ?></dd>
+						<dt>%p</dt><dd><?php echo $lang['notification-strftime_p']; ?></dd>
+						<dt>%S</dt><dd><?php echo $lang['notification-strftime_S']; ?></dd>
+					</dl>
+					<div style="padding-top: 1.3em; text-decoration: underline; clear: both;">
+						<?php echo $lang['notification-strftime_3']; ?>
+					</div>
+					<dl class="inline">
+						<dt>%+</dt><dd><?php echo $lang['notification-strftime_4']; ?></dd>
+					</dl>
+				</div>
+			</div>
+		</div>
+					</div>
 				</div>
 			</div>
 		</div>

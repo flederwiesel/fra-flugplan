@@ -98,6 +98,28 @@ td, th
 	white-space: nowrap;
 }
 
+dl.inline dt, dl.inline dd
+{
+	float: left;
+	margin: 0 1.2em 0 0;
+}
+
+dl.inline dd + dt,
+dl.inline dd + dd
+{
+	clear: left
+}
+
+dl.inline dd + dd
+{
+	float: none
+}
+
+dl.inline dt
+{
+	font-weight: bold
+}
+
 ul.help > li
 {
 	list-style: none;

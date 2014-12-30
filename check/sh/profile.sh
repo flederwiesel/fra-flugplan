@@ -50,3 +50,25 @@ check "7" curl "$url/?req=profile\&dispinterval" \
 	--data-urlencode "tt-=-75" \
 	--data-urlencode "tt%2b=28800" \
 	--data-urlencode "submit=interval"
+
+check "8" curl "$url/?req=profile\&notifinterval"
+
+check "9" curl "$url/?req=profile" \
+	--data-urlencode "from=00:00" \
+	--data-urlencode "until=24:00" \
+	--data-urlencode "timefmt=%c" \
+	--data-urlencode "submit=notifications" \
+	"|" sed -r "'s/[0-9]{2}\.[0-9]{2}\.[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}/00.00.0000 00:00:00/g'"
+
+check "10" curl "$url/?req=profile" \
+	--data-urlencode "from=08:00" \
+	--data-urlencode "until=22:00" \
+	--data-urlencode "timefmt=" \
+	--data-urlencode "submit=notifications" \
+	"|" sed -r "'s/\+0 [0-9]{2}:[0-9]{2}/+0 00:00/g'"
+
+check "11" curl "$url/?req=profile" \
+	--data-urlencode "from=08:00" \
+	--data-urlencode "until=22:00" \
+	--data-urlencode "submit=notifications" \
+	"|" sed -r "'s/\+0 [0-9]{2}:[0-9]{2}/+0 00:00/g'"

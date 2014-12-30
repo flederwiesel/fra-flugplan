@@ -178,7 +178,7 @@ $lang = array
 	'tablet' => 'Tablet',
 	'settingsssaved' => 'Settings have been saved.',
 	'vtf' => ' visit to FRA',
-	'notifinterval' => 'Notification Interval',
+	'notifinterval' => 'Notifications',
 	'notifintervaldesc' => 'If any of the registrations of your watchlist appears in the schedule,
 		a notification will be sent to your e-mail address.<br>
 		Please select the times between notifications will should be sent.<br><br>
@@ -187,6 +187,22 @@ $lang = array
 	'notif-setinterval' => 'Notifications have been activated, however, no notification interval has been selected.
 		To receive notifications, choose a time interval in your
 		<a href="?req=profile&notifinterval">user profile</a>',
+	'notification-timefmt' => 'Time format:',
+	'notification-strftime_1' => 'For experts: Format string according to PHP-function %s.<br>If in doubt, leave empty.',
+	'notification-strftime_2' => 'Some strftime() specifiers (may be combined):',
+	'notification-strftime_3' => 'Additional specifiers:',
+	'notification-strftime_4' => 'Day "Arrival" as offset from today.',
+	'notification-strftime_a' => 'Abbreviation of weekday',
+	'notification-strftime_A' => 'Weekday',
+	'notification-strftime_c' => 'Date and time',
+	'notification-strftime_d' => 'Day of month as 2-digit number',
+	'notification-strftime_e' => 'Day of month with leading space for single digits',
+	'notification-strftime_H' => 'Hour in 24-hour format',
+	'notification-strftime_I' => 'Hour in 12-hour format',
+	'notification-strftime_p' => '"AM" or "PM"',
+	'notification-strftime_S' => 'Second as 2-digit number',
+	'strftime-true' => "Times will be shown according to the following scheme: '%s'",
+	'strftime-false' => "'%s' cannot be interpreted. Changes have not been saved.",
 	'invalidsession' => 'Invalid Session.',
 );
 

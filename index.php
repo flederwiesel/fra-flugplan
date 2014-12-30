@@ -134,6 +134,11 @@ if (!isset($_SESSION['lang']))
 else if (0 == strlen($_SESSION['lang']))
 	$_SESSION['lang'] = http_preferred_language(array('en', 'de'));
 
+if ('de' == $_SESSION['lang'])
+	$lang = setlocale(LC_TIME, 'deu', 'deu_deu');
+else
+	$lang = setlocale(LC_TIME, 'eng', 'english-uk', 'uk', 'enu', 'english-us', 'us', 'english', 'C');
+
 /******************************************************************************
  * detect device type
  ******************************************************************************/

@@ -293,7 +293,8 @@ function /* char *error */ LoginUserSql(&$user, $id, $byid, $password, $remember
 	$error = null;
 
 	$query = sprintf("SELECT `%s`, `passwd`, `salt`, `email`, `timezone`, `language`, `permissions`,".
-					 " `token_type`, `tm-`, `tm+`, `tt-`, `tt+`, `notification-from`, `notification-until`".
+					 " `token_type`, `tm-`, `tm+`, `tt-`, `tt+`,".
+					 " `notification-from`, `notification-until`, `notification-timefmt`".
 					 " FROM `users` WHERE `%s`='%s'",
 					 $byid ? 'name' : 'id',
 					 $byid ? 'id' : 'name',
@@ -376,6 +377,7 @@ function /* char *error */ LoginUserSql(&$user, $id, $byid, $password, $remember
 							$user->opt('tt+', $row['tt+']);
 							$user->opt('notification-from', $row['notification-from']);
 							$user->opt('notification-until', $row['notification-until']);
+							$user->opt('notification-timefmt', $row['notification-timefmt']);
 
 							$expires = (1 == $remember) ? time() + COOKIE_LIFETIME : 0;
 

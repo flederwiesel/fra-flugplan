@@ -180,7 +180,7 @@ $lang = array
 	'tablet' => 'Tablet',
 	'settingsssaved' => 'Einstellungen wurden gespeichert.',
 	'vtf' => ' Besuch in FRA',
-	'notifinterval' => 'Benachrichtigungszeitraum',
+	'notifinterval' => 'Benachrichtigungen',
 	'notifintervaldesc' => 'Sobald eine der in der Beobachtungsliste festgelegten Kennungen im Flugplan auftaucht,
 		wird eine Benachrichtigung an die hinterlegte E-Mail-Adresse versendet.<br><br>
 		Bitte Zeiten festlegen, zwischen denen Benachrichtigungen gesendet werden sollen.<br>
@@ -189,6 +189,22 @@ $lang = array
 	'notif-setinterval' => 'Es wurden Benachrichtigungen aktiviert, jedoch kein Benachrichtigungsintervall ausgewählt.
 		Um Benachrichtigungen zu erhalten, muß im <a href="?req=profile&notifinterval">Benutzerprofil</a>
 		ein Zeitraum angegeben werden.',
+	'notification-timefmt' => 'Formatierung Zeitangabe:',
+	'notification-strftime_1' => 'Für Experten: Formatangabe gemäß der PHP-Funktion %s.<br>Im Zweifelsfall leer lassen.',
+	'notification-strftime_2' => 'Einige strftime()-Formatangaben (können kombiniert werden):',
+	'notification-strftime_3' => 'Zusätzliche Formatangaben:',
+	'notification-strftime_4' => 'Tag "Ankunftszeit" als Differenz zu heute.',
+	'notification-strftime_a' => 'Abgekürzter Wochentag',
+	'notification-strftime_A' => 'Wochentag',
+	'notification-strftime_c' => 'Datum und Zeit',
+	'notification-strftime_d' => 'Tag als 2-stellige Zahl',
+	'notification-strftime_e' => 'Tag mit vorangestelltem Leerzeichen, wenn 1-stellig',
+	'notification-strftime_H' => 'Stunde im 24-h-Format',
+	'notification-strftime_I' => 'Stunde im 12-h-Format',
+	'notification-strftime_p' => '"AM" or "PM"',
+	'notification-strftime_S' => 'Sekunde als 2-stellige Zahl',
+	'strftime-true' => 'Zeiten werden nach folgendem Schema angezeigt: "%s"',
+	'strftime-false' => '"%s" kann nicht korrekt ausgewertet werden. Änderungen wurden nicht gespeichert.',
 	'invalidsession' => 'Ungültige Sitzung.',
 );
 
