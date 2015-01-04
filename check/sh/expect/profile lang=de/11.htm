@@ -4,7 +4,7 @@
 <head>
 <title>Live Schedule &ndash; Frankfurt Aviation Friends</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<meta name="language" content="en">
+<meta name="language" content="de">
 <meta name="author" content="Tobias Kühne">
 <meta name="description" lang="en" content="Spotter schedule for Frankfurt airport (FRA/EDDF) including aircraft registrations">
 <meta name="description" lang="en" content="Spotter-Flugplan für Frankfurt (FRA/EDDF) einschließlich Flugzeugkennungen">
@@ -33,7 +33,7 @@
 </head>
 <body>
 	<noscript>
-		<div class="noscript">If you obtain this message, JavaScript is either not supported or disabled in in your browser options.<br>In order to use full functionality of this site we advise you to <a href="http://www.enable-javascript.com">enable Javascript</a>.</div>
+		<div class="noscript">JavaScript wird entweder nicht vom Browser unterstützt oder ist abgeschaltet.<br>Um diese in vollem Umfang nutzen zu können, bitte <a href="http://www.enable-javascript.com/de/">Javascript aktivieren</a>.</div>
 	</noscript>
 	<div id="body">
 		<div class="box left">
@@ -41,27 +41,27 @@
 				<div id="head">
 					<h1 class="nobr">Frankfurt Aviation Friends</h1>
 					<h3>
-Live Schedule</h3>
+Live Flugplan</h3>
 				</div>
 				<div id="nav">
 <ul class="menu left">
-		<li><a href="http://www.frankfurt-aviation-friends.de/">Home</a></li>
-			<li class="sep"><a href="?arrival">Arrival</a></li>
-			<li class="sep"><a href="?departure">Departure</a></li>
-				<li class="sep"><a href="?page=addflight">Add flight</a></li>
-		<li class="sep"><a href="?page=help">Help</a></li>
+		<li><a href="http://www.frankfurt-aviation-friends.de/">Startseite</a></li>
+			<li class="sep"><a href="?arrival">Ankunft</a></li>
+			<li class="sep"><a href="?departure">Abflug</a></li>
+				<li class="sep"><a href="?page=addflight">Flug einfügen</a></li>
+		<li class="sep"><a href="?page=help">Hilfe</a></li>
 </ul>
 <ul class="menu right">
-			<li class="sep">User profile</li>
-			<li class="sep"><a href="?req=logout">Logout</a></li>
+			<li class="sep">Benutzerprofil</li>
+			<li class="sep"><a href="?req=logout">Abmelden</a></li>
 		<li style="vertical-align: baseline;">
-			<a href="?req=profile&notifinterval&lang=de">
-				<img class="flag" src="img/de.png" alt="German" width="16" height="12">
+			<a href="?req=profile&lang=de">
+				<img class="flag" src="img/de.png" alt="Deutsch" width="16" height="12">
 			</a>
 		</li>
 		<li style="vertical-align: baseline;">
-			<a href="?req=profile&notifinterval&lang=en">
-				<img class="flag" src="img/en.png" alt="English" width="16" height="12">
+			<a href="?req=profile&lang=en">
+				<img class="flag" src="img/en.png" alt="Englisch" width="16" height="12">
 			</a>
 		</li>
 </ul>
@@ -110,25 +110,26 @@ $(function()
 });
 </script>
 <ul class="menu left">
-	<li><a href="?req=profile&dispinterval">Display Interval</a></li>
-	<li class="sep">Notifications</li>
-	<li class="sep"><a href="?req=profile&changepw">Change password</a></li>
+	<li><a href="?req=profile&dispinterval">Anzeigeintervall</a></li>
+	<li class="sep">Benachrichtigungen</li>
+	<li class="sep"><a href="?req=profile&changepw">Passwort ändern</a></li>
 </ul>
 <div style="clear: both;">
 <form method="post" action="?req=profile&notifinterval"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
-		<legend>Notifications</legend>
-		<div class="explainatory">If any of the registrations of your watchlist appears in the schedule,
-		a notification will be sent to your e-mail address.<br>
-		Please select the times between notifications will should be sent.<br><br>
-		If you do not wish to be notified, set both to "00:00".</div>
+		<legend>Benachrichtigungen</legend>
+		<div id="notification" class="success">Einstellungen wurden gespeichert. Zeiten werden nach folgendem Schema angezeigt: "+0 00:00"</div>
+		<div class="explainatory">Sobald eine der in der Beobachtungsliste festgelegten Kennungen im Flugplan auftaucht,
+		wird eine Benachrichtigung an die hinterlegte E-Mail-Adresse versendet.<br><br>
+		Bitte Zeiten festlegen, zwischen denen Benachrichtigungen gesendet werden sollen.<br>
+		Soll keine Benachrichtigung erfolgen, bitte für beide Zeiten "00:00" auswählen.</div>
 		<div class="table">
 			<div class="row">
-				<div class="cell label">Notify me between: </div>
+				<div class="cell label">Benachrichtigen zwischen: </div>
 				<div class="cell">
 					<select name="from" id="notification-from">
-<option selected value="00:00">00:00</option>
+<option value="00:00">00:00</option>
 <option value="01:00">01:00</option>
 <option value="02:00">02:00</option>
 <option value="03:00">03:00</option>
@@ -136,7 +137,7 @@ $(function()
 <option value="05:00">05:00</option>
 <option value="06:00">06:00</option>
 <option value="07:00">07:00</option>
-<option value="08:00">08:00</option>
+<option selected value="08:00">08:00</option>
 <option value="09:00">09:00</option>
 <option value="10:00">10:00</option>
 <option value="11:00">11:00</option>
@@ -155,7 +156,7 @@ $(function()
 <option value="24:00">24:00</option>
 					</select>
 					<select name="until" id="notification-until">
-<option selected value="00:00">00:00</option>
+<option value="00:00">00:00</option>
 <option value="01:00">01:00</option>
 <option value="02:00">02:00</option>
 <option value="03:00">03:00</option>
@@ -177,14 +178,14 @@ $(function()
 <option value="19:00">19:00</option>
 <option value="20:00">20:00</option>
 <option value="21:00">21:00</option>
-<option value="22:00">22:00</option>
+<option selected value="22:00">22:00</option>
 <option value="23:00">23:00</option>
 <option value="24:00">24:00</option>
 					</select>
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label">Time format:</div>
+				<div class="cell label">Formatierung Zeitangabe:</div>
 				<div class="cell">
 					<div>
 						<input type="text" name="timefmt" id="timefmt" style="width: 90%;"
@@ -196,24 +197,24 @@ $(function()
 		<div class="explainatory">
 			<div style="font-size: smaller;">
 				<sup>*</sup>
-For experts: Format string according to PHP-function <a href="http://php.net/manual/en/function.strftime.php#refsect1-function.strftime-parameters">strftime()</a>.<br>If in doubt, leave empty.				<div>
+Für Experten: Formatangabe gemäß der PHP-Funktion <a href="http://php.net/manual/de/function.strftime.php">strftime()</a>.<br>Im Zweifelsfall leer lassen.				<div>
 					<div style="padding-top: 1.3em; text-decoration: underline;">
-						Some strftime() specifiers (may be combined):					</div>
+						Einige strftime()-Formatangaben (können kombiniert werden):					</div>
 					<dl class="inline">
-						<dt>%a</dt><dd>Abbreviation of weekday</dd>
-						<dt>%A</dt><dd>Weekday</dd>
-						<dt>%c</dt><dd>Date and time</dd>
-						<dt>%d</dt><dd>Day of month as 2-digit number</dd>
-						<dt>%e</dt><dd>Day of month with leading space for single digits</dd>
-						<dt>%H</dt><dd>Hour in 24-hour format</dd>
-						<dt>%I</dt><dd>Hour in 12-hour format</dd>
+						<dt>%a</dt><dd>Abgekürzter Wochentag</dd>
+						<dt>%A</dt><dd>Wochentag</dd>
+						<dt>%c</dt><dd>Datum und Zeit</dd>
+						<dt>%d</dt><dd>Tag als 2-stellige Zahl</dd>
+						<dt>%e</dt><dd>Tag mit vorangestelltem Leerzeichen, wenn 1-stellig</dd>
+						<dt>%H</dt><dd>Stunde im 24-h-Format</dd>
+						<dt>%I</dt><dd>Stunde im 12-h-Format</dd>
 						<dt>%p</dt><dd>"AM" or "PM"</dd>
-						<dt>%S</dt><dd>Second as 2-digit number</dd>
+						<dt>%S</dt><dd>Sekunde als 2-stellige Zahl</dd>
 					</dl>
 					<div style="padding-top: 1.3em; text-decoration: underline; clear: both;">
-						Additional specifiers:					</div>
+						Zusätzliche Formatangaben:					</div>
 					<dl class="inline">
-						<dt>%+</dt><dd>Day "Arrival" as offset from today.</dd>
+						<dt>%+</dt><dd>Tag "Ankunftszeit" als Differenz zu heute.</dd>
 					</dl>
 				</div>
 			</div>
@@ -225,7 +226,7 @@ For experts: Format string according to PHP-function <a href="http://php.net/man
 	</fieldset>
 	<div class="center">
 		<input type="hidden" name="submit" value="notifications">
-		<input type="submit" id="submit" value="Submit">
+		<input type="submit" id="submit" value="Absenden">
 	</div>
 </form>
 </div>

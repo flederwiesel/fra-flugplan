@@ -1,5 +1,5 @@
 Date: Day, 0 Month 0000 00:00:00 +0000
-Subject: Account activation
+Subject: Aktivierung
 To: hausmeister@flederwiesel.com
 From: Frankfurt Aviation Friends <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
@@ -8,21 +8,21 @@ Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
 X-Mailer: PHP/*
 
-Hello,
+Hallo,
 
-this e-mail has been sent to you because you (or someone else at IP address 127.0.0.1) requested user registration as 'flederwiesel' at Frankfurt Aviation Friends (www.frankfurt-aviation-friends.de).
+Du erh‰lst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse 127.0.0.1) eine Anfrage zur Registrierung als Benutzer 'flederwiesel' auf Frankfurt Aviation Friends (www.frankfurt-aviation-friends.de) gesendet hast.
 
-Activation token is:
+Das Aktivierungs-Token ist:
 ***
 
-You can also use this link to process your request:
+Benutze diesen Link, um fortzufahren:
 http://localhost/.../index.php?req=activate&user=flederwiesel&token=***
-This token will expire on 0000-00-00 00:00:00 GMT.
+Dieses Token l‰uft um 0000-00-00 00:00:00 GMT ab.
 
-Please ignore this e-mail if you did not request a registration. Our apologies for any inconvenience.
+Falls Du keine Registrierung veranlaﬂt hast, ignoriere diese Mail einfach.
 
 
-The Frankfurt Aviation Friends Team
+Das Frankfurt Aviation Friends Team
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
 Subject: user registration

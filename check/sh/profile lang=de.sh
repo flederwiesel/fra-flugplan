@@ -20,7 +20,7 @@ chkmail=1
 
 ###############################################################################
 
-check "1" curl "$url/"
+check "1" curl "$url/?lang=de"
 check "2" curl "$url/?req=register"
 
 check "3" curl "$url/?req=register" \
@@ -57,7 +57,7 @@ check "9" curl "$url/?req=profile" \
 	--data-urlencode "until=24:00" \
 	--data-urlencode "timefmt=%c" \
 	--data-urlencode "submit=notifications" \
-	"|" sed -r "'s/[0-9]{2}\/[0-9]{2}\/[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}/00\/00\/0000 00:00:00/g'"
+	"|" sed -r "'s/[0-9]{2}\.[0-9]{2}\.[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}/00.00.0000 00:00:00/g'"
 
 check "10" curl "$url/?req=profile" \
 	--data-urlencode "from=08:00" \

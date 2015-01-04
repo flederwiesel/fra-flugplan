@@ -4,7 +4,7 @@
 <head>
 <title>Live Schedule &ndash; Frankfurt Aviation Friends</title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-<meta name="language" content="en">
+<meta name="language" content="de">
 <meta name="author" content="Tobias Kühne">
 <meta name="description" lang="en" content="Spotter schedule for Frankfurt airport (FRA/EDDF) including aircraft registrations">
 <meta name="description" lang="en" content="Spotter-Flugplan für Frankfurt (FRA/EDDF) einschließlich Flugzeugkennungen">
@@ -33,7 +33,7 @@
 </head>
 <body>
 	<noscript>
-		<div class="noscript">If you obtain this message, JavaScript is either not supported or disabled in in your browser options.<br>In order to use full functionality of this site we advise you to <a href="http://www.enable-javascript.com">enable Javascript</a>.</div>
+		<div class="noscript">JavaScript wird entweder nicht vom Browser unterstützt oder ist abgeschaltet.<br>Um diese in vollem Umfang nutzen zu können, bitte <a href="http://www.enable-javascript.com/de/">Javascript aktivieren</a>.</div>
 	</noscript>
 	<div id="body">
 		<div class="box left">
@@ -41,27 +41,27 @@
 				<div id="head">
 					<h1 class="nobr">Frankfurt Aviation Friends</h1>
 					<h3>
-Live Schedule</h3>
+Live Flugplan</h3>
 				</div>
 				<div id="nav">
 <ul class="menu left">
-		<li><a href="http://www.frankfurt-aviation-friends.de/">Home</a></li>
-			<li class="sep"><a href="?arrival">Arrival</a></li>
-			<li class="sep"><a href="?departure">Departure</a></li>
-				<li class="sep"><a href="?page=addflight">Add flight</a></li>
-		<li class="sep"><a href="?page=help">Help</a></li>
+		<li><a href="http://www.frankfurt-aviation-friends.de/">Startseite</a></li>
+			<li class="sep"><a href="?arrival">Ankunft</a></li>
+			<li class="sep"><a href="?departure">Abflug</a></li>
+				<li class="sep"><a href="?page=addflight">Flug einfügen</a></li>
+		<li class="sep"><a href="?page=help">Hilfe</a></li>
 </ul>
 <ul class="menu right">
-			<li class="sep">User profile</li>
-			<li class="sep"><a href="?req=logout">Logout</a></li>
+			<li class="sep">Benutzerprofil</li>
+			<li class="sep"><a href="?req=logout">Abmelden</a></li>
 		<li style="vertical-align: baseline;">
 			<a href="?req=profile&lang=de">
-				<img class="flag" src="img/de.png" alt="German" width="16" height="12">
+				<img class="flag" src="img/de.png" alt="Deutsch" width="16" height="12">
 			</a>
 		</li>
 		<li style="vertical-align: baseline;">
 			<a href="?req=profile&lang=en">
-				<img class="flag" src="img/en.png" alt="English" width="16" height="12">
+				<img class="flag" src="img/en.png" alt="Englisch" width="16" height="12">
 			</a>
 		</li>
 </ul>
@@ -123,19 +123,19 @@ $(function()
 });
 </script>
 <ul class="menu left">
-	<li>Display Interval</li>
-	<li class="sep"><a href="?req=profile&notifinterval">Notifications</a></li>
-	<li class="sep"><a href="?req=profile&changepw">Change password</a></li>
+	<li>Anzeigeintervall</li>
+	<li class="sep"><a href="?req=profile&notifinterval">Benachrichtigungen</a></li>
+	<li class="sep"><a href="?req=profile&changepw">Passwort ändern</a></li>
 </ul>
 <div style="clear: both;">
 <form method="post" action="?req=profile&dispinterval"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
-		<legend>Display Interval</legend>
-		<div class="explainatory">For mobile devices &ndash; which might not always be within range to a WLAN network &ndash;, it is possible to increase response times and reduce band width by adjusting the display interval. The default values are -15 min ... +24 hours.</div>
+		<legend>Anzeigeintervall</legend>
+		<div class="explainatory">Für mobile Geräte &ndash; welche sich nicht unbedingt in Reichweite eines WLAN-Netzwerkes befinden mögen &ndash;, kann die Reaktionsgeschwindigkeit erhöht und die Bandbreite durch ein angepaßtes Anzeigeintervall verringert werden. Das Standardervall ist -15 min ... +24 h.</div>
 		<div class="table">
 			<div class="row">
-				<div class="cell label">Cell Phone</div>
+				<div class="cell label">Mobiltelefon</div>
 				<div class="cell">
 					<select name="tm-" id="phone-min">
 						<option value="-75">-00:15 h</option>
@@ -170,7 +170,7 @@ $(function()
 	</fieldset>
 	<div class="center">
 		<input type="hidden" name="submit" value="interval">
-		<input type="submit" id="submit" name="submit" value="Submit">
+		<input type="submit" id="submit" name="submit" value="Absenden">
 	</div>
 </form>
 </div>
