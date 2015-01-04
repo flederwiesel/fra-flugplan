@@ -375,7 +375,8 @@ SQL;
 				<div class="cell">
 					<div>
 						<input type="text" name="timefmt" id="timefmt" style="width: 90%;"
-						 value="<?php echo isset($_POST['timefmt']) ? $_POST['timefmt'] : $user->opt('notification-timefmt'); ?>">
+						 value="<?php echo isset($_POST['timefmt']) ? $_POST['timefmt'] : $user->opt('notification-timefmt'); ?>"
+						 maxlength="31">
 						<sup>*</sup>
 					</div>
 					<div>
