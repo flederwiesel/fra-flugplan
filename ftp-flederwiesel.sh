@@ -42,10 +42,12 @@ mirror --reverse \
 	--exclude-glob *.sql.gz \
 	--exclude-glob .config.* \
 	--exclude-glob data/*.* \
+	--exclude-glob img/src/*.* \
 	--exclude-glob ftp-*.sh \
 	--exclude .svn/ \
 	--exclude check/ \
 	--exclude etc/ \
+	--exclude logs/ \
 	--exclude sql/ \
 	--exclude METAR/ \
 	--exclude ToDo.txt \
