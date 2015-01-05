@@ -17,25 +17,6 @@
 $error = NULL;
 $message = NULL;
 
-function ordinal($number, $lang)
-{
-	if ('en' == $lang)
-	{
-		$suffix = array('th','st','nd','rd','th','th','th','th','th','th');
-
-		if (($number % 100) >= 11 && ($number % 100) <= 13)
-			$ordinal = "${number}th";
-		else
-			$ordinal = "${number}".$suffix[$number % 10];
-	}
-	else
-	{
-		$ordinal = "${number}.";
-	}
-
-	return $ordinal;
-}
-
 /* Update watchlist from posted values */
 if (isset($_POST['add']) ||
 	isset($_POST['del']))

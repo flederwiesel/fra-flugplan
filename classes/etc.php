@@ -157,6 +157,25 @@ function mktime_c($ddmmyyyy /* dd.mm.YYYY */, $hhmm = '00:00')
 	return $date;
 }
 
+function ordinal($number, $lang)
+{
+	if ('en' == $lang)
+	{
+		$suffix = array('th','st','nd','rd','th','th','th','th','th','th');
+
+		if (($number % 100) >= 11 && ($number % 100) <= 13)
+			$ordinal = "${number}th";
+		else
+			$ordinal = "${number}".$suffix[$number % 10];
+	}
+	else
+	{
+		$ordinal = "${number}.";
+	}
+
+	return $ordinal;
+}
+
 function curl_setup()
 {
 	// is cURL installed yet?
