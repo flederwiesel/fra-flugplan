@@ -378,7 +378,7 @@ if ($user)
 ?>
 										</td>
 										<td class="reg"><input type="text" value="<?php echo $reg; ?>" maxlength="31"></td>
-										<td class="comment"><input type="text" value="<?php echo htmlspecialchars($comment); ?>" maxlength="31"></td>
+										<td class="comment"><input type="text" value="<?php echo htmlspecialchars($comment); ?>" maxlength="255"></td>
 										<td class="notify"><input type="checkbox" value=""<?php if ($notify) echo " checked"; ?>></td>
 										<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
 										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
