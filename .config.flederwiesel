@@ -43,9 +43,7 @@ define('POST_HTTPS' , 0);
 
 define('DB_HOSTNAME', 'localhost');
 #define('DB_NAME',     'fra-schedule');
-#define('DB_NAME',     'usr_web416_3');
 define('DB_NAME',     'flederwi_fra-schedule');
-#define('DB_USERNAME', 'root');
 define('DB_USERNAME', 'flederwi_root');
 define('DB_PASSWORD', '9nzdRD:a9gKw5w$sBpt;');
 
