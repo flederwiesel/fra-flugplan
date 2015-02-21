@@ -477,8 +477,8 @@ VALUES
 (@uid, 'LPV', 'Air Alps Aviation'),
 (@uid, 'NZ',  'Air New Zealand'),
 (@uid, 'TUL', 'Tulpar Air'),
-(@uid, 'HRM', 'Hermes Airlines')
-;
+(@uid, 'HRM', 'Hermes Airlines'),
+(@uid, '7W',  'Wind Rose Aviation');
 
 INSERT INTO `models`(`uid`, `icao`, `name`)
 VALUES
@@ -668,8 +668,11 @@ VALUES
 (@uid, 'AT73', 'Aerospatiale/Alenia ATR72-200'),
 (@uid, 'GLF4', 'Gulfstream 4'),
 (@uid, 'H25B', 'Hawker-Siddeley HS-125-700'),
-(@uid, 'A32B', 'Airbus A321-100/200 (Sharklets)')
-;
+(@uid, 'A32B', 'Airbus A321-100/200 (Sharklets)'),
+(@uid, 'A359', 'Airbus A350-900'),
+(@uid, 'CL30', 'Bombardier Challenger 300'),
+(@uid, 'B789', 'Boeing 787-9'),
+(@uid, 'SU95', 'Sukhoi Superjet 100-95B');
 
 INSERT INTO `airports`(`uid`, `iata`, `icao`, `name`)
 VALUES
@@ -1094,8 +1097,32 @@ VALUES
 (@uid, 'MEM', 'KMEM', 'Memphis, USA'),
 (@uid, 'MVD', 'SUMU', 'Montevideo, Uruguay'),
 (@uid, 'UIO', 'SEQM', 'Quito, Ecuador'),
-(@uid, 'VCP', 'SBKP', 'São Paulo-Viracopos, Brasilien')
-;
+(@uid, 'VCP', 'SBKP', 'São Paulo-Viracopos, Brasilien'),
+(@uid, 'HFE', 'ZSOF', 'Hefei/Luogang, China'),
+(@uid, 'TIA', 'LATI', 'Tirana, Albanien'),
+(@uid, 'XFW', 'EDHI', 'Hamburg-Finkenwerder, Deutschland'),
+(@uid, 'BRI', 'LIBD', 'Bari, Italien'),
+(@uid, 'MPL', 'LFMT', 'Montpellier, Frankreich'),
+(@uid, 'KSD', 'ESOK', 'Karlstad, Schweden'),
+(@uid, 'CGK', 'WIII', 'Jakarta, Indonesien'),
+(@uid, 'DOH', 'OTHH', 'Doha, Katar'),
+(@uid, 'PEG', 'LIRZ', 'Perugia, Italien'),
+(@uid, 'ULN', 'ZMUB', 'Ulan Bator, Mongolei'),
+(@uid, 'FOR', 'SBFZ', 'Fortaleza, Brasilien'),
+(@uid, 'LUZ', 'EPLB', 'Lublin, Polen'),
+(@uid, 'ZQW', 'EDRZ', 'Zweibrücken, Deutschland'),
+(@uid, 'YFB', 'CYFB', 'Iqaluit, Kanada'),
+(@uid, 'OUD', 'GMFO', 'Oujda, Marokko'),
+(@uid, 'QRR', 'EDRR', 'Rundflug, Deutschland'),
+(@uid, 'SLL', 'OOSA', 'Salalah, Oman'),
+(@uid, 'ORB', 'ESOE', 'Oerebro, Schweden'),
+(@uid, 'GND', 'TGPY', 'Grenada, Grenada'),
+(@uid, 'VGO', 'LEVX', 'Vigo, Spanien'),
+(@uid, 'FKB', 'EDSB', 'Karlsruhe-Söllingen, Deutschland'),
+(@uid, 'NAS', 'MYNN', 'Nassau, Bahamas'),
+(@uid, 'ASW', 'HESN', 'Assuan, Ägypten'),
+(@uid, 'YEI', 'LTBR', 'Bursa, Türkei'),
+(@uid, 'OAI', 'OAIX', 'Bagram, Afghanistan');
 
 TRUNCATE `visits`;
 
