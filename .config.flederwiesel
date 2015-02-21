@@ -29,7 +29,7 @@ $PASSWORD_REQUIRES_LETTER = false;
 $PASSWORD_REQUIRES_UPPER = false;
 $PASSWORD_REQUIRES_LOWER = false;
 $PASSWORD_REQUIRES_DIGIT = false;
-// If special chars contain ' (single quote),
+// If special chars contain ' (single quote) ',
 // below must be escaped by prepending a backslash as '\''
 //$PASSWORD_REQUIRES_SPECIAL = '!"#$%&\'()*+,-./:;<=>?[\]^_{|}~';
 $PASSWORD_REQUIRES_SPECIAL = '';
