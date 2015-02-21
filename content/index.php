@@ -488,33 +488,44 @@ if (isset($_GET['now']))
 else
 	$now = strftime('%Y-%m-%d %H:%M:%S');
 
-$query = "SELECT `type`,".
-	" IFNULL(`expected`,`scheduled`) AS `expected`,".
-	"  CASE".
-	"   WHEN `expected` IS NULL THEN 0".
-	"   WHEN `expected` < `scheduled` THEN -1".
-	"   WHEN `expected` > `scheduled` THEN 1".
-	"   ELSE 0 end AS `timediff`,".
-	" `airlines`.`code` AS `fl_airl`,".
-	" `flights`.`code` AS `fl_code`,".
-	($mobile ? "" :
-		" `airlines`.`name` AS `airline`,".
-		" `airports`.`iata` AS `airport_iata`,".
-		" `airports`.`icao` AS `airport_icao`,".
-		" `airports`.`name` AS `airport_name`,").
-	" `models`.`icao` AS `model`,".
-	" `aircrafts`.`reg` AS `reg`, ".
-	" `visits`.`num` AS `vtf` ".
-	"FROM `flights`".
-	" LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` ".
-	" LEFT JOIN `airports` ON `flights`.`airport` = `airports`.`id` ".
-	" LEFT JOIN `models` ON `flights`.`model` = `models`.`id` ".
-	" LEFT JOIN `aircrafts` ON `flights`.`aircraft` = `aircrafts`.`id` ".
-	" LEFT JOIN `visits` ON `flights`.`aircraft` = `visits`.`aircraft` ".
-	"WHERE `flights`.`direction`='$dir'".
-	" AND TIME_TO_SEC(TIMEDIFF(IFNULL(`expected`, `scheduled`), '$now')) >= $lookback ".
-	" AND TIME_TO_SEC(TIMEDIFF(IFNULL(`expected`, `scheduled`), '$now')) <= $lookahead ".
-	"ORDER BY `expected` ASC, `airlines`.`code`, `flights`.`code`";
+/* This might be configurable in the future... */
+/* Variable: */
+$columns = <<<EOF
+	`type`,
+	`airlines`.`name` AS `airline`,
+	`airports`.`iata` AS `airport_iata`,
+	`airports`.`icao` AS `airport_icao`,
+	`airports`.`name` AS `airport_name`,
+EOF;
+
+/* Fixed: */
+$columns .= <<<EOF
+	IFNULL(`expected`,`scheduled`) AS `expected`,
+	 CASE
+	  WHEN `expected` IS NULL THEN 0
+	  WHEN `expected` < `scheduled` THEN -1
+	  WHEN `expected` > `scheduled` THEN 1
+	  ELSE 0 end AS `timediff`,
+	`airlines`.`code` AS `fl_airl`,
+	`flights`.`code` AS `fl_code`,
+	`models`.`icao` AS `model`,
+	`aircrafts`.`reg` AS `reg`,
+	`visits`.`num` AS `vtf`
+EOF;
+
+$query = <<<EOF
+	SELECT $columns
+	FROM `flights`
+	 LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id`
+	 LEFT JOIN `airports` ON `flights`.`airport` = `airports`.`id`
+	 LEFT JOIN `models` ON `flights`.`model` = `models`.`id`
+	 LEFT JOIN `aircrafts` ON `flights`.`aircraft` = `aircrafts`.`id`
+	 LEFT JOIN `visits` ON `flights`.`aircraft` = `visits`.`aircraft`
+	WHERE `flights`.`direction`='$dir'
+	 AND TIME_TO_SEC(TIMEDIFF(IFNULL(`expected`, `scheduled`), '$now')) >= $lookback
+	 AND TIME_TO_SEC(TIMEDIFF(IFNULL(`expected`, `scheduled`), '$now')) <= $lookahead
+	ORDER BY `expected` ASC, `airlines`.`code`, `flights`.`code`;
+EOF;
 
 $result = mysql_query($query);
 
@@ -560,15 +571,31 @@ else
 		/* <td> inherits 'class="left"' from div.box */
 		echo "<td$early>$day $hhmm</td>";
 
-		switch ($row['type'])
+		if (!($row['fl_airl'] && $row['fl_code']))
 		{
-		case 'cargo':
-		case 'ferry':
-			echo "<td><img src='img/$row[type].png'>$row[fl_airl]$row[fl_code]</td>";
-			break;
+			switch ($row['type'])
+			{
+			case 'cargo':
+			case 'ferry':
+				echo "<td><img src='img/$row[type].png'></td>";
+				break;
 
-		default:
-			echo "<td>$row[fl_airl]$row[fl_code]</td>";
+			default:
+				echo "<td>$row[fl_airl]$row[fl_code]</td>";
+			}
+		}
+		else
+		{
+			switch ($row['type'])
+			{
+			case 'cargo':
+			case 'ferry':
+				echo "<td><img src='img/$row[type].png'>$row[fl_airl]$row[fl_code]</td>";
+				break;
+
+			default:
+				echo "<td>$row[fl_airl]$row[fl_code]</td>";
+			}
 		}
 
 		if (!$mobile)
