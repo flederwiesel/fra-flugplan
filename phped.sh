@@ -1,22 +1,22 @@
 #!/bin/bash
 
 projects=(
-	'getflights:getflights.php?debug=query\&fmt=html'
+	'getflights:getflights.php?debug=url,query\&fmt=html'
 	'download:index.php?page=download'
 	'specials:index.php?page=specials'
 )
 
 filename=$(readlink -f "${BASH_SOURCE[0]}")
-cygpath=$(dirname "$filename")/.phped
+cygpath=$(dirname "$filename")
 winpath=$(cygpath --windows "$cygpath")
 workspace=$(dirname "$filename")
 workspace=$(basename "$workspace")
 
-mkdir -p "$cygpath"
+mkdir -p "$cygpath/.phped"
 
 # PROJECT index.ppj
 
-cat > "$cygpath/index.ppj" <<EOF
+cat > "$cygpath/.phped/index.ppj" <<EOF
 [Debugger]
 dbgsessions=1
 stopbeginning=1
@@ -126,26 +126,26 @@ EOF
 # PROJECTS $projects=
 
 # workspace entry for index.ppj
-Projects="Project0=$winpath\index.ppj
+Projects="Project0=$winpath\.phped\index.ppj
 Unloaded0=0"
 
 i=1
 
 for p in ${projects[@]}
 do
-	sed -r "s|(DefaultFile=).*\$|\\1http://localhost/$workspace/${p##*:}|g" "$cygpath/index.ppj" > "$cygpath/${p%%:*}.ppj"
+	sed -r "s|(DefaultFile=).*\$|\\1http://localhost/$workspace/${p##*:}|g" "$cygpath/.phped/index.ppj" > "$cygpath/.phped/${p%%:*}.ppj"
 	# workspace entries
 	Projects="${Projects}
-Project$i=$winpath\\${p%%:*}.ppj
+Project$i=$winpath\.phped\\${p%%:*}.ppj
 Unloaded$i=0"
 	((i++))
 done
 
 # WORKSPACE
 
-cat > "$cygpath/../$workspace.ppw" <<EOF
+cat > "$cygpath/$workspace.ppw" <<EOF
 [PHPEdWorkspace]
 ProjectCount=$i
 $Projects
-ActiveProject=$winpath\index.ppj
+ActiveProject=$winpath\.phped\index.ppj
 EOF
