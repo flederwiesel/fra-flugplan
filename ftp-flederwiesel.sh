@@ -24,8 +24,7 @@ rev=$(LC_MESSAGES=en_US svn info . | awk '/^Revision:/ { print $2; }')
 echo -e "\033[36mRevision: $rev\033[m"
 
 lftp <<EOF
-#open "web416f3:Fox@- 2>&1"@www.flederwiesel.com
-open "fra-schedule@flederwiesel.com:LqPN623sAHFS"@c1.server-was.de
+open "fra-schedule@flederwiesel.com:<<<I'm a wizzzard!2>&1"@fra-schedule.de
 
 !LC_MESSAGES=en_US svn info . | awk '/^Last Changed (Rev|Date):/ { print \$0; }' > revision
 !LC_MESSAGES=en_US svn info . | awk '/^URL:/ { print \$2; }' > history
