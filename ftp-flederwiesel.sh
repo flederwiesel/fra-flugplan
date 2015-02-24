@@ -63,7 +63,6 @@ put target
 bye
 EOF
 
-rm revision
 rm history
 
 echo -e "\033[36mRevision: $rev\033[m"
