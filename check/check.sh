@@ -53,7 +53,7 @@ set -- "${argv[@]}"
 
 ###############################################################################
 
-alias "mysql=mysql --silent --host=localhost --user=root --password= --default-character-set=utf8"
+alias "mysql=mysql --silent  --protocol=TCP --host=localhost --user=root --password= --default-character-set=utf8"
 alias "curl=curl -s --noproxy localhost --cookie .COOKIES --cookie-jar .COOKIES"
 
 unless() {
@@ -67,6 +67,9 @@ unless() {
 		echo -e "\033[1;31mTest seriously failed in line $line:"
 		echo -e "$@\033[m\n" >&2
 		echo -e "\033[1;31mCannot continue.\033[m" >&2
+
+		[ -n "$mailer" ] && kill $mailer
+
 		exit 1
 	fi
 }
@@ -138,7 +141,7 @@ sed "s/^[[:space:]]*define('DEBUG'.*$/\/\/&/" --in-place ../.config
 [ -e ../adminmessage.php ] && mv ../adminmessage.php ../~adminmessage.php
 
 cat <<EOF > ./mailer.py
-#! /usr/bin/python2.6
+#! /usr/bin/python
 
 import sys
 import asyncore
