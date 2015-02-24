@@ -381,8 +381,8 @@ INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled
 
 SELECT `flights`.`id`, `airlines`.`code`, `flights`.`code`, `flights`.`scheduled`, `flights`.`direction` FROM `flights` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` WHERE `airport` IS NULL AND (`scheduled` >= '0000-00-00 11:00:00' OR `expected` >= '0000-00-00 11:00:00' OR (TIME_TO_SEC(TIMEDIFF('0000-00-00 11:00:00', `scheduled`)) / 60 / 60) < 2) ORDER BY `scheduled`;
 =31,...
-http://localhost/.../flugplan/airportcity?fid=AC84500000001
 =30,...
+http://localhost/.../flugplan/airportcity?fid=AC84500000001
 http://localhost/.../flugplan/airportcity?fia=TK158700000001
 SELECT `airports`.`id` FROM `airports` WHERE `iata`='YYC' AND `icao`='CYYC';
 =247

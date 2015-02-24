@@ -404,8 +404,8 @@ INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled
 
 SELECT `flights`.`id`, `airlines`.`code`, `flights`.`code`, `flights`.`scheduled`, `flights`.`direction` FROM `flights` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` WHERE `airport` IS NULL AND (`scheduled` >= '0000-00-00 07:00:00' OR `expected` >= '0000-00-00 07:00:00' OR (TIME_TO_SEC(TIMEDIFF('0000-00-00 07:00:00', `scheduled`)) / 60 / 60) < 2) ORDER BY `scheduled`;
 =26,...
-http://localhost/.../flugplan/airportcity?fia=CX28900000001
 =27,...
+http://localhost/.../flugplan/airportcity?fia=CX28900000001
 http://localhost/.../flugplan/airportcity?fid=TP57100000001
 SELECT `airports`.`id` FROM `airports` WHERE `iata`='HKG' AND `icao`='VHHH';
 =98

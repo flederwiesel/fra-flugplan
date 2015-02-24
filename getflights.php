@@ -24,6 +24,8 @@
  *
  ******************************************************************************/
 
+$script_start = microtime(TRUE);
+
 /* Suppress warning "Declaration of awkFlights::execute() should be compatible with awk::execute($text)" */
 error_reporting(E_ALL & ~E_STRICT);
 
@@ -81,7 +83,11 @@ if (isset($_GET['debug']))
 	unset($flags);
 
 	$DEBUG['any'] = 1;
+}
 
+if (isset($_GET['help']) ||
+	isset($_GET['debug']))
+{
 	if (isset($_GET['fmt']))
 		$DEBUG['fmt'] = $_GET['fmt'];
 	else if (isset($_GET['format']))
@@ -107,6 +113,25 @@ if (isset($DEBUG['fmt']))
 <pre>
 <?php
 	}
+}
+
+if (isset($_GET['help']))
+{
+    echo <<<EOF
+debug=
+    url
+    awk
+    arrival
+    departure
+    airports
+    query
+
+fmt=
+    htm|html
+
+EOF;
+
+	goto fin;
 }
 
 function geterrorinfo()
@@ -603,30 +628,44 @@ function CURL_GetFlights($curl, $dir, &$flights)
 				echo "$url\n";
 
 			/* Fetch HTML data */
-			$htm = curl_download($curl, $url);
+			$retry = 3;
 
-			curl_setopt($curl, CURLOPT_COOKIESESSION, FALSE);	// reuse session cookie
-
-			if (0 == strlen($htm) || strstr($htm, "Error 404"))
+			do
 			{
-				$page = 0;
+				$htm = curl_download($curl, $url, 10);
 
-				if (curl_errno($curl))
-					$error = seterrorinfo(__LINE__, curl_error($curl));
-			}
-			else
-			{
-				if (isset($DEBUG[$dir]))
+				if (!$htm || strstr($htm, "Error 404"))
 				{
-					echo str_replace(array('<', '>'), array('&lt;', '&gt;'), $htm);
-					echo "\n";
+					$page = 0;
+				}
+				else
+				{
+					curl_setopt($curl, CURLOPT_COOKIESESSION, FALSE);	// reuse session cookie
+
+					if (isset($DEBUG[$dir]))
+					{
+						echo str_replace(array('<', '>'), array('&lt;', '&gt;'), $htm);
+						echo "\n";
+					}
+
+					/* Interpret HTML into `$flights` vector */
+					if ($awk)
+						$awk->execute($htm, $flights, $page);
+
+					$action = 'usepager';
 				}
 
-				/* Interpret HTML into `$flights` vector */
-				if ($awk)
-					$awk->execute($htm, $flights, $page);
+				/* Set script execution limit. If set to zero, no time limit is imposed. */
+				set_time_limit(0);
+			}
+			while (!$htm && --$retry);
 
-				$action = 'usepager';
+			if (!$htm)
+			{
+				if (curl_errno($curl))
+					$error = seterrorinfo(__LINE__, curl_error($curl));
+				else
+					$error = seterrorinfo(__LINE__, "(nil)");
 			}
 		}
 		while ($page > 0);
@@ -635,7 +674,8 @@ function CURL_GetFlights($curl, $dir, &$flights)
 	return $error;
 }
 
-function CURL_GetFlightDetails($curl, &$airports)
+/* Get airport IATA/ICAO from flight details page */
+function CURL_GetFlightAirports($curl, $flights, &$airports)
 {
 	global $DEBUG;
 	global $baseurl;
@@ -657,89 +697,55 @@ function CURL_GetFlightDetails($curl, &$airports)
 	{
 		$error = NULL;
 
-		/* Get airport IATA/ICAO from flight details page */
-		$query = <<<SQL
-			SELECT
-			 `flights`.`id`,
-			 `airlines`.`code`,
-			 `flights`.`code`,
-			 `flights`.`scheduled`,
-			 `flights`.`direction`
-			FROM `flights`
-			LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id`
-			WHERE `airport` IS NULL
-			AND
-			 (`scheduled` >= '$now'
-			  OR `expected` >= '$now'
-			  OR (TIME_TO_SEC(TIMEDIFF('$now', `scheduled`)) / 60 / 60) < 2)
-			ORDER BY `scheduled`;
-SQL;
-
-		$result = mysql_query($query);
-
-		if (!$result)
+		while ($fi = $flights->pop())
 		{
-			$error = seterrorinfo(__LINE__,
-						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
-		}
-		else
-		{
-			if (isset($DEBUG['query']))
-				echo query_style($query);
+			$date = substr($fi[3], 0, 4).substr($fi[3], 5, 2).substr($fi[3], 8, 2);
+			$url = "http://$baseurl/flugplan/airportcity?fi".
+						substr($fi[4], 0, 1)."=".	// 'a'/'d' -> arrival/departure
+						$fi[1].$fi[2].				// LH1234
+						$date;						// 20120603
 
-			while ($fi = mysql_fetch_row($result))
+			if (isset($DEBUG['url']))
+				echo "$url\n";
+
+			$retry = 3;
+
+			do
 			{
-				if (isset($DEBUG['query']))
-					echo "=$fi[0],...\n";
+				$htm = curl_download($curl, $url, 5);
 
-				$date = substr($fi[3], 0, 4).substr($fi[3], 5, 2).substr($fi[3], 8, 2);
-				$url = "http://$baseurl/flugplan/airportcity?fi".
-							substr($fi[4], 0, 1)."=".	// 'a'/'d' -> arrival/departure
-							$fi[1].$fi[2].				// LH1234
-							$date;						// 20120603
-
-				if (isset($DEBUG['url']))
-					echo "$url\n";
-
-				$retry = 3;
-
-
-				do
+				if ($htm)
 				{
-					$htm = curl_download($curl, $url);
-					$len = strlen($htm);
-
-					if (0 == $len)
-					{
-						if (curl_errno($curl))
-							$error = seterrorinfo(__LINE__, curl_error($curl));
-					}
-					else
-					{
-						if (isset($DEBUG['airports']))
-							echo "$htm\n";
-					}
-				}
-				while (0 == $len && --$retry);
-
-				if ($len > 0)
-				{
-					$airport = new AirportInfo($fi[0]);
-
-					$awk->execute($htm, $airport);
-
-					if ($airport->iata && $airport->icao)
-						$airports->push($airport);
-					else
-						unset($airport);
+					if (isset($DEBUG['airports']))
+						echo "$htm\n";
 				}
 
-				/* Set srcipt execution limit. If set to zero, no time limit is imposed. */
+				/* Set script execution limit. If set to zero, no time limit is imposed. */
 				set_time_limit(0);
 			}
+			while (!$htm && --$retry);
 
-			mysql_free_result($result);
+			if (!$htm)
+			{
+				if (curl_errno($curl))
+					$error = seterrorinfo(__LINE__, curl_error($curl));
+				else
+					$error = seterrorinfo(__LINE__, "(nil)");
+			}
+
+			if ($htm)
+			{
+				$airport = new AirportInfo($fi[0]);
+
+				$awk->execute($htm, $airport);
+
+				if ($airport->iata && $airport->icao)
+					$airports->push($airport);
+				else
+					unset($airport);
+			}
+
+			unset($fi);
 		}
 	}
 
@@ -1746,185 +1752,252 @@ SQL;
 	}
 }
 
-$error = NULL;
-
-$hdbc = mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
-
-if (!$hdbc)
+function mysql_connect_db(&$hdbc, &$uid)
 {
-	$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
-}
-else
-{
-	if (!mysql_select_db(DB_NAME, $hdbc))
+	$hdbc = mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
+
+	if (!$hdbc)
 	{
 		$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
 	}
 	else
 	{
-		mysql_set_charset("utf8");
-
-		$result = mysql_query("SELECT `id` FROM `users` WHERE `name`='root'");
-
-		if (!$result)
+		if (!mysql_select_db(DB_NAME, $hdbc))
 		{
 			$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
 		}
 		else
 		{
-			$row = mysql_fetch_row($result);
+			mysql_set_charset("utf8");
 
-			if (!$row)
+			$result = mysql_query("SELECT `id` FROM `users` WHERE `name`='root'");
+
+			if (!$result)
 			{
 				$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
 			}
 			else
 			{
-				$error = 0;
-				$uid = $row[0];
-				unset($row);
+				$row = mysql_fetch_row($result);
+
+				if (!$row)
+				{
+					$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
+				}
+				else
+				{
+					$error = NULL;
+					$uid = $row[0];
+				}
+
+				mysql_free_result($result);
 			}
-
-
-			mysql_free_result($result);
 		}
+	}
+
+	return $error;
+}
+
+$error = NULL;
+
+$curl = curl_setup();
+
+if (NULL == $curl)
+{
+	$error = geterrorinfo();
+}
+else
+{
+	// Iterate through arrival/departure tables awk()ing basic flight info
+	$direction = array('arrival', 'departure');
+
+	foreach ($direction as $dir)
+	{
+		if (isset($DEBUG['any']))
+			printf("%s\n", $dir);
+
+		$time_start = microtime(true);
+
+		$error = CURL_GetFlights($curl, $dir, $flights);
+
+		$time_end = microtime(true);
+		$time = $time_end - $time_start;
+
+		$n = $flights->count();
+
+		$error = mysql_connect_db($hdbc, $uid);
 
 		if (!$error)
 		{
-			$curl = curl_setup();
-
-			if (NULL == $curl)
+			while ($f = $flights->pop())
 			{
-				$error = geterrorinfo();
+				if (0 == strcmp('TRN', $f->model))	// no trains...
+				{
+					$n--;
+				}
+				else if (0 == strcmp('NULL', $f->expected))	// "annulliert"
+				{
+					$error = SQL_GetAirlineId($f, $airline);
+
+					if (!$error)
+					{
+						$error = SQL_DeleteFlight($dir, $airline, $f->code, $f->scheduled, $reg);
+
+						if (!$error && 'arrival' == $dir && $reg)
+							$error = SQL_UpdateVisitsToFra($f->scheduled, $reg, VTF_DECREASE);
+					}
+				}
+				else if ($f->scheduled)
+				{
+					$airline = NULL;
+					$error = SQL_GetAirlineId($f, $airline);
+
+					if ($airline)
+					{
+						// Get carrier id, if different from flight airline code
+						// (operated by someone else)
+						if ($airline != $f->carrier['code'])
+							$error = SQL_GetCarrierId($f, $airline);
+					}
+
+					// model
+					$model = NULL;
+					$error = SQL_GetModelId($f, $model);
+
+					// aircraft
+					$reg = NULL;
+
+					if ($f->reg && $model)
+						$error = SQL_GetAircraftId($f, $model, $reg);
+
+					// flight
+					$details = NULL;
+					$error = SQL_GetFlightDetails($dir, $f->scheduled, $airline, $f->code, $details);
+
+					if (NULL == $details)
+					{
+						$error = SQL_InsertFlight($dir, $airline, $f->code,
+												  $f->scheduled, $f->expected, $model, $reg);
+					}
+					else
+					{
+						$error = SQL_UpdateFlight($details['id'], $f->expected, $model, $reg);
+
+						if (!$error && 'arrival' == $dir && $details['aircraft'])
+						{
+							if ($details['aircraft'] != $reg)
+								$error = SQL_UpdateVisitsToFra($f->scheduled, $details['aircraft'], VTF_DECREASE);
+						}
+					}
+
+					if (!$error && 'arrival' == $dir && $reg)
+						$error = SQL_UpdateVisitsToFra($f->scheduled, $reg, VTF_INCREASE);
+				}
+
+				if (isset($DEBUG['query']))
+					echo "\n/************************************/\n\n";
+
+				unset($f);
 			}
-			else
+
+			if (isset($DEBUG['any']))
 			{
-				// Iterate through arrival/departure tables awk()ing basic flight info
-				$direction = array('arrival', 'departure');
+				printf("---------------------------\n");
+				printf("%lu Flüge gefunden.\n", $n);
+				printf("    %s: %.3fs\n", 'Dauer', $time);
+				printf("\n===========================\n\n");
+			}
 
-				foreach ($direction as $dir)
-				{
-					if (isset($DEBUG['any']))
-						printf("%s\n", $dir);
+			mysql_close($hdbc);
+		}
 
-					$time_start = microtime(true);
+		unset($flights);
+	}
 
-					$error = CURL_GetFlights($curl, $dir, $flights);
+	$error = mysql_connect_db($hdbc, $uid);
 
-					$time_end = microtime(true);
-					$time = $time_end - $time_start;
+	if (!$error)
+	{
+		$flights = new vector;
+		$airports = new vector;
 
-					$n = $flights->count();
+		/* Query flights with NULL airport */
+		$query = <<<SQL
+			SELECT
+			 `flights`.`id`,
+			 `airlines`.`code`,
+			 `flights`.`code`,
+			 `flights`.`scheduled`,
+			 `flights`.`direction`
+			FROM `flights`
+			LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id`
+			WHERE `airport` IS NULL
+			AND
+			 (`scheduled` >= '$now'
+			  OR `expected` >= '$now'
+			  OR (TIME_TO_SEC(TIMEDIFF('$now', `scheduled`)) / 60 / 60) < 2)
+			ORDER BY `scheduled`;
+SQL;
 
-					while ($f = $flights->shift())
-					{
-						if (0 == strcmp('TRN', $f->model))	// no trains...
-						{
-							$n--;
-						}
-						else if (0 == strcmp('NULL', $f->expected))	// "annulliert"
-						{
-							$error = SQL_GetAirlineId($f, $airline);
+		$result = mysql_query($query);
 
-							if (!$error)
-							{
-								$error = SQL_DeleteFlight($dir, $airline, $f->code, $f->scheduled, $reg);
+		if (!$result)
+		{
+			$error = seterrorinfo(__LINE__,
+						sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
+		}
+		else
+		{
+			if (isset($DEBUG['query']))
+				echo query_style($query);
 
-								if (!$error && 'arrival' == $dir && $reg)
-									$error = SQL_UpdateVisitsToFra($f->scheduled, $reg, VTF_DECREASE);
-							}
-						}
-						else if ($f->scheduled)
-						{
-							$airline = NULL;
-							$error = SQL_GetAirlineId($f, $airline);
+			while ($row = mysql_fetch_row($result))
+			{
+				$flights->push($row);
 
-							if ($airline)
-							{
-								// Get carrier id, if different from flight airline code
-								// (operated by someone else)
-								if ($airline != $f->carrier['code'])
-									$error = SQL_GetCarrierId($f, $airline);
-							}
-
-							// model
-							$model = NULL;
-							$error = SQL_GetModelId($f, $model);
-
-							// aircraft
-							$reg = NULL;
-
-							if ($f->reg && $model)
-								$error = SQL_GetAircraftId($f, $model, $reg);
-
-							// flight
-							$details = NULL;
-							$error = SQL_GetFlightDetails($dir, $f->scheduled, $airline, $f->code, $details);
-
-							if (NULL == $details)
-							{
-								$error = SQL_InsertFlight($dir, $airline, $f->code,
-														  $f->scheduled, $f->expected, $model, $reg);
-							}
-							else
-							{
-								$error = SQL_UpdateFlight($details['id'], $f->expected, $model, $reg);
-
-								if (!$error && 'arrival' == $dir && $details['aircraft'])
-								{
-									if ($details['aircraft'] != $reg)
-										$error = SQL_UpdateVisitsToFra($f->scheduled, $details['aircraft'], VTF_DECREASE);
-								}
-							}
-
-							if (!$error && 'arrival' == $dir && $reg)
-								$error = SQL_UpdateVisitsToFra($f->scheduled, $reg, VTF_INCREASE);
-						}
-
-						if (isset($DEBUG['query']))
-							echo "\n/************************************/\n\n";
-
-						unset($f);
-					}
-
-					if (isset($DEBUG['any']))
-					{
-						printf("---------------------------\n");
-						printf("%lu Flüge gefunden.\n", $n);
-						printf("    %s: %.3fs\n", 'Dauer', $time);
-						printf("\n===========================\n\n");
-					}
-				}
-
-				unset($flights);
-
-				/* Get airports from flight details page */
-				$airports = new vector;
-				$error = CURL_GetFlightDetails($curl, $airports);
-
-				while ($airport = $airports->shift())
-				{
-					$error = SQL_GetAirportId($airport);
-					unset($airport);
-				}
-
-				unset($airports);
-
-				/* betriebsrichtung.html */
-				$betriebsrichtung = curl_download($curl, "http://$rwyinfo/betriebsrichtung/betriebsrichtung.html");
-
-				$file = @fopen('data/betriebsrichtung.html', 'w');
-
-				if ($file)
-				{
-					fwrite($file, $betriebsrichtung);
-					fclose($file);
-				}
-
-				curl_close($curl);
+				if (isset($DEBUG['query']))
+					echo "=$row[0],...\n";
 			}
 		}
 
+		mysql_free_result($result);
+
+		/* Get airports from flight details page */
+		$error = CURL_GetFlightAirports($curl, $flights, $airports);
+
+		while ($airport = $airports->pop())
+		{
+			$error = SQL_GetAirportId($airport);
+			unset($airport);
+		}
+
+		unset($flights);
+		unset($airports);
+
+		mysql_close($hdbc);
+
+		/* betriebsrichtung.html */
+		$betriebsrichtung = curl_download($curl, "http://$rwyinfo/betriebsrichtung/betriebsrichtung.html", 5);
+
+		$file = @fopen('data/betriebsrichtung.html', 'w');
+
+		if ($file)
+		{
+			fwrite($file, $betriebsrichtung);
+			fclose($file);
+		}
+	}
+
+	curl_close($curl);
+}
+
+if (!$error)
+{
+	$error = mysql_connect_db($hdbc, $uid);
+
+	if (!$error)
+	{
 		/* Add watches to `watchlist-notifications` table */
 		if (isset($DEBUG['any']))
 			echo "\n";
@@ -1962,9 +2035,9 @@ SQL;
 
 		if (!mysql_query($query))
 		{
-				$error = seterrorinfo(__LINE__,
-							sprintf("[%d] %s: %s",
-								mysql_errno(), mysql_error(), query_style($query)));
+			$error = seterrorinfo(__LINE__,
+						sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
 		}
 		else
 		{
@@ -2092,9 +2165,9 @@ SQL;
 		/* Move outdated flights to history table */
 		if (!$error)
 			$error = SQL_FlightsToHistory();
-	}
 
-	mysql_close($hdbc);
+		mysql_close($hdbc);
+	}
 }
 
 if ($errorinfo)
@@ -2111,11 +2184,15 @@ if ($errorinfo || $warning)
 if (isset($DEBUG['any']))
 	echo "\n\n=== fin. ===\n";
 
+fin:
+//printf("\ntotal duration: %f\n", microtime(TRUE) - $script_start);
+
 if (isset($DEBUG['fmt']))
 {
 	if ('htm'  == $DEBUG['fmt'] ||
 		'html' == $DEBUG['fmt'])
 	{
+
 ?>
 </pre>
 </body>

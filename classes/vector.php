@@ -35,11 +35,6 @@ class vector
 
 	public function pop()
 	{
-		return $this->c > 0 ? $this->v[--$this->c] : NULL;
-	}
-
-	public function shift()
-	{
 		if (0 == $this->c)
 		{
 			$elem = NULL;

@@ -213,7 +213,7 @@ function curl_setup()
 		curl_setopt($curl, CURLOPT_FRESH_CONNECT, FALSE);
 
 		// Timeout in seconds
-		curl_setopt($curl, CURLOPT_TIMEOUT, 30);
+		curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 10);
 
 		// Need to use a proxy?
 		if (file_exists('.curlrc'))
@@ -234,9 +234,12 @@ function curl_setup()
 	return $curl;
 }
 
-function curl_download($curl, $url)
+function curl_download($curl, $url, $timeout = 0)
 {
 	curl_setopt($curl, CURLOPT_URL, $url);
+
+	// Timeout in seconds
+	curl_setopt($curl, CURLOPT_TIMEOUT, $timeout);
 
 	return curl_exec($curl);
 }
