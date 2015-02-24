@@ -52,7 +52,8 @@ mirror --reverse \
 	--exclude METAR/ \
 	--exclude ToDo.txt \
 	--exclude adminmessage.php \
-	--exclude flagcounter.txt
+	--exclude flagcounter.txt \
+	--exclude phped.sh
 #	--dry-run \
 
 !echo $rev > target
