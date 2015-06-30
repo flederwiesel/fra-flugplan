@@ -40,6 +40,7 @@ include "classes/vector.php";
 
 $errorinfo = NULL;
 $warning = NULL;
+$info = NULL;
 
 // We need to adjust departure times, make sure we use the correct tz
 $tz = date_default_timezone_set('Europe/Berlin');
@@ -158,7 +159,7 @@ function seterrorinfo($line, $info)
 			$line = $e['line'];
 
 		$error .= sprintf("(%u): " , $line);
-		$error .= sprintf("[%d] %s", $e['type'], $e['message']);
+		$error .= sprintf("[%d] %s\n", $e['type'], $e['message']);
 	}
 
 	$errorinfo .= $error;
@@ -177,6 +178,16 @@ function warn_once($line, $info)
 
 		$warning .= __FILE__."($line): $info\n";
 	}
+}
+
+function info($line, $text)
+{
+	global $info;
+
+	if (!$info)
+		$info = '';
+
+	$info .= __FILE__."($line): $text\n";
 }
 
 function query_style($query)
@@ -826,8 +837,8 @@ SQL;
 						echo "=$airline\n";
 					}
 
-					warn_once(__LINE__, "Inserted airline $f->airline as \"".$f->carrier['name']."\"".
-										" ($dir: flight $f->airline$f->code \"$f->scheduled\").");
+					info(__LINE__, "Inserted airline $f->airline as \"".$f->carrier['name']."\"".
+								   " ($dir: flight $f->airline$f->code \"$f->scheduled\").");
 				}
 			}
 		}
@@ -2171,15 +2182,34 @@ SQL;
 }
 
 if ($errorinfo)
+{
 	echo $errorinfo;
 
+	mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').'<'.ADMIN_EMAIL.'>',
+		 "fra-schedule - getflights.php: error",
+		 "$errorinfo",
+		 "From: fra-schedule");
+}
+
 if ($warning)
+{
 	echo $warning;
 
-if ($errorinfo || $warning)
 	mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').'<'.ADMIN_EMAIL.'>',
-		 'fra-schedule - getflights.php: '.($error ? 'error' : 'warning'),
-		 "$errorinfo\n----\n\n$warning", 'From: fra-schedule');
+		 "fra-schedule - getflights.php: warning",
+		 "$warning",
+		 "From: fra-schedule");
+}
+
+if ($info)
+{
+	echo $info;
+
+	mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').'<'.ADMIN_EMAIL.'>',
+		 "fra-schedule - getflights.php: info",
+		 "$info",
+		 "From: fra-schedule");
+}
 
 if (isset($DEBUG['any']))
 	echo "\n\n=== fin. ===\n";
