@@ -216,6 +216,8 @@ class User
 }
 
 function /* bool */ pwmatch()
+	// __out $_POST['passwd']
+	// __out $_POST['passwd-confirm']
 {
 	if (isset($_POST['passwd']))
 	{
@@ -229,7 +231,10 @@ function /* bool */ pwmatch()
 	return false;
 }
 
-function LogoutUser(&$user)
+function LogoutUser(/* __out */ &$user)
+	// __out $_GET['req']
+	// __out $_COOKIE['userID']
+	// __out $_COOKIE['hash']
 {
 	$user = null;
 
@@ -246,7 +251,10 @@ function LogoutUser(&$user)
 	return null;
 }
 
-function LoginUserAutomatically(&$user)
+function LoginUserAutomatically(/* __out */ &$user)
+	// __out $_COOKIE['userID']
+	// __out $_COOKIE['hash']
+	// __out $_COOKIE['autologin']
 {
 	$error = null;
 	$user = null;
@@ -261,7 +269,9 @@ function LoginUserAutomatically(&$user)
 	return $error;
 }
 
-function /*bool*/ LoginUser(&$user)
+function /*bool*/ LoginUser(/* __out */ &$user)
+	// __out $_POST['user']
+	// __out $_POST['passwd']
 {
 	global $lang;
 
@@ -285,7 +295,7 @@ function /*bool*/ LoginUser(&$user)
 	return $error;
 }
 
-function /* char *error */ LoginUserSql(&$user, $id, $byid, $password, $remember)
+function /* char *error */ LoginUserSql(/* __out */ &$user, $id, $byid, $password, $remember)
 {
 	global $lang;
 
@@ -402,7 +412,16 @@ function /* char *error */ LoginUserSql(&$user, $id, $byid, $password, $remember
 	return $error;
 }
 
-function /* char *error */ RegisterUser(&$message)
+function /* char *error */ RegisterUser(/* __out */ &$message)
+	// __in $_POST['user']
+	// __in $_POST['email']
+	// __in $_POST['passwd']
+	// __in $_POST['passwd-confirm']
+	// __in $_POST['lang']
+	// __in $_SESSION['lang']
+
+	// __out $_GET['req']
+	// __out $_GET['user']
 {
 	global $lang;
 
@@ -476,6 +495,8 @@ function /* char *error */ RegisterUser(&$message)
 }
 
 function /* char *error */ RegisterUserSql($user, $email, $password, $language)
+	// __in  $_SERVER['REMOTE_ADDR']
+	// __out $_SESSION['lang']
 {
 	global $lang;
 
@@ -689,7 +710,12 @@ EOF;
 	return $error;
 }
 
-function /* char *error */ ActivateUser(&$message)
+function /* char *error */ ActivateUser(/* __out */ &$message)
+	// __in $_GET['user']
+	// __in $_GET['token']
+
+	// __out $_GET['req']
+	// __out $_GET['user']
 {
 	global $lang;
 
@@ -763,7 +789,7 @@ function /* char *error */ ActivateUser(&$message)
 	return $error;
 }
 
-function /* char *error */ ActivateUserSql(&$user, $token)
+function /* char *error */ ActivateUserSql($user, $token)
 {
 	global $lang;
 
@@ -804,7 +830,8 @@ function /* char *error */ ActivateUserSql(&$user, $token)
 					NULL == $row['token'] ||
 					NULL == $row['expires'])
 				{
-					$error = $lang['badrequest'];
+					// Already activated, silently accept re-activation
+					$token = NULL;
 				}
 				else
 				{
@@ -826,46 +853,58 @@ function /* char *error */ ActivateUserSql(&$user, $token)
 		mysql_free_result($result);
 	}
 
-	if (!$error)
+	if (NULL == $token)
 	{
-		$query = "UPDATE `users`".
-				 " SET `token`=NULL, `token_type`='none', `token_expires`=NULL".
-				 " WHERE `id`=$uid";
-
-		if (!mysql_query($query))
-			$error = mysql_error();
-	}
-
-	if ($error)
-	{
-		if (!isset($token))
-			$token = "";
-
-		$max = strlen(token());
-
-		if (strlen($token) > $max)	/* SHA-256 */
-			$token = substr($token, 0, $max + 1).'...';
-
-		if (strlen($user) > $GLOBALS['USERNAME_MAX'])
-			$user = substr($user, 0, $GLOBALS['USERNAME_MAX'] + 1).'...';
-
-		AdminMail('activation',
-			sprintf("$uid:$user%s = %s token='%s'\n",
-					 $now ? " ($now)" : "",
-					 $error ? $error : "OK",
-					 $token));
+		// Already activated, silently accept re-activation
 	}
 	else
 	{
-		AdminMail('activation',
-			sprintf("$uid:$user%s = OK\n",
-					 $now ? " ($now)" : ""));
+		if (!$error)
+		{
+				$query = "UPDATE `users`".
+						 " SET `token`=NULL, `token_type`='none', `token_expires`=NULL".
+						 " WHERE `id`=$uid";
+
+				if (!mysql_query($query))
+					$error = mysql_error();
+		}
+
+		if ($error)
+		{
+			if (!isset($token))
+				$token = "";
+
+			$max = strlen(token());
+
+			if (strlen($token) > $max)	/* SHA-256 */
+				$token = substr($token, 0, $max + 1).'...';
+
+			if (strlen($user) > $GLOBALS['USERNAME_MAX'])
+				$user = substr($user, 0, $GLOBALS['USERNAME_MAX'] + 1).'...';
+
+			AdminMail('activation',
+				sprintf("$uid:$user%s = %s token='%s'\n",
+						 $now ? " ($now)" : "",
+						 $error ? $error : "OK",
+						 $token));
+		}
+		else
+		{
+			AdminMail('activation',
+				sprintf("$uid:$user%s = OK\n",
+						 $now ? " ($now)" : ""));
+		}
 	}
 
 	return $error;
 }
 
-function /* char *error */ RequestPasswordToken(&$message)
+function /* char *error */ RequestPasswordToken(/* __out */ &$message)
+	// __in $_POST['user']
+	// __in $_POST['email']
+
+	// __out $_GET['req']
+	// __out $_GET['user']
 {
 	global $lang;
 
@@ -1099,7 +1138,13 @@ function /* char *error */ RequestPasswordTokenSql($user, $email)
 	return $error;
 }
 
-function /* char *error */ ChangePassword(&$user, &$message)
+function /* char *error */ ChangePassword($user, /* __out */ &$message)
+	// __in $_POST['user']
+	// __in $_POST['passwd']
+	// __in $_POST['passwd-confirm']
+
+	// __out $_GET['req']
+	// __out $_GET['user']
 {
 	global $lang;
 
@@ -1141,6 +1186,9 @@ function /* char *error */ ChangePassword(&$user, &$message)
 }
 
 function /* char *error */ ChangePasswordSql($user, $token, $password)
+	// __in $_POST['passwd']
+	// __in $_POST['passwd-confirm']
+	// __in $_COOKIE['autologin']
 {
 	global $lang;
 
@@ -1267,7 +1315,9 @@ function /*str*/ mysql_user_error($default)
 	return $error;
 }
 
-function UserProcessRequest(&$user, &$message)
+function /* char *error */ UserProcessRequest(&$user, &$message)
+	// __in $_GET['req']
+	// __out $_GET['req']
 {
 	$error = null;
 
