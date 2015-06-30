@@ -102,12 +102,13 @@ rawurlencode() {
 	local string="${1}"
 	local strlen=${#string}
 	local encoded=""
+	local retain="${2}"
 
 	for (( pos=0 ; pos<strlen ; pos++ ))
 	do
 		c=${string:$pos:1}
 		case "$c" in
-			[-_.~a-zA-Z0-9] )
+			[-_.~a-zA-Z0-9"$retain"] )
 				o="${c}"
 				;;
 			* )
@@ -127,7 +128,7 @@ rawurlencode() {
 IFS=$'\n'
 
 prj="$(readlink -f ..)"
-url=http://localhost/$(rawurlencode "${prj##*htdocs/}")
+url=http://localhost/$(rawurlencode "${prj##*htdocs/}" "/")
 
 unless $LINENO sed -r "\"s/^(define[ \t]*\('DB_NAME',[ \t]*')[^']+('\);)/\1fra-schedule\2/g\"" \
 	../.config.local '>' ../.config
