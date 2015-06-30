@@ -9,8 +9,9 @@ projects=(
 filename=$(readlink -f "${BASH_SOURCE[0]}")
 cygpath=$(dirname "$filename")
 winpath=$(cygpath --windows "$cygpath")
-workspace=$(dirname "$filename")
-workspace=$(basename "$workspace")
+prjdir=$(dirname "$filename")
+prjroot=${prjdir##*htdocs/}
+workspace=${prjdir##*/}
 
 mkdir -p "$cygpath/.phped"
 
@@ -93,7 +94,7 @@ IncPath_count=0
 RelativeRootDir=..\\..\\$workspace
 MappingMainIdx=0
 ParserProp_CSS_ParsePHP=0
-MappingURL0=http://localhost/$workspace
+MappingURL0=http://localhost/$prjroot
 MappingPublishingRoot=
 ParserProp_PHP_AspTags=0
 MappingRemote0=$winpath
@@ -101,9 +102,9 @@ CvsHost=
 RunMode=2
 CvsMethod=pserver
 CvsUser=
-URL=http://localhost/$workspace
+URL=http://localhost/$prjroot
 CvsCVSROOT=:pserver:@
-DefaultFile=http://localhost/$workspace/index.php
+DefaultFile=http://localhost/$prjroot/index.php
 ParserProp_JS_ParsePHP=0
 ParserProp_Override=0
 GUID={8FD21476-5E2E-483B-970B-58875E6E0727}

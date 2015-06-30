@@ -127,7 +127,7 @@ rawurlencode() {
 IFS=$'\n'
 
 prj="$(readlink -f ..)"
-url=http://localhost/$(rawurlencode "${prj##*/}")
+url=http://localhost/$(rawurlencode "${prj##*htdocs/}")
 
 unless $LINENO sed -r "\"s/^(define[ \t]*\('DB_NAME',[ \t]*')[^']+('\);)/\1fra-schedule\2/g\"" \
 	../.config.local '>' ../.config
