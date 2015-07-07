@@ -396,11 +396,14 @@ SQL;
 					<dl class="inline">
 						<dt>%a</dt><dd><?php echo $lang['notification-strftime_a']; ?></dd>
 						<dt>%A</dt><dd><?php echo $lang['notification-strftime_A']; ?></dd>
+						<dt>%b</dt><dd><?php echo $lang['notification-strftime_b']; ?></dd>
+						<dt>%B</dt><dd><?php echo $lang['notification-strftime_B']; ?></dd>
 						<dt>%c</dt><dd><?php echo $lang['notification-strftime_c']; ?></dd>
 						<dt>%d</dt><dd><?php echo $lang['notification-strftime_d']; ?></dd>
 						<dt>%e</dt><dd><?php echo $lang['notification-strftime_e']; ?></dd>
 						<dt>%H</dt><dd><?php echo $lang['notification-strftime_H']; ?></dd>
 						<dt>%I</dt><dd><?php echo $lang['notification-strftime_I']; ?></dd>
+						<dt>%m</dt><dd><?php echo $lang['notification-strftime_m']; ?></dd>
 						<dt>%p</dt><dd><?php echo $lang['notification-strftime_p']; ?></dd>
 						<dt>%S</dt><dd><?php echo $lang['notification-strftime_S']; ?></dd>
 					</dl>
