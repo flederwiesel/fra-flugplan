@@ -1,4 +1,4 @@
-0 05:00;0 21:55 /***/;;SQ;325;Singapore Airlines;B77W;;SIN;WSSS;Singapur;Singapur;
+0 05:00;0 21:55 /*=24*/;;SQ;325;Singapore Airlines;B77W;;SIN;WSSS;Singapur;Singapur;
 0 06:00;0 21:55;;SQ;325;Singapore Airlines;B77W;;SIN;WSSS;Singapur;Singapur;
 0 07:00;0 21:55;;SQ;325;Singapore Airlines;B77W;;SIN;WSSS;Singapur;Singapur;
 0 08:00;0 21:55;;SQ;325;Singapore Airlines;B77W;;SIN;WSSS;Singapur;Singapur;
@@ -16,7 +16,7 @@
 0 20:00;0 21:55;;SQ;325;Singapore Airlines;B77W;9VSWK;SIN;WSSS;Singapur;Singapur;Gate offen
 0 21:00;0 21:55;;SQ;325;Singapore Airlines;B77W;9VSWK;SIN;WSSS;Singapur;Singapur;geschlossen
 0 22:00;0 21:55;;SQ;325;Singapore Airlines;B77W;9VSWK;SIN;WSSS;Singapur;Singapur;gestartet /* !vis*/
-0 22:00;1 21:55 /***/;;SQ;325;Singapore Airlines;B77W;;SIN;WSSS;Singapur;Singapur;
+0 22:00;1 21:55 /*=47*/;;SQ;325;Singapore Airlines;B77W;;SIN;WSSS;Singapur;Singapur;
 0 23:00;1 21:55;;SQ;325;Singapore Airlines;B77W;;SIN;WSSS;Singapur;Singapur;
 ;;;;;;;;;;;;
 1 05:00;0 21:55;;SQ;325;Singapore Airlines;B77W;;SIN;WSSS;Singapur;Singapur;
@@ -37,5 +37,5 @@
 1 20:00;0 21:55;;SQ;325;Singapore Airlines;B77W;9VSWK;SIN;WSSS;Singapur;Singapur;Gate offen
 1 21:00;0 21:55;;SQ;325;Singapore Airlines;B77W;9VSWK;SIN;WSSS;Singapur;Singapur;geschlossen
 1 22:00;0 21:55;;SQ;325;Singapore Airlines;B77W;9VSWK;SIN;WSSS;Singapur;Singapur;gestartet /* !vis*/
-1 22:00;1 21:55 /***/;;SQ;325;Singapore Airlines;B77W;;SIN;WSSS;Singapur;Singapur;
+1 22:00;1 21:55 /*=71*/;;SQ;325;Singapore Airlines;B77W;;SIN;WSSS;Singapur;Singapur;
 1 23:00;1 21:55;;SQ;325;Singapore Airlines;B77W;;SIN;WSSS;Singapur;Singapur;

@@ -1,4 +1,4 @@
-0 05:00;0 11:45 /***/;;AC;876;Air Canada;A333;CGHKW /*=6,1*/;YYZ;CYYZ;Toronto;Kanada;
+0 05:00;0 11:45 /*=7*/;;AC;876;Air Canada;A333;CGHKW /*=6,1*/;YYZ;CYYZ;Toronto;Kanada;
 0 06:00;0 11:45;;AC;876;Air Canada;A333;CGHKW;YYZ;CYYZ;Toronto;Kanada;
 0 07:00;0 11:45;;AC;876;Air Canada;A333;CGHKW;YYZ;CYYZ;Toronto;Kanada;
 0 08:00;0 11:45;;AC;876;Air Canada;A333;CGHKW;YYZ;CYYZ;Toronto;Kanada;
@@ -6,7 +6,7 @@
 0 10:00;0 11:45;;AC;876;Air Canada;A333;CGHKW;YYZ;CYYZ;Toronto;Kanada;
 0 11:00;0 11:45;;AC;876;Air Canada;A333;CGHKW;YYZ;CYYZ;Toronto;Kanada;
 0 12:00;0 11:45;;AC;876;Air Canada;A333;CGHKW;YYZ;CYYZ;Toronto;Kanada;gelandet
-0 12:00;1 11:45 /***/;;AC;876;Air Canada;A333;;YYZ;CYYZ;Toronto;Kanada;
+0 12:00;1 11:45 /*=33*/;;AC;876;Air Canada;A333;;YYZ;CYYZ;Toronto;Kanada;
 0 13:00;0 11:45;;AC;876;Air Canada;A333;CGHKW;YYZ;CYYZ;Toronto;Kanada;Gepäckausgabe
 0 13:00;1 11:45;;AC;876;Air Canada;A333;;YYZ;CYYZ;Toronto;Kanada;
 0 14:00;0 11:45;;AC;876;Air Canada;A333;CGHKW;YYZ;CYYZ;Toronto;Kanada;Gepäckausgabe beendet
@@ -29,7 +29,7 @@
 1 10:00;0 11:45;;AC;876;Air Canada;A333;CGHKW;YYZ;CYYZ;Toronto;Kanada;
 1 11:00;0 11:45;;AC;876;Air Canada;A333;CGHKW;YYZ;CYYZ;Toronto;Kanada;
 1 12:00;0 11:45;;AC;876;Air Canada;A333;CGHKW;YYZ;CYYZ;Toronto;Kanada;gelandet
-1 12:00;1 11:45 /***/;;AC;876;Air Canada;A333;;YYZ;CYYZ;Toronto;Kanada;
+1 12:00;1 11:45 /*=57*/;;AC;876;Air Canada;A333;;YYZ;CYYZ;Toronto;Kanada;
 1 13:00;0 11:45;;AC;876;Air Canada;A333;CGHKW;YYZ;CYYZ;Toronto;Kanada;Gepäckausgabe
 1 13:00;1 11:45;;AC;876;Air Canada;A333;;YYZ;CYYZ;Toronto;Kanada;
 1 14:00;0 11:45;;AC;876;Air Canada;A333;CGHKW;YYZ;CYYZ;Toronto;Kanada;Gepäckausgabe beendet
