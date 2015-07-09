@@ -1,7 +1,7 @@
 #!/bin/bash
 
 projects=(
-	'getflights:getflights.php?debug=url,query\&fmt=html'
+	'getflights:getflights.php?debug=url,query\&fmt=html\&baseurl=localhost/fra-schedule/fra-schedule-trunk/check'
 	'download:index.php?page=download'
 	'specials:index.php?page=specials'
 )
