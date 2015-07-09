@@ -6,7 +6,7 @@
 0 10:00;0 13:30;;AC;875;Air Canada;A333;CGHLM;YUL;CYUL;Montreal-Trudeau;Kanada;
 0 11:00;0 13:30;;AC;875;Air Canada;A333;CGHLM;YUL;CYUL;Montreal-Trudeau;Kanada;Gate offen
 0 12:00;0 13:30;;AC;875;Air Canada;A333;CGHLM;YUL;CYUL;Montreal-Trudeau;Kanada;Gate offen
-0 13:00;0 13:30 /*=36*/;0 13:35/***/;AC;875;Air Canada;A333;CGHLM;YUL;CYUL;Montreal-Trudeau;Kanada;geschlossen
+0 13:00;0 13:30;0 13:35/***/;AC;875;Air Canada;A333;CGHLM;YUL;CYUL;Montreal-Trudeau;Kanada;geschlossen
 0 14:00;0 13:30;0 13:40 /***/;AC;875;Air Canada;A333;CGHLM;YUL;CYUL;Montreal-Trudeau;Kanada;gestartet /* exp=13:40&!vis*/
 0 14:00;1 13:30 /*=40*/;;AC;875;Air Canada;A333;;YUL;CYUL;Montreal-Trudeau;Kanada;
 0 15:00;1 13:30;;AC;875;Air Canada;A333;;YUL;CYUL;Montreal-Trudeau;Kanada;
