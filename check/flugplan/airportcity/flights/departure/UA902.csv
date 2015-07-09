@@ -7,7 +7,7 @@
 0 11:00;0 12:15;;UA;902;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;Gate offen
 0 12:00;0 12:15;;UA;902;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;geschlossen
 0 13:00;0 12:15;;UA;902;United Airlines;B744;N116UA;SFO;KSFO;San Francisco;USA;gestartet
-0 13:00;1 12:15 /*=37*/;;UA;902;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
+0 13:00;1 12:15 /*=36*/;;UA;902;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
 0 14:00;1 12:15;;UA;902;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
 0 15:00;1 12:15;;UA;902;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
 0 16:00;1 12:15;;UA;902;United Airlines;B744;;SFO;KSFO;San Francisco;USA;
