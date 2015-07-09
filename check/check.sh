@@ -248,6 +248,8 @@ do
 				else
 					if [ -e "$results/mail.txt" ]; then
 						LANG=de_DE.utf8 sed -ri "
+							s#::1#<localhost>#g
+							s#127.0.0.1#<localhost>#g
 							s#(X-Mailer: PHP/).*\$#\1*#g
 							s#(http://[^/]+/).*/([^/?]+\?.*)#\1.../\2#g
 							s#((Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day), [0-9]+/[0-9]+/[0-9]+#Day, 00/00/00#g

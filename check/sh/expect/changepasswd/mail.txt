@@ -10,7 +10,7 @@ X-Mailer: PHP/*
 
 Hello,
 
-this e-mail has been sent to you because you (or someone else at IP address 127.0.0.1) requested user registration as 'flederwiesel' at Frankfurt Aviation Friends (www.frankfurt-aviation-friends.de).
+this e-mail has been sent to you because you (or someone else at IP address <localhost>) requested user registration as 'flederwiesel' at Frankfurt Aviation Friends (www.frankfurt-aviation-friends.de).
 
 Activation token is:
 ***
@@ -62,7 +62,7 @@ X-Mailer: PHP/*
 
 Hello,
 
-this e-mail has been sent to you because you (or someone else at IP address ::1) requested a password change for user 'flederwiesel' at Frankfurt Aviation Friends
+this e-mail has been sent to you because you (or someone else at IP address <localhost>) requested a password change for user 'flederwiesel' at Frankfurt Aviation Friends
 
 Password token is:
 ***

@@ -10,7 +10,7 @@ X-Mailer: PHP/*
 
 Hello,
 
-this e-mail has been sent to you because you (or someone else at IP address 127.0.0.1) requested user registration as 'ljdwefdsyrovtq' at Frankfurt Aviation Friends (www.frankfurt-aviation-friends.de).
+this e-mail has been sent to you because you (or someone else at IP address <localhost>) requested user registration as 'ljdwefdsyrovtq' at Frankfurt Aviation Friends (www.frankfurt-aviation-friends.de).
 
 Activation token is:
 ***
