@@ -108,10 +108,13 @@ check "2" curl "$url/?arrival\&now=$now" \
 
 # DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
 check "3" curl "$url/?arrival\&now=$now" \
-		--data-urlencode "add='ZS-SNC	South African Airways - Star Alliance	1
-                               C-????	Air Canada ?	0
-                               C-FDAT	Air Transat - A310	1
-                               /C-G(TSTS[FHWY]|[FLPS]AT)/	Air Transat - A310	1'" \
+		--data-urlencode "add='$(cat <<-EOF
+			ZS-SNC	South African Airways - Star Alliance	1
+			C-????	Air Canada ?	0
+			C-FDAT	Air Transat - A310	1
+			/C-G(TSTS[FHWY]|[FLPS]AT)/	Air Transat - A310	1
+EOF
+			)'" \
 	"| sed -r '
 		s/now=$today/now=0000-00-00/g
 	'"
