@@ -14,23 +14,23 @@
  *
  ******************************************************************************/
 
-if ('localhost' == $_SERVER['SERVER_NAME'])
+require_once '.config';
+require_once 'classes/etc.php';
+
+if (defined('DEBUG'))
 	error_reporting(E_ALL | E_NOTICE);
 else
 	error_reporting(0);
 
 mb_internal_encoding('UTF-8');
 
-require_once '.config';
-require_once 'classes/etc.php';
-
 $jquery = 'jquery-1.10.1.min.js';
 $jqueryui = 'jquery-ui-1.10.3';
 
 if (defined('DEBUG'))
-	$jquerymin = 'minified/';
-else
 	$jquerymin = '';
+else
+	$jquerymin = 'minified/';
 
 function get($get=null)
 {
