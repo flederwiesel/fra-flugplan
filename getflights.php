@@ -20,6 +20,7 @@
  *                 fmt=[htm|html|...]
  *
  *   Test options: baseurl=www.frankfurt-airport.de
+ *                 baseurl=localhost/fra-schedule/fra-schedule-trunk/check
  *                 now={localtime as '%Y-%m-%d %H:%M:%S'}
  *
  ******************************************************************************/
@@ -674,9 +675,11 @@ function CURL_GetFlights($curl, $dir, &$flights)
 			if (!$htm)
 			{
 				if (curl_errno($curl))
-					$error = seterrorinfo(__LINE__, curl_error($curl));
+					$error = curl_error($curl);
 				else
-					$error = seterrorinfo(__LINE__, "(nil)");
+					$error = "(nil)";
+
+				$error = seterrorinfo(__LINE__, "$error: $url");
 			}
 		}
 		while ($page > 0);
@@ -739,9 +742,11 @@ function CURL_GetFlightAirports($curl, $flights, &$airports)
 			if (!$htm)
 			{
 				if (curl_errno($curl))
-					$error = seterrorinfo(__LINE__, curl_error($curl));
+					$error = curl_error($curl);
 				else
-					$error = seterrorinfo(__LINE__, "(nil)");
+					$error = "(nil)";
+
+				$error = seterrorinfo(__LINE__, "$error: $url");
 			}
 
 			if ($htm)
