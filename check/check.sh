@@ -231,7 +231,7 @@ do
 				./mailer.py "$results/mail.txt" &
 				mailer=$!
 				# Make sure mailer will be terminated and port freed
-				[ 0 == $? ] && trap "kill $mailer; exit" SIGINT
+				[ 0 == $? ] && trap "kill $mailer; exit" SIGINT SIGTERM EXIT
 				chkmail=0
 				sed=
 
