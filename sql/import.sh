@@ -1,14 +1,16 @@
 #!/bin/sh
 
+sqlexec() {
+	mysql --host=localhost --protocol=TCP --user=root --password= --default-character-set=utf8 "$@"
+}
+
 if [ $# -lt 1 ]; then
 	echo "Usage: $(basename $0) <file>"
 else
 	schema="flederwi_fra-schedule"
 
-	alias "mysql=mysql --host=localhost --user=root --password= --default-character-set=utf8"
-
-	eval mysql <<<$(echo "DROP DATABASE IF EXISTS \`$schema\`")
-	eval mysql <<<$(echo "CREATE DATABASE \`$schema\`")
+	sqlexec <<< "DROP DATABASE IF EXISTS \`$schema\`"
+	sqlexec <<< "CREATE DATABASE \`$schema\`"
 
 	case "${1##*.}" in
 	'bz2')
@@ -29,6 +31,5 @@ else
 		;;
 	esac
 
-	eval mysql <<<"USE \`$schema\`; $(eval $cmd)"
-
+	sqlexec <<< "USE \`$schema\`; $(eval $cmd)"
 fi
