@@ -24,13 +24,19 @@ else
 
 mb_internal_encoding('UTF-8');
 
-$jquery = 'jquery-1.10.1.min.js';
 $jqueryui = 'jquery-ui-1.10.3';
+$jquery = 'jquery-1.10.1';
 
 if (defined('DEBUG'))
+{
 	$jquerymin = '';
+	$jqueryminified = '';
+}
 else
-	$jquerymin = 'minified/';
+{
+	$jquerymin = '.min';
+	$jqueryminified = 'minified/';
+}
 
 function get($get=null)
 {
@@ -309,25 +315,24 @@ if ($user)
 <?php } ?>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 <link type="image/gif" rel="icon" href="favicon.gif">
-<link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.core.css">
-<link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.base.css">
-<link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.theme.css">
-<link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.tooltip.css">
-<link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.slider.css">
-<link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jquerymin; ?>jquery.ui.datepicker.css">
+<link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jqueryminified; ?>jquery.ui.core<?php echo $jquerymin; ?>.css">
+<link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jqueryminified; ?>jquery.ui.theme<?php echo $jquerymin; ?>.css">
+<link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jqueryminified; ?>jquery.ui.tooltip<?php echo $jquerymin; ?>.css">
+<link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jqueryminified; ?>jquery.ui.slider<?php echo $jquerymin; ?>.css">
+<link type="text/css" rel="stylesheet" href="script/<?php echo $jqueryui; ?>/themes/base/<?php echo $jqueryminified; ?>jquery.ui.datepicker<?php echo $jquerymin; ?>.css">
 <?php if ($mobile && !$tablet) { ?>
 <link rel="stylesheet" type="text/css" href="css/mobile.css">
 <?php } else { ?>
 <link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
 <?php } ?>
-<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/<?php echo $jquery; ?>"></script>
-<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jquerymin; ?>jquery.ui.core.js"></script>
-<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jquerymin; ?>jquery.ui.widget.js"></script>
-<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jquerymin; ?>jquery.ui.mouse.js"></script>
-<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jquerymin; ?>jquery.ui.position.js"></script>
-<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jquerymin; ?>jquery.ui.tooltip.js"></script>
-<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jquerymin; ?>jquery.ui.slider.js"></script>
-<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jquerymin; ?>jquery.ui.datepicker.js"></script>
+<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/<?php echo $jquery.$jquerymin; ?>.js"></script>
+<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jqueryminified; ?>jquery.ui.core<?php echo $jquerymin; ?>.js"></script>
+<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jqueryminified; ?>jquery.ui.widget<?php echo $jquerymin; ?>.js"></script>
+<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jqueryminified; ?>jquery.ui.mouse<?php echo $jquerymin; ?>.js"></script>
+<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jqueryminified; ?>jquery.ui.position<?php echo $jquerymin; ?>.js"></script>
+<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jqueryminified; ?>jquery.ui.tooltip<?php echo $jquerymin; ?>.js"></script>
+<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jqueryminified; ?>jquery.ui.slider<?php echo $jquerymin; ?>.js"></script>
+<script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jqueryminified; ?>jquery.ui.datepicker<?php echo $jquerymin; ?>.js"></script>
 </head>
 <body>
 	<noscript>
