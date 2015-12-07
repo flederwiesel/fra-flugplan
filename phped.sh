@@ -1,7 +1,8 @@
 #!/bin/bash
 
 projects=(
-	'getflights:getflights.php?debug=url,query\&fmt=html\&baseurl=localhost/fra-schedule/fra-schedule-trunk/check'
+	'getflights:getflights.php?debug=url,query\&fmt=html'
+	'getflights-local:getflights.php?debug=url,query\&fmt=html\&baseurl=localhost/fra-schedule/fra-schedule-trunk/check'
 	'download:index.php?page=download'
 	'specials:index.php?page=specials'
 )
@@ -12,6 +13,9 @@ winpath=$(cygpath --windows "$cygpath")
 prjdir=$(dirname "$filename")
 prjroot=${prjdir##*htdocs/}
 workspace=${prjdir##*/}
+
+echo "prjroot=$prjroot"
+echo "workspace=$workspace"
 
 mkdir -p "$cygpath/.phped"
 
@@ -69,7 +73,7 @@ destinationtype=0
 [Wizard]
 srunmode=2
 sprojectroot=$winpath
-slocalwebroot=E:\Documents and Settings\common\prj\HTML\htdocs
+slocalwebroot=E:\home\common\prj\HTML\htdocs
 swebrooturl=http://localhost/
 
 [Testing]
@@ -134,7 +138,7 @@ i=1
 
 for p in ${projects[@]}
 do
-	sed -r "s|(DefaultFile=).*\$|\\1http://localhost/$workspace/${p##*:}|g" "$cygpath/.phped/index.ppj" > "$cygpath/.phped/${p%%:*}.ppj"
+	sed -r "s|(DefaultFile=).*\$|\\1http://localhost/$prjroot/${p##*:}|g" "$cygpath/.phped/index.ppj" > "$cygpath/.phped/${p%%:*}.ppj"
 	# workspace entries
 	Projects="${Projects}
 Project$i=$winpath\.phped\\${p%%:*}.ppj
