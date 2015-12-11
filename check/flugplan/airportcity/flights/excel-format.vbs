@@ -168,7 +168,10 @@ Dim book
 Dim sheet
 Dim region
 Dim row
-Dim bottom
+Dim columns
+Dim height
+Dim pageHeight
+Dim top
 Dim range
 Dim match
 Dim re
@@ -230,22 +233,43 @@ For Each dir In directions
 		.Size = 6
 	End With
 
-	' Autofit all columns
-	With book.Worksheets(1).Columns
-		.Autofit
+	Set region = sheet.Range("A1").CurrentRegion
+	columns = region.Cells.Columns.Count
+
+	' Autofit columns A:I and K, hide J
+	With sheet
+		.Columns("A:I").Autofit
+		.Columns("J").ColumnWidth = 0
+		.Columns("K").Autofit
 	End With
+
+	pageHeight = excel.InchesToPoints(sheet.PageSetup.PaperSize)
 
 	' Select regions of cells in rows A:M for contiguous rows
 	' Similar to Ctrl+Shift+Right + Ctrl+Shift+Down, except
 	' for empty cells, which we jump over horizontally, if empty
 	row = 1
+	height = 0
 
 	While (row > 0) And (sheet.Range("A" & row) <> "")
 		Set region = sheet.Range("A" & row).CurrentRegion
 
-		bottom = region.Cells.Row + UBound(region.Cells) - 1
+		If height + region.Height > pageHeight Then
+			sheet.HPageBreaks.Add region
+			height = 0
+		End If
 
-		With excel.Range("A" & bottom & ":M" & bottom).Cells.Borders(xlEdgeBottom)
+		height = height + region.Height
+
+		If 1 = row Then
+			' Put line on top of block, not header row...
+			top = region.Cells.Row + LBound(region.Cells)
+		Else
+			' Put line on top of block
+			top = region.Cells.Row + LBound(region.Cells) - 1
+		End If
+
+		With excel.Range("A" & top & ":" & Chr(64 + columns) & top).Cells.Borders(xlEdgeTop)
 			.LineStyle = xlContinuous
 			.ColorIndex = 0
 			.TintAndShade = 0
@@ -257,14 +281,21 @@ For Each dir In directions
 	Wend
 
 	With sheet.PageSetup
-		.LeftMargin = excel.InchesToPoints(0.5)
-		.RightMargin = excel.InchesToPoints(0.5)
-		.TopMargin = excel.InchesToPoints(0.5)
-		.BottomMargin = excel.InchesToPoints(0.5)
-		.HeaderMargin = excel.InchesToPoints(0.2)
-		.FooterMargin = excel.InchesToPoints(0.2)
+		' take first row as header repeating over the pages
+		.PrintTitleRows = "$1:$1"
+		' Adjust size & margins
 		.PaperSize = xlPaperA4
 		.Orientation = xlPortrait 'xlLandscape
+		.TopMargin = excel.CentimetersToPoints(0.8)
+		.BottomMargin = excel.CentimetersToPoints(1.2)
+		.HeaderMargin = excel.CentimetersToPoints(0)
+		.FooterMargin = excel.CentimetersToPoints(0)
+		' Fit to one page width
+		.Zoom = False
+		.FitToPagesTall = False
+		.FitToPagesWide = 1
+		.LeftFooter = "&F"
+		.CenterFooter = "&P/&N"
 	End With
 
 	If ".xlsx" = filext Then
