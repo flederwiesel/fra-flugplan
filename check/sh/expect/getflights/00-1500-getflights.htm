@@ -8,11 +8,11 @@
 <body>
 <pre>
 arrival
-http://localhost/.../flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&init=true&page=1
-http://localhost/.../flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=2
-http://localhost/.../flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=3
-http://localhost/.../flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
-http://localhost/.../flugplan/airportcity?type=arrival&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
+http://localhost/.../flugplan/airportcity?type=arrival&time=0000-00-00T15%3A00%3A00%2B0100&typ=p&context=0&sprache=de&items=3&init=true&page=1
+http://localhost/.../flugplan/airportcity?type=arrival&time=0000-00-00T15%3A00%3A00%2B0100&typ=p&context=0&sprache=de&items=3&usepager=true&page=2
+http://localhost/.../flugplan/airportcity?type=arrival&time=0000-00-00T15%3A00%3A00%2B0100&typ=p&context=0&sprache=de&items=3&usepager=true&page=3
+http://localhost/.../flugplan/airportcity?type=arrival&time=0000-00-00T15%3A00%3A00%2B0100&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
+http://localhost/.../flugplan/airportcity?type=arrival&time=0000-00-00T15%3A00%3A00%2B0100&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
 
 /************************************/
 
@@ -182,11 +182,11 @@ UPDATE `flights` SET `aircraft`=NULL, `model`=4 WHERE `id`=38;
 ===========================
 
 departure
-http://localhost/.../flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&init=true&page=1
-http://localhost/.../flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=2
-http://localhost/.../flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=3
-http://localhost/.../flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
-http://localhost/.../flugplan/airportcity?type=departure&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
+http://localhost/.../flugplan/airportcity?type=departure&time=0000-00-00T15%3A00%3A00%2B0100&typ=p&context=0&sprache=de&items=3&init=true&page=1
+http://localhost/.../flugplan/airportcity?type=departure&time=0000-00-00T15%3A00%3A00%2B0100&typ=p&context=0&sprache=de&items=3&usepager=true&page=2
+http://localhost/.../flugplan/airportcity?type=departure&time=0000-00-00T15%3A00%3A00%2B0100&typ=p&context=0&sprache=de&items=3&usepager=true&page=3
+http://localhost/.../flugplan/airportcity?type=departure&time=0000-00-00T15%3A00%3A00%2B0100&typ=p&context=0&sprache=de&items=3&usepager=true&page=4
+http://localhost/.../flugplan/airportcity?type=departure&time=0000-00-00T15%3A00%3A00%2B0100&typ=p&context=0&sprache=de&items=3&usepager=true&page=5
 SELECT `id` FROM `airlines` WHERE `code`='KU';
 =63
 SELECT `id`, `aircraft` FROM `flights` WHERE `direction`='departure' AND `airline`=63 AND `code`='172' AND `scheduled`='0000-00-00 14:30'
@@ -363,17 +363,17 @@ INSERT INTO `flights` (`uid`, `type`, `direction`, `airline`, `code`, `scheduled
 
 ===========================
 
-SELECT `flights`.`id`, `airlines`.`code`, `flights`.`code`, `flights`.`scheduled`, `flights`.`direction` FROM `flights` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` WHERE `airport` IS NULL AND (`scheduled` >= '0000-00-00 15:00:00' OR `expected` >= '0000-00-00 15:00:00' OR (TIME_TO_SEC(TIMEDIFF('0000-00-00 15:00:00', `scheduled`)) / 60 / 60) < 2) ORDER BY `scheduled`;
+SELECT `flights`.`id`, `airlines`.`code`, `flights`.`code`, `flights`.`scheduled`, `flights`.`direction` FROM `flights` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` WHERE `airport` IS NULL AND (`scheduled` >= '0000-00-00T15:00:00+0100' OR `expected` >= '0000-00-00T15:00:00+0100' OR (TIME_TO_SEC(TIMEDIFF('0000-00-00T15:00:00+0100', `scheduled`)) / 60 / 60) < 2) ORDER BY `scheduled`;
 =41,...
-http://localhost/.../flugplan/airportcity?fid=KU17200000001
+http://localhost/.../flugplan/airportcity?time=0000-00-00T15%3A00%3A00%2B0100&fid=KU17200000001
 SELECT `airports`.`id` FROM `airports` WHERE `iata`='KWI' AND `icao`='OKBK';
 =123
 UPDATE `flights` SET `airport`=123 WHERE `id`=41;
 =OK
 
-INSERT INTO `watchlist-notifications`(`flight`, `watch`)  SELECT `flights`.`id`, `watchlist`.`id` FROM `watchlist` INNER JOIN `aircrafts` ON `aircrafts`.`reg` LIKE REPLACE(REPLACE(`watchlist`.`reg`, '*', '%'), '?', '_') INNER JOIN (SELECT `id`, `direction`, IFNULL(`expected`, `scheduled`) AS `expected`, `aircraft` FROM `flights` WHERE `aircraft` IS NOT NULL) AS `flights` ON `aircrafts`.`id` = `flights`.`aircraft` LEFT JOIN `watchlist-notifications` ON `watchlist-notifications`.`flight` = `flights`.`id` WHERE `watchlist`.`notify` = TRUE AND `watchlist-notifications`.`flight` IS NULL AND 'arrival' = `flights`.`direction` AND `expected` > '0000-00-00 15:00:00' FOR UPDATE
-SELECT `watchlist-notifications`.`id` AS `id`, UNIX_TIMESTAMP('0000-00-00 15:00:00') AS `now`, UNIX_TIMESTAMP(IFNULL(`flights`.`expected`, `flights`.`scheduled`)) AS `expected`, CONCAT(`airlines`.`code`, `flights`.`code`) AS `flight`, `aircrafts`.`reg` AS `reg`, `watchlist`.`comment` AS `comment`, `users`.`name` AS `name`, `users`.`email` AS `email`, `users`.`notification-timefmt` AS `fmt`, `users`.`language` AS `lang` FROM `watchlist-notifications` LEFT JOIN `watchlist` ON `watchlist-notifications`.`watch` = `watchlist`.`id` LEFT JOIN `flights` ON `watchlist-notifications`.`flight` = `flights`.`id` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` LEFT JOIN `aircrafts` ON `flights`.`aircraft` = `aircrafts`.`id` LEFT JOIN `users` ON `watchlist`.`user` = `users`.`id` WHERE IFNULL(`flights`.`expected`, `flights`.`scheduled`) > '0000-00-00 15:00:00' AND `notified` IS NULL AND TIME('0000-00-00 15:00:00') BETWEEN `users`.`notification-from` AND `users`.`notification-until` ORDER BY `email` ASC, `expected` ASC
-DELETE `watchlist-notifications` FROM `watchlist-notifications` INNER JOIN `flights` ON `flights`.`id`=`watchlist-notifications`.`flight` WHERE (DATEDIFF('0000-00-00 15:00:00', IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 1)
+INSERT INTO `watchlist-notifications`(`flight`, `watch`)  SELECT `flights`.`id`, `watchlist`.`id` FROM `watchlist` INNER JOIN `aircrafts` ON `aircrafts`.`reg` LIKE REPLACE(REPLACE(`watchlist`.`reg`, '*', '%'), '?', '_') INNER JOIN (SELECT `id`, `direction`, IFNULL(`expected`, `scheduled`) AS `expected`, `aircraft` FROM `flights` WHERE `aircraft` IS NOT NULL) AS `flights` ON `aircrafts`.`id` = `flights`.`aircraft` LEFT JOIN `watchlist-notifications` ON `watchlist-notifications`.`flight` = `flights`.`id` WHERE `watchlist`.`notify` = TRUE AND `watchlist-notifications`.`flight` IS NULL AND 'arrival' = `flights`.`direction` AND `expected` > '0000-00-00T15:00:00+0100' FOR UPDATE
+SELECT `watchlist-notifications`.`id` AS `id`, UNIX_TIMESTAMP(IFNULL(`flights`.`expected`, `flights`.`scheduled`)) AS `expected`, CONCAT(`airlines`.`code`, `flights`.`code`) AS `flight`, `aircrafts`.`reg` AS `reg`, `watchlist`.`comment` AS `comment`, `users`.`name` AS `name`, `users`.`email` AS `email`, `users`.`notification-timefmt` AS `fmt`, `users`.`language` AS `lang` FROM `watchlist-notifications` LEFT JOIN `watchlist` ON `watchlist-notifications`.`watch` = `watchlist`.`id` LEFT JOIN `flights` ON `watchlist-notifications`.`flight` = `flights`.`id` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` LEFT JOIN `aircrafts` ON `flights`.`aircraft` = `aircrafts`.`id` LEFT JOIN `users` ON `watchlist`.`user` = `users`.`id` WHERE IFNULL(`flights`.`expected`, `flights`.`scheduled`) > '0000-00-00T15:00:00+0100' AND `notified` IS NULL AND FROM_UNIXTIME(1450447200, '%H:%i:%s') BETWEEN `users`.`notification-from` AND `users`.`notification-until` ORDER BY `email` ASC, `expected` ASC
+DELETE `watchlist-notifications` FROM `watchlist-notifications` INNER JOIN `flights` ON `flights`.`id`=`watchlist-notifications`.`flight` WHERE (DATEDIFF('0000-00-00T15:00:00+0100', IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 1)
 
 
 === fin. ===

@@ -483,10 +483,10 @@ foreach ($watch as $reg => $comment)
 // Make sure we use the correct timezone
 $tz = date_default_timezone_set('Europe/Berlin');
 
-if (isset($_GET['now']))
-	$now = $_GET['now'];
+if (isset($_GET['time']))
+	$now = $_GET['time'];
 else
-	$now = strftime('%Y-%m-%d %H:%M:%S');
+	$now = date(DATE_ISO8601);
 
 /* This might be configurable in the future... */
 /* Variable: */
@@ -522,8 +522,8 @@ $query = <<<EOF
 	 LEFT JOIN `aircrafts` ON `flights`.`aircraft` = `aircrafts`.`id`
 	 LEFT JOIN `visits` ON `flights`.`aircraft` = `visits`.`aircraft`
 	WHERE `flights`.`direction`='$dir'
-	 AND TIME_TO_SEC(TIMEDIFF(IFNULL(`expected`, `scheduled`), '$now')) >= $lookback
-	 AND TIME_TO_SEC(TIMEDIFF(IFNULL(`expected`, `scheduled`), '$now')) <= $lookahead
+	 AND TIMESTAMPDIFF(SECOND, '$now', IFNULL(`expected`, `scheduled`)) >= $lookback
+	 AND TIMESTAMPDIFF(SECOND, '$now', IFNULL(`expected`, `scheduled`)) <= $lookahead
 	ORDER BY `expected` ASC, `airlines`.`code`, `flights`.`code`;
 EOF;
 

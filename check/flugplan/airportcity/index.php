@@ -174,21 +174,21 @@ else
 	}
 }
 
-/* For testing, read current time to file */
-$file = file('querytime');
+$tz = date_default_timezone_set('Europe/Berlin');
 
-if (!$file)
-{
-	/* Default to now, if no input file is found */
-	$querytime = strftime('0 %H:%M');
-}
-else
-{
-	$querytime = trim($file[0]);
-	list($query['day'], $query['time']) = explode(' ', $querytime);
+$now = time();
 
-	unset($file);
-}
+if (isset($_GET['time']))
+	$now = strtotime($_GET['time']);
+
+$today = strtotime('00:00');
+
+$today = ($now - $today) / 86400;
+$today = (int)$today;
+
+$querytime = strftime("$today %H:%M", $now);
+
+list($query['day'], $query['time']) = explode(' ', $querytime);
 
 if ($direction)
 {

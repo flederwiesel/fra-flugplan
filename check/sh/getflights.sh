@@ -93,10 +93,8 @@ do
 		dHHMM=$(printf '%02u' $day)-$(date +'%H%M' --date="$time")
 
 		offset=$(date +'%Y-%m-%d' --date="+$day days")
-		now=$(date +'%Y-%m-%d %H:%M:%S' --date="$offset $time")
+		now=$(date +'%Y-%m-%dT%H:%M:%S%z' --date="$offset $time")
 		now=$(rawurlencode $now)
-
-		echo "$day $time" > flugplan/airportcity/querytime
 
 		# Check notification time format string
 		case "$day $time" in
@@ -132,12 +130,15 @@ SQL
 			query "USE fra-schedule; UPDATE visits SET previous=NULL WHERE aircraft=7"
 		fi
 
-		check "$dHHMM-getflights" curl "$url/getflights.php?baseurl=$baseurl\&now=$now\&debug=url,query\&fmt=html"\
+		check "$dHHMM-getflights" curl "$url/getflights.php?baseurl=$baseurl\&time=$now\&debug=url,query\&fmt=html"\
 			"| sed -r '
 			s/Dauer: [0-9]+.[0-9]+s/Dauer: 0.000s/g
 			s/(fi[ad]=[A-Z0-9]+)$YYYYmmdd_0$/\100000000/g
 			s/(fi[ad]=[A-Z0-9]+)$YYYYmmdd_1$/\100000001/g
 			s/(fi[ad]=[A-Z0-9]+)$YYYYmmdd_2$/\100000002/g
+			s/$YYYY_mm_dd_0/0000-00-00/g
+			s/$YYYY_mm_dd_1/0000-00-01/g
+			s/$YYYY_mm_dd_2/0000-00-02/g
 			s/$YYYY_mm_dd_0 ([0-9]{2}:[0-9]{2}(:[0-9]{2})?)/0000-00-00 \1/g
 			s/$YYYY_mm_dd_1 ([0-9]{2}:[0-9]{2}(:[0-9]{2})?)/0000-00-01 \1/g
 			s/$YYYY_mm_dd_2 ([0-9]{2}:[0-9]{2}(:[0-9]{2})?)/0000-00-02 \1/g
@@ -182,19 +183,19 @@ SQL
 				$ a </html>
 			'"
 
-		check "$dHHMM-arrival" curl "$url/?arrival\&now=$now"\
+		check "$dHHMM-arrival" curl "$url/?arrival\&time=$now"\
 			"| sed -r '
-				s/now=$YYYY_mm_dd_0/now=0000-00-00/g
-				s/now=$YYYY_mm_dd_1/now=0000-00-01/g
+				s/$YYYY_mm_dd_0/0000-00-00/g
+				s/$YYYY_mm_dd_1/0000-00-01/g
 			'"
 
 		# Note, that RARE A/C will not be marked as such,
 		# since we use different a/c in arrival/departure.csv,
 		# and only arrivals will evaluate visits
-		check "$dHHMM-departure" curl "$url/?departure\&now=$now"\
+		check "$dHHMM-departure" curl "$url/?departure\&time=$now"\
 			"| sed -r '
-				s/now=$YYYY_mm_dd_0/now=0000-00-00/g
-				s/now=$YYYY_mm_dd_1/now=0000-00-01/g
+				s/$YYYY_mm_dd_0/0000-00-00/g
+				s/$YYYY_mm_dd_1/0000-00-01/g
 			'"
 
 		notifications=$(query 'USE `fra-schedule`;
@@ -228,16 +229,16 @@ do
 	now=$(date +'%Y-%m-%d %H:%M:%S' --date="$offset 05:00")
 	now=$(rawurlencode $now)
 
-	echo "$day 05:00" > flugplan/airportcity/querytime
-
-	check "$dHHMM-getflights" curl "$url/getflights.php?baseurl=$baseurl\&now=$now\&debug=url,query\&fmt=html"\
+	check "$dHHMM-getflights" curl "$url/getflights.php?baseurl=$baseurl\&time=$now\&debug=url,query\&fmt=html"\
 		"| sed -r '
 		s/Dauer: [0-9]+.[0-9]+s/Dauer: 0.000s/g
-		s/(fi[ad]=[A-Z0-9]+)$YYYYmmdd_0$/\100000000/g
-		s/(fi[ad]=[A-Z0-9]+)$YYYYmmdd_1$/\100000001/g
-		s/(fi[ad]=[A-Z0-9]+)$YYYYmmdd_2$/\100000002/g
-		s/$YYYY_mm_dd_2 ([0-9]{2}:[0-9]{2}(:[0-9]{2})?)/0000-00-02 \1/g
-		s/$YYYY_mm_dd_3 ([0-9]{2}:[0-9]{2}(:[0-9]{2})?)/0000-00-03 \1/g
+		s/(fi[ad]=[A-Z0-9]+)$YYYYmmdd_0\$/\100000000/g
+		s/(fi[ad]=[A-Z0-9]+)$YYYYmmdd_1\$/\100000001/g
+		s/(fi[ad]=[A-Z0-9]+)$YYYYmmdd_2\$/\100000002/g
+		s/$YYYY_mm_dd_0/0000-00-00/g
+		s/$YYYY_mm_dd_1/0000-00-01/g
+		s/$YYYY_mm_dd_2/0000-00-02/g
+		s/$YYYY_mm_dd_3/0000-00-03/g
 		s#(http://[^/]+/).*/check/(.*)#\1.../\2#g
 		'"
 

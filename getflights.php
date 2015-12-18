@@ -48,7 +48,8 @@ $tz = date_default_timezone_set('Europe/Berlin');
 
 $baseurl = 'www.frankfurt-airport.de';
 $rwyinfo = 'apps.fraport.de';
-$now = strftime('%Y-%m-%d %H:%M:%S');
+$now = new StdClass();
+$now->time_t = time();
 $cycle = '5 min';
 $items = 15;
 
@@ -58,12 +59,17 @@ if (isset($_GET['baseurl']))
 	$baseurl = $_GET['baseurl'];
 	$rwyinfo = $_GET['baseurl'];
 
-	if (isset($_GET['now']))
-		$now = $_GET['now'];
+	if (isset($_GET['time']))
+	{
+		$now->atom = $_GET['time'];
+		$now->time_t = strtotime($now->atom);
+	}
 
 	$cycle = '60 min';
 	$items = 3;
 }
+
+$now->url = urlencode($now->atom);
 
 if (isset($_GET['debug']))
 {
@@ -488,7 +494,7 @@ class awkFlights extends awk
 				// Don't update flight any more, unless $flight->expected is
 				// in the future (respecting an offset of $cycle)
 				if ($obj->top->expected)
-					if (strtotime($obj->top->expected) < strtotime("-$cycle", strtotime($now)))
+					if (strtotime($obj->top->expected) < strtotime("-$cycle", $now->time_t))
 						$obj->top->scheduled = NULL;
 			}
 			else if (preg_match('/<p>Gate offen<\/p>/', $remark) ||
@@ -503,13 +509,13 @@ class awkFlights extends awk
 					// the latter will be overwritten by $now!
 					if (NULL == $obj->top->expected)
 					{
-						if (strtotime($obj->top->scheduled) < strtotime($now))
-							$obj->top->expected = strftime('%Y-%m-%d %H:%M', strtotime("+$cycle", strtotime($now)));
+						if (strtotime($obj->top->scheduled) < $now->time_t)
+							$obj->top->expected = strftime('%Y-%m-%d %H:%M', strtotime("+$cycle", $now->time_t));
 					}
 					else
 					{
-						if (strtotime($obj->top->expected) < strtotime($now))
-							$obj->top->expected = strftime('%Y-%m-%d %H:%M', strtotime("+$cycle", strtotime($now)));
+						if (strtotime($obj->top->expected) < $now->time_t)
+							$obj->top->expected = strftime('%Y-%m-%d %H:%M', strtotime("+$cycle", $now->time_t));
 					}
 				}
 			}
@@ -596,6 +602,7 @@ class awkAirports extends awk
 function CURL_GetFlights($curl, $dir, &$flights)
 {
 	global $DEBUG;
+	global $now;
 	global $baseurl;
 	global $items;
 
@@ -634,7 +641,7 @@ function CURL_GetFlights($curl, $dir, &$flights)
 		{
 			/* Build request URL */
 			$url = "http://$baseurl/flugplan/airportcity?".
-				   "type=$dir&typ=p&context=0&sprache=de&items=$items&$action=true&page=$page";
+				   "type=$dir&time=$now->url&typ=p&context=0&sprache=de&items=$items&$action=true&page=$page";
 
 			if (isset($DEBUG['url']))
 				echo "$url\n";
@@ -714,7 +721,8 @@ function CURL_GetFlightAirports($curl, $flights, &$airports)
 		while ($fi = $flights->pop())
 		{
 			$date = substr($fi[3], 0, 4).substr($fi[3], 5, 2).substr($fi[3], 8, 2);
-			$url = "http://$baseurl/flugplan/airportcity?fi".
+			$url = "http://$baseurl/flugplan/airportcity?time=$now->url&".
+						"fi".
 						substr($fi[4], 0, 1)."=".	// 'a'/'d' -> arrival/departure
 						$fi[1].$fi[2].				// LH1234
 						$date;						// 20120603
@@ -1674,16 +1682,17 @@ SQL;
 	return $error;
 }
 
-function SendWatchlistNotification($name, $email, $now, $fmt, $lang, $notifications)
+function SendWatchlistNotification($name, $email, $fmt, $lang, $notifications)
 {
 	global $DEBUG;
+	global $now;
 
 	if ('de' == $lang)
 		$lang = setlocale(LC_TIME, 'deu', 'deu_deu');
 	else
 		$lang = setlocale(LC_TIME, 'eng', 'english-uk', 'uk', 'enu', 'english-us', 'us', 'english', 'C');
 
-	$today = mktime_c(gmstrftime('%d.%m.%Y', $now));
+	$today = mktime_c(gmstrftime('%d.%m.%Y', $now->time_t));
 
 	if (NULL == $fmt)
 		$fmt = '%+ %H:%M';
@@ -1740,11 +1749,6 @@ function SendWatchlistNotification($name, $email, $now, $fmt, $lang, $notificati
 	}
 	else
 	{
-		if (isset($_GET['now']))
-			$now = $_GET['now'];
-		else
-			$now = gmstrftime('%Y-%m-%d %H:%M:%S', $now);	/* $now is UTC */
-
 		$query = <<<SQL
 			UPDATE `watchlist-notifications`
 			LEFT JOIN `watchlist`
@@ -1752,7 +1756,7 @@ function SendWatchlistNotification($name, $email, $now, $fmt, $lang, $notificati
 			INNER JOIN `users`
 					ON `users`.`id`=`watchlist`.`user`
 						AND `users`.`email`='$email'
-			SET `watchlist-notifications`.`notified`='$now'
+			SET `watchlist-notifications`.`notified`='$now->atom'
 			WHERE `watchlist-notifications`.`id` IN(%s)
 SQL;
 
@@ -1949,9 +1953,9 @@ else
 			LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id`
 			WHERE `airport` IS NULL
 			AND
-			 (`scheduled` >= '$now'
-			  OR `expected` >= '$now'
-			  OR (TIME_TO_SEC(TIMEDIFF('$now', `scheduled`)) / 60 / 60) < 2)
+			 (`scheduled` >= '$now->atom'
+			  OR `expected` >= '$now->atom'
+			  OR (TIME_TO_SEC(TIMEDIFF('$now->atom', `scheduled`)) / 60 / 60) < 2)
 			ORDER BY `scheduled`;
 SQL;
 
@@ -2018,11 +2022,6 @@ if (!$error)
 		if (isset($DEBUG['any']))
 			echo "\n";
 
-		if (isset($_GET['now']))
-			$now = "'$_GET[now]'";
-		else
-			$now = 'NOW()';
-
 		$query = <<<SQL
 			INSERT INTO `watchlist-notifications`(`flight`, `watch`)
 
@@ -2045,7 +2044,7 @@ if (!$error)
 			WHERE `watchlist`.`notify` = TRUE
 				AND `watchlist-notifications`.`flight` IS NULL
 				AND 'arrival' = `flights`.`direction`
-				AND `expected` > $now
+				AND `expected` > '$now->atom'
 			FOR UPDATE
 SQL;
 
@@ -2064,7 +2063,6 @@ SQL;
 			$query = <<<SQL
 				SELECT
 					`watchlist-notifications`.`id` AS `id`,
-					UNIX_TIMESTAMP($now) AS `now`,
 					UNIX_TIMESTAMP(IFNULL(`flights`.`expected`, `flights`.`scheduled`)) AS `expected`,
 					CONCAT(`airlines`.`code`,
 						   `flights`.`code`) AS `flight`,
@@ -2085,10 +2083,10 @@ SQL;
 					ON `flights`.`aircraft` = `aircrafts`.`id`
 				LEFT JOIN `users`
 					ON `watchlist`.`user` = `users`.`id`
-				WHERE IFNULL(`flights`.`expected`, `flights`.`scheduled`) > $now
+				WHERE IFNULL(`flights`.`expected`, `flights`.`scheduled`) > '$now->atom'
 				AND `notified` IS NULL
 				AND
-				 TIME($now)
+				 FROM_UNIXTIME($now->time_t, '%H:%i:%s')
 				 BETWEEN `users`.`notification-from`
 					 AND `users`.`notification-until`
 				ORDER BY
@@ -2126,19 +2124,18 @@ SQL;
 					if ($email != $row['email'])
 					{
 						/* We get here every time $row['email'] changes, at least */
-						/* once at the beginning, i.e. $now and $fmt will be set, */
+						/* once at the beginning, i.e. $time and $fmt will be set, */
 						/* if one row has been found  */
 						if ($email != NULL)
 						{
 							/* Flush */
-							SendWatchlistNotification($name, $email, $time, $fmt, $lang, $notifications);
+							SendWatchlistNotification($name, $email, $fmt, $lang, $notifications);
 							$notifications = array();
 						}
 
 						/* Remember first ID of new email */
 						$email = $row['email'];
 						$name = $row['name'];
-						$time = $row['now'];
 						$fmt = $row['fmt'];
 						$lang = $row['lang'];
 					}
@@ -2155,7 +2152,7 @@ SQL;
 				}
 
 				if ($email)
-					SendWatchlistNotification($name, $email, $time, $fmt, $lang, $notifications);
+					SendWatchlistNotification($name, $email, $fmt, $lang, $notifications);
 
 				unset($notifications);
 
@@ -2169,7 +2166,7 @@ SQL;
 			FROM `watchlist-notifications`
 			INNER JOIN `flights`
 			        ON `flights`.`id`=`watchlist-notifications`.`flight`
-			WHERE (DATEDIFF($now, IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 1)
+			WHERE (DATEDIFF('$now->atom', IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 1)
 SQL;
 
 		if (isset($DEBUG['query']))
