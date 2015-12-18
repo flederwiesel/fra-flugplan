@@ -645,62 +645,56 @@ function /* char *error */ RegisterUserSql($user, $email, $password, $language)
 
 		if ($curl)
 		{
-			// http://api.stopforumspam.org/api?ip=127.0.0.1&email=hausmeister%40flederwiesel.com&username=flederwiesel
-			// api.stopforumspam.org/api?ip=27.153.229.119&email=compactzmtn@gmail.com&username=ljdwefdsyrovtq
+			/* Suspected spam? */
 			$htm = curl_download($curl,
-						sprintf("http://api.stopforumspam.org/api?ip=%s&email=%s&username=%s",
+						sprintf("http://api.stopforumspam.org/api?f=json&ip=%s&email=%s&username=%s",
 								$ipaddr, urlencode($email), urlencode($user)));
-
-			/*
-			$htm = <<<EOF
-			<response success="true">
-				<type>ip</type>
-				<appears>no</appears>
-				<frequency>0</frequency>
-				<type>email</type>
-				<appears>no</appears>
-				<frequency>0</frequency>
-				<type>username</type>
-				<appears>no</appears>
-				<frequency>0</frequency>
-			</response>
-EOF;
-			$htm = <<<EOF
-			<response success="true">
-				<type>ip</type>
-				<appears>yes</appears>
-				<lastseen>2014-08-09 09:09:05</lastseen>
-				<frequency>290</frequency>
-				<type>email</type>
-				<appears>yes</appears>
-				<lastseen>2014-08-09 09:09:05</lastseen>
-				<frequency>3597</frequency>
-				<type>username</type>
-				<appears>yes</appears>
-				<lastseen>2014-08-09 09:02:02</lastseen>
-				<frequency>51</frequency>
-			</response>
-EOF;
-			*/
-
-			$htm = preg_replace('/.*<\/?response.*/', '', $htm);
-			$htm = preg_replace('/.*<frequency>([0-9]+).*/', '$1,', $htm);
-			$htm = preg_replace('/.*<type>([^<]+).*/', '$1=', $htm);
-			$htm = preg_replace('/.*<appears>.*/', '$1', $htm);
-			$htm = preg_replace('/.*<lastseen>.*/', '$1', $htm);
-			$htm = preg_replace('/[\t\n]+/', '', $htm);
-			$htm = preg_replace('/,$/', '', $htm);
-
-			if ($htm != 'ip=0,email=0,username=0')
+/*
+{
+  "success": 1,
+  "username": {
+    "lastseen": "2015-12-18 19:38:00",
+    "frequency": 1,
+    "appears": 1,
+    "confidence": 16.34
+  },
+  "email": {
+    "lastseen": "2015-12-18 20:35:11",
+    "frequency": 536,
+    "appears": 1,
+    "confidence": 99.05
+  },
+  "ip": {
+    "lastseen": "2015-12-18 20:36:15",
+    "frequency": 65535,
+    "appears": 1,
+    "confidence": 99.99
+  }
+}
+*/
+			if ($htm)
 			{
-				/* Suspected spam */
-				$admin .=
-					sprintf("\nSuspected spam: $htm:".
-							"\nReport: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz".
-							"&ip_addr=%s&email=%s&username=%s&evidence=Automated%%20registration%%2e".
-							"\nDelete: http://%s?admin=userdel&uid=$uid\n",
-							$ipaddr, urlencode($email), urlencode($user),
-							$_SERVER['SERVER_NAME']);
+				$json = (object)json_decode($htm);
+
+				if ($json)
+				{
+					if ($json->username->appears ||
+						$json->email->appears ||
+						$json->ip->appears)
+					{
+						$admin .=
+							sprintf("\nSuspected spam:\n%s=%s\n%s=%s\n%s=%s\n".
+									"\nReport: http://www.stopforumspam.com/add.php?".
+									"api_key=nrt20iomfc34sz&ip_addr=%s&email=%s&username=%s".
+									"&evidence=Automated%%20registration%%2e".
+									"\nDelete: http://%s?admin=userdel&uid=$uid\n",
+									$user, $json->username->appears ? $json->username->confidence : 0,
+									$email, $json->email->appears ? $json->email->confidence : 0,
+									$ipaddr, $json->ip->appears ? $json->ip->confidence : 0,
+									$ipaddr, urlencode($email), urlencode($user),
+									$_SERVER['SERVER_NAME']);
+					}
+				}
 			}
 		}
 	}
