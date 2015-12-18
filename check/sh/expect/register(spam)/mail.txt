@@ -1,6 +1,6 @@
 Date: Day, 0 Month 0000 00:00:00 +0000
 Subject: Account activation
-To: compactzmtn@gmail.com
+To: uproot356973135@gmail.com
 From: Frankfurt Aviation Friends <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
@@ -10,13 +10,13 @@ X-Mailer: PHP/*
 
 Hello,
 
-this e-mail has been sent to you because you (or someone else at IP address <localhost>) requested user registration as 'ljdwefdsyrovtq' at Frankfurt Aviation Friends (www.frankfurt-aviation-friends.de).
+this e-mail has been sent to you because you (or someone else at IP address <localhost>) requested user registration as 'wyeepqxbal' at Frankfurt Aviation Friends (www.frankfurt-aviation-friends.de).
 
 Activation token is:
 ***
 
 You can also use this link to process your request:
-http://localhost/.../index.php?req=activate&user=ljdwefdsyrovtq&token=***
+http://localhost/.../index.php?req=activate&user=wyeepqxbal&token=***
 This token will expire on 0000-00-00 00:00:00 GMT.
 
 Please ignore this e-mail if you did not request a registration. Our apologies for any inconvenience.
@@ -34,10 +34,14 @@ Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
 X-Mailer: PHP/*
 
-2:ljdwefdsyrovtq <compactzmtn@gmail.com> (expires 0000-00-00 00:00:00) = OK
+2:wyeepqxbal <uproot356973135@gmail.com> (expires 0000-00-00 00:00:00) = OK
 
-Suspected spam: ip=*,email=*,username=*:
-Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=<localhost>&email=compactzmtn%40gmail.com&username=ljdwefdsyrovtq&evidence=Automated%20registration%2e
+Suspected spam:
+wyeepqxbal=0
+uproot356973135@gmail.com=0
+<localhost>=0
+
+Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=<localhost>&email=uproot356973135%40gmail.com&username=wyeepqxbal&evidence=Automated%20registration%2e
 Delete: http://localhost?admin=userdel&uid=2
 
 ======================================================

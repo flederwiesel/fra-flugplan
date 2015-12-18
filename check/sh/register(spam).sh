@@ -22,8 +22,8 @@ sed='s/(ip=)[0-9]+(,email=)[0-9]+(,username=)[0-9]+/\1*\2*\3*/g'
 ###############################################################################
 
 check "1" curl "$url/?req=register" \
-		--data-urlencode "email=compactzmtn@gmail.com" \
-		--data-urlencode "user=ljdwefdsyrovtq" \
+		--data-urlencode "email=uproot356973135@gmail.com" \
+		--data-urlencode "user=wyeepqxbal" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
