@@ -39,7 +39,7 @@ do
 
 		while [ $page -gt 0 ]
 		do
-			htm=$(curl "$url/check/flugplan/airportcity/?type=arrival&time=$(rawurlencode $YYYYmmddTHHMMSSZ)&items=3&page=$page")
+			htm=$(curl "$url/www.frankfurt-airport.com/?type=arrival&time=$(rawurlencode $YYYYmmddTHHMMSSZ)&items=3&page=$page")
 			next=$(awk 'BEGIN {
 					page = 0;
 				}
@@ -78,18 +78,18 @@ do
 	YYYYmmdd=$(date +%Y%m%d --date="+$day days")
 	YYYYmmddTHHMMSSZ=$(date +'%Y-%m-%dT%H:%M:%S%z' --date="+$day day 06:00")
 
-	check "$day-0600-fia" curl "$url/check/flugplan/airportcity/?time=$(rawurlencode $YYYYmmddTHHMMSSZ)\&fia=SA260$YYYYmmdd" \
+	check "$day-0600-fia" curl "$url/www.frankfurt-airport.com/?time=$(rawurlencode $YYYYmmddTHHMMSSZ)\&fia=SA260$YYYYmmdd" \
 		"| sed -r 's/[0-9]{2}\\.[0-9]{2}\\.[0-9]{4}/00.00.0000/g'"
 
-	check "$day-0600-fid" curl "$url/check/flugplan/airportcity/?time=$(rawurlencode $YYYYmmddTHHMMSSZ)\&fid=SA261$YYYYmmdd" \
+	check "$day-0600-fid" curl "$url/www.frankfurt-airport.com/?time=$(rawurlencode $YYYYmmddTHHMMSSZ)\&fid=SA261$YYYYmmdd" \
 		"| sed -r 's/[0-9]{2}\\.[0-9]{2}\\.[0-9]{4}/00.00.0000/g'"
 done
 
 YYYYmmdd=$(date +%Y%m%d --date="+$day days")
 YYYYmmddTHHMMSSZ=$(date +'%Y-%m-%dT%H:%M:%S%z' --date="+1 day 23:00")
 
-check "1-2300-fia" curl "$url/check/flugplan/airportcity/?time=$(rawurlencode $YYYYmmddTHHMMSSZ)\&fia=SA260$YYYYmmdd" \
+check "1-2300-fia" curl "$url/www.frankfurt-airport.com/?time=$(rawurlencode $YYYYmmddTHHMMSSZ)\&fia=SA260$YYYYmmdd" \
 	"| sed -r 's/[0-9]{2}\\.[0-9]{2}\\.[0-9]{4}/00.00.0000/g'"
 
-check "1-2300-fid" curl "$url/check/flugplan/airportcity/?time=$(rawurlencode $YYYYmmddTHHMMSSZ)\&fid=SA261$YYYYmmdd" \
+check "1-2300-fid" curl "$url/www.frankfurt-airport.com/?time=$(rawurlencode $YYYYmmddTHHMMSSZ)\&fid=SA261$YYYYmmdd" \
 	"| sed -r 's/[0-9]{2}\\.[0-9]{2}\\.[0-9]{4}/00.00.0000/g'"

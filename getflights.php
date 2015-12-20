@@ -53,7 +53,11 @@ $now->time_t = time();
 $cycle = '5 min';
 $items = 15;
 
-if (isset($_GET['baseurl']))
+if (!isset($_GET['baseurl']))
+{
+	$now->atom = date(DATE_ISO8601, $now->time_t);
+}
+else
 {
 	/* Those may be overridden for testing */
 	$baseurl = $_GET['baseurl'];
@@ -640,8 +644,8 @@ function CURL_GetFlights($curl, $dir, &$flights)
 		do
 		{
 			/* Build request URL */
-			$url = "http://$baseurl/flugplan/airportcity?".
-				   "type=$dir&time=$now->url&typ=p&context=0&sprache=de&items=$items&$action=true&page=$page";
+			$url = "http://$baseurl/?type=$dir&time=$now->url".
+				   "&typ=p&context=0&sprache=de&items=$items&$action=true&page=$page";
 
 			if (isset($DEBUG['url']))
 				echo "$url\n";
@@ -721,7 +725,7 @@ function CURL_GetFlightAirports($curl, $flights, &$airports)
 		while ($fi = $flights->pop())
 		{
 			$date = substr($fi[3], 0, 4).substr($fi[3], 5, 2).substr($fi[3], 8, 2);
-			$url = "http://$baseurl/flugplan/airportcity?time=$now->url&".
+			$url = "http://$baseurl/?time=$now->url&".
 						"fi".
 						substr($fi[4], 0, 1)."=".	// 'a'/'d' -> arrival/departure
 						$fi[1].$fi[2].				// LH1234

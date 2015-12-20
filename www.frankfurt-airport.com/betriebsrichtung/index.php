@@ -1,4 +1,6 @@
-<html><head><script type="text/javascript" src="http://www.fraport.de/apps/dfra_corporate/docroot/frontend/js/lib/lib.min.js"></script><script type="text/javascript">/*!
+<html><head><script type="text/javascript" src="http://www.fraport.de/apps/dfra_corporate/docroot/frontend/js/lib/lib.min.js"></script><link rel="stylesheet" type="text/css" href="ch_mobile_styles.css" />
+<script type="text/javascript">
+/*!
  * webTicker 1.3
  * Examples and documentation at:
  * http://jonmifsud.com
@@ -143,12 +145,14 @@
   };
 
 })( jQuery );</script>
+<style type='text/css'>
 <style type='text/css'>h2, h3 {page-break-after: avoid;}h1, h2, h3, h4, p {
             margin: 0;
             padding: 0;
         }h1, h2, h3, .titel {
             font-style: italic;
             font-weight: bold;
+            color: #666;
         }h1 {
             font-size: 28px;
             line-height: 30px;
@@ -160,16 +164,9 @@
         }h3 {
             font-size: 17px;
             line-height: 19px;
-            margin-bottom: 18px;
-        }a {
-            color: #000091;
-            text-decoration: none;
-        }.titel {
-            font-size: 17px;
-            line-height: 10px;
-            margin-bottom: 20px;
-        }.tickercontainer { /* the outer div with the black border */
-width: 632px;
+        }body { background-color: white}
+.tickercontainer { /* the outer div with the black border */
+width: 1760px;
 margin: 0;
 padding: 0;
 overflow: hidden;
@@ -183,7 +180,7 @@ overflow: hidden;
 }
 ul.newsticker { /* that's your list */
 position: relative;
-/*left: 750px;*/
+/*left: 950px;*/
 list-style-type: none;
 margin: 0;
 padding: 0;
@@ -191,19 +188,53 @@ padding: 0;
 ul.newsticker li {
 float: left; /* important: display inline gives incorrect results when you check for elem's width */
 margin: 0;
-padding-right: 90px;
+padding-right: 130px;
 /*background: #fff;*/
 }</style>
 </head><body><script type="text/javascript">
 jQuery(function(){
-    jQuery("#webticker").webTicker({travelocity: 0.042});
+    jQuery("#webticker").webTicker({travelocity: 0.085});
 });
-</script><div style="font-family:Arial,Helvetica,Verdana,sans-serif;color: rgb(102,102,102);font-size: 12px;padding:8px;width:632px;height:85px;margin: 5px 0px;">
-<div class="titel" style="margin-bottom:0px;padding-right:8px;float:left;padding-top:3px;padding-bottom:7px;">Flugbetrieb Frankfurt</div> <div>Stand: 00.00.0000, 00:00:00 Uhr</div>
+</script><div class='dfra_module_block'><div class='dfra_textblock_content'><div class="titel" style="margin-bottom:0px;padding-right:8px;float:left;"><h3>Flugbetrieb Frankfurt</h3></div><div style="padding:3px;"><b>Stand: 08.12.2015, 11:30:11 Uhr</b></div>
+<?php
+	if (!isset($_GET['rwy']))
+	{
+		$rwy = "18,99";
+	}
+	else
+	{
+		$rwy = $_GET['rwy'];
+
+		switch ($rwy)
+		{
+		case "07":
+		case "07,18":
+		case "25":
+		case "25,18":
+			;
+
+		default:
+			$rwy = "18,99";
+		}
+	}
+?>
 <ul id="webticker">
-    <li><div><div class="titel" style=" padding-top:6px;margin-bottom:0px;padding-bottom:3px;">+++ Betriebsrichtung +++ </div><div style="font-size:12px;"><b> 99 (99)</b></div><div style="font-size:12px;padding-right:125px;"> seit 00.00.0000, 00:00:00</div></div>   </li>
-    <li><div><div class="titel" style=" padding-top:6px;margin-bottom:0px;padding-bottom:3px;">+++ Startbahn +++</div> <div style="font-size:12px;"><b>18 West</b></div><div style="font-size:12px;padding-right:125px;"> in Betrieb</div></div></li>
-    <li><div><div class="titel" style=" padding-top:6px;margin-bottom:0px;padding-bottom:3px;">+++ Wetterkategorie +++ </div><div style="font-size:12px;"><b>CAT I</b></div><div style="font-size:12px;padding-right:125px;"> seit 00.00.0000, 00:00:00</div></div>   </li>
+    <li><div><div class="titel" style=" padding-top:6px;margin-bottom:0px;padding-bottom:3px;">+++ Betriebsrichtung +++ </div><div style="font-size:12px;"><b> <?php
+	if (strstr($rwy, '07'))
+		echo "07 (Ost-Betrieb)";
+	else if (strstr($rwy, '25'))
+		echo "25 (West-Betrieb)";
+	else
+		echo "99";
+?></b></div><div style="font-size:12px;padding-right:100px;"> seit 29.11.2015, 02:34:15</div></div>   </li>
+    <li><div><div class="titel" style=" padding-top:6px;margin-bottom:0px;padding-bottom:3px;">+++ Startbahn +++</div> <div style="font-size:12px;"><b><?php
+	if (strstr($rwy, '18'))
+    	echo "18 West";
+?></b></div><div style="font-size:12px;padding-right:130px;"> <?php
+	if (strstr($rwy, '18'))
+		echo "in Betrieb";
+?></div></div></li>
+    <li><div><div class="titel" style=" padding-top:6px;margin-bottom:0px;padding-bottom:3px;">+++ Wetterkategorie +++ </div><div style="font-size:12px;"><b>CAT III</b></div><div style="font-size:12px;padding-right:100px;"> seit 29.11.2015, 02:34:15</div></div></div>   </li>
 </ul>
 
-</div></body></html>
+</div></div></body></html>
