@@ -53,6 +53,15 @@ set -- "${argv[@]}"
 
 ###############################################################################
 
+chkdep() {
+	"$@" &>/dev/null
+
+	if [ $? -ne 0 ]; then
+		echo -e "\033[1;31m$@ failed.\033[m"
+		exit 1
+	fi
+}
+
 alias "mysql=mysql --silent  --protocol=TCP --host=localhost --user=root --password= --default-character-set=utf8"
 alias "curl=curl -s --noproxy localhost --cookie .COOKIES --cookie-jar .COOKIES"
 
@@ -124,6 +133,12 @@ rawurlencode() {
 ###############################################################################
 # <preparation>
 ###############################################################################
+
+chkdep mysql --version
+chkdep curl --version
+chkdep jq --version
+chkdep python --version
+chkdep readlink --version
 
 IFS=$'\n'
 
