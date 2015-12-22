@@ -37,8 +37,8 @@ X-Mailer: PHP/*
 2:wyeepqxbal <uproot356973135@gmail.com> (expires 0000-00-00 00:00:00) = OK
 
 Suspected spam:
-wyeepqxbal=0
-uproot356973135@gmail.com=0
+wyeepqxbal=16.34
+uproot356973135@gmail.com=99.05
 <localhost>=0
 
 Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=<localhost>&email=uproot356973135%40gmail.com&username=wyeepqxbal&evidence=Automated%20registration%2e

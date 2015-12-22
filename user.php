@@ -646,32 +646,13 @@ function /* char *error */ RegisterUserSql($user, $email, $password, $language)
 		if ($curl)
 		{
 			/* Suspected spam? */
+			$stopforumspam = isset($_GET['stopforumspam']) ? "$_GET[stopforumspam]/" : NULL;
+
 			$htm = curl_download($curl,
-						sprintf("http://api.stopforumspam.org/api?f=json&ip=%s&email=%s&username=%s",
+						sprintf("http://${stopforumspam}api.stopforumspam.org/api?".
+								"f=json&ip=%s&email=%s&username=%s",
 								$ipaddr, urlencode($email), urlencode($user)));
-/*
-{
-  "success": 1,
-  "username": {
-    "lastseen": "2015-12-18 19:38:00",
-    "frequency": 1,
-    "appears": 1,
-    "confidence": 16.34
-  },
-  "email": {
-    "lastseen": "2015-12-18 20:35:11",
-    "frequency": 536,
-    "appears": 1,
-    "confidence": 99.05
-  },
-  "ip": {
-    "lastseen": "2015-12-18 20:36:15",
-    "frequency": 65535,
-    "appears": 1,
-    "confidence": 99.99
-  }
-}
-*/
+
 			if ($htm)
 			{
 				$json = (object)json_decode($htm);

@@ -277,8 +277,6 @@ do
 							s/\(code [0-9]+\)/(code ***)/g
 							/(Activation|Password) token is:/ { N; s/\n.+\$/\n***/g }
 							/Das (Aktivierungs-)?Token( dafür)? ist:/ { N; s/\n.+\$/\n***/g }
-							s/(wyeepqxbal=).*/\10/g
-							s/(uproot356973135@gmail.com=).*/\10/g
 						" "$results/mail.txt"
 
 						[ -n "$sed" ] && sed -ri "$sed" "$results/mail.txt"
