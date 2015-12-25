@@ -1,41 +1,41 @@
-0 05:00;0 10:30 /*=14*/;;AC;845;Air Canada;A333;CGFAH /*=3*/;YYC;CYYC;Calgary;Kanada;
-0 06:00;0 10:30;;AC;845;Air Canada;A333;CGFAH;YYC;CYYC;Calgary;Kanada;
-0 07:00;0 10:30;;AC;845;Air Canada;A333;CGFAH;YYC;CYYC;Calgary;Kanada;
-0 08:00;0 10:30;;AC;845;Air Canada;A333;CGFAH;YYC;CYYC;Calgary;Kanada;
-0 09:00;0 10:30;;AC;845;Air Canada;A333;CGFAH;YYC;CYYC;Calgary;Kanada;Gate offen
-0 10:00;0 10:30;;AC;845;Air Canada;A333;CGFAH;YYC;CYYC;Calgary;Kanada;geschlossen
-0 11:00;1 10:30 /*=31*/;;AC;845;Air Canada;A333;;YYC;CYYC;Calgary;Kanada;
-0 12:00;1 10:30;;AC;845;Air Canada;A333;;YYC;CYYC;Calgary;Kanada;
-0 13:00;1 10:30;;AC;845;Air Canada;A333;;YYC;CYYC;Calgary;Kanada;
-0 14:00;1 10:30;;AC;845;Air Canada;A333;;YYC;CYYC;Calgary;Kanada;
-0 15:00;1 10:30;;AC;845;Air Canada;A333;;YYC;CYYC;Calgary;Kanada;
-0 16:00;1 10:30;;AC;845;Air Canada;A333;;YYC;CYYC;Calgary;Kanada;
-0 17:00;1 10:30;;AC;845;Air Canada;A333;;YYC;CYYC;Calgary;Kanada;
-0 18:00;1 10:30;;AC;845;Air Canada;A333;;YYC;CYYC;Calgary;Kanada;
-0 19:00;1 10:30;;AC;845;Air Canada;A333;;YYC;CYYC;Calgary;Kanada;
-0 20:00;1 10:30;;AC;845;Air Canada;A333;CGHLM /*=5*/;YYC;CYYC;Calgary;Kanada;
-0 21:00;1 10:30;;AC;845;Air Canada;A333;CGHLM;YYC;CYYC;Calgary;Kanada;
-0 22:00;1 10:30;;AC;845;Air Canada;A333;CGHLM;YYC;CYYC;Calgary;Kanada;
-0 23:00;1 10:30;;AC;845;Air Canada;A333;CGHLM;YYC;CYYC;Calgary;Kanada;
-;;;;;;;;;;;;
-1 05:00;0 10:30;;AC;845;Air Canada;A333;CGHLM;YYC;CYYC;Calgary;Kanada;
-1 06:00;0 10:30;;AC;845;Air Canada;A333;CGHLM;YYC;CYYC;Calgary;Kanada;
-1 07:00;0 10:30;;AC;845;Air Canada;A333;CGHLM;YYC;CYYC;Calgary;Kanada;
-1 08:00;0 10:30;;AC;845;Air Canada;A333;CGHLM;YYC;CYYC;Calgary;Kanada;
-1 09:00;0 10:30;;AC;845;Air Canada;A333;CGHLM;YYC;CYYC;Calgary;Kanada;Gate offen
-1 10:00;0 10:30;;AC;845;Air Canada;A333;CGHLM;YYC;CYYC;Calgary;Kanada;geschlossen
-1 11:00;0 10:30;;AC;845;Air Canada;A333;CGHLM;YYC;CYYC;Calgary;Kanada;gestartet
-1 12:00;0 10:30;;AC;845;Air Canada;A333;CGHLM;YYC;CYYC;Calgary;Kanada;gestartet
-1 11:00;1 10:30 /*=55*/;;AC;845;Air Canada;A333;;YYC;CYYC;Calgary;Kanada;
-1 12:00;1 10:30;;AC;845;Air Canada;A333;;YYC;CYYC;Calgary;Kanada;
-1 13:00;1 10:30;;AC;845;Air Canada;A333;;YYC;CYYC;Calgary;Kanada;
-1 14:00;1 10:30;;AC;845;Air Canada;A333;;YYC;CYYC;Calgary;Kanada;
-1 15:00;1 10:30;;AC;845;Air Canada;A333;;YYC;CYYC;Calgary;Kanada;
-1 16:00;1 10:30;;AC;845;Air Canada;A333;;YYC;CYYC;Calgary;Kanada;
-1 17:00;1 10:30;;AC;845;Air Canada;A333;;YYC;CYYC;Calgary;Kanada;
-1 18:00;1 10:30;;AC;845;Air Canada;A333;;YYC;CYYC;Calgary;Kanada;
-1 19:00;1 10:30;;AC;845;Air Canada;A333;;YYC;CYYC;Calgary;Kanada;
-1 20:00;1 10:30;;AC;845;Air Canada;A333;CGFAH /*=3*/;YYC;CYYC;Calgary;Kanada;
-1 21:00;1 10:30;;AC;845;Air Canada;A333;CGFAH;YYC;CYYC;Calgary;Kanada;
-1 22:00;1 10:30;;AC;845;Air Canada;A333;CGFAH;YYC;CYYC;Calgary;Kanada;
-1 23:00;1 10:30;;AC;845;Air Canada;A333;CGFAH;YYC;CYYC;Calgary;Kanada;
+#now;dir;sched;esti;lu;typ;al;fnr;alname;iata;ac;reg;status;icao;apname;country
+0 05:00;D;0 10:30 /*=14*/;;;P;AC;845;Air Canada;YYC;A333;CGFAH /*=3*/;;CYYC;Calgary;Kanada
+0 06:00;D;0 10:30;;;P;AC;845;Air Canada;YYC;A333;CGFAH;;CYYC;Calgary;Kanada
+0 07:00;D;0 10:30;;;P;AC;845;Air Canada;YYC;A333;CGFAH;;CYYC;Calgary;Kanada
+0 08:00;D;0 10:30;;;P;AC;845;Air Canada;YYC;A333;CGFAH;;CYYC;Calgary;Kanada
+0 09:00;D;0 10:30;;;P;AC;845;Air Canada;YYC;A333;CGFAH;Gate offen;CYYC;Calgary;Kanada
+0 10:00;D;0 10:30;;;P;AC;845;Air Canada;YYC;A333;CGFAH;geschlossen;CYYC;Calgary;Kanada
+0 11:00;D;1 10:30 /*=31*/;;;P;AC;845;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
+0 12:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
+0 13:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
+0 14:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
+0 15:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
+0 16:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
+0 17:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
+0 18:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
+0 19:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
+0 20:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;CGHLM /*=5*/;;CYYC;Calgary;Kanada
+0 21:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;CGHLM;;CYYC;Calgary;Kanada
+0 22:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;CGHLM;;CYYC;Calgary;Kanada
+0 23:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;CGHLM;;CYYC;Calgary;Kanada
+1 05:00;D;0 10:30;;;P;AC;845;Air Canada;YYC;A333;CGHLM;;CYYC;Calgary;Kanada
+1 06:00;D;0 10:30;;;P;AC;845;Air Canada;YYC;A333;CGHLM;;CYYC;Calgary;Kanada
+1 07:00;D;0 10:30;;;P;AC;845;Air Canada;YYC;A333;CGHLM;;CYYC;Calgary;Kanada
+1 08:00;D;0 10:30;;;P;AC;845;Air Canada;YYC;A333;CGHLM;;CYYC;Calgary;Kanada
+1 09:00;D;0 10:30;;;P;AC;845;Air Canada;YYC;A333;CGHLM;Gate offen;CYYC;Calgary;Kanada
+1 10:00;D;0 10:30;;;P;AC;845;Air Canada;YYC;A333;CGHLM;geschlossen;CYYC;Calgary;Kanada
+1 11:00;D;0 10:30;;;P;AC;845;Air Canada;YYC;A333;CGHLM;gestartet;CYYC;Calgary;Kanada
+1 12:00;D;0 10:30;;;P;AC;845;Air Canada;YYC;A333;CGHLM;gestartet;CYYC;Calgary;Kanada
+1 11:00;D;1 10:30 /*=55*/;;;P;AC;845;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
+1 12:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
+1 13:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
+1 14:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
+1 15:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
+1 16:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
+1 17:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
+1 18:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
+1 19:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
+1 20:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;CGFAH /*=3*/;;CYYC;Calgary;Kanada
+1 21:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;CGFAH;;CYYC;Calgary;Kanada
+1 22:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;CGFAH;;CYYC;Calgary;Kanada
+1 23:00;D;1 10:30;;;P;AC;845;Air Canada;YYC;A333;CGFAH;;CYYC;Calgary;Kanada

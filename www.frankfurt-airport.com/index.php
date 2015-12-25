@@ -133,19 +133,21 @@ function LineReplaceFlightData($row, $flight)
 
 /* Description of the csv */
 $keys = array(
-	'querytime',
-	'scheduled',
-	'expected',
-	'airline-code',
-	'code',
-	'airline-name',
-	'model',
+	'now',
+	'dir',
+	'sched',
+	'esti',
+	'lu',
+	'al',
+	'fnr',
+	'alname',
+	'iata',
+	'ac',
 	'reg',
-	'airport-iata',
-	'airport-icao',
-	'airport-name',
-	'airport-country',
-	'remark',
+	'status',
+	'icao',
+	'apname',
+	'country',
 );
 
 $direction = NULL;
@@ -221,49 +223,56 @@ if ($direction)
 					$line = rtrim($line);
 
 					/* if (strlen($line) == count($keys)) line is empty! */
-					if ($line[0] != '#' && strlen($line) > count($keys) - 1)
+					if ('#' == $line[0])
 					{
-						/* Delete all C-Comments (and surrounding spaces) from line */
-						$line = preg_replace('/[ \t]*\/*(\*[^\/]+|[^*]\/)\*\/[ \t]*/', '', $line);
-						/* Create an assiciative array from line */
-						$flight = array_combine($keys, explode(';', $line));
-
-						if ($flight['querytime'] == $querytime)
+						$keys = explode(';', substr($line, 1));
+					}
+					else
+					{
+						if (strlen($line) > count($keys) - 1)
 						{
-							list($scheduled['day'], $scheduled['time']) = explode(' ', $flight['scheduled']);
-							$scheduled = ($query['day'] + $scheduled['day']).' '.$scheduled['time'];
+							/* Delete all C-Comments (and surrounding spaces) from line */
+							$line = preg_replace('/[ \t]*\/*(\*[^\/]+|[^*]\/)\*\/[ \t]*/', '', $line);
+							/* Create an assiciative array from line */
+							$flight = array_combine($keys, explode(';', $line));
 
-							if (0 == strlen($flight['expected']))
+							if ($flight['now'] == $querytime)
 							{
-								$expected = '';
-							}
-							else
-							{
-								list($expected['day'], $expected['time']) = explode(' ', $flight['expected']);
-								$expected = ($query['day'] + $expected['day']).' '.$expected['time'];
-							}
+								list($scheduled['day'], $scheduled['time']) = explode(' ', $flight['sched']);
+								$scheduled = ($query['day'] + $scheduled['day']).' '.$scheduled['time'];
 
-							$flights[] = new flight(
-									$scheduled,
-									$expected,
-									new airline(
-										$flight['airline-code'],
-										$flight['airline-name']
-									),
-									$flight['code'],
-									$flight['model'],
-									$flight['reg'],
-									new airport(
-										$flight['airport-iata'],
-										$flight['airport-icao'],
-										$flight['airport-name'],
-										$flight['airport-country']
-									),
-									$flight['remark']
-							);
+								if (0 == strlen($flight['esti']))
+								{
+									$expected = '';
+								}
+								else
+								{
+									list($expected['day'], $expected['time']) = explode(' ', $flight['esti']);
+									$expected = ($query['day'] + $expected['day']).' '.$expected['time'];
+								}
 
-							unset($scheduled);
-							unset($expected);
+								$flights[] = new flight(
+										$scheduled,
+										$expected,
+										new airline(
+											$flight['al'],
+											$flight['alname']
+										),
+										$flight['fnr'],
+										$flight['ac'],
+										$flight['reg'],
+										new airport(
+											$flight['iata'],
+											$flight['icao'],
+											$flight['apname'],
+											$flight['country']
+										),
+										$flight['status']
+								);
+
+								unset($scheduled);
+								unset($expected);
+							}
 						}
 					}
 				}

@@ -1,45 +1,45 @@
-0 05:00;0 18:25 /*=10*/;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-0 06:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-0 07:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-0 08:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-0 09:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-0 10:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-0 11:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-0 12:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-0 13:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-0 14:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-0 15:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-0 16:00;0 18:25;;TP;576;TAP Portugal;A320;CSTNP /*=7,2*/;LIS;LPPT;Lissabon;Portugal;
-0 17:00;0 18:25;;TP;576;TAP Portugal;A320;CSTNP;LIS;LPPT;Lissabon;Portugal;
-0 18:00;0 18:25;;TP;576;TAP Portugal;A320;CSTNP;LIS;LPPT;Lissabon;Portugal;
-0 19:00;0 18:25;;TP;576;TAP Portugal;A320;CSTNP;LIS;LPPT;Lissabon;Portugal;gelandet
-0 19:00;1 18:25 /*=43*/;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-0 20:00;0 18:25;;TP;576;TAP Portugal;A320;CSTNP;LIS;LPPT;Lissabon;Portugal;Gepäckausgabe
-0 20:00;1 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-0 21:00;0 18:25;;TP;576;TAP Portugal;A320;CSTNP;LIS;LPPT;Lissabon;Portugal;Gepäckausgabe beendet
-0 21:00;1 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-0 22:00;1 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-0 23:00;1 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-;;;;;;;;;;;;
-1 05:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-1 06:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-1 07:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-1 08:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-1 09:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-1 10:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-1 11:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-1 12:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-1 13:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-1 14:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-1 15:00;0 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-1 16:00;0 18:25;;TP;576;TAP Portugal;A320;CSTNP /*=7,5*/;LIS;LPPT;Lissabon;Portugal;
-1 17:00;0 18:25;;TP;576;TAP Portugal;A320;CSTNP;LIS;LPPT;Lissabon;Portugal;
-1 18:00;0 18:25;;TP;576;TAP Portugal;A320;CSTNP;LIS;LPPT;Lissabon;Portugal;
-1 19:00;0 18:25;;TP;576;TAP Portugal;A320;CSTNP;LIS;LPPT;Lissabon;Portugal;gelandet
-1 19:00;1 18:25 /*=67*/;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-1 20:00;0 18:25;;TP;576;TAP Portugal;A320;CSTNP;LIS;LPPT;Lissabon;Portugal;Gepäckausgabe
-1 20:00;1 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-1 21:00;0 18:25;;TP;576;TAP Portugal;A320;CSTNP;LIS;LPPT;Lissabon;Portugal;Gepäckausgabe beendet
-1 21:00;1 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-1 22:00;1 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
-1 23:00;1 18:25;;TP;576;TAP Portugal;A320;;LIS;LPPT;Lissabon;Portugal;
+#now;dir;sched;esti;lu;typ;al;fnr;alname;iata;ac;reg;status;icao;apname;country
+0 05:00;A;0 18:25 /*=10*/;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+0 06:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+0 07:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+0 08:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+0 09:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+0 10:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+0 11:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+0 12:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+0 13:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+0 14:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+0 15:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+0 16:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;CSTNP /*=7,2*/;;LPPT;Lissabon;Portugal
+0 17:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;CSTNP;;LPPT;Lissabon;Portugal
+0 18:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;CSTNP;;LPPT;Lissabon;Portugal
+0 19:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;CSTNP;gelandet;LPPT;Lissabon;Portugal
+0 19:00;A;1 18:25 /*=43*/;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+0 20:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;CSTNP;Gepäckausgabe;LPPT;Lissabon;Portugal
+0 20:00;A;1 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+0 21:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;CSTNP;Gepäckausgabe beendet;LPPT;Lissabon;Portugal
+0 21:00;A;1 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+0 22:00;A;1 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+0 23:00;A;1 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+1 05:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+1 06:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+1 07:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+1 08:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+1 09:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+1 10:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+1 11:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+1 12:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+1 13:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+1 14:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+1 15:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+1 16:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;CSTNP /*=7,5*/;;LPPT;Lissabon;Portugal
+1 17:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;CSTNP;;LPPT;Lissabon;Portugal
+1 18:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;CSTNP;;LPPT;Lissabon;Portugal
+1 19:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;CSTNP;gelandet;LPPT;Lissabon;Portugal
+1 19:00;A;1 18:25 /*=67*/;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+1 20:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;CSTNP;Gepäckausgabe;LPPT;Lissabon;Portugal
+1 20:00;A;1 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+1 21:00;A;0 18:25;;;P;TP;576;TAP Portugal;LIS;A320;CSTNP;Gepäckausgabe beendet;LPPT;Lissabon;Portugal
+1 21:00;A;1 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+1 22:00;A;1 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+1 23:00;A;1 18:25;;;P;TP;576;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal

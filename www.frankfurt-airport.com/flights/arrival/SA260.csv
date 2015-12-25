@@ -1,45 +1,45 @@
-0 05:00;0 06:15 /*=1*/;0 05:55 /***/;SA;260;South African Airways;A346;ZSSNH /*=1,1*/;JNB;FAOR;Johannesburg;Südafrika;
-0 06:00;0 06:15;0 05:55;SA;260;South African Airways;A346;ZSSNH;JNB;FAOR;Johannesburg;Südafrika;gelandet
-0 06:00;1 06:15 /*=25*/;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-0 07:00;0 06:15;0 05:55;SA;260;South African Airways;A346;ZSSNH;JNB;FAOR;Johannesburg;Südafrika;Gepäckausgabe
-0 07:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-0 08:00;0 06:15;0 05:55;SA;260;South African Airways;A346;ZSSNH;JNB;FAOR;Johannesburg;Südafrika;Gepäckausgabe beendet
-0 08:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-0 09:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-0 10:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-0 11:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-0 12:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-0 13:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-0 14:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-0 15:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-0 16:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-0 17:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-0 18:00;1 06:15;;SA;260;South African Airways;A346;ZSSNC /*=10,1*/;JNB;FAOR;Johannesburg;Südafrika;
-0 19:00;1 06:15;;SA;260;South African Airways;A346;ZSSNC;JNB;FAOR;Johannesburg;Südafrika;
-0 20:00;1 06:15;;SA;260;South African Airways;A346;ZSSNC;JNB;FAOR;Johannesburg;Südafrika;
-0 21:00;1 06:15;;SA;260;South African Airways;A346;ZSSNC;JNB;FAOR;Johannesburg;Südafrika;
-0 22:00;1 06:15;;SA;260;South African Airways;A346;ZSSNC;JNB;FAOR;Johannesburg;Südafrika;
-0 23:00;1 06:15;1 05:15 /***/;SA;260;South African Airways;A346;ZSSNC;JNB;FAOR;Johannesburg;Südafrika;
-;;;;;;;;;;;;
-1 05:00;0 06:15;0 05:18 /***/;SA;260;South African Airways;A346;ZSSNC;JNB;FAOR;Johannesburg;Südafrika;im Anflug
-1 06:00;0 06:15;0 05:18;SA;260;South African Airways;A346;ZSSNC;JNB;FAOR;Johannesburg;Südafrika;gelandet
-1 06:00;1 06:15 /*=49*/;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-1 07:00;0 06:15;0 05:18;SA;260;South African Airways;A346;ZSSNC;JNB;FAOR;Johannesburg;Südafrika;Gepäckausgabe
-1 07:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-1 08:00;0 06:15;0 05:18;SA;260;South African Airways;A346;ZSSNC;JNB;FAOR;Johannesburg;Südafrika;Gepäckausgabe beendet
-1 08:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-1 09:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-1 10:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-1 11:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-1 12:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-1 13:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-1 14:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-1 15:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-1 16:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-1 17:00;1 06:15;;SA;260;South African Airways;A346;;JNB;FAOR;Johannesburg;Südafrika;
-1 18:00;1 06:15;;SA;260;South African Airways;A346;ZSSNB /*=13,1*/;JNB;FAOR;Johannesburg;Südafrika;
-1 19:00;1 06:15;;SA;260;South African Airways;A346;ZSSNB;JNB;FAOR;Johannesburg;Südafrika;
-1 20:00;1 06:15;;SA;260;South African Airways;A346;ZSSNH /*=1,2&13,0*/;JNB;FAOR;Johannesburg;Südafrika;
-1 21:00;1 06:15;;SA;260;South African Airways;A346;ZSSNB /*=1,1&13,1*/;JNB;FAOR;Johannesburg;Südafrika;
-1 22:00;1 06:15;;SA;260;South African Airways;A346;ZSSNH /*=1,2&13,0*/;JNB;FAOR;Johannesburg;Südafrika;
-1 23:00;1 06:15;;SA;260;South African Airways;A346;ZSSNB /*=1,1&13,1*/;JNB;FAOR;Johannesburg;Südafrika;
+#now;dir;sched;esti;lu;typ;al;fnr;alname;iata;ac;reg;status;icao;apname;country
+0 05:00;A;0 06:15 /*=1*/;0 05:55 /***/;;P;SA;260;South African Airways;JNB;A346;ZSSNH /*=1,1*/;;FAOR;Johannesburg;Südafrika
+0 06:00;A;0 06:15;0 05:55;;P;SA;260;South African Airways;JNB;A346;ZSSNH;gelandet;FAOR;Johannesburg;Südafrika
+0 06:00;A;1 06:15 /*=25*/;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+0 07:00;A;0 06:15;0 05:55;;P;SA;260;South African Airways;JNB;A346;ZSSNH;Gepäckausgabe;FAOR;Johannesburg;Südafrika
+0 07:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+0 08:00;A;0 06:15;0 05:55;;P;SA;260;South African Airways;JNB;A346;ZSSNH;Gepäckausgabe beendet;FAOR;Johannesburg;Südafrika
+0 08:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+0 09:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+0 10:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+0 11:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+0 12:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+0 13:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+0 14:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+0 15:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+0 16:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+0 17:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+0 18:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;ZSSNC /*=10,1*/;;FAOR;Johannesburg;Südafrika
+0 19:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;ZSSNC;;FAOR;Johannesburg;Südafrika
+0 20:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;ZSSNC;;FAOR;Johannesburg;Südafrika
+0 21:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;ZSSNC;;FAOR;Johannesburg;Südafrika
+0 22:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;ZSSNC;;FAOR;Johannesburg;Südafrika
+0 23:00;A;1 06:15;1 05:15 /***/;;P;SA;260;South African Airways;JNB;A346;ZSSNC;;FAOR;Johannesburg;Südafrika
+1 05:00;A;0 06:15;0 05:18 /***/;;P;SA;260;South African Airways;JNB;A346;ZSSNC;im Anflug;FAOR;Johannesburg;Südafrika
+1 06:00;A;0 06:15;0 05:18;;P;SA;260;South African Airways;JNB;A346;ZSSNC;gelandet;FAOR;Johannesburg;Südafrika
+1 06:00;A;1 06:15 /*=49*/;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+1 07:00;A;0 06:15;0 05:18;;P;SA;260;South African Airways;JNB;A346;ZSSNC;Gepäckausgabe;FAOR;Johannesburg;Südafrika
+1 07:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+1 08:00;A;0 06:15;0 05:18;;P;SA;260;South African Airways;JNB;A346;ZSSNC;Gepäckausgabe beendet;FAOR;Johannesburg;Südafrika
+1 08:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+1 09:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+1 10:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+1 11:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+1 12:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+1 13:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+1 14:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+1 15:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+1 16:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+1 17:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+1 18:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;ZSSNB /*=13,1*/;;FAOR;Johannesburg;Südafrika
+1 19:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;ZSSNB;;FAOR;Johannesburg;Südafrika
+1 20:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;ZSSNH /*=1,2&13,0*/;;FAOR;Johannesburg;Südafrika
+1 21:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;ZSSNB /*=1,1&13,1*/;;FAOR;Johannesburg;Südafrika
+1 22:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;ZSSNH /*=1,2&13,0*/;;FAOR;Johannesburg;Südafrika
+1 23:00;A;1 06:15;;;P;SA;260;South African Airways;JNB;A346;ZSSNB /*=1,1&13,1*/;;FAOR;Johannesburg;Südafrika
