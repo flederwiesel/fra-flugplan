@@ -16,6 +16,8 @@
 
 # drop/re-create database
 initdb && rm -f .COOKIES
+
+prefix=$(rawurlencode $(sed s?http://??g <<<"$url"))
 chkmail=1
 
 ###############################################################################
@@ -23,13 +25,14 @@ chkmail=1
 check "1" curl "$url/"
 check "2" curl "$url/?req=register"
 
-check "3" curl "$url/?req=register" \
+check "3" curl "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en"
+		--data-urlencode "lang=en" \
+		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
 token=$(query "USE fra-schedule;
 	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)

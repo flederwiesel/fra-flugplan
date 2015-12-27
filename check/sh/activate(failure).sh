@@ -18,15 +18,18 @@
 initdb && rm -f .COOKIES
 chkmail=1
 
+prefix=$(rawurlencode $(sed s?http://??g <<<"$url"))
+
 ###############################################################################
 
-check "1" curl "$url/?req=register" \
+check "1" curl "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en"
+		--data-urlencode "lang=en" \
+		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
 ###############################################################################
 

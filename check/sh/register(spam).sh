@@ -16,7 +16,10 @@
 
 # drop/re-create database
 initdb && rm -f .COOKIES
+
+prefix=$(rawurlencode $(sed s?http://??g <<<"$url"))
 chkmail=1
+
 sed='s/(ip=)[0-9]+(,email=)[0-9]+(,username=)[0-9]+/\1*\2*\3*/g'
 
 ###############################################################################

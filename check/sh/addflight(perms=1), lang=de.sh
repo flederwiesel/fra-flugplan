@@ -17,18 +17,21 @@
 # drop/re-create database
 initdb && rm -f .COOKIES
 
+prefix=$(rawurlencode $(sed s?http://??g <<<"$url"))
+
 ###############################################################################
 
 check "1" curl "$url/?lang=de"
 check "2" curl "$url/?req=register"
 
-check "3" curl "$url/?req=register" \
+check "3" curl "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=de"
+		--data-urlencode "lang=de" \
+		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
 # grant addflight permission
 query "USE fra-schedule; UPDATE users SET permissions='1' WHERE name='flederwiesel'"
