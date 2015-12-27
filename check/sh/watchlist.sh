@@ -91,23 +91,23 @@ SQL
 
 # /preparation ################################################################
 
-now=$(rawurlencode $(date +'%Y-%m-%d %H:%M:%S' --date="0 days 23:59"))
+time=$(rawurlencode $(date +'%Y-%m-%d %H:%M:%S' --date="0 days 23:59"))
 today=$(date +'%Y-%m-%d' --date="23:55")
 
-check "1" curl "$url/?req=login\&now=$now" \
+check "1" curl "$url/?req=login\&time=$time" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \
 	"| sed -r '
-		s/now=$today/now=0000-00-00/g
+		s/time=$today/time=0000-00-00/g
 	'"
 
-check "2" curl "$url/?arrival\&now=$now" \
+check "2" curl "$url/?arrival\&time=$time" \
 	"| sed -r '
-		s/now=$today/now=0000-00-00/g
+		s/time=$today/time=0000-00-00/g
 	'"
 
 # DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
-check "3" curl "$url/?arrival\&now=$now" \
+check "3" curl "$url/?arrival\&time=$time" \
 		--data-urlencode "add='$(cat <<-EOF
 			ZS-SNC	South African Airways - Star Alliance	1
 			C-????	Air Canada ?	0
@@ -116,15 +116,15 @@ check "3" curl "$url/?arrival\&now=$now" \
 EOF
 			)'" \
 	"| sed -r '
-		s/now=$today/now=0000-00-00/g
+		s/time=$today/time=0000-00-00/g
 	'"
 
 # DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
-check "4" curl "$url/?arrival\&now=$now" \
+check "4" curl "$url/?arrival\&time=$time" \
 		--data-urlencode "add='C-*	Air Canada *	0'" \
 		--data-urlencode "del='C-????'" \
 	"| sed -r '
-		s/now=$today/now=0000-00-00/g
+		s/time=$today/time=0000-00-00/g
 	'"
 
 sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | mysql
@@ -148,14 +148,14 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | mysql
 SQL
 
 # DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
-check "5" curl "$url/?arrival\&now=$now" \
+check "5" curl "$url/?arrival\&time=$time" \
 		--data-urlencode "del='ZS-SNC'" \
 	"| sed -r '
-		s/now=$today/now=0000-00-00/g
+		s/time=$today/time=0000-00-00/g
 	'"
 
-check "6" curl "$url/?arrival\&now=$now" \
+check "6" curl "$url/?arrival\&time=$time" \
 	--user-agent "'Opera/9.80 (Android 2.3.7; Linux; Opera Mobi/46154) Presto/2.11.355 Version/12.10'" \
 	"| sed -r '
-		s/now=$today/now=0000-00-00/g
+		s/time=$today/time=0000-00-00/g
 	'"

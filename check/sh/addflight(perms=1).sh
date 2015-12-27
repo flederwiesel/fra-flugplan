@@ -83,18 +83,18 @@ check "7-1" curl "$url/?page=addflight" \
 # check inserted flights
 # 7 day preview only, so flight from "7" will not appear...
 
-now=$(date +'%Y-%m-%d %H:%M:%S' --date='14:00')
-now=$(rawurlencode "$now")
+time=$(date +'%Y-%m-%d %H:%M:%S' --date='14:00')
+time=$(rawurlencode "$time")
 
-check "8" curl "$url/?arrival\&now=$now | sed -r '
+check "8" curl "$url/?arrival\&time=$time | sed -r '
 	s/(\+[0-7]) [0-9]{2}:[0-9]{2}/\1 00:00/g;
 	s/(1:D-AIRY\+[0-7])[0-2][0-9]{3}/\10000/g;
 	s/$(date +%Y-%m-%d)/0000-00-00/g'"
 
-now=$(date +'%Y-%m-%d %H:%M:%S' --date='14:05')
-now=$(rawurlencode $now)
+time=$(date +'%Y-%m-%d %H:%M:%S' --date='14:05')
+time=$(rawurlencode $time)
 
-check "9" curl "$url/?arrival\&now=$now | sed -r '
+check "9" curl "$url/?arrival\&time=$time | sed -r '
 	s/(\+[0-7]) [0-9]{2}:[0-9]{2}/\1 00:00/g;
 	s/(1:D-AIRY\+[0-7])[0-2][0-9]{3}/\10000/g;
 	s/$(date +%Y-%m-%d)/0000-00-00/g'"
