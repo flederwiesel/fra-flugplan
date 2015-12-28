@@ -21,10 +21,10 @@ prefix=$(rawurlencode $(sed s?http://??g <<<"$url"))
 
 ###############################################################################
 
-check "1" curl "$url/"
-check "2" curl "$url/?req=register"
+check "1" browse "$url/"
+check "2" browse "$url/?req=register"
 
-check "3" curl "$url/?req=register\&stopforumspam=$prefix" \
+check "3" browse "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \
@@ -34,24 +34,24 @@ check "3" curl "$url/?req=register\&stopforumspam=$prefix" \
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
 # grant addflight permission
-query "USE fra-schedule; UPDATE users SET permissions='1' WHERE name='flederwiesel'"
+query --execute="USE fra-schedule; UPDATE users SET permissions='1' WHERE name='flederwiesel'"
 
-token=$(query "USE fra-schedule;
+token=$(query --execute="USE fra-schedule;
 	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)
 
-check "4" curl "$url/?req=activate" \
+check "4" browse "$url/?req=activate" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "token=$token"
 
-check "5" curl "$url/?req=login" \
+check "5" browse "$url/?req=login" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz"
 
-check "6" curl "$url/?page=addflight" \
+check "6" browse "$url/?page=addflight" \
 	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
 
 # Insert flight: once -> 2038-01-19 04:14 local (2147483640)
-check "7" curl "$url/?page=addflight" \
+check "7" browse "$url/?page=addflight" \
 		--data-urlencode "reg=D-AIRY" \
 		--data-urlencode "model=A321" \
 		--data-urlencode "flight=QQ9999" \
@@ -66,7 +66,7 @@ check "7" curl "$url/?page=addflight" \
 	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
 
 # Insert flight: once -> +1 week
-check "7-1" curl "$url/?page=addflight" \
+check "7-1" browse "$url/?page=addflight" \
 		--data-urlencode "reg=D-AIRY" \
 		--data-urlencode "model=A321" \
 		--data-urlencode "flight=QQ9999" \
@@ -86,7 +86,7 @@ check "7-1" curl "$url/?page=addflight" \
 time=$(date +'%Y-%m-%d %H:%M:%S' --date='14:00')
 time=$(rawurlencode "$time")
 
-check "8" curl "$url/?arrival\&time=$time | sed -r '
+check "8" browse "$url/?arrival\&time=$time | sed -r '
 	s/(\+[0-7]) [0-9]{2}:[0-9]{2}/\1 00:00/g;
 	s/(1:D-AIRY\+[0-7])[0-2][0-9]{3}/\10000/g;
 	s/$(date +%Y-%m-%d)/0000-00-00/g'"
@@ -94,7 +94,7 @@ check "8" curl "$url/?arrival\&time=$time | sed -r '
 time=$(date +'%Y-%m-%d %H:%M:%S' --date='14:05')
 time=$(rawurlencode $time)
 
-check "9" curl "$url/?arrival\&time=$time | sed -r '
+check "9" browse "$url/?arrival\&time=$time | sed -r '
 	s/(\+[0-7]) [0-9]{2}:[0-9]{2}/\1 00:00/g;
 	s/(1:D-AIRY\+[0-7])[0-2][0-9]{3}/\10000/g;
 	s/$(date +%Y-%m-%d)/0000-00-00/g'"

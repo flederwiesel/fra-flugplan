@@ -19,7 +19,7 @@ initdb && rm -f .COOKIES
 
 # preparation #################################################################
 
-sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | mysql
+sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
 	USE fra-schedule;
 
 	SELECT `id` INTO @uid FROM `users` WHERE `name`='root';
@@ -94,20 +94,20 @@ SQL
 time=$(rawurlencode $(date +'%Y-%m-%d %H:%M:%S' --date="0 days 23:59"))
 today=$(date +'%Y-%m-%d' --date="23:55")
 
-check "1" curl "$url/?req=login\&time=$time" \
+check "1" browse "$url/?req=login\&time=$time" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \
 	"| sed -r '
 		s/time=$today/time=0000-00-00/g
 	'"
 
-check "2" curl "$url/?arrival\&time=$time" \
+check "2" browse "$url/?arrival\&time=$time" \
 	"| sed -r '
 		s/time=$today/time=0000-00-00/g
 	'"
 
 # DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
-check "3" curl "$url/?arrival\&time=$time" \
+check "3" browse "$url/?arrival\&time=$time" \
 		--data-urlencode "add='$(cat <<-EOF
 			ZS-SNC	South African Airways - Star Alliance	1
 			C-????	Air Canada ?	0
@@ -120,14 +120,14 @@ EOF
 	'"
 
 # DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
-check "4" curl "$url/?arrival\&time=$time" \
+check "4" browse "$url/?arrival\&time=$time" \
 		--data-urlencode "add='C-*	Air Canada *	0'" \
 		--data-urlencode "del='C-????'" \
 	"| sed -r '
 		s/time=$today/time=0000-00-00/g
 	'"
 
-sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | mysql
+sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
 	USE fra-schedule;
 
 	SELECT `id` INTO @uid FROM `users` WHERE `name`='flederwiesel';
@@ -148,13 +148,13 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | mysql
 SQL
 
 # DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
-check "5" curl "$url/?arrival\&time=$time" \
+check "5" browse "$url/?arrival\&time=$time" \
 		--data-urlencode "del='ZS-SNC'" \
 	"| sed -r '
 		s/time=$today/time=0000-00-00/g
 	'"
 
-check "6" curl "$url/?arrival\&time=$time" \
+check "6" browse "$url/?arrival\&time=$time" \
 	--user-agent "'Opera/9.80 (Android 2.3.7; Linux; Opera Mobi/46154) Presto/2.11.355 Version/12.10'" \
 	"| sed -r '
 		s/time=$today/time=0000-00-00/g

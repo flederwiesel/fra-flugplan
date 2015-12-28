@@ -25,7 +25,7 @@ echo "$mails" > /etc/mailtodisk/fra-schedule@flederwiesel.com
 ###############################################################################
 
 # `initdb` only creates 'root'...
-mysql <<-"SQL"
+query <<-"SQL"
 	USE fra-schedule;
 
 	INSERT INTO `users`
@@ -103,7 +103,7 @@ do
 		# Check notification time format string
 		case "$day $time" in
 		"1 05:00")
-			mysql <<-"SQL"
+			query <<-"SQL"
 				USE fra-schedule;
 
 				UPDATE `users`
@@ -113,7 +113,7 @@ SQL
 			;;
 
 		"1 12:00")
-			mysql <<-"SQL"
+			query <<-"SQL"
 				USE fra-schedule;
 
 				UPDATE `users`
@@ -131,10 +131,10 @@ SQL
 		# Need to check for this also...
 		if [ 1 == $day ] && [ 10 == $t ]; then
 			# '0000-00-00 22:30:00' -> NULL
-			query "USE fra-schedule; UPDATE visits SET previous=NULL WHERE aircraft=7"
+			query --execute="USE fra-schedule; UPDATE visits SET previous=NULL WHERE aircraft=7"
 		fi
 
-		check "$dHHMM-getflights" curl "$url/getflights.php?baseurl=$baseurl\&time=$now\&debug=url,query\&fmt=html"\
+		check "$dHHMM-getflights" browse "$url/getflights.php?baseurl=$baseurl\&time=$now\&debug=url,query\&fmt=html"\
 			"| sed -r '
 			s/Dauer: [0-9]+.[0-9]+s/Dauer: 0.000s/g
 			s/(fi[ad]=[A-Z0-9]+)$YYYYmmdd_0$/\100000000/g
@@ -152,7 +152,7 @@ SQL
 			s#(http://[^/]+/).*/www.frankfurt-airport.com/(.*)#\1.../\2#g
 			'"
 
-		flights=$(query 'USE `fra-schedule`;
+		flights=$(query --execute='USE `fra-schedule`;
 			SELECT
 			 `flights`.`direction`,
 			 `flights`.`scheduled`,
@@ -188,7 +188,7 @@ SQL
 				$ a </html>
 			'"
 
-		check "$dHHMM-arrival" curl "$url/?arrival\&time=$now"\
+		check "$dHHMM-arrival" browse "$url/?arrival\&time=$now"\
 			"| sed -r '
 				s/$YYYY_mm_dd_0/0000-00-00/g
 				s/$YYYY_mm_dd_1/0000-00-01/g
@@ -197,13 +197,13 @@ SQL
 		# Note, that RARE A/C will not be marked as such,
 		# since we use different a/c in arrival/departure.csv,
 		# and only arrivals will evaluate visits
-		check "$dHHMM-departure" curl "$url/?departure\&time=$now"\
+		check "$dHHMM-departure" browse "$url/?departure\&time=$now"\
 			"| sed -r '
 				s/$YYYY_mm_dd_0/0000-00-00/g
 				s/$YYYY_mm_dd_1/0000-00-01/g
 			'"
 
-		notifications=$(query 'USE `fra-schedule`;
+		notifications=$(query --execute='USE `fra-schedule`;
 			SELECT `flight`, `watch`, `notified`
 			FROM `watchlist-notifications`'
 		)
@@ -234,7 +234,7 @@ do
 	now=$(date +'%Y-%m-%d %H:%M:%S' --date="$offset 05:00")
 	now=$(rawurlencode $now)
 
-	check "$dHHMM-getflights" curl "$url/getflights.php?baseurl=$baseurl\&time=$now\&debug=url,query\&fmt=html"\
+	check "$dHHMM-getflights" browse "$url/getflights.php?baseurl=$baseurl\&time=$now\&debug=url,query\&fmt=html"\
 		"| sed -r '
 		s/Dauer: [0-9]+.[0-9]+s/Dauer: 0.000s/g
 		s/(fi[ad]=[A-Z0-9]+)$YYYYmmdd_0\$/\100000000/g
@@ -248,7 +248,7 @@ do
 		s#(http://[^/]+/).*/www.frankfurt-airport.com/(.*)#\1.../\2#g
 		'"
 
-	notifications=$(query 'USE `fra-schedule`;
+	notifications=$(query --execute='USE `fra-schedule`;
 		SELECT `flight`, `watch`, `notified`
 		FROM `watchlist-notifications`'
 	)
@@ -270,7 +270,7 @@ do
 
 done
 
-visits=$(query 'USE fra-schedule;
+visits=$(query --execute='USE fra-schedule;
 
 	SELECT
 	 `aircrafts`.`reg`,

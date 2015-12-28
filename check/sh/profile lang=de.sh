@@ -24,10 +24,10 @@ echo "$mails" > /etc/mailtodisk/fra-schedule@flederwiesel.com
 
 ###############################################################################
 
-check "1" curl "$url/?lang=de"
-check "2" curl "$url/?req=register"
+check "1" browse "$url/?lang=de"
+check "2" browse "$url/?req=register"
 
-check "3" curl "$url/?req=register\&stopforumspam=$prefix" \
+check "3" browse "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \
@@ -35,43 +35,43 @@ check "3" curl "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "timezone=UTC+1" \
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
-token=$(query "USE fra-schedule;
+token=$(query --execute="USE fra-schedule;
 	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)
 
-check "4" curl "$url/?req=activate" \
+check "4" browse "$url/?req=activate" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "token=$token"
 
-check "5" curl "$url/?req=login" \
+check "5" browse "$url/?req=login" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz"
 
-check "6" curl "$url/?req=profile"
+check "6" browse "$url/?req=profile"
 
-check "7" curl "$url/?req=profile\&dispinterval" \
+check "7" browse "$url/?req=profile\&dispinterval" \
 	--data-urlencode "tm-=-75" \
 	--data-urlencode "tm%2b=7200" \
 	--data-urlencode "tt-=-75" \
 	--data-urlencode "tt%2b=28800" \
 	--data-urlencode "submit=interval"
 
-check "8" curl "$url/?req=profile\&notifinterval"
+check "8" browse "$url/?req=profile\&notifinterval"
 
-check "9" curl "$url/?req=profile" \
+check "9" browse "$url/?req=profile" \
 	--data-urlencode "from=00:00" \
 	--data-urlencode "until=24:00" \
 	--data-urlencode "timefmt=%c" \
 	--data-urlencode "submit=notifications" \
 	"|" sed -r "'s/[0-9]{2}\.[0-9]{2}\.[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}/00.00.0000 00:00:00/g'"
 
-check "10" curl "$url/?req=profile" \
+check "10" browse "$url/?req=profile" \
 	--data-urlencode "from=08:00" \
 	--data-urlencode "until=22:00" \
 	--data-urlencode "timefmt=" \
 	--data-urlencode "submit=notifications" \
 	"|" sed -r "'s/\+0 [0-9]{2}:[0-9]{2}/+0 00:00/g'"
 
-check "11" curl "$url/?req=profile" \
+check "11" browse "$url/?req=profile" \
 	--data-urlencode "from=08:00" \
 	--data-urlencode "until=22:00" \
 	--data-urlencode "submit=notifications" \

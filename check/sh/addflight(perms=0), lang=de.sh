@@ -21,10 +21,10 @@ prefix=$(rawurlencode $(sed s?http://??g <<<"$url"))
 
 ###############################################################################
 
-check "1" curl "$url/?lang=de"
-check "2" curl "$url/?req=register"
+check "1" browse "$url/?lang=de"
+check "2" browse "$url/?req=register"
 
-check "3" curl "$url/?req=register\&stopforumspam=$prefix" \
+check "3" browse "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \
@@ -33,21 +33,21 @@ check "3" curl "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "lang=de" \
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
-token=$(query "USE fra-schedule;
+token=$(query --execute="USE fra-schedule;
 	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)
 
-check "4" curl "$url/?req=activate" \
+check "4" browse "$url/?req=activate" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "token=$token"
 
-check "5" curl "$url/?page=addflight" \
+check "5" browse "$url/?page=addflight" \
 	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
 
 ###############################################################################
 # not logged in
 ###############################################################################
 
-check "6" curl "$url/?page=addflight" \
+check "6" browse "$url/?page=addflight" \
 		--data-urlencode "reg=D-AIRY" \
 		--data-urlencode "model=A321" \
 		--data-urlencode "flight=QQ9999" \
@@ -65,12 +65,12 @@ check "6" curl "$url/?page=addflight" \
 # logged in
 ###############################################################################
 
-check "7" curl "$url/?req=login" \
+check "7" browse "$url/?req=login" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz"
 
 
-check "8" curl "$url/?page=addflight" \
+check "8" browse "$url/?page=addflight" \
 		--data-urlencode "reg=D-AIRY" \
 		--data-urlencode "model=A321" \
 		--data-urlencode "flight=QQ9999" \

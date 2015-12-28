@@ -62,9 +62,6 @@ chkdep() {
 	fi
 }
 
-alias "mysql=mysql --silent  --protocol=TCP --host=localhost --user=root --password= --default-character-set=utf8"
-alias "curl=curl -s --noproxy localhost --cookie .COOKIES --cookie-jar .COOKIES"
-
 unless() {
 
 	line=$1; shift
@@ -92,17 +89,23 @@ check() {
 
 initdb() {
 
-	unless $LINENO mysql < ../sql/fra-schedule.sql > /dev/null
+	unless $LINENO query < ../sql/fra-schedule.sql > /dev/null
 }
 
 query() {
 
 	[ 1 == $debug ] && echo -e "\033[1;33m$@\033[m" >&2
-	mysql --skip-column-names --execute="$@"
+
+	mysql --silent --protocol=TCP --host=localhost --user=root --password= \
+		--default-character-set=utf8 --skip-column-names "$@"
 }
 
 strftime() {
 	awk "BEGIN { print strftime(\"$1\", $2); }"
+}
+
+browse() {
+	curl -s --noproxy localhost --cookie .COOKIES --cookie-jar .COOKIES "$@"
 }
 
 rawurlencode() {
@@ -127,6 +130,14 @@ rawurlencode() {
 	echo "${encoded}"    # You can either set a return variable (FASTER)
 	REPLY="${encoded}"   #+or echo the result (EASIER)... or both... :p
 }
+
+export -f check
+export -f unless
+export -f initdb
+export -f strftime
+export -f query
+export -f browse
+export -f rawurlencode
 
 ###############################################################################
 # <preparation>

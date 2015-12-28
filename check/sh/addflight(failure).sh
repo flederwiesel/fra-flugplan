@@ -21,9 +21,9 @@ prefix=$(rawurlencode $(sed s?http://??g <<<"$url"))
 
 ###############################################################################
 
-check "1" curl "$url/?req=register"
+check "1" browse "$url/?req=register"
 
-check "2" curl "$url/?req=register\&stopforumspam=$prefix" \
+check "2" browse "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \
@@ -33,23 +33,23 @@ check "2" curl "$url/?req=register\&stopforumspam=$prefix" \
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
 # grant addflight permission
-query "USE fra-schedule; UPDATE users SET permissions='1' WHERE name='flederwiesel'"
+query --execute="USE fra-schedule; UPDATE users SET permissions='1' WHERE name='flederwiesel'"
 
-token=$(query "USE fra-schedule;
+token=$(query --execute="USE fra-schedule;
 	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)
 
-check "3" curl "$url/?req=activate" \
+check "3" browse "$url/?req=activate" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "token=$token"
 
-check "4" curl "$url/?req=login" \
+check "4" browse "$url/?req=login" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz"
 
-check "5" curl "$url/?page=addflight" \
+check "5" browse "$url/?page=addflight" \
 	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
 
-check "6" curl "$url/?page=addflight" \
+check "6" browse "$url/?page=addflight" \
 		--data-urlencode "reg=D-AIRY" \
 		--data-urlencode "model=A321" \
 		--data-urlencode "flight=QQ9999" \
@@ -64,7 +64,7 @@ check "6" curl "$url/?page=addflight" \
 	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
 
 cat <<EOF
-check "6" curl "$url/?page=addflight" \
+check "6" browse "$url/?page=addflight" \
 		--data-urlencode "reg=D-AIRY" \
 		--data-urlencode "model=A321" \
 		--data-urlencode "flight=QQ9999" \

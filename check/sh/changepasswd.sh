@@ -24,10 +24,10 @@ echo "$mails" > /etc/mailtodisk/fra-schedule@flederwiesel.com
 
 ###############################################################################
 
-check "1" curl "$url/"
-check "2" curl "$url/?req=register"
+check "1" browse "$url/"
+check "2" browse "$url/?req=register"
 
-check "3" curl "$url/?req=register\&stopforumspam=$prefix" \
+check "3" browse "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \
@@ -36,10 +36,10 @@ check "3" curl "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "lang=en" \
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
-token=$(query "USE fra-schedule;
+token=$(query --execute="USE fra-schedule;
 	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)
 
-check "4" curl "$url/?req=activate" \
+check "4" browse "$url/?req=activate" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "token=$token"
 
@@ -47,15 +47,15 @@ check "4" curl "$url/?req=activate" \
 # registered and activated, not logged in
 ###############################################################################
 
-check "5" curl "$url/?req=reqtok"
+check "5" browse "$url/?req=reqtok"
 
-check "6" curl "$url/?req=reqtok" \
+check "6" browse "$url/?req=reqtok" \
 		--data-urlencode "user=flederwiesel"
 
-token=$(query "USE fra-schedule;
+token=$(query --execute="USE fra-schedule;
 	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)
 
-check "7" curl "$url/?req=changepw" \
+check "7" browse "$url/?req=changepw" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "token=$token" \
 		--data-urlencode "passwd=zwiebel" \
@@ -66,7 +66,7 @@ check "7" curl "$url/?req=changepw" \
 # try login with new passwd
 ###############################################################################
 
-check "8" curl "$url/?req=login" \
+check "8" browse "$url/?req=login" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=zwiebel"
 
@@ -74,9 +74,9 @@ check "8" curl "$url/?req=login" \
 # change password whilst logged in
 ###############################################################################
 
-check "9" curl "$url/?req=profile\&changepw"
+check "9" browse "$url/?req=profile\&changepw"
 
-check "10" curl "$url/?req=changepw" \
+check "10" browse "$url/?req=changepw" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "submit=changepw"
