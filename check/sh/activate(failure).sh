@@ -16,9 +16,11 @@
 
 # drop/re-create database
 initdb && rm -f .COOKIES
-chkmail=1
 
 prefix=$(rawurlencode $(sed s?http://??g <<<"$url"))
+
+echo "$mails" > /etc/mailtodisk/hausmeister@flederwiesel.com
+echo "$mails" > /etc/mailtodisk/fra-schedule@flederwiesel.com
 
 ###############################################################################
 

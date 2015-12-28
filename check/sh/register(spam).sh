@@ -18,7 +18,9 @@
 initdb && rm -f .COOKIES
 
 prefix=$(rawurlencode $(sed s?http://??g <<<"$url"))
-chkmail=1
+
+echo "$mails" > /etc/mailtodisk/fra-schedule@flederwiesel.com
+echo "$mails" > /etc/mailtodisk/uproot356973135@gmail.com
 
 sed='s/(ip=)[0-9]+(,email=)[0-9]+(,username=)[0-9]+/\1*\2*\3*/g'
 

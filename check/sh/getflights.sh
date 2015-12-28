@@ -16,9 +16,13 @@
 
 # drop/re-create database
 initdb && rm -f .COOKIES
-chkmail=1
 
 baseurl=$(rawurlencode $(sed s?http://??g <<<"$url")/www.frankfurt-airport.com)
+
+echo "$mails" > /etc/mailtodisk/hausmeister@flederwiesel.com
+echo "$mails" > /etc/mailtodisk/fra-schedule@flederwiesel.com
+
+###############################################################################
 
 # `initdb` only creates 'root'...
 mysql <<-"SQL"

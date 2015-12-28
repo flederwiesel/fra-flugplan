@@ -1,0 +1,42 @@
+#!/bin/sh
+
+if [ $# -gt 0 ]; then
+	stat -c "%a %n" "$@" |
+	while read perm file
+	do
+		if [ ! -d "$file" ]; then
+			echo "$file is not a directory."
+			exit 1
+		elif [ "$perm" != "777" ]; then
+			echo "$file: $perm (must have 777)."
+			exit 2
+		fi
+	done
+else
+	read line
+	to=$(sed -r 's/^To: ([^<]*<)?([a-z0-9-]+@[a-z]+\.[a-z]+)>?/\2/g' <<<"$line")
+
+	if [ -f "/etc/mailtodisk/$to" ]; then
+		file=$(cat "/etc/mailtodisk/$to")
+
+		if [ -n "$file" ]; then
+			dir=$(dirname "$file")
+
+			if [ -d "$dir" ]; then
+				(
+					echo "Date: $(date --rfc-2822)"
+					echo "$line"
+					cat
+					echo "======================================================"
+				)>> "$file"
+				line=
+			fi
+		fi
+	fi
+
+	if [ -n "$line" ]; then
+		echo "Expected 'To: name@domain.tld':"
+		echo "==>$line<=="
+		exit 3
+	fi
+fi

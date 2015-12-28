@@ -18,7 +18,9 @@
 initdb && rm -f .COOKIES
 
 prefix=$(rawurlencode $(sed s?http://??g <<<"$url"))
-chkmail=1
+
+echo "$mails" > /etc/mailtodisk/hausmeister@flederwiesel.com
+echo "$mails" > /etc/mailtodisk/fra-schedule@flederwiesel.com
 
 ###############################################################################
 

@@ -1,6 +1,6 @@
 Date: Day, 0 Month 0000 00:00:00 +0000
-Subject: Account activation
 To: hausmeister@flederwiesel.com
+Subject: Account activation
 From: Frankfurt Aviation Friends <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
@@ -25,8 +25,8 @@ Please ignore this e-mail if you did not request a registration. Our apologies f
 The Frankfurt Aviation Friends Team
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-Subject: user registration
 To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+Subject: user registration
 From: FRA schedule <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
@@ -38,8 +38,8 @@ X-Mailer: PHP/*
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-Subject: user activation
 To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+Subject: user activation
 From: FRA schedule <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
@@ -51,8 +51,8 @@ X-Mailer: PHP/*
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-Subject: Change Password
 To: hausmeister@flederwiesel.com
+Subject: Change Password
 From: Frankfurt Aviation Friends <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
@@ -77,8 +77,8 @@ Please ignore this e-mail if you didn't request a change of password. Our apolog
 The Frankfurt Aviation Friends Team
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-Subject: user reqpasswdch
 To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+Subject: user reqpasswdch
 From: FRA schedule <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
@@ -90,8 +90,8 @@ X-Mailer: PHP/*
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-Subject: user passwdch
 To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+Subject: user passwdch
 From: FRA schedule <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
@@ -103,8 +103,8 @@ X-Mailer: PHP/*
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-Subject: user passwdch
 To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+Subject: user passwdch
 From: FRA schedule <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0

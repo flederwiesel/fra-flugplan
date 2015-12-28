@@ -77,8 +77,6 @@ unless() {
 		echo -e "$@\033[m\n" >&2
 		echo -e "\033[1;31mCannot continue.\033[m" >&2
 
-		[ -n "$mailer" ] && kill $mailer
-
 		exit 1
 	fi
 }
@@ -139,6 +137,7 @@ chkdep curl --version
 chkdep jq --version
 chkdep python --version
 chkdep readlink --version
+chkdep mailtodisk /etc/mailtodisk
 
 IFS=$'\n'
 
@@ -155,40 +154,6 @@ sed "s/^[[:space:]]*define('DEBUG'.*$/\/\/&/" --in-place ../.config
 
 # No mainteance...
 [ -e ../adminmessage.php ] && mv ../adminmessage.php ../~adminmessage.php
-
-cat <<EOF > ./mailer.py
-#! /usr/bin/python
-
-import sys
-import asyncore
-
-from smtpd import *
-
-class DebuggingServer(SMTPServer):
-	def __init__(self, localaddr, remoteaddr, file):
-		SMTPServer.__init__(self, localaddr, remoteaddr)
-		self.outfile = file
-
-	# Do something with the gathered message
-	def process_message(self, peer, mailfrom, rcpttos, data):
-		with open(self.outfile, 'a+') as f:
-			f.write('%s\n' % data)
-			f.write('======================================================\n');
-		f.closed
-
-if __name__ == '__main__':
-	if len(sys.argv) < 2:
-		print 'Too few arguments: Destination file required.'
-		sys.exit(0)
-
-	proxy = DebuggingServer(('127.0.0.1', 25), ('127.0.0.1', 2525), sys.argv[1])
-	try:
-		asyncore.loop()
-	except KeyboardInterrupt:
-		pass
-EOF
-
-chmod +x ./mailer.py
 
 ###############################################################################
 
@@ -227,6 +192,8 @@ getflights
 '
 fi
 
+status=0
+
 echo "$scripts" |
 while read script
 do
@@ -243,53 +210,39 @@ do
 
 			if [ 0 == $? ]; then
 
-				./mailer.py "$results/mail.txt" &
-				mailer=$!
-				# Make sure mailer will be terminated and port freed
-				[ 0 == $? ] && trap "kill $mailer; exit" SIGINT SIGTERM EXIT
-				chkmail=0
-				sed=
+				rm -f "$mails"
+				rm -f /etc/mailtodisk/*
+
+				mails=$(readlink -m "$results/mail.txt")
 
 				eval "$(cat sh/$script.sh)"
 
 				# wait only to suppress `check.sh: Zeile NNN:
 				#   NNNN Terminated /tmp/mailer.py "$results/mail.txt"`
-				kill $mailer
-				wait $mailer 2>/dev/null
 
-				if [ 0 == $chkmail ]; then
-					# Mails might be generated without the need to be checked...
-					rm -f "$results/mail.txt"
-				else
-					if [ -e "$results/mail.txt" ]; then
-						LANG=de_DE.utf8 sed -ri "
-							s#::1#<localhost>#g
-							s#127.0.0.1#<localhost>#g
-							s#(X-Mailer: PHP/).*\$#\1*#g
-							s#(http://[^/]+/).*/([^/?]+\?.*)#\1.../\2#g
-							s#((Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day), [0-9]+/[0-9]+/[0-9]+#Day, 00/00/00#g
-							s/((Mon|Diens|Donners|Frei|Sams|Sonn)tag|Mittwoch), [0-9]+\. (Januar|Februar|März|April|Mai|Ju[nl]i|August|(Sept|Nov|Dez)ember|Oktober) [0-9]+/Tag, 00. Monat 0000/g
-							s/^(Date:[ \t]+).+\$/\1Day, 0 Month 0000 00:00:00 +0000/g
-							s/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/0000-00-00 00:00:00/g
-							s/[0-9]{4}-[0-9]{2}-[0-9]{2}T/0000-00-00T/g
-							s/token=[0-9a-f]+/token=***/g
-							s/token='[0-9a-f.]+'/token='***'/g
-							s/\(code [0-9]+\)/(code ***)/g
-							/(Activation|Password) token is:/ { N; s/\n.+\$/\n***/g }
-							/Das (Aktivierungs-)?Token( dafür)? ist:/ { N; s/\n.+\$/\n***/g }
-						" "$results/mail.txt"
-
-						[ -n "$sed" ] && sed -ri "$sed" "$results/mail.txt"
-					else
-						# Suppress file not found error
-						echo > "$results/mail.txt"
-					fi
+				if [ -e "$results/mail.txt" ]; then
+					LANG=de_DE.utf8 sed -ri "
+						s#::1#<localhost>#g
+						s#127.0.0.1#<localhost>#g
+						s#(X-Mailer: PHP/).*\$#\1*#g
+						s#(http://[^/]+/).*/([^/?]+\?.*)#\1.../\2#g
+						s#((Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day), [0-9]+/[0-9]+/[0-9]+#Day, 00/00/00#g
+						s/((Mon|Diens|Donners|Frei|Sams|Sonn)tag|Mittwoch), [0-9]+\. (Januar|Februar|März|April|Mai|Ju[nl]i|August|(Sept|Nov|Dez)ember|Oktober) [0-9]+/Tag, 00. Monat 0000/g
+						s/^(Date:[ \t]+).+\$/\1Day, 0 Month 0000 00:00:00 +0000/g
+						s/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/0000-00-00 00:00:00/g
+						s/[0-9]{4}-[0-9]{2}-[0-9]{2}T/0000-00-00T/g
+						s/token=[0-9a-f]+/token=***/g
+						s/token='[0-9a-f.]+'/token='***'/g
+						s/\(code [0-9]+\)/(code ***)/g
+						/(Activation|Password) token is:/ { N; s/\n.+\$/\n***/g }
+						/Das (Aktivierungs-)?Token( dafür)? ist:/ { N; s/\n.+\$/\n***/g }
+					" "$results/mail.txt"
 				fi
 
 				# Copy referenced scripts to properly view results
 				cp -a ../css ../img ../script "$results"
 
-				diff "$expect" "$results" \
+				diff=$(diff "$expect" "$results" \
 					--brief \
 					--recursive --ignore-file-name-case \
 					--exclude=css \
@@ -299,11 +252,20 @@ do
 					--ignore-tab-expansion \
 					--ignore-space-change \
 					--ignore-all-space \
-					--ignore-blank-lines | \
-				grep -v '^diff' | \
-				sed -r $'s~^-(.*)$~\033[32m< \\1\033[m~g;
-						 s~^\+(.*)$~\033[35m> \\1\033[m~g;
-						 s~^@@.*@@$~\033[1;33m&\033[m~g'
+					--ignore-blank-lines)
+
+				result=$?
+
+				if [ $result -ne 0 ]; then
+					[ $status -eq 0 ] && status=$result
+				fi
+
+				if [ -n "$diff" ]; then
+					grep -v '^diff' <<<"$diff" | \
+					sed -r $'s~^-(.*)$~\033[32m< \\1\033[m~g;
+							 s~^\+(.*)$~\033[35m> \\1\033[m~g;
+							 s~^@@.*@@$~\033[1;33m&\033[m~g'
+				fi
 			fi
 		fi
 	fi
@@ -316,3 +278,5 @@ rm -f .COOKIES
 
 # Restore admin message
 [ -e ../~adminmessage.php ] && mv ../~adminmessage.php ../adminmessage.php
+
+exit $status
