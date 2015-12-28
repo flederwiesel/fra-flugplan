@@ -92,7 +92,7 @@ check "8" browse "$url/?arrival\&time=$time | sed -r '
 	s/$(date +%Y-%m-%d)/0000-00-00/g'"
 
 time=$(date +'%Y-%m-%d %H:%M:%S' --date='14:05')
-time=$(rawurlencode $time)
+time=$(rawurlencode "$time")
 
 check "9" browse "$url/?arrival\&time=$time | sed -r '
 	s/(\+[0-7]) [0-9]{2}:[0-9]{2}/\1 00:00/g;

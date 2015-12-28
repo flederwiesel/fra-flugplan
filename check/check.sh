@@ -19,8 +19,8 @@
 ###############################################################################
 
 # parse command line options
-debug=0
-verbose=0
+export debug=0
+export verbose=0
 
 declare -A argv=()
 
@@ -82,7 +82,7 @@ check() {
 
 	name=$1
 	shift
-	[ 1 == $verbose ] && echo -e "$name" >&2
+	[ 1 == $debug -o 1 == $verbose ] && echo -e "$name" >&2
 	[ 1 == $debug ] && echo -e "\033[33m$@\033[m" >&2
 	eval "$@" 2>&1 > "$results/$name.htm" | sed -r $'s~^.+$~\033[1;31mERROR: &\033[m~g'
 }
@@ -152,8 +152,8 @@ chkdep mailtodisk /etc/mailtodisk
 
 IFS=$'\n'
 
-prj="$(readlink -f ..)"
-url=http://localhost/$(rawurlencode "${prj##*htdocs/}" "/")
+export prj="$(readlink -f ..)"
+export url=http://localhost/$(rawurlencode "${prj##*htdocs/}" "/")
 
 unless $LINENO sed -r "\"s/^(define[ \t]*\('DB_NAME',[ \t]*')[^']+('\);)/\1fra-schedule\2/g\"" \
 	../.config.local '>' ../.config
@@ -214,8 +214,9 @@ do
 		if [ 0 == $? ]; then
 			echo -e "\033[36m$script\033[m"
 
-			expect="sh/expect/$script"
-			results="sh/results/$script"
+			export expect="sh/expect/$script"
+			export results="sh/results/$script"
+
 			rm -rf "$results"
 			mkdir -p "$results"
 
@@ -224,7 +225,7 @@ do
 				rm -f "$mails"
 				rm -f /etc/mailtodisk/*
 
-				mails=$(readlink -m "$results/mail.txt")
+				export mails=$(readlink -m "$results/mail.txt")
 
 				eval "$(cat sh/$script.sh)"
 

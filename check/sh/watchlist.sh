@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ###############################################################################
 #
@@ -91,8 +91,8 @@ SQL
 
 # /preparation ################################################################
 
-time=$(rawurlencode $(date +'%Y-%m-%d %H:%M:%S' --date="0 days 23:59"))
-today=$(date +'%Y-%m-%d' --date="23:55")
+time=$(rawurlencode "$(date +'%Y-%m-%d %H:%M:%S' --date='0 days 23:59')")
+today="$(date +'%Y-%m-%d' --date='23:55')"
 
 check "1" browse "$url/?req=login\&time=$time" \
 		--data-urlencode "user=flederwiesel" \
