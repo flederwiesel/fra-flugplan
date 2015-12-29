@@ -1,0 +1,4 @@
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteRule .(arrival|departure)s.json index.php
+</IfModule>

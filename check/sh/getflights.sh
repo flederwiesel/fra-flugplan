@@ -17,7 +17,7 @@
 # drop/re-create database
 initdb && rm -f .COOKIES
 
-baseurl=$(rawurlencode $(sed s?http://??g <<<"$url")/www.frankfurt-airport.com)
+prefix=$(rawurlencode $(sed s?http://??g <<<"$url"))
 
 echo "$mails" > /etc/mailtodisk/hausmeister@flederwiesel.com
 echo "$mails" > /etc/mailtodisk/fra-schedule@flederwiesel.com
@@ -88,13 +88,13 @@ YYYY_mm_dd_3=$(date +'%Y-%m-%d' --date="+3 days")
 
 for day in {0..1}
 do
-
 	for t in {5..23}
 	do
-
+#[ 1 == $day ] && [ 6 == $t ] && exit 1
 		time=$(printf '%02u:00' $t)
 
 		dHHMM=$(printf '%02u' $day)-$(date +'%H%M' --date="$time")
+#		mkdir -p "sh/results/getflights/$dHHMM"
 
 		offset=$(date +'%Y-%m-%d' --date="+$day days")
 		now=$(date +'%Y-%m-%dT%H:%M:%S%z' --date="$offset $time")
@@ -122,9 +122,21 @@ SQL
 				WHERE `id`=2
 SQL
 			;;
-		esac
 
-		#[ 1 == $day ] && [ 10 == $t ] && exit 1
+		"1 23:00")
+			query <<-"SQL"
+				USE fra-schedule;
+
+				UPDATE `visits`
+				SET `previous`=NULL
+				WHERE `aircraft`=(
+					SELECT `id`
+					FROM `aircrafts`
+					WHERE `reg`='C-GHKW'
+				)
+SQL
+			;;
+		esac
 
 		# From bulk INSERT in "fra-schedule.sql" we do not get `previous`
 		# even for `num` > 1, where normally this would be NOT NULL.
@@ -134,22 +146,18 @@ SQL
 			query --execute="USE fra-schedule; UPDATE visits SET previous=NULL WHERE aircraft=7"
 		fi
 
-		check "$dHHMM-getflights" browse "$url/getflights.php?baseurl=$baseurl\&time=$now\&debug=url,query\&fmt=html"\
+		check "$dHHMM-getflights" browse "$url/getflights.php?prefix=$prefix\&time=$now\&debug=url,json,jflights,sql\&fmt=html"\
 			"| sed -r '
 			s/Dauer: [0-9]+.[0-9]+s/Dauer: 0.000s/g
-			s/(fi[ad]=[A-Z0-9]+)$YYYYmmdd_0$/\100000000/g
-			s/(fi[ad]=[A-Z0-9]+)$YYYYmmdd_1$/\100000001/g
-			s/(fi[ad]=[A-Z0-9]+)$YYYYmmdd_2$/\100000002/g
 			s/$YYYY_mm_dd_0/0000-00-00/g
 			s/$YYYY_mm_dd_1/0000-00-01/g
 			s/$YYYY_mm_dd_2/0000-00-02/g
-			s/$YYYY_mm_dd_0 ([0-9]{2}:[0-9]{2}(:[0-9]{2})?)/0000-00-00 \1/g
-			s/$YYYY_mm_dd_1 ([0-9]{2}:[0-9]{2}(:[0-9]{2})?)/0000-00-01 \1/g
-			s/$YYYY_mm_dd_2 ([0-9]{2}:[0-9]{2}(:[0-9]{2})?)/0000-00-02 \1/g
-			s/((Mon|Diens|Donners|Frei|Sams|Sonn)tag|Mittwoch), [0-9]+\. (Januar|Februar|M.rz|April|Mai|Ju[nl]i|August|(Sept|Nov|Dez)ember|Oktober) [0-9]+/Tag, 00. Monat 0000/g
+			s/([ad])[0-9]{8}(ac|cx|ku|lh|s[aq]|t[kp]|ua)([0-9]+)/\100000000\2\3/g
+			s#((Mon|Diens|Donners|Frei|Sams|Sonn)tag|Mittwoch), [0-9]+\. (Januar|Februar|M.rz|April|Mai|Ju[nl]i|August|(Sept|Nov|Dez)ember|Oktober) [0-9]+#Tag, 00. Monat 0000#g
 			s#((Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day), [0-9]+/[0-9]+/[0-9]+#Day, 00/00/00#g
 			s#(FROM_UNIXTIME\()[0-9]+#\10#g
-			s#(http://[^/]+/).*/www.frankfurt-airport.com/(.*)#\1.../\2#g
+			s#(http://[^/]+/).*/(www.frankfurt-airport.com/.*)#\1.../\2#g
+			s#(\`(current|previous)\`=)[0-9]+#\10#g
 			'"
 
 		flights=$(query --execute='USE `fra-schedule`;
@@ -223,6 +231,33 @@ SQL
 				$ a </html>
 			'"
 
+		visits=$(query --execute='USE fra-schedule;
+			SELECT
+			 `aircrafts`.`reg`,
+			 `visits`.`num`,
+			 `visits`.`current`,
+			 `visits`.`previous`
+			FROM `visits`
+			LEFT JOIN `aircrafts` ON `aircrafts`.`id` = `visits`.`aircraft`
+			ORDER BY `reg`
+		'
+		)
+
+		check "$dHHMM-visits" "echo '$visits'"\
+			"| sed -r '
+				1 i <html>
+				1 i <head>
+				1 i <title>visits</title>
+				1 i </head>
+				1 i <body>
+				1 i <pre>
+				s/$YYYY_mm_dd_0/0000-00-00/g
+				s/$YYYY_mm_dd_1/0000-00-01/g
+				s/$YYYY_mm_dd_2/0000-00-02/g
+				$ a </pre>
+				$ a </body>
+				$ a </html>
+			'"
 	done
 done
 
@@ -234,18 +269,13 @@ do
 	now=$(date +'%Y-%m-%d %H:%M:%S' --date="$offset 05:00")
 	now=$(rawurlencode $now)
 
-	check "$dHHMM-getflights" browse "$url/getflights.php?baseurl=$baseurl\&time=$now\&debug=url,query\&fmt=html"\
+	check "$dHHMM-getflights" browse "$url/getflights.php?prefix=$prefix\&time=$now\&debug=url,json,sql\&fmt=html"\
 		"| sed -r '
 		s/Dauer: [0-9]+.[0-9]+s/Dauer: 0.000s/g
-		s/(fi[ad]=[A-Z0-9]+)$YYYYmmdd_0\$/\100000000/g
-		s/(fi[ad]=[A-Z0-9]+)$YYYYmmdd_1\$/\100000001/g
-		s/(fi[ad]=[A-Z0-9]+)$YYYYmmdd_2\$/\100000002/g
-		s/$YYYY_mm_dd_0/0000-00-00/g
-		s/$YYYY_mm_dd_1/0000-00-01/g
 		s/$YYYY_mm_dd_2/0000-00-02/g
 		s/$YYYY_mm_dd_3/0000-00-03/g
 		s#(FROM_UNIXTIME\()[0-9]+#\10#g
-		s#(http://[^/]+/).*/www.frankfurt-airport.com/(.*)#\1.../\2#g
+		s#(http://[^/]+/).*/(www.frankfurt-airport.com/.*)#\1.../\2#g
 		'"
 
 	notifications=$(query --execute='USE `fra-schedule`;
@@ -267,11 +297,9 @@ do
 			$ a </body>
 			$ a </html>
 		'"
-
 done
 
 visits=$(query --execute='USE fra-schedule;
-
 	SELECT
 	 `aircrafts`.`reg`,
 	 `visits`.`num`,

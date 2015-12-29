@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `flights`
 (
 	`id` integer NOT NULL AUTO_INCREMENT,
 	`uid` integer NOT NULL,
-	`type` enum('pax-regular', 'cargo', 'ferry') NOT NULL DEFAULT 'pax-regular',
+	`type` enum('P', 'F') NOT NULL DEFAULT 'P',
 	`direction` enum('arrival', 'departure') NOT NULL,
 	`airline` integer NOT NULL,
 	`code` varchar(6) NOT NULL,
@@ -112,6 +112,7 @@ CREATE TABLE IF NOT EXISTS `flights`
 	`airport` integer DEFAULT NULL,
 	`model` integer DEFAULT NULL,
 	`aircraft` integer DEFAULT NULL,
+	`last update` timestamp NULL,
 	PRIMARY KEY (`id`),
 	CONSTRAINT `unique:direction, airline, code, scheduled` UNIQUE (`direction`, `airline`, `code`, `scheduled`),
 	FOREIGN KEY(`uid`) REFERENCES `users`(`id`),

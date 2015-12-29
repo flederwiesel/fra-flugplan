@@ -1,3 +1,8 @@
 ErrorDocument 403 /error.php
 ErrorDocument 404 /error.php
 ErrorDocument 500 /error.php
+
+<IfModule mod_rewrite.c>
+RewriteEngine on
+RewriteRule apps.fraport.de/(.*) www.frankfurt-airport.com/$1
+</IfModule>

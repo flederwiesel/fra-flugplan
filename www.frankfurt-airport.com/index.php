@@ -14,264 +14,180 @@
  *
  ******************************************************************************/
 
+/*
+#!./check.sh
+ */
+
 /******************************************************************************
  * Fraport server mockup - Generates html paginated schedule based on CSV files
  ******************************************************************************/
 
-class airline
+function compare_sched($a, $b)
 {
-	public $code;
-	public $name;
-
-	public function __construct($code, $name)
-	{
-		$this->code = $code;
-		$this->name = $name;
-	}
-};
-
-class airport
-{
-	public $iata;
-	public $icao;
-	public $name;
-	public $country;
-
-	public function __construct($iata, $icao, $name, $country)
-	{
-		$this->iata = $iata;
-		$this->icao = $icao;
-		$this->name = $name;
-		$this->country = $country;
-	}
-};
-
-class flight
-{
-	public $scheduled;
-	public $expected;
-	public $airline;
-	public $code;
-	public $model;
-	public $reg;
-	public $airport;
-	public $remark;
-
-	public function __construct($scheduled, $expected, $airline, $code, $model, $reg, $airport, $remark)
-	{
-		$this->scheduled = $scheduled;
-		$this->expected  = $expected;
-		$this->airline   = $airline;
-		$this->code      = $code;
-		$this->model     = $model;
-		$this->reg       = $reg;
-		$this->airport   = $airport;
-		$this->remark    = $remark;
-	}
-};
-
-function LineReplaceFlightData($row, $flight)
-{
-	list($scheduled['day'], $scheduled['time']) = explode(' ', $flight->scheduled);
-
-	if (0 == strlen($flight->expected))
-	{
-		$expected['time'] = '';
-		$expected['timeday'] = '';
-	}
+	if ($a['sched'] == $b['sched'])
+		return 0;
 	else
-	{
-		list($expected['day'], $expected['time']) = explode(' ', $flight->expected);
-
-		$expected['timeday'] = sprintf("Erwartet: %s Uhr\n        , %s\n        <br/>",
-						    $expected['time'], strftime('%d.%m.%Y', strtotime("$expected[day] days")));
-	}
-
-	return str_replace(
-
-		array(
-			'${YYYYmmdd}',		// scheduled
-			'${dd-mm-YYYY}',	// scheduled
-			'${scheduled-date}',
-			'${scheduled-time}',
-			'${expected}',
-			'${expected-time}',
-			'${airline-code}',
-			'${airline-name}',
-			'${code}',
-			'${airport-iata}',
-			'${airport-icao}',
-			'${airport-name}',
-			'${airport-country}',
-			'${model}',
-			'${reg}',
-			'${remark}',
-		),
-
-		array(
-			strftime('%Y%m%d',   strtotime("$scheduled[day] days")),
-			strftime('%d-%m-%Y', strtotime("$scheduled[day] days")),
-			strftime('%d.%m.%Y', strtotime("$scheduled[day] days")),
-			$scheduled['time'],
-			$expected['timeday'],
-			$expected['time'],
-			$flight->airline->code,
-			$flight->airline->name,
-			$flight->code,
-			$flight->airport->iata,
-			$flight->airport->icao,
-			$flight->airport->name,
-			$flight->airport->country,
-			$flight->model,
-			$flight->reg,
-			$flight->remark,
-		),
-
-		$row
-	);
+		return ($a['sched'] < $b['sched']) ? -1 : 1;
 }
 
-/* Description of the csv */
-$keys = array(
-	'now',
-	'dir',
-	'sched',
-	'esti',
-	'lu',
-	'al',
-	'fnr',
-	'alname',
-	'iata',
-	'ac',
-	'reg',
-	'status',
-	'icao',
-	'apname',
-	'country',
-);
+// main()
 
-$direction = NULL;
+$dir = NULL;
+$now = NULL;
+$page = 1;
+$items = 3;
+$html = FALSE;
+
+if (isset($_GET['fmt']))
+{
+	if ('html' == $_GET['fmt'])
+		$html = TRUE;
+}
 
 if (isset($_GET['type']))
 {
-	$type = 'list';
-
-	if ('arrival' == $_GET['type'] || 'departure' == $_GET['type'])
-		$direction = $_GET['type'];
-}
-else
-{
-	if (isset($_GET['fia']))
+	if ('arrival'   == $_GET['type'] ||
+		'departure' == $_GET['type'])
 	{
-		$request = $_GET['fia'];
-		$direction = 'arrival';
-		$type = 'details';
-	}
-
-	if (isset($_GET['fid']))
-	{
-		$request = $_GET['fid'];
-		$direction = 'departure';
-		$type = 'details';
+		$dir = $_GET['type'];
 	}
 }
-
-$tz = date_default_timezone_set('Europe/Berlin');
-
-$now = time();
 
 if (isset($_GET['time']))
-	$now = strtotime($_GET['time']);
+	$now =  strtotime($_GET['time']);
 
-$today = strtotime('00:00');
+if (!$now)
+	$now = time();
 
-$today = ($now - $today) / 86400;
-$today = (int)$today;
+if (isset($_GET['page']))
+	if ($_GET['page'] > 0)
+		$page = $_GET['page'];
 
-$querytime = strftime("$today %H:%M", $now);
+if (isset($_GET['perpage']))
+	if ($_GET['perpage'] > 0)
+		$items = $_GET['perpage'];
 
-list($query['day'], $query['time']) = explode(' ', $querytime);
+if ($html)
+{
+?>
+<html>
+<head>
+</head>
+<body>
+<pre><?php
+}
 
-if ($direction)
+$today = strtotime('00:00:00+0100');
+$day = (int)(($now - $today) / 86400);
+$time = strftime('%H:%M', $now);
+
+if ($dir && $now && $page > 0)
 {
 	$flights = array();
 
 	/* Look for CVS file in arrival/departure directory */
-	$dir = opendir("flights/$direction");
+	$flightsdir = opendir("flights/$dir");
 
-	if ($dir)
+	if ($flightsdir)
 	{
 		$files = array();
-		$file = readdir($dir);
+		$file = readdir($flightsdir);
 
 		while (false !== $file)
 		{
 			if ($file != '.' && $file != '..')
 				$files[] = $file;
 
-			$file = readdir($dir);
+			$file = readdir($flightsdir);
 		}
 
 		foreach ($files as $file)
 		{
 			if (preg_match('/.*\.csv$/i', $file))
 			{
-				$lines = file("flights/$direction/$file");
+				/* Description of the csv */
+				$keys = NULL;
+				$lines = file("flights/$dir/$file");
 
 				foreach ($lines as $line)
 				{
 					$line = rtrim($line);
 
-					/* if (strlen($line) == count($keys)) line is empty! */
 					if ('#' == $line[0])
 					{
-						$keys = explode(';', substr($line, 1));
+						$keys = explode(";", substr($line, 1));
+					}
+					else if (';' == $line[0])
+					{
 					}
 					else
 					{
-						if (strlen($line) > count($keys) - 1)
+						if (NULL == $keys)
 						{
-							/* Delete all C-Comments (and surrounding spaces) from line */
-							$line = preg_replace('/[ \t]*\/*(\*[^\/]+|[^*]\/)\*\/[ \t]*/', '', $line);
-							/* Create an assiciative array from line */
-							$flight = array_combine($keys, explode(';', $line));
-
-							if ($flight['now'] == $querytime)
+							printf("%s(%u): No keys to index array.\n", __FILE__, __LINE__);
+							break;
+						}
+						else
+						{
+							/* if (strlen($line) == count($keys)) line is empty! */
+							if (strlen($line) > count($keys) - 1)
 							{
-								list($scheduled['day'], $scheduled['time']) = explode(' ', $flight['sched']);
-								$scheduled = ($query['day'] + $scheduled['day']).' '.$scheduled['time'];
+								/* Delete all C-Comments (and surrounding spaces) from line */
+								$line = preg_replace('/[ \t]*\/*(\*[^\/]+|[^*]\/)\*\/[ \t]*/', '', $line);
 
-								if (0 == strlen($flight['esti']))
+								/* Create an assiciative array from line */
+								$flight = array_combine($keys, explode(';', $line));
+
+								if ($flight['now'] == "$day $time")
 								{
-									$expected = '';
-								}
-								else
-								{
-									list($expected['day'], $expected['time']) = explode(' ', $flight['esti']);
-									$expected = ($query['day'] + $expected['day']).' '.$expected['time'];
-								}
+									/* Do not output `now` column */
+									unset($flight['now']);
 
-								$flights[] = new flight(
-										$scheduled,
-										$expected,
-										new airline(
-											$flight['al'],
-											$flight['alname']
-										),
-										$flight['fnr'],
-										$flight['ac'],
-										$flight['reg'],
-										new airport(
-											$flight['iata'],
-											$flight['icao'],
-											$flight['apname'],
-											$flight['country']
-										),
-										$flight['status']
-								);
+									$flight['id'] = strtolower($flight['dir']).date('Ymd').strtolower($flight['al']).$flight['fnr'];
 
-								unset($scheduled);
-								unset($expected);
+									/* Adjust fnr */
+									$flight['fnr'] = $flight['al'].' '.$flight['fnr'];
+
+									/* Adjust sched */
+									$d = strtok($flight['sched'], ' ');
+									$t = strtok(NULL);
+
+									$flight['sched'] = date(DATE_ISO8601, strtotime("$d days $t", $now));
+
+									/* Adjust esti */
+									if (0 == strlen($flight['esti']))
+									{
+										unset($flight['esti']);
+									}
+									else
+									{
+										$d = strtok($flight['esti'], ' ');
+										$t = strtok(NULL);
+
+										$flight['esti'] = date(DATE_ISO8601, strtotime("$d days $t", $now));
+									}
+
+									if (0 == strlen($flight['lu']))
+										$flight['lu'] = date(DATE_ISO8601, $now);
+									else
+										$flight['lu'] = date(DATE_ISO8601, strtotime("$d days $t", $now));
+
+									/* Unset empty strings */
+									if (0 == strlen($flight['ac']))
+										unset($flight['ac']);
+
+									if (0 == strlen($flight['reg']))
+										unset($flight['reg']);
+
+									if (0 == strlen($flight['status']))
+										unset($flight['status']);
+
+									unset($flight['icao']);
+									unset($flight['apname']);
+									unset($flight['country']);
+
+									$flights[] = $flight;
+								}
 							}
 						}
 					}
@@ -279,142 +195,68 @@ if ($direction)
 			}
 		}
 
-		sort($flights);
-	}
-}
-
-if ('details' == $type)
-{
-	$flight = NULL;
-
-	/* extract flight number */
-	/* fi[ad]=A{2,3}C{3,4}YYYYmmdd */
-	$date = substr($request, -8);
-
-	if ('00000000' == $date)
-		$request = substr($request, 0, -8).strftime('%Y%m%d');
-
-	for ($i = 0; $i < count($flights); $i++)
-	{
-		list($dHHMM['day'], $dHHMM['time']) = explode(' ', $flights[$i]->scheduled);
-
-		$scheduled = strftime('%Y%m%d', strtotime("$dHHMM[day] days"));
-
-		if ($flights[$i]->airline->code.$flights[$i]->code.$scheduled == $request)
-		{
-			$flight = $flights[$i];
-			break;
-		}
-	}
-
-	if ($flight)
-	{
-		$file = "templates/fi$direction[0].htm";
-		$file = file($file);
-
-		foreach ($file as $line)
-			echo LineReplaceFlightData($line, $flights[$i]);
-	}
-}
-else
-{
-	// type=arrival&typ=p&context=0&sprache=de&items=12&init=true&page=1
-	// type=departure&typ=p&context=0&sprache=de&items=12&usepager=true&page=2
-	$file = file("templates/$direction.htm");
-
-	if ($file)
-	{
-		$items = 3;
-		$page = 1;
-		$next = NULL;
-		$start = 0;
-
 		/* Show at most count($flights) */
-		if (isset($_GET['items']))
-			if ($_GET['items'] <= count($flights) && $_GET['items'] > 0)
-				$items = $_GET['items'];
+		$results = count($flights);
 
-		/* Validate page index, set start index */
-		if (isset($_GET['page']))
+		if ($items > $results)
+			$items = $results;
+
+		if ($items < 1)
 		{
-			if ($_GET['page'] > 0)
-			{
-				if (($_GET['page'] - 1) * $items <= count($flights))
-				{
-					$page = $_GET['page'];
-					$start = ($page - 1) * $items;
-				}
-			}
+			$pages = 0;
+			$page = 0;
+			$start = 0;
 		}
-
-		$pages = (int)(count($flights) / $items);
-
-		if (count($flights) % $items > 0)
-			$pages++;
-
-		$nav = '<li class="active"><a href="#1">1</a></li>';
-
-		if ($pages > 3)
-			$nav .= '<li>...</li>';
-
-		if ($pages > 2)
-			$nav .= '<li class="active"><a href="#'.$pages.'">'.$pages.'</a></li>';
-
-		/* Limit items */
-		if ($start + $items > count($flights))
-			$items = count($flights) - $start;
-
-		/* set 'next' href appropriately */
-		if ($start + $items < count($flights))
-			$next = $page + 1;
-
-		if (NULL == $next)
-			$next = '<span class="next-page-disabled">weiter</span>';
 		else
-			$next = '<a class="next-page" href="#'.$next.'">weiter</a>';
-
-		/* Copy up to "<tbody>" -> leave $head section */
-		/* Then gather lines up to "</tbody>" (not included) - */
-		/*   which starts $tail - in $row, replace flight data */
-		/* Copy remainder, unless we need to replace pager navigation */
-		$head = true;
-		$tail = false;
-		$row = '';
-
-		foreach ($file as $line)
 		{
-			if ($head)
-			{
-				if (strstr($line, '<tbody>'))
-					$head = false;
+			/* Validate page index, set start index */
+			$pages = (int)($results / $items);
 
-				echo $line;
-			}
-			else if ($tail)
-			{
-				$line = str_replace('${nav-next}', $next, $line);
-				$line = str_replace('${nav-pages}', $nav, $line);
+			if ($results % $items > 0)
+				$pages++;
 
-				echo $line;
+			if ($page > $pages)
+			{
+				$results = 0;
+				$items = 0;
+				$pages = 0;
+				$page = 0;
 			}
 			else
 			{
-				if (!strstr($line, '</tbody>'))
-				{
-					$row .= $line;
-				}
-				else
-				{
-					$tail = true;
+				$start = ($page - 1) * $items;
 
-					for ($i = $start; $i < $start + $items; $i++)
-						echo LineReplaceFlightData($row, $flights[$i]);
+				/* Limit items */
+				if ($start + $items > $results)
+					$items = $results - $start;
 
-					unset($row);
-				}
+				/* Sort array by `sched` */
+				usort($flights, 'compare_sched');
 			}
 		}
+
+		for ($i = 0; $i < $items; $i++)
+			$result['data'][$i] = $flights[$start + $i];
+
+		$result['type'] = $dir;
+		$result['luops'] = date(DATE_ISO8601, $now);
+		$result['lusaison'] = date(DATE_ISO8601, $now);
+//		$result['filter'] = new StdObject();
+		$result['results'] = $results;
+		$result['entriesperpage'] = $items;
+		$result['maxpage'] = $pages;
+		$result['page'] = $page;
+
+		echo json_encode($result);
 	}
 }
 
+if ($html)
+{
+?>
+</pre>
+</body>
+</html>
+<?php
+}
 ?>

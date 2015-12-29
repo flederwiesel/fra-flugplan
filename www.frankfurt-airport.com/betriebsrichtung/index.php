@@ -208,10 +208,13 @@ jQuery(function(){
 		switch ($rwy)
 		{
 		case "07":
-		case "07,18":
 		case "25":
+			$rwy = "18,".$rwy;
+			break;
+
+		case "07,18":
 		case "25,18":
-			;
+			break;
 
 		default:
 			$rwy = "18,99";
