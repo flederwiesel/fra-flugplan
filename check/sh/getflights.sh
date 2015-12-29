@@ -213,7 +213,8 @@ SQL
 
 		notifications=$(query --execute='USE `fra-schedule`;
 			SELECT `flight`, `watch`, `notified`
-			FROM `watchlist-notifications`'
+			FROM `watchlist-notifications`
+			ORDER BY `flight`'
 		)
 
 		check "$dHHMM-notifications" 'echo "$notifications"'\
@@ -280,7 +281,8 @@ do
 
 	notifications=$(query --execute='USE `fra-schedule`;
 		SELECT `flight`, `watch`, `notified`
-		FROM `watchlist-notifications`'
+		FROM `watchlist-notifications`
+		ORDER BY `flight`'
 	)
 
 	check "$dHHMM-notifications" 'echo "$notifications"'\

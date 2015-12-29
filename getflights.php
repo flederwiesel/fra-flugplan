@@ -1432,15 +1432,15 @@ function SQL_DeleteFlight($id)
 	}
 	else
 	{
-		/* Delete from `watchlist-notifications` first, which uses
-		   `flights`.`is` a foreign key... */
 		$query = <<<SQL
 			DELETE
-			FROM `watchlist-notifications`
-			WHERE `flight`=$id
+			FROM `flights`
+			WHERE `id`=$id
 SQL;
 
-		if (!mysql_query($query))
+		$result = mysql_query($query);
+
+		if (!$result)
 		{
 			$error = seterrorinfo(__LINE__,
 						sprintf("[%d] %s: %s",
@@ -1448,36 +1448,16 @@ SQL;
 		}
 		else
 		{
+			$error = NULL;
+
 			if (isset($DEBUG['sql']))
+			{
 				echo query_style($query);
-
-			$query = <<<SQL
-				DELETE
-				FROM `flights`
-				WHERE `id`=$id
-SQL;
-
-			$result = mysql_query($query);
-
-			if (!$result)
-			{
-				$error = seterrorinfo(__LINE__,
-							sprintf("[%d] %s: %s",
-								mysql_errno(), mysql_error(), query_style($query)));
+				echo "=OK\n";
 			}
-			else
-			{
-				$error = NULL;
 
-				if (isset($DEBUG['sql']))
-				{
-					echo query_style($query);
-					echo "=OK\n";
-				}
-
-				if (0 == mysql_affected_rows())
-					warn_once(__LINE__, "No flight deleted: $id");
-			}
+			if (0 == mysql_affected_rows())
+				warn_once(__LINE__, "No flight deleted: $id");
 		}
 	}
 
@@ -1654,6 +1634,52 @@ SQL;
 					echo query_style($query);
 					echo "=OK\n";
 				}
+			}
+		}
+	}
+
+	return $error;
+}
+
+/* Delete all notifications for cancelled flights or
+   those not having been sent, if aircraft changes */
+function SQL_DeleteNotifications($id, $all)
+{
+	global $DEBUG;
+
+	if (!$id)
+	{
+		$error = seterrorinfo(__LINE__, 'EINVAL');
+	}
+	else
+	{
+		if ($all)
+			$cond = '';
+		else
+			$cond = ' AND `notified` IS NULL';
+
+		$query = <<<SQL
+			DELETE
+			FROM `watchlist-notifications`
+			WHERE `flight`={$id}{$cond}
+SQL;
+
+		$result = mysql_query($query);
+
+		if (!$result)
+		{
+			$error = seterrorinfo(__LINE__,
+						sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
+		}
+		else
+		{
+			$error = NULL;
+
+			if (isset($DEBUG['sql']))
+			{
+				echo query_style($query);
+				echo "=OK\n";
 			}
 		}
 	}
@@ -2021,11 +2047,12 @@ else
 						   - update of #visits
 						     - in case of cancelled flights
 						     - in case of equipment change
-						 */
-						$id = NULL;
-						$ac = NULL;
 
-						$error = SQL_GetFlightDetails($dir, $f, $id, $ac, $lu);
+						   $f comes in with id=0
+						 */
+						$ac = 0;
+
+						$error = SQL_GetFlightDetails($dir, $f, $f->id, $ac, $lu);
 					}
 
 					if (!$error)
@@ -2034,40 +2061,47 @@ else
 
 						if (FlightStatus::CANCELLED == $f->status)
 						{
-							if ($id)
+							if ($f->id)
 							{
 								$visits = -1;
-								$error = SQL_DeleteFlight($id);
-//TODO: Update watchlist-notifications
+
+								/* Delete from `watchlist-notifications` first, which uses
+								   `flights`.`is` a foreign key... */
+								SQL_DeleteNotifications($f->id, true);
+
+								$error = SQL_DeleteFlight($f->id);
 							}
 						}
 						else
 						{
-							if (0 == $id)
+							if (0 == $f->id)
 							{
 								$visits = 1;
 								$error = SQL_InsertFlight($dir, $f);
 							}
 							else
 							{
-//TODO: Update watchlist-notifications, if ($ac != $f->aicraft->id)
-								$error = SQL_UpdateFlightDetails($id, $f);
+								$error = SQL_UpdateFlightDetails($f->id, $f);
 
 								if (!$error)
 								{
-									if ('arrival' == $dir)
+									if (NULL == $ac)
 									{
-										if (NULL == $ac)
-										{
+										if ('arrival' == $dir)
 											$visits = 1;
-										}
-										else
+									}
+									else
+									{
+										if ($f->aircraft->id != $ac)
 										{
-											if ($f->aircraft->id != $ac)
+											if ('arrival' == $dir)
 											{
-												$error = SQL_UpdateVisitsToFra($f->scheduled, $ac, -1);
-												$visits = 1;
+												SQL_UpdateVisitsToFra($f->scheduled, $ac, -1);
+
+												$visits = 1;	/* for $f->aircraft */
 											}
+
+											SQL_DeleteNotifications($f->id, false);
 										}
 									}
 								}

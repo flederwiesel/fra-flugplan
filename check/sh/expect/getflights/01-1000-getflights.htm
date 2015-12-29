@@ -268,6 +268,8 @@ SELECT MAX(`scheduled`) AS `scheduled` FROM (SELECT `scheduled` FROM `flights` W
 ='0000-00-00 22:30:00'
 UPDATE `visits` SET `num`=3, `current`='0000-00-00 22:30:00', `previous`=NULL WHERE `aircraft`=7
 =OK
+DELETE FROM `watchlist-notifications` WHERE `flight`=35 AND `notified` IS NULL
+=OK
 
 /************************************/
 

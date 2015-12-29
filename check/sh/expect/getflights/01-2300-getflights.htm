@@ -259,6 +259,8 @@ SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=1;
 =2,'0000-00-02 06:15:00',0000-00-00 06:15:00
 UPDATE `visits` SET `num`=1, `current`='0000-00-00 06:15:00', `previous`=NULL WHERE `aircraft`=1
 =OK
+DELETE FROM `watchlist-notifications` WHERE `flight`=49 AND `notified` IS NULL
+=OK
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=13;
 =<empty>
 INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`) VALUES(13, 1, '0000-00-02T06:15:00+0100', NULL);
@@ -358,6 +360,7 @@ SELECT `id` FROM `aircrafts` WHERE `reg`='C-GHKW';
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=4 AND `code`='876' AND `scheduled`='0000-00-02T11:45:00+0100'
 =57,6,0000-00-01 12:00:00
 DELETE FROM `watchlist-notifications` WHERE `flight`=57
+=OK
 DELETE FROM `flights` WHERE `id`=57
 =OK
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=6;

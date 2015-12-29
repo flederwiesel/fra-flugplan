@@ -312,6 +312,7 @@ SELECT `id` FROM `aircrafts` WHERE `reg`='9K-AME';
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=63 AND `code`='171' AND `scheduled`='0000-00-00T13:20:00+0100'
 =9,8,0000-00-00 05:00:00
 DELETE FROM `watchlist-notifications` WHERE `flight`=9
+=OK
 DELETE FROM `flights` WHERE `id`=9
 =OK
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=8;
@@ -679,6 +680,7 @@ SELECT `id` FROM `models` WHERE `icao`='A306';
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='departure' AND `airline`=63 AND `code`='172' AND `scheduled`='0000-00-00T14:30:00+0100'
 =20,8,0000-00-00 05:00:00
 DELETE FROM `watchlist-notifications` WHERE `flight`=20
+=OK
 DELETE FROM `flights` WHERE `id`=20
 =OK
 

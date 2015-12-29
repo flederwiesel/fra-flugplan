@@ -240,8 +240,12 @@ SELECT `id` FROM `models` WHERE `icao`='A333';
 SELECT `id` FROM `aircrafts` WHERE `reg`='C-GHLM';
 =5
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=4 AND `code`='874' AND `scheduled`='0000-00-01T07:00:00+0100'
-=28,5,0000-00-00 08:00:00
+=28,,0000-00-00 08:00:00
 UPDATE `flights` SET `expected`='0000-00-01T07:00:00+0100', `airport`=245, `aircraft`=5, `model`=14 WHERE `id`=28;
+=OK
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=5;
+=1,'0000-00-00 11:15:00',NULL
+UPDATE `visits` SET `num`=2, `current`='0000-00-01T07:00:00+0100', `previous`='0000-00-00 11:15:00' WHERE `aircraft`=5
 =OK
 
 /************************************/
@@ -263,6 +267,8 @@ UPDATE `flights` SET `airport`=201, `aircraft`=12, `model`=65 WHERE `id`=29;
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=4;
 =2,'0000-00-01 09:45:00',0000-00-00 09:45:00
 UPDATE `visits` SET `num`=1, `current`='0000-00-00 09:45:00', `previous`=NULL WHERE `aircraft`=4
+=OK
+DELETE FROM `watchlist-notifications` WHERE `flight`=29 AND `notified` IS NULL
 =OK
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=12;
 =<empty>
@@ -608,7 +614,7 @@ SELECT `id` FROM `models` WHERE `icao`='A333';
 SELECT `id` FROM `aircrafts` WHERE `reg`='C-GHLM';
 =5
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='departure' AND `airline`=4 AND `code`='845' AND `scheduled`='0000-00-01T10:30:00+0100'
-=31,5,0000-00-00 11:00:00
+=31,,0000-00-00 11:00:00
 UPDATE `flights` SET `airport`=247, `aircraft`=5, `model`=14 WHERE `id`=31;
 =OK
 
@@ -638,6 +644,8 @@ SELECT `id` FROM `aircrafts` WHERE `reg`='N794UA';
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='departure' AND `airline`=120 AND `code`='902' AND `scheduled`='0000-00-01T12:15:00+0100'
 =36,4,0000-00-00 13:00:00
 UPDATE `flights` SET `airport`=201, `aircraft`=12, `model`=65 WHERE `id`=36;
+=OK
+DELETE FROM `watchlist-notifications` WHERE `flight`=36 AND `notified` IS NULL
 =OK
 
 /************************************/

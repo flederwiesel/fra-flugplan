@@ -20,7 +20,7 @@
 0 21:00;A;1 07:00;1 07:00;;P;AC;874;Air Canada;YUL;A333;;;CYUL;Montreal-Trudeau;Kanada
 0 22:00;A;1 07:00;1 07:00;;P;AC;874;Air Canada;YUL;A333;;;CYUL;Montreal-Trudeau;Kanada
 0 23:00;A;1 07:00;1 07:00;;P;AC;874;Air Canada;YUL;A333;CGHLM /*=5,2*/;;CYUL;Montreal-Trudeau;Kanada
-1 05:00;A;0 07:00;0 07:00;;P;AC;874;Air Canada;YUL;A333;CGHLM;;CYUL;Montreal-Trudeau;Kanada
+1 05:00;A;0 07:00;0 07:00;;P;AC;874;Air Canada;YUL;A333;;;CYUL;Montreal-Trudeau;Kanada
 1 06:00;A;0 07:00;0 07:00;;P;AC;874;Air Canada;YUL;A333;CGHLM;;CYUL;Montreal-Trudeau;Kanada
 1 07:00;A;0 07:00;0 06:59 /***/;;P;AC;874;Air Canada;YUL;A333;CGHLM;im Anflug;CYUL;Montreal-Trudeau;Kanada
 1 08:00;A;0 07:00;0 06:59;;P;AC;874;Air Canada;YUL;A333;CGHLM;gelandet;CYUL;Montreal-Trudeau;Kanada

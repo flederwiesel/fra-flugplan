@@ -242,6 +242,8 @@ SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=13;
 =1,'0000-00-02 06:15:00',NULL
 DELETE FROM `visits` WHERE `aircraft`=13
 =OK
+DELETE FROM `watchlist-notifications` WHERE `flight`=49 AND `notified` IS NULL
+=OK
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=1;
 =1,'0000-00-00 06:15:00',NULL
 UPDATE `visits` SET `num`=2, `current`='0000-00-02T06:15:00+0100', `previous`='0000-00-00 06:15:00' WHERE `aircraft`=1

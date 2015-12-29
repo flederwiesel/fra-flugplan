@@ -11,7 +11,7 @@ arrival
 ========
 
 http://localhost/.../www.frankfurt-airport.com/de/_jcr_content.arrivals.json/filter?type=arrival&lang=de&time=0000-00-01T05%3A00%3A00%2B0100&perpage=3&page=1
-{"data":[{"dir":"A","sched":"0000-00-01T06:15:00+0100","esti":"0000-00-01T05:18:00+0100","lu":"0000-00-01T05:00:00+0100","typ":"P","al":"SA","fnr":"SA 260","alname":"South African Airways","iata":"JNB","ac":"A346","reg":"ZSSNC","status":"im Anflug","id":"a00000000sa260"},{"dir":"A","sched":"0000-00-01T06:20:00+0100","lu":"0000-00-01T05:00:00+0100","typ":"P","al":"CX","fnr":"CX 289","alname":"Cathay Pacific Airways","iata":"HKG","ac":"B77W","reg":"BKPF","id":"a00000000cx289"},{"dir":"A","sched":"0000-00-01T07:00:00+0100","esti":"0000-00-01T07:00:00+0100","lu":"0000-00-01T05:00:00+0100","typ":"P","al":"AC","fnr":"AC 874","alname":"Air Canada","iata":"YUL","ac":"A333","reg":"CGHLM","id":"a00000000ac874"}],"type":"arrival","luops":"0000-00-01T05:00:00+0100","lusaison":"0000-00-01T05:00:00+0100","results":13,"entriesperpage":"3","maxpage":5,"page":"1"}
+{"data":[{"dir":"A","sched":"0000-00-01T06:15:00+0100","esti":"0000-00-01T05:18:00+0100","lu":"0000-00-01T05:00:00+0100","typ":"P","al":"SA","fnr":"SA 260","alname":"South African Airways","iata":"JNB","ac":"A346","reg":"ZSSNC","status":"im Anflug","id":"a00000000sa260"},{"dir":"A","sched":"0000-00-01T06:20:00+0100","lu":"0000-00-01T05:00:00+0100","typ":"P","al":"CX","fnr":"CX 289","alname":"Cathay Pacific Airways","iata":"HKG","ac":"B77W","reg":"BKPF","id":"a00000000cx289"},{"dir":"A","sched":"0000-00-01T07:00:00+0100","esti":"0000-00-01T07:00:00+0100","lu":"0000-00-01T05:00:00+0100","typ":"P","al":"AC","fnr":"AC 874","alname":"Air Canada","iata":"YUL","ac":"A333","id":"a00000000ac874"}],"type":"arrival","luops":"0000-00-01T05:00:00+0100","lusaison":"0000-00-01T05:00:00+0100","results":13,"entriesperpage":"3","maxpage":5,"page":"1"}
 {
     "dir": "A",
     "sched": "0000-00-01T06:15:00+0100",
@@ -51,7 +51,6 @@ http://localhost/.../www.frankfurt-airport.com/de/_jcr_content.arrivals.json/fil
     "alname": "Air Canada",
     "iata": "YUL",
     "ac": "A333",
-    "reg": "CGHLM",
     "id": "a00000000ac874"
 },
 http://localhost/.../www.frankfurt-airport.com/de/_jcr_content.arrivals.json/filter?type=arrival&lang=de&time=0000-00-01T05%3A00%3A00%2B0100&perpage=3&page=2
@@ -225,11 +224,15 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='YUL';
 =245
 SELECT `id` FROM `models` WHERE `icao`='A333';
 =14
-SELECT `id` FROM `aircrafts` WHERE `reg`='C-GHLM';
-=5
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=4 AND `code`='874' AND `scheduled`='0000-00-01T07:00:00+0100'
 =28,5,0000-00-00 08:00:00
-UPDATE `flights` SET `expected`='0000-00-01T07:00:00+0100', `airport`=245, `aircraft`=5, `model`=14 WHERE `id`=28;
+UPDATE `flights` SET `expected`='0000-00-01T07:00:00+0100', `airport`=245, `aircraft`=NULL, `model`=14 WHERE `id`=28;
+=OK
+SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=5;
+=2,'0000-00-01 07:00:00',0000-00-00 11:15:00
+UPDATE `visits` SET `num`=1, `current`='0000-00-00 11:15:00', `previous`=NULL WHERE `aircraft`=5
+=OK
+DELETE FROM `watchlist-notifications` WHERE `flight`=28 AND `notified` IS NULL
 =OK
 
 /************************************/
@@ -367,7 +370,7 @@ departure
 ========
 
 http://localhost/.../www.frankfurt-airport.com/de/_jcr_content.departures.json/filter?type=departure&lang=de&time=0000-00-01T05%3A00%3A00%2B0100&perpage=3&page=1
-{"data":[{"dir":"D","sched":"0000-00-01T06:20:00+0100","lu":"0000-00-01T05:00:00+0100","typ":"P","al":"TP","fnr":"TP 571","alname":"TAP Portugal","iata":"LIS","ac":"A320","reg":"CSTNP","status":"Gate offen","id":"d00000000tp571"},{"dir":"D","sched":"0000-00-01T10:30:00+0100","lu":"0000-00-01T05:00:00+0100","typ":"P","al":"AC","fnr":"AC 845","alname":"Air Canada","iata":"YYC","ac":"A333","reg":"CGHLM","id":"d00000000ac845"},{"dir":"D","sched":"0000-00-01T11:45:00+0100","lu":"0000-00-01T05:00:00+0100","typ":"P","al":"TK","fnr":"TK 1588","alname":"Turkish Airlines","iata":"IST","ac":"A343","id":"d00000000tk1588"}],"type":"departure","luops":"0000-00-01T05:00:00+0100","lusaison":"0000-00-01T05:00:00+0100","results":13,"entriesperpage":"3","maxpage":5,"page":"1"}
+{"data":[{"dir":"D","sched":"0000-00-01T06:20:00+0100","lu":"0000-00-01T05:00:00+0100","typ":"P","al":"TP","fnr":"TP 571","alname":"TAP Portugal","iata":"LIS","ac":"A320","reg":"CSTNP","status":"Gate offen","id":"d00000000tp571"},{"dir":"D","sched":"0000-00-01T10:30:00+0100","lu":"0000-00-01T05:00:00+0100","typ":"P","al":"AC","fnr":"AC 845","alname":"Air Canada","iata":"YYC","ac":"A333","id":"d00000000ac845"},{"dir":"D","sched":"0000-00-01T11:45:00+0100","lu":"0000-00-01T05:00:00+0100","typ":"P","al":"TK","fnr":"TK 1588","alname":"Turkish Airlines","iata":"IST","ac":"A343","id":"d00000000tk1588"}],"type":"departure","luops":"0000-00-01T05:00:00+0100","lusaison":"0000-00-01T05:00:00+0100","results":13,"entriesperpage":"3","maxpage":5,"page":"1"}
 {
     "dir": "D",
     "sched": "0000-00-01T06:20:00+0100",
@@ -392,7 +395,6 @@ http://localhost/.../www.frankfurt-airport.com/de/_jcr_content.departures.json/f
     "alname": "Air Canada",
     "iata": "YYC",
     "ac": "A333",
-    "reg": "CGHLM",
     "id": "d00000000ac845"
 },
 {
@@ -563,11 +565,11 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='YYC';
 =247
 SELECT `id` FROM `models` WHERE `icao`='A333';
 =14
-SELECT `id` FROM `aircrafts` WHERE `reg`='C-GHLM';
-=5
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='departure' AND `airline`=4 AND `code`='845' AND `scheduled`='0000-00-01T10:30:00+0100'
 =31,5,0000-00-00 11:00:00
-UPDATE `flights` SET `airport`=247, `aircraft`=5, `model`=14 WHERE `id`=31;
+UPDATE `flights` SET `airport`=247, `aircraft`=NULL, `model`=14 WHERE `id`=31;
+=OK
+DELETE FROM `watchlist-notifications` WHERE `flight`=31 AND `notified` IS NULL
 =OK
 
 /************************************/
