@@ -479,7 +479,9 @@ VALUES
 (@uid, 'NZ',  'Air New Zealand'),
 (@uid, 'TUL', 'Tulpar Air'),
 (@uid, 'HRM', 'Hermes Airlines'),
-(@uid, '7W',  'Wind Rose Aviation');
+(@uid, '7W',  'Wind Rose Aviation')
+(@uid, '3O', 'Air Arabia Maroc'),
+(@uid, 'B2', 'Belavia Airlines');
 
 INSERT INTO `models`(`uid`, `icao`, `name`)
 VALUES
@@ -1123,7 +1125,12 @@ VALUES
 (@uid, 'NAS', 'MYNN', 'Nassau, Bahamas'),
 (@uid, 'ASW', 'HESN', 'Assuan, Ägypten'),
 (@uid, 'YEI', 'LTBR', 'Bursa, Türkei'),
-(@uid, 'OAI', 'OAIX', 'Bagram, Afghanistan');
+(@uid, 'OAI', 'OAIX', 'Bagram, Afghanistan'),
+(@uid, 'AAL', 'EKYT', 'Aalborg'),
+(@uid, 'LHW', 'ZLLL', 'Lanzhou-Zhongchuan International'),
+(@uid, 'CSX', 'ZGHA', 'Changsha-Huanghua International'),
+(@uid, 'SNU', 'MUSC', 'Santa Clara-Abel Santamaria'),
+(@uid, 'TPA', 'KTPA', 'Tampa-International');
 
 TRUNCATE `visits`;
 
