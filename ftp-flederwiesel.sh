@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 ###############################################################################
 #
@@ -20,8 +20,24 @@ target=fra-schedule
 cd $(dirname "$0")
 cp -f .config.flederwiesel .config
 
-rev=$(LC_MESSAGES=en_US svn info . | awk '/^Revision:/ { print $2; }')
-echo -e "\033[36mRevision: $rev\033[m"
+svn upgrade
+
+info=$(LC_MESSAGES=en_US svn info . 2>&1)
+
+if [ $? -ne 0 ]; then
+	echo -e "\033[1;31m$info\033[m"
+	exit 1
+fi
+
+rev=$(awk '/^Revision:/ { print $2; }' <<<"$info")
+
+if [ -z "$rev" ]; then
+	echo -e "\033[1;31mNo revision found:\033[m"
+	echo -e "\033[1;31m$info\033[m"
+	exit 1
+else
+	echo -e "\033[36mRevision: $rev\033[m"
+fi
 
 lftp <<EOF
 set ftp:ssl-allow false
@@ -45,15 +61,17 @@ mirror --reverse \
 	--exclude-glob img/src/*.* \
 	--exclude-glob ftp-*.sh \
 	--exclude .svn/ \
+	--exclude api.stopforumspam.org \
 	--exclude check/ \
 	--exclude etc/ \
 	--exclude logs/ \
-	--exclude sql/ \
 	--exclude METAR/ \
-	--exclude ToDo.txt \
+	--exclude sql/ \
+	--exclude www.frankfurt-airport.com \
 	--exclude adminmessage.php \
 	--exclude flagcounter.txt \
 	--exclude phped.sh
+	--exclude ToDo.txt \
 #	--dry-run \
 
 !echo $rev > target
