@@ -479,7 +479,7 @@ VALUES
 (@uid, 'NZ',  'Air New Zealand'),
 (@uid, 'TUL', 'Tulpar Air'),
 (@uid, 'HRM', 'Hermes Airlines'),
-(@uid, '7W',  'Wind Rose Aviation')
+(@uid, '7W',  'Wind Rose Aviation'),
 (@uid, '3O', 'Air Arabia Maroc'),
 (@uid, 'B2', 'Belavia Airlines');
 
