@@ -420,19 +420,31 @@ class airport
 	}
 }
 
+class aircrafttype
+{
+	public $id;
+	public $icao;
+	public $name;
+
+	public function __construct($icao = NULL)
+	{
+		$this->id = 0;
+		$this->icao = $icao;
+		$this->name = NULL;
+	}
+}
+
 class aircraft
 {
 	public $id;
 	public $reg;
-	public $tid;
-	public $icao;
+	public $type;
 
-	public function __construct($ac = NULL, $reg = NULL)
+	public function __construct($reg, $type)
 	{
 		$this->id = 0;
 		$this->reg = $reg;
-		$this->tid = 0;
-		$this->icao = $ac;
+		$this->type = new aircrafttype($type);
 	}
 }
 
@@ -459,7 +471,7 @@ class flight
 		$this->scheduled = $sched;
 		$this->expected = $esti;
 		$this->airport = new airport($iata);
-		$this->aircraft = new aircraft($ac, $reg);
+		$this->aircraft = new aircraft($reg, $ac);
 		$this->status = $status;
 		$this->lu = $lu;
 	}
@@ -526,7 +538,10 @@ function CURL_GetAirline(/* in */ $curl, /* in/out */ &$airline)
 				if ($a->id == $airline->code)
 				{
 					if (isset($DEBUG['jflights']))
+					{
 						echo json_encode($a, JSON_PRETTY_PRINT);
+						echo "\n";
+					}
 
 					$airline->name = $a->name;
 					break;
@@ -589,7 +604,10 @@ function CURL_GetAirport(/* in */ $curl, /* in/out */ &$airport)
 				if ($a->id == $airport->iata)
 				{
 					if (isset($DEBUG['jflights']))
+					{
 						echo json_encode($a, JSON_PRETTY_PRINT);
+						echo "\n";
+					}
 
 					$airport->icao = $a->icao;
 					$airport->name = $a->name;
@@ -651,12 +669,15 @@ function CURL_GetAircraftType(/* in */ $curl, /* in/out */ &$aircraft)
 			{
 				$a = (object)$value;
 
-				if ($a->id == $aircraft->icao)
+				if ($a->id == $aircraft->type->icao)
 				{
 					if (isset($DEBUG['jflights']))
+					{
 						echo json_encode($a, JSON_PRETTY_PRINT);
+						echo "\n";
+					}
 
-					$aircraft->name = "$a->fab $a->name";
+					$aircraft->type->name = "$a->fab $a->name";
 
 					break;
 				}
@@ -988,10 +1009,7 @@ SQL;
 			$row = mysql_fetch_row($result);
 
 			if ($row)
-			{
 				$airline->id = $row[0];
-				unset($row);
-			}
 
 			if (isset($DEBUG['sql']))
 				echo "=$airline->id\n";
@@ -1008,13 +1026,17 @@ function SQL_InsertAirline(/* in/out */ &$airline)
 	global $DEBUG;
 	global $uid;
 
-	if (0 == strlen($airline->code) ||
-		0 == strlen($airline->name))
+	if (0 == strlen($airline->code))
 	{
 		$error = seterrorinfo(__LINE__, 'strlen(airline)');
 	}
 	else
 	{
+		if (0 == strlen($airline->name))
+			$airline->name = $airline->code;
+		else
+			$airline->name = addslashes($airline->name);
+
 		$query = <<<SQL
 			INSERT INTO `airlines`(`uid`, `code`, `name`)
 			VALUES($uid, '$airline->code', '$airline->name');
@@ -1100,29 +1122,39 @@ function SQL_InsertAirport(/* in/out */ &$airport)
 	global $DEBUG;
 	global $uid;
 
-	$query = <<<SQL
-		INSERT INTO `airports`(`uid`, `iata`, `icao`, `name`)
-		VALUES($uid,
-			'$airport->iata',
-			'$airport->icao',
-			'$airport->name');
-SQL;
-
-	if (!mysql_query($query))
+	if (0 == strlen($airport->iata) ||
+		0 == strlen($airport->icao))
 	{
-		$error = seterrorinfo(__LINE__,
-					sprintf("[%d] %s: %s",
-						mysql_errno(), mysql_error(), query_style($query)));
+		$error = seterrorinfo(__LINE__, 'strlen(airport)');
 	}
 	else
 	{
-		$error = NULL;
-		$airport->id = mysql_insert_id();
+		$airport->name = addslashes($airport->name);
 
-		if (isset($DEBUG['sql']))
+		$query = <<<SQL
+			INSERT INTO `airports`(`uid`, `iata`, `icao`, `name`)
+			VALUES($uid,
+				'$airport->iata',
+				'$airport->icao',
+				'$airport->name');
+SQL;
+
+		if (!mysql_query($query))
 		{
-			echo query_style($query);
-			echo "=OK\n";
+			$error = seterrorinfo(__LINE__,
+						sprintf("[%d] %s: %s",
+							mysql_errno(), mysql_error(), query_style($query)));
+		}
+		else
+		{
+			$error = NULL;
+			$airport->id = mysql_insert_id();
+
+			if (isset($DEBUG['sql']))
+			{
+				echo query_style($query);
+				echo "=OK\n";
+			}
 		}
 	}
 
@@ -1136,7 +1168,7 @@ function SQL_GetAircraftType(/* in/out*/ &$aircraft)
 	$query = <<<SQL
 		SELECT `id`
 		FROM `models`
-		WHERE `icao`='$aircraft->icao';
+		WHERE `icao`='{$aircraft->type->icao}';
 SQL;
 
 	$result = mysql_query($query);
@@ -1164,13 +1196,10 @@ SQL;
 			$row = mysql_fetch_row($result);
 
 			if ($row)
-			{
-				$aircraft->tid = $row[0];
-				unset($row);
-			}
+				$aircraft->type->id = $row[0];
 
 			if (isset($DEBUG['sql']))
-				echo "=$aircraft->tid\n";
+				echo "={$aircraft->type->id}\n";
 		}
 
 		mysql_free_result($result);
@@ -1184,15 +1213,17 @@ function SQL_InsertAircraftType(/* in/out */ &$aircraft)
 	global $DEBUG;
 	global $uid;
 
-	if (0 == strlen($aircraft->icao))
+	if (0 == strlen($aircraft->type->icao))
 	{
-		$error = seterrorinfo(__LINE__, 'strlen(aircraft)');
+		$error = seterrorinfo(__LINE__, 'strlen(aircraft->type->icao)');
 	}
 	else
 	{
+		$aircraft->type->name = addslashes($aircraft->type->name);
+
 		$query = <<<SQL
 			INSERT INTO `models`(`uid`, `icao`,`name`)
-			VALUES($uid, '$aircraft->icao', '');
+			VALUES($uid, '{$aircraft->type->icao}', '{$aircraft->type->name}');
 SQL;
 
 		if (!mysql_query($query))
@@ -1204,12 +1235,12 @@ SQL;
 		else
 		{
 			$error = NULL;
-			$aircraft->tid = mysql_insert_id();
+			$aircraft->type->id = mysql_insert_id();
 
 			if (isset($DEBUG['sql']))
 			{
 				echo query_style($query);
-				echo "=$aicraft->tid\n";
+				echo "={$aircraft->type->id}\n";
 			}
 		}
 	}
@@ -1250,10 +1281,7 @@ SQL;
 			$row = mysql_fetch_row($result);
 
 			if ($row)
-			{
 				$aircraft->id = $row[0];
-				unset($row);
-			}
 
 			if (isset($DEBUG['sql']))
 				echo "=$aircraft->id\n";
@@ -1272,17 +1300,17 @@ function SQL_InsertAircraft(/* in/out*/ &$aircraft)
 
 	if (0 == strlen($aircraft->reg))
 	{
-		$error = seterrorinfo(__LINE__, 'strlen(aircraft)');
+		$error = seterrorinfo(__LINE__, 'strlen(aircraft->reg)');
 	}
-	else if (0 == $aircraft->tid)
+	else if (0 == $aircraft->type->id)
 	{
-		$error = seterrorinfo(__LINE__, 'aircraft(tid)');
+		$error = seterrorinfo(__LINE__, 'aircraft(aircraft->type->id)');
 	}
 	else
 	{
 		$query = <<<SQL
 			INSERT INTO `aircrafts`(`uid`, `reg`,`model`)
-			VALUES($uid, '$aircraft->reg', $aircraft->tid);
+			VALUES($uid, '$aircraft->reg', {$aircraft->type->id});
 SQL;
 
 		if (!mysql_query($query))
@@ -1378,7 +1406,7 @@ function SQL_UpdateFlightDetails(/* in */ $id, /* in */ $f)
 	}
 
 	$airport = $f->airport->id ? "`airport`={$f->airport->id}," : "";
-	$aircraft = $f->aircraft->tid ? $f->aircraft->tid : "NULL";
+	$aircraft = $f->aircraft->type->id ? $f->aircraft->type->id : "NULL";
 	$reg = $f->aircraft->id ? $f->aircraft->id : "NULL";
 
 	$query = <<<SQL
@@ -1427,7 +1455,7 @@ function SQL_InsertFlight(/* in */ $dir, /* in/out */ &$f)
 			$expected = "'{$f->expected}'";
 	}
 
-	$aircraft = $f->aircraft->tid ? $f->aircraft->tid : "NULL";
+	$aircraft = $f->aircraft->type->id ? $f->aircraft->type->id : "NULL";
 	$reg = $f->aircraft->id ? $f->aircraft->id : "NULL";
 	$lu = $f->lu ? "'$f->lu'" : "NULL";
 
@@ -1979,6 +2007,9 @@ else
 		{
 			while ($f = $flights->pop())
 			{
+				if (isset($DEBUG['sql']))
+					echo "\n/************************************/\n\n";
+
 				$error = SQL_GetAirline($f->airline);
 
 				if (!$error)
@@ -2030,13 +2061,13 @@ else
 
 				if (!$error)
 				{
-					if ($f->aircraft->icao)
+					if ($f->aircraft->type->icao)
 					{
 						$error = SQL_GetAircraftType($f->aircraft);
 
 						if (!$error)
 						{
-							if (!$f->aircraft->tid)
+							if (!$f->aircraft->type->id)
 							{
 								$error = CURL_GetAircraftType($curl, $f->aircraft);
 
@@ -2047,7 +2078,8 @@ else
 									if (!$error)
 									{
 										info(__LINE__,
-											 "Inserted aircraft {$f->aircraft->icao} as {$f->aircraft->name}".
+											 "Inserted aircraft {$f->aircraft->type->icao} as".
+											 " {$f->aircraft->type->name}".
 											 " ($dir {$f->airline->code}{$f->fnr} \"{$f->scheduled}\").");
 									}
 								}
@@ -2160,10 +2192,10 @@ else
 								$error = SQL_UpdateVisitsToFra($f->scheduled, $f->aircraft->id, $visits);
 					}
 				}
-
-				if (isset($DEBUG['sql']))
-					echo "\n/************************************/\n\n";
 			}
+
+			if (isset($DEBUG['sql']))
+				echo "\n/************************************/\n\n";
 
 			if (isset($DEBUG['any']))
 			{
