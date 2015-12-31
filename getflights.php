@@ -1345,7 +1345,19 @@ function SQL_UpdateFlightDetails(/* in */ $id, /* in */ $f)
 	global $uid;
 
 	// Don't overwrite `expected`/`airport` with NULL!
-	$expected = $f->expected ? "`expected`='{$f->expected}', " : "";
+
+	if (NULL == $f->expected)
+	{
+		$expected = "";
+	}
+	else
+	{
+		if (strtotime($f->expected) < strtotime('-3 days'))
+			$expected = "";
+		else
+			$expected = "`expected`='{$f->expected}', ";
+	}
+
 	$airport = $f->airport->id ? "`airport`={$f->airport->id}," : "";
 	$aircraft = $f->aircraft->tid ? $f->aircraft->tid : "NULL";
 	$reg = $f->aircraft->id ? $f->aircraft->id : "NULL";
@@ -1384,7 +1396,18 @@ function SQL_InsertFlight(/* in */ $dir, /* in/out */ &$f)
 	global $DEBUG;
 	global $uid;
 
-	$expected = $f->expected ? "'$f->expected'" : "NULL";
+	if (NULL == $f->expected)
+	{
+		$expected = "NULL";
+	}
+	else
+	{
+		if (strtotime($f->expected) < strtotime('-3 days'))
+			$expected = "NULL";
+		else
+			$expected = "'{$f->expected}'";
+	}
+
 	$aircraft = $f->aircraft->tid ? $f->aircraft->tid : "NULL";
 	$reg = $f->aircraft->id ? $f->aircraft->id : "NULL";
 	$lu = $f->lu ? "'$f->lu'" : "NULL";
