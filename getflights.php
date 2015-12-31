@@ -525,6 +525,9 @@ function CURL_GetAirline(/* in */ $curl, /* in/out */ &$airline)
 
 				if ($a->id == $airline->code)
 				{
+					if (isset($DEBUG['jflights']))
+						echo json_encode($a, JSON_PRETTY_PRINT);
+
 					$airline->name = $a->name;
 					break;
 				}
@@ -585,8 +588,12 @@ function CURL_GetAirport(/* in */ $curl, /* in/out */ &$airport)
 
 				if ($a->id == $airport->iata)
 				{
+					if (isset($DEBUG['jflights']))
+						echo json_encode($a, JSON_PRETTY_PRINT);
+
 					$airport->icao = $a->icao;
 					$airport->name = $a->name;
+
 					break;
 				}
 			}
@@ -646,7 +653,11 @@ function CURL_GetAircraftType(/* in */ $curl, /* in/out */ &$aircraft)
 
 				if ($a->id == $aircraft->icao)
 				{
+					if (isset($DEBUG['jflights']))
+						echo json_encode($a, JSON_PRETTY_PRINT);
+
 					$aircraft->name = "$a->fab $a->name";
+
 					break;
 				}
 			}
@@ -1057,7 +1068,12 @@ SQL;
 		if (isset($DEBUG['sql']))
 			echo query_style($query);
 
-		if (mysql_num_rows($result))
+		if (0 == mysql_num_rows($result))
+		{
+			if (isset($DEBUG['sql']))
+				echo "=<empty>\n";
+		}
+		else
 		{
 // KLUGE: There are multiple airports with same IATA code, as of now, we cannot
 // distinguish which one is really meant, since json only contains iata code
@@ -2085,7 +2101,12 @@ else
 					{
 						$visits = 0;
 
-						if (FlightStatus::CANCELLED == $f->status)
+						if (FlightStatus::IGNORE == $f->status)
+						{
+							if (isset($DEBUG['sql']))
+								echo "/* ignored */\n";
+						}
+						else if (FlightStatus::CANCELLED == $f->status)
 						{
 							if ($f->id)
 							{
