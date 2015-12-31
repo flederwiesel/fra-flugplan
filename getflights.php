@@ -730,7 +730,8 @@ function MapFlightStatus(/*in/out*/ &$status)
 }
 
 // Convert JSON into vector of flight objects
-function JSON_InterpretFlights(/*in*/ $json, /*in*/ $defer, /*inout*/ &$flights, /*out*/ &$last, /*out*/ &$count)
+function JSON_InterpretFlights(/*in*/ $dir, /*in*/ $json, /*in*/ $defer,
+							   /*inout*/ &$flights, /*out*/ &$last, /*out*/ &$count)
 {
 	global $DEBUG;
 	global $now;
@@ -819,7 +820,7 @@ function JSON_InterpretFlights(/*in*/ $json, /*in*/ $defer, /*inout*/ &$flights,
 
 					/* If a departure is due without `esti` having been set,
 					   estimate departure in 5 mins */
-					if ('d' == $jflight->id[0] &&
+					if ('departure' == $dir &&
 						FlightStatus::BOARDING == $jflight->status)
 					{
 						$departure = isset($jflight->esti) ? $jflight->esti : $jflight->sched;
@@ -918,7 +919,7 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 			if ($json)
 			{
 				// Interpret JSON into `$flights` vector
-				if (JSON_InterpretFlights($json, $defer, $flights, $current, $count) <= 0)
+				if (JSON_InterpretFlights($dir, $json, $defer, $flights, $current, $count) <= 0)
 					$page = 0;
 				else
 					$page++;
