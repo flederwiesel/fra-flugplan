@@ -1130,7 +1130,8 @@ VALUES
 (@uid, 'LHW', 'ZLLL', 'Lanzhou-Zhongchuan International'),
 (@uid, 'CSX', 'ZGHA', 'Changsha-Huanghua International'),
 (@uid, 'SNU', 'MUSC', 'Santa Clara-Abel Santamaria'),
-(@uid, 'TPA', 'KTPA', 'Tampa-International');
+(@uid, 'TPA', 'KTPA', 'Tampa-International'),
+(@uid, '???', '????', '???');
 
 TRUNCATE `visits`;
 
