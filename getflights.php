@@ -2035,6 +2035,9 @@ else
 
 				if (!$error)
 				{
+					if (!$f->airport->iata)
+						$f->airport->iata = '???';
+
 					$error = SQL_GetAirport($f->airport);
 
 					if (!$error)
