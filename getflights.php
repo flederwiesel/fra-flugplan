@@ -355,6 +355,7 @@ class jflight
 		'annulliert', 'cancelled', '取消',
 		'im Anflug', 'approaching', '在飞行中',
 		'verspätet', 'verspätet', 'verspätet',
+		'verspätet auf ...',
 		'gelandet', 'landed', '已着陆',
 		'Gep\u00e4ckausgabe', 'baggage delivery', '托运行李领取',
 		'Gep\u00e4ckausgabe beendet', 'baggage delivery finished', '托运行李领取已结束',
@@ -709,7 +710,6 @@ function MapFlightStatus(/*in/out*/ &$status)
 		$status = FlightStatus::CANCELLED;
 		break;
 
-	case 'verspätet':
 	case 'im Anflug':
 	case 'approaching':
 	case '在飞行中':
@@ -756,8 +756,16 @@ function MapFlightStatus(/*in/out*/ &$status)
 		break;
 
 	default:
-		warn_once(__LINE__, "Status '$status' is unknown.");
-		$status = FlightStatus::UNDEFINED;
+
+		if ('verspätet' == substr())
+		{
+			$status = FlightStatus::APPROACHING;
+		}
+		else
+		{
+			warn_once(__LINE__, "Status '$status' is unknown.");
+			$status = FlightStatus::UNDEFINED;
+		}
 	}
 }
 
