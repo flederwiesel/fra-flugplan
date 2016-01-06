@@ -757,7 +757,7 @@ function MapFlightStatus(/*in/out*/ &$status)
 
 	default:
 
-		if ('verspätet' == substr())
+		if ('verspätet' == mb_substr($status, 0, 9))
 		{
 			$status = FlightStatus::APPROACHING;
 		}
@@ -1373,7 +1373,7 @@ SQL;
 
 		$row = mysql_fetch_row($result);
 
-		if (NULL == $row)
+		if (FALSE == $row)
 		{
 			if (isset($DEBUG['sql']))
 				echo "=<empty>\n";

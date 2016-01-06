@@ -42,4 +42,4 @@
 1 22:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;Gepäckausgabe;WSSS;Singapur;Singapur
 1 22:00;A;1 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
 1 23:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;Gepäckausgabe beendet;WSSS;Singapur;Singapur
-1 23:00;A;1 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
+1 23:00;A;1 20:30;1 23:00;;P;SQ;326;Singapore Airlines;SIN;B77W;;verspätet;WSSS;Singapur;Singapur

@@ -29,6 +29,7 @@ do
 		YYYYmmdd_0=$(date +%Y-%m-%d)
 		YYYYmmdd_1=$(date +%Y-%m-%d --date="+1 day")
 		YYYYmmdd_2=$(date +%Y-%m-%d --date="+2 days")
+		YYYYmmdd_3=$(date +%Y-%m-%d --date="+3 days")
 		YYYYmmddTHHMMSSZ=$(date +'%Y-%m-%dT%H:%M:%S%z' --date="$day day $time:00")
 
 		for dir in arrival departure
@@ -51,6 +52,7 @@ do
 								s/$YYYYmmdd_0/0000-00-00/g
 								s/$YYYYmmdd_1/0000-00-01/g
 								s/$YYYYmmdd_2/0000-00-02/g
+								s/$YYYYmmdd_3/0000-00-03/g
 							'$filter"
 
 						 ((page++))

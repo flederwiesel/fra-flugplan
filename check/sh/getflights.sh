@@ -152,6 +152,7 @@ SQL
 			s/$YYYY_mm_dd_0/0000-00-00/g
 			s/$YYYY_mm_dd_1/0000-00-01/g
 			s/$YYYY_mm_dd_2/0000-00-02/g
+			s/$YYYY_mm_dd_3/0000-00-03/g
 			s/([ad])[0-9]{8}(ac|cx|ku|lh|s[aq]|t[kp]|ua)([0-9]+)/\100000000\2\3/g
 			s#((Mon|Diens|Donners|Frei|Sams|Sonn)tag|Mittwoch), [0-9]+\. (Januar|Februar|M.rz|April|Mai|Ju[nl]i|August|(Sept|Nov|Dez)ember|Oktober) [0-9]+#Tag, 00. Monat 0000#g
 			s#((Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day), [0-9]+/[0-9]+/[0-9]+#Day, 00/00/00#g
@@ -191,6 +192,7 @@ SQL
 				s/$YYYY_mm_dd_0/0000-00-00/g
 				s/$YYYY_mm_dd_1/0000-00-01/g
 				s/$YYYY_mm_dd_2/0000-00-02/g
+				s/$YYYY_mm_dd_3/0000-00-03/g
 				$ a </pre>
 				$ a </body>
 				$ a </html>

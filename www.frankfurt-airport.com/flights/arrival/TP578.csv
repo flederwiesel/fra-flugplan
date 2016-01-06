@@ -38,4 +38,4 @@
 1 21:00;A;0 22:30;;;P;TP;578;TAP Portugal;LIS;A320;CSTNP /*=7,6*/;;LPPT;Lissabon;Portugal
 1 22:00;A;0 22:30;;;P;TP;578;TAP Portugal;LIS;A320;CSTNP;;LPPT;Lissabon;Portugal
 1 23:00;A;0 22:30;;;P;TP;578;TAP Portugal;LIS;A320;CSTNP;gelandet;LPPT;Lissabon;Portugal
-1 23:00;A;1 22:30 /*=72*/;;;P;TP;578;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+1 23:00;A;1 22:30 /*=72*/;2 05:00;;P;TP;578;TAP Portugal;LIS;A320;;verspätet auf 00.00.;LPPT;Lissabon;Portugal

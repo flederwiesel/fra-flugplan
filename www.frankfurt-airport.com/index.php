@@ -22,6 +22,8 @@
  * Fraport server mockup - Generates html paginated schedule based on CSV files
  ******************************************************************************/
 
+mb_internal_encoding('UTF-8');
+
 function compare_sched($a, $b)
 {
 	if ($a['sched'] == $b['sched'])

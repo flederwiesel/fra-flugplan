@@ -175,7 +175,7 @@ http://localhost/.../www.frankfurt-airport.com/de/_jcr_content.arrivals.json/fil
     "id": "a00000000lh3617"
 },
 http://localhost/.../www.frankfurt-airport.com/de/_jcr_content.arrivals.json/filter?type=arrival&lang=de&time=0000-00-01T23%3A00%3A00%2B0100&perpage=3&page=5
-{"data":[{"dir":"A","sched":"0000-00-02T14:50:00+0100","lu":"0000-00-01T23:00:00+0100","typ":"P","al":"LH","fnr":"LH 3617","alname":"Lufthansa","iata":"QKL","ac":"TRN","status":"Zug","id":"a00000000lh3617"},{"dir":"A","sched":"0000-00-02T18:25:00+0100","lu":"0000-00-01T23:00:00+0100","typ":"P","al":"TP","fnr":"TP 576","alname":"TAP Portugal","iata":"LIS","ac":"A320","id":"a00000000tp576"},{"dir":"A","sched":"0000-00-02T20:30:00+0100","lu":"0000-00-01T23:00:00+0100","typ":"P","al":"SQ","fnr":"SQ 326","alname":"Singapore Airlines","iata":"SIN","ac":"B77W","id":"a00000000sq326"}],"type":"arrival","luops":"0000-00-01T23:00:00+0100","lusaison":"0000-00-01T23:00:00+0100","results":16,"entriesperpage":"3","maxpage":6,"page":"5"}
+{"data":[{"dir":"A","sched":"0000-00-02T14:50:00+0100","lu":"0000-00-01T23:00:00+0100","typ":"P","al":"LH","fnr":"LH 3617","alname":"Lufthansa","iata":"QKL","ac":"TRN","status":"Zug","id":"a00000000lh3617"},{"dir":"A","sched":"0000-00-02T18:25:00+0100","lu":"0000-00-01T23:00:00+0100","typ":"P","al":"TP","fnr":"TP 576","alname":"TAP Portugal","iata":"LIS","ac":"A320","id":"a00000000tp576"},{"dir":"A","sched":"0000-00-02T20:30:00+0100","esti":"0000-00-02T23:00:00+0100","lu":"0000-00-01T23:00:00+0100","typ":"P","al":"SQ","fnr":"SQ 326","alname":"Singapore Airlines","iata":"SIN","ac":"B77W","status":"versp\u00e4tet","id":"a00000000sq326"}],"type":"arrival","luops":"0000-00-01T23:00:00+0100","lusaison":"0000-00-01T23:00:00+0100","results":16,"entriesperpage":"3","maxpage":6,"page":"5"}
 {
     "dir": "A",
     "sched": "0000-00-02T14:50:00+0100",
@@ -204,6 +204,7 @@ http://localhost/.../www.frankfurt-airport.com/de/_jcr_content.arrivals.json/fil
 {
     "dir": "A",
     "sched": "0000-00-02T20:30:00+0100",
+    "esti": "0000-00-02T23:00:00+0100",
     "lu": "0000-00-01T23:00:00+0100",
     "typ": "P",
     "al": "SQ",
@@ -211,13 +212,15 @@ http://localhost/.../www.frankfurt-airport.com/de/_jcr_content.arrivals.json/fil
     "alname": "Singapore Airlines",
     "iata": "SIN",
     "ac": "B77W",
+    "status": "versp\u00e4tet",
     "id": "a00000000sq326"
 },
 http://localhost/.../www.frankfurt-airport.com/de/_jcr_content.arrivals.json/filter?type=arrival&lang=de&time=0000-00-01T23%3A00%3A00%2B0100&perpage=3&page=6
-{"data":[{"dir":"A","sched":"0000-00-02T22:30:00+0100","lu":"0000-00-01T23:00:00+0100","typ":"P","al":"TP","fnr":"TP 578","alname":"TAP Portugal","iata":"LIS","ac":"A320","id":"a00000000tp578"}],"type":"arrival","luops":"0000-00-01T23:00:00+0100","lusaison":"0000-00-01T23:00:00+0100","results":16,"entriesperpage":1,"maxpage":6,"page":"6"}
+{"data":[{"dir":"A","sched":"0000-00-02T22:30:00+0100","esti":"0000-00-03T05:00:00+0100","lu":"0000-00-01T23:00:00+0100","typ":"P","al":"TP","fnr":"TP 578","alname":"TAP Portugal","iata":"LIS","ac":"A320","status":"versp\u00e4tet auf 00.00.","id":"a00000000tp578"}],"type":"arrival","luops":"0000-00-01T23:00:00+0100","lusaison":"0000-00-01T23:00:00+0100","results":16,"entriesperpage":1,"maxpage":6,"page":"6"}
 {
     "dir": "A",
     "sched": "0000-00-02T22:30:00+0100",
+    "esti": "0000-00-03T05:00:00+0100",
     "lu": "0000-00-01T23:00:00+0100",
     "typ": "P",
     "al": "TP",
@@ -225,6 +228,7 @@ http://localhost/.../www.frankfurt-airport.com/de/_jcr_content.arrivals.json/fil
     "alname": "TAP Portugal",
     "iata": "LIS",
     "ac": "A320",
+    "status": "versp\u00e4tet auf 00.00.",
     "id": "a00000000tp578"
 },
 
@@ -422,7 +426,7 @@ SELECT `id` FROM `models` WHERE `icao`='B77W';
 =68
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=105 AND `code`='326' AND `scheduled`='0000-00-02T20:30:00+0100'
 =69,,0000-00-01 21:00:00
-UPDATE `flights` SET `airport`=204, `aircraft`=NULL, `model`=68 WHERE `id`=69;
+UPDATE `flights` SET `expected`='0000-00-02T23:00:00+0100', `airport`=204, `aircraft`=NULL, `model`=68 WHERE `id`=69;
 =OK
 
 /************************************/
@@ -435,7 +439,7 @@ SELECT `id` FROM `models` WHERE `icao`='A320';
 =9
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=113 AND `code`='578' AND `scheduled`='0000-00-02T22:30:00+0100'
 =<empty>
-INSERT INTO `flights` (`uid`, `direction`, `type`, `airline`, `code`, `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`) VALUES(1, 'arrival', 'P', 113, '578', '0000-00-02T22:30:00+0100', NULL, 136, 9, NULL, '0000-00-01T23:00:00+0100');
+INSERT INTO `flights` (`uid`, `direction`, `type`, `airline`, `code`, `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`) VALUES(1, 'arrival', 'P', 113, '578', '0000-00-02T22:30:00+0100', '0000-00-03T05:00:00+0100', 136, 9, NULL, '0000-00-01T23:00:00+0100');
 =OK
 
 /************************************/
