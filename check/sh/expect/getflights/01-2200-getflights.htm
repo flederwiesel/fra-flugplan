@@ -731,7 +731,7 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='SIN';
 SELECT `id` FROM `models` WHERE `icao`='B77W';
 =68
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='departure' AND `airline`=105 AND `code`='325' AND `scheduled`='0000-00-02T21:55:00+0100'
-=<empty>
+=&lt;empty&gt;
 INSERT INTO `flights` (`uid`, `direction`, `type`, `airline`, `code`, `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`) VALUES(1, 'departure', 'P', 105, '325', '0000-00-02T21:55:00+0100', NULL, 204, 68, NULL, '0000-00-01T22:00:00+0100');
 =OK
 

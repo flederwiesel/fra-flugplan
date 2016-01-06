@@ -210,7 +210,7 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='SIN';
 SELECT `id` FROM `models` WHERE `icao`='B77W';
 =68
 SELECT `id` FROM `aircrafts` WHERE `reg`='9V-SWK';
-=<empty>
+=&lt;empty&gt;
 INSERT INTO `aircrafts`(`uid`, `reg`,`model`) VALUES(1, '9V-SWK', 68);
 =9
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=105 AND `code`='326' AND `scheduled`='0000-00-00T20:30:00+0100'
@@ -218,7 +218,7 @@ SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival
 UPDATE `flights` SET `airport`=204, `aircraft`=9, `model`=68 WHERE `id`=11;
 =OK
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=9;
-=<empty>
+=&lt;empty&gt;
 INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`) VALUES(9, 1, '0000-00-00T20:30:00+0100', NULL);
 =OK
 

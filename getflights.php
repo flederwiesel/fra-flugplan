@@ -118,8 +118,10 @@ if (isset($_GET['help']) ||
 
 if (isset($DEBUG['fmt']))
 {
-	if ('htm'  == $DEBUG['fmt'] ||
-		'html' == $DEBUG['fmt'])
+	if ('htm' == $DEBUG['fmt'])
+		$DEBUG['fmt'] = 'html';
+
+	if ('html' == $DEBUG['fmt'])
 	{
 ?>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/strict.dtd">
@@ -1009,7 +1011,12 @@ SQL;
 		if (0 == mysql_num_rows($result))
 		{
 			if (isset($DEBUG['sql']))
-				echo "=<empty>\n";
+			{
+				if ('html' == $DEBUG['fmt'])
+					echo htmlspecialchars("=<empty>\n");
+				else
+					echo "=<empty>\n";
+			}
 		}
 		else
 		{
@@ -1101,7 +1108,12 @@ SQL;
 		if (0 == mysql_num_rows($result))
 		{
 			if (isset($DEBUG['sql']))
-				echo "=<empty>\n";
+			{
+				if ('html' == $DEBUG['fmt'])
+					echo htmlspecialchars("=<empty>\n");
+				else
+					echo "=<empty>\n";
+			}
 		}
 		else
 		{
@@ -1197,7 +1209,12 @@ SQL;
 		if (0 == mysql_num_rows($result))
 		{
 			if (isset($DEBUG['sql']))
-				echo "=<empty>\n";
+			{
+				if ('html' == $DEBUG['fmt'])
+					echo htmlspecialchars("=<empty>\n");
+				else
+					echo "=<empty>\n";
+			}
 		}
 		else
 		{
@@ -1282,7 +1299,12 @@ SQL;
 		if (0 == mysql_num_rows($result))
 		{
 			if (isset($DEBUG['sql']))
-				echo "=<empty>\n";
+			{
+				if ('html' == $DEBUG['fmt'])
+					echo htmlspecialchars("=<empty>\n");
+				else
+					echo "=<empty>\n";
+			}
 		}
 		else
 		{
@@ -1376,7 +1398,12 @@ SQL;
 		if (FALSE == $row)
 		{
 			if (isset($DEBUG['sql']))
-				echo "=<empty>\n";
+			{
+				if ('html' == $DEBUG['fmt'])
+					echo htmlspecialchars("=<empty>\n");
+				else
+					echo "=<empty>\n";
+			}
 		}
 		else
 		{
@@ -1574,7 +1601,12 @@ SQL;
 		if (!$row)
 		{
 			if (isset($DEBUG['sql']))
-				echo "=<empty>\n";
+			{
+				if ('html' == $DEBUG['fmt'])
+					echo htmlspecialchars("=<empty>\n");
+				else
+					echo "=<empty>\n";
+			}
 
 			if (-1 == $op)	// "annulliert"
 			{
@@ -1681,7 +1713,12 @@ SQL;
 								$previous = NULL;
 
 								if (isset($DEBUG['sql']))
-									echo "=<empty>\n";
+								{
+									if ('html' == $DEBUG['fmt'])
+										echo htmlspecialchars("=<empty>\n");
+									else
+										echo "=<empty>\n";
+								}
 							}
 						}
 					}

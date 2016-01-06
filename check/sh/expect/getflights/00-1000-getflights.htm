@@ -275,7 +275,7 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='KWI';
 SELECT `id` FROM `models` WHERE `icao`='A306';
 =4
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=63 AND `code`='171' AND `scheduled`='0000-00-00T13:20:00+0100'
-=<empty>
+=&lt;empty&gt;
 
 /************************************/
 
@@ -365,7 +365,7 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='SFO';
 SELECT `id` FROM `models` WHERE `icao`='B744';
 =57
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=120 AND `code`='903' AND `scheduled`='0000-00-01T09:45:00+0100'
-=<empty>
+=&lt;empty&gt;
 INSERT INTO `flights` (`uid`, `direction`, `type`, `airline`, `code`, `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`) VALUES(1, 'arrival', 'P', 120, '903', '0000-00-01T09:45:00+0100', NULL, 201, 57, NULL, '0000-00-00T10:00:00+0100');
 =OK
 
@@ -653,7 +653,7 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='KWI';
 SELECT `id` FROM `models` WHERE `icao`='A306';
 =4
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='departure' AND `airline`=63 AND `code`='172' AND `scheduled`='0000-00-00T14:30:00+0100'
-=<empty>
+=&lt;empty&gt;
 
 /************************************/
 

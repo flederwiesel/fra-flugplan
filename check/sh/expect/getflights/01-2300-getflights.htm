@@ -269,7 +269,7 @@ UPDATE `visits` SET `num`=1, `current`='0000-00-00 06:15:00', `previous`=NULL WH
 DELETE FROM `watchlist-notifications` WHERE `flight`=49 AND `notified` IS NULL
 =OK
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=13;
-=<empty>
+=&lt;empty&gt;
 INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`) VALUES(13, 1, '0000-00-02T06:15:00+0100', NULL);
 =OK
 
@@ -438,7 +438,7 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='LIS';
 SELECT `id` FROM `models` WHERE `icao`='A320';
 =9
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=113 AND `code`='578' AND `scheduled`='0000-00-02T22:30:00+0100'
-=<empty>
+=&lt;empty&gt;
 INSERT INTO `flights` (`uid`, `direction`, `type`, `airline`, `code`, `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`) VALUES(1, 'arrival', 'P', 113, '578', '0000-00-02T22:30:00+0100', '0000-00-03T05:00:00+0100', 136, 9, NULL, '0000-00-01T23:00:00+0100');
 =OK
 

@@ -411,7 +411,7 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='YYC';
 SELECT `id` FROM `models` WHERE `icao`='A333';
 =14
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=4 AND `code`='844' AND `scheduled`='0000-00-02T11:15:00+0100'
-=<empty>
+=&lt;empty&gt;
 INSERT INTO `flights` (`uid`, `direction`, `type`, `airline`, `code`, `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`) VALUES(1, 'arrival', 'P', 4, '844', '0000-00-02T11:15:00+0100', NULL, 247, 14, NULL, '0000-00-01T12:00:00+0100');
 =OK
 
@@ -424,7 +424,7 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='YYZ';
 SELECT `id` FROM `models` WHERE `icao`='A333';
 =14
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=4 AND `code`='876' AND `scheduled`='0000-00-02T11:45:00+0100'
-=<empty>
+=&lt;empty&gt;
 INSERT INTO `flights` (`uid`, `direction`, `type`, `airline`, `code`, `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`) VALUES(1, 'arrival', 'P', 4, '876', '0000-00-02T11:45:00+0100', NULL, 248, 14, NULL, '0000-00-01T12:00:00+0100');
 =OK
 
@@ -812,7 +812,7 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='IST';
 SELECT `id` FROM `models` WHERE `icao`='A343';
 =17
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='departure' AND `airline`=112 AND `code`='1588' AND `scheduled`='0000-00-02T11:45:00+0100'
-=<empty>
+=&lt;empty&gt;
 INSERT INTO `flights` (`uid`, `direction`, `type`, `airline`, `code`, `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`) VALUES(1, 'departure', 'P', 112, '1588', '0000-00-02T11:45:00+0100', NULL, 109, 17, NULL, '0000-00-01T12:00:00+0100');
 =OK
 

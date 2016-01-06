@@ -238,7 +238,7 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='JNB';
 SELECT `id` FROM `models` WHERE `icao`='A346';
 =19
 SELECT `id` FROM `aircrafts` WHERE `reg`='ZS-SNC';
-=<empty>
+=&lt;empty&gt;
 INSERT INTO `aircrafts`(`uid`, `reg`,`model`) VALUES(1, 'ZS-SNC', 19);
 =10
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=99 AND `code`='260' AND `scheduled`='0000-00-01T06:15:00+0100'
@@ -246,7 +246,7 @@ SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival
 UPDATE `flights` SET `airport`=323, `aircraft`=10, `model`=19 WHERE `id`=25;
 =OK
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=10;
-=<empty>
+=&lt;empty&gt;
 INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`) VALUES(10, 1, '0000-00-01T06:15:00+0100', NULL);
 =OK
 
@@ -259,7 +259,7 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='HKG';
 SELECT `id` FROM `models` WHERE `icao`='B77W';
 =68
 SELECT `id` FROM `aircrafts` WHERE `reg`='B-KPF';
-=<empty>
+=&lt;empty&gt;
 INSERT INTO `aircrafts`(`uid`, `reg`,`model`) VALUES(1, 'B-KPF', 68);
 =11
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=24 AND `code`='289' AND `scheduled`='0000-00-01T06:20:00+0100'
@@ -267,7 +267,7 @@ SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival
 UPDATE `flights` SET `airport`=98, `aircraft`=11, `model`=68 WHERE `id`=26;
 =OK
 SELECT `num`, `current`, `previous` FROM `visits` WHERE `aircraft`=11;
-=<empty>
+=&lt;empty&gt;
 INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`) VALUES(11, 1, '0000-00-01T06:20:00+0100', NULL);
 =OK
 
