@@ -70,8 +70,8 @@ mirror --reverse \
 	--exclude www.frankfurt-airport.com \
 	--exclude adminmessage.php \
 	--exclude flagcounter.txt \
-	--exclude phped.sh
-	--exclude ToDo.txt \
+	--exclude phped.sh \
+	--exclude ToDo.txt
 #	--dry-run \
 
 !echo $rev > target
