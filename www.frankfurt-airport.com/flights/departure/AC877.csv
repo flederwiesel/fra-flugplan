@@ -1,41 +1,41 @@
-#now;dir;sched;esti;lu;typ;al;fnr;alname;iata;ac;reg;status;icao;apname;country
-0 05:00;D;0 17:00 /*=21*/;;;P;AC;877;Air Canada;YYZ;A333;CGHKW /*=6*/;;CYYZ;Toronto;Kanada
-0 06:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-0 07:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-0 08:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-0 09:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-0 10:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-0 11:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-0 12:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-0 13:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-0 14:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-0 15:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;Gate offen;CYYZ;Toronto;Kanada
-0 16:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;geschlossen;CYYZ;Toronto;Kanada
-0 17:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;gestartet;CYYZ;Toronto;Kanada
-0 17:00;D;1 17:00 /*=42*/;;;P;AC;877;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-0 18:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-0 19:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-0 20:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-0 21:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-0 22:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-0 23:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-1 05:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW /*=6*/;;CYYZ;Toronto;Kanada
-1 06:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-1 07:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-1 08:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-1 09:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-1 10:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-1 11:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-1 12:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-1 13:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-1 14:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-1 15:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;Gate offen;CYYZ;Toronto;Kanada
-1 16:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;geschlossen;CYYZ;Toronto;Kanada
-1 17:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;gestartet;CYYZ;Toronto;Kanada
-1 17:00;D;1 17:00 /*=66*/;;;P;AC;877;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-1 18:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-1 19:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-1 20:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-1 21:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-1 22:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-1 23:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
+#now;dir;sched;esti;lu;typ;al;fnr;alname;iata;ac;reg;status
+0 05:00;D;0 17:00 /*=21*/;;;P;AC;877;Air Canada;YYZ;A333;CGHKW /*=6*/;
+0 06:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;
+0 07:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;
+0 08:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;
+0 09:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;
+0 10:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;
+0 11:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;
+0 12:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;
+0 13:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;
+0 14:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;
+0 15:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;Gate offen
+0 16:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;geschlossen
+0 17:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;gestartet
+0 17:00;D;1 17:00 /*=42*/;;;P;AC;877;Air Canada;YYZ;A333;;
+0 18:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;
+0 19:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;
+0 20:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;
+0 21:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;
+0 22:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;
+0 23:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;
+1 05:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW /*=6*/;
+1 06:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;
+1 07:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;
+1 08:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;
+1 09:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;
+1 10:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;
+1 11:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;
+1 12:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;
+1 13:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;
+1 14:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;
+1 15:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;Gate offen
+1 16:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;geschlossen
+1 17:00;D;0 17:00;;;P;AC;877;Air Canada;YYZ;A333;CGHKW;gestartet
+1 17:00;D;1 17:00 /*=66*/;;;P;AC;877;Air Canada;YYZ;A333;;
+1 18:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;
+1 19:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;
+1 20:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;
+1 21:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;
+1 22:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;
+1 23:00;D;1 17:00;;;P;AC;877;Air Canada;YYZ;A333;;

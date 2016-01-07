@@ -1,45 +1,45 @@
-#now;dir;sched;esti;lu;typ;al;fnr;alname;iata;ac;reg;status;icao;apname;country
-0 05:00;D;0 11:45 /*=15*/;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-0 06:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-0 07:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-0 08:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-0 09:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;Gate offen;LTBA;Istanbul-Atatuerk;Türkei
-0 10:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;Gate offen;LTBA;Istanbul-Atatuerk;Türkei
-0 11:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;geschlossen;LTBA;Istanbul-Atatuerk;Türkei
-0 12:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;gestartet;LTBA;Istanbul-Atatuerk;Türkei
-0 12:00;D;1 11:45 /*=34*/;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-0 13:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-0 13:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-0 14:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-0 14:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-0 15:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-0 16:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-0 17:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-0 18:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-0 19:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-0 20:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-0 21:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-0 22:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-0 23:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-1 05:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-1 06:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-1 07:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-1 08:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-1 09:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;Gate offen;LTBA;Istanbul-Atatuerk;Türkei
-1 10:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;Gate offen;LTBA;Istanbul-Atatuerk;Türkei
-1 11:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;geschlossen;LTBA;Istanbul-Atatuerk;Türkei
-1 12:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;gestartet;LTBA;Istanbul-Atatuerk;Türkei
-1 12:00;D;1 11:45 /*=58*/;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-1 13:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-1 13:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-1 14:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-1 14:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-1 15:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-1 16:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-1 17:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-1 18:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-1 19:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-1 20:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-1 21:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-1 22:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
-1 23:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;;LTBA;Istanbul-Atatuerk;Türkei
+#now;dir;sched;esti;lu;typ;al;fnr;alname;iata;ac;reg;status
+0 05:00;D;0 11:45 /*=15*/;;;P;TK;1588;Turkish Airlines;IST;A343;;
+0 06:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+0 07:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+0 08:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+0 09:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;Gate offen
+0 10:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;Gate offen
+0 11:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;geschlossen
+0 12:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;gestartet
+0 12:00;D;1 11:45 /*=34*/;;;P;TK;1588;Turkish Airlines;IST;A343;;
+0 13:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+0 13:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+0 14:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+0 14:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+0 15:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+0 16:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+0 17:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+0 18:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+0 19:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+0 20:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+0 21:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+0 22:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+0 23:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+1 05:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+1 06:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+1 07:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+1 08:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+1 09:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;Gate offen
+1 10:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;Gate offen
+1 11:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;geschlossen
+1 12:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;gestartet
+1 12:00;D;1 11:45 /*=58*/;;;P;TK;1588;Turkish Airlines;IST;A343;;
+1 13:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+1 13:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+1 14:00;D;0 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+1 14:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+1 15:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+1 16:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+1 17:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+1 18:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+1 19:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+1 20:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+1 21:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+1 22:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;
+1 23:00;D;1 11:45;;;P;TK;1588;Turkish Airlines;IST;A343;;

@@ -1,39 +1,39 @@
-#now;dir;sched;esti;lu;typ;al;fnr;alname;iata;ac;reg;status;icao;apname;country
-0 05:00;D;0 19:10 /*=22*/;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-0 06:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-0 07:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-0 08:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-0 09:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-0 10:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-0 11:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-0 12:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-0 13:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-0 14:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-0 15:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-0 16:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;CSTNP /*=7*/;;LPPT;Lissabon;Portugal
-0 17:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;CSTNP;;LPPT;Lissabon;Portugal
-0 18:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;CSTNP;Gate offen;LPPT;Lissabon;Portugal
-0 19:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;CSTNP;geschlossen;LPPT;Lissabon;Portugal
-0 20:00;D;1 19:10 /*=44*/;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-0 21:00;D;1 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-0 22:00;D;1 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-0 23:00;D;1 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-1 05:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-1 06:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-1 07:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-1 08:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-1 09:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-1 10:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-1 11:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-1 12:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-1 13:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-1 14:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-1 15:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-1 16:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;CSTNP /*=7*/;;LPPT;Lissabon;Portugal
-1 17:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;CSTNP;;LPPT;Lissabon;Portugal
-1 18:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;CSTNP;Gate offen;LPPT;Lissabon;Portugal
-1 19:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;CSTNP;geschlossen;LPPT;Lissabon;Portugal
-1 20:00;D;1 19:10 /*=68*/;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-1 21:00;D;1 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-1 22:00;D;1 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
-1 23:00;D;1 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;;LPPT;Lissabon;Portugal
+#now;dir;sched;esti;lu;typ;al;fnr;alname;iata;ac;reg;status
+0 05:00;D;0 19:10 /*=22*/;;;P;TP;579;TAP Portugal;LIS;A320;;
+0 06:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+0 07:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+0 08:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+0 09:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+0 10:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+0 11:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+0 12:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+0 13:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+0 14:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+0 15:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+0 16:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;CSTNP /*=7*/;
+0 17:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;CSTNP;
+0 18:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;CSTNP;Gate offen
+0 19:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;CSTNP;geschlossen
+0 20:00;D;1 19:10 /*=44*/;;;P;TP;579;TAP Portugal;LIS;A320;;
+0 21:00;D;1 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+0 22:00;D;1 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+0 23:00;D;1 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+1 05:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+1 06:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+1 07:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+1 08:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+1 09:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+1 10:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+1 11:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+1 12:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+1 13:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+1 14:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+1 15:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+1 16:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;CSTNP /*=7*/;
+1 17:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;CSTNP;
+1 18:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;CSTNP;Gate offen
+1 19:00;D;0 19:10;;;P;TP;579;TAP Portugal;LIS;A320;CSTNP;geschlossen
+1 20:00;D;1 19:10 /*=68*/;;;P;TP;579;TAP Portugal;LIS;A320;;
+1 21:00;D;1 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+1 22:00;D;1 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;
+1 23:00;D;1 19:10;;;P;TP;579;TAP Portugal;LIS;A320;;

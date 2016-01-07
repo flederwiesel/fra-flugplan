@@ -1,41 +1,41 @@
-#now;dir;sched;esti;lu;typ;al;fnr;alname;iata;ac;reg;status;icao;apname;country
-0 05:00;D;0 12:55 /*=17*/;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE /*=2*/;;VHHH;Hongkong;Hong Kong
-0 06:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;;VHHH;Hongkong;Hong Kong
-0 07:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;;VHHH;Hongkong;Hong Kong
-0 08:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;;VHHH;Hongkong;Hong Kong
-0 09:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;;VHHH;Hongkong;Hong Kong
-0 10:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;;VHHH;Hongkong;Hong Kong
-0 11:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;Gate offen;VHHH;Hongkong;Hong Kong
-0 12:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;geschlossen;VHHH;Hongkong;Hong Kong
-0 13:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;gestartet;VHHH;Hongkong;Hong Kong
-0 13:00;D;1 12:55 /*=37*/;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;;VHHH;Hongkong;Hong Kong
-0 14:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;;VHHH;Hongkong;Hong Kong
-0 15:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;;VHHH;Hongkong;Hong Kong
-0 16:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;;VHHH;Hongkong;Hong Kong
-0 17:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;;VHHH;Hongkong;Hong Kong
-0 18:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF /*=11*/;;VHHH;Hongkong;Hong Kong
-0 19:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;;VHHH;Hongkong;Hong Kong
-0 20:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;;VHHH;Hongkong;Hong Kong
-0 21:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;;VHHH;Hongkong;Hong Kong
-0 22:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;;VHHH;Hongkong;Hong Kong
-0 23:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;;VHHH;Hongkong;Hong Kong
-1 05:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;;VHHH;Hongkong;Hong Kong
-1 06:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;;VHHH;Hongkong;Hong Kong
-1 07:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;;VHHH;Hongkong;Hong Kong
-1 08:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;;VHHH;Hongkong;Hong Kong
-1 09:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;;VHHH;Hongkong;Hong Kong
-1 10:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;;VHHH;Hongkong;Hong Kong
-1 11:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;Gate offen;VHHH;Hongkong;Hong Kong
-1 12:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;geschlossen;VHHH;Hongkong;Hong Kong
-1 13:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;gestartet;VHHH;Hongkong;Hong Kong
-1 13:00;D;1 12:55 /*=61*/;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;;VHHH;Hongkong;Hong Kong
-1 14:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;;VHHH;Hongkong;Hong Kong
-1 15:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;;VHHH;Hongkong;Hong Kong
-1 16:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;;VHHH;Hongkong;Hong Kong
-1 17:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;;VHHH;Hongkong;Hong Kong
-1 18:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE /*=2*/;;VHHH;Hongkong;Hong Kong
-1 19:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;;VHHH;Hongkong;Hong Kong
-1 20:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;;VHHH;Hongkong;Hong Kong
-1 21:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;;VHHH;Hongkong;Hong Kong
-1 22:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;;VHHH;Hongkong;Hong Kong
-1 23:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;;VHHH;Hongkong;Hong Kong
+#now;dir;sched;esti;lu;typ;al;fnr;alname;iata;ac;reg;status
+0 05:00;D;0 12:55 /*=17*/;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE /*=2*/;
+0 06:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;
+0 07:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;
+0 08:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;
+0 09:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;
+0 10:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;
+0 11:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;Gate offen
+0 12:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;geschlossen
+0 13:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;gestartet
+0 13:00;D;1 12:55 /*=37*/;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;
+0 14:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;
+0 15:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;
+0 16:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;
+0 17:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;
+0 18:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF /*=11*/;
+0 19:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;
+0 20:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;
+0 21:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;
+0 22:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;
+0 23:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;
+1 05:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;
+1 06:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;
+1 07:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;
+1 08:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;
+1 09:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;
+1 10:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;
+1 11:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;Gate offen
+1 12:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;geschlossen
+1 13:00;D;0 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPF;gestartet
+1 13:00;D;1 12:55 /*=61*/;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;
+1 14:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;
+1 15:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;
+1 16:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;
+1 17:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;;
+1 18:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE /*=2*/;
+1 19:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;
+1 20:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;
+1 21:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;
+1 22:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;
+1 23:00;D;1 12:55;;;P;CX;288;Cathay Pacific Airways;HKG;B77W;BKPE;

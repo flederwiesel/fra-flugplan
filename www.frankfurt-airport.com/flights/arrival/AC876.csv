@@ -1,45 +1,45 @@
-#now;dir;sched;esti;lu;typ;al;fnr;alname;iata;ac;reg;status;icao;apname;country
-0 05:00;A;0 11:45 /*=7*/;;;P;AC;876;Air Canada;YYZ;A333;CGHKW /*=6,1*/;;CYYZ;Toronto;Kanada
-0 06:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-0 07:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-0 08:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-0 09:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-0 10:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-0 11:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-0 12:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;gelandet;CYYZ;Toronto;Kanada
-0 12:00;A;1 11:45 /*=33*/;;;P;AC;876;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-0 13:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;Gepäckausgabe;CYYZ;Toronto;Kanada
-0 13:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-0 14:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;Gepäckausgabe beendet;CYYZ;Toronto;Kanada
-0 14:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-0 15:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-0 16:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-0 17:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-0 18:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-0 19:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-0 20:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-0 21:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW /*=6,2*/;;CYYZ;Toronto;Kanada
-0 22:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-0 23:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-1 05:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-1 06:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-1 07:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-1 08:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-1 09:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-1 10:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-1 11:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-1 12:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;gelandet;CYYZ;Toronto;Kanada
-1 12:00;A;1 11:45 /*=57*/;;;P;AC;876;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-1 13:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;Gepäckausgabe;CYYZ;Toronto;Kanada
-1 13:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-1 14:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;Gepäckausgabe beendet;CYYZ;Toronto;Kanada
-1 14:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-1 15:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-1 16:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-1 17:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-1 18:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-1 19:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-1 20:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;;CYYZ;Toronto;Kanada
-1 21:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW /*=6,3*/;;CYYZ;Toronto;Kanada
-1 22:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;;CYYZ;Toronto;Kanada
-1 23:00;A;1 11:45 /*†*/;;;P;AC;876;Air Canada;YYZ;A333;CGHKW /*=6,2*/;annulliert;CYYZ;Toronto;Kanada
+#now;dir;sched;esti;lu;typ;al;fnr;alname;iata;ac;reg;status
+0 05:00;A;0 11:45 /*=7*/;;;P;AC;876;Air Canada;YYZ;A333;CGHKW /*=6,1*/;
+0 06:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;
+0 07:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;
+0 08:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;
+0 09:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;
+0 10:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;
+0 11:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;
+0 12:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;gelandet
+0 12:00;A;1 11:45 /*=33*/;;;P;AC;876;Air Canada;YYZ;A333;;
+0 13:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;Gepäckausgabe
+0 13:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;
+0 14:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;Gepäckausgabe beendet
+0 14:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;
+0 15:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;
+0 16:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;
+0 17:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;
+0 18:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;
+0 19:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;
+0 20:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;
+0 21:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW /*=6,2*/;
+0 22:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;
+0 23:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;
+1 05:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;
+1 06:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;
+1 07:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;
+1 08:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;
+1 09:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;
+1 10:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;
+1 11:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;
+1 12:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;gelandet
+1 12:00;A;1 11:45 /*=57*/;;;P;AC;876;Air Canada;YYZ;A333;;
+1 13:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;Gepäckausgabe
+1 13:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;
+1 14:00;A;0 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;Gepäckausgabe beendet
+1 14:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;
+1 15:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;
+1 16:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;
+1 17:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;
+1 18:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;
+1 19:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;
+1 20:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;;
+1 21:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW /*=6,3*/;
+1 22:00;A;1 11:45;;;P;AC;876;Air Canada;YYZ;A333;CGHKW;
+1 23:00;A;1 11:45 /*†*/;;;P;AC;876;Air Canada;YYZ;A333;CGHKW /*=6,2*/;annulliert

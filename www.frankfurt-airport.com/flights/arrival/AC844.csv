@@ -1,43 +1,43 @@
-#now;dir;sched;esti;lu;typ;al;fnr;alname;iata;ac;reg;status;icao;apname;country
-0 05:00;A;0 11:15 /*=6*/;;;P;AC;844;Air Canada;YYC;A333;CGHLM /*=5,1*/;;CYYC;Calgary;Kanada
-0 06:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGHLM;;CYYC;Calgary;Kanada
-0 07:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGHLM;;CYYC;Calgary;Kanada
-0 08:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGHLM;;CYYC;Calgary;Kanada
-0 09:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGHLM;;CYYC;Calgary;Kanada
-0 10:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGHLM;;CYYC;Calgary;Kanada
-0 11:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGHLM;im Anflug;CYYC;Calgary;Kanada
-0 12:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGHLM;Gepäckausgabe;CYYC;Calgary;Kanada
-0 12:00;A;1 11:15 /*=32*/;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-0 13:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGHLM;Gepäckausgabe beendet;CYYC;Calgary;Kanada
-0 13:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-0 14:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-0 15:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-0 16:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-0 17:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-0 18:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-0 19:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-0 20:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-0 21:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-0 22:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-0 23:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH /*=3,2*/;;CYYC;Calgary;Kanada
-1 05:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH;;CYYC;Calgary;Kanada
-1 06:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH;;CYYC;Calgary;Kanada
-1 07:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH;;CYYC;Calgary;Kanada
-1 08:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH;;CYYC;Calgary;Kanada
-1 09:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH;;CYYC;Calgary;Kanada
-1 10:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH;;CYYC;Calgary;Kanada
-1 11:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH;im Anflug;CYYC;Calgary;Kanada
-1 12:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH;gelandet;CYYC;Calgary;Kanada
-1 12:00;A;1 11:15 /*=56*/;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-1 13:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH;Gepäckausgabe beendet;CYYC;Calgary;Kanada
-1 13:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-1 14:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-1 15:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-1 16:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-1 17:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-1 18:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-1 19:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-1 20:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-1 21:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-1 22:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;;CYYC;Calgary;Kanada
-1 23:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;CGHLM /*=5,3*/;;CYYC;Calgary;Kanada
+#now;dir;sched;esti;lu;typ;al;fnr;alname;iata;ac;reg;status
+0 05:00;A;0 11:15 /*=6*/;;;P;AC;844;Air Canada;YYC;A333;CGHLM /*=5,1*/;
+0 06:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGHLM;
+0 07:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGHLM;
+0 08:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGHLM;
+0 09:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGHLM;
+0 10:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGHLM;
+0 11:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGHLM;im Anflug
+0 12:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGHLM;Gepäckausgabe
+0 12:00;A;1 11:15 /*=32*/;;;P;AC;844;Air Canada;YYC;A333;;
+0 13:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGHLM;Gepäckausgabe beendet
+0 13:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+0 14:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+0 15:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+0 16:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+0 17:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+0 18:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+0 19:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+0 20:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+0 21:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+0 22:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+0 23:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH /*=3,2*/;
+1 05:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH;
+1 06:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH;
+1 07:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH;
+1 08:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH;
+1 09:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH;
+1 10:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH;
+1 11:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH;im Anflug
+1 12:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH;gelandet
+1 12:00;A;1 11:15 /*=56*/;;;P;AC;844;Air Canada;YYC;A333;;
+1 13:00;A;0 11:15;;;P;AC;844;Air Canada;YYC;A333;CGFAH;Gepäckausgabe beendet
+1 13:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+1 14:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+1 15:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+1 16:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+1 17:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+1 18:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+1 19:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+1 20:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+1 21:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+1 22:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;;
+1 23:00;A;1 11:15;;;P;AC;844;Air Canada;YYC;A333;CGHLM /*=5,3*/;

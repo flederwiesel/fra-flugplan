@@ -1,41 +1,41 @@
-#now;dir;sched;esti;lu;typ;al;fnr;alname;iata;ac;reg;status;icao;apname;country
-0 05:00;D;0 20:45 /*=23*/;;;P;SA;261;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
-0 06:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
-0 07:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
-0 08:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
-0 09:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
-0 10:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
-0 11:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH /*=1*/;;FAOR;Johannesburg;Südafrika
-0 12:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;;FAOR;Johannesburg;Südafrika
-0 13:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;;FAOR;Johannesburg;Südafrika
-0 14:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;;FAOR;Johannesburg;Südafrika
-0 15:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;;FAOR;Johannesburg;Südafrika
-0 16:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;;FAOR;Johannesburg;Südafrika
-0 17:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;;FAOR;Johannesburg;Südafrika
-0 18:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;;FAOR;Johannesburg;Südafrika
-0 19:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;Gate offen;FAOR;Johannesburg;Südafrika
-0 20:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;Gate offen;FAOR;Johannesburg;Südafrika
-0 21:00;D;0 20:45;0 21:59;;P;SA;261;South African Airways;JNB;A346;ZSSNH;geschlossen;FAOR;Johannesburg;Südafrika
-0 21:00;D;1 20:45 /*=46*/;;;P;SA;261;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
-0 22:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;gestartet;FAOR;Johannesburg;Südafrika
-0 22:00;D;1 20:45;;;P;SA;261;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
-0 23:00;D;1 20:45;;;P;SA;261;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
-1 05:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
-1 06:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
-1 07:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
-1 08:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
-1 09:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
-1 10:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
-1 11:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNC /*=10*/;;FAOR;Johannesburg;Südafrika
-1 12:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNC;;FAOR;Johannesburg;Südafrika
-1 13:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNC;;FAOR;Johannesburg;Südafrika
-1 14:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNC;;FAOR;Johannesburg;Südafrika
-1 15:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNC;;FAOR;Johannesburg;Südafrika
-1 16:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNC;;FAOR;Johannesburg;Südafrika
-1 17:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNC;;FAOR;Johannesburg;Südafrika
-1 18:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNC;Gate offen;FAOR;Johannesburg;Südafrika
-1 19:00;D;0 20:45;0 19:55;;P;SA;261;South African Airways;JNB;A346;ZSSNC;geschlossen;FAOR;Johannesburg;Südafrika
-1 20:00;D;0 20:45;0 19:56;;P;SA;261;South African Airways;JNB;A346;ZSSNC;gestartet;FAOR;Johannesburg;Südafrika
-1 21:00;D;1 20:45 /*=70*/;;;P;SA;261;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
-1 22:00;D;1 20:45;;;P;SA;261;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
-1 23:00;D;1 20:45;;;P;SA;261;South African Airways;JNB;A346;;;FAOR;Johannesburg;Südafrika
+#now;dir;sched;esti;lu;typ;al;fnr;alname;iata;ac;reg;status
+0 05:00;D;0 20:45 /*=23*/;;;P;SA;261;South African Airways;JNB;A346;;
+0 06:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;
+0 07:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;
+0 08:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;
+0 09:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;
+0 10:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;
+0 11:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH /*=1*/;
+0 12:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;
+0 13:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;
+0 14:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;
+0 15:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;
+0 16:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;
+0 17:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;
+0 18:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;
+0 19:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;Gate offen
+0 20:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;Gate offen
+0 21:00;D;0 20:45;0 21:59;;P;SA;261;South African Airways;JNB;A346;ZSSNH;geschlossen
+0 21:00;D;1 20:45 /*=46*/;;;P;SA;261;South African Airways;JNB;A346;;
+0 22:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNH;gestartet
+0 22:00;D;1 20:45;;;P;SA;261;South African Airways;JNB;A346;;
+0 23:00;D;1 20:45;;;P;SA;261;South African Airways;JNB;A346;;
+1 05:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;
+1 06:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;
+1 07:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;
+1 08:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;
+1 09:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;
+1 10:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;;
+1 11:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNC /*=10*/;
+1 12:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNC;
+1 13:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNC;
+1 14:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNC;
+1 15:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNC;
+1 16:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNC;
+1 17:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNC;
+1 18:00;D;0 20:45;;;P;SA;261;South African Airways;JNB;A346;ZSSNC;Gate offen
+1 19:00;D;0 20:45;0 19:55;;P;SA;261;South African Airways;JNB;A346;ZSSNC;geschlossen
+1 20:00;D;0 20:45;0 19:56;;P;SA;261;South African Airways;JNB;A346;ZSSNC;gestartet
+1 21:00;D;1 20:45 /*=70*/;;;P;SA;261;South African Airways;JNB;A346;;
+1 22:00;D;1 20:45;;;P;SA;261;South African Airways;JNB;A346;;
+1 23:00;D;1 20:45;;;P;SA;261;South African Airways;JNB;A346;;

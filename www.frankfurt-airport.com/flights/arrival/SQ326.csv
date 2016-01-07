@@ -1,45 +1,45 @@
-#now;dir;sched;esti;lu;typ;al;fnr;alname;iata;ac;reg;status;icao;apname;country
-0 05:00;A;0 20:30 /*=11*/;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-0 06:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-0 07:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-0 08:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-0 09:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-0 10:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-0 11:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-0 12:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-0 13:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-0 14:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-0 15:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-0 16:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK /*=9,1*/;;WSSS;Singapur;Singapur
-0 17:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;;WSSS;Singapur;Singapur
-0 18:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;;WSSS;Singapur;Singapur
-0 19:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;;WSSS;Singapur;Singapur
-0 20:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;;WSSS;Singapur;Singapur
-0 21:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;gelandet;WSSS;Singapur;Singapur
-0 21:00;A;1 20:30 /*=45*/;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-0 22:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;Gepäckausgabe;WSSS;Singapur;Singapur
-0 22:00;A;1 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-0 23:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;Gepäckausgabe beendet;WSSS;Singapur;Singapur
-0 23:00;A;1 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-1 05:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-1 06:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-1 07:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-1 08:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-1 09:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-1 10:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-1 11:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-1 12:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-1 13:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-1 14:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-1 15:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-1 16:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK /*=9,2*/;;WSSS;Singapur;Singapur
-1 17:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;;WSSS;Singapur;Singapur
-1 18:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;;WSSS;Singapur;Singapur
-1 19:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;;WSSS;Singapur;Singapur
-1 20:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;;WSSS;Singapur;Singapur
-1 21:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;gelandet;WSSS;Singapur;Singapur
-1 21:00;A;1 20:30 /*=69*/;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-1 22:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;Gepäckausgabe;WSSS;Singapur;Singapur
-1 22:00;A;1 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;;WSSS;Singapur;Singapur
-1 23:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;Gepäckausgabe beendet;WSSS;Singapur;Singapur
-1 23:00;A;1 20:30;1 23:00;;P;SQ;326;Singapore Airlines;SIN;B77W;;verspätet;WSSS;Singapur;Singapur
+#now;dir;sched;esti;lu;typ;al;fnr;alname;iata;ac;reg;status
+0 05:00;A;0 20:30 /*=11*/;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+0 06:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+0 07:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+0 08:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+0 09:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+0 10:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+0 11:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+0 12:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+0 13:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+0 14:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+0 15:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+0 16:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK /*=9,1*/;
+0 17:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;
+0 18:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;
+0 19:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;
+0 20:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;
+0 21:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;gelandet
+0 21:00;A;1 20:30 /*=45*/;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+0 22:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;Gepäckausgabe
+0 22:00;A;1 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+0 23:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;Gepäckausgabe beendet
+0 23:00;A;1 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+1 05:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+1 06:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+1 07:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+1 08:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+1 09:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+1 10:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+1 11:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+1 12:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+1 13:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+1 14:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+1 15:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+1 16:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK /*=9,2*/;
+1 17:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;
+1 18:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;
+1 19:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;
+1 20:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;
+1 21:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;gelandet
+1 21:00;A;1 20:30 /*=69*/;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+1 22:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;Gepäckausgabe
+1 22:00;A;1 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;;
+1 23:00;A;0 20:30;;;P;SQ;326;Singapore Airlines;SIN;B77W;9VSWK;Gepäckausgabe beendet
+1 23:00;A;1 20:30;1 23:00;;P;SQ;326;Singapore Airlines;SIN;B77W;;verspätet
