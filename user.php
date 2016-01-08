@@ -608,12 +608,6 @@ function /* char *error */ RegisterUserSql($user, $email, $password, $language)
 	if (!$error)
 	{
 		/* Send registration email to user */
-		$ipaddr = isset($_SERVER['HTTP_X_FORWARDED_FOR']) ?
-						$_SERVER['HTTP_X_FORWARDED_FOR'] :
-						$_SERVER['REMOTE_ADDR'];
-
-		$ipaddr = str_replace('::1', '127.0.0.1', $ipaddr);
-
 		$header = sprintf(
 			"From: %s <%s>\n".
 			"Reply-To: %s\n".
@@ -628,7 +622,28 @@ function /* char *error */ RegisterUserSql($user, $email, $password, $language)
 
 		$subject = mb_encode_mimeheader($lang['subjactivate'], 'ISO-8859-1', 'Q');
 
-		$body = sprintf($lang['emailactivation'], $ipaddr, $user, ORGANISATION, SITE_URL,
+		$ipaddr['fwd'] = NULL;
+		$ipaddr['real'] = NULL;
+
+		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+		{
+			$ipaddr['fwd'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
+
+			if (preg_match('/83.125.11[2-5]/', $ipaddr['fwd']))
+				$ipaddr['fwd'] = NULL;
+		}
+
+		if (isset($_SERVER['HTTP_X_REAL_IP']))
+			$ipaddr['real'] = $_SERVER['HTTP_X_REAL_IP'];
+		else
+			$ipaddr['real'] = $_SERVER['REMOTE_ADDR'];
+
+		$ipaddr['fwd'] = str_replace('::1', '127.0.0.1', $ipaddr['fwd']);
+		$ipaddr['real'] = str_replace('::1', '127.0.0.1', $ipaddr['real']);
+
+		$body = sprintf($lang['emailactivation'],
+						$ipaddr['real'].($ipaddr['fwd'] ? " ($ipaddr[fwd])" : ""),
+						$user, ORGANISATION, SITE_URL,
 						$token, php_self(), $user, $token, $expires, ORGANISATION);
 
 		/* http://www.outlookfaq.net/index.php?action=artikel&cat=6&id=84&artlang=de */
@@ -651,7 +666,7 @@ function /* char *error */ RegisterUserSql($user, $email, $password, $language)
 			$htm = curl_download($curl,
 						sprintf("http://${stopforumspam}api.stopforumspam.org/api?".
 								"f=json&ip=%s&email=%s&username=%s",
-								$ipaddr, urlencode($email), urlencode($user)));
+								$ipaddr['real'], urlencode($email), urlencode($user)));
 
 			if ($htm)
 			{
@@ -671,8 +686,8 @@ function /* char *error */ RegisterUserSql($user, $email, $password, $language)
 									"\nDelete: http://%s?admin=userdel&uid=$uid\n",
 									$user, $json->username->appears ? $json->username->confidence : 0,
 									$email, $json->email->appears ? $json->email->confidence : 0,
-									$ipaddr, $json->ip->appears ? $json->ip->confidence : 0,
-									$ipaddr, urlencode($email), urlencode($user),
+									$ipaddr['real'], $json->ip->appears ? $json->ip->confidence : 0,
+									$ipaddr['real'], urlencode($email), urlencode($user),
 									$_SERVER['SERVER_NAME']);
 					}
 				}
