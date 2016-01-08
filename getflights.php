@@ -808,88 +808,94 @@ function JSON_InterpretFlights(/*in*/ $dir, /*in*/ $json, /*in*/ $defer,
 					echo ",\n";
 				}
 
-				if (isset($jflight->typ))
-				if (strlen($jflight->typ))
-				switch ($jflight->typ)
+				if ($jflight->fnr)
 				{
-				case 'F':
-				case 'P':
-					break;
+					if (!isset($jflight->al))
+						$jflight->al = strtok($jflight->fnr, ' ');
 
-				default:
-					warn_once(__LINE__, "$jflight->flstatus, $jflight->status");
-				}
-
-				/* We might remove this conditional as soon as we're sure we have all stati */
-				if (isset($jflight->flstatus))
-				if (strlen($jflight->flstatus))
-				switch ($jflight->flstatus)
-				{
-				case 0:
-				case 1:
-				case 2:
-					break;
-
-				default:
-					warn_once(__LINE__, "$jflight->flstatus, $jflight->status");
-				}
-
-				MapFlightStatus($jflight->status);
-
-				if (!(FlightStatus::IGNORE == $jflight->status))
-				{
-					if (isset($jflight->ac))
+					if (isset($jflight->typ))
+					if (strlen($jflight->typ))
+					switch ($jflight->typ)
 					{
-						if ('TRN' == $jflight->ac)
-							$jflight->status = FlightStatus::IGNORE;	// Ignore trains...
+					case 'F':
+					case 'P':
+						break;
+
+					default:
+						warn_once(__LINE__, "$jflight->flstatus, $jflight->status");
 					}
-				}
 
-				switch ($jflight->status)
-				{
-				case FlightStatus::IGNORE:
-					break;
-
-				case FlightStatus::DEPARTED:
-					break;
-
-				default:
-
-					$sched = strtotime($jflight->sched);
-
-					if ($last < $sched)
-						$last = $sched;
-
-					/* If a departure is due without `esti` having been set,
-					   estimate departure in 5 mins */
-					if ('departure' == $dir &&
-						FlightStatus::BOARDING == $jflight->status)
+					/* We might remove this conditional as soon as we're sure we have all stati */
+					if (isset($jflight->flstatus))
+					if (strlen($jflight->flstatus))
+					switch ($jflight->flstatus)
 					{
-						$departure = isset($jflight->esti) ? $jflight->esti : $jflight->sched;
-						$departure = strtotime($departure);
+					case 0:
+					case 1:
+					case 2:
+						break;
 
-						if ($departure < $now->time_t)
+					default:
+						warn_once(__LINE__, "$jflight->flstatus, $jflight->status");
+					}
+
+					MapFlightStatus($jflight->status);
+
+					if (!(FlightStatus::IGNORE == $jflight->status))
+					{
+						if (isset($jflight->ac))
 						{
-							$departure = $now->time_t + $defer;
-							$jflight->esti = date(DATE_ISO8601, $departure);
+							if ('TRN' == $jflight->ac)
+								$jflight->status = FlightStatus::IGNORE;	// Ignore trains...
 						}
 					}
 
-					$f = new flight($jflight->typ,
-									$jflight->al, $jflight->alname,
-									preg_replace('/[^ ]+ /', '', $jflight->fnr),
-									$jflight->sched,
-									isset($jflight->esti) ? $jflight->esti : NULL,
-									isset($jflight->ac) ? $jflight->ac : NULL,
-									isset($jflight->reg) ? patchreg($jflight->reg) : NULL,
-									$jflight->iata,
-									$jflight->status,
-									$jflight->lu);
+					switch ($jflight->status)
+					{
+					case FlightStatus::IGNORE:
+						break;
 
-					if (isset($DEBUG['flights']))
-						print_r($f);
+					case FlightStatus::DEPARTED:
+						break;
 
-					$flights->push($f);
+					default:
+
+						$sched = strtotime($jflight->sched);
+
+						if ($last < $sched)
+							$last = $sched;
+
+						/* If a departure is due without `esti` having been set,
+						   estimate departure in 5 mins */
+						if ('departure' == $dir &&
+							FlightStatus::BOARDING == $jflight->status)
+						{
+							$departure = isset($jflight->esti) ? $jflight->esti : $jflight->sched;
+							$departure = strtotime($departure);
+
+							if ($departure < $now->time_t)
+							{
+								$departure = $now->time_t + $defer;
+								$jflight->esti = date(DATE_ISO8601, $departure);
+							}
+						}
+
+						$f = new flight($jflight->typ,
+										$jflight->al, $jflight->alname,
+										preg_replace('/[^ ]+ /', '', $jflight->fnr),
+										$jflight->sched,
+										isset($jflight->esti) ? $jflight->esti : NULL,
+										isset($jflight->ac) ? $jflight->ac : NULL,
+										isset($jflight->reg) ? patchreg($jflight->reg) : NULL,
+										$jflight->iata,
+										$jflight->status,
+										$jflight->lu);
+
+						if (isset($DEBUG['flights']))
+							print_r($f);
+
+						$flights->push($f);
+					}
 				}
 			}
 		}
