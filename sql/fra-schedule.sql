@@ -481,7 +481,9 @@ VALUES
 (@uid, 'HRM', 'Hermes Airlines'),
 (@uid, '7W',  'Wind Rose Aviation'),
 (@uid, '3O', 'Air Arabia Maroc'),
-(@uid, 'B2', 'Belavia Airlines');
+(@uid, 'B2', 'Belavia Airlines'),
+(@uid, 'BCS', 'EAT-European Air Transport'),
+(@uid, 'CC', 'Air Atlanta Icelandic');
 
 INSERT INTO `models`(`uid`, `icao`, `name`)
 VALUES
@@ -675,7 +677,8 @@ VALUES
 (@uid, 'A359', 'Airbus A350-900'),
 (@uid, 'CL30', 'Bombardier Challenger 300'),
 (@uid, 'B789', 'Boeing 787-9'),
-(@uid, 'SU95', 'Sukhoi Superjet 100-95B');
+(@uid, 'SU95', 'Sukhoi Superjet 100-95B'),
+(@uid, 'C56X', 'Cessna 560XL Citation Exel');
 
 INSERT INTO `airports`(`uid`, `iata`, `icao`, `name`)
 VALUES
@@ -1131,7 +1134,9 @@ VALUES
 (@uid, 'CSX', 'ZGHA', 'Changsha-Huanghua International'),
 (@uid, 'SNU', 'MUSC', 'Santa Clara-Abel Santamaria'),
 (@uid, 'TPA', 'KTPA', 'Tampa-International'),
-(@uid, '???', '????', '???');
+(@uid, '???', '????', '???'),
+(@uid, 'QMN', 'EDTM', 'Mengen'),
+(@uid, 'FDF', 'TFFF', 'Fort-de France  Martinique A.Cesaire');
 
 TRUNCATE `visits`;
 
