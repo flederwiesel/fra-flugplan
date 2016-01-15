@@ -290,39 +290,38 @@ function patchreg($reg)
 	return $reg;
 }
 
+/*
 // representation of airline as decoded from JSON
-class jairline
 {
-	public $id;		// = "LH"
-	public $name;	// = "Lufthansa"
-	public $t;		// = [null] 1
-	public $h;		// = [null] "A"
-	public $s;		// = [null] "260-338"
+	"id": "LH",
+	"name": "Lufthansa",
+	"t": 1,			// [null] Terminal
+	"h": "A",		// [null] Halle
+	"s": "260-338"	// [null] Schalter
 }
 
 // representation of airport as decoded from JSON
-class jairport
 {
-	public $id;			// = "YUL"
-	public $icao;		// = "CYUL"
-	public $nameshort;	// = "Montreal"
-	public $name;		// = "Montreal-Pierre Elliot Trudeau"
-	public $land;		// = "Kanada"
-	public $region;		// = "am"
-	public $regionorg;	// = "Nord-Amerika I"
-	public $soend;		// = [null] "2016-11-06T06:00:00+0100"
-	public $sostart;	// = [null] "2016-03-13T07:00:00+0100"
-	public $uso;		// = [null] -4
-	public $uwi;		// = -5
+	"id": "YUL",
+	"icao": "CYUL",
+	"nameshort": "Montreal",
+	"name": "Montreal-Pierre Elliot Trudeau",
+	"land": "Kanada",
+	"region": "am",
+	"regionorg": "Nord-Amerika I",
+	"soend": "2016-11-06T06:00:00+0100",	// = [null] Sommerzeit Ende
+	"sostart": "2016-03-13T07:00:00+0100",	// = [null] Sommerzeit Start
+	"uso": -4, 	// [null] Unterschied Sommer
+	"uwi": -5	//        Unterschied Winter
 }
 
 // representation of aircraft as decoded from JSON
-class jaircraft
 {
-	public $id;		// = "A319"
-	public $name;	// = "A319/ACJ"
-	public $fab;	// = "Airbus"
+	"id": "A319",
+	"name": "A319/ACJ",
+	"fab": "Airbus"
 }
+*/
 
 // representation of the flight as decoded from JSON
 class jflight
@@ -379,7 +378,7 @@ class jflight
 
 	// unknown
 	public $s;			// = [null] enum { false, true }
-	public $flstatus;	// = [null] enum { 0, 1, 2 }
+	public $flstatus;	// = [null] enum { 0, 1, 2, 3 }
 }
 
 abstract class FlightStatus
@@ -833,6 +832,7 @@ function JSON_InterpretFlights(/*in*/ $dir, /*in*/ $json, /*in*/ $defer,
 					case 0:
 					case 1:
 					case 2:
+					case 3:	/* verspätet auf ... */
 						break;
 
 					default:
