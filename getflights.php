@@ -2160,15 +2160,6 @@ else
 
 					if (!$error)
 					{
-						if (isset($lu))
-						{
-							if (strtotime($f->lu) <= strtotime($lu))
-								$f->status = FlightStatus::IGNORE;
-						}
-					}
-
-					if (!$error)
-					{
 						if (!(FlightStatus::IGNORE == $f->status))
 						{
 							/* We need flight's `id` and `aircraft` for
@@ -2181,11 +2172,18 @@ else
 							   $f comes in with id=0
 							 */
 							$ac = 0;
+							$lu = 0;
 
 							$error = SQL_GetFlightDetails($dir, $f, $f->id, $ac, $lu);
 						}
+					}
 
-						if (!$error)
+					if (!$error)
+					{
+						if (strtotime($f->lu) <= strtotime($lu))
+							$f->status = FlightStatus::IGNORE;
+
+						if (!(FlightStatus::IGNORE == $f->status))
 						{
 							$visits = 0;
 
