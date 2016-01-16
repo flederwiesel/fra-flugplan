@@ -570,33 +570,7 @@ else
 
 		/* <td> inherits 'class="left"' from div.box */
 		echo "<td$early>$day $hhmm</td>";
-
-		if (!($row['fl_airl'] && $row['fl_code']))
-		{
-			switch ($row['type'])
-			{
-			case 'cargo':
-			case 'ferry':
-				echo "<td><img src='img/$row[type].png'></td>";
-				break;
-
-			default:
-				echo "<td>$row[fl_airl]$row[fl_code]</td>";
-			}
-		}
-		else
-		{
-			switch ($row['type'])
-			{
-			case 'cargo':
-			case 'ferry':
-				echo "<td><img src='img/$row[type].png'>$row[fl_airl]$row[fl_code]</td>";
-				break;
-
-			default:
-				echo "<td>$row[fl_airl]$row[fl_code]</td>";
-			}
-		}
+		echo "<td>$row[fl_airl]$row[fl_code]</td>";
 
 		if (!$mobile)
 		{
@@ -606,7 +580,19 @@ else
 			echo "<td><div>$row[airport_name]</div></td>";
 		}
 
-		echo "<td>$row[model]</td>";
+		switch ($row['type'])
+		{
+		case 'C':
+			echo "<td class=\"model cargo\" sorttable_customkey=\"-1:$row[model]\">$row[model]</td>";
+			break;
+
+		case 'F':
+			echo "<td class=\"model\" sorttable_customkey=\"0:$row[model]\">$row[model]</td>";
+			break;
+
+		default:
+			echo "<td class=\"model\" sorttable_customkey=\"0:$row[model]\">$row[model]</td>";
+		}
 
 		$reg = $row['reg'];
 		$vtf = $row['vtf'] ? $row['vtf'] : '9999';
