@@ -1136,7 +1136,9 @@ VALUES
 (@uid, 'TPA', 'KTPA', 'Tampa-International'),
 (@uid, '???', '????', '???'),
 (@uid, 'QMN', 'EDTM', 'Mengen'),
-(@uid, 'FDF', 'TFFF', 'Fort-de France  Martinique A.Cesaire');
+(@uid, 'FDF', 'TFFF', 'Fort-de France  Martinique A.Cesaire'),
+(@uid, 'TSN', 'ZBTJ', 'Tianjin-Binhai International'),
+(@uid, 'TEQ', 'LTBU', 'Tekirdag-Corlu');
 
 TRUNCATE `visits`;
 
