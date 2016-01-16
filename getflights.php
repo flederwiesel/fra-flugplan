@@ -816,6 +816,7 @@ function JSON_InterpretFlights(/*in*/ $dir, /*in*/ $json, /*in*/ $defer,
 					if (strlen($jflight->typ))
 					switch ($jflight->typ)
 					{
+					case 'C':
 					case 'F':
 					case 'P':
 						break;
@@ -909,7 +910,7 @@ function JSON_InterpretFlights(/*in*/ $dir, /*in*/ $json, /*in*/ $defer,
 // Pull JSON from server page by page and convert to flight object vector
 function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 						 /*in*/ $lookback, /*in*/ $defer,
-						 /*in*/ $dir, /*in*/ $items, /*out*/ &$flights, &$count)
+						 /*in*/ $type, /*in*/ $dir, /*in*/ $items, /*out*/ &$flights, &$count)
 {
 	global $DEBUG;
 	global $now;
@@ -930,6 +931,7 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 			$offset = 0;
 		}
 
+		$type = 'C' == $type ? '.cargo' : '';
 		$start = $now->time_t - $offset;
 		$time = date(DATE_ISO8601, $start);
 		$time = urlencode($time);
@@ -940,7 +942,7 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 		while ($current < $start + 84600 && $page > 0)
 		{
 			// Build request URL
-			$url = "http://${prefix}www.frankfurt-airport.com/de/_jcr_content.${dir}s.json/filter".
+			$url = "http://${prefix}www.frankfurt-airport.com/de/_jcr_content.${dir}s${type}.json/filter".
 				   "?type=${dir}&lang=de&time=${time}&perpage=${items}&page=${page}";
 
 			if (isset($DEBUG['url']))
@@ -1479,7 +1481,7 @@ SQL;
 	return $error;
 }
 
-function SQL_InsertFlight(/* in */ $dir, /* in/out */ &$f)
+function SQL_InsertFlight(/*in*/ $type, /* in */ $dir, /* in/out */ &$f)
 {
 	global $DEBUG;
 	global $uid;
@@ -1505,7 +1507,7 @@ function SQL_InsertFlight(/* in */ $dir, /* in/out */ &$f)
 		(`uid`, `direction`, `type`, `airline`, `code`,
 		 `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`)
 		VALUES(
-		 $uid, '$dir', '{$f->type}',
+		 $uid, '$dir', '$type',
 		 {$f->airline->id}, '{$f->fnr}',
 		 '{$f->scheduled}', $expected,
 		 {$f->airport->id},
@@ -2033,262 +2035,237 @@ if (NULL == $curl)
 }
 else
 {
-	// Iterate through arrival/departure tables
-	$direction = array('arrival', 'departure');
+	if (!$error)
+		$error = mysql_connect_db($hdbc, $uid);
 
-	foreach ($direction as $dir)
+	if (!$error)
 	{
-		if (isset($DEBUG['any']))
-			printf("%s\n========\n\n", $dir);
-
-		$count = 0;
-		$time_start = microtime(true);
-
-		$error = CURL_GetFlights($curl, $prefix, $lookback, $defer, $dir, $items, $flights, $count);
-
-		$time_end = microtime(true);
-		$time = $time_end - $time_start;
-
-		$n = $flights->count();
-
-		if (!$error)
-			$error = mysql_connect_db($hdbc, $uid);
-
-		if (!$error)
+		// Iterate through [pax,cargo] [arrival, departure] tables
+		foreach (array('P', 'C') as $type)
 		{
-			while ($f = $flights->pop())
+			foreach (array('arrival', 'departure') as $dir)
 			{
-				if (isset($DEBUG['sql']))
-					echo "\n/************************************/\n\n";
+				if (isset($DEBUG['any']))
+					printf("%s\n========\n\n", $dir);
 
-				$error = SQL_GetAirline($f->airline);
+				$count = 0;
+				$time_start = microtime(true);
 
-				if (!$error)
+				$error = CURL_GetFlights($curl, $prefix, $lookback, $defer, $type, $dir, $items, $flights, $count);
+
+				$time_end = microtime(true);
+				$time = $time_end - $time_start;
+
+				$n = $flights->count();
+
+				while ($f = $flights->pop())
 				{
-					if (!$f->airline->id)
-					{
-						if (!$f->airline->name)
-							$error = CURL_GetAirline($curl, $f->airline);
+					if (isset($DEBUG['sql']))
+						echo "\n/************************************/\n\n";
 
-						if (!$error)
-						{
-							$error = SQL_InsertAirline($f->airline);
-
-							if (!$error)
-							{
-								info(__LINE__,
-									 "Inserted airline {$f->airline->code} as \"{$f->airline->name}\"".
-									 " ($dir {$f->airline->code}{$f->fnr} \"{$f->scheduled}\").");
-							}
-						}
-					}
-				}
-
-				if (!$error)
-				{
-					if (!$f->airport->iata)
-						$f->airport->iata = '???';
-
-					$error = SQL_GetAirport($f->airport);
+					$error = SQL_GetAirline($f->airline);
 
 					if (!$error)
 					{
-						if (!$f->airport->id)
+						if (!$f->airline->id)
 						{
-							$error = CURL_GetAirport($curl, $f->airport);
+							if (!$f->airline->name)
+								$error = CURL_GetAirline($curl, $f->airline);
 
 							if (!$error)
 							{
-								$error = SQL_InsertAirport($f->airport);
+								$error = SQL_InsertAirline($f->airline);
 
 								if (!$error)
 								{
 									info(__LINE__,
-										 "Inserted airport {$f->airport->iata} as ".
-										 "{$f->airport->icao} \"{$f->airport->name}\"".
+										 "Inserted airline {$f->airline->code} as \"{$f->airline->name}\"".
 										 " ($dir {$f->airline->code}{$f->fnr} \"{$f->scheduled}\").");
 								}
 							}
 						}
 					}
-				}
 
-				if (!$error)
-				{
-					if ($f->aircraft->type->icao)
+					if (!$error)
 					{
-						$error = SQL_GetAircraftType($f->aircraft);
+						if (!$f->airport->iata)
+							$f->airport->iata = '???';
+
+						$error = SQL_GetAirport($f->airport);
 
 						if (!$error)
 						{
-							if (!$f->aircraft->type->id)
+							if (!$f->airport->id)
 							{
-								$error = CURL_GetAircraftType($curl, $f->aircraft);
+								$error = CURL_GetAirport($curl, $f->airport);
 
 								if (!$error)
 								{
-									$error = SQL_InsertAircraftType($f->aircraft);
+									$error = SQL_InsertAirport($f->airport);
 
 									if (!$error)
 									{
 										info(__LINE__,
-											 "Inserted aircraft {$f->aircraft->type->icao} as".
-											 " {$f->aircraft->type->name}".
+											 "Inserted airport {$f->airport->iata} as ".
+											 "{$f->airport->icao} \"{$f->airport->name}\"".
 											 " ($dir {$f->airline->code}{$f->fnr} \"{$f->scheduled}\").");
 									}
 								}
 							}
 						}
 					}
-				}
-
-				if (!$error)
-				{
-					if ($f->aircraft->reg)
-					{
-						$error = SQL_GetAircraft($f->aircraft);
-
-						if (!$error)
-						{
-							if (!$f->aircraft->id)
-								$error = SQL_InsertAircraft($f->aircraft);
-						}
-					}
-				}
-
-				if (!$error)
-				{
-					if (isset($lu))
-					{
-						if (strtotime($f->lu) <= strtotime($lu))
-							$f->status = FlightStatus::IGNORE;
-					}
-				}
-
-				if (!$error)
-				{
-					if (!(FlightStatus::IGNORE == $f->status))
-					{
-						/* We need flight's `id` and `aircraft` for
-						   - deletion of cancelled flights
-						   - update of flights
-						   - update of #visits
-						     - in case of cancelled flights
-						     - in case of equipment change
-
-						   $f comes in with id=0
-						 */
-						$ac = 0;
-
-						$error = SQL_GetFlightDetails($dir, $f, $f->id, $ac, $lu);
-					}
 
 					if (!$error)
 					{
-						$visits = 0;
-
-						if (FlightStatus::IGNORE == $f->status)
+						if ($f->aircraft->type->icao)
 						{
-							if (isset($DEBUG['sql']))
-								echo "/* ignored */\n";
-						}
-						else if (FlightStatus::CANCELLED == $f->status)
-						{
-							if ($f->id)
-							{
-								$visits = -1;
+							$error = SQL_GetAircraftType($f->aircraft);
 
-								/* Delete from `watchlist-notifications` first, which uses
-								   `flights`.`is` a foreign key... */
-								SQL_DeleteNotifications($f->id, true);
-
-								$error = SQL_DeleteFlight($f->id);
-							}
-						}
-						else
-						{
-							if (0 == $f->id)
+							if (!$error)
 							{
-								$visits = 1;
-								$error = SQL_InsertFlight($dir, $f);
-							}
-							else
-							{
-								$error = SQL_UpdateFlightDetails($f->id, $f);
-
-								if (!$error)
+								if (!$f->aircraft->type->id)
 								{
-									if (NULL == $ac)
+									$error = CURL_GetAircraftType($curl, $f->aircraft);
+
+									if (!$error)
 									{
-										if ('arrival' == $dir)
-											$visits = 1;
-									}
-									else
-									{
-										if ($f->aircraft->id != $ac)
+										$error = SQL_InsertAircraftType($f->aircraft);
+
+										if (!$error)
 										{
-											if ('arrival' == $dir)
-											{
-												SQL_UpdateVisitsToFra($f->scheduled, $ac, -1);
-
-												$visits = 1;	/* for $f->aircraft */
-											}
-
-											SQL_DeleteNotifications($f->id, false);
+											info(__LINE__,
+												 "Inserted aircraft {$f->aircraft->type->icao} as".
+												 " {$f->aircraft->type->name}".
+												 " ($dir {$f->airline->code}{$f->fnr} \"{$f->scheduled}\").");
 										}
 									}
 								}
 							}
 						}
+					}
+
+					if (!$error)
+					{
+						if ($f->aircraft->reg)
+						{
+							$error = SQL_GetAircraft($f->aircraft);
+
+							if (!$error)
+							{
+								if (!$f->aircraft->id)
+									$error = SQL_InsertAircraft($f->aircraft);
+							}
+						}
+					}
+
+					if (!$error)
+					{
+						if (isset($lu))
+						{
+							if (strtotime($f->lu) <= strtotime($lu))
+								$f->status = FlightStatus::IGNORE;
+						}
+					}
+
+					if (!$error)
+					{
+						if (!(FlightStatus::IGNORE == $f->status))
+						{
+							/* We need flight's `id` and `aircraft` for
+							   - deletion of cancelled flights
+							   - update of flights
+							   - update of #visits
+							     - in case of cancelled flights
+							     - in case of equipment change
+
+							   $f comes in with id=0
+							 */
+							$ac = 0;
+
+							$error = SQL_GetFlightDetails($dir, $f, $f->id, $ac, $lu);
+						}
 
 						if (!$error)
-							if ('arrival' == $dir && $f->aircraft->id && $visits)
-								$error = SQL_UpdateVisitsToFra($f->scheduled, $f->aircraft->id, $visits);
+						{
+							$visits = 0;
+
+							if (FlightStatus::IGNORE == $f->status)
+							{
+								if (isset($DEBUG['sql']))
+									echo "/* ignored */\n";
+							}
+							else if (FlightStatus::CANCELLED == $f->status)
+							{
+								if ($f->id)
+								{
+									$visits = -1;
+
+									/* Delete from `watchlist-notifications` first, which uses
+									   `flights`.`is` a foreign key... */
+									SQL_DeleteNotifications($f->id, true);
+
+									$error = SQL_DeleteFlight($f->id);
+								}
+							}
+							else
+							{
+								if (0 == $f->id)
+								{
+									$visits = 1;
+									$error = SQL_InsertFlight($type, $dir, $f);
+								}
+								else
+								{
+									$error = SQL_UpdateFlightDetails($f->id, $f);
+
+									if (!$error)
+									{
+										if (NULL == $ac)
+										{
+											if ('arrival' == $dir)
+												$visits = 1;
+										}
+										else
+										{
+											if ($f->aircraft->id != $ac)
+											{
+												if ('arrival' == $dir)
+												{
+													SQL_UpdateVisitsToFra($f->scheduled, $ac, -1);
+
+													$visits = 1;	/* for $f->aircraft */
+												}
+
+												SQL_DeleteNotifications($f->id, false);
+											}
+										}
+									}
+								}
+							}
+
+							if (!$error)
+								if ('arrival' == $dir && $f->aircraft->id && $visits)
+									$error = SQL_UpdateVisitsToFra($f->scheduled, $f->aircraft->id, $visits);
+						}
 					}
 				}
+
+				if (isset($DEBUG['sql']))
+					echo "\n/************************************/\n\n";
+
+				if (isset($DEBUG['any']))
+				{
+					printf("---------------------------\n");
+					printf("%lu (%lu) Flüge gefunden.\n", $n, $count);
+					printf("    %s: %.3fs\n", 'Dauer', $time);
+					printf("\n===========================\n\n\n");
+				}
+
+				unset($flights);
 			}
-
-			if (isset($DEBUG['sql']))
-				echo "\n/************************************/\n\n";
-
-			if (isset($DEBUG['any']))
-			{
-				printf("---------------------------\n");
-				printf("%lu (%lu) Flüge gefunden.\n", $n, $count);
-				printf("    %s: %.3fs\n", 'Dauer', $time);
-				printf("\n===========================\n\n");
-			}
-
-			mysql_close($hdbc);
 		}
 
-		unset($flights);
-	}
-
-	/* betriebsrichtung.html */
-	$betriebsrichtung = curl_download($curl, "http://${prefix}apps.fraport.de/betriebsrichtung/betriebsrichtung.html", 5);
-
-	$file = @fopen('data/betriebsrichtung.html', 'w');
-
-	if ($file)
-	{
-		fwrite($file, $betriebsrichtung);
-		fclose($file);
-	}
-
-	curl_close($curl);
-}
-
-//if (!$error)
-{
-	$error = mysql_connect_db($hdbc, $uid);
-
-	if (!$error)
-	{
 		/* Add watches to `watchlist-notifications` table */
-		if (isset($DEBUG['any']))
-			echo "\n";
-
 		$query = <<<SQL
 			INSERT INTO `watchlist-notifications`(`flight`, `watch`)
 
@@ -2304,7 +2281,7 @@ else
 					`aircraft`
 				 FROM `flights`
 				 WHERE `aircraft` IS NOT NULL)
-				 	AS `flights`
+					AS `flights`
 				ON `aircrafts`.`id` = `flights`.`aircraft`
 			LEFT JOIN `watchlist-notifications`
 				ON `watchlist-notifications`.`flight` = `flights`.`id`
@@ -2431,7 +2408,7 @@ SQL;
 			DELETE `watchlist-notifications`
 			FROM `watchlist-notifications`
 			INNER JOIN `flights`
-			        ON `flights`.`id`=`watchlist-notifications`.`flight`
+				    ON `flights`.`id`=`watchlist-notifications`.`flight`
 			WHERE (DATEDIFF('$now->atom', IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 1)
 SQL;
 
@@ -2447,6 +2424,19 @@ SQL;
 
 		mysql_close($hdbc);
 	}
+
+	/* betriebsrichtung.html */
+	$betriebsrichtung = curl_download($curl, "http://${prefix}apps.fraport.de/betriebsrichtung/betriebsrichtung.html", 5);
+
+	$file = @fopen('data/betriebsrichtung.html', 'w');
+
+	if ($file)
+	{
+		fwrite($file, $betriebsrichtung);
+		fclose($file);
+	}
+
+	curl_close($curl);
 }
 
 if ($errorinfo)

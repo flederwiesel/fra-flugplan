@@ -1,4 +1,5 @@
 <IfModule mod_rewrite.c>
 RewriteEngine on
-RewriteRule .(arrival|departure)s.json index.php
+RewriteRule (arrival|departure)s\.json        index.php
+RewriteRule (arrival|departure)s\.cargo\.json index.php?cargo&%{QUERY_STRING}
 </IfModule>

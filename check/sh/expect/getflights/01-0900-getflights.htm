@@ -379,6 +379,7 @@ UPDATE `flights` SET `airport`=245, `aircraft`=NULL, `model`=14 WHERE `id`=52;
 
 ===========================
 
+
 departure
 ========
 
@@ -733,6 +734,36 @@ UPDATE `flights` SET `airport`=136, `aircraft`=NULL, `model`=9 WHERE `id`=51;
 
 ---------------------------
 12 (13) Flüge gefunden.
+    Dauer: 0.000s
+
+===========================
+
+
+arrival
+========
+
+http://localhost/.../www.frankfurt-airport.com/de/_jcr_content.arrivals.cargo.json/filter?type=arrival&lang=de&time=0000-00-01T09%3A00%3A00%2B0100&perpage=3&page=1
+{"type":"arrival","luops":"0000-00-00T00:00:00+0100","lusaison":"0000-00-00T00:00:00+0100","results":0,"entriesperpage":0,"maxpage":0,"page":0}
+
+/************************************/
+
+---------------------------
+0 (0) Flüge gefunden.
+    Dauer: 0.000s
+
+===========================
+
+
+departure
+========
+
+http://localhost/.../www.frankfurt-airport.com/de/_jcr_content.departures.cargo.json/filter?type=departure&lang=de&time=0000-00-01T09%3A00%3A00%2B0100&perpage=3&page=1
+{"type":"arrival","luops":"0000-00-00T00:00:00+0100","lusaison":"0000-00-00T00:00:00+0100","results":0,"entriesperpage":0,"maxpage":0,"page":0}
+
+/************************************/
+
+---------------------------
+0 (0) Flüge gefunden.
     Dauer: 0.000s
 
 ===========================

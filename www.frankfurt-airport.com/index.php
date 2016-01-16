@@ -40,6 +40,9 @@ $page = 1;
 $items = 3;
 $html = FALSE;
 
+if (isset($_GET['cargo']))
+	die('{"type":"arrival","luops":"0000-00-00T00:00:00+0100","lusaison":"0000-00-00T00:00:00+0100","results":0,"entriesperpage":0,"maxpage":0,"page":0}');	// for now ...
+
 if (isset($_GET['fmt']))
 {
 	if ('html' == $_GET['fmt'])

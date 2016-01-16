@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS `flights`
 (
 	`id` integer NOT NULL AUTO_INCREMENT,
 	`uid` integer NOT NULL,
-	`type` enum('P', 'F') NOT NULL DEFAULT 'P',
+	`type` enum('P', 'F', 'C') NOT NULL DEFAULT 'P',
 	`direction` enum('arrival', 'departure') NOT NULL,
 	`airline` integer NOT NULL,
 	`code` varchar(6) NOT NULL,
