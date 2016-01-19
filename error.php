@@ -2,7 +2,7 @@
 
 /******************************************************************************
  *
- * Copyright © Tobias Kühne
+ * Copyright Â© Tobias KÃ¼hne
  *
  * You may use and distribute this software free of charge for non-commercial
  * purposes. The software must be distributed in its entirety, i.e. containing
@@ -199,12 +199,12 @@ else
 <title><?php echo PROJECT; ?> &ndash; <?php echo ORGANISATION; ?></title>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta name="language" content="<?php echo $_SESSION['lang']; ?>">
-<meta name="author" content="Tobias Kühne">
+<meta name="author" content="Tobias KÃ¼hne">
 <meta name="description" lang="en" content="Spotter schedule for Frankfurt airport (FRA/EDDF) including aircraft registrations">
-<meta name="description" lang="en" content="Spotter-Flugplan für Frankfurt (FRA/EDDF) einschließlich Flugzeugkennungen">
+<meta name="description" lang="en" content="Spotter-Flugplan fÃ¼r Frankfurt (FRA/EDDF) einschlieÃŸlich Flugzeugkennungen">
 <meta name="keywords" content="fra, eddf, frankfurt, fraspotter, fraspotting, planespotting, fra-flights, fra-schedule, flederwiesel">
 <meta name="keywords" lang="en" content="airport, aircraft, aviation, spotter, spotting, schedule, flights, flight schedule, flight plan">
-<meta name="keywords" lang="de" content="Flughafen, Flugzeug, Luftfahrt, Spotter, Spotting, Flugzeugfotografie, Flüge, Flugplan">
+<meta name="keywords" lang="de" content="Flughafen, Flugzeug, Luftfahrt, Spotter, Spotting, Flugzeugfotografie, FlÃ¼ge, Flugplan">
 <meta name="robots" content="index, nofollow">
 <meta name="generator" content="http://www.ultraedit.com/">
 <?php if ($mobile && !$tablet) { ?>
