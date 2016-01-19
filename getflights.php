@@ -338,8 +338,10 @@ class jflight
 	public $al;			// = "LH"
 	public $alname;		// = "Lufthansa"
 	// airport
-	public $apname;		// = "Br\u00fcssel"
 	public $iata;		// = "BRU"
+	public $apname;		// = "Br\u00fcssel"
+	public $div;		// = "CGN"
+	public $divname;	// = "K\u00f6ln/Bonn"
 	// aircraft
 	public $ac;			// = [null?] "TRN"
 	public $reg;		// = [null] "DABFA"
@@ -351,20 +353,21 @@ class jflight
 	// ...
 	public $status; 	// = [null] enum
 	/* {
-		'de', 'en', 'zh',
-		'storniert', 'storniert', 'storniert'
-		'annulliert', 'cancelled', '取消',
-		'im Anflug', 'approaching', '在飞行中',
-		'verspätet', 'verspätet', 'verspätet',
-		'verspätet auf ...',
-		'gelandet', 'landed', '已着陆',
-		'Gep\u00e4ckausgabe', 'baggage delivery', '托运行李领取',
-		'Gep\u00e4ckausgabe beendet', 'baggage delivery finished', '托运行李领取已结束',
-		'Neues Gate', 'Neues Gate', 'Neues Gate',
-		'Gate offen', 'open', '登机口开放',
-		'geschlossen', 'closed', '已关闭',
-		'gestartet', 'started' '已起飞',
-		'Zug', 'train', '火车',
+		{ 'de', 'en', 'zh' },
+		{ 'storniert', 'storniert', 'storniert' },
+		{ 'annulliert', 'cancelled', '取消' },
+		{ 'umgeleitet', },
+		{ 'im Anflug', 'approaching', '在飞行中' },
+		{ 'versp\u00e4tet', 'versp\u00e4tet', 'versp\u00e4tet' },
+		{ 'versp\u00e4tet auf ...' },
+		{ 'gelandet', 'landed', '已着陆' },
+		{ 'Gep\u00e4ckausgabe', 'baggage delivery', '托运行李领取' },
+		{ 'Gep\u00e4ckausgabe beendet', 'baggage delivery finished', '托运行李领取已结束' },
+		{ 'Neues Gate', 'Neues Gate', 'Neues Gate' },
+		{ 'Gate offen', 'open', '登机口开放' },
+		{ 'geschlossen', 'closed', '已关闭' },
+		{ 'gestartet', 'started' '已起飞' },
+		{ 'Zug', 'train', '火车' },
 	} */
 
 	public $terminal;	// = [null] enum { 1, 2 }
