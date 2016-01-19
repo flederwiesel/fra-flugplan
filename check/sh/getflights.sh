@@ -143,7 +143,17 @@ SQL
 		# Need to check for this also...
 		if [ 1 == $day ] && [ 10 == $t ]; then
 			# '0000-00-00 22:30:00' -> NULL
-			query --execute="USE fra-schedule; UPDATE visits SET previous=NULL WHERE aircraft=7"
+			query <<-"SQL"
+				USE `fra-schedule`;
+
+				UPDATE `visits`
+				SET `previous` = NULL
+				WHERE `aircraft` = (
+					SELECT `id`
+					FROM `aircrafts`
+					WHERE `reg` = 'CS-TNP'
+				)
+SQL
 		fi
 
 		check "$dHHMM-getflights" browse "$url/getflights.php?prefix=$prefix\&time=$now\&debug=url,json,jflights,sql\&fmt=html"\
