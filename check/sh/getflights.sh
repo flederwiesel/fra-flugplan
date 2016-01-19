@@ -108,7 +108,7 @@ do
 
 				UPDATE `users`
 				SET `notification-timefmt`='%A, %c'
-				WHERE `id`=2
+				WHERE `name`='flederwiesel'
 SQL
 			;;
 
@@ -119,7 +119,7 @@ SQL
 				UPDATE `users`
 				SET `notification-timefmt`='%A, %d. %B %Y %H:%M',
 					`language`='de'
-				WHERE `id`=2
+				WHERE `name`='flederwiesel'
 SQL
 			;;
 
