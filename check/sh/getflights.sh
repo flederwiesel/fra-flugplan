@@ -73,7 +73,8 @@ query <<-"SQL"
 	(4, @flederwiesel, TRUE, 'C-GHLM', 'Air Canada - 938'),
 	(5, @flederwiesel, TRUE, 'CS-TNP', 'TAP - Star Alliance'),
 	(7, @flederwiesel, FALSE, 'ZS-SNB', 'South African Airways'),
-	(8, @flederwiesel, TRUE, 'B-KPF', 'Cathay Pacific - Asias world city GRÜN');
+	(8, @flederwiesel, TRUE, 'B-KPF', 'Cathay Pacific - Asias world city GRÜN'),
+	(9, @flederwiesel, TRUE, '/9K-GB[AB]/', 'State of Kuwait - A345');
 SQL
 
 YYYYmmdd_0=$(date +'%Y%m%d')
@@ -112,36 +113,10 @@ do
 SQL
 			;;
 
-		"1 12:00")
-			query <<-"SQL"
-				USE fra-schedule;
-
-				UPDATE `users`
-				SET `notification-timefmt`='%A, %d. %B %Y %H:%M',
-					`language`='de'
-				WHERE `name`='flederwiesel'
-SQL
-			;;
-
-		"1 23:00")
-			query <<-"SQL"
-				USE fra-schedule;
-
-				UPDATE `visits`
-				SET `previous`=NULL
-				WHERE `aircraft`=(
-					SELECT `id`
-					FROM `aircrafts`
-					WHERE `reg`='C-GHKW'
-				)
-SQL
-			;;
-		esac
-
-		# From bulk INSERT in "fra-schedule.sql" we do not get `previous`
-		# even for `num` > 1, where normally this would be NOT NULL.
-		# Need to check for this also...
-		if [ 1 == $day ] && [ 10 == $t ]; then
+		"1 10:00")
+			# From bulk INSERT in "fra-schedule.sql" we do not get `previous`
+			# even for `num` > 1, where normally this would be NOT NULL.
+			# Need to check for this also...
 			# '0000-00-00 22:30:00' -> NULL
 			query <<-"SQL"
 				USE `fra-schedule`;
@@ -154,7 +129,19 @@ SQL
 					WHERE `reg` = 'CS-TNP'
 				)
 SQL
-		fi
+			;;
+
+		"1 12:00")
+			query <<-"SQL"
+				USE fra-schedule;
+
+				UPDATE `users`
+				SET `notification-timefmt`='%A, %d. %B %Y %H:%M',
+					`language`='de'
+				WHERE `name`='flederwiesel'
+SQL
+			;;
+		esac
 
 		check "$dHHMM-getflights" browse "$url/getflights.php?prefix=$prefix\&time=$now\&debug=url,json,jflights,sql\&fmt=html"\
 			"| sed -r '

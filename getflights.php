@@ -2274,6 +2274,7 @@ else
 			FROM `watchlist`
 			INNER JOIN `aircrafts`
 				ON `aircrafts`.`reg` LIKE REPLACE(REPLACE(`watchlist`.`reg`, '*', '%'), '?', '_')
+				OR `aircrafts`.`reg` RLIKE REPLACE(`watchlist`.`reg`, '/', '') AND `watchlist`.`reg` LIKE '/_%/'
 			INNER JOIN
 				(SELECT
 					`id`,
