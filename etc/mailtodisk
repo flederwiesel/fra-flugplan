@@ -3,23 +3,33 @@
 trap "rm -f /tmp/mailtodisk" EXIT
 
 if [ $# -gt 0 ]; then
-	stat=$(stat -c "%a %n" "$@" 2>&1 > /tmp/mailtodisk)
+	case "$1" in
+	-v|--version)
 
-	if [ $? -ne 0 ]; then
-		echo "$stat"
+		stat=$(stat -c "%a %n" /etc/mailtodisk 2>&1 > /tmp/mailtodisk)
+
+		if [ $? -ne 0 ]; then
+			echo "$stat"
+			exit 2
+		else
+			while read perm file
+			do
+				if [ ! -d "$file" ]; then
+					echo "$file is not a directory."
+					exit 1
+				elif [ "$perm" != "777" ]; then
+					echo "$file: $perm (must have 777)."
+					exit 3
+				fi
+			done < /tmp/mailtodisk
+		fi
+
+		echo "$Rev$" | sed -r 's/[^0-9]//g'
+		;;
+	*)
 		exit 1
-	else
-		while read perm file
-		do
-			if [ ! -d "$file" ]; then
-				echo "$file is not a directory."
-				exit 1
-			elif [ "$perm" != "777" ]; then
-				echo "$file: $perm (must have 777)."
-				exit 2
-			fi
-		done < /tmp/mailtodisk
-	fi
+		;;
+	esac
 else
 	read line
 	to=$(sed -r 's/^To: ([^<]*<)?([a-z0-9-]+@[a-z]+\.[a-z]+)>?/\2/g' <<<"$line")

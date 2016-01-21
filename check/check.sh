@@ -178,7 +178,7 @@ chkdep minversion "5.4.31" "$(curl --silent --head http://localhost | sed -n '/P
 chkdep jq --version
 chkdep python --version
 chkdep readlink --version
-chkdep mailtodisk /etc/mailtodisk
+chkdep minversion 958 $(mailtodisk --version)
 
 IFS=$'\n'
 
