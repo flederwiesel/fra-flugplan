@@ -53,6 +53,35 @@ set -- "${argv[@]}"
 
 ###############################################################################
 
+minversion() {
+	awk 'BEGIN {
+		if (ARGC < 3)
+			exit 1
+
+		split(ARGV[1], expect, ".")
+		split(ARGV[2], result, ".")
+
+		expect[0] = length(expect)
+		result[0] = length(result)
+
+		len = expect[0] < result[0]? expect[0] : result[0]
+
+		for (i = 1; i <= len; i++) {
+			if (expect[i] < result[i]) {
+				exit 0
+			}
+			if (expect[i] > result[i]) {
+				exit 1
+			}
+		}
+
+		# more elements means suffix -> greater
+		if (expect[0] > result[0])
+				exit 1
+	}
+' "$1" "$2"
+}
+
 chkdep() {
 	"$@" &>/dev/null
 
@@ -145,6 +174,7 @@ export -f rawurlencode
 
 chkdep mysql --version
 chkdep curl --version
+chkdep minversion "5.4.31" "$(curl --silent --head http://localhost | sed -n '/PHP\//{s#.*PHP/##g; s# .*$##g; p}')"
 chkdep jq --version
 chkdep python --version
 chkdep readlink --version
