@@ -507,7 +507,7 @@ form div.explainatory
 	-o-text-overflow: ellipsis;	/* for Opera since 9.0 */
 	-ms-text-overflow: ellipsis;
 	text-overflow: ellipsis;	/* for IE and WebKit (Safari, Chrome) */
-	max-width: 16em; /*!IE*/
+	max-width: 15em; /*!IE*/
 }
 
 #schedule td.early
