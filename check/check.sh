@@ -54,19 +54,16 @@ set -- "${argv[@]}"
 ###############################################################################
 
 minversion() {
+	# <comment> <expect> <result>
 	awk 'BEGIN {
 		if (ARGC < 3)
 			exit 1
 
-		split(ARGV[1], expect, ".")
-		split(ARGV[2], result, ".")
+		len["expect"] = split(ARGV[1], expect, ".")
+		len["result"] = split(ARGV[2], result, ".")
+		len["min"] = len["expect"] < len["result"] ? len["expect"] : len["result"]
 
-		expect[0] = length(expect)
-		result[0] = length(result)
-
-		len = expect[0] < result[0]? expect[0] : result[0]
-
-		for (i = 1; i <= len; i++) {
+		for (i = 1; i <= len["min"]; i++) {
 			if (expect[i] < result[i]) {
 				exit 0
 			}
@@ -76,10 +73,10 @@ minversion() {
 		}
 
 		# more elements means suffix -> greater
-		if (expect[0] > result[0])
+		if (len["expect"] > len["result"])
 				exit 1
 	}
-' "$1" "$2"
+' "$2" "$3"
 }
 
 chkdep() {
@@ -172,13 +169,16 @@ export -f rawurlencode
 # <preparation>
 ###############################################################################
 
-chkdep mysql --version
-chkdep curl --version
-chkdep minversion "5.4.31" "$(curl --silent --head http://localhost | sed -n '/PHP\//{s#.*PHP/##g; s# .*$##g; p}')"
-chkdep jq --version
-chkdep python --version
 chkdep readlink --version
-chkdep minversion 958 $(mailtodisk --version)
+chkdep minversion sed        "4.2.1"  "$(sed --version | sed -nr '/^(GNU *)?sed/ { s/^[^0-9]*//g; /^$/d; p }')"
+chkdep minversion awk        "4.1.1"  "$(awk --version)" "||" \
+       minversion mawk       "1.3.3"  "$(awk -W version 2>&1 | sed -nr '/mawk/ { s/^[^0-9]*([^ ]+).*/\1/g; p }')"
+chkdep minversion curl       "7.26.0" "$(curl --version | sed -nr '/^curl/ { s/^[^0-9]*([^ ]+).*/\1/g; p }')"
+chkdep minversion php        "5.4"    "$(curl --silent --head http://localhost | sed -n '/PHP\//{s#.*PHP/##g; s# .*$##g; p}')"
+chkdep minversion mysql      "14.14"  "$(mysql --version | sed -r 's/^[^0-9]*([^ ]+).*/\1/g')"
+chkdep minversion jq         "1.5"    "$(jq --version 2>&1 | sed 's/^[^0-9]*//g')"
+chkdep minversion python     "2.7.3"  "$(python --version 2>&1 | sed 's/^[^0-9]*//g')"
+chkdep minversion mailtodisk "958"    "$(mailtodisk --version)"
 
 IFS=$'\n'
 
