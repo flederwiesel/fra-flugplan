@@ -661,7 +661,7 @@ function /* char *error */ RegisterUserSql($user, $email, $password, $language)
 		if ($curl)
 		{
 			/* Suspected spam? */
-			$stopforumspam = isset($_GET['stopforumspam']) ? "$_GET[stopforumspam]/" : NULL;
+			$stopforumspam = isset($_GET['stopforumspam']) ? urldecode("$_GET[stopforumspam]/") : NULL;
 
 			$htm = curl_download($curl,
 						sprintf("http://${stopforumspam}api.stopforumspam.org/api?".
