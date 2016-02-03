@@ -382,6 +382,8 @@ class jflight
 	// unknown
 	public $s;			// = [null] enum { false, true }
 	public $flstatus;	// = [null] enum { 0, 1, 2, 3 }
+
+	public $lang;		// = "de"
 }
 
 abstract class FlightStatus
@@ -792,7 +794,7 @@ function JSON_InterpretFlights(/*in*/ $dir, /*in*/ $json, /*in*/ $defer,
 		$result = 0;
 
 		if (isset($obj->version))
-			if (!('1.1.4' == $obj->version))
+			if (!('1.1.5' == $obj->version))
 				warn_once(__LINE__, "version = $obj->version");
 
 		if ($obj->results > 0)
