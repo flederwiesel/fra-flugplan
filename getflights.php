@@ -371,10 +371,10 @@ class jflight
 	} */
 
 	public $terminal;	// = [null] enum { 1, 2 }
-	public $halle;		// = [null] "blurp"
-	public $ausgang;	// = [null] "blurp"
-	public $schalter;	// = [null] "blurp"
-	public $gate;		// = [null] "blurp"
+	public $halle;		// = [null] "A"
+	public $ausgang;	// = [null] "A2"
+	public $gate;		// = [null] "A25"
+	public $schalter;	// = [null] "260-338"
 
 	// code share
 	public $cs;			// = [null] array("", "")
@@ -794,7 +794,7 @@ function JSON_InterpretFlights(/*in*/ $dir, /*in*/ $json, /*in*/ $defer,
 		$result = 0;
 
 		if (isset($obj->version))
-			if (!('1.1.5' == $obj->version))
+			if (!('1.1.6' == $obj->version))
 				warn_once(__LINE__, "version = $obj->version");
 
 		if ($obj->results > 0)
