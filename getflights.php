@@ -287,7 +287,7 @@ function unify_html($html)
 			$html = preg_replace('/>[ \t]+</', '><', $html);
 		}
 	}
-	
+
 	return $html;
 }
 
@@ -857,7 +857,7 @@ function JSON_InterpretFlights(/*in*/ $dir, /*in*/ $json, /*in*/ $defer,
 		$result = 0;
 
 		if (isset($obj->version))
-			if (!('1.1.6' == $obj->version))
+			if (!('1.2.0' == $obj->version))
 				warn_once(__LINE__, "version = $obj->version");
 
 		if ($obj->results > 0)
