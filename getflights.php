@@ -956,7 +956,7 @@ function JSON_InterpretFlights(/*in*/ $dir, /*in*/ $json, /*in*/ $defer,
 										isset($jflight->esti) ? $jflight->esti : NULL,
 										isset($jflight->ac) ? $jflight->ac : NULL,
 										isset($jflight->reg) ? patchreg($jflight->reg) : NULL,
-										$jflight->iata,
+										isset($jflight->iata) ? $jflight->iata : NULL,
 										$jflight->status,
 										$jflight->lu);
 
