@@ -340,15 +340,15 @@ class jflight
 	// airport
 	public $iata;		// = "BRU"
 	public $apname;		// = "Br\u00fcssel"
+	// diversion
 	public $div;		// = "CGN"
 	public $divname;	// = "K\u00f6ln/Bonn"
-	// aircraft
-	public $ac;			// = [null?] "TRN"
-	public $reg;		// = [null] "DABFA"
-
 	// route???
 	public $rou;		// = [null] "ABV"
 	public $rouname;	// = [null] "Abuja"
+	// aircraft
+	public $ac;			// = [null?] "TRN"
+	public $reg;		// = [null] "DABFA"
 
 	// ...
 	public $status; 	// = [null] enum
@@ -356,7 +356,7 @@ class jflight
 		{ 'de', 'en', 'zh' },
 		{ 'storniert', 'storniert', 'storniert' },
 		{ 'annulliert', 'cancelled', '取消' },
-		{ 'umgeleitet', },
+		{ 'umgeleitet', 'diverted', '航线改道' },
 		{ 'im Anflug', 'approaching', '在飞行中' },
 		{ 'versp\u00e4tet', 'versp\u00e4tet', 'versp\u00e4tet' },
 		{ 'versp\u00e4tet auf ...' },
@@ -364,7 +364,7 @@ class jflight
 		{ 'Gep\u00e4ckausgabe', 'baggage delivery', '托运行李领取' },
 		{ 'Gep\u00e4ckausgabe beendet', 'baggage delivery finished', '托运行李领取已结束' },
 		{ 'Neues Gate', 'Neues Gate', 'Neues Gate' },
-		{ 'Gate offen', 'open', '登机口开放' },
+		{ 'Gate offen', 'Gate open', '登机口开放' },
 		{ 'geschlossen', 'closed', '已关闭' },
 		{ 'gestartet', 'started' '已起飞' },
 		{ 'Zug', 'train', '火车' },
@@ -728,6 +728,10 @@ function MapFlightStatus(/*in/out*/ &$status)
 		$status = FlightStatus::ARRIVED;
 		break;
 
+	case 'umgeleitet':
+	case 'diverted':
+	case '航线改道':
+
 	case 'Gepäckausgabe':
 	case 'baggage delivery':
 	case '托运行李领取':
@@ -740,7 +744,7 @@ function MapFlightStatus(/*in/out*/ &$status)
 
 	case 'Neues Gate':
 	case 'Gate offen':
-	case 'gate open':
+	case 'Gate open':
 	case '登机口开放':
 		// fallthrough
 	case 'geschlossen':
