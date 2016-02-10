@@ -63,7 +63,9 @@ mirror --reverse \
 	--exclude .svn/ \
 	--exclude api.stopforumspam.org \
 	--exclude check/ \
+	--exclude content/img/src/ \
 	--exclude etc/ \
+	--exclude img/src/ \
 	--exclude logs/ \
 	--exclude METAR/ \
 	--exclude sql/ \
