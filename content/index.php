@@ -233,7 +233,9 @@ else
  * Runway direction
  ******************************************************************************/
 
-$file = @file("data/betriebsrichtung.html");
+$datadir = "$_SERVER[DOCUMENT_ROOT]/var/run/fra-schedule";
+
+$file = @file("$datadir/betriebsrichtung.html");
 
 if (!$file)
 {

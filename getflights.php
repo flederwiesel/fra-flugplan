@@ -38,6 +38,7 @@ ini_set('max_execution_time', 180);
 
 include ".config";
 include "classes/etc.php";
+include "classes/curl.php";
 include "classes/vector.php";
 
 /* Create dir for warn_once() */
@@ -65,9 +66,7 @@ else
 	$ignore = file($ignorelist);
 
 	foreach($ignore as &$entry)
-	{
 		$entry = trim($entry);
-	}
 
 	unset($entry);
 }
@@ -261,7 +260,7 @@ function info($line, $text)
 	$info .= __FILE__."($line): $text\n";
 }
 
-function query_style($query)
+function unify_query($query)
 {
 	// Cleanup query for single line display with 1 space separator
 	$query = preg_replace('/[ \t\r]*\n[ \t]*/', ' ', $query);
@@ -272,6 +271,24 @@ function query_style($query)
 	$query = preg_replace('/[ \t]+\)/', ')', $query);
 
 	return $query."\n";
+}
+
+function unify_html($html)
+{
+	global $DEBUG;
+
+	if (isset($DEBUG['fmt']))
+	{
+		if ('html' == $DEBUG['fmt'])
+		{
+			$html = str_replace(array("\r", "\n", "<br>"),
+								array(" ", " ", "&lt;br&gt;"), htmlspecialchars($html));
+
+			$html = preg_replace('/>[ \t]+</', '><', $html);
+		}
+	}
+	
+	return $html;
 }
 
 // Insert hyhen into reg, based on regex
@@ -560,21 +577,18 @@ function CURL_GetAirline(/* in */ $curl, /* in/out */ &$airline)
 
 	do
 	{
-		$json = curl_download($curl, $url, 5);
-
 		/* Set script execution limit. If set to zero, no time limit is imposed. */
 		set_time_limit(0);
+
+		$error = $curl->exec($url, $json, 5);
 	}
-	while (!$json && --$retry);
+	while (!$error && !$json && --$retry);
 
-	if (!$json)
+	if ($error)
 	{
-		if (curl_errno($curl))
-			$error = curl_error($curl);
-		else
-			$error = "(nil)";
-
-		$error = seterrorinfo(__LINE__, "$error: $url");
+		/* This is certainly a html error document... */
+		$json = unify_html($json);
+		$error = seterrorinfo(__LINE__, "$error: $url: `$json`");
 	}
 	else
  	{
@@ -626,21 +640,18 @@ function CURL_GetAirport(/* in */ $curl, /* in/out */ &$airport)
 
 	do
 	{
-		$json = curl_download($curl, $url, 5);
-
 		/* Set script execution limit. If set to zero, no time limit is imposed. */
 		set_time_limit(0);
+
+		$error = $curl->exec($url, $json, 5);
 	}
-	while (!$json && --$retry);
+	while (!$error && !$json && --$retry);
 
-	if (!$json)
+	if ($error)
 	{
-		if (curl_errno($curl))
-			$error = curl_error($curl);
-		else
-			$error = "(nil)";
-
-		$error = seterrorinfo(__LINE__, "$error: $url");
+		/* This is certainly a html error document... */
+		$json = unify_html($json);
+		$error = seterrorinfo(__LINE__, "$error: $url: `$json`");
 	}
 	else
 	{
@@ -694,21 +705,18 @@ function CURL_GetAircraftType(/* in */ $curl, /* in/out */ &$aircraft)
 
 	do
 	{
-		$json = curl_download($curl, $url, 5);
-
 		/* Set script execution limit. If set to zero, no time limit is imposed. */
 		set_time_limit(0);
+
+		$error = $curl->exec($url, $json, 5);
 	}
-	while (!$json && --$retry);
+	while (!$error && !$json && --$retry);
 
-	if (!$json)
+	if ($error)
 	{
-		if (curl_errno($curl))
-			$error = curl_error($curl);
-		else
-			$error = "(nil)";
-
-		$error = seterrorinfo(__LINE__, "$error: $url");
+		/* This is certainly a html error document... */
+		$json = unify_html($json);
+		$error = seterrorinfo(__LINE__, "$error: $url: `$json`");
 	}
 	else
  	{
@@ -1009,40 +1017,35 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 				echo "$url\n";
 
 			// Fetch JSON data
-			$json = NULL;
 			$retry = 3;
 
-			while (!$json && $retry--)
+			do
 			{
-				$json = curl_download($curl, $url, 10);
+				/* Set script execution limit. If set to zero, no time limit is imposed. */
+				set_time_limit(0);
 
-				if ($json)
-				{
-					if (isset($DEBUG['json']))
-						echo "$json\n";
-				}
+				$error = $curl->exec($url, $json, 5);
+			}
+			while (!$error && !$json && --$retry);
+
+			if ($error)
+			{
+				/* This is certainly a html error document... */
+				$json = unify_html($json);
+				$error = seterrorinfo(__LINE__, "$error: $url: `$json`");
+				$page = 0;
 			}
 
-			/* Set script execution limit. If set to zero, no time limit is imposed. */
-			set_time_limit(0);
-
-			if ($json)
+			else
 			{
+				if (isset($DEBUG['json']))
+					echo "$json\n";
+
 				// Interpret JSON into `$flights` vector
 				if (JSON_InterpretFlights($dir, $json, $defer, $flights, $current, $count) <= 0)
 					$page = 0;
 				else
 					$page++;
-			}
-			else
-			{
-				if (curl_errno($curl))
-					$error = curl_error($curl);
-				else
-					$error = "(nil)";
-
-				$error = seterrorinfo(__LINE__, "$error: $url");
-				$page = 0;
 			}
 		}
 	}
@@ -1067,14 +1070,14 @@ SQL;
 	{
 		$error = seterrorinfo(__LINE__,
 					sprintf("[%d] %s: %s",
-						mysql_errno(), mysql_error(), query_style($query)));
+						mysql_errno(), mysql_error(), unify_query($query)));
 	}
 	else
 	{
 		$error = NULL;
 
 		if (isset($DEBUG['sql']))
-			echo query_style($query);
+			echo unify_query($query);
 
 		if (0 == mysql_num_rows($result))
 		{
@@ -1130,7 +1133,7 @@ SQL;
 			$airline->id = NULL;
 			$error = seterrorinfo(__LINE__,
 						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+							mysql_errno(), mysql_error(), unify_query($query)));
 		}
 		else
 		{
@@ -1139,7 +1142,7 @@ SQL;
 
 			if (isset($DEBUG['sql']))
 			{
-				echo query_style($query);
+				echo unify_query($query);
 				echo "=$airline->id\n";
 			}
 		}
@@ -1164,14 +1167,14 @@ SQL;
 	{
 		$error = seterrorinfo(__LINE__,
 					sprintf("[%d] %s: %s",
-						mysql_errno(), mysql_error(), query_style($query)));
+						mysql_errno(), mysql_error(), unify_query($query)));
 	}
 	else
 	{
 		$error = NULL;
 
 		if (isset($DEBUG['sql']))
-			echo query_style($query);
+			echo unify_query($query);
 
 		if (0 == mysql_num_rows($result))
 		{
@@ -1231,7 +1234,7 @@ SQL;
 		{
 			$error = seterrorinfo(__LINE__,
 						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+							mysql_errno(), mysql_error(), unify_query($query)));
 		}
 		else
 		{
@@ -1240,7 +1243,7 @@ SQL;
 
 			if (isset($DEBUG['sql']))
 			{
-				echo query_style($query);
+				echo unify_query($query);
 				echo "=OK\n";
 			}
 		}
@@ -1265,14 +1268,14 @@ SQL;
 	{
 		$error = seterrorinfo(__LINE__,
 					sprintf("[%d] %s: %s",
-						mysql_errno(), mysql_error(), query_style($query)));
+						mysql_errno(), mysql_error(), unify_query($query)));
 	}
 	else
 	{
 		$error = NULL;
 
 		if (isset($DEBUG['sql']))
-			echo query_style($query);
+			echo unify_query($query);
 
 		if (0 == mysql_num_rows($result))
 		{
@@ -1323,7 +1326,7 @@ SQL;
 		{
 			$error = seterrorinfo(__LINE__,
 						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+							mysql_errno(), mysql_error(), unify_query($query)));
 		}
 		else
 		{
@@ -1332,7 +1335,7 @@ SQL;
 
 			if (isset($DEBUG['sql']))
 			{
-				echo query_style($query);
+				echo unify_query($query);
 				echo "={$aircraft->type->id}\n";
 			}
 		}
@@ -1355,14 +1358,14 @@ SQL;
 	{
 		$error = seterrorinfo(__LINE__,
 					sprintf("[%d] %s: %s",
-						mysql_errno(), mysql_error(), query_style($query)));
+						mysql_errno(), mysql_error(), unify_query($query)));
 	}
 	else
 	{
 		$error = NULL;
 
 		if (isset($DEBUG['sql']))
-			echo query_style($query);
+			echo unify_query($query);
 
 		if (0 == mysql_num_rows($result))
 		{
@@ -1415,7 +1418,7 @@ SQL;
 		{
 			$error = seterrorinfo(__LINE__,
 						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+							mysql_errno(), mysql_error(), unify_query($query)));
 		}
 		else
 		{
@@ -1424,7 +1427,7 @@ SQL;
 
 			if (isset($DEBUG['sql']))
 			{
-				echo query_style($query);
+				echo unify_query($query);
 				echo "=$aircraft->id\n";
 			}
 		}
@@ -1452,14 +1455,14 @@ SQL;
 	{
 		$error = seterrorinfo(__LINE__,
 					sprintf("[%d] %s: %s",
-						mysql_errno(), mysql_error(), query_style($query)));
+						mysql_errno(), mysql_error(), unify_query($query)));
 	}
 	else
 	{
 		$error = NULL;
 
 		if (isset($DEBUG['sql']))
-			echo query_style($query);
+			echo unify_query($query);
 
 		$row = mysql_fetch_row($result);
 
@@ -1525,7 +1528,7 @@ SQL;
 	{
 		$error = seterrorinfo(__LINE__,
 					sprintf("[%d] %s: %s",
-						mysql_errno(), mysql_error(), query_style($query)));
+						mysql_errno(), mysql_error(), unify_query($query)));
 	}
 	else
 	{
@@ -1533,7 +1536,7 @@ SQL;
 
 		if (isset($DEBUG['sql']))
 		{
-			echo query_style($query);
+			echo unify_query($query);
 			echo "=OK\n";
 		}
 	}
@@ -1578,7 +1581,7 @@ SQL;
 	{
 		$error = seterrorinfo(__LINE__,
 					sprintf("[%d] %s: %s",
-						mysql_errno(), mysql_error(), query_style($query)));
+						mysql_errno(), mysql_error(), unify_query($query)));
 	}
 	else
 	{
@@ -1587,7 +1590,7 @@ SQL;
 		// Don't bother about id here...
 		if (isset($DEBUG['sql']))
 		{
-			echo query_style($query);
+			echo unify_query($query);
 			echo "=OK\n";
 		}
 	}
@@ -1617,7 +1620,7 @@ SQL;
 		{
 			$error = seterrorinfo(__LINE__,
 						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+							mysql_errno(), mysql_error(), unify_query($query)));
 		}
 		else
 		{
@@ -1625,7 +1628,7 @@ SQL;
 
 			if (isset($DEBUG['sql']))
 			{
-				echo query_style($query);
+				echo unify_query($query);
 				echo "=OK\n";
 			}
 
@@ -1653,14 +1656,14 @@ SQL;
 	{
 		$error = seterrorinfo(__LINE__,
 					sprintf("[%d] %s: %s",
-						mysql_errno(), mysql_error(), query_style($query)));
+						mysql_errno(), mysql_error(), unify_query($query)));
 	}
 	else
 	{
 		$error = NULL;
 
 		if (isset($DEBUG['sql']))
-			echo query_style($query);
+			echo unify_query($query);
 
 		$row = mysql_fetch_assoc($result);
 
@@ -1758,12 +1761,12 @@ SQL;
 						{
 							$error = seterrorinfo(__LINE__,
 										sprintf("[%d] %s: %s",
-											mysql_errno(), mysql_error(), query_style($query)));
+											mysql_errno(), mysql_error(), unify_query($query)));
 						}
 						else
 						{
 							if (isset($DEBUG['sql']))
-								echo query_style($query);
+								echo unify_query($query);
 
 							$row = mysql_fetch_assoc($result);
 
@@ -1814,7 +1817,7 @@ SQL;
 			{
 				if (isset($DEBUG['sql']))
 				{
-					echo query_style($query);
+					echo unify_query($query);
 					echo "=OK\n";
 				}
 			}
@@ -1853,7 +1856,7 @@ SQL;
 		{
 			$error = seterrorinfo(__LINE__,
 						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+							mysql_errno(), mysql_error(), unify_query($query)));
 		}
 		else
 		{
@@ -1861,7 +1864,7 @@ SQL;
 
 			if (isset($DEBUG['sql']))
 			{
-				echo query_style($query);
+				echo unify_query($query);
 				echo "=OK\n";
 			}
 		}
@@ -2028,7 +2031,7 @@ SQL;
 		$query = sprintf($query, $update);
 
 		if (isset($DEBUG['sql']))
-			echo query_style($query);
+			echo unify_query($query);
 
 		if (mysql_query($query))
 			$error = NULL;
@@ -2087,13 +2090,16 @@ function mysql_connect_db(&$hdbc, &$uid)
 
 $error = NULL;
 
-$curl = curl_setup();
-
-if (NULL == $curl)
+try
 {
-	$error = geterrorinfo();
+	$curl = new curl;
 }
-else
+catch (Exception $e)
+{
+	$error = $e->getMessage();
+}
+
+if (!$error)
 {
 	if (!$error)
 		$error = mysql_connect_db($hdbc, $uid);
@@ -2355,13 +2361,13 @@ SQL;
 		{
 			$error = seterrorinfo(__LINE__,
 						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), query_style($query)));
+							mysql_errno(), mysql_error(), unify_query($query)));
 		}
 		else
 		{
 			/* Check whether or which notifications are to be sent */
 			if (isset($DEBUG['sql']))
-				echo query_style($query);
+				echo unify_query($query);
 
 			$query = <<<SQL
 				SELECT
@@ -2403,12 +2409,12 @@ SQL;
 			{
 				$error = seterrorinfo(__LINE__,
 							sprintf("[%d] %s: %s",
-								mysql_errno(), mysql_error(), query_style($query)));
+								mysql_errno(), mysql_error(), unify_query($query)));
 			}
 			else
 			{
 				if (isset($DEBUG['sql']))
-					echo query_style($query);
+					echo unify_query($query);
 
 				$text = NULL;
 				$name = NULL;
@@ -2472,7 +2478,7 @@ SQL;
 SQL;
 
 		if (isset($DEBUG['sql']))
-			echo query_style($query);
+			echo unify_query($query);
 
 		if (!mysql_query($query))
 			$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
@@ -2485,17 +2491,35 @@ SQL;
 	}
 
 	/* betriebsrichtung.html */
-	$betriebsrichtung = curl_download($curl, "http://${prefix}apps.fraport.de/betriebsrichtung/betriebsrichtung.html", 5);
+	$url = "http://${prefix}apps.fraport.de/betriebsrichtung/betriebsrichtung.html";
 
-	$file = @fopen('data/betriebsrichtung.html', 'w');
-
-	if ($file)
+	do
 	{
-		fwrite($file, $betriebsrichtung);
-		fclose($file);
+		/* Set script execution limit. If set to zero, no time limit is imposed. */
+		set_time_limit(0);
+
+		$error = $curl->exec($url, $betriebsrichtung, 5);
+	}
+	while (!$error && !$betriebsrichtung && --$retry);
+
+	if ($error)
+	{
+		/* This is certainly a html error document... */
+		$betriebsrichtung = unify_html($betriebsrichtung);
+		$error = seterrorinfo(__LINE__, "$error: $url: `$betriebsrichtung`");
+	}
+	else
+	{
+		$file = @fopen("$datadir/betriebsrichtung.html", "w");
+
+		if ($file)
+		{
+			fwrite($file, $betriebsrichtung);
+			fclose($file);
+		}
 	}
 
-	curl_close($curl);
+	unset($curl);
 }
 
 if ($errorinfo)
