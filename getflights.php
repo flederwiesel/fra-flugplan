@@ -40,6 +40,40 @@ include ".config";
 include "classes/etc.php";
 include "classes/vector.php";
 
+/* Create dir for warn_once() */
+$datadir = "$_SERVER[DOCUMENT_ROOT]/var/run/fra-schedule";
+$ignorelist = "$datadir/warnings.ignore";
+
+/* Initialise warnings for warn_once() */
+if (file_exists($datadir))
+{
+	if (!is_dir($datadir))
+		die(seterrorinfo(__LINE__, $datadir));
+}
+else
+{
+	if (!mkdir($datadir, 0770, true))
+		die(seterrorinfo(__LINE__, $datadir));
+}
+
+if (!file_exists($ignorelist))
+{
+	$ignore = array();
+}
+else
+{
+	$ignore = file($ignorelist);
+
+	foreach($ignore as &$entry)
+	{
+		$entry = trim($entry);
+	}
+
+	unset($entry);
+}
+
+/* Initialise variables */
+
 $errorinfo = NULL;
 $warning = NULL;
 $info = NULL;
@@ -60,6 +94,7 @@ else
  estimate $defer from now, so flights will still be visible */
 $defer = 5 * 60;	/*[s]*/
 
+/* Debug features */
 if (isset($_GET['prefix']))
 {
 	/* May be overridden for testing */
@@ -189,14 +224,30 @@ function seterrorinfo($line, $info)
 
 function warn_once($line, $info)
 {
+	global $ignorelist;
+	global $ignore;
 	global $warning;
 
-	if (!strstr($warning, $info))
+	/* Check whether warning already issued */
+	foreach ($ignore as $entry)
 	{
-		if (!$warning)
-			$warning = '';
+		if ($entry == $info)
+			return;
+	}
 
-		$warning .= __FILE__."($line): $info\n";
+	if (!$warning)
+		$warning = '';
+
+	$warning .= __FILE__."($line): $info\n";
+	$ignore[] = $info;
+
+	/* Save warning */
+	$file = fopen($ignorelist, 'a+');
+
+	if ($file)
+	{
+		fwrite($file, "$info\n");
+		fclose($file);
 	}
 }
 
