@@ -214,6 +214,7 @@ if [ $# -gt 0 ]; then
 	scripts="$@"
 else
 	scripts='
+betriebsrichtung
 # failures
 register(failure)
 activate(failure)
