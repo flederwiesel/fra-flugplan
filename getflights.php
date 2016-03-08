@@ -1979,6 +1979,11 @@ function SendWatchlistNotification($name, $email, $fmt, $lang, $notifications)
 		$expected = strftime(preg_replace('/%\+/', "+$offset", $fmt),
 							 $notification['expected']);
 
+		/* On Windows, strftime() will encode as 'de' as 'German_Germany.1252'
+		   and setlocale(..., 'de_DE.UTF-8') doesn't work... */
+		if (strstr($lang, '1252'))
+			$expected = utf8_encode($expected);
+
 		$text .= "$expected\t$notification[reg]";
 
 		if ($notification['comment'])
