@@ -41,7 +41,7 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
 	)
 	VALUES
 	(
-		@uid, 'pax-regular', 'arrival',
+		@uid, 'P', 'arrival',
 		(SELECT `id` FROM `airlines` WHERE `code`='SA'), '260',
 		'%{date} 06:15', NULL,
 		(SELECT `id` FROM `airports` WHERE `icao`='FAOR'),
@@ -49,7 +49,7 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
 		(SELECT `id` FROM `aircrafts` WHERE `reg`='ZS-SNC')
 	),
 	(
-		@uid, 'pax-regular', 'arrival',
+		@uid, 'P', 'arrival',
 		(SELECT `id` FROM `airlines` WHERE `code`='CX'), '289',
 		'%{date} 06:20', NULL,
 		(SELECT `id` FROM `airports` WHERE `icao`='VHHH'),
@@ -57,7 +57,7 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
 		(SELECT `id` FROM `aircrafts` WHERE `reg`='B-KPE')
 	),
 	(
-		@uid, 'pax-regular', 'arrival',
+		@uid, 'P', 'arrival',
 		(SELECT `id` FROM `airlines` WHERE `code`='AC'), '874',
 		'%{date} 07:00', NULL,
 		(SELECT `id` FROM `airports` WHERE `icao`='CYUL'),
@@ -65,7 +65,7 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
 		(SELECT `id` FROM `aircrafts` WHERE `reg`='C-GFAH')
 	),
 	(
-		@uid, 'pax-regular', 'arrival',
+		@uid, 'P', 'arrival',
 		(SELECT `id` FROM `airlines` WHERE `code`='TS'), 'XXX',
 		'%{date} 07:00', NULL,
 		(SELECT `id` FROM `airports` WHERE `icao`='CYVR'),
@@ -76,17 +76,20 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
 	INSERT INTO `users`
 	(
 		`id`, `name`, `email`, `salt`, `passwd`,
-		`language`, `permissions`,
-		`tt-`, `tt+`, `tm-`, `tm+`
+		`language`, `tt-`, `tt+`, `tm-`, `tm+`
 	)
 	VALUES
 	(
 		2, 'flederwiesel', 'hausmeister@flederwiesel.com',
 		'cf78aafd5c5410b7b12c2794a52cda1bccd01316f30df57aa29c5609ba979c15',
 		'c4ae99aa0209ce5bea9687cf0548d8ebc942ba14e166c45957a876bcec194fed', # elvizzz
-		'en', '1',
-		-75, 86400, -75, 86400
+		'en', -75, 86400, -75, 86400
 	);
+
+	# grant user permissions
+	INSERT INTO `usergroups`(`user`, `group`)
+				 VALUES((SELECT `id` FROM `users`  WHERE `name`='flederwiesel'),
+						(SELECT `id` FROM `groups` WHERE `name`='addflights'));
 SQL
 
 # /preparation ################################################################

@@ -276,7 +276,6 @@ else
 if (!$error)
 {
 	// callback function for user login, register, etc.
-	// permissions may be defined here
 	require_once 'user.php';
 
 	$error = UserProcessRequest($user, $message);

@@ -53,9 +53,7 @@ function navitem($item, $href)
 
 			if ($user && !$mobile && $_GET['page'] != 'addflight')
 			{
-				$perm = $user->permissions();
-
-				if ($perm[0] = '1')
+				if ($user->IsMemberOf('addflights'))
 				{
 ?>
 					<li class="sep"><?php navitem('addflight', '?page=addflight'); ?></li>
@@ -95,9 +93,7 @@ function navitem($item, $href)
 ?>
 				<li class="sep"><a href="javascript:watchlist('show');"><?php echo $lang['watchlist']; ?></a></li>
 <?php
-				$perm = $user->permissions();
-
-				if ($perm[0] == '1')
+				if ($user->IsMemberOf('addflights'))
 				{
 ?>
 					<li class="sep"><a href="?page=addflight"><?php echo $lang['addflight']; ?></a></li>

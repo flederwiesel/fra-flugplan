@@ -376,9 +376,7 @@ if ($_POST)
 	}
 	else
 	{
-		$perms = $user->permissions();
-
-		if (!('1' == $perms[0]))
+		if (!$user->IsMemberOf('addflights'))
 		{
 			$error = $lang['nopermission'];
 		}
@@ -650,9 +648,9 @@ $(function()
 							 value="ferry"><?php echo $lang['ferry']; ?>
 						</label>
 <?php
-						}
-						else
-						{
+					}
+					else
+					{
 ?>
 						<label>
 							<input type="radio" name="type"

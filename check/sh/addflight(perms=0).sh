@@ -69,6 +69,7 @@ check "7" browse "$url/?req=login" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz"
 
+# but still no permission...
 
 check "8" browse "$url/?page=addflight" \
 		--data-urlencode "reg=D-AIRY" \

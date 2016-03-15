@@ -22,9 +22,7 @@ if ('userdel' == $_GET['admin'])
 	}
 	else
 	{
-		$perms = $user->permissions();
-
-		if (0 == $perms[0])
+		if (!$user->IsMemberOf('admin'))
 		{
 			$error = $lang['nopermission'];
 		}

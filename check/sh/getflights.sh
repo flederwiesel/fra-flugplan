@@ -30,8 +30,7 @@ query <<-"SQL"
 
 	INSERT INTO `users`
 	(
-		`id`, `name`, `email`, `salt`, `passwd`,
-		`language`, `permissions`
+		`id`, `name`, `email`, `salt`, `passwd`, `language`
 	)
 	VALUES
 	(
@@ -40,8 +39,7 @@ query <<-"SQL"
 		'hausmeister@flederwiesel.com',
 		'cf78aafd5c5410b7b12c2794a52cda1bccd01316f30df57aa29c5609ba979c15',
 		'c4ae99aa0209ce5bea9687cf0548d8ebc942ba14e166c45957a876bcec194fed',
-		'en',
-		'1'
+		'en'
 	);
 
 	SELECT `id` INTO @root

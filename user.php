@@ -175,17 +175,17 @@ class User
 	private $email = null;
 	private $timezone = null;
 	private $lang = null;
-	private $permissions = '';
 	private $options = array();
+	private $gid = array();
 
-	public function __construct($id, $name, $email, $tz, $lang, $perms)
+	public function __construct($id, $name, $email, $tz, $lang, $groups)
 	{
 		$this->id = $id;
 		$this->name = $name;
 		$this->email = $email;
 		$this->timezone = $tz;
 		$this->lang = $lang;
-		$this->permissions = $perms;
+		$this->groups = $groups;
 
 		return $this;
 	}
@@ -194,11 +194,20 @@ class User
 	public function name() { return $this->name; }
 	public function email() { return $this->email; }
 	public function timezone() { return $this->timezone; }
-	public function lang() { return $this->lang; }
-	public function language($lang) { $this->lang = $lang; }
-	public function permissions() { return $this->permissions; }
 
-	public function opt($name, $value = null)
+	public function language($lang = NULL)
+	{
+		if (NULL == $lang)
+			return $this->lang;
+		else
+			$this->lang = $lang;
+
+		 return NULL;
+	}
+
+	public function IsMemberOf($group) { return in_array($group, $this->groups); }
+
+	public function opt($name, $value = NULL)
 	{
 		if (null == $value)
 		{
@@ -211,7 +220,7 @@ class User
 			return $value;
 		}
 
-		 return null;
+		 return NULL;
 	}
 }
 
@@ -302,7 +311,7 @@ function /* char *error */ LoginUserSql(/* __out */ &$user, $id, $byid, $passwor
 	$user = null;
 	$error = null;
 
-	$query = sprintf("SELECT `%s`, `passwd`, `salt`, `email`, `timezone`, `language`, `permissions`,".
+	$query = sprintf("SELECT `%s`, `passwd`, `salt`, `email`, `timezone`, `language`,".
 					 " `token_type`, `tm-`, `tm+`, `tt-`, `tt+`,".
 					 " `notification-from`, `notification-until`, `notification-timefmt`".
 					 " FROM `users` WHERE `%s`='%s'",
@@ -359,9 +368,7 @@ function /* char *error */ LoginUserSql(/* __out */ &$user, $id, $byid, $passwor
 
 					if ($row['passwd'] != $hash)
 					{
-						setcookie('userID',  0, 0);
 						setcookie('hash', null, 0);
-						setcookie('autologin', false, 0);
 
 						$error = $lang['authfailed'];
 					}
@@ -376,37 +383,75 @@ function /* char *error */ LoginUserSql(/* __out */ &$user, $id, $byid, $passwor
 							$name = $id;
 							$id = $row['id'];
 						}
-
-						$user = new User($id, $name, $row['email'], $row['timezone'], $row['language'], $row['permissions']);
-
-						if ($user)
-						{
-							$user->opt('tm-', $row['tm-']);
-							$user->opt('tm+', $row['tm+']);
-							$user->opt('tt-', $row['tt-']);
-							$user->opt('tt+', $row['tt+']);
-							$user->opt('notification-from', $row['notification-from']);
-							$user->opt('notification-until', $row['notification-until']);
-							$user->opt('notification-timefmt', $row['notification-timefmt']);
-
-							$expires = (1 == $remember) ? time() + COOKIE_LIFETIME : 0;
-
-							setcookie('userID',    $user->id(),   $expires);
-							setcookie('hash',      $hash,         $expires);
-							setcookie('autologin', true,          $expires);
-							setcookie('lang',      $user->lang(), $expires);
-
-							$query = sprintf("UPDATE `users` SET `last login`='%s' WHERE `id`=%u",
-											 strftime('%Y-%m-%d %H:%M:%S'), $user->id());
-
-							mysql_query($query);
-						}
 					}
 				}
 			}
 		}
 
 		mysql_free_result($result);
+	}
+
+	if (!$error)
+	{
+		$query = <<<SQL
+			SELECT `groups`.`name`
+			FROM `usergroups`
+			INNER JOIN `groups` ON `usergroups`.`group` = `groups`.`id`
+			WHERE `user`=$id
+SQL;
+
+		$result = mysql_query($query);
+
+		if (!$result)
+		{
+			$error = mysql_error();
+		}
+		else
+		{
+			if (0 == mysql_num_rows($result))
+			{
+				$error = $lang['nopermission'];
+			}
+			else
+			{
+				while ($group = mysql_fetch_row($result))
+					$groups[] = $group[0];
+
+				if (!$groups)
+				{
+					$error = mysql_error();
+				}
+				else
+				{
+					$user = new User($id, $name, $row['email'], $row['timezone'], $row['language'], $groups);
+
+					if ($user)
+					{
+						$user->opt('tm-', $row['tm-']);
+						$user->opt('tm+', $row['tm+']);
+						$user->opt('tt-', $row['tt-']);
+						$user->opt('tt+', $row['tt+']);
+						$user->opt('notification-from', $row['notification-from']);
+						$user->opt('notification-until', $row['notification-until']);
+						$user->opt('notification-timefmt', $row['notification-timefmt']);
+
+						$expires = (1 == $remember) ? time() + COOKIE_LIFETIME : 0;
+
+						setcookie('userID',    $user->id(),       $expires);
+						setcookie('hash',      $hash,             $expires);
+						setcookie('autologin', true,              $expires);
+						setcookie('lang',      $user->language(), $expires);
+
+						$query = sprintf("UPDATE `users` SET `last login`='%s' WHERE `id`=%u",
+										 strftime('%Y-%m-%d %H:%M:%S'), $user->id());
+
+						mysql_query($query);
+					}
+				}
+			}
+
+			mysql_free_result($result);
+		}
 	}
 
 	return $error;
@@ -531,72 +576,104 @@ function /* char *error */ RegisterUserSql($user, $email, $password, $language)
 					$error = $lang['emailexists'];
 
 				mysql_free_result($result);
+			}
+		}
+	}
 
-				if (!$error)
+	if (!$error)
+	{
+		if (!PasswordConstraintMet($password))
+		{
+			$error = PasswordHint();
+		}
+		else
+		{
+			$salt = token();
+			$token = token();
+			$password = hash_hmac('sha256', $password, $salt);
+
+			if (!mysql_query('START TRANSACTION'))
+			{
+				$error = mysql_user_error($lang['regfailed']);
+			}
+			else
+			{
+				$query = <<<SQL
+					INSERT INTO
+					`users`(
+						`name`, `email`, `passwd`, `salt`, `language`,
+						`token`, `token_type`, `token_expires`, `ip`
+					)
+					VALUES(
+						'$user', '$email', '$password', '$salt', '$language',
+						'$token', 'activation',
+						FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu), '%s'
+					);
+SQL;
+
+				$query = sprintf($query, TOKEN_LIFETIME, $_SERVER['REMOTE_ADDR']);
+
+				if (!mysql_query($query))
 				{
-					if (!PasswordConstraintMet($password))
+					$error = mysql_user_error($lang['regfailed']);
+				}
+				else
+				{
+					$result = mysql_query("SELECT `id`,`token_expires` ".
+										   "FROM `users` ".
+										   "WHERE `id`=LAST_INSERT_ID()");
+
+					if (!$result)
 					{
-						$error = PasswordHint();
+						$error = mysql_error();
 					}
 					else
 					{
-						$salt = token();
-						$token = token();
-						$password = hash_hmac('sha256', $password, $salt);
-
-						$query = sprintf(
-							"INSERT INTO ".
-							"`users`(".
-							" `name`, `email`, `passwd`, `salt`, `language`, `permissions`,".
-							" `token`, `token_type`, `token_expires`, `ip`)".
-							"VALUES(".
-							" '$user', '$email', '$password', '$salt', '$language', '0', ".
-							" '$token', 'activation', ".
-							" FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu), '%s' )",
-							TOKEN_LIFETIME, $_SERVER['REMOTE_ADDR']);
-
-						if (!mysql_query($query))
+						if (0 == mysql_num_rows($result))
 						{
-							$error = mysql_user_error($lang['regfailed']);
+							$error = $lang['regfailed'];
 						}
 						else
 						{
-							$result = mysql_query("SELECT `id`,`token_expires` ".
-												   "FROM `users` ".
-												   "WHERE `id`=LAST_INSERT_ID()");
+							$row = mysql_fetch_row($result);
+							//&& $_POST['timezone'] -> localtime($expires)
 
-							if (!$result)
+							if (!$row)
 							{
 								$error = mysql_error();
 							}
 							else
 							{
-								if (0 == mysql_num_rows($result))
-								{
-									$error = $lang['regfailed'];
-								}
-								else
-								{
-									$row = mysql_fetch_row($result);
-									//&& $_POST['timezone'] -> localtime($expires)
-
-									if (!$row)
-									{
-										$error = mysql_error();
-									}
-									else
-									{
-										$uid = $row[0];
-										$expires = $row[1];
-										$_SESSION['lang'] = $language;
-									}
-								}
-
-								mysql_free_result($result);
+								$uid = $row[0];
+								$expires = $row[1];
+								$_SESSION['lang'] = $language;
 							}
 						}
+
+						mysql_free_result($result);
 					}
+
+					$query = <<<SQL
+						INSERT INTO `usergroups`(`user`, `group`)
+						VALUES(
+							LAST_INSERT_ID(),
+							(SELECT `id` FROM `groups` WHERE `name`='users')
+						);
+SQL;
+
+					if (!mysql_query($query))
+						$error = mysql_user_error($lang['regfailed']);
 				}
+			}
+
+			if ($error)
+			{
+				mysql_query('ROLLBACK');
+			}
+			else
+			{
+				if (!mysql_query('COMMIT'))
+					$error = mysql_user_error($lang['regfailed']);
 			}
 		}
 	}
