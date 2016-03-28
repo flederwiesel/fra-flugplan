@@ -443,6 +443,7 @@ class jflight
 	public $ausgang;	// = [null] "A2"
 	public $gate;		// = [null] "A25"
 	public $schalter;	// = [null] "260-338"
+	public $stops;		// = [null] 0
 
 	// code share
 	public $cs;			// = [null] array("", "")
@@ -450,6 +451,7 @@ class jflight
 	// unknown
 	public $s;			// = [null] enum { false, true }
 	public $flstatus;	// = [null] enum { 0, 1, 2, 3 }
+	public $duration;	// = [null] 60
 
 	public $lang;		// = "de"
 }
@@ -830,6 +832,10 @@ function MapFlightStatus(/*in/out*/ &$status)
 		{
 			$status = FlightStatus::APPROACHING;
 		}
+		else if ('Ankunft vom' == mb_substr($status, 0, 11))
+		{
+			$status = FlightStatus::APPROACHING;
+		}
 		else
 		{
 			warn_once(__LINE__, "Status '$status' is unknown.");
@@ -857,7 +863,7 @@ function JSON_InterpretFlights(/*in*/ $dir, /*in*/ $json, /*in*/ $defer,
 		$result = 0;
 
 		if (isset($obj->version))
-			if (!('1.2.1' == $obj->version))
+			if (!('1.2.2' == $obj->version))
 				warn_once(__LINE__, "version = $obj->version");
 
 		if ($obj->results > 0)
