@@ -950,7 +950,8 @@ function JSON_InterpretFlights(/*in*/ $dir, /*in*/ $json, /*in*/ $defer,
 						}
 
 						$f = new flight($jflight->typ,
-										$jflight->al, $jflight->alname,
+										$jflight->al,
+										isset($jflight->alname) ? $jflight->alname : '???',
 										preg_replace('/[^ ]+ /', '', $jflight->fnr),
 										$jflight->sched,
 										isset($jflight->esti) ? $jflight->esti : NULL,
