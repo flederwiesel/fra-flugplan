@@ -38,9 +38,19 @@ check "3" browse "$url/?req=register\&stopforumspam=$prefix" \
 token=$(query --execute="USE fra-schedule;
 	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)
 
+# $_POST from <form>
 check "4" browse "$url/?req=activate" \
 		--data-urlencode "user=flederwiesel" \
-		--data-urlencode "token=$token"
+		--data-urlencode "token=' $token '"
+
+query --execute="USE fra-schedule;
+	UPDATE users SET token='$token' WHERE name='flederwiesel'"
+
+# $_GET from mail
+check "4-1" browse "$url/?req=activate\&user=flederwiesel\&token=$token"
+
+# Silently ignore re-activation
+check "4-2" browse "$url/?req=activate\&user=flederwiesel\&token=$token"
 
 check "5" browse "$url/?req=login" \
 		--data-urlencode "user=flederwiesel" \

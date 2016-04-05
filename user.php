@@ -778,6 +778,9 @@ SQL;
 }
 
 function /* char *error */ ActivateUser(/* __out */ &$message)
+	// __in $_POST['user']
+	// __in $_POST['token']
+
 	// __in $_GET['user']
 	// __in $_GET['token']
 
@@ -786,71 +789,84 @@ function /* char *error */ ActivateUser(/* __out */ &$message)
 {
 	global $lang;
 
-	$error = null;
-	$message = null;
-	$req = null;
+	$error = NULL;
+	$message = NULL;
+	$user = NULL;
 
-	if (isset($_GET['user']) &&
-		isset($_GET['token']))		/* from email link */
+	if (isset($_GET['user']))	/* from email link */
 	{
-		if ($_GET['user'] && $_GET['token'])
-			$req = $_GET;
+		if (isset($_GET['token']))
+		{
+			$user = trim($_GET['user']);
+			$token = trim($_GET['token']);
+			unset($_GET['token']);
+		}
+	}
+	else if (isset($_GET['token']))	/* from email link */
+	{
+		if (isset($_GET['user']))
+		{
+			$user = trim($_GET['user']);
+			$token = trim($_GET['token']);
+			unset($_GET['token']);
+		}
+		else
+		{
+			$error = sprintf($lang['activationfailed_u']);
+		}
 	}
 	else
 	{
 		if (isset($_POST['user']) &&
 			isset($_POST['token']))		/* else: no request, just display form */
 		{
-			if ($_POST['user'] && $_POST['token'])
-				$req = $_POST;
+			if (!$_POST['user'])
+			{
+				$error = sprintf($lang['activationfailed_u']);
+			}
+			else if (!$_POST['token'])
+			{
+				$error = sprintf($lang['activationfailed_t']);
+			}
 			else
-				$error = sprintf($lang['activationfailed'], __LINE__);
+			{
+				$user = trim($_POST['user']);
+				$token = trim($_POST['token']);
+				unset($_POST['token']);
+			}
+		}
+	}
+
+	if (!$error)
+	{
+		if ($user)
+		{
+			$error = ActivateUserSql($user, $token);
+
+			if (!$error)
+			{
+				$token = NULL;
+				$message = $lang['activationsuccess'];
+
+				$_GET['req'] = 'login';	// Form to be displayed next
+				$_GET['user'] = $user;	// Pre-set user name in form
+			}
 		}
 	}
 
 	if ($error)
 	{
-		if (!$req)
-		{
-			$user = '';
-			$token = '';
-		}
-		else
-		{
-			$token = $_POST['token'];
+		define(SHA_256_LEN, 64);
 
-			if (!isset($token))
-				$token = "";
+		if (strlen($token) > SHA_256_LEN)
+			$token = substr($token, 0, SHA_256_LEN + 1).'...';
 
-			$max = strlen(token());
-
-			if (strlen($token) > $max)	/* SHA-256 */
-				$token = substr($token, 0, $max + 1).'...';
-
-			$user = $_POST['user'];
-
-			if (strlen($user) > $GLOBALS['USERNAME_MAX'])
-				$user = substr($user, 0, $GLOBALS['USERNAME_MAX'] + 1).'...';
-		}
+		if (strlen($user) > $GLOBALS['USERNAME_MAX'])
+			$user = substr($user, 0, $GLOBALS['USERNAME_MAX'] + 1).'...';
 
 		AdminMail('activation',
 			sprintf("%s user='%s' token='%s'\n",
 					$error, $user, $token));
-	}
-	else
-	{
-		if ($req)
-		{
-			$error = ActivateUserSql($req['user'], $req['token']);
-
-			if (!$error)
-			{
-				$message = $lang['activationsuccess'];
-
-				$_GET['req'] = 'login';			// Form to be displayed next
-				$_GET['user'] = $req['user'];	// Pre-set user name in form
-			}
-		}
 	}
 
 	return $error;
@@ -972,17 +988,19 @@ function /* char *error */ RequestPasswordToken(/* __out */ &$message)
 
 	// __out $_GET['req']
 	// __out $_GET['user']
+	// __out $_GET['user']
 {
 	global $lang;
 
 	$error = null;
 	$message = null;
 
-	if (isset($_POST['user']) ||
-		isset($_POST['email']))		/* else: no post, just display form */
+	$user  = isset($_POST['user'])  ? $_POST['user']  : (isset($_GET['user'])  ? $_GET['user']  : NULL);
+	$email = isset($_POST['email']) ? $_POST['email'] : (isset($_GET['email']) ? $_GET['email'] : NULL);
+
+	if ($user || $email)		/* else: no post, just display form */
 	{
-		$error = RequestPasswordTokenSql(isset($_POST['user']) ? $_POST['user'] : null,
-										 isset($_POST['email']) ? $_POST['email'] : null);
+		$error = RequestPasswordTokenSql($user, $email);
 
 		if (!$error)
 		{

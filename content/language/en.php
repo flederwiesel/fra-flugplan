@@ -121,6 +121,8 @@ $lang = array
 	'usernamelengthmax' => 'User name must be no longer than %lu characters.',
 	'emailinvalid' => 'E-mail address invalid.',
 	'activationfailed' => 'Activation failed (code %lu).',
+	'activationfailed_t' => 'Activation failed: Token must not be empty.',
+	'activationfailed_u' => 'Activation failed: User name must not be empty.',
 	'activationrequired' => 'Activation required.',
 	'activatefirst' => 'Please <a href="?req=activate&user=%s">activate</a> account first!',
 	'subjpasswdchange' => 'Change Password',

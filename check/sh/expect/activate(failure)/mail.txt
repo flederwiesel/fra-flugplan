@@ -47,7 +47,7 @@ Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
 X-Mailer: PHP/*
 
-Activation failed (code ***). user='' token=''
+Activation failed: User name must not be empty. user='' token=''
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
@@ -60,7 +60,7 @@ Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
 X-Mailer: PHP/*
 
-Activation failed (code ***). user='' token=''
+Activation failed: Token must not be empty. user='' token=''
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
@@ -86,7 +86,20 @@ Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
 X-Mailer: PHP/*
 
-Activation failed (code ***). user='' token=''
+Activation failed (code ***). user='flederwiesel' token='***'
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+Subject: user activation
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/*
+
+Activation failed: Token must not be empty. user='' token=''
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
@@ -112,7 +125,33 @@ Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
 X-Mailer: PHP/*
 
+Activation failed (code ***). user='afb923eb88df155f28f68cb054502f788...' token='***'
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+Subject: user activation
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/*
+
 2:flederwiesel (0000-00-00 00:00:00) = Activation token expired. token='***'
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+Subject: user activation
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/*
+
+Activation token expired. user='flederwiesel' token='***'
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000

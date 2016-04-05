@@ -123,6 +123,8 @@ $lang = array
 	'usernamelengthmax' => 'Benutzername darf höchstens %lu Zeichen enthalten.',
 	'emailinvalid' => 'E-Mailadresse ungültig.',
 	'activationfailed' => 'Aktivierung fehlgeschlagen (code %lu).',
+	'activationfailed_t' => 'Activation failed: Token muss ausgefüllt werden.',
+	'activationfailed_u' => 'Activation failed: Benutzername muss ausgefüllt werden.',
 	'activationrequired' => 'Konto nicht aktiviert.',
 	'activatefirst' => 'Bitte Konto zuvor <a href="?req=activate&user=%s">aktivieren</a>!',
 	'subjpasswdchange' => 'Passwortänderung',

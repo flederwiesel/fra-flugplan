@@ -256,7 +256,6 @@ do
 
 			if [ 0 == $? ]; then
 
-				rm -f "$mails"
 				rm -f /etc/mailtodisk/*
 
 				export mails=$(readlink -m "$results/mail.txt")
