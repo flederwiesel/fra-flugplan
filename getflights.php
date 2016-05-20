@@ -425,9 +425,10 @@ class jflight
 		{ 'storniert', 'storniert', 'storniert' },
 		{ 'annulliert', 'cancelled', '取消' },
 		{ 'umgeleitet', 'diverted', '航线改道' },
-		{ 'im Anflug', 'approaching', '在飞行中' },
 		{ 'versp\u00e4tet', 'versp\u00e4tet', 'versp\u00e4tet' },
-		{ 'versp\u00e4tet auf ...' },
+		{ 'versp\u00e4tet auf ...', 'delayed to' },
+		{ 'Ankunft vom', },
+		{ 'im Anflug', 'approaching', '在飞行中' },
 		{ 'gelandet', 'landed', '已着陆' },
 		{ 'Gep\u00e4ckausgabe', 'baggage delivery', '托运行李领取' },
 		{ 'Gep\u00e4ckausgabe beendet', 'baggage delivery finished', '托运行李领取已结束' },
@@ -777,6 +778,10 @@ function MapFlightStatus(/*in/out*/ &$status)
 		$status = FlightStatus::CANCELLED;
 		break;
 
+	case 'umgeleitet':
+	case 'diverted':
+	case '航线改道':
+
 	case 'im Anflug':
 	case 'approaching':
 	case '在飞行中':
@@ -788,10 +793,6 @@ function MapFlightStatus(/*in/out*/ &$status)
 	case '已着陆':
 		$status = FlightStatus::ARRIVED;
 		break;
-
-	case 'umgeleitet':
-	case 'diverted':
-	case '航线改道':
 
 	case 'Gepäckausgabe':
 	case 'baggage delivery':
@@ -833,6 +834,10 @@ function MapFlightStatus(/*in/out*/ &$status)
 			$status = FlightStatus::APPROACHING;
 		}
 		else if ('Ankunft vom' == mb_substr($status, 0, 11))
+		{
+			$status = FlightStatus::APPROACHING;
+		}
+		else if ('delayed to' == mb_substr($status, 0, 10))
 		{
 			$status = FlightStatus::APPROACHING;
 		}
