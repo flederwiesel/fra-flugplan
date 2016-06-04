@@ -7,7 +7,7 @@ CREATE TABLE IF NOT EXISTS `groups`
 	UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `members`
+CREATE TABLE `membership`
 (
 	`user` integer NOT NULL,
 	`group` integer NOT NULL,
@@ -16,8 +16,8 @@ CREATE TABLE `members`
 	FOREIGN KEY(`group`) REFERENCES `groups`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE INDEX `members:user` ON `members`(`user` ASC);
-CREATE INDEX `members:group` ON `members`(`group` ASC);
+CREATE INDEX `membership:user` ON `membership`(`user` ASC);
+CREATE INDEX `membership:group` ON `membership`(`group` ASC);
 
 INSERT INTO `groups`(`name`, `comment`)
 VALUES
@@ -27,25 +27,25 @@ VALUES
 ('specials',   NULL);
 
 
-INSERT INTO `members`(`user`, `group`)
+INSERT INTO `membership`(`user`, `group`)
 SELECT `users`.`id` AS `user`,
 	(SELECT @admin:=`id` FROM `groups` WHERE `name`='admin') AS `group`
 FROM `users`
 WHERE `name` IN('root', 'flederwiesel');
 
-INSERT INTO `members`(`user`, `group`)
+INSERT INTO `membership`(`user`, `group`)
 SELECT `users`.`id` AS `user`,
 	(SELECT `id` FROM `groups` WHERE `name`='addflights') AS `group`
 FROM `users`
 WHERE `name` IN('root', 'flederwiesel');
 
-INSERT INTO `members`(`user`, `group`)
+INSERT INTO `membership`(`user`, `group`)
 SELECT `users`.`id` AS `user`,
 	(SELECT `id` FROM `groups` WHERE `name`='specials') AS `group`
 FROM `users`
 WHERE `name` IN('root', 'flederwiesel');
 
-INSERT INTO `members`(`user`, `group`)
+INSERT INTO `membership`(`user`, `group`)
 SELECT `users`.`id` AS `user`,
 	(SELECT `id` FROM `groups` WHERE `name`='users') AS `group`
 FROM `users`;
