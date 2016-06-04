@@ -87,7 +87,7 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
 	);
 
 	# grant user permissions
-	INSERT INTO `usergroups`(`user`, `group`)
+	INSERT INTO `membership`(`user`, `group`)
 				 VALUES((SELECT `id` FROM `users`  WHERE `name`='flederwiesel'),
 						(SELECT `id` FROM `groups` WHERE `name`='addflights'));
 SQL

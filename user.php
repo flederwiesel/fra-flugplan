@@ -395,8 +395,8 @@ function /* char *error */ LoginUserSql(/* __out */ &$user, $id, $byid, $passwor
 	{
 		$query = <<<SQL
 			SELECT `groups`.`name`
-			FROM `usergroups`
-			INNER JOIN `groups` ON `usergroups`.`group` = `groups`.`id`
+			FROM `membership`
+			INNER JOIN `groups` ON `membership`.`group` = `groups`.`id`
 			WHERE `user`=$id
 SQL;
 
@@ -654,7 +654,7 @@ SQL;
 					}
 
 					$query = <<<SQL
-						INSERT INTO `usergroups`(`user`, `group`)
+						INSERT INTO `membership`(`user`, `group`)
 						VALUES(
 							LAST_INSERT_ID(),
 							(SELECT `id` FROM `groups` WHERE `name`='users')

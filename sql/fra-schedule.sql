@@ -60,7 +60,7 @@ CREATE TABLE IF NOT EXISTS `groups`
 	UNIQUE KEY `name` (`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE `usergroups`
+CREATE TABLE `membership`
 (
 	`user` integer NOT NULL,
 	`group` integer NOT NULL,
@@ -201,8 +201,8 @@ CREATE INDEX `watchlist:user` ON `watchlist`(`user` ASC);
 CREATE INDEX `watchlist:reg` ON `watchlist`(`reg` ASC);
 CREATE INDEX `visits:aircraft` ON `visits`(`aircraft` ASC);
 CREATE INDEX `visits:current` ON `visits`(`current` ASC);
-CREATE INDEX `usergroups:user` ON `usergroups`(`user` ASC);
-CREATE INDEX `usergroups:group` ON `usergroups`(`group` ASC);
+CREATE INDEX `membership:user` ON `membership`(`user` ASC);
+CREATE INDEX `membership:group` ON `membership`(`group` ASC);
 
 /******************************************************************************
  * Data
@@ -227,7 +227,7 @@ VALUES
 
 SELECT LAST_INSERT_ID() INTO @root;
 
-INSERT INTO `usergroups`(`user`, `group`)
+INSERT INTO `membership`(`user`, `group`)
 (
 	SELECT @root AS `user`, `id` AS `group`
 	FROM `groups`

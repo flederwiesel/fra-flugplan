@@ -35,7 +35,7 @@ check "3" browse "$url/?req=register\&stopforumspam=$prefix" \
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
 # grant addflight permission
-query --execute="USE fra-schedule; INSERT INTO \`usergroups\`(\`user\`, \`group\`)
+query --execute="USE fra-schedule; INSERT INTO \`membership\`(\`user\`, \`group\`)
 				 VALUES((SELECT \`id\` FROM \`users\` WHERE \`name\`='flederwiesel'),
 						(SELECT \`id\` FROM \`groups\` WHERE \`name\`='addflights'))"
 
