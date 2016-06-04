@@ -2218,7 +2218,7 @@ if (!$error)
 										{
 											info(__LINE__,
 												 "Inserted aircraft {$f->aircraft->type->icao} as".
-												 " {$f->aircraft->type->name}".
+												 " \"{$f->aircraft->type->name}\"".
 												 " ($dir {$f->airline->code}{$f->fnr} \"{$f->scheduled}\").");
 										}
 									}
