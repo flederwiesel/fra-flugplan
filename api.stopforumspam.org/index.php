@@ -28,15 +28,21 @@
 */
 	$db = array(
 		'username' => array(
-			'wyeepqxbal' => array(
+			'nospam' => array(
+				'appears' => 0,
+			),
+			'spam' => array(
 				'appears' => 1,
 				'frequency' => 1,
 				'lastseen' => '2015-12-18 19:38:00',
-				'confidence' => 16.34,
+				'confidence' => 98.34,
 			),
 		),
 		'email' => array(
-			'uproot356973135@gmail.com' => array(
+			'nospam@flederwiesel.com' => array(
+				'appears' => 0,
+			),
+			'spam@gmail.com' => array(
 				'appears' => 1,
 				'frequency' => 536,
 				'lastseen' => '2015-12-18 20:35:11',
@@ -44,6 +50,9 @@
 			),
 		),
 		'ip' => array(
+			'127.0.0.1' => array(
+				'appears' => 0,
+			),
 			'46.118.155.73' => array(
 				'appears' => 1,
 				'frequency' => 65535,

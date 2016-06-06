@@ -5,4 +5,6 @@ ErrorDocument 500 /error.php
 <IfModule mod_rewrite.c>
 RewriteEngine on
 RewriteRule apps.fraport.de/(.*) www.frankfurt-airport.com/$1
+RewriteCond %{QUERY_STRING} req=register.*ip=(.*)$
+RewriteRule .* - [E=HTTP_X_REAL_IP:%1]
 </IfModule>

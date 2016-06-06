@@ -431,6 +431,7 @@ if ($user)
 				}
 				if (!isset($_GET['req']))
 				{
+					// TODO: stat $_GET['req'].php !!!
 					require_once content();
 				}
 				else

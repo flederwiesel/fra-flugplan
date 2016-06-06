@@ -17,12 +17,17 @@
 # drop/re-create database
 initdb && rm -f .COOKIES
 
+prefix=$(rawurlencode $(sed s?http://??g <<<"$url"))
+
 echo "$mails" > /etc/mailtodisk/hausmeister@flederwiesel.com
 echo "$mails" > /etc/mailtodisk/fra-schedule@flederwiesel.com
 
 ###############################################################################
 
-check "1" browse "$url/?req=register" --data-urlencode "email="
+check "1" browse "$url/?req=register\&stopforumspam=$prefix" \
+		--data-urlencode "email=" \
+		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+
 check "2" browse "$url/?req=register" --data-urlencode "user="
 check "3" browse "$url/?req=register" --data-urlencode "passwd="
 check "4" browse "$url/?req=register" --data-urlencode "passwd-confirm="

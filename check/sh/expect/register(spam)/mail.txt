@@ -1,28 +1,21 @@
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: uproot356973135@gmail.com
-Subject: Account activation
-From: Frankfurt Aviation Friends <fra-schedule@cluster04.vc-server.de>
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+Subject: user registration
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
 Reply-To: fra-schedule@flederwiesel.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
 X-Mailer: PHP/*
 
-Hello,
 
-this e-mail has been sent to you because you (or someone else at IP address <localhost>) requested user registration as 'wyeepqxbal' at Frankfurt Aviation Friends (www.frankfurt-aviation-friends.de).
+Suspected spam:
+spam=98.34
+nospam@flederwiesel.com=0
+<localhost>=0
 
-Activation token is:
-***
+Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=<localhost>&email=nospam%40flederwiesel.com&username=spam&evidence=Automated%20registration%2e
 
-You can also use this link to process your request:
-http://localhost/.../index.php?req=activate&user=wyeepqxbal&token=***
-This token will expire on 0000-00-00 00:00:00 GMT.
-
-Please ignore this e-mail if you did not request a registration. Our apologies for any inconvenience.
-
-
-The Frankfurt Aviation Friends Team
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
 To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
@@ -34,14 +27,107 @@ Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
 X-Mailer: PHP/*
 
-2:wyeepqxbal <uproot356973135@gmail.com> (expires 0000-00-00 00:00:00) = OK
 
 Suspected spam:
-wyeepqxbal=16.34
-uproot356973135@gmail.com=99.05
+nospam=0
+spam@gmail.com=99.05
 <localhost>=0
 
-Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=<localhost>&email=uproot356973135%40gmail.com&username=wyeepqxbal&evidence=Automated%20registration%2e
-Delete: http://localhost?admin=userdel&uid=2
+Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=<localhost>&email=spam%40gmail.com&username=nospam&evidence=Automated%20registration%2e
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+Subject: user registration
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/*
+
+
+Suspected spam:
+spam=98.34
+spam@gmail.com=99.05
+<localhost>=0
+
+Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=<localhost>&email=spam%40gmail.com&username=spam&evidence=Automated%20registration%2e
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+Subject: user registration
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/*
+
+
+Suspected spam:
+spam=98.34
+nospam@flederwiesel.com=0
+46.118.155.73=99.99
+
+Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=46.118.155.73&email=nospam%40flederwiesel.com&username=spam&evidence=Automated%20registration%2e
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+Subject: user registration
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/*
+
+
+Suspected spam:
+nospam=0
+spam@gmail.com=99.05
+46.118.155.73=99.99
+
+Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=46.118.155.73&email=spam%40gmail.com&username=nospam&evidence=Automated%20registration%2e
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+Subject: user registration
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/*
+
+
+Suspected spam:
+spam=98.34
+spam@gmail.com=99.05
+46.118.155.73=99.99
+
+Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=46.118.155.73&email=spam%40gmail.com&username=spam&evidence=Automated%20registration%2e
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+To: Tobias =?ISO-8859-1?Q?K=FChne?= <fra-schedule@flederwiesel.com>
+Subject: user registration
+From: FRA schedule <fra-schedule@cluster04.vc-server.de>
+Reply-To: fra-schedule@flederwiesel.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/*
+
+
+Suspected spam:
+nospam=0
+nospam@flederwiesel.com=0
+46.118.155.73=99.99
+
+Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=46.118.155.73&email=nospam%40flederwiesel.com&username=nospam&evidence=Automated%20registration%2e
 
 ======================================================

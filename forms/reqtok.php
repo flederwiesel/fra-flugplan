@@ -50,7 +50,7 @@
 <?php } ?>
 		<div class="table">
 			<div class="row">
-				<div class="cell label"><?php echo $lang['username']; ?></div>
+				<div class="cell label"><?php echo ucfirst($lang['username']); ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user"
 					 value="<?php Input_SetValue('user', INP_POST, 'flederwiesel'); ?>" autofocus>
@@ -58,7 +58,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?php echo $lang['emailaddress']; ?></div>
+				<div class="cell label"><?php echo ucfirst($lang['emailaddress']); ?></div>
 				<div class="cell">
 					<input type="text" id="email" name="email"
 					 value="<?php Input_SetValue('email', INP_POST, 'etc@flederwiesel.com'); ?>">

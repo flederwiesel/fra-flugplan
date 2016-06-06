@@ -25,15 +25,15 @@ echo "$mails" > /etc/mailtodisk/fra-schedule@flederwiesel.com
 ###############################################################################
 
 check "1" browse "$url/"
-check "2" browse "$url/?req=register"
+check "2" browse "$url/?req=register\&stopforumspam=$prefix" \
+		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
-check "3" browse "$url/?req=register\&stopforumspam=$prefix" \
+check "3" browse "$url/?req=register" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
-		--data-urlencode "timezone=UTC+1" \
-		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+		--data-urlencode "timezone=UTC+1"
 
 token=$(query --execute="USE fra-schedule;
 	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)

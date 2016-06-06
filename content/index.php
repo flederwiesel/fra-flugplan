@@ -429,7 +429,7 @@ if ($error)
 				<th class="sep"><?php echo $lang['airline']; ?>
 				<th class="sep">IATA
 				<th class="sep">ICAO
-				<th class="sep"><?php echo 'arrival' == $dir ? $lang['from'] : $lang['to']; ?>
+				<th class="sep"><?php echo ucfirst('arrival' == $dir ? $lang['from'] : $lang['to']); ?>
 <?php
 				}
 ?>

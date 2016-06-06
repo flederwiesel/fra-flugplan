@@ -32,8 +32,8 @@ $lang = array
 	'flight' => 'Flug',
 	'airline' => 'Fluggesellschaft',
 	'airport' => 'Flughafen',
-	'from' => 'Von',
-	'to' => 'Nach',
+	'from' => 'von',
+	'to' => 'nach',
 	'type' => 'Typ',
 	'reg' => 'Reg',
 	'comment' => 'Kommentar',
@@ -211,6 +211,9 @@ $lang = array
 	'strftime-true' => 'Zeiten werden nach folgendem Schema angezeigt: "%s"',
 	'strftime-false' => '"%s" kann nicht korrekt ausgewertet werden. Änderungen wurden nicht gespeichert.',
 	'invalidsession' => 'Ungültige Sitzung.',
+	'spam:sing' => 'Registrierung abgelehnt da %s als spam identifiziert wurde.',
+	'spam:plur' => 'Registrierung abgelehnt da %s als spam identifiziert wurde.',
+	'ipaddress' => 'ip address',
 );
 
 ?>

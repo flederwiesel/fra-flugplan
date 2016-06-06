@@ -21,16 +21,16 @@ prefix=$(rawurlencode $(sed s?http://??g <<<"$url"))
 
 ###############################################################################
 
-check "1" browse "$url/?req=register"
+check "1" browse "$url/?req=register\&stopforumspam=$prefix" \
+		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
-check "2" browse "$url/?req=register\&stopforumspam=$prefix" \
+check "2" browse "$url/?req=register" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en" \
-		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+		--data-urlencode "lang=en"
 
 # grant addflight permission
 query --execute="USE fra-schedule; UPDATE users SET permissions='1' WHERE name='flederwiesel'"

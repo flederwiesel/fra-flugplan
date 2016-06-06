@@ -699,7 +699,7 @@ $(function()
 			</div>
 
 			<div class="row">
-				<div class="cell label"><?php echo $lang['from']; ?></div>
+				<div class="cell label"><?php echo ucfirst($lang['from']); ?></div>
 				<div class="cell">
 					<select id="airport-icao" name="airport">
 <?php

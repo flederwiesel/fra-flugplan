@@ -48,7 +48,7 @@
 <?php } ?>
 		<div class="table">
 			<div class="row">
-				<div class="cell label"><?php echo $lang['username']; ?></div>
+				<div class="cell label"><?php echo ucfirst($lang['username']); ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user" tabindex="1"
 					 value="<?php Input_SetValue('user', INP_POST | INP_GET, 'flederwiesel'); ?>" autofocus>

@@ -20,17 +20,70 @@ initdb && rm -f .COOKIES
 prefix=$(rawurlencode $(sed s?http://??g <<<"$url"))
 
 echo "$mails" > /etc/mailtodisk/fra-schedule@flederwiesel.com
-echo "$mails" > /etc/mailtodisk/uproot356973135@gmail.com
+echo "$mails" > /etc/mailtodisk/nospam@flederwiesel.com
+echo "$mails" > /etc/mailtodisk/spam@gmail.com
 
 sed='s/(ip=)[0-9]+(,email=)[0-9]+(,username=)[0-9]+/\1*\2*\3*/g'
 
 ###############################################################################
 
-stopforumspam=$(rawurlencode $(sed s?http://??g <<<"$url"))
+check "1" browse "$url/?req=register\&stopforumspam=$prefix" \
+		--data-urlencode "email=nospam@flederwiesel.com" \
+		--data-urlencode "user=spam" \
+		--data-urlencode "passwd=elvizzz" \
+		--data-urlencode "passwd-confirm=elvizzz" \
+		--data-urlencode "timezone=UTC+1" \
+		--data-urlencode "lang=en" \
+		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
-check "1" browse "$url/?req=register\&stopforumspam=$stopforumspam" \
-		--data-urlencode "email=uproot356973135@gmail.com" \
-		--data-urlencode "user=wyeepqxbal" \
+check "2" browse "$url/?req=register\&stopforumspam=$prefix" \
+		--data-urlencode "email=spam@gmail.com" \
+		--data-urlencode "user=nospam" \
+		--data-urlencode "passwd=elvizzz" \
+		--data-urlencode "passwd-confirm=elvizzz" \
+		--data-urlencode "timezone=UTC+1" \
+		--data-urlencode "lang=en" \
+		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+
+check "3" browse "$url/?req=register\&stopforumspam=$prefix" \
+		--data-urlencode "email=spam@gmail.com" \
+		--data-urlencode "user=spam" \
+		--data-urlencode "passwd=elvizzz" \
+		--data-urlencode "passwd-confirm=elvizzz" \
+		--data-urlencode "timezone=UTC+1" \
+		--data-urlencode "lang=en" \
+		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+
+check "4" browse "$url/?req=register\&stopforumspam=$prefix\&ip=46.118.155.73" \
+		--data-urlencode "email=nospam@flederwiesel.com" \
+		--data-urlencode "user=spam" \
+		--data-urlencode "passwd=elvizzz" \
+		--data-urlencode "passwd-confirm=elvizzz" \
+		--data-urlencode "timezone=UTC+1" \
+		--data-urlencode "lang=en" \
+		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+
+check "5" browse "$url/?req=register\&stopforumspam=$prefix\&ip=46.118.155.73" \
+		--data-urlencode "email=spam@gmail.com" \
+		--data-urlencode "user=nospam" \
+		--data-urlencode "passwd=elvizzz" \
+		--data-urlencode "passwd-confirm=elvizzz" \
+		--data-urlencode "timezone=UTC+1" \
+		--data-urlencode "lang=en" \
+		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+
+check "6" browse "$url/?req=register\&stopforumspam=$prefix\&ip=46.118.155.73" \
+		--data-urlencode "email=spam@gmail.com" \
+		--data-urlencode "user=spam" \
+		--data-urlencode "passwd=elvizzz" \
+		--data-urlencode "passwd-confirm=elvizzz" \
+		--data-urlencode "timezone=UTC+1" \
+		--data-urlencode "lang=en" \
+		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+
+check "7" browse "$url/?req=register\&stopforumspam=$prefix\&ip=46.118.155.73" \
+		--data-urlencode "email=nospam@flederwiesel.com" \
+		--data-urlencode "user=nospam" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \

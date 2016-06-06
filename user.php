@@ -16,6 +16,7 @@
 
 require_once '.config';
 require_once 'classes/etc.php';
+require_once 'classes/curl.php';
 
 
 function /* char* */ token() { return hash('sha256', mcrypt_create_iv(32)); }
@@ -457,6 +458,92 @@ SQL;
 	return $error;
 }
 
+/* Check for forum spam and provide hrefs for reporting */
+function /* bool */ SuspectedSpam(/* __in */ $user,
+								 /* __in */ $email,
+								 /* __in */ $ipaddr /* ['real','fwd'] */,
+								 /* __out */ /* char *error */ &$message)
+{
+	global $lang;
+
+ 	$suspicion = NULL;
+	$curl = new curl();
+
+	if ($curl)
+	{
+		/* Suspected spam? */
+		$stopforumspam = isset($_SESSION['stopforumspam']) ? urldecode("$_SESSION[stopforumspam]/") : NULL;
+		$stopforumspam = sprintf("http://${stopforumspam}api.stopforumspam.org/api?".
+								 "f=json&ip=%s&email=%s&username=%s",
+								 $ipaddr['real'], urlencode($email), urlencode($user));
+
+		$error = $curl->exec($stopforumspam, $json, 5);
+
+		if (!$error)
+		{
+			$json = (object)json_decode($json);
+
+			if ($json)
+			{
+				if ($json->success)
+				{
+					if ($json->username->confidence < 96.0)
+						$json->username->appears = 0;
+
+					if ($json->email->confidence < 92.0)
+						$json->email->appears = 0;
+
+					if ($json->ip->confidence < 98.0)
+						$json->ip->appears = 0;
+
+					if ($json->username->appears ||
+						$json->email->appears    ||
+						$json->ip->appears)
+					{
+						AdminMail('registration',
+							sprintf("\nSuspected spam:\n%s=%s\n%s=%s\n%s=%s\n".
+									"\nReport: http://www.stopforumspam.com/add.php?".
+									"api_key=nrt20iomfc34sz&ip_addr=%s&email=%s&username=%s".
+									"&evidence=Automated%%20registration%%2e\n",
+									$user, $json->username->appears ? $json->username->confidence : 0,
+									$email, $json->email->appears ? $json->email->confidence : 0,
+									$ipaddr['real'], $json->ip->appears ? $json->ip->confidence : 0,
+									$ipaddr['real'], urlencode($email), urlencode($user),
+									$_SERVER['SERVER_NAME']));
+
+						$suspicion = array();
+
+						if ($json->username->appears)
+							$suspicion[0] = $lang['username'];
+
+						if ($json->email->appears)
+							$suspicion[1] = $lang['emailaddress'];
+
+						if ($json->ip->appears)
+							$suspicion[2] = $lang['ipaddress'];
+
+						/* Join suspicions to string, separated with command and "and" */
+						$last  = array_slice($suspicion, -1);
+						$first = join(', ', array_slice($suspicion, 0, -1));
+						$both  = array_filter(array_merge(array($first), $last), 'strlen');
+						$insert = join(" $lang[and] ", $both);
+
+						$plural = $json->username->appears ?
+								 ($json->email->appears ? 1 : $json->ip->appears) :
+								 ($json->email->appears ? 0 : $json->ip->appears);
+
+						$message = sprintf($plural ? $lang['spam:plur'] : $lang['spam:sing'], $insert);
+					}
+				}
+			}
+		}
+
+		unset($curl);
+	}
+
+	return $message;
+}
+
 function /* char *error */ RegisterUser(/* __out */ &$message)
 	// __in $_POST['user']
 	// __in $_POST['email']
@@ -472,6 +559,12 @@ function /* char *error */ RegisterUser(/* __out */ &$message)
 
 	$error = null;
 	$message = null;
+
+	if (isset($_GET['stopforumspam']))
+	{
+		$_SESSION['stopforumspam'] = $_GET['stopforumspam'];
+		$_SESSION['ipaddr'] = $_SERVER['HTTP_X_REAL_IP'];
+	}
 
 	if (isset($_POST['user']) &&
 		isset($_POST['email']))		/* else: no request, just display form */
@@ -509,26 +602,59 @@ function /* char *error */ RegisterUser(/* __out */ &$message)
 						}
 					}
 
-					if (!PasswordConstraintMet($_POST['passwd']))
+					if (!$error)
 					{
-						$error = PasswordHint();
-					}
-					else if (!PasswordsMatch($_POST['passwd'], $_POST['passwd-confirm']))
-					{
-						$error = $lang['passwordsmismatch'];
-					}
-					else
-					{
-						$error = RegisterUserSql($_POST['user'], $_POST['email'], $_POST['passwd'],
-												 isset($_POST['lang']) ? $_POST['lang'] :
-												 isset($_SESSION['lang']) ? $_SESSION['lang'] : 'en');
-
-						if (!$error)
+						if (!PasswordConstraintMet($_POST['passwd']))
 						{
-							$message = $lang['regsuccess'];
+							$error = PasswordHint();
+						}
+						else if (!PasswordsMatch($_POST['passwd'], $_POST['passwd-confirm']))
+						{
+							$error = $lang['passwordsmismatch'];
+						}
+						else
+						{
+							$ipaddr['fwd'] = NULL;
 
-							$_GET['req'] = 'activate';		// Form to be displayed next
-							$_GET['user'] = $_POST['user'];	// Pre-set user name in form
+							if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+							{
+								$ipaddr['fwd'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
+
+								if (preg_match('/83.125.11[2-5]/', $ipaddr['fwd']))
+									$ipaddr['fwd'] = NULL;
+							}
+
+							$ipaddr['real'] = $_SESSION['ipaddr'];
+
+							if (!$ipaddr['real'])
+							{
+								if (isset($_SERVER['HTTP_X_REAL_IP']))
+									$ipaddr['real'] = $_SERVER['HTTP_X_REAL_IP'];
+								else
+									$ipaddr['real'] = $_SERVER['REMOTE_ADDR'];
+							}
+
+							$ipaddr['fwd'] = str_replace('::1', '127.0.0.1', $ipaddr['fwd']);
+							$ipaddr['real'] = str_replace('::1', '127.0.0.1', $ipaddr['real']);
+
+							if (!SuspectedSpam($_POST['user'], $_POST['email'], $ipaddr, $error))
+							{
+								if (!$error)
+								{
+									$error = RegisterUserSql($_POST['user'], $_POST['email'], $_POST['passwd'],
+															 $ipaddr['real'].($ipaddr['fwd'] ? " ($ipaddr[fwd])" : ""),
+															 isset($_POST['lang']) ? $_POST['lang'] :
+															 isset($_SESSION['lang']) ? $_SESSION['lang'] : 'en');
+
+									if (!$error)
+									{
+										$message = $lang['regsuccess'];
+
+										$_GET['req'] = 'activate';		// Form to be displayed next
+										$_GET['user'] = $_POST['user'];	// Pre-set user name in form
+									}
+								}
+							}
 						}
 					}
 				}
@@ -539,7 +665,7 @@ function /* char *error */ RegisterUser(/* __out */ &$message)
 	return $error;
 }
 
-function /* char *error */ RegisterUserSql($user, $email, $password, $language)
+function /* char *error */ RegisterUserSql($user, $email, $password, $ipaddr, $language)
 	// __in  $_SERVER['REMOTE_ADDR']
 	// __out $_SESSION['lang']
 {
@@ -582,105 +708,94 @@ function /* char *error */ RegisterUserSql($user, $email, $password, $language)
 
 	if (!$error)
 	{
-		if (!PasswordConstraintMet($password))
+		$salt = token();
+		$token = token();
+		$password = hash_hmac('sha256', $password, $salt);
+
+		if (!mysql_query('START TRANSACTION'))
 		{
-			$error = PasswordHint();
+			$error = mysql_user_error($lang['regfailed']);
 		}
 		else
 		{
-			$salt = token();
-			$token = token();
-			$password = hash_hmac('sha256', $password, $salt);
+			$query = <<<SQL
+				INSERT INTO
+				`users`(
+					`name`, `email`, `passwd`, `salt`, `language`,
+					`token`, `token_type`, `token_expires`, `ip`
+				)
+				VALUES(
+					'$user', '$email', '$password', '$salt', '$language',
+					'$token', 'activation',
+					FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu), '%s'
+				);
+SQL;
 
-			if (!mysql_query('START TRANSACTION'))
+			$query = sprintf($query, TOKEN_LIFETIME, $_SERVER['REMOTE_ADDR']);
+
+			if (!mysql_query($query))
 			{
 				$error = mysql_user_error($lang['regfailed']);
 			}
 			else
 			{
-				$query = <<<SQL
-					INSERT INTO
-					`users`(
-						`name`, `email`, `passwd`, `salt`, `language`,
-						`token`, `token_type`, `token_expires`, `ip`
-					)
-					VALUES(
-						'$user', '$email', '$password', '$salt', '$language',
-						'$token', 'activation',
-						FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu), '%s'
-					);
-SQL;
+				$result = mysql_query("SELECT `id`,`token_expires` ".
+									   "FROM `users` ".
+									   "WHERE `id`=LAST_INSERT_ID()");
 
-				$query = sprintf($query, TOKEN_LIFETIME, $_SERVER['REMOTE_ADDR']);
-
-				if (!mysql_query($query))
+				if (!$result)
 				{
-					$error = mysql_user_error($lang['regfailed']);
+					$error = mysql_error();
 				}
 				else
 				{
-					$result = mysql_query("SELECT `id`,`token_expires` ".
-										   "FROM `users` ".
-										   "WHERE `id`=LAST_INSERT_ID()");
-
-					if (!$result)
+					if (0 == mysql_num_rows($result))
 					{
-						$error = mysql_error();
+						$error = $lang['regfailed'];
 					}
 					else
 					{
-						if (0 == mysql_num_rows($result))
+						$row = mysql_fetch_row($result);
+						//&& $_POST['timezone'] -> localtime($expires)
+
+						if (!$row)
 						{
-							$error = $lang['regfailed'];
+							$error = mysql_error();
 						}
 						else
 						{
-							$row = mysql_fetch_row($result);
-							//&& $_POST['timezone'] -> localtime($expires)
-
-							if (!$row)
-							{
-								$error = mysql_error();
-							}
-							else
-							{
-								$uid = $row[0];
-								$expires = $row[1];
-								$_SESSION['lang'] = $language;
-							}
+							$uid = $row[0];
+							$expires = $row[1];
+							$_SESSION['lang'] = $language;
 						}
-
-						mysql_free_result($result);
 					}
 
-					$query = <<<SQL
-						INSERT INTO `membership`(`user`, `group`)
-						VALUES(
-							LAST_INSERT_ID(),
-							(SELECT `id` FROM `groups` WHERE `name`='users')
-						);
+					mysql_free_result($result);
+				}
+
+				$query = <<<SQL
+					INSERT INTO `membership`(`user`, `group`)
+					VALUES(
+						LAST_INSERT_ID(),
+						(SELECT `id` FROM `groups` WHERE `name`='users')
+					);
 SQL;
 
-					if (!mysql_query($query))
-						$error = mysql_user_error($lang['regfailed']);
-				}
-			}
-
-			if ($error)
-			{
-				mysql_query('ROLLBACK');
-			}
-			else
-			{
-				if (!mysql_query('COMMIT'))
+				if (!mysql_query($query))
 					$error = mysql_user_error($lang['regfailed']);
 			}
 		}
-	}
 
-	$admin = sprintf("$uid:$user <$email>%s = %s\n",
-					 $expires ? " (expires $expires)" : "",
-					 $error ? $error : "OK");
+		if ($error)
+		{
+			mysql_query('ROLLBACK');
+		}
+		else
+		{
+			if (!mysql_query('COMMIT'))
+				$error = mysql_user_error($lang['regfailed']);
+		}
+	}
 
 	if (!$error)
 	{
@@ -699,27 +814,8 @@ SQL;
 
 		$subject = mb_encode_mimeheader($lang['subjactivate'], 'ISO-8859-1', 'Q');
 
-		$ipaddr['fwd'] = NULL;
-		$ipaddr['real'] = NULL;
-
-		if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-		{
-			$ipaddr['fwd'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
-
-			if (preg_match('/83.125.11[2-5]/', $ipaddr['fwd']))
-				$ipaddr['fwd'] = NULL;
-		}
-
-		if (isset($_SERVER['HTTP_X_REAL_IP']))
-			$ipaddr['real'] = $_SERVER['HTTP_X_REAL_IP'];
-		else
-			$ipaddr['real'] = $_SERVER['REMOTE_ADDR'];
-
-		$ipaddr['fwd'] = str_replace('::1', '127.0.0.1', $ipaddr['fwd']);
-		$ipaddr['real'] = str_replace('::1', '127.0.0.1', $ipaddr['real']);
-
 		$body = sprintf($lang['emailactivation'],
-						$ipaddr['real'].($ipaddr['fwd'] ? " ($ipaddr[fwd])" : ""),
+						$ipaddr,
 						$user, ORGANISATION, SITE_URL,
 						$token, php_self(), $user, $token, $expires, ORGANISATION);
 
@@ -731,48 +827,12 @@ SQL;
 			$error = error_get_last();
 			$error = $lang['mailfailed'].$error['message'];
 		}
-
-		/* Check for forum spam and provide hrefs */
-		$curl = curl_setup();
-
-		if ($curl)
-		{
-			/* Suspected spam? */
-			$stopforumspam = isset($_GET['stopforumspam']) ? urldecode("$_GET[stopforumspam]/") : NULL;
-
-			$htm = curl_download($curl,
-						sprintf("http://${stopforumspam}api.stopforumspam.org/api?".
-								"f=json&ip=%s&email=%s&username=%s",
-								$ipaddr['real'], urlencode($email), urlencode($user)));
-
-			if ($htm)
-			{
-				$json = (object)json_decode($htm);
-
-				if ($json)
-				{
-					if ($json->username->appears ||
-						$json->email->appears ||
-						$json->ip->appears)
-					{
-						$admin .=
-							sprintf("\nSuspected spam:\n%s=%s\n%s=%s\n%s=%s\n".
-									"\nReport: http://www.stopforumspam.com/add.php?".
-									"api_key=nrt20iomfc34sz&ip_addr=%s&email=%s&username=%s".
-									"&evidence=Automated%%20registration%%2e".
-									"\nDelete: http://%s?admin=userdel&uid=$uid\n",
-									$user, $json->username->appears ? $json->username->confidence : 0,
-									$email, $json->email->appears ? $json->email->confidence : 0,
-									$ipaddr['real'], $json->ip->appears ? $json->ip->confidence : 0,
-									$ipaddr['real'], urlencode($email), urlencode($user),
-									$_SERVER['SERVER_NAME']);
-					}
-				}
-			}
-		}
 	}
 
-	AdminMail('registration', $admin);
+	AdminMail('registration',
+			  sprintf("$uid:$user <$email>%s = %s\n",
+			  		  $expires ? " (expires $expires)" : "",
+					  $error ? $error : "OK"));
 
 	return $error;
 }

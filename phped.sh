@@ -25,13 +25,14 @@ urlencode() {
 
 projects=(
 	"index:index.php?arrival\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
-	"spam:index.php?req=register\&stopforumspam=localhost/fra-schedule/fra-schedule-spam\&user=wyeepqxbal\&email=uproot356973135@gmail.com"
+	"index-spam:index.php?req=register\&stopforumspam=localhost/fra-schedule/fra-schedule-spam\&user=wyeepqxbal\&email=uproot356973135@gmail.com"
 	"airport:www.frankfurt-airport.com/index.php?type=arrival\&lang=de\&perpage=3\&page=1\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
 	"betriebsrichtung:apps.fraport.de/betriebsrichtung/betriebsrichtung.html"
 	"getflights:getflights.php?debug=url,json,sql\&fmt=html"
 	"getflights-local:getflights.php?debug=url,json,sql\&fmt=html\&prefix=localhost/\$prjroot/\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
 	"download:index.php?page=download"
 	"specials:index.php?page=specials"
+	"stopforumspam:api.stopforumspam.org/index.php?username=spam\&email=spam@gmail.com\&ip=46.118.155.73"
 )
 
 filename=$(readlink -f "${BASH_SOURCE[0]}")
