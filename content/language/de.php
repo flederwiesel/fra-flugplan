@@ -211,8 +211,8 @@ $lang = array
 	'strftime-true' => 'Zeiten werden nach folgendem Schema angezeigt: "%s"',
 	'strftime-false' => '"%s" kann nicht korrekt ausgewertet werden. Änderungen wurden nicht gespeichert.',
 	'invalidsession' => 'Ungültige Sitzung.',
-	'spam:sing' => 'Registrierung abgelehnt da %s als Spam identifiziert wurde.',
-	'spam:plur' => 'Registrierung abgelehnt da %s als Spam identifiziert wurden.',
+	'spam:sing' => 'Die Registrierung wurde abgelehnt, da %s als Spam identifiziert wurde.',
+	'spam:plur' => 'Die Registrierung wurde abgelehnt, da %s als Spam identifiziert wurden.',
 	'ipaddress' => 'ip address',
 );
 
