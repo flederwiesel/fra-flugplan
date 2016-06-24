@@ -374,7 +374,7 @@ if ($user)
 			else
 			{
 ?>
-											<a href="http://www.airliners.net/search/photo.search?q=<?php echo $reg; ?>&sort_order=year+desc" target="a-net"><img src="img/a-net.png" alt="www.airliners.net"></a>
+											<a href="http://www.airliners.net/search?keywords=<?php echo $reg; ?>&sortBy=datePhotographedYear&sortOrder=desc" target="a-net"><img src="img/a-net.png" alt="www.airliners.net"></a>
 <?php
 			}
 ?>
@@ -675,7 +675,7 @@ else
 			else
 			{
 ?>
-				<a href = "http://www.airliners.net/search/photo.search?q=<?php echo $reg ?>&sort_order=year+desc" target="a-net">
+				<a href = "http://www.airliners.net/search?keywords=<?php echo $reg ?>&sortBy=datePhotographedYear&sortOrder=desc" target="a-net">
 					<img src="img/a-net.png" alt="www.airliners.net">
 				</a>
 <?php
