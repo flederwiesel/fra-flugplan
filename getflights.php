@@ -925,8 +925,12 @@ function JSON_InterpretFlights(/*in*/ $dir, /*in*/ $json, /*in*/ $defer,
 					{
 						if (isset($jflight->ac))
 						{
-							if ('TRN' == $jflight->ac)
-								$jflight->status = FlightStatus::IGNORE;	// Ignore trains...
+							if ('TRN' == $jflight->ac ||
+								'TRS' == $jflight->ac)
+							{
+								/* Ignore trains... */
+								$jflight->status = FlightStatus::IGNORE;
+							}
 						}
 					}
 
