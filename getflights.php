@@ -324,6 +324,7 @@ function patchreg($reg)
 		'/^I/', 1,
 		'/^JA/', 0,
 		'/^J[235678Y]/', 2,
+		'/^JU/', 2,
 		'/^K[^W]/', 1,
 		'/^KW/', 2,
 		'/^L[GINQRVXYZ]/', 2,
