@@ -121,6 +121,7 @@ $lang = array
 	'passwdlengthmin' => 'Passwort muß mindestens %lu Zeichen lang sein.',
 	'usernamelengthmin' => 'Benutzername muß mindestens %lu Zeichen enthalten.',
 	'usernamelengthmax' => 'Benutzername darf höchstens %lu Zeichen enthalten.',
+	'usernameinvalid' => 'Benutzername ungültig.',
 	'emailinvalid' => 'E-Mailadresse ungültig.',
 	'activationfailed' => 'Aktivierung fehlgeschlagen (code %lu).',
 	'activationfailed_t' => 'Activation failed: Token muss ausgefüllt werden.',

@@ -58,6 +58,30 @@ check "9" browse "$url/?req=register" \
 		--data-urlencode "timezone=UTC+1" \
 		--data-urlencode "lang=en"
 
+check "9-1" browse "$url/?req=register" \
+		--data-urlencode "email=hausmeister@flederwiesel.com" \
+		--data-urlencode "user='    '" \
+		--data-urlencode "passwd=elvizzz" \
+		--data-urlencode "passwd-confirm=elvizzz" \
+		--data-urlencode "timezone=UTC+1" \
+		--data-urlencode "lang=en"
+
+check "9-2" browse "$url/?req=register" \
+		--data-urlencode "email='    '" \
+		--data-urlencode "user=flederwiesel" \
+		--data-urlencode "passwd=elvizzz" \
+		--data-urlencode "passwd-confirm=elvizzz" \
+		--data-urlencode "timezone=UTC+1" \
+		--data-urlencode "lang=en"
+
+check "9-3" browse "$url/?req=register" \
+		--data-urlencode "email='    '" \
+		--data-urlencode "user='    '" \
+		--data-urlencode "passwd=elvizzz" \
+		--data-urlencode "passwd-confirm=elvizzz" \
+		--data-urlencode "timezone=UTC+1" \
+		--data-urlencode "lang=en"
+
 check "10" browse "$url/?req=register" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \

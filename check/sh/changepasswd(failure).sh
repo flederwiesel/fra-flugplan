@@ -59,6 +59,16 @@ check "5-2" browse "$url/?req=reqtok" \
 check "5-3" browse "$url/?req=reqtok" \
 		--data-urlencode "email=unknown@flederwiesel.com"
 
+check "5-4" browse "$url/?req=reqtok" \
+		--data-urlencode "user=' '"
+
+check "5-5" browse "$url/?req=reqtok" \
+		--data-urlencode "email=' '"
+
+check "5-6" browse "$url/?req=reqtok" \
+		--data-urlencode "user=' '" \
+		--data-urlencode "email=' '"
+
 check "6" browse "$url/?req=reqtok" \
 		--data-urlencode "user=flederwiesel"
 

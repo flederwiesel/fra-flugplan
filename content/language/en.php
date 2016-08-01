@@ -120,6 +120,7 @@ $lang = array
 	'passwdlengthmin' => 'Password must at least be %lu characters long.',
 	'usernamelengthmin' => 'User name must at least be %lu characters long.',
 	'usernamelengthmax' => 'User name must be no longer than %lu characters.',
+	'usernameinvalid' => 'User name invalid.',
 	'emailinvalid' => 'E-mail address invalid.',
 	'activationfailed' => 'Activation failed (code %lu).',
 	'activationfailed_t' => 'Activation failed: Token must not be empty.',

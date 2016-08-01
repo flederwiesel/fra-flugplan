@@ -573,86 +573,91 @@ function /* char *error */ RegisterUser(/* __out */ &$message)
 		{
 			$error = sprintf($lang['usernamelengthmin'], $GLOBALS['USERNAME_MIN']);
 		}
+		else if (strlen($_POST['user']) > $GLOBALS['USERNAME_MAX'])
+		{
+			$error = sprintf($lang['usernamelengthmax'], $GLOBALS['USERNAME_MAX']);
+		}
+		else if (preg_match('/^[ \t\r\n\v]*$/', $_POST['user']))
+		{
+			$error = $lang['usernameinvalid'];
+			$_POST['user'] = '';
+		}
 		else
 		{
-			if (strlen($_POST['user']) > $GLOBALS['USERNAME_MAX'])
+			if (strlen($_POST['email']) > $GLOBALS['EMAIL_MAX'])
 			{
-				$error = sprintf($lang['usernamelengthmax'], $GLOBALS['USERNAME_MAX']);
+				$error = sprintf($lang['emailinvalid']);
+			}
+			else if (preg_match('/^([A-Z0-9._%+-]+)@'.
+								'([A-Z0-9-]+\.)*([A-Z0-9-]{2,})\.'.
+								'[A-Z]{2,6}$/i', $_POST['email'], $match) != 1)
+			{
+				$error = sprintf($lang['emailinvalid']);
+
+				if (preg_match('/^[ \t\r\n\v]*$/', $_POST['email']))
+					$_POST['email'] = '';
 			}
 			else
 			{
-				if (strlen($_POST['email']) > $GLOBALS['EMAIL_MAX'])
+				for ($m = 1; $m < count($match); $m++)
 				{
-					$error = sprintf($lang['emailinvalid']);
-				}
-				else if (preg_match('/^([A-Z0-9._%+-]+)@'.
-									'([A-Z0-9-]+\.)*([A-Z0-9-]{2,})\.'.
-									'[A-Z]{2,6}$/i', $_POST['email'], $match) != 1)
-				{
-					$error = sprintf($lang['emailinvalid']);
-				}
-				else
-				{
-					for ($m = 1; $m < count($match); $m++)
+					if (strlen($match[$m]) > 1024)
 					{
-						if (strlen($match[$m]) > 1024)
-						{
-							$error = sprintf($lang['emailinvalid']);
-							break;
-						}
+						$error = sprintf($lang['emailinvalid']);
+						break;
 					}
+				}
 
-					if (!$error)
+				if (!$error)
+				{
+					if (!PasswordConstraintMet($_POST['passwd']))
 					{
-						if (!PasswordConstraintMet($_POST['passwd']))
+						$error = PasswordHint();
+					}
+					else if (!PasswordsMatch($_POST['passwd'], $_POST['passwd-confirm']))
+					{
+						$error = $lang['passwordsmismatch'];
+					}
+					else
+					{
+						$ipaddr['fwd'] = NULL;
+
+						if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
 						{
-							$error = PasswordHint();
+							$ipaddr['fwd'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
+
+							if (preg_match('/83.125.11[2-5]/', $ipaddr['fwd']))
+								$ipaddr['fwd'] = NULL;
 						}
-						else if (!PasswordsMatch($_POST['passwd'], $_POST['passwd-confirm']))
+
+						$ipaddr['real'] = $_SESSION['ipaddr'];
+
+						if (!$ipaddr['real'])
 						{
-							$error = $lang['passwordsmismatch'];
+							if (isset($_SERVER['HTTP_X_REAL_IP']))
+								$ipaddr['real'] = $_SERVER['HTTP_X_REAL_IP'];
+							else
+								$ipaddr['real'] = $_SERVER['REMOTE_ADDR'];
 						}
-						else
+
+						$ipaddr['fwd'] = str_replace('::1', '127.0.0.1', $ipaddr['fwd']);
+						$ipaddr['real'] = str_replace('::1', '127.0.0.1', $ipaddr['real']);
+
+						if (!SuspectedSpam($_POST['user'], $_POST['email'], $ipaddr, $error))
 						{
-							$ipaddr['fwd'] = NULL;
-
-							if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+							if (!$error)
 							{
-								$ipaddr['fwd'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
+								$error = RegisterUserSql($_POST['user'], $_POST['email'], $_POST['passwd'],
+														 $ipaddr['real'].($ipaddr['fwd'] ? " ($ipaddr[fwd])" : ""),
+														 isset($_POST['lang']) ? $_POST['lang'] :
+														 isset($_SESSION['lang']) ? $_SESSION['lang'] : 'en');
 
-								if (preg_match('/83.125.11[2-5]/', $ipaddr['fwd']))
-									$ipaddr['fwd'] = NULL;
-							}
-
-							$ipaddr['real'] = $_SESSION['ipaddr'];
-
-							if (!$ipaddr['real'])
-							{
-								if (isset($_SERVER['HTTP_X_REAL_IP']))
-									$ipaddr['real'] = $_SERVER['HTTP_X_REAL_IP'];
-								else
-									$ipaddr['real'] = $_SERVER['REMOTE_ADDR'];
-							}
-
-							$ipaddr['fwd'] = str_replace('::1', '127.0.0.1', $ipaddr['fwd']);
-							$ipaddr['real'] = str_replace('::1', '127.0.0.1', $ipaddr['real']);
-
-							if (!SuspectedSpam($_POST['user'], $_POST['email'], $ipaddr, $error))
-							{
 								if (!$error)
 								{
-									$error = RegisterUserSql($_POST['user'], $_POST['email'], $_POST['passwd'],
-															 $ipaddr['real'].($ipaddr['fwd'] ? " ($ipaddr[fwd])" : ""),
-															 isset($_POST['lang']) ? $_POST['lang'] :
-															 isset($_SESSION['lang']) ? $_SESSION['lang'] : 'en');
+									$message = $lang['regsuccess'];
 
-									if (!$error)
-									{
-										$message = $lang['regsuccess'];
-
-										$_GET['req'] = 'activate';		// Form to be displayed next
-										$_GET['user'] = $_POST['user'];	// Pre-set user name in form
-									}
+									$_GET['req'] = 'activate';		// Form to be displayed next
+									$_GET['user'] = $_POST['user'];	// Pre-set user name in form
 								}
 							}
 						}
@@ -1052,15 +1057,30 @@ function /* char *error */ RequestPasswordToken(/* __out */ &$message)
 {
 	global $lang;
 
-	$error = null;
-	$message = null;
+	$error = NULL;
+	$message = NULL;
 
+	// ToDo: trim($_POST[]) and issue warning, if trimmed
 	$user  = isset($_POST['user'])  ? $_POST['user']  : (isset($_GET['user'])  ? $_GET['user']  : NULL);
 	$email = isset($_POST['email']) ? $_POST['email'] : (isset($_GET['email']) ? $_GET['email'] : NULL);
 
-	if ($user || $email)		/* else: no post, just display form */
+	if ($user || $email)	/* else: no post, just display form */
 	{
-		$error = RequestPasswordTokenSql($user, $email);
+		/* Obviously, we have to check for strings containing only of whitespace */
+		if (preg_match('/^[ \t\r\n\v]+$/', $user))
+		{
+			$error = $lang['usernameinvalid'];
+			$_POST['user'] = '';
+		}
+		else if (preg_match('/^[ \t\r\n\v]+$/', $email))
+		{
+			$error = $lang['emailinvalid'];
+			$_POST['email'] = '';
+		}
+		else
+		{
+			$error = RequestPasswordTokenSql($user, $email);
+		}
 
 		if (!$error)
 		{
