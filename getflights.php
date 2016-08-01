@@ -2189,6 +2189,9 @@ if (!$error)
 
 								if (!$error)
 								{
+									if (!$f->airport->icao)
+										$f->airport->icao = '????';
+
 									$error = SQL_InsertAirport($f->airport);
 
 									if (!$error)
