@@ -461,8 +461,8 @@ if ($user)
 ?>
 		<div>
 			<div id="counter" class="box center">
-				<a href="http://info.flagcounter.com/y9Ko">
-					<img src="http://s07.flagcounter.com/count/y9Ko/bg_ffffff/txt_a3aab7/border_ffffff/columns_8/maxflags_248/viewers_Live+Schedule+Visitors:/labels_1/pageviews_0/flags_0/" alt="Free counters!">
+				<a href="https://info.flagcounter.com/y9Ko">
+					<img src="https://s07.flagcounter.com/count/y9Ko/bg_ffffff/txt_a3aab7/border_ffffff/columns_8/maxflags_248/viewers_Live+Schedule+Visitors:/labels_1/pageviews_0/flags_0/" alt="Free counters!">
 				</a>
 			</div>
 		</div>
