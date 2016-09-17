@@ -22,6 +22,7 @@ $lang = array
 		'<a href="http://www.enable-javascript.com/de/">Javascript aktivieren</a>.',
 	'cookies' => 'Cookies müssen aktiviert sein, um diese Seite benutzen zu können!',
 	'liveschedule' => 'Live Flugplan',
+	'schedule' => 'Flugplan',
 	'home' => 'Startseite',
 	'watchlist' => 'Beobachtungsliste',
 	'addflight' => 'Flug einfügen',

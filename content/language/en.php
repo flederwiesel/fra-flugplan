@@ -22,6 +22,7 @@ $lang = array
 		'to <a href="http://www.enable-javascript.com">enable Javascript</a>.',
 	'cookies' => 'Cookies must be enabled in order to use this site!',
 	'liveschedule' => 'Live Schedule',
+	'schedule' => 'Schedule',
 	'home' => 'Home',
 	'watchlist' => 'Watchlist',
 	'addflight' => 'Add flight',
