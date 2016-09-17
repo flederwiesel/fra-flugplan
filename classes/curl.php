@@ -34,7 +34,7 @@ class curl
 			// http://en.php.net/curl_setopt
 
 			// Set a referer
-			curl_setopt($this->me, CURLOPT_REFERER, "http://www.flederwiesel.com/fra-schedule");
+			curl_setopt($this->me, CURLOPT_REFERER, "https://www.fra-flugplan.de");
 
 			// User agent
 			//curl_setopt($this->me, CURLOPT_USERAGENT, "User-Agent: Mozilla/5.0 (Windows; U; Windows NT 5.1; en-GB; rv:1.9.2.28) Gecko/20120306 Firefox/3.6.28 ( .NET CLR 3.5.30729; .NET4.0E)");
