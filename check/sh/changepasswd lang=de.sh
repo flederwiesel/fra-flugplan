@@ -2,7 +2,7 @@
 
 ###############################################################################
 #
-#  Copyright © Tobias Kühne
+#  Copyright Â© Tobias KÃ¼hne
 #
 #  You may use and distribute this software free of charge for non-commercial
 #  purposes. The software must be distributed in its entirety, i.e. containing
@@ -19,8 +19,8 @@ initdb && rm -f .COOKIES
 
 prefix=$(rawurlencode $(sed s?http://??g <<<"$url"))
 
-echo "$mails" > /etc/mailtodisk/hausmeister@flederwiesel.com
-echo "$mails" > /etc/mailtodisk/fra-schedule@flederwiesel.com
+echo "$mails" > /etc/mailtodisk/hausmeister@flederwiesel.com # user
+echo "$mails" > /etc/mailtodisk/flederwiesel@fra-flugplan.de # admin
 
 ###############################################################################
 
