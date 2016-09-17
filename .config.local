@@ -7,10 +7,10 @@ define('ORGANISATION', 'Frankfurt Aviation Friends');
 define('SITE_URL',     'www.frankfurt-aviation-friends.de');
 
 define('ADMIN_NAME',       'Tobias Kühne');	// UTF-8
-define('ADMIN_EMAIL_FROM', 'fra-schedule@cluster04.vc-server.de');
-define('ADMIN_EMAIL',      'fra-schedule@flederwiesel.com');
+define('ADMIN_EMAIL_FROM', 'flederwiesel@fra-flugplan.de');
+define('ADMIN_EMAIL',      'flederwiesel@fra-flugplan.de');
 define('ADMIN_SNAILMAIL', <<<EOF
-fra-schedule@flederwiesel.com
+flederwiesel@fra-flugplan.de
 Tobias Kühne
 Senta-Geissler-Str. 7
 67071 Ludwigshafen
@@ -39,11 +39,10 @@ $PASSWORD_REQUIRES_SPECIAL = '';
 //^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?!.*[ ]).{8,16}$ // no space
 //^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?!.*[&]).{8,16}$ // no &
 
-define('POST_HTTPS' , 0);
+define('POST_HTTPS' , 1);
 
 define('DB_HOSTNAME', 'localhost');
 define('DB_NAME',     'fra-schedule');
-#define('DB_NAME',     'flederwi_fra-schedule');
 define('DB_USERNAME', 'root');
 define('DB_PASSWORD', '');
 
