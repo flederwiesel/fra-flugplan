@@ -1,8 +1,8 @@
 Date: Day, 0 Month 0000 00:00:00 +0000
 To: root<fra-schedule@flederwiesel.com>
 Subject: watchlist
-From: FRA schedule <fra-schedule@cluster04.vc-server.de>
-Reply-To: fra-schedule@flederwiesel.com
+From: FRA schedule <watchlist@fra-flugplan.de>
+Reply-To: flederwiesel@fra-flugplan.de
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -14,8 +14,8 @@ X-Mailer: PHP/*
 Date: Day, 0 Month 0000 00:00:00 +0000
 To: flederwiesel<hausmeister@flederwiesel.com>
 Subject: watchlist
-From: FRA schedule <fra-schedule@cluster04.vc-server.de>
-Reply-To: fra-schedule@flederwiesel.com
+From: FRA schedule <watchlist@fra-flugplan.de>
+Reply-To: flederwiesel@fra-flugplan.de
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -28,8 +28,8 @@ X-Mailer: PHP/*
 Date: Day, 0 Month 0000 00:00:00 +0000
 To: flederwiesel<hausmeister@flederwiesel.com>
 Subject: watchlist
-From: FRA schedule <fra-schedule@cluster04.vc-server.de>
-Reply-To: fra-schedule@flederwiesel.com
+From: FRA schedule <watchlist@fra-flugplan.de>
+Reply-To: flederwiesel@fra-flugplan.de
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -41,8 +41,8 @@ X-Mailer: PHP/*
 Date: Day, 0 Month 0000 00:00:00 +0000
 To: flederwiesel<hausmeister@flederwiesel.com>
 Subject: watchlist
-From: FRA schedule <fra-schedule@cluster04.vc-server.de>
-Reply-To: fra-schedule@flederwiesel.com
+From: FRA schedule <watchlist@fra-flugplan.de>
+Reply-To: flederwiesel@fra-flugplan.de
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -54,8 +54,8 @@ X-Mailer: PHP/*
 Date: Day, 0 Month 0000 00:00:00 +0000
 To: root<fra-schedule@flederwiesel.com>
 Subject: watchlist
-From: FRA schedule <fra-schedule@cluster04.vc-server.de>
-Reply-To: fra-schedule@flederwiesel.com
+From: FRA schedule <watchlist@fra-flugplan.de>
+Reply-To: flederwiesel@fra-flugplan.de
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -68,8 +68,8 @@ X-Mailer: PHP/*
 Date: Day, 0 Month 0000 00:00:00 +0000
 To: flederwiesel<hausmeister@flederwiesel.com>
 Subject: watchlist
-From: FRA schedule <fra-schedule@cluster04.vc-server.de>
-Reply-To: fra-schedule@flederwiesel.com
+From: FRA schedule <watchlist@fra-flugplan.de>
+Reply-To: flederwiesel@fra-flugplan.de
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -81,8 +81,8 @@ X-Mailer: PHP/*
 Date: Day, 0 Month 0000 00:00:00 +0000
 To: flederwiesel<hausmeister@flederwiesel.com>
 Subject: watchlist
-From: FRA schedule <fra-schedule@cluster04.vc-server.de>
-Reply-To: fra-schedule@flederwiesel.com
+From: FRA schedule <watchlist@fra-flugplan.de>
+Reply-To: flederwiesel@fra-flugplan.de
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -95,8 +95,8 @@ X-Mailer: PHP/*
 Date: Day, 0 Month 0000 00:00:00 +0000
 To: flederwiesel<hausmeister@flederwiesel.com>
 Subject: watchlist
-From: FRA schedule <fra-schedule@cluster04.vc-server.de>
-Reply-To: fra-schedule@flederwiesel.com
+From: FRA schedule <watchlist@fra-flugplan.de>
+Reply-To: flederwiesel@fra-flugplan.de
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -108,8 +108,8 @@ Day, 00/00/00 11:15:00	C-GFAH	"Air Canada - 932"
 Date: Day, 0 Month 0000 00:00:00 +0000
 To: flederwiesel<hausmeister@flederwiesel.com>
 Subject: watchlist
-From: FRA schedule <fra-schedule@cluster04.vc-server.de>
-Reply-To: fra-schedule@flederwiesel.com
+From: FRA schedule <watchlist@fra-flugplan.de>
+Reply-To: flederwiesel@fra-flugplan.de
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -121,8 +121,8 @@ Day, 00/00/00 12:35:00	CS-TNP	"TAP - Star Alliance"
 Date: Day, 0 Month 0000 00:00:00 +0000
 To: flederwiesel<hausmeister@flederwiesel.com>
 Subject: watchlist
-From: FRA schedule <fra-schedule@cluster04.vc-server.de>
-Reply-To: fra-schedule@flederwiesel.com
+From: FRA schedule <watchlist@fra-flugplan.de>
+Reply-To: flederwiesel@fra-flugplan.de
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -134,8 +134,8 @@ Tag, 00. Monat 0000 18:25	CS-TNP	"TAP - Star Alliance"
 Date: Day, 0 Month 0000 00:00:00 +0000
 To: root<fra-schedule@flederwiesel.com>
 Subject: watchlist
-From: FRA schedule <fra-schedule@cluster04.vc-server.de>
-Reply-To: fra-schedule@flederwiesel.com
+From: FRA schedule <watchlist@fra-flugplan.de>
+Reply-To: flederwiesel@fra-flugplan.de
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -147,8 +147,8 @@ X-Mailer: PHP/*
 Date: Day, 0 Month 0000 00:00:00 +0000
 To: flederwiesel<hausmeister@flederwiesel.com>
 Subject: watchlist
-From: FRA schedule <fra-schedule@cluster04.vc-server.de>
-Reply-To: fra-schedule@flederwiesel.com
+From: FRA schedule <watchlist@fra-flugplan.de>
+Reply-To: flederwiesel@fra-flugplan.de
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
