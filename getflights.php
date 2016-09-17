@@ -2018,7 +2018,7 @@ function SendWatchlistNotification($name, $email, $fmt, $lang, $notifications)
 		echo "$text";
 
 	$to = mb_encode_mimeheader($name, 'ISO-8859-1', 'Q')."<$email>";
-	$subject = mb_encode_mimeheader('watchlist', 'ISO-8859-1', 'Q');
+	$subject = mb_encode_mimeheader("$lang[watchlist]", 'ISO-8859-1', 'Q');
 	$header = sprintf(
 		"From: %s <%s>\n".
 		"Reply-To: %s\n".
@@ -2026,8 +2026,8 @@ function SendWatchlistNotification($name, $email, $fmt, $lang, $notifications)
 		"Content-type: text/plain; charset=ISO-8859-1\n".
 		"Content-Transfer-Encoding: 8bit\n".
 		"X-Mailer: PHP/%s\n",
-		"FRA schedule",
-		ADMIN_EMAIL_FROM,
+		"FRA $lang[schedule]",
+		"watchlist@fra-flugplan.de",
 		ADMIN_EMAIL,
 		phpversion());
 

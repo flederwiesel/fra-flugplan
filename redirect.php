@@ -32,7 +32,7 @@ if (isset($_GET))
 	}
 }
 
-header("Location: http://www.flederwiesel.com/fra-schedule$_get"); /* Redirect browser */
+header("Location: https://www.fra-flugplan.de$_get"); /* Redirect browser */
 ?>
 
 <!DOCTYPE html>
@@ -41,16 +41,6 @@ header("Location: http://www.flederwiesel.com/fra-schedule$_get"); /* Redirect b
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width" />
 <title>Expected &#8211; Live Schedule | Frankfurt Aviation Friends</title>
-<link rel="pingback" href="http://www.frankfurt-aviation-friends.de/xmlrpc.php" />
-	<link rel="canonical" href="http://www.frankfurt-aviation-friends.de/expected-2/" />
-	<meta property="og:type" content="article" />
-	<meta property="og:title" content="Expected &#8211; Live Schedule" />
-	<meta property="og:url" content="http://www.frankfurt-aviation-friends.de/expected-2/" />
-	<meta property="article:published_time" content="2012-09-06" />
-	<meta property="article:modified_time" content="2012-09-07" />
-	<meta property="article:author" content="http://www.frankfurt-aviation-friends.de/author/flederwiesel/" />
-	<meta property="og:site_name" content="Frankfurt Aviation Friends" />
-	<meta name="twitter:card" content="summary" />
 </head>
 <body>
 If you are not being redirected properly, please use the following link to go to the
