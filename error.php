@@ -210,8 +210,8 @@ else
 <?php if ($mobile && !$tablet) { ?>
 <meta name="viewport" content="width=device-width; initial-scale=1.0;"/>
 <?php } ?>
-<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-<link type="image/gif" rel="icon" href="favicon.gif">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png"/>
+<link type="image/gif" rel="icon" href="/favicon.gif">
 <?php if ($mobile && !$tablet) { ?>
 <link rel="stylesheet" type="text/css" href="css/mobile.css">
 <?php } else { ?>
@@ -248,7 +248,7 @@ else
 				</div>
 				<div id="nav">
 					<ul class="menu left">
-						<li><a href="http://www.flederwiesel.com/fra-schedule"><?php echo $lang['home']; ?></a>
+						<li><a href="/fra-schedule"><?php echo $lang['home']; ?></a>
 <?php if ($referrer) { ?>
 						<li class="sep"><a href="">Back</a></li>
 <?php } ?>
@@ -263,14 +263,14 @@ else
 				<div id="text">
 					<h1 style="display: inline">
 <?php
-					if (isset($_GET['code']))
-						$code = $_GET['code'];
+					if (isset($_GET['http_status']))
+						$status = $_GET['http_status'];
 					else
-						$code = 500;
+						$status = 500;
 
-					echo "$code ";
+					echo "$status ";
 
-					switch ($code)
+					switch ($status)
 					{
 					case 403:
 						$heading = "Takeoff rejected.";
@@ -285,7 +285,7 @@ else
 						break;
 
 					default:
-						$code = 500;
+						$status = 500;
 						$heading = "Engine shutdown.";
 						break;
 					}
@@ -295,7 +295,7 @@ else
 					</h1>
 <?php
 					$emil = "content/emil.php";
-					$emil .= "?subject=".urlencode("$code $heading");
+					$emil .= "?subject=".urlencode("$status $heading");
 					$emil .= "&body=".urlencode("$request");
 
 					if ($referrer)
@@ -304,7 +304,7 @@ else
 					$img = "content/mkpng.php?font=verdana&size=10&bg=white&fg=%2300007f&res=ADMIN_EMAIL";
 					$email = "<a href='$emil'><img alt='email' src='$img' style='vertical-align: bottom;'></a>";
 
-					switch ($code)
+					switch ($status)
 					{
 					case 403:
 
