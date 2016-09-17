@@ -1,5 +1,3 @@
-MAILTO=hausmeister@flederwiesel.com
+MAILTO=flederwiesel@fra-flugplan.de
 
-# M H d m u
-#0 0 * * *	cron.sh
-*/5	*	*	*	*	sh -c 'e=$(curl -s http://www.flederwiesel.com/fra-schedule/getflights.php); if [ ${#e} -gt 0 ]; then echo $(date --rfc-3339=seconds) $(echo "$e" | sed "/./ { :a s/\n/$ /g; N; ba }") >> /home/flederwi/logs/getflights.log; fi; date --rfc-3339=seconds > /home/flederwi/logs/lastrun'
+*/5	*	*	*	*	/var/www/vhosts/fra-flugplan.de/httpdocs/fra-schedule/getflights.sh
