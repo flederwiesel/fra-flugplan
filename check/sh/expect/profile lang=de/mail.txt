@@ -10,16 +10,16 @@ X-Mailer: PHP/*
 
 Hallo,
 
-Du erh‰lst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse <localhost>) eine Anfrage zur Registrierung als Benutzer 'flederwiesel' auf Frankfurt Aviation Friends (www.frankfurt-aviation-friends.de) gesendet hast.
+Du erh√§lst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse <localhost>) eine Anfrage zur Registrierung als Benutzer 'flederwiesel' auf Frankfurt Aviation Friends (www.frankfurt-aviation-friends.de) gesendet hast.
 
 Das Aktivierungs-Token ist:
 ***
 
 Benutze diesen Link, um fortzufahren:
 http://localhost/.../index.php?req=activate&user=flederwiesel&token=***
-Dieses Token l‰uft um 0000-00-00 00:00:00 GMT ab.
+Dieses Token l√§uft um 0000-00-00 00:00:00 GMT ab.
 
-Falls Du keine Registrierung veranlaﬂt hast, ignoriere diese Mail einfach.
+Falls Du keine Registrierung veranla√üt hast, ignoriere diese Mail einfach.
 
 
 Das Frankfurt Aviation Friends Team

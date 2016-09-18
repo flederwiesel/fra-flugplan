@@ -10,16 +10,16 @@ X-Mailer: PHP/*
 
 Hallo,
 
-Du erhälst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse <localhost>) eine Anfrage zur Registrierung als Benutzer 'flederwiesel' auf Frankfurt Aviation Friends (www.frankfurt-aviation-friends.de) gesendet hast.
+Du erhÃ¤lst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse <localhost>) eine Anfrage zur Registrierung als Benutzer 'flederwiesel' auf Frankfurt Aviation Friends (www.frankfurt-aviation-friends.de) gesendet hast.
 
 Das Aktivierungs-Token ist:
 ***
 
 Benutze diesen Link, um fortzufahren:
 http://localhost/.../index.php?req=activate&user=flederwiesel&token=***
-Dieses Token läuft um 0000-00-00 00:00:00 GMT ab.
+Dieses Token lÃ¤uft um 0000-00-00 00:00:00 GMT ab.
 
-Falls Du keine Registrierung veranlaßt hast, ignoriere diese Mail einfach.
+Falls Du keine Registrierung veranlaÃŸt hast, ignoriere diese Mail einfach.
 
 
 Das Frankfurt Aviation Friends Team
@@ -62,16 +62,16 @@ X-Mailer: PHP/*
 
 Hallo,
 
-Du erhälst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse <localhost>) eine Anfrage gesendet hast, das Passwort für Benutzer 'flederwiesel' auf Frankfurt Aviation Friends zurückzusetzen.
+Du erhÃ¤lst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse <localhost>) eine Anfrage gesendet hast, das Passwort fÃ¼r Benutzer 'flederwiesel' auf Frankfurt Aviation Friends zurÃ¼ckzusetzen.
 
-Das Token dafür ist:
+Das Token dafÃ¼r ist:
 ***
 
 Benutze diesen Link, um fortzufahren:
 http://localhost/.../index.php?req=changepw&user=flederwiesel&token=***
-Dieses Token läuft um 0000-00-00 00:00:00 GMT ab.
+Dieses Token lÃ¤uft um 0000-00-00 00:00:00 GMT ab.
 
-Falls Du das Zurücksetzen Deines Passworts nicht veranlaßt hast, ignoriere diese Mail einfach.
+Falls Du das ZurÃ¼cksetzen Deines Passworts nicht veranlaÃŸt hast, ignoriere diese Mail einfach.
 
 
 Das Frankfurt Aviation Friends Team

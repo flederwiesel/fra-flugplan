@@ -1967,15 +1967,27 @@ SQL;
 	return $error;
 }
 
-function SendWatchlistNotification($name, $email, $fmt, $lang, $notifications)
+function SendWatchlistNotification($name, $email, $fmt, $locale, $notifications)
 {
 	global $DEBUG;
 	global $now;
 
-	if ('de' == $lang)
-		$lang = setlocale(LC_TIME, 'deu', 'deu_deu');
+	if ('de' == $locale)
+	{
+		$locale = setlocale(LC_TIME, 'deu', 'deu_deu');
+		$lang = array(
+				'watchlist' => 'Beobachtungsliste',
+				'schedule' => 'Flugplan',
+			);
+	}
 	else
-		$lang = setlocale(LC_TIME, 'eng', 'english-uk', 'uk', 'enu', 'english-us', 'us', 'english', 'C');
+	{
+		$locale = setlocale(LC_TIME, 'eng', 'english-uk', 'uk', 'enu', 'english-us', 'us', 'english', 'C');
+		$lang = array(
+				'watchlist' => 'watchlist',
+				'schedule' => 'schedule',
+			);
+	}
 
 	$today = mktime_c(gmstrftime('%d.%m.%Y', $now->time_t));
 
@@ -1998,7 +2010,7 @@ function SendWatchlistNotification($name, $email, $fmt, $lang, $notifications)
 
 		/* On Windows, strftime() will encode as 'de' as 'German_Germany.1252'
 		   and setlocale(..., 'de_DE.UTF-8') doesn't work... */
-		if (strstr($lang, '1252'))
+		if (strstr($locale, '1252'))
 			$expected = utf8_encode($expected);
 
 		$text .= "$expected\t$notification[reg]";

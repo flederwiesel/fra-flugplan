@@ -75,7 +75,7 @@ Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
 X-Mailer: PHP/*
 
-+1 06:20	B-KPF	"Cathay Pacific - Asias world city GRÜN"
++1 06:20	B-KPF	"Cathay Pacific - Asias world city GRÃœN"
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
@@ -120,8 +120,8 @@ Day, 00/00/00 12:35:00	CS-TNP	"TAP - Star Alliance"
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
 To: flederwiesel<hausmeister@flederwiesel.com>
-Subject: watchlist
-From: FRA schedule <watchlist@fra-flugplan.de>
+Subject: Beobachtungsliste
+From: FRA Flugplan <watchlist@fra-flugplan.de>
 Reply-To: flederwiesel@fra-flugplan.de
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
@@ -146,8 +146,8 @@ X-Mailer: PHP/*
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
 To: flederwiesel<hausmeister@flederwiesel.com>
-Subject: watchlist
-From: FRA schedule <watchlist@fra-flugplan.de>
+Subject: Beobachtungsliste
+From: FRA Flugplan <watchlist@fra-flugplan.de>
 Reply-To: flederwiesel@fra-flugplan.de
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1

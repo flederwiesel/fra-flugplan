@@ -2,7 +2,7 @@
 
 ###############################################################################
 #
-#  Copyright © Tobias Kühne
+#  Copyright Â© Tobias KÃ¼hne
 #
 #  You may use and distribute this software free of charge for non-commercial
 #  purposes. The software must be distributed in its entirety, i.e. containing
@@ -266,13 +266,16 @@ do
 				#   NNNN Terminated /tmp/mailer.py "$results/mail.txt"`
 
 				if [ -e "$results/mail.txt" ]; then
-					LANG=de_DE.utf8 sed -ri "
+					# See user.php:
+					#     http://www.outlookfaq.net/index.php?action=artikel&cat=6&id=84&artlang=de
+					iconv -f iso-8859-1 -t utf-8 "$results/mail.txt" |
+					sed -r "
 						s#::1#<localhost>#g
 						s#127.0.0.1#<localhost>#g
 						s#(X-Mailer: PHP/).*\$#\1*#g
 						s#(http://[^/]+/).*/([^/?]+\?.*)#\1.../\2#g
 						s#((Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day), [0-9]+/[0-9]+/[0-9]+#Day, 00/00/00#g
-						s/((Mon|Diens|Donners|Frei|Sams|Sonn)tag|Mittwoch), [0-9]+\. (Januar|Februar|März|April|Mai|Ju[nl]i|August|(Sept|Nov|Dez)ember|Oktober) [0-9]+/Tag, 00. Monat 0000/g
+						s/((Mon|Diens|Donners|Frei|Sams|Sonn)tag|Mittwoch), [0-9]+\. (Januar|Februar|MÃ¤rz|April|Mai|Ju[nl]i|August|(Sept|Nov|Dez)ember|Oktober) [0-9]+/Tag, 00. Monat 0000/g
 						s/^(Date:[ \t]+).+\$/\1Day, 0 Month 0000 00:00:00 +0000/g
 						s/[0-9]{4}-[0-9]{2}-[0-9]{2} [0-9]{2}:[0-9]{2}:[0-9]{2}/0000-00-00 00:00:00/g
 						s/[0-9]{4}-[0-9]{2}-[0-9]{2}T/0000-00-00T/g
@@ -280,8 +283,9 @@ do
 						s/token='[0-9a-f.]+'/token='***'/g
 						s/\(code [0-9]+\)/(code ***)/g
 						/(Activation|Password) token is:/ { N; s/\n.+\$/\n***/g }
-						/Das (Aktivierungs-)?Token( dafür)? ist:/ { N; s/\n.+\$/\n***/g }
-					" "$results/mail.txt"
+						/Das (Aktivierungs-)?Token( dafÃ¼r)? ist:/ { N; s/\n.+\$/\n***/g }
+					" > "$results/mail-utf-8.txt" &&
+					mv "$results/mail-utf-8.txt" "$results/mail.txt"
 				fi
 
 				# Copy referenced scripts to properly view results
