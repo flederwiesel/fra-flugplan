@@ -1,5 +1,5 @@
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: root<fra-schedule@flederwiesel.com>
+To: root<flederwiesel@fra-flugplan.de>
 Subject: watchlist
 From: FRA schedule <watchlist@fra-flugplan.de>
 Reply-To: flederwiesel@fra-flugplan.de
@@ -52,7 +52,7 @@ X-Mailer: PHP/*
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: root<fra-schedule@flederwiesel.com>
+To: root<flederwiesel@fra-flugplan.de>
 Subject: watchlist
 From: FRA schedule <watchlist@fra-flugplan.de>
 Reply-To: flederwiesel@fra-flugplan.de
@@ -132,7 +132,7 @@ Tag, 00. Monat 0000 18:25	CS-TNP	"TAP - Star Alliance"
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: root<fra-schedule@flederwiesel.com>
+To: root<flederwiesel@fra-flugplan.de>
 Subject: watchlist
 From: FRA schedule <watchlist@fra-flugplan.de>
 Reply-To: flederwiesel@fra-flugplan.de

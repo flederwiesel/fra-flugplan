@@ -51,7 +51,7 @@ check "5" browse "$url/?req=reqtok"
 
 check "5-1" browse "$url/?req=reqtok" \
 		--data-urlencode "user=flederwiesel" \
-		--data-urlencode "email=fra-schedule@flederwiesel.com"
+		--data-urlencode "email=flederwiesel@fra-flugplan.de"
 
 check "5-2" browse "$url/?req=reqtok" \
 		--data-urlencode "user=unkown"

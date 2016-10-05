@@ -219,7 +219,7 @@ INSERT INTO `users`(`name`, `email`, `salt`, `passwd`, `language`)
 VALUES
 (
 	'root',
-	'fra-schedule@flederwiesel.com',
+	'flederwiesel@fra-flugplan.de',
 	'cf78aafd5c5410b7b12c2794a52cda1bccd01316f30df57aa29c5609ba979c15',
 	'c4ae99aa0209ce5bea9687cf0548d8ebc942ba14e166c45957a876bcec194fed',
 	'en'
