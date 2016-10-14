@@ -32,7 +32,7 @@ if [ $# -gt 0 ]; then
 	esac
 else
 	read line
-	to=$(sed -r 's/^To: ([^<]*<)?([a-z0-9-]+@[a-z]+\.[a-z]+)>?/\2/g' <<<"$line")
+	to=$(sed -r 's/^To: (.*<)?([^>]+)>?/\2/g; /[a-z0-9.-]+@[a-z0-9.-]+\.[a-z]+/!q1' <<<"$line")
 
 	if [ -f "/etc/mailtodisk/$to" ]; then
 		file=$(cat "/etc/mailtodisk/$to")
