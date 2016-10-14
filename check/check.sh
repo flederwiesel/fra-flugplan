@@ -83,7 +83,7 @@ chkdep() {
 	"$@" &>/dev/null
 
 	if [ $? -ne 0 ]; then
-		echo -e "\033[1;31m$@ failed.\033[m"
+		echo -e "\033[1;31m$1 $2 failed: $3 <-> $4\033[m"
 		exit 1
 	fi
 }
@@ -178,7 +178,7 @@ chkdep minversion php        "5.4"    "$(curl --silent --head http://localhost |
 chkdep minversion mysql      "14.14"  "$(mysql --version | sed -r 's/^[^0-9]*([^ ]+).*/\1/g')"
 chkdep minversion jq         "1.5"    "$(jq --version 2>&1 | sed 's/^[^0-9]*//g')"
 chkdep minversion python     "2.7.3"  "$(python --version 2>&1 | sed 's/^[^0-9]*//g')"
-chkdep minversion mailtodisk "958"    "$(mailtodisk --version)"
+chkdep minversion mailtodisk "1028"   "$(mailtodisk --version)"
 
 IFS=$'\n'
 
