@@ -490,8 +490,13 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 					if ($json->username->confidence < 96.0)
 						$json->username->appears = 0;
 
-					if ($json->email->confidence < 92.0)
+					if ($json->email->confidence < 92.0 &&
+						$json->ip->confidence    < 92.0)
+					{
+						$json->username->appears = 0;
 						$json->email->appears = 0;
+						$json->ip->appears = 0;
+					}
 
 					if ($json->ip->confidence < 98.0)
 						$json->ip->appears = 0;
@@ -529,8 +534,8 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 						$insert = join(" $lang[and] ", $both);
 
 						$plural = $json->username->appears ?
-								 ($json->email->appears ? 1 : $json->ip->appears) :
-								 ($json->email->appears ? 0 : $json->ip->appears);
+								 ($json->email->appears || $json->ip->appears) :
+								 ($json->email->appears && $json->ip->appears);
 
 						$message = sprintf($plural ? $lang['spam:plur'] : $lang['spam:sing'], $insert);
 					}

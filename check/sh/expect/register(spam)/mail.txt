@@ -1,4 +1,30 @@
 Date: Day, 0 Month 0000 00:00:00 +0000
+To: nospam@flederwiesel.com
+Subject: Account activation
+From: Frankfurt Aviation Friends <flederwiesel@fra-flugplan.de>
+Reply-To: flederwiesel@fra-flugplan.de
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/*
+
+Hello,
+
+this e-mail has been sent to you because you (or someone else at IP address <localhost>) requested user registration as 'OftenUsedInSpam' at Frankfurt Aviation Friends (www.frankfurt-aviation-friends.de).
+
+Activation token is:
+***
+
+You can also use this link to process your request:
+http://localhost/.../index.php?req=activate&user=OftenUsedInSpam&token=***
+This token will expire on 0000-00-00 00:00:00 GMT.
+
+Please ignore this e-mail if you did not request a registration. Our apologies for any inconvenience.
+
+
+The Frankfurt Aviation Friends Team
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
 To: Tobias =?ISO-8859-1?Q?K=FChne?= <flederwiesel@fra-flugplan.de>
 Subject: user registration
 From: FRA schedule <flederwiesel@fra-flugplan.de>
@@ -8,13 +34,7 @@ Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
 X-Mailer: PHP/*
 
-
-Suspected spam:
-spam=98.34
-nospam@flederwiesel.com=0
-<localhost>=0
-
-Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=<localhost>&email=nospam%40flederwiesel.com&username=spam&evidence=Automated%20registration%2e
+2:OftenUsedInSpam <nospam@flederwiesel.com> (expires 0000-00-00 00:00:00) = OK
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000

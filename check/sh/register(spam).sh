@@ -29,7 +29,7 @@ sed='s/(ip=)[0-9]+(,email=)[0-9]+(,username=)[0-9]+/\1*\2*\3*/g'
 
 check "1" browse "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "email=nospam@flederwiesel.com" \
-		--data-urlencode "user=spam" \
+		--data-urlencode "user=OftenUsedInSpam" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \

@@ -25,7 +25,7 @@ urlencode() {
 
 projects=(
 	"index:index.php?arrival\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
-	"index-spam:index.php?req=register\&stopforumspam=localhost/fra-schedule/fra-schedule-spam\&user=wyeepqxbal\&email=uproot356973135@gmail.com"
+	"index-spam:index.php?req=register\&stopforumspam=localhost/fra-schedule/fra-schedule-spam\&user=spam\&email=spam@gmail.com"
 	"airport:www.frankfurt-airport.com/index.php?type=arrival\&lang=de\&perpage=3\&page=1\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
 	"betriebsrichtung:apps.fraport.de/betriebsrichtung/betriebsrichtung.html"
 	"getflights:getflights.php?debug=url,json,sql\&fmt=html"
