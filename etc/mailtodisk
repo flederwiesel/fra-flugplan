@@ -4,6 +4,19 @@ trap "rm -f /tmp/mailtodisk" EXIT
 
 if [ $# -gt 0 ]; then
 	case "$1" in
+	-h|--help)
+		echo "$0"
+		cat <<-EOF
+		  -h --help
+		  -v --verbose
+
+		Email destination will be read from on or more files to be
+		matched against email "To:" and located in /etc/mailtodisk.
+
+		Currently, only a single receipient is supported.
+
+EOF
+		;;
 	-v|--version)
 
 		stat=$(stat -c "%a %n" /etc/mailtodisk 2>&1 > /tmp/mailtodisk)
@@ -27,34 +40,37 @@ if [ $# -gt 0 ]; then
 		echo "$Rev$" | sed -r 's/[^0-9]//g'
 		;;
 	*)
-		exit 1
+		exit 0
 		;;
 	esac
 else
 	read line
 	to=$(sed -r 's/^To: (.*<)?([^>]+)>?/\2/g; /[a-z0-9.-]+@[a-z0-9.-]+\.[a-z]+/!q1' <<<"$line")
 
-	if [ -f "/etc/mailtodisk/$to" ]; then
-		file=$(cat "/etc/mailtodisk/$to")
+	if [ $? -ne 0 ]; then
+		# rubbish
+		echo "Expected user@domain.tld, found \`$to\`." >&2
+		exit 1
+	else
+		if [ ! -f "/etc/mailtodisk/$to" ]; then
+			echo "No such mailbox: \`$to\`." >&2
+			exit 2
+		else
+			file=$(cat "/etc/mailtodisk/$to")
 
-		if [ -n "$file" ]; then
-			dir=$(dirname "$file")
+			if [ -n "$file" ]; then
+				dir=$(dirname "$file")
 
-			if [ -d "$dir" ]; then
-				(
-					echo "Date: $(date --rfc-2822)"
-					echo "$line"
-					cat
-					echo "======================================================"
-				)>> "$file"
-				line=
+				if [ -d "$dir" ]; then
+					(
+						echo "Date: $(date --rfc-2822)"
+						echo "$line"
+						cat
+						echo "======================================================"
+					)>> "$file"
+					line=
+				fi
 			fi
 		fi
-	fi
-
-	if [ -n "$line" ]; then
-		echo "Expected 'To: name@domain.tld':"
-		echo "==>$line<=="
-		exit 3
 	fi
 fi
