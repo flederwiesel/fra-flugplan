@@ -410,8 +410,8 @@ if ($error)
 <?php
 				}
 ?>
-				<th class="sep"><?php echo $lang['type']; ?>
-				<th class="sep sorttable_alpha"><?php echo $lang['reg']; ?>
+				<th class="sep sorttable_model"><?php echo $lang['type']; ?>
+				<th class="sep sorttable_reg"><?php echo $lang['reg']; ?>
 			</tr>
 		</thead>
 		<tfoot></tfoot>
@@ -562,15 +562,15 @@ else
 		switch ($row['type'])
 		{
 		case 'C':
-			echo "<td class=\"model cargo\" sorttable_customkey=\"-1:$row[model]\">$row[model]</td>";
+			echo "<td class=\"model cargo\">$row[model]</td>";
 			break;
 
 		case 'F':
-			echo "<td class=\"model\" sorttable_customkey=\"0:$row[model]\">$row[model]</td>";
+			echo "<td class=\"model\">$row[model]</td>";
 			break;
 
 		default:
-			echo "<td class=\"model\" sorttable_customkey=\"0:$row[model]\">$row[model]</td>";
+			echo "<td class=\"model\">$row[model]</td>";
 		}
 
 		$reg = $row['reg'];
@@ -579,17 +579,14 @@ else
 
 		if (0 == strlen($reg))
 		{
-			$sortkey = ' sorttable_customkey="2"';
 		}
 		else
 		{
-			$sortkey = ' sorttable_customkey="%"';
 			$hhmm = substr(str_replace(array(' ', '.', ':', '-'), '', $row['expected']), 8, 4);
 
 			if (isset($watch[$reg]))
 			{
 				$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($watch[$reg]));
-				$sortkey = str_replace('%', '0:'.$reg.$day.$hhmm, $sortkey);
 			}
 			else
 			{
@@ -603,7 +600,6 @@ else
 							if (preg_match($key, $reg))
 							{
 								$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($comment));
-								$sortkey = str_replace('%', '0:'.$reg.$day.$hhmm, $sortkey);
 								break;
 							}
 						}
@@ -613,7 +609,6 @@ else
 							{
 								/* Wildcard */
 								$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($comment));
-								$sortkey = str_replace('%', '0:'.$reg.$day.$hhmm, $sortkey);
 								break;
 							}
 						}
@@ -626,11 +621,6 @@ else
 					{
 						$vtf = ordinal($vtf, $_SESSION['lang']);
 						$hilite = sprintf(' class="rare" title="%s"', htmlspecialchars("$vtf$lang[vtf]"));
-						$sortkey = str_replace('%', '0:'.$reg.$day.$hhmm, $sortkey);
-					}
-					else
-					{
-						$sortkey = str_replace('%', '1:'.$reg.$day.$hhmm, $sortkey);
 					}
 				}
 			}
@@ -640,11 +630,11 @@ else
 
 		if (!$reg)
 		{
-			echo "<td$sortkey>";
+			echo "<td>";
 		}
 		else
 		{
-			echo "<td$hilite$sortkey>";
+			echo "<td$hilite>";
 
 			if ($mobile)
 			{
@@ -671,3 +661,4 @@ else
 		</tbody>
 	</table>
 </div>
+<script type="text/javascript" src="script/sortable.js"></script>

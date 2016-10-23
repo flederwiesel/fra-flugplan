@@ -102,10 +102,12 @@ sorttable = {
 				mtch = headrow[i].className.match(/\bsorttable_([a-z0-9]+)\b/);
 
 				if (mtch)
-					override = mtch[1];
+					override = "sort_" + mtch[1];
 
-				if (mtch && typeof sorttable["sort_" + override] == 'function')
-					headrow[i].sorttable_sortfunction = sorttable["sort_" + override];
+				if (mtch && typeof sorttable[override] == 'function')
+					headrow[i].sorttable_sortfunction = sorttable[override];
+				else if (mtch && typeof window[override] == 'function')
+					headrow[i].sorttable_sortfunction = window[override];
 				else
 					headrow[i].sorttable_sortfunction = sorttable.guessType(table, i);
 
@@ -188,7 +190,8 @@ sorttable = {
 						row_array[row_array.length] = [sorttable.getInnerText(rows[j].cells[col]), rows[j]];
 
 					/* If you want a stable sort, uncomment the following line */
-					sorttable.shaker_sort(row_array, this.sorttable_sortfunction); /* and comment out this one */
+					sorttable.shaker_sort(row_array, this.sorttable_sortfunction);
+					/* and comment out this one */
 					//row_array.sort(this.sorttable_sortfunction);
 
 					tb = this.sorttable_tbody;
@@ -261,9 +264,9 @@ sorttable = {
 		hasInputs = (typeof node.getElementsByTagName == 'function') &&
 					 node.getElementsByTagName('input').length;
 
-		if (node.getAttribute("sorttable_customkey") != null)
+		if (node.getAttribute("data-sorttable-customkey") != null)
 		{
-			return node.getAttribute("sorttable_customkey");
+			return node.getAttribute("data-sorttable-customkey");
 		}
 		else if (typeof node.textContent != 'undefined' && !hasInputs)
 		{
