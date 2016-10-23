@@ -322,7 +322,10 @@ if ($user)
 <?php if ($mobile && !$tablet) { ?>
 <link rel="stylesheet" type="text/css" href="css/mobile.css">
 <?php } else { ?>
-<link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
+<link rel="stylesheet" type="text/css" media="screen, print" href="css/desktop.css">
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" media="screen, print" href="css/ie/desktop.css">
+<![endif]-->
 <?php } ?>
 <script type="text/javascript" src="script/<?php echo $jqueryui; ?>/<?php echo $jquery.$jquerymin; ?>.js"></script>
 <script type="text/javascript" src="script/<?php echo $jqueryui; ?>/ui/<?php echo $jqueryminified; ?>jquery.ui.core<?php echo $jquerymin; ?>.js"></script>

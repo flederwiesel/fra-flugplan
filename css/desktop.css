@@ -585,3 +585,17 @@ form div.explainatory
 	margin: 0 1em;
 	min-width: 12em;
 }
+
+body .ui-tooltip
+{
+	border: 1px solid black !important;
+	z-index: 9999;
+	position: absolute;
+	padding: 0.1em 0.2em;
+	max-width: 300px;
+	background: #FFFFE1;
+	-webkit-box-shadow: 0 0 2px #AAA;
+	box-shadow: 0 0 2px #AAA;
+	border-radius: 0;
+	font-size: 0.85em;
+}

@@ -20,7 +20,10 @@
 <link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/minified/jquery.ui.tooltip.min.css">
 <link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/minified/jquery.ui.slider.min.css">
 <link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/minified/jquery.ui.datepicker.min.css">
-<link rel="stylesheet" type="text/css" media="screen, projection, handheld, print" href="css/desktop.css">
+<link rel="stylesheet" type="text/css" media="screen, print" href="css/desktop.css">
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" media="screen, print" href="css/ie/desktop.css">
+<![endif]-->
 <script type="text/javascript" src="script/jquery-ui-1.10.3/jquery-1.10.1.min.js"></script>
 <script type="text/javascript" src="script/jquery-ui-1.10.3/ui/minified/jquery.ui.core.min.js"></script>
 <script type="text/javascript" src="script/jquery-ui-1.10.3/ui/minified/jquery.ui.widget.min.js"></script>
@@ -66,29 +69,6 @@ Live Schedule &ndash; Departure</h3>
 				</div>
 			</div>
 			<div id="content">
-<!--[if IE]>
-<style type="text/css">
-#list { padding-right: 1.2em; }
-</style>
-<![endif]-->
-<style type="text/css">
-/* jQuery UI Tooltip 1.10.3 */
-.ui-tooltip
-{
-	z-index: 9999;
-	position: absolute;
-	padding: 0.1em 0.2em;
-	max-width: 300px;
-	background: #FFFFE1;
-	-webkit-box-shadow: 0 0 2px #AAA;
-	box-shadow: 0 0 2px #AAA;
-	border-radius: 0;
-	font-size: 0.85em;
-}
-body .ui-tooltip {
-	border: 1px solid black;
-}
-</style>
 <script type="text/javascript">
 	wl_img_open = "img/wl-open-en.png";
 	wl_img_close = "img/wl-close-en.png";
