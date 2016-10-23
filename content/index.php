@@ -301,7 +301,7 @@ if ($user)
 				<form id="watch" method="post" action="?">
 					<div class="center" style="padding: 6px 6px 6px 0;">
 						<div id="list">
-							<table summary="watchlist">
+							<table>
 								<thead>
 									<tr>
 										<th></th>
@@ -320,12 +320,12 @@ if ($user)
 ?>
 									<tr>
 										<!-- inputs do not have names, POST values will be generated upon submit -->
-										<td><img src="img/a-net-ina.png" alt=""></td>
+										<td><img src="img/a-net-ina.png" alt="www.airliners.net"></td>
 										<td class="reg"><input type="text" value="" maxlength="31"></td>
 										<td class="comment"><input type="text" value="" maxlength="255"></td>
 										<td class="notify"><input type="checkbox" value=""></td>
-										<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
-										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
+										<td class="button"><button class="del" onclick="RemoveRow(this);">-</button></td>
+										<td class="button"><button class="add" onclick="CloneRow(this);">+</button></td>
 									</tr>
 <?php
 		}
@@ -345,7 +345,7 @@ if ($user)
 <?php		if (preg_match('/^\/.*\/$|[*?]/', $reg))
 			{
 ?>
-											<img src="img/a-net-ina.png" alt="">
+											<img src="img/a-net-ina.png" alt="www.airliners.net">
 <?php
 			}
 			else
@@ -359,8 +359,8 @@ if ($user)
 										<td class="reg"><input type="text" value="<?php echo $reg; ?>" maxlength="31"></td>
 										<td class="comment"><input type="text" value="<?php echo htmlspecialchars($comment); ?>" maxlength="255"></td>
 										<td class="notify"><input type="checkbox" value=""<?php if ($notify) echo " checked"; ?>></td>
-										<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
-										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
+										<td class="button"><button class="del" onclick="RemoveRow(this);">-</button></td>
+										<td class="button"><button class="add" onclick="CloneRow(this);">+</button></td>
 									</tr>
 <?php
 		}
@@ -394,7 +394,7 @@ if ($error)
 }
 ?>
 <div id="schedule">
-	<table class="sortable" summary="schedule">
+	<table class="sortable">
 		<thead>
 			<tr>
 				<th><?php echo $lang['time']; ?>

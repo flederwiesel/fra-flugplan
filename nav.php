@@ -32,7 +32,7 @@ function navitem($item, $href)
 }
 
 ?>
-
+<nav>
 <ul class="menu left">
 <?php
 	if (!$mobile)
@@ -160,3 +160,4 @@ function navitem($item, $href)
 			</a>
 		</li>
 </ul>
+</nav>

@@ -1,17 +1,16 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-   "http://www.w3.org/TR/html4/strict.dtd">
+<!doctype html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title>Live Schedule &ndash; Frankfurt Aviation Friends</title>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta name="language" content="de">
-<meta name="author" content="Tobias Kühne">
 <meta name="description" lang="en" content="Spotter schedule for Frankfurt airport (FRA/EDDF) including aircraft registrations">
 <meta name="description" lang="en" content="Spotter-Flugplan für Frankfurt (FRA/EDDF) einschließlich Flugzeugkennungen">
 <meta name="keywords" content="fra, eddf, frankfurt, fraspotter, fraspotting, planespotting, fra-flights, fra-schedule, flederwiesel">
 <meta name="keywords" lang="en" content="airport, aircraft, aviation, spotter, spotting, schedule, flights, flight schedule, flight plan">
 <meta name="keywords" lang="de" content="Flughafen, Flugzeug, Luftfahrt, Spotter, Spotting, Flugzeugfotografie, Flüge, Flugplan">
 <meta name="robots" content="index, nofollow">
+<meta name="author" content="Tobias Kühne">
 <meta name="generator" content="http://www.ultraedit.com/">
 <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 <link type="image/gif" rel="icon" href="favicon.gif">
@@ -45,7 +44,7 @@
 					<h3>
 Live Flugplan &ndash; Ankunft</h3>
 				</div>
-				<div id="nav">
+<nav>
 <ul class="menu left">
 		<li><a href="http://www.frankfurt-aviation-friends.de/">Startseite</a></li>
 			<li class="sep">Ankunft</li>
@@ -67,7 +66,7 @@ Live Flugplan &ndash; Ankunft</h3>
 			</a>
 		</li>
 </ul>
-				</div>
+</nav>
 			</div>
 			<div id="content">
 <script type="text/javascript">
@@ -109,7 +108,7 @@ Live Flugplan &ndash; Ankunft</h3>
 				<form id="watch" method="post" action="?">
 					<div class="center" style="padding: 6px 6px 6px 0;">
 						<div id="list">
-							<table summary="watchlist">
+							<table>
 								<thead>
 									<tr>
 										<th></th>
@@ -124,12 +123,12 @@ Live Flugplan &ndash; Ankunft</h3>
 								<tbody>
 									<tr>
 										<!-- inputs do not have names, POST values will be generated upon submit -->
-										<td><img src="img/a-net-ina.png" alt=""></td>
+										<td><img src="img/a-net-ina.png" alt="www.airliners.net"></td>
 										<td class="reg"><input type="text" value="" maxlength="31"></td>
 										<td class="comment"><input type="text" value="" maxlength="255"></td>
 										<td class="notify"><input type="checkbox" value=""></td>
-										<td class="button"><input type="button" class="del" onclick="RemoveRow(this);"></td>
-										<td class="button"><input type="button" class="add" onclick="CloneRow(this);"></td>
+										<td class="button"><button class="del" onclick="RemoveRow(this);">-</button></td>
+										<td class="button"><button class="add" onclick="CloneRow(this);">+</button></td>
 									</tr>
 								</tbody>
 							</table>
@@ -143,7 +142,7 @@ Live Flugplan &ndash; Ankunft</h3>
 	</div>
 </div>
 <div id="schedule">
-	<table class="sortable" summary="schedule">
+	<table class="sortable">
 		<thead>
 			<tr>
 				<th>Zeit				<th class="sep">Flug				<th class="sep">Fluggesellschaft				<th class="sep">IATA

@@ -289,25 +289,19 @@ if ($user)
 
 /*<html>*******************************************************************/
 ?>
-<?php if ($mobile && !$tablet) { ?>
-<!DOCTYPE HTML SYSTEM "html40-mobile.dtd"
-	"http://www.w3.org/TR/NOTE-html40-mobile/DTD/html40-mobile.dtd">
-<?php } else {  ?>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
-   "http://www.w3.org/TR/html4/strict.dtd">
-<?php } ?>
+<!doctype html>
 <html>
 <head>
+<meta charset="UTF-8">
 <title><?php echo PROJECT; ?> &ndash; <?php echo ORGANISATION; ?></title>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <meta name="language" content="<?php echo $_SESSION['lang']; ?>">
-<meta name="author" content="Tobias Kühne">
 <meta name="description" lang="en" content="Spotter schedule for Frankfurt airport (FRA/EDDF) including aircraft registrations">
 <meta name="description" lang="en" content="Spotter-Flugplan für Frankfurt (FRA/EDDF) einschließlich Flugzeugkennungen">
 <meta name="keywords" content="fra, eddf, frankfurt, fraspotter, fraspotting, planespotting, fra-flights, fra-schedule, flederwiesel">
 <meta name="keywords" lang="en" content="airport, aircraft, aviation, spotter, spotting, schedule, flights, flight schedule, flight plan">
 <meta name="keywords" lang="de" content="Flughafen, Flugzeug, Luftfahrt, Spotter, Spotting, Flugzeugfotografie, Flüge, Flugplan">
 <meta name="robots" content="index, nofollow">
+<meta name="author" content="Tobias Kühne">
 <meta name="generator" content="http://www.ultraedit.com/">
 <?php if ($mobile && !$tablet) { ?>
 <meta name="viewport" content="width=device-width; initial-scale=1.0;"/>
@@ -369,8 +363,7 @@ if ($user)
 						}
 ?></h3>
 				</div>
-				<div id="nav"><?php require_once 'nav.php'; ?>
-				</div>
+<?php require_once 'nav.php'; ?>
 			</div>
 <?php
 			if (!$hdbc)
