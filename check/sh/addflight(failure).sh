@@ -33,9 +33,9 @@ check "2" browse "$url/?req=register" \
 		--data-urlencode "lang=en"
 
 # grant addflight permission
-query --execute="USE fra-schedule; UPDATE users SET permissions='1' WHERE name='flederwiesel'"
+query --execute="USE flederwiesel_fra-schedule; UPDATE users SET permissions='1' WHERE name='flederwiesel'"
 
-token=$(query --execute="USE fra-schedule;
+token=$(query --execute="USE flederwiesel_fra-schedule;
 	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)
 
 check "3" browse "$url/?req=activate" \

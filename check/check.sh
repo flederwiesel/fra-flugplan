@@ -185,9 +185,6 @@ IFS=$'\n'
 export prj="$(readlink -f ..)"
 export url=http://localhost/$(rawurlencode "${prj##*htdocs/}" "/")
 
-unless $LINENO sed -r "\"s/^(define[ \t]*\('DB_NAME',[ \t]*')[^']+('\);)/\1fra-schedule\2/g\"" \
-	../.config.local '>' ../.config
-
 mkdir -p sh/results
 
 # Test in release mode

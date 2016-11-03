@@ -2,7 +2,7 @@
 
 ###############################################################################
 #
-#  Copyright © Tobias Kühne
+#  Copyright Â© Tobias KÃ¼hne
 #
 #  You may use and distribute this software free of charge for non-commercial
 #  purposes. The software must be distributed in its entirety, i.e. containing
@@ -18,7 +18,7 @@ root=
 target=fra-schedule
 
 cd $(dirname "$0")
-cp -f .config.flederwiesel .config
+sed -i "/define[ \t]*([ \t]*'DEBUG'/d" .config
 
 svn upgrade
 

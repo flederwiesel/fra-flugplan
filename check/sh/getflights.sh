@@ -27,7 +27,7 @@ echo "$mails" > /etc/mailtodisk/hausmeister@flederwiesel.com # user
 
 # `initdb` only creates 'root'...
 query <<-"SQL"
-	USE fra-schedule;
+	USE flederwiesel_fra-schedule;
 
 	INSERT INTO `users`
 	(
@@ -104,7 +104,7 @@ do
 		case "$day $time" in
 		"1 05:00")
 			query <<-"SQL"
-				USE fra-schedule;
+				USE flederwiesel_fra-schedule;
 
 				UPDATE `users`
 				SET `notification-timefmt`='%A, %c'
@@ -118,7 +118,7 @@ SQL
 			# Need to check for this also...
 			# '0000-00-00 22:30:00' -> NULL
 			query <<-"SQL"
-				USE `fra-schedule`;
+				USE `flederwiesel_fra-schedule`;
 
 				UPDATE `visits`
 				SET `previous` = NULL
@@ -132,7 +132,7 @@ SQL
 
 		"1 12:00")
 			query <<-"SQL"
-				USE fra-schedule;
+				USE flederwiesel_fra-schedule;
 
 				UPDATE `users`
 				SET `notification-timefmt`='%A, %d. %B %Y %H:%M',
@@ -159,7 +159,7 @@ SQL
 			s#(\`(current|previous)\`=)[0-9]+#\10#g
 			'"
 
-		flights=$(query --execute='USE `fra-schedule`;
+		flights=$(query --execute='USE `flederwiesel_fra-schedule`;
 			SELECT
 			 `flights`.`direction`,
 			 `flights`.`scheduled`,
@@ -213,7 +213,7 @@ SQL
 				s/(T[0-9]{2}%3A[0-9]{2}%3A00%2B0)[12](00)/\10\2/g
 			'"
 
-		notifications=$(query --execute='USE `fra-schedule`;
+		notifications=$(query --execute='USE `flederwiesel_fra-schedule`;
 			SELECT `flight`, `watch`, `notified`
 			FROM `watchlist-notifications`
 			ORDER BY `flight`'
@@ -234,7 +234,7 @@ SQL
 				$ a </html>
 			'"
 
-		visits=$(query --execute='USE fra-schedule;
+		visits=$(query --execute='USE flederwiesel_fra-schedule;
 			SELECT
 			 `aircrafts`.`reg`,
 			 `visits`.`num`,
@@ -283,7 +283,7 @@ do
 		s#(http://[^/]+/).*/(www.frankfurt-airport.com/.*)#\1.../\2#g
 		'"
 
-	notifications=$(query --execute='USE `fra-schedule`;
+	notifications=$(query --execute='USE `flederwiesel_fra-schedule`;
 		SELECT `flight`, `watch`, `notified`
 		FROM `watchlist-notifications`
 		ORDER BY `flight`'
@@ -305,7 +305,7 @@ do
 		'"
 done
 
-visits=$(query --execute='USE fra-schedule;
+visits=$(query --execute='USE flederwiesel_fra-schedule;
 	SELECT
 	 `aircrafts`.`reg`,
 	 `visits`.`num`,

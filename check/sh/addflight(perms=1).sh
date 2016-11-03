@@ -34,11 +34,11 @@ check "3" browse "$url/?req=register" \
 		--data-urlencode "lang=en"
 
 # grant addflight permission
-query --execute="USE fra-schedule; INSERT INTO \`membership\`(\`user\`, \`group\`)
+query --execute="USE flederwiesel_fra-schedule; INSERT INTO \`membership\`(\`user\`, \`group\`)
 				 VALUES((SELECT \`id\` FROM \`users\` WHERE \`name\`='flederwiesel'),
 						(SELECT \`id\` FROM \`groups\` WHERE \`name\`='addflights'))"
 
-token=$(query --execute="USE fra-schedule;
+token=$(query --execute="USE flederwiesel_fra-schedule;
 	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)
 
 check "4" browse "$url/?req=activate" \

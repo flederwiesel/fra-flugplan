@@ -30,7 +30,7 @@ check "1" browse "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "lang=en" \
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
-token=$(query --execute="USE fra-schedule;
+token=$(query --execute="USE flederwiesel_fra-schedule;
 	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)
 
 check "2" browse "$url/?req=activate" --data-urlencode "user=flederwiesel" --data-urlencode "token=$token"

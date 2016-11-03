@@ -36,7 +36,7 @@ check "3" browse "$url/?req=register" \
 		--data-urlencode "timezone=UTC+1" \
 		--data-urlencode "lang=en"
 
-token=$(query --execute="USE fra-schedule;
+token=$(query --execute="USE flederwiesel_fra-schedule;
 	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)
 
 check "4" browse "$url/?req=activate" \
@@ -72,7 +72,7 @@ check "5-6" browse "$url/?req=reqtok" \
 check "6" browse "$url/?req=reqtok" \
 		--data-urlencode "user=flederwiesel"
 
-token=$(query --execute="USE fra-schedule;
+token=$(query --execute="USE flederwiesel_fra-schedule;
 	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)
 
 check "7" browse "$url/?req=changepw" \
@@ -103,7 +103,7 @@ check "10" browse "$url/?req=changepw" \
 		--data-urlencode "passwd-confirm=zwiebel" \
 		--data-urlencode "submit=changepw"
 
-query --execute="USE fra-schedule;
+query --execute="USE flederwiesel_fra-schedule;
 	UPDATE users SET token_expires=
 	FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) - 3600)
 	WHERE name='flederwiesel'"

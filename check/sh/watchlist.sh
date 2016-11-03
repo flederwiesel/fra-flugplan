@@ -20,7 +20,7 @@ initdb && rm -f .COOKIES
 # preparation #################################################################
 
 sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
-	USE fra-schedule;
+	USE flederwiesel_fra-schedule;
 
 	SELECT `id` INTO @uid FROM `users` WHERE `name`='root';
 
@@ -131,7 +131,7 @@ check "4" browse "$url/?arrival\&time=$time" \
 	'"
 
 sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
-	USE fra-schedule;
+	USE flederwiesel_fra-schedule;
 
 	SELECT `id` INTO @uid FROM `users` WHERE `name`='flederwiesel';
 

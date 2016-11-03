@@ -12,10 +12,10 @@
  *
  ******************************************************************************/
 
-DROP DATABASE IF EXISTS `fra-schedule`;
+DROP DATABASE IF EXISTS `flederwiesel_fra-schedule`;
 
-CREATE DATABASE IF NOT EXISTS `fra-schedule` CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci';
-USE `fra-schedule`;
+CREATE DATABASE `flederwiesel_fra-schedule` CHARACTER SET 'utf8' COLLATE 'utf8_unicode_ci';
+USE `flederwiesel_fra-schedule`;
 
 /******************************************************************************
  * Tables
