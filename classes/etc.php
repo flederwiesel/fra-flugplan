@@ -47,7 +47,7 @@ function htmlget()
 	{
 		foreach ($_GET as $key => $value)
 		{
-			$get .= 0 == strlen($get) ? '?' : '&';
+			$get .= 0 == strlen($get) ? '?' : '&amp;';
 			$get .= urlencode($key);
 
 			if (strlen($value) > 0)
