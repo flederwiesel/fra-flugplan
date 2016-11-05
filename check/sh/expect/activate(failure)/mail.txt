@@ -164,6 +164,6 @@ Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
 X-Mailer: PHP/*
 
-2:flederwiesel = Please <a href="?req=activate&user=flederwiesel">activate</a> account first!
+2:flederwiesel = Please <a href="?req=activate&amp;user=flederwiesel">activate</a> account first!
 
 ======================================================

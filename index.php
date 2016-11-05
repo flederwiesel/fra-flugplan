@@ -53,7 +53,7 @@ function get($get=null)
 
 		foreach ($_GET as $key => $value)
 		{
-			$strget .= 0 == strlen($strget) ? '?' : '&';
+			$strget .= 0 == strlen($strget) ? '?' : '&amp;';
 
 			if (isset($values[$key]))
 			{
@@ -75,7 +75,7 @@ function get($get=null)
 
 		foreach ($values as $key => $value)
 		{
-			$strget .= 0 == strlen($strget) ? '?' : '&';
+			$strget .= 0 == strlen($strget) ? '?' : '&amp;';
 
 			$strget .= urlencode($key);
 

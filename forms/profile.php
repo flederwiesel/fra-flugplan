@@ -119,16 +119,16 @@ if ('notifinterval' == $item)
 });
 </script>
 <ul class="menu left">
-	<li><?php navitem('dispinterval', 'dispinterval' == $item ? NULL : '?req=profile&dispinterval'); ?></li>
-	<li class="sep"><?php navitem('notifinterval', 'notifinterval' == $item ? NULL : '?req=profile&notifinterval'); ?></li>
-	<li class="sep"><?php navitem('changepw', 'changepw' == $item ? NULL : '?req=profile&changepw'); ?></li>
+	<li><?php navitem('dispinterval', 'dispinterval' == $item ? NULL : '?req=profile&amp;dispinterval'); ?></li>
+	<li class="sep"><?php navitem('notifinterval', 'notifinterval' == $item ? NULL : '?req=profile&amp;notifinterval'); ?></li>
+	<li class="sep"><?php navitem('changepw', 'changepw' == $item ? NULL : '?req=profile&amp;changepw'); ?></li>
 </ul>
 <div style="clear: both;">
 <?php
 if ('dispinterval' == $item)
 {
 ?>
-<form method="post" action="?req=profile&dispinterval"
+<form method="post" action="?req=profile&amp;dispinterval"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
 		<legend><?php echo $lang['dispinterval']; ?></legend>
@@ -236,7 +236,7 @@ else
 if ('notifinterval' == $item)
 {
 ?>
-<form method="post" action="?req=profile&notifinterval"
+<form method="post" action="?req=profile&amp;notifinterval"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
 		<legend><?php echo $lang['notifinterval']; ?></legend>

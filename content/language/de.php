@@ -111,7 +111,7 @@ $lang = array
 		'Je nach Internetanbieter und Mailserver kann es vorkommen, daß die Zustellung von E-Mails '.
 		'länger dauert als das Token gültig ist. In diesem Fall, bitte Kontakt mit mir unter '.
 		'<a href="content/emil.php?subject=fra-schedule%20Aktivierungsproblem"><img alt="email" '.
-		'src="content/mkpng.php?font=verdana&size=10&bg=white&fg=%2300007f&res=ADMIN_EMAIL"></a> aufnehmen.<br>',
+		'src="content/mkpng.php?font=verdana&amp;size=10&amp;bg=white&amp;fg=%2300007f&amp;res=ADMIN_EMAIL"></a> aufnehmen.<br>',
 	'regfailed' => 'Registrierung fehlgeschlagen. Bitte Administrator kontaktieren.',
 	'activationsuccess' => 'Aktivierung erfolgreich. Login steht zur Verfügung.',
 	'nosuchuser' => 'Benutzername unbekannt.',
@@ -128,7 +128,7 @@ $lang = array
 	'activationfailed_t' => 'Activation failed: Token muss ausgefüllt werden.',
 	'activationfailed_u' => 'Activation failed: Benutzername muss ausgefüllt werden.',
 	'activationrequired' => 'Konto nicht aktiviert.',
-	'activatefirst' => 'Bitte Konto zuvor <a href="?req=activate&user=%s">aktivieren</a>!',
+	'activatefirst' => 'Bitte Konto zuvor <a href="?req=activate&amp;user=%s">aktivieren</a>!',
 	'subjpasswdchange' => 'Passwortänderung',
 	'emailpasswd' => "Hallo,\n\nDu erhälst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse %s) ".
 		"eine Anfrage gesendet hast, das Passwort für Benutzer '%s' auf %s zurückzusetzen.\n\n".
@@ -191,7 +191,7 @@ $lang = array
 		Soll keine Benachrichtigung erfolgen, bitte für beide Zeiten "00:00" auswählen.',
 	'notif-from-until' => 'Benachrichtigen zwischen: ',
 	'notif-setinterval' => 'Es wurden Benachrichtigungen aktiviert, jedoch kein Benachrichtigungsintervall ausgewählt.
-		Um Benachrichtigungen zu erhalten, muß im <a href="?req=profile&notifinterval">Benutzerprofil</a>
+		Um Benachrichtigungen zu erhalten, muß im <a href="?req=profile&amp;notifinterval">Benutzerprofil</a>
 		ein Zeitraum angegeben werden.',
 	'notification-timefmt' => 'Formatierung Zeitangabe:',
 	'notification-strftime_1' => 'Für Experten: Formatangabe gemäß der PHP-Funktion %s.<br>Im Zweifelsfall leer lassen.',

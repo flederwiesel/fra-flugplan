@@ -110,7 +110,7 @@ $lang = array
 		'If no activation mail arrives on your inbox, please also check your spam folder.<br><br>'.
 		'Depending on your internet service provider and mail transport agent settings, delivery of e-mails can take '.
 		'longer than the activation token is valid. In this case, don\'t hesitate to contact us at '.
-		'<a href="content/emil.php?subject=fra-schedule%20activation trouble"><img alt="email" src="content/mkpng.php?font=verdana&size=10&bg=white&fg=%2300007f&res=ADMIN_EMAIL"></a>.',
+		'<a href="content/emil.php?subject=fra-schedule%20activation%20trouble"><img alt="email" src="content/mkpng.php?font=verdana&amp;size=10&amp;bg=white&amp;fg=%2300007f&amp;res=ADMIN_EMAIL"></a>.',
 	'regfailed' => 'Registration failed. Please contact an administrator.',
 	'activationsuccess' => 'Activation successful. You may now login.',
 	'nosuchuser' => 'No such user.',
@@ -127,7 +127,7 @@ $lang = array
 	'activationfailed_t' => 'Activation failed: Token must not be empty.',
 	'activationfailed_u' => 'Activation failed: User name must not be empty.',
 	'activationrequired' => 'Activation required.',
-	'activatefirst' => 'Please <a href="?req=activate&user=%s">activate</a> account first!',
+	'activatefirst' => 'Please <a href="?req=activate&amp;user=%s">activate</a> account first!',
 	'subjpasswdchange' => 'Change Password',
 	'emailpasswd' => "Hello,\n\nthis e-mail has been sent to you because you (or someone else at IP address %s) ".
 		"requested a password change for user '%s' at %s\n\nPassword token is:\n%s\n\n".
@@ -191,7 +191,7 @@ $lang = array
 	'notif-from-until' => 'Notify me between: ',
 	'notif-setinterval' => 'Notifications have been activated, however, no notification interval has been selected.
 		To receive notifications, choose a time interval in your
-		<a href="?req=profile&notifinterval">user profile</a>',
+		<a href="?req=profile&amp;notifinterval">user profile</a>',
 	'notification-timefmt' => 'Time format:',
 	'notification-strftime_1' => 'For experts: Format string according to PHP-function %s.<br>If in doubt, leave empty.',
 	'notification-strftime_2' => 'Some strftime() specifiers (may be combined):',
