@@ -312,7 +312,6 @@ if ($user)
 										<th></th>
 									</tr>
 								</thead>
-								<tfoot></tfoot>
 								<tbody>
 <?php
 		if (0 == count($watch))
@@ -414,7 +413,6 @@ if ($error)
 				<th class="sep sorttable_reg"><?php echo $lang['reg']; ?>
 			</tr>
 		</thead>
-		<tfoot></tfoot>
 		<tbody>
 <?php
 
