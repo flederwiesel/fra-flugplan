@@ -142,7 +142,7 @@ SQL
 			;;
 		esac
 
-		check "$dHHMM-getflights" browse "$url/getflights.php?prefix=$prefix\&time=$now\&debug=url,json,jflights,sql\&fmt=html"\
+		fileext=txt check "$dHHMM-getflights" browse "$url/getflights.php?prefix=$prefix\&time=$now\&debug=url,json,jflights,sql\&fmt=txt"\
 			"| sed -r '
 			s/Dauer: [0-9]+.[0-9]+s/Dauer: 0.000s/g
 			s/$YYYY_mm_dd_0/0000-00-00/g
@@ -177,23 +177,14 @@ SQL
 			LEFT JOIN `models` ON `models`.`id` = `flights`.`model`'
 		)
 
-		check "$dHHMM-flights" "echo '$flights'"\
+		fileext=txt check "$dHHMM-flights" "echo '$flights'"\
 			"| sed -r '
-				1 i <html>
-				1 i <head>
-				1 i <title>$dHHMM-flights</title>
-				1 i </head>
-				1 i <body>
-				1 i <pre>
 				s/arrival/A/g
 				s/departure/D/g
 				s/$YYYY_mm_dd_0/0000-00-00/g
 				s/$YYYY_mm_dd_1/0000-00-01/g
 				s/$YYYY_mm_dd_2/0000-00-02/g
 				s/$YYYY_mm_dd_3/0000-00-03/g
-				$ a </pre>
-				$ a </body>
-				$ a </html>
 			'"
 
 		check "$dHHMM-arrival" browse "$url/?arrival\&time=$now"\
@@ -219,19 +210,10 @@ SQL
 			ORDER BY `flight`'
 		)
 
-		check "$dHHMM-notifications" 'echo "$notifications"'\
+		fileext=txt check "$dHHMM-notifications" 'echo "$notifications"'\
 			"| sed -r '
-				1 i <html>
-				1 i <head>
-				1 i <title>$dHHMM-notifications</title>
-				1 i </head>
-				1 i <body>
-				1 i <pre>
 				s/$YYYY_mm_dd_0/0000-00-00/g
 				s/$YYYY_mm_dd_1/0000-00-01/g
-				$ a </pre>
-				$ a </body>
-				$ a </html>
 			'"
 
 		visits=$(query --execute='USE flederwiesel_fra-schedule;
@@ -246,20 +228,11 @@ SQL
 		'
 		)
 
-		check "$dHHMM-visits" "echo '$visits'"\
+		fileext=txt check "$dHHMM-visits" "echo '$visits'"\
 			"| sed -r '
-				1 i <html>
-				1 i <head>
-				1 i <title>visits</title>
-				1 i </head>
-				1 i <body>
-				1 i <pre>
 				s/$YYYY_mm_dd_0/0000-00-00/g
 				s/$YYYY_mm_dd_1/0000-00-01/g
 				s/$YYYY_mm_dd_2/0000-00-02/g
-				$ a </pre>
-				$ a </body>
-				$ a </html>
 			'"
 	done
 done
@@ -272,7 +245,7 @@ do
 	now=$(date +'%Y-%m-%d %H:%M:%S' --date="$offset 05:00")
 	now=$(rawurlencode $now)
 
-	check "$dHHMM-getflights" browse "$url/getflights.php?prefix=$prefix\&time=$now\&debug=url,json,sql\&fmt=html"\
+	fileext=txt check "$dHHMM-getflights" browse "$url/getflights.php?prefix=$prefix\&time=$now\&debug=url,json,sql\&fmt=txt"\
 		"| sed -r '
 		s/Dauer: [0-9]+.[0-9]+s/Dauer: 0.000s/g
 		s/$YYYY_mm_dd_2/0000-00-02/g
@@ -289,19 +262,10 @@ do
 		ORDER BY `flight`'
 	)
 
-	check "$dHHMM-notifications" 'echo "$notifications"'\
+	fileext=txt check "$dHHMM-notifications" 'echo "$notifications"'\
 		"| sed -r '
-			1 i <html>
-			1 i <head>
-			1 i <title>$dHHMM-notifications</title>
-			1 i </head>
-			1 i <body>
-			1 i <pre>
 			s/$YYYY_mm_dd_0/0000-00-00/g
 			s/$YYYY_mm_dd_1/0000-00-01/g
-			$ a </pre>
-			$ a </body>
-			$ a </html>
 		'"
 done
 
@@ -317,18 +281,9 @@ visits=$(query --execute='USE flederwiesel_fra-schedule;
 '
 )
 
-check "visits" "echo '$visits'"\
+fileext=txt check "visits" "echo '$visits'"\
 	"| sed -r '
-		1 i <html>
-		1 i <head>
-		1 i <title>visits</title>
-		1 i </head>
-		1 i <body>
-		1 i <pre>
 		s/$YYYY_mm_dd_0/0000-00-00/g
 		s/$YYYY_mm_dd_1/0000-00-01/g
 		s/$YYYY_mm_dd_2/0000-00-02/g
-		$ a </pre>
-		$ a </body>
-		$ a </html>
 	'"
