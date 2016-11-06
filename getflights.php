@@ -817,6 +817,7 @@ function MapFlightStatus(/*in/out*/ &$status)
 
 	case 'gestartet':
 	case 'started':
+	case 'departed':
 	case '已起飞':
 		$status = FlightStatus::DEPARTED;
 		break;
