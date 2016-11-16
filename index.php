@@ -257,7 +257,7 @@ $hdbc = @mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
 
 if (!$hdbc)
 {
-	$error = mysql_error();
+	$error = sprintf("[%s] %s", mysql_errno(), mysql_error());
 }
 else
 {
@@ -413,7 +413,7 @@ if ($user)
 ?>
 				<div id="error">
 					<h1><?php echo $lang['fatal']; ?></h1>
-					<?php echo sprintf($lang['dberror'], __FILE__, __LINE__, $error); ?>
+					<?php echo sprintf($lang['dberror'], $error); ?>
 				</div>
 <?php
 				if (isset($_GET['page']))
