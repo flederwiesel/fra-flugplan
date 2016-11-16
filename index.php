@@ -365,7 +365,47 @@ if ($user)
 				</div>
 <?php require_once 'nav.php'; ?>
 			</div>
+			<div id="content">
 <?php
+			if (file_exists('adminmessage.php'))
+			{
+				require_once 'adminmessage.php';
+
+				/*
+					$adminmessage = array(
+						'from' => '%Y-%m-%d 03:30',
+						'until' => '%Y-%m-%d 04:30 +1 day',
+						'en' => '',
+						'de' => '',
+				*/
+
+				if (isset($adminmessage))
+				{
+					$now = strtotime('now');
+
+					if (isset($adminmessage['from']))
+						$from = strtotime(strftime($adminmessage['from']));
+					else
+						$from = 0;
+
+					if (isset($adminmessage['until']))
+						$until = strtotime(strftime($adminmessage['until']));
+					else
+						$until = ~0;
+
+					if ($now >= $from &&
+						$now < $until &&
+						isset($adminmessage[$_SESSION['lang']]))
+					{
+?>
+				<div id="admin" class="notice center">
+				<?php echo $adminmessage[$_SESSION['lang']]; ?>
+				</div>
+<?php
+					}
+				}
+			}
+
 			if (!$hdbc)
 			{
 				if (!$error)
@@ -384,47 +424,6 @@ if ($user)
 			}
 			else
 			{
-?>
-			<div id="content">
-<?php
-				if (file_exists('adminmessage.php'))
-				{
-					require_once 'adminmessage.php';
-
-					/*
-						$adminmessage = array(
-							'from' => '%Y-%m-%d 03:30',
-							'until' => '%Y-%m-%d 04:30 +1 day',
-							'en' => '',
-							'de' => '',
-					*/
-
-					if (isset($adminmessage))
-					{
-						$now = strtotime('now');
-
-						if (isset($adminmessage['from']))
-							$from = strtotime(strftime($adminmessage['from']));
-						else
-							$from = 0;
-
-						if (isset($adminmessage['until']))
-							$until = strtotime(strftime($adminmessage['until']));
-						else
-							$until = ~0;
-
-						if ($now >= $from &&
-							$now < $until &&
-							isset($adminmessage[$_SESSION['lang']]))
-						{
-?>
-				<div id="admin" class="notice center">
-					<?php echo $adminmessage[$_SESSION['lang']]; ?>
-				</div>
-<?php
-						}
-					}
-				}
 				if (!isset($_GET['req']))
 				{
 					// TODO: stat $_GET['req'].php !!!
