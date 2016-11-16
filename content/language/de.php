@@ -52,7 +52,7 @@ $lang = array
 	'typeunknown' => 'Flugzeugtyp unbekannt!',
 	'addflsuccess' => 'Flug erfolgreich hinzugefügt.',
 	'fatal' => 'SCHWERWIEGENDER FEHLER',
-	'dberror' => 'Es ist ein Datenbankfehler aufgetreten: %s(%u): %s.',
+	'dberror' => 'Es ist ein Datenbankfehler aufgetreten: %s',
 
 	'authentication' => 'Anmeldung',
 	'welcome' => 'Hallo',

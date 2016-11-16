@@ -52,7 +52,7 @@ $lang = array
 	'typeunknown' => 'Aircraft type unknown!',
 	'addflsuccess' => 'Flight added successfully.',
 	'fatal' => 'FATAL ERROR',
-	'dberror' => 'A database error occurred: %s(%u): %s.',
+	'dberror' => 'A database error occurred: %s',
 
 	'authentication' => 'Authentication',
 	'welcome' => 'Welcome, ',
