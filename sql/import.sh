@@ -7,7 +7,7 @@ sqlexec() {
 if [ $# -lt 1 ]; then
 	echo "Usage: $(basename $0) <file>"
 else
-	schema="flederwi_fra-schedule"
+	schema="flederwiesel_fra-schedule"
 
 	sqlexec <<< "DROP DATABASE IF EXISTS \`$schema\`"
 	sqlexec <<< "CREATE DATABASE \`$schema\`"
