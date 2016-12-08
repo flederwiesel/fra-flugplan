@@ -14,7 +14,6 @@
  *
  ******************************************************************************/
 
-
 if ('localhost' == $_SERVER['SERVER_NAME'])
 	error_reporting(E_ALL | E_NOTICE);
 else
@@ -175,8 +174,6 @@ setcookie('lang', $_SESSION['lang'], time() + COOKIE_LIFETIME);
 /******************************************************************************
  * initialise variables
  ******************************************************************************/
-
-$hdbc = NULL;
 
 $request = (isset($_GET['request']) ? $_GET['request'] : "");
 
