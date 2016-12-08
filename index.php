@@ -295,11 +295,22 @@ if ($user)
 <meta charset="UTF-8">
 <title><?php echo PROJECT; ?> &ndash; <?php echo ORGANISATION; ?></title>
 <meta name="language" content="<?php echo $_SESSION['lang']; ?>">
-<meta name="description" lang="en" content="Spotter schedule for Frankfurt airport (FRA/EDDF) including aircraft registrations">
-<meta name="description" lang="en" content="Spotter-Flugplan für Frankfurt (FRA/EDDF) einschließlich Flugzeugkennungen">
-<meta name="keywords" content="fra, eddf, frankfurt, fraspotter, fraspotting, planespotting, fra-flights, fra-schedule, flederwiesel">
-<meta name="keywords" lang="en" content="airport, aircraft, aviation, spotter, spotting, schedule, flights, flight schedule, flight plan">
-<meta name="keywords" lang="de" content="Flughafen, Flugzeug, Luftfahrt, Spotter, Spotting, Flugzeugfotografie, Flüge, Flugplan">
+<link rel="alternate" href="http://www.fra-flugplan.de?lang=de" hreflang="de">
+<link rel="alternate" href="http://www.fra-flugplan.de?lang=en" hreflang="en">
+<link rel="alternate" href="http://www.fra-flugplan.de" hreflang="x-default">
+<?php
+if ('de' == $_SESSION['lang']) {
+?>
+<meta name="description" content="Spotter-Flugplan für Frankfurt (FRA/EDDF) einschließlich Flugzeugkennungen">
+<meta name="keywords" content="flederwiesel, fra-schedule, FRA, EDDF, Frankfurt, Flugplan, Flughafen, Airport, Spotter, Spotting, Planespotting, Flugzeugfotografie, Luftfahrt">
+<?php
+} else {
+?>
+<meta name="description" content="Spotter schedule for Frankfurt airport (FRA/EDDF) including aircraft registrations">
+<meta name="keywords" content="flederwiesel, fra-flugplan, FRA, EDDF, Frankfurt, flight schedule, flight plan, airport, spotter, spotting, planespotting, aircraft registration, aviation">
+<?php
+}
+?>
 <meta name="robots" content="index, nofollow">
 <meta name="author" content="Tobias Kühne">
 <meta name="generator" content="http://www.ultraedit.com/">
