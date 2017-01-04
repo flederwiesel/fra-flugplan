@@ -1034,7 +1034,7 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 				echo "$url\n";
 
 			// Fetch JSON data
-			$retry = 3;
+			$retry = 10;
 
 			do
 			{
@@ -1042,14 +1042,25 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 				set_time_limit(0);
 
 				$error = $curl->exec($url, $json, 5);
+
+				if ($error)
+				{
+					if ($error != CURLE_COULDNT_RESOLVE_HOST &&
+						$error != CURLE_OPERATION_TIMEDOUT)
+					{
+						$log = fopen("$_SERVER[DOCUMENT_ROOT]/var/log/curl.error", "a+");
+						fwrite($log, "$url: $error @$retry");
+						fclose($log);
+					}
+				}
 			}
-			while (!$error && !$json && --$retry);
+			while ($error && --$retry);
 
 			if ($error)
 			{
 				/* This is certainly a html error document... */
-				$json = unify_html($json);
-				$error = seterrorinfo(__LINE__, "$error: $url: `$json`");
+				$html = unify_html($json);
+				$error = seterrorinfo(__LINE__, sprintf("[%s] $url".($html ? ": `$html`" : ""), $error));
 				$page = 0;
 			}
 
@@ -2180,6 +2191,7 @@ if (!$error)
 								{
 									info(__LINE__,
 										 "Inserted airline {$f->airline->code} as \"{$f->airline->name}\"".
+										 " for {$f->aircraft->reg} ".
 										 " ($dir {$f->airline->code}{$f->fnr} \"{$f->scheduled}\").");
 								}
 							}

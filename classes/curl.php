@@ -17,6 +17,7 @@
 class curl
 {
 	private $me = 0;
+	private $errno = 0;
 
 	function __construct()
 	{
@@ -81,8 +82,15 @@ class curl
 		$this->me = 0;
 	}
 
+	function errno()
+	{
+		return $this->errno ? $this->errno : curl_errno($this->me);
+	}
+
 	function exec($url, &$result, $timeout = 0)
 	{
+		$this->errno = 0;
+
 		curl_setopt($this->me, CURLOPT_URL, $url);
 		curl_setopt($this->me, CURLOPT_TIMEOUT, $timeout);
 
@@ -92,29 +100,23 @@ class curl
 		{
 			if (curl_errno($this->me))
 			{
-				$error = curl_error($this->me);
+				$this->errno = curl_errno($this->me);
 			}
 			else
 			{
 				$error = error_get_last();
-
-				if (0 == $error['type'])
-					$error = "$error[file]($error[line]): $error[type] $error[message]";
-				else
-					$error = __FILE__."(".__LINE__."): Unknown error.";
+				$this->errno = -$error['type'];
 			}
 		}
 		else
 		{
 			$error = curl_getinfo($this->me, CURLINFO_HTTP_CODE);
 
-			if (200 == $error)
-				$error = NULL;
-			else
-				$error = "HTTP $status";
+			if (!(200 == $error))
+				$this->errno = $error;
 		}
 
-		return $error;
+		return $this->errno;
 	}
 };
 
