@@ -323,8 +323,8 @@ if ($user)
 										<td class="reg"><input type="text" value="" maxlength="31"></td>
 										<td class="comment"><input type="text" value="" maxlength="255"></td>
 										<td class="notify"><input type="checkbox" value=""></td>
-										<td class="button"><button class="del" onclick="RemoveRow(this);">-</button></td>
-										<td class="button"><button class="add" onclick="CloneRow(this);">+</button></td>
+										<td class="button"><button class="del" onclick="RemoveRow(this);">&nbsp;</button></td>
+										<td class="button"><button class="add" onclick="CloneRow(this);">&nbsp;</button></td>
 									</tr>
 <?php
 		}

@@ -417,7 +417,7 @@ form div.explainatory
 	width: 20em;
 }
 
-#wl_div input[type=button]
+#wl_div button
 {
 	text-align: center;
 	background-color: transparent;
@@ -431,7 +431,7 @@ form div.explainatory
 	border-right:  solid 1px #404040;
 }
 
-#wl_div input[type=button]:active
+#wl_div button:active
 {
 	border-top:    solid 1px #A0A0A0;
 	border-left:   solid 1px #A0A0A0;
@@ -444,12 +444,12 @@ form div.explainatory
 	vertical-align: top;
 }
 
-#wl_div input[type=button].add
+#wl_div button.add
 {
 	background-image: url(../img/add.gif);
 }
 
-#wl_div input[type=button].del
+#wl_div button.del
 {
 	background-image: url(../img/del.gif);
 }
