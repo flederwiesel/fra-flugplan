@@ -88,6 +88,7 @@ mirror --reverse \
 	--exclude ToDo.txt
 #	--dry-run \
 
+chmod +x *.sh
 !echo $rev > target
 cd ${root}
 put target
