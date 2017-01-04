@@ -39,16 +39,20 @@ else
 	echo -e "\033[36mRevision: $rev\033[m"
 fi
 
+# As there is no user/password given here, lftp will look in ~/.netrc
 lftp <<EOF
-set ssl-allow true
-set ssl:key-file ssl/private/fra-flugplan.de.key
-set ssl:cert-file ssl/certs/fra-flugplan.de.pem
-set ssl:ca-file ssl/ca.crt
-set ssl:verify-certificate false
-set ssl:check-hostname true
 set ftp:ssl-allow true
 set ftp:ssl-force true
-open fra-flugplan.de -u ftp-www,s/p4sswd/***/g:ftp@fra-flugplan.de
+set ftp:ssl-protect-data yes
+set ftp:ssl-protect-list yes
+set ftp:ssl-auth TLS
+set ftps:initial-prot P
+
+set ssl-allow true
+set ssl:check-hostname true
+set ssl:verify-certificate false
+
+open fra-flugplan.de
 
 !LC_MESSAGES=en_US svn info . | awk '/^Last Changed (Rev|Date):/ { print \$0; }' > revision
 !LC_MESSAGES=en_US svn info . | awk '/^URL:/ { print \$2; }' > history
