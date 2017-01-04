@@ -234,7 +234,7 @@ INSERT INTO `membership`(`user`, `group`)
 	WHERE `name` IN ('admin', 'addflights', 'specials', 'users')
 );
 
-INSERT INTO `airlines`(`uid`, `code`, `name`)
+INSERT INTO `airlines`(`uid`, `id`, `code`, `name`)
 VALUES
 (@root,   1, 'A3',  'Aegean Airlines'),
 (@root,   2, 'AA',  'American Airlines'),
