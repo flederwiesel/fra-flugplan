@@ -1,5 +1,8 @@
+# /fra-schedule/www.frankfurt-airport.com/.htaccess
+
 <IfModule mod_rewrite.c>
 RewriteEngine on
+RewriteCond %{REQUEST_URI} www.frankfurt-airport.com
 RewriteRule (arrival|departure)s\.json        index.php
 RewriteRule (arrival|departure)s\.cargo\.json index.php?cargo&%{QUERY_STRING}
 </IfModule>
