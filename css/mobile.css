@@ -274,6 +274,7 @@ form div.explainatory
 {
 	margin: 0;
 	padding: 6px 0;
+	min-width: 198px;
 }
 
 #admin
