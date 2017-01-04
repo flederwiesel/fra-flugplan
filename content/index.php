@@ -554,7 +554,11 @@ else
 			echo "<td><div>$row[airline]</div></td>";
 			echo "<td>$row[airport_iata]</td>";
 			echo "<td>$row[airport_icao]</td>";
-			echo "<td><div>$row[airport_name]</div></td>";
+
+			if (0 == strlen($row['airport_name']))
+				echo "<td><div>&nbsp;</div></td>";
+			else
+				echo "<td><div>$row[airport_name]</div></td>";
 		}
 
 		switch ($row['type'])
