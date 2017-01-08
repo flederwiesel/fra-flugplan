@@ -110,7 +110,8 @@ check() {
 	shift
 	[ 1 == $debug -o 1 == $verbose ] && echo -e "$name" >&2
 	[ 1 == $debug ] && echo -e "\033[33m$@\033[m" >&2
-	eval "$@" 2>&1 > "$results/$name.${fileext:-htm}" | sed -r $'s~^.+$~\033[1;31mERROR: &\033[m~g'
+	eval "$@" 2>&1 | sed 's/?rev=[0-9]*/?rev=$Rev$/g' > "$results/$name.${fileext:-htm}" |
+		sed -r $'s~^.+$~\033[1;31mERROR: &\033[m~g'
 }
 
 initdb() {
