@@ -170,9 +170,9 @@ SQL;
 	wl_img_close = "img/wl-close-<?php echo $_SESSION['lang']; ?>.png";
 </script>
 <?php if ($user && (!$mobile || $tablet)) { ?>
-<script type="text/javascript" src="script/watchlist.js"></script>
+<script type="text/javascript" src="script/watchlist.js?rev=$Rev$"></script>
 <?php } ?>
-<script type="text/javascript" src="script/sorttable.js"></script>
+<script type="text/javascript" src="script/sorttable.js?rev=$Rev$"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 	});
@@ -663,4 +663,4 @@ else
 		</tbody>
 	</table>
 </div>
-<script type="text/javascript" src="script/sortable.js"></script>
+<script type="text/javascript" src="script/sortable.js?rev=$Rev$"></script>
