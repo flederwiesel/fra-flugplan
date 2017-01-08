@@ -322,9 +322,9 @@ if ($user)
 										<td><img src="img/a-net-ina.png" alt="www.airliners.net"></td>
 										<td class="reg"><input type="text" value="" maxlength="31"></td>
 										<td class="comment"><input type="text" value="" maxlength="255"></td>
-										<td class="notify"><input type="checkbox" value=""></td>
-										<td class="button"><button class="del" onclick="RemoveRow(this);">&nbsp;</button></td>
-										<td class="button"><button class="add" onclick="CloneRow(this);">&nbsp;</button></td>
+										<td><input type="checkbox" value=""></td>
+										<td><button type="button" class="del" onclick="RemoveRow(this);">&nbsp;</button></td>
+										<td><button type="button" class="add" onclick="CloneRow(this);">&nbsp;</button></td>
 									</tr>
 <?php
 		}
@@ -357,9 +357,9 @@ if ($user)
 										</td>
 										<td class="reg"><input type="text" value="<?php echo $reg; ?>" maxlength="31"></td>
 										<td class="comment"><input type="text" value="<?php echo htmlspecialchars($comment); ?>" maxlength="255"></td>
-										<td class="notify"><input type="checkbox" value=""<?php if ($notify) echo " checked"; ?>></td>
-										<td class="button"><button class="del" onclick="RemoveRow(this);">-</button></td>
-										<td class="button"><button class="add" onclick="CloneRow(this);">+</button></td>
+										<td><input type="checkbox" value=""<?php if ($notify) echo " checked"; ?>></td>
+										<td><button type="button" class="del" onclick="RemoveRow(this);">&nbsp;</button></td>
+										<td><button type="button" class="add" onclick="CloneRow(this);">&nbsp;</button></td>
 									</tr>
 <?php
 		}

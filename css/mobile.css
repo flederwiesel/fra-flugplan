@@ -391,11 +391,6 @@ form div.explainatory
 	border-right:  solid 1px #E0E0E0;
 }
 
-#wl_div .button
-{
-	vertical-align: top;
-}
-
 #wl_div button.add
 {
 	background-image: url(../img/add.gif);
