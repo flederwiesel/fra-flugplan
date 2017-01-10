@@ -189,12 +189,13 @@ rotate() {
 	[ -n "$mv" ] && mv -t monthly $mv
 }
 
+cd $(dirname "$0")
 
 filename="flederwiesel_fra-schedule-$(date --utc +'%Y-%m-%d %H~%M~00').sql.bz2"
 
 for target in \
-	/home/pi/fra-schedule/mysql \
-	/home/pi/fra-schedule/mysql-nohist
+	mysql \
+	mysql-nohist
 do
 	if [ ! -d "$target" ]; then
 		mkdir -p "$target"
@@ -205,13 +206,13 @@ do
 		done
 	fi
 
+	pushd "$target" > /dev/null
+
 	if [[ "$target" =~ "nohist" ]]; then
 		opts='?exclude=history'
 	else
 		opts=
 	fi
-
-	cd "$target"
 
 	result=$(curl \
 		--silent \
@@ -246,10 +247,12 @@ do
 
 	if [ $status -ne 0 ]; then
 		echo "$(date +'%F %X') $result" | tee -a "$target/error.log"
-		latest=$(find hourly -mindepth 1 -maxdepth 1 | sort -r | head -n 1)
+		latest=$(find "hourly" -mindepth 1 -maxdepth 1 | sort -r | head -n 1)
 		cp -fl "$latest" "$filename"
 	fi
 
 	now=$(date +%s)
 	rotate
+
+	popd > /dev/null
 done
