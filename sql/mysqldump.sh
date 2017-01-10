@@ -190,11 +190,11 @@ rotate() {
 }
 
 
-filename="flederwi_fra-schedule-$(date --utc +'%Y-%m-%d %H~%M~00').sql.bz2"
+filename="flederwiesel_fra-schedule-$(date --utc +'%Y-%m-%d %H~%M~00').sql.bz2"
 
 for target in \
 	/home/pi/fra-schedule/mysql \
-	/home/pi/fra-schedule/mysql-quick
+	/home/pi/fra-schedule/mysql-nohist
 do
 	if [ ! -d "$target" ]; then
 		mkdir -p "$target"
@@ -205,7 +205,7 @@ do
 		done
 	fi
 
-	if [[ "$target" =~ "quick" ]]; then
+	if [[ "$target" =~ "nohist" ]]; then
 		opts='?exclude=history'
 	else
 		opts=
@@ -217,7 +217,7 @@ do
 		--silent \
 		--fail \
 		--write-out '%{http_code}' \
-		--location "http://www.flederwiesel.com/mysqldump-php$opts" \
+		--location "http://www.fra-flugplan.de/mysqldump-php$opts" \
 		--output "$filename"
 	)
 
