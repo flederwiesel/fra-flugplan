@@ -88,7 +88,7 @@ mirror --reverse \
 	--exclude ToDo.txt
 #	--dry-run \
 
-chmod +x *.sh
+chmod +x getflights.sh
 !echo $rev > target
 cd ${root}
 put target
