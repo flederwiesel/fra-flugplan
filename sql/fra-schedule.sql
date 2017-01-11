@@ -1577,7 +1577,21 @@ VALUES
 (@root, 616, 'YQX', 'CYQX', 'Gander-International'),
 (@root, 617, 'GIB', 'LXGB', 'Gibraltar'),
 (@root, 620, 'NIM', 'DRRN', 'Niamey-Diori Hamani International'),
-(@root, 621, 'RMI', 'LIPR', 'Rimini-Federico Fellini International');
+(@root, 621, 'RMI', 'LIPR', 'Rimini-Federico Fellini International'),
+(@root, 622, 'HAD', 'ESMT', 'Halmstad'),
+(@root, 623, 'YHM', 'CYHM', 'Hamilton-John C. Munro Hamilton International'),
+(@root, 624, 'TOS', 'ENTC', 'Tromso-Langnes'),
+(@root, 625, 'BIQ', 'LFBZ', 'Biarritz-Anglet Bayonne'),
+(@root, 630, 'GBB', 'UBBQ', 'Gabala'),
+(@root, 631, 'CMR', 'LFGA', 'Colmar-Houssen'),
+(@root, 632, 'KMG', 'ZPPP', 'Kunming'),
+(@root, 633, 'MLH', 'LFGB', 'Mulhouse-Basel-Mulhouse-Freiburg EuroAirport'),
+(@root, 634, 'KGF', 'UAKK', 'Karaganda-Sary-Arka'),
+(@root, 635, 'SKS', 'EKSP', 'Vojens-Skrydstrup'),
+(@root, 636, 'TAY', 'EETU', 'Tartu'),
+(@root, 637, 'SMV', 'LSZS', 'St.Moritz-Engadin'),
+(@root, 638, 'SZL', 'KSZL', 'Whiteman Air Force Base'),
+(@root, 639, 'XCR', 'LFOK', 'Chalons-Vatry');
 
 TRUNCATE `visits`;
 
