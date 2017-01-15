@@ -2574,7 +2574,8 @@ SQL;
 
 if ($errorinfo)
 {
-	echo $errorinfo;
+	if (isset($DEBUG['any']))
+		echo $errorinfo;
 
 	mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').'<'.ADMIN_EMAIL.'>',
 		 "fra-schedule - getflights.php: error",
@@ -2584,7 +2585,8 @@ if ($errorinfo)
 
 if ($warning)
 {
-	echo $warning;
+	if (isset($DEBUG['any']))
+		echo $warning;
 
 	mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').'<'.ADMIN_EMAIL.'>',
 		 "fra-schedule - getflights.php: warning",
@@ -2594,7 +2596,8 @@ if ($warning)
 
 if ($info)
 {
-	echo $info;
+	if (isset($DEBUG['any']))
+		echo $info;
 
 	mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').'<'.ADMIN_EMAIL.'>',
 		 "fra-schedule - getflights.php: info",
