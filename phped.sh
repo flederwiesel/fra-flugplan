@@ -25,14 +25,16 @@ urlencode() {
 
 projects=(
 	"index:index.php?arrival\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
-	"index-spam:index.php?req=register\&stopforumspam=localhost/fra-schedule/fra-schedule-spam\&user=spam\&email=spam@gmail.com"
-	"airport:www.frankfurt-airport.com/index.php?type=arrival\&lang=de\&perpage=3\&page=1\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
+	"index-spam:index.php?req=register\&stopforumspam=localhost/\$prjroot\&user=spam\&email=spam@gmail.com"
 	"betriebsrichtung:apps.fraport.de/betriebsrichtung/betriebsrichtung.html"
 	"getflights:getflights.php?debug=url,json,sql\&fmt=html"
 	"getflights-local:getflights.php?debug=url,json,sql\&fmt=html\&prefix=localhost/\$prjroot/\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
 	"download:index.php?page=download"
 	"specials:index.php?page=specials"
 	"stopforumspam:api.stopforumspam.org/index.php?username=spam\&email=spam@gmail.com\&ip=46.118.155.73"
+	"www.frankfurt-airport.com:www.frankfurt-airport.com/index.php?type=arrival\&lang=de\&perpage=3\&page=1\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
+	"www.frankfurt-airport.com-airlines:www.frankfurt-airport.com/de/_jcr_content.airlines.json"
+	"www.frankfurt-airport.com-airports:www.frankfurt-airport.com/de/_jcr_content.airports.json"
 )
 
 filename=$(readlink -f "${BASH_SOURCE[0]}")
