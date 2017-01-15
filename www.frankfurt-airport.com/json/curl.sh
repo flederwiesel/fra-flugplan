@@ -26,3 +26,5 @@ for file in \
 do
 	jq . "$file.json" > "beautified/$file.json"
 done
+
+sed -r -i "s:json/[0-9.]+/flights_copy:json/$version/flights_copy:g" "$scriptdir/../.htaccess"
