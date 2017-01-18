@@ -320,9 +320,9 @@ if ($user)
 									<tr>
 										<!-- inputs do not have names, POST values will be generated upon submit -->
 										<td><img src="img/a-net-ina.png" alt="www.airliners.net"></td>
-										<td class="reg"><input type="text" value="" maxlength="31"></td>
-										<td class="comment"><input type="text" value="" maxlength="255"></td>
-										<td><input type="checkbox" value=""></td>
+										<td><input type="text" class="reg" value="" maxlength="31"></td>
+										<td><input type="text" class="comment" value="" maxlength="255"></td>
+										<td><input type="checkbox" class="notify" value=""></td>
 										<td><button type="button" class="del" onclick="RemoveRow(this);">&nbsp;</button></td>
 										<td><button type="button" class="add" onclick="CloneRow(this);">&nbsp;</button></td>
 									</tr>
@@ -355,9 +355,9 @@ if ($user)
 			}
 ?>
 										</td>
-										<td class="reg"><input type="text" value="<?php echo $reg; ?>" maxlength="31"></td>
-										<td class="comment"><input type="text" value="<?php echo htmlspecialchars($comment); ?>" maxlength="255"></td>
-										<td><input type="checkbox" value=""<?php if ($notify) echo " checked"; ?>></td>
+										<td><input type="text" class="reg" value="<?php echo $reg; ?>" maxlength="31"></td>
+										<td><input type="text" class="comment" value="<?php echo htmlspecialchars($comment); ?>" maxlength="255"></td>
+										<td><input type="checkbox" class="notify" value=""<?php if ($notify) echo " checked"; ?>></td>
 										<td><button type="button" class="del" onclick="RemoveRow(this);">&nbsp;</button></td>
 										<td><button type="button" class="add" onclick="CloneRow(this);">&nbsp;</button></td>
 									</tr>

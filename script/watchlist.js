@@ -188,9 +188,9 @@ $(function()	// PreparePostData()
 		$("input:submit", $(this)).attr("disabled", "disabled");
 
 		$("#watch tbody tr").each(function() {
-			reg     = $(".reg     input", $(this))[0];
-			comment = $(".comment input", $(this))[0];
-			notify  = $(".notify  input", $(this))[0];
+			reg     = $("input.reg",     $(this))[0];
+			comment = $("input.comment", $(this))[0];
+			notify  = $("input.notify",  $(this))[0];
 
 			if ($(reg).is(":visible"))
 			{
