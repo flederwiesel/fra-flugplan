@@ -21,42 +21,46 @@ prefix=$(rawurlencode $(sed s?http://??g <<<"$url"))
 
 ###############################################################################
 
-check "1" browse "$url/"
-check "2" browse "$url/?req=register\&stopforumspam=$prefix" \
-		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+query <<-"SQL"
+	USE flederwiesel_fra-schedule;
 
-check "3" browse "$url/?req=register" \
-		--data-urlencode "email=hausmeister@flederwiesel.com" \
-		--data-urlencode "user=flederwiesel" \
-		--data-urlencode "passwd=elvizzz" \
-		--data-urlencode "passwd-confirm=elvizzz" \
-		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en"
+	INSERT INTO `users`
+	(
+		`id`, `name`, `email`, `salt`, `passwd`,
+		`language`, `tt-`, `tt+`, `tm-`, `tm+`
+	)
+	VALUES
+	(
+		2, 'flederwiesel', 'hausmeister@flederwiesel.com',
+		'cf78aafd5c5410b7b12c2794a52cda1bccd01316f30df57aa29c5609ba979c15',
+		'c4ae99aa0209ce5bea9687cf0548d8ebc942ba14e166c45957a876bcec194fed', # elvizzz
+		'en', -75, 86400, -75, 86400
+	);
 
-# grant addflight permission
-query --execute="USE flederwiesel_fra-schedule; INSERT INTO \`membership\`(\`user\`, \`group\`)
-				 VALUES((SELECT \`id\` FROM \`users\` WHERE \`name\`='flederwiesel'),
-						(SELECT \`id\` FROM \`groups\` WHERE \`name\`='addflights'))"
+	# grant user permissions
+	INSERT INTO `membership`(`user`, `group`)
+				 VALUES((SELECT `id` FROM `users`  WHERE `name`='flederwiesel'),
+						(SELECT `id` FROM `groups` WHERE `name`='addflights'));
 
-token=$(query --execute="USE flederwiesel_fra-schedule;
-	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)
+	INSERT INTO `airports`(`id`, `iata`, `icao`, `name`)
+	VALUES(1, 'ZZZ', 'ZZZ', 'Zzzz');
 
-check "4" browse "$url/?req=activate" \
-		--data-urlencode "user=flederwiesel" \
-		--data-urlencode "token=$token"
+	INSERT INTO `models`(`icao`) VALUES ('A321');
+SQL
 
-check "5" browse "$url/?req=login" \
-		--data-urlencode "user=flederwiesel" \
-		--data-urlencode "passwd=elvizzz"
+check "1" browse "$url/?req=login" \
+	--data-urlencode "user=flederwiesel" \
+	--data-urlencode "passwd=elvizzz"
 
-check "6" browse "$url/?page=addflight" \
-	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g
+check "2" browse "$url/?page=addflight" \
+	"|" sed -r "'
+		s/[0-9]{2}:[0-9]{2}/00:00/g
 		s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g
 		/<option/d
 		/<\/select/i <option>empty</option>'"
 
 # Insert flight: once -> 2038-01-19 04:14 local (2147483640)
-check "7" browse "$url/?page=addflight" \
+check "3" browse "$url/?page=addflight" \
 		--data-urlencode "reg=D-AIRY" \
 		--data-urlencode "model=A321" \
 		--data-urlencode "flight=QQ9999" \
@@ -64,17 +68,18 @@ check "7" browse "$url/?page=addflight" \
 		--data-urlencode "airline=QAirline" \
 		--data-urlencode "type=pax-regular" \
 		--data-urlencode "direction=arrival" \
-		--data-urlencode "airport=2" \
+		--data-urlencode "airport=1" \
 		--data-urlencode "from=19.01.2038" \
 		--data-urlencode "time=03:14" \
 		--data-urlencode "interval=once" \
-	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g
+	"|" sed -r "'
+		s/[0-9]{2}:[0-9]{2}/00:00/g
 		s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g
 		/<option/d
 		/<\/select/i <option>empty</option>'"
 
 # Insert flight: once -> +1 week
-check "7-1" browse "$url/?page=addflight" \
+check "4" browse "$url/?page=addflight" \
 		--data-urlencode "reg=D-AIRY" \
 		--data-urlencode "model=A321" \
 		--data-urlencode "flight=QQ9999" \
@@ -82,11 +87,12 @@ check "7-1" browse "$url/?page=addflight" \
 		--data-urlencode "airline=QAirline" \
 		--data-urlencode "type=pax-regular" \
 		--data-urlencode "direction=arrival" \
-		--data-urlencode "airport=2" \
+		--data-urlencode "airport=1" \
 		--data-urlencode "from=$(date +'%d.%m.%Y' --date='+1 week')" \
 		--data-urlencode "time=14:00" \
 		--data-urlencode "interval=once" \
-	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g
+	"|" sed -r "'
+		s/[0-9]{2}:[0-9]{2}/00:00/g
 		s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g
 		/<option/d
 		/<\/select/i <option>empty</option>'"
@@ -97,7 +103,7 @@ check "7-1" browse "$url/?page=addflight" \
 time=$(date +'%Y-%m-%d %H:%M:%S' --date='14:00')
 time=$(rawurlencode "$time")
 
-check "8" browse "$url/?arrival\&time=$time | sed -r '
+check "5" browse "$url/?arrival\&time=$time | sed -r '
 	s/(\+[0-7]) [0-9]{2}:[0-9]{2}/\1 00:00/g;
 	s/(1:D-AIRY\+[0-7])[0-2][0-9]{3}/\10000/g;
 	s/$(date +%Y-%m-%d)/0000-00-00/g'"
@@ -105,7 +111,7 @@ check "8" browse "$url/?arrival\&time=$time | sed -r '
 time=$(date +'%Y-%m-%d %H:%M:%S' --date='14:05')
 time=$(rawurlencode "$time")
 
-check "9" browse "$url/?arrival\&time=$time | sed -r '
+check "6" browse "$url/?arrival\&time=$time | sed -r '
 	s/(\+[0-7]) [0-9]{2}:[0-9]{2}/\1 00:00/g;
 	s/(1:D-AIRY\+[0-7])[0-2][0-9]{3}/\10000/g;
 	s/$(date +%Y-%m-%d)/0000-00-00/g'"

@@ -25,17 +25,26 @@ echo "$mails" > /etc/mailtodisk/hausmeister@flederwiesel.com # user
 
 ###############################################################################
 
-# `initdb` only creates 'root'...
-query <<-"SQL"
-	USE flederwiesel_fra-schedule;
+query < <(
+	echo 'USE `flederwiesel_fra-schedule`;'
+	cat ../sql/data/airlines.sql \
+		../sql/data/airports.sql \
+		../sql/data/models.sql
+)
 
-	INSERT INTO `users`
-	(
-		`id`, `name`, `email`, `salt`, `passwd`, `language`
-	)
+query <<-"SQL"
+	USE `flederwiesel_fra-schedule`;
+
+	INSERT INTO `users`(`name`, `email`, `salt`, `passwd`, `language`)
 	VALUES
 	(
-		2,
+		'root',
+		'flederwiesel@fra-flugplan.de',
+		'cf78aafd5c5410b7b12c2794a52cda1bccd01316f30df57aa29c5609ba979c15',
+		'c4ae99aa0209ce5bea9687cf0548d8ebc942ba14e166c45957a876bcec194fed',
+		'en'
+	),
+	(
 		'flederwiesel',
 		'hausmeister@flederwiesel.com',
 		'cf78aafd5c5410b7b12c2794a52cda1bccd01316f30df57aa29c5609ba979c15',
@@ -50,6 +59,20 @@ query <<-"SQL"
 	SELECT `id` INTO @flederwiesel
 	FROM `users`
 	WHERE `name`='flederwiesel';
+
+	INSERT INTO `membership`(`user`, `group`)
+	(
+		SELECT @root AS `user`, `id` AS `group`
+		FROM `groups`
+		WHERE `name` IN ('admin', 'addflights', 'specials', 'users')
+	);
+
+	INSERT INTO `membership`(`user`, `group`)
+	(
+		SELECT @flederwiesel AS `user`, `id` AS `group`
+		FROM `groups`
+		WHERE `name` IN ('admin', 'addflights', 'specials', 'users')
+	);
 
 	# Set notification times
 	UPDATE `users`

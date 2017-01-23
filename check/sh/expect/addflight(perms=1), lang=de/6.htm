@@ -42,25 +42,27 @@
 				<div id="head">
 					<h1 class="nobr">Frankfurt Aviation Friends</h1>
 					<h3>
-Live Flugplan</h3>
+Live Flugplan &ndash; Ankunft</h3>
 				</div>
 <nav>
 <ul class="menu left">
 		<li><a href="http://www.frankfurt-aviation-friends.de/">Startseite</a></li>
-			<li class="sep"><a href="?arrival">Ankunft</a></li>
+			<li class="sep">Ankunft</li>
 			<li class="sep"><a href="?departure">Abflug</a></li>
-			<li class="sep"><a href="?page=help">Hilfe</a></li>
+				<li class="sep"><a href="javascript:watchlist('show');">Beobachtungsliste</a></li>
+					<li class="sep"><a href="?page=addflight">Flug einfügen</a></li>
+		<li class="sep"><a href="?page=help">Hilfe</a></li>
 </ul>
 <ul class="menu right">
 			<li class="sep"><a href="?req=profile">Benutzerprofil</a></li>
 			<li class="sep"><a href="?req=logout">Abmelden</a></li>
 		<li style="vertical-align: baseline;">
-			<a href="?page=addflight&amp;lang=de">
+			<a href="?arrival&amp;time=0000-00-00+14%3A05%3A00&amp;lang=de">
 				<img class="flag" src="img/de.png" alt="Deutsch" width="16" height="12">
 			</a>
 		</li>
 		<li style="vertical-align: baseline;">
-			<a href="?page=addflight&amp;lang=en">
+			<a href="?arrival&amp;time=0000-00-00+14%3A05%3A00&amp;lang=en">
 				<img class="flag" src="img/en.png" alt="Englisch" width="16" height="12">
 			</a>
 		</li>
@@ -69,168 +71,100 @@ Live Flugplan</h3>
 			</div>
 			<div id="content">
 <script type="text/javascript">
-$(function()
-{
-	$('#from').datepicker({
-		dateFormat: 'dd.mm.yy',
-		firstDay: 1,
-		minDate: 0,
-		maxDate: '+1Y',
-		changeMonth: true,
-		changeYear: true,
-		onSelect: function(selectedDate) { $('#until').datepicker('option', 'minDate', selectedDate);  }
-	});
-
-	$('#until').datepicker({
-		dateFormat: 'dd.mm.yy',
-		firstDay: 1,
-		minDate: 0,
-		maxDate: '+1Y',
-		changeMonth: true,
-		changeYear: true,
-	});
-
-	$(document).ready(function()
-	{
-		$('#reg').focus();
-	});
-
-	$('#form').submit(function() {
-		$('#submit').attr('disabled', 'disabled');
-	});
-
-	/* Input event handlers */
-	$('#once').click(function()	{
-		$('#until').attr('disabled', '');
-		days_enable(0);
-	});
-
-	$('#daily').click(function() {
-		$('#until').removeAttr('disabled');
-		$('#all').attr('checked', '');
-		days_check(1);
-		days_enable(0);
-	});
-
-	$('#each').click(function()	{
-		$('#until').removeAttr('disabled');
-		$('#all').removeAttr('disabled');
-		days_enable(1);
-	});
-
-	$('#all').click(function() {
-		days_check($(this).prop('checked'));
-	});
-
-	var days = [ 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun' ];
-
-	function days_check(b) {
-
-		jQuery.each(days, function() {
-			$('#' + this).prop('checked', b);
-		});
-	}
-
-	function days_enable(b) {
-
-		if (b)
-		{
-			$('#all').removeAttr('disabled');
-
-			jQuery.each(days, function() {
-				$('#' + this).removeAttr('disabled', '');
-			});
-		}
-		else
-		{
-			$('#all').attr('disabled', '');
-
-			jQuery.each(days, function() {
-				$('#' + this).attr('disabled', '');
-			});
-		}
-	}
-});
+	wl_img_open = "img/wl-open-de.png";
+	wl_img_close = "img/wl-close-de.png";
 </script>
-<form method="post" action="?page=addflight">
-	<fieldset>
-		<legend>Flug einfügen</legend>
-		<div class="table">
-			<div class="row">
-				<div class="cell label">Reg</div>
-				<div class="cell">
-					<input type="text" name="reg" id="reg"
-					 value=""/>
-				</div>
-			</div>
-			<div class="row">
-				<div class="cell label">Flug</div>
-				<div class="cell">
-					<input type="text" name="flight" id="flight"
-					 value=""/>
-						<label>
-							<input type="radio" name="type"
-							 value="pax-regular" checked="checked">Normal						</label>
-						<label>
-							<input type="radio" name="type"
-							 value="cargo">Cargo						</label>
-						<label>
-							<input type="radio" name="type"
-							 value="ferry">Überführung						</label>
-				</div>
-			</div>
-			<div class="row">
-				<div class="cell"></div>
-				<div class="cell">
-					<label><input type="radio" name="direction" value="arrival"  checked="checked" />Ankunft</label>
-					<label><input type="radio" name="direction" value="departure" />Abflug</label>
-				</div>
-			</div>
+<script type="text/javascript" src="script/watchlist.js?rev=$Rev$"></script>
+<script type="text/javascript" src="script/sorttable.js?rev=$Rev$"></script>
+<script type="text/javascript">
+	$(document).ready(function(){
+	});
 
-			<div class="row">
-				<div class="cell label">Von</div>
-				<div class="cell">
-					<select id="airport-icao" name="airport">
-<option>empty</option>
-					</select>
-				</div>
-			</div>
+	$(function()
+	{
+		$(document).tooltip( { position: { my: "left top", at: "right top", collision: "flipfit" } } );
+	});
 
-			<div class="row">
-				<div class="cell label">Datum</div>
-				<div class="cell">
-					<input type="text" name="from" id="from" value="00.00.0000"/>
-					<div style="display: inline;">STA:</div>
-					<div style="display: inline;">
-						<input type="text" name="time" id="time" style="margin-right: 0.5em;"
-						 value="00:00"/>HH:MM (lokal)
-					</div>
-					<div class="cell">
-						<label><input type="radio" name="interval" value="once" id="once" checked="checked" />Einmalig</label><br>
-						<label><input type="radio" name="interval" value="daily" id="daily"/>Täglich</label><br>
-						<label><input type="radio" name="interval" value="each" id="each"/>Jeden</label>
-						<div style="margin-left: 1em; display: inline;">
-							<label><input type="checkbox" name="day[1]" id="mon" disabled />Mo</label>
-							<label><input type="checkbox" name="day[2]" id="tue" disabled />Di</label>
-							<label><input type="checkbox" name="day[3]" id="wed" disabled />Mi</label>
-							<label><input type="checkbox" name="day[4]" id="thu" disabled />Do</label>
-							<label><input type="checkbox" name="day[5]" id="fri" disabled />Fr</label>
-							<label><input type="checkbox" name="day[6]" id="sat" disabled />Sa</label>
-							<label><input type="checkbox" name="day[7]" id="sun" disabled />So</label>
-							<label><input type="checkbox" name="day[0]" id="all" disabled /><b>Alle</b></label>
+	$(document).keydown(function(event)
+	{
+		if (27 == event.keyCode)
+			watchlist("hide");
+	});
+</script>
+<div id="rwy_cont">
+	<div id="rwy_div" style="float: left ;">
+		<span id="rwy_l" style="vertical-align: middle;">
+			<img alt="Betriebsrichtung" src="img/arrival-yellow-16x14.png">
+		</span>
+		<span id="rwy_r">99</span>
+	</div>
+</div>
+<div id="wl_cont">
+	<div id="wl_div">
+		<div id="wl_handle" class="cell top">
+			<img id="wl_img" src="img/wl-open-de.png" alt="watchlist">
+		</div>
+		<div class="cell top">
+			<div id="expandable" style="width: 0; visibility: hidden;">
+				<form id="watch" method="post" action="?">
+					<div class="center" style="padding: 6px 6px 6px 0;">
+						<div id="list">
+							<table>
+								<thead>
+									<tr>
+										<th></th>
+										<th>Reg</th>
+										<th>Kommentar</th>
+										<th><a href="javascript:ToggleNotifications()"><img src="img/mail.png" alt="e-mail"></a></th>
+										<th></th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<!-- inputs do not have names, POST values will be generated upon submit -->
+										<td><img src="img/a-net-ina.png" alt="www.airliners.net"></td>
+										<td><input type="text" class="reg" value="" maxlength="31"></td>
+										<td><input type="text" class="comment" value="" maxlength="255"></td>
+										<td><input type="checkbox" class="notify" value=""></td>
+										<td><button type="button" class="del" onclick="RemoveRow(this);">&nbsp;</button></td>
+										<td><button type="button" class="add" onclick="CloneRow(this);">&nbsp;</button></td>
+									</tr>
+								</tbody>
+							</table>
 						</div>
-						<div class="cell">
-							<div style="display: inline;">Bis:</div>
-							<input type="text" name="until" id="until"
-							 value="00.00.0000" disabled>
-						</div>
+						<input type="submit" value="Aktualisieren"
+						 style="margin: 0.5em 0;">
 					</div>
-				</div>
+				</form>
 			</div>
 		</div>
-	</fieldset>
-	<div class="center"><input id="submit" type="submit" name="submit"/></div>
-</form>
+	</div>
+</div>
+<div id="schedule">
+	<table class="sortable">
+		<thead>
+			<tr>
+				<th>Zeit				<th class="sep">Flug				<th class="sep">Fluggesellschaft				<th class="sep">IATA
+				<th class="sep">ICAO
+				<th class="sep">Von				<th class="sep sorttable_model">Typ				<th class="sep sorttable_reg">Reg			</tr>
+		</thead>
+		<tbody>
+<tr><td>+7 00:00</td><td>QQ9999</td><td><div>QAirline</div></td><td>ZZZ</td><td>ZZZ</td><td><div>Zzzz</div></td><td class="model">A321</td><td>				<a href = "http://www.airliners.net/search?keywords=D-AIRY&amp;sortBy=datePhotographedYear&amp;sortOrder=desc" target="a-net">
+					<img src="img/a-net.png" alt="www.airliners.net">
+				</a>
+D-AIRY</td></tr>
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript" src="script/sortable.js?rev=$Rev$"></script>
+			</div>
+		</div>
+		<div>
+			<div id="counter" class="box center">
+				<a href="https://info.flagcounter.com/y9Ko">
+					<img src="https://s07.flagcounter.com/count/y9Ko/bg_ffffff/txt_a3aab7/border_ffffff/columns_8/maxflags_248/viewers_Live+Schedule+Visitors:/labels_1/pageviews_0/flags_0/" alt="Free counters!">
+				</a>
 			</div>
 		</div>
 	</div>

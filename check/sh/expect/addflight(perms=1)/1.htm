@@ -49,11 +49,13 @@ Live Schedule &ndash; Arrival</h3>
 		<li><a href="http://www.frankfurt-aviation-friends.de/">Home</a></li>
 			<li class="sep">Arrival</li>
 			<li class="sep"><a href="?departure">Departure</a></li>
+				<li class="sep"><a href="javascript:watchlist('show');">Watchlist</a></li>
+					<li class="sep"><a href="?page=addflight">Add flight</a></li>
 		<li class="sep"><a href="?page=help">Help</a></li>
 </ul>
 <ul class="menu right">
-			<li class="sep"><a href="?req=register">Register</a></li>
-			<li class="sep"><a href="?req=login">Login</a></li>
+			<li class="sep"><a href="?req=profile">User profile</a></li>
+			<li class="sep"><a href="?req=logout">Logout</a></li>
 		<li style="vertical-align: baseline;">
 			<a href="?lang=de">
 				<img class="flag" src="img/de.png" alt="German" width="16" height="12">
@@ -72,6 +74,7 @@ Live Schedule &ndash; Arrival</h3>
 	wl_img_open = "img/wl-open-en.png";
 	wl_img_close = "img/wl-close-en.png";
 </script>
+<script type="text/javascript" src="script/watchlist.js?rev=$Rev$"></script>
 <script type="text/javascript" src="script/sorttable.js?rev=$Rev$"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
@@ -94,6 +97,48 @@ Live Schedule &ndash; Arrival</h3>
 			<img alt="active runway" src="img/arrival-yellow-16x14.png">
 		</span>
 		<span id="rwy_r">99</span>
+	</div>
+</div>
+<div id="wl_cont">
+	<div id="wl_div">
+		<div id="wl_handle" class="cell top">
+			<img id="wl_img" src="img/wl-open-en.png" alt="watchlist">
+		</div>
+		<div class="cell top">
+			<div id="expandable" style="width: 0; visibility: hidden;">
+				<form id="watch" method="post" action="?">
+					<div class="center" style="padding: 6px 6px 6px 0;">
+						<div id="list">
+							<table>
+								<thead>
+									<tr>
+										<th></th>
+										<th>Reg</th>
+										<th>Comment</th>
+										<th><a href="javascript:ToggleNotifications()"><img src="img/mail.png" alt="e-mail"></a></th>
+										<th></th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<!-- inputs do not have names, POST values will be generated upon submit -->
+										<td><img src="img/a-net-ina.png" alt="www.airliners.net"></td>
+										<td><input type="text" class="reg" value="" maxlength="31"></td>
+										<td><input type="text" class="comment" value="" maxlength="255"></td>
+										<td><input type="checkbox" class="notify" value=""></td>
+										<td><button type="button" class="del" onclick="RemoveRow(this);">&nbsp;</button></td>
+										<td><button type="button" class="add" onclick="CloneRow(this);">&nbsp;</button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<input type="submit" value="Refresh"
+						 style="margin: 0.5em 0;">
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
 </div>
 <div id="schedule">

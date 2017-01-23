@@ -258,8 +258,11 @@ function GetPostRegId(&$reg, &$model)
 				if (!$row)
 				{
 					$model = null;
+
+					$query = "INSERT INTO `models`(`icao`) VALUES('$model')";
 				}
-				else
+
+				if (!$error)
 				{
 					$model = $row[0];
 					$query = "INSERT INTO `aircrafts`(`reg`, `model`)".
@@ -405,10 +408,10 @@ if ($_POST)
 								{
 									if (!$model)
 									{
-										//&&$notice = $reg ? $lang['typeunknown'] : $lang['needtype'];
-
-										/* Set $airline to something different from null to suppress notice, since
-										   we are already notifiying about unknown aircraft type... */
+										$notice = $reg ? $lang['typeunknown'] : $lang['needtype'];
+									}
+									else
+									{
 										$airline = $flight[0];
 									}
 								}
@@ -416,7 +419,7 @@ if ($_POST)
 						}
 					}
 
-					if (!$error)
+					if (!$error && !$notice)
 					{
 						$airline = null;
 						$error = GetAirlineId($airline, $flight);

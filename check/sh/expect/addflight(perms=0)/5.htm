@@ -52,8 +52,8 @@ Live Schedule</h3>
 			<li class="sep"><a href="?page=help">Help</a></li>
 </ul>
 <ul class="menu right">
-			<li class="sep"><a href="?req=register">Register</a></li>
-			<li class="sep"><a href="?req=login">Login</a></li>
+			<li class="sep"><a href="?req=profile">User profile</a></li>
+			<li class="sep"><a href="?req=logout">Logout</a></li>
 		<li style="vertical-align: baseline;">
 			<a href="?page=addflight&amp;lang=de">
 				<img class="flag" src="img/de.png" alt="German" width="16" height="12">
@@ -155,28 +155,29 @@ $(function()
 <form method="post" action="?page=addflight">
 	<fieldset>
 		<legend>Add flight</legend>
+		<div id="notification" class="error">You do not have the permissions required for this operation.</div>
 		<div class="table">
 			<div class="row">
 				<div class="cell label">Reg</div>
 				<div class="cell">
 					<input type="text" name="reg" id="reg"
-					 value=""/>
+					 value="D-AIRY"/>
 				</div>
 			</div>
 			<div class="row">
 				<div class="cell label">Flight</div>
 				<div class="cell">
 					<input type="text" name="flight" id="flight"
-					 value=""/>
+					 value="QQ9999"/>
 						<label>
 							<input type="radio" name="type"
-							 value="pax-regular" checked="checked">Regular						</label>
+							 value="pax-regular"  checked="checked" />Regular						</label>
 						<label>
 							<input type="radio" name="type"
-							 value="cargo">Cargo						</label>
+							 value="cargo" />Cargo						</label>
 						<label>
 							<input type="radio" name="type"
-							 value="ferry">Ferry						</label>
+							 value="ferry" />Ferry						</label>
 				</div>
 			</div>
 			<div class="row">
@@ -206,9 +207,9 @@ $(function()
 						 value="00:00"/>HH:MM (local)
 					</div>
 					<div class="cell">
-						<label><input type="radio" name="interval" value="once" id="once" checked="checked" />Once</label><br>
-						<label><input type="radio" name="interval" value="daily" id="daily"/>Daily</label><br>
-						<label><input type="radio" name="interval" value="each" id="each"/>Each</label>
+						<label><input type="radio" name="interval" value="once" id="once"  checked="checked" />Once</label><br>
+						<label><input type="radio" name="interval" value="daily" id="daily" />Daily</label><br>
+						<label><input type="radio" name="interval" value="each" id="each" />Each</label>
 						<div style="margin-left: 1em; display: inline;">
 							<label><input type="checkbox" name="day[1]" id="mon" disabled />Mon</label>
 							<label><input type="checkbox" name="day[2]" id="tue" disabled />Tue</label>

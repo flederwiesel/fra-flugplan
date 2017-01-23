@@ -52,8 +52,8 @@ Live Flugplan</h3>
 			<li class="sep"><a href="?page=help">Hilfe</a></li>
 </ul>
 <ul class="menu right">
-			<li class="sep"><a href="?req=register">Registrieren</a></li>
-			<li class="sep"><a href="?req=login">Anmelden</a></li>
+			<li class="sep"><a href="?req=profile">Benutzerprofil</a></li>
+			<li class="sep"><a href="?req=logout">Abmelden</a></li>
 		<li style="vertical-align: baseline;">
 			<a href="?page=addflight&amp;lang=de">
 				<img class="flag" src="img/de.png" alt="Deutsch" width="16" height="12">
@@ -155,28 +155,29 @@ $(function()
 <form method="post" action="?page=addflight">
 	<fieldset>
 		<legend>Flug einfügen</legend>
+		<div id="notification" class="error">Nicht genügend Rechte, um diese Aktion auszuführen.</div>
 		<div class="table">
 			<div class="row">
 				<div class="cell label">Reg</div>
 				<div class="cell">
 					<input type="text" name="reg" id="reg"
-					 value=""/>
+					 value="D-AIRY"/>
 				</div>
 			</div>
 			<div class="row">
 				<div class="cell label">Flug</div>
 				<div class="cell">
 					<input type="text" name="flight" id="flight"
-					 value=""/>
+					 value="QQ9999"/>
 						<label>
 							<input type="radio" name="type"
-							 value="pax-regular" checked="checked">Normal						</label>
+							 value="pax-regular"  checked="checked" />Normal						</label>
 						<label>
 							<input type="radio" name="type"
-							 value="cargo">Cargo						</label>
+							 value="cargo" />Cargo						</label>
 						<label>
 							<input type="radio" name="type"
-							 value="ferry">Überführung						</label>
+							 value="ferry" />Überführung						</label>
 				</div>
 			</div>
 			<div class="row">
@@ -206,9 +207,9 @@ $(function()
 						 value="00:00"/>HH:MM (lokal)
 					</div>
 					<div class="cell">
-						<label><input type="radio" name="interval" value="once" id="once" checked="checked" />Einmalig</label><br>
-						<label><input type="radio" name="interval" value="daily" id="daily"/>Täglich</label><br>
-						<label><input type="radio" name="interval" value="each" id="each"/>Jeden</label>
+						<label><input type="radio" name="interval" value="once" id="once"  checked="checked" />Einmalig</label><br>
+						<label><input type="radio" name="interval" value="daily" id="daily" />Täglich</label><br>
+						<label><input type="radio" name="interval" value="each" id="each" />Jeden</label>
 						<div style="margin-left: 1em; display: inline;">
 							<label><input type="checkbox" name="day[1]" id="mon" disabled />Mo</label>
 							<label><input type="checkbox" name="day[2]" id="tue" disabled />Di</label>

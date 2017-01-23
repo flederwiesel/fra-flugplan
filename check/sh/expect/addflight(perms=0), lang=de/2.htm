@@ -49,18 +49,18 @@ Live Flugplan</h3>
 		<li><a href="http://www.frankfurt-aviation-friends.de/">Startseite</a></li>
 			<li class="sep"><a href="?arrival">Ankunft</a></li>
 			<li class="sep"><a href="?departure">Abflug</a></li>
-		<li class="sep"><a href="?page=help">Hilfe</a></li>
+			<li class="sep"><a href="?page=help">Hilfe</a></li>
 </ul>
 <ul class="menu right">
 			<li class="sep"><a href="?req=register">Registrieren</a></li>
 			<li class="sep"><a href="?req=login">Anmelden</a></li>
 		<li style="vertical-align: baseline;">
-			<a href="?req=register&amp;stopforumspam=...&amp;lang=de">
+			<a href="?page=addflight&amp;lang=de">
 				<img class="flag" src="img/de.png" alt="Deutsch" width="16" height="12">
 			</a>
 		</li>
 		<li style="vertical-align: baseline;">
-			<a href="?req=register&amp;stopforumspam=...&amp;lang=en">
+			<a href="?page=addflight&amp;lang=en">
 				<img class="flag" src="img/en.png" alt="Englisch" width="16" height="12">
 			</a>
 		</li>
@@ -68,126 +68,168 @@ Live Flugplan</h3>
 </nav>
 			</div>
 			<div id="content">
-<form class="stretched" method="post" action="?req=register"
-	onsubmit="document.getElementById('submit').disabled=true;">
+<script type="text/javascript">
+$(function()
+{
+	$('#from').datepicker({
+		dateFormat: 'dd.mm.yy',
+		firstDay: 1,
+		minDate: 0,
+		maxDate: '+1Y',
+		changeMonth: true,
+		changeYear: true,
+		onSelect: function(selectedDate) { $('#until').datepicker('option', 'minDate', selectedDate);  }
+	});
+
+	$('#until').datepicker({
+		dateFormat: 'dd.mm.yy',
+		firstDay: 1,
+		minDate: 0,
+		maxDate: '+1Y',
+		changeMonth: true,
+		changeYear: true,
+	});
+
+	$(document).ready(function()
+	{
+		$('#reg').focus();
+	});
+
+	$('#form').submit(function() {
+		$('#submit').attr('disabled', 'disabled');
+	});
+
+	/* Input event handlers */
+	$('#once').click(function()	{
+		$('#until').attr('disabled', '');
+		days_enable(0);
+	});
+
+	$('#daily').click(function() {
+		$('#until').removeAttr('disabled');
+		$('#all').attr('checked', '');
+		days_check(1);
+		days_enable(0);
+	});
+
+	$('#each').click(function()	{
+		$('#until').removeAttr('disabled');
+		$('#all').removeAttr('disabled');
+		days_enable(1);
+	});
+
+	$('#all').click(function() {
+		days_check($(this).prop('checked'));
+	});
+
+	var days = [ 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun' ];
+
+	function days_check(b) {
+
+		jQuery.each(days, function() {
+			$('#' + this).prop('checked', b);
+		});
+	}
+
+	function days_enable(b) {
+
+		if (b)
+		{
+			$('#all').removeAttr('disabled');
+
+			jQuery.each(days, function() {
+				$('#' + this).removeAttr('disabled', '');
+			});
+		}
+		else
+		{
+			$('#all').attr('disabled', '');
+
+			jQuery.each(days, function() {
+				$('#' + this).attr('disabled', '');
+			});
+		}
+	}
+});
+</script>
+<form method="post" action="?page=addflight">
 	<fieldset>
-		<legend>Registrierung</legend>
-		<div id="notification" style="display: none;"></div>
-		<div class="explainatory">Um die Funktionalität dieser Seite in vollem Umfang benutzen zu können, bedarf es einer einmaligen, kostenlosen Registrierung. Es entstehen hierbei keine Folgekosten, angegebene Daten werden entsprechend den Datenschutzrichtlinien behandelt.<br><br>Aus Sicherheitsgründen muß das Benutzerkonto mittels einem per E-Mail zugesendeten Token anschließend einmalig aktiviert werden. Nicht aktivierte Konten werden regelmäßig gelöscht.</div>
+		<legend>Flug einfügen</legend>
 		<div class="table">
 			<div class="row">
-				<div class="cell label">E-Mail-Adresse</div>
+				<div class="cell label">Reg</div>
 				<div class="cell">
-					<input type="text" id="email" name="email"
-					 value="" autofocus>
+					<input type="text" name="reg" id="reg"
+					 value=""/>
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label">Benutzername</div>
+				<div class="cell label">Flug</div>
 				<div class="cell">
-					<input type="text" id="user" name="user"
-					 value="">
-					<div class="hint">
-						Mindestens 4, höchstens 32 Zeichen					</div>
+					<input type="text" name="flight" id="flight"
+					 value=""/>
+						<label>
+							<input type="radio" name="type"
+							 value="pax-regular" checked="checked">Normal						</label>
+						<label>
+							<input type="radio" name="type"
+							 value="cargo">Cargo						</label>
+						<label>
+							<input type="radio" name="type"
+							 value="ferry">Überführung						</label>
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell">&nbsp;</div>
-			</div>
-			<div class="row">
-				<div class="cell label">Passwort</div>
+				<div class="cell"></div>
 				<div class="cell">
-					<input type="password" id="passwd" name="passwd"
-					 value="">
+					<label><input type="radio" name="direction" value="arrival"  checked="checked" />Ankunft</label>
+					<label><input type="radio" name="direction" value="departure" />Abflug</label>
 				</div>
 			</div>
+
 			<div class="row">
-				<div class="cell label">Passwort bestätigen</div>
+				<div class="cell label">Von</div>
 				<div class="cell">
-					<input type="password" id="passwd-confirm" name="passwd-confirm"
-					 value="">
-					<div class="hint">Passwort muß aus mindestens 4 Zeichen bestehen.</div>
-				</div>
-			</div>
-			<div class="row">
-				<div class="cell">&nbsp;</div>
-			</div>
-			<div class="row">
-				<div class="cell label">Zeitzone</div>
-				<div class="cell">
-					<select class="stretched" id="timezone" name="timezone">
-						<option value="-43200" >GMT -12 Eniwetok, Kwajalein
-						<option value="-39600" >GMT -11 Midway Island, Samoa
-						<option value="-36000" >GMT -10 Hawaii
-						<option value="-32400" >GMT -09 Alaska
-						<option value="-28800" >GMT -08 Pacific Time (USA); Tijuana
-						<option value="-25200" >GMT -07 Mountain Time (USA)
-						<option value="-25200" >GMT -07 Arizona
-						<option value="-21600" >GMT -06 Central Time (USA)
-						<option value="-21600" >GMT -06 Saskatchewan
-						<option value="-21600" >GMT -06 Mexico City, Tegucigalpa
-						<option value="-18000" >GMT -05 Eastern Time (USA)
-						<option value="-18000" >GMT -05 Indiana East
-						<option value="-18000" >GMT -05 Bogota, Lima, Quito
-						<option value="-14400" >GMT -04 Atlantic Time (Canada)
-						<option value="-14400" >GMT -04 Caracas, La Paz
-						<option value="-14400" >GMT -04 Santiago
-						<option value="-10800" >GMT -03 Brasilia
-						<option value="-10800" >GMT -03 Buenos Aires, Georgetown
-						<option value="-7200" >GMT -02 Mid-Atlantic
-						<option value="-3600" >GMT -01 Azores, Cape Verde Is.
-						<option value="0" >GMT Dublin, Edinburgh, Lisbon, London
-						<option value="0" >GMT Casablanca, Monrovia
-						<option value="3600" >GMT +01 Belgrade, Bratislava, Budapest, Ljubljana, Prague
-						<option value="3600" >GMT +01 Sarajevo, Skopje, Sofija, Warsaw, Zagreb
-						<option value="3600" >GMT +01 Brussels, Copenhagen, Madrid, Paris, Vilnius
-						<option value="3600" selected>GMT +01 Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna
-						<option value="7200" >GMT +02 Bucharest
-						<option value="7200" >GMT +02 Cairo
-						<option value="7200" >GMT +02 Helsinki, Riga, Tallinn
-						<option value="7200" >GMT +02 Athens, Istanbul, Minsk
-						<option value="7200" >GMT +02 Jerusalem
-						<option value="7200" >GMT +02 Harare, Pretoria
-						<option value="10800" >GMT +03 Moscow, St. Petersburg, Volgograd
-						<option value="10800" >GMT +03 Baghdad, Kuwait, Riyadh
-						<option value="10800" >GMT +03 Nairobi
-						<option value="14400" >GMT +04 Abu Dhabi, Muscat
-						<option value="14400" >GMT +04 Baku, Tbilisi
-						<option value="18000" >GMT +05 Ekaterinburg
-						<option value="18000" >GMT +05 Islamabad, Karachi, Tashkent
-						<option value="21600" >GMT +06 Astana, Almaty, Dhaka
-						<option value="21600" >GMT +06 Colombo
-						<option value="25200" >GMT +07 Bangkok, Hanoi, Jakarta
-						<option value="28800" >GMT +08 Beijing, Chongqing, Hong Kong, Urumqi
-						<option value="28800" >GMT +08 Singapore
-						<option value="28800" >GMT +08 Taipei
-						<option value="28800" >GMT +08 Perth
-						<option value="32400" >GMT +09 Seoul
-						<option value="32400" >GMT +09 Osaka, Sapporo, Tokyo
-						<option value="32400" >GMT +09 Yakutsk
-						<option value="36000" >GMT +10 Canberra, Melbourne, Sydney
-						<option value="36000" >GMT +10 Brisbane
-						<option value="36000" >GMT +10 Hobart
-						<option value="36000" >GMT +10 Vladivostok
-						<option value="36000" >GMT +10 Guam, Port Moresby
-						<option value="39600" >GMT +11 Magadan, Solomon Is., New Caledonia
-						<option value="43200" >GMT +12 Fiji, Kamchatka, Marshall Is.
-						<option value="43200" >GMT +12 Auckland, Wellington
+					<select id="airport-icao" name="airport">
+<option>empty</option>
 					</select>
 				</div>
 			</div>
+
 			<div class="row">
-				<div class="cell label">Sprache</div>
+				<div class="cell label">Datum</div>
 				<div class="cell">
-					<select class="stretched" id="lang" name="lang">
-<option value="de"  selected>Deutsch</option><option value="en" >Englisch</option>					</select>
+					<input type="text" name="from" id="from" value="00.00.0000"/>
+					<div style="display: inline;">STA:</div>
+					<div style="display: inline;">
+						<input type="text" name="time" id="time" style="margin-right: 0.5em;"
+						 value="00:00"/>HH:MM (lokal)
+					</div>
+					<div class="cell">
+						<label><input type="radio" name="interval" value="once" id="once" checked="checked" />Einmalig</label><br>
+						<label><input type="radio" name="interval" value="daily" id="daily"/>Täglich</label><br>
+						<label><input type="radio" name="interval" value="each" id="each"/>Jeden</label>
+						<div style="margin-left: 1em; display: inline;">
+							<label><input type="checkbox" name="day[1]" id="mon" disabled />Mo</label>
+							<label><input type="checkbox" name="day[2]" id="tue" disabled />Di</label>
+							<label><input type="checkbox" name="day[3]" id="wed" disabled />Mi</label>
+							<label><input type="checkbox" name="day[4]" id="thu" disabled />Do</label>
+							<label><input type="checkbox" name="day[5]" id="fri" disabled />Fr</label>
+							<label><input type="checkbox" name="day[6]" id="sat" disabled />Sa</label>
+							<label><input type="checkbox" name="day[7]" id="sun" disabled />So</label>
+							<label><input type="checkbox" name="day[0]" id="all" disabled /><b>Alle</b></label>
+						</div>
+						<div class="cell">
+							<div style="display: inline;">Bis:</div>
+							<input type="text" name="until" id="until"
+							 value="00.00.0000" disabled>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</fieldset>
-	<div class="center">
-		<input type="submit" id="submit" value="Absenden">
-	</div>
+	<div class="center"><input id="submit" type="submit" name="submit"/></div>
 </form>
 			</div>
 		</div>

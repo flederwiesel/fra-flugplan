@@ -34,7 +34,7 @@ Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
 X-Mailer: PHP/*
 
-2:OftenUsedInSpam <nospam@flederwiesel.com> (expires 0000-00-00 00:00:00) = OK
+1:OftenUsedInSpam <nospam@flederwiesel.com> (expires 0000-00-00 00:00:00) = OK
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000

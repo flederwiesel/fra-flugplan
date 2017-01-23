@@ -49,18 +49,18 @@ Live Flugplan</h3>
 		<li><a href="http://www.frankfurt-aviation-friends.de/">Startseite</a></li>
 			<li class="sep"><a href="?arrival">Ankunft</a></li>
 			<li class="sep"><a href="?departure">Abflug</a></li>
-		<li class="sep"><a href="?page=help">Hilfe</a></li>
+			<li class="sep"><a href="?page=help">Hilfe</a></li>
 </ul>
 <ul class="menu right">
 			<li class="sep"><a href="?req=register">Registrieren</a></li>
 			<li class="sep"><a href="?req=login">Anmelden</a></li>
 		<li style="vertical-align: baseline;">
-			<a href="?req=activate&amp;user=flederwiesel&amp;lang=de">
+			<a href="?page=addflight&amp;lang=de">
 				<img class="flag" src="img/de.png" alt="Deutsch" width="16" height="12">
 			</a>
 		</li>
 		<li style="vertical-align: baseline;">
-			<a href="?req=activate&amp;user=flederwiesel&amp;lang=en">
+			<a href="?page=addflight&amp;lang=en">
 				<img class="flag" src="img/en.png" alt="Englisch" width="16" height="12">
 			</a>
 		</li>
@@ -68,35 +68,169 @@ Live Flugplan</h3>
 </nav>
 			</div>
 			<div id="content">
-<form class="stretched" method="post" action="?req=activate"
-	onsubmit="document.getElementById('submit').disabled=true;">
+<script type="text/javascript">
+$(function()
+{
+	$('#from').datepicker({
+		dateFormat: 'dd.mm.yy',
+		firstDay: 1,
+		minDate: 0,
+		maxDate: '+1Y',
+		changeMonth: true,
+		changeYear: true,
+		onSelect: function(selectedDate) { $('#until').datepicker('option', 'minDate', selectedDate);  }
+	});
+
+	$('#until').datepicker({
+		dateFormat: 'dd.mm.yy',
+		firstDay: 1,
+		minDate: 0,
+		maxDate: '+1Y',
+		changeMonth: true,
+		changeYear: true,
+	});
+
+	$(document).ready(function()
+	{
+		$('#reg').focus();
+	});
+
+	$('#form').submit(function() {
+		$('#submit').attr('disabled', 'disabled');
+	});
+
+	/* Input event handlers */
+	$('#once').click(function()	{
+		$('#until').attr('disabled', '');
+		days_enable(0);
+	});
+
+	$('#daily').click(function() {
+		$('#until').removeAttr('disabled');
+		$('#all').attr('checked', '');
+		days_check(1);
+		days_enable(0);
+	});
+
+	$('#each').click(function()	{
+		$('#until').removeAttr('disabled');
+		$('#all').removeAttr('disabled');
+		days_enable(1);
+	});
+
+	$('#all').click(function() {
+		days_check($(this).prop('checked'));
+	});
+
+	var days = [ 'mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun' ];
+
+	function days_check(b) {
+
+		jQuery.each(days, function() {
+			$('#' + this).prop('checked', b);
+		});
+	}
+
+	function days_enable(b) {
+
+		if (b)
+		{
+			$('#all').removeAttr('disabled');
+
+			jQuery.each(days, function() {
+				$('#' + this).removeAttr('disabled', '');
+			});
+		}
+		else
+		{
+			$('#all').attr('disabled', '');
+
+			jQuery.each(days, function() {
+				$('#' + this).attr('disabled', '');
+			});
+		}
+	}
+});
+</script>
+<form method="post" action="?page=addflight">
 	<fieldset>
-		<legend>Aktivierung</legend>
-		<div id="notification" class="success">
-			Registrierung erfolgreich. Aktivierungs-Token eingeben.		</div>
-		<div class="explainatory">Bitte Token aus der E-Mail eigeben, die an die angegebene Adresse gesendet wurde.<br><br>Sollte keine Aktivierungs-Mail im Posteingang auftauchen, bitte den Spam-Ordner prüfen.<br><br>Je nach Internetanbieter und Mailserver kann es vorkommen, daß die Zustellung von E-Mails länger dauert als das Token gültig ist. In diesem Fall, bitte Kontakt mit mir unter <a href="content/emil.php?subject=fra-schedule%20Aktivierungsproblem"><img alt="email" src="content/mkpng.php?font=verdana&amp;size=10&amp;bg=white&amp;fg=%2300007f&amp;res=ADMIN_EMAIL"></a> aufnehmen.<br></div>
+		<legend>Flug einfügen</legend>
+		<div id="notification" class="error">Bitte zuerst anmelden.</div>
 		<div class="table">
 			<div class="row">
-				<div class="cell label">Benutzername</div>
+				<div class="cell label">Reg</div>
 				<div class="cell">
-					<input type="text" id="user" name="user"
-					 value="flederwiesel" autofocus>
-					<div class="hint"></div>
+					<input type="text" name="reg" id="reg"
+					 value="D-AIRY"/>
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label">Token</div>
+				<div class="cell label">Flug</div>
 				<div class="cell">
-					<input type="text" id="token" name="token"
-					 value="">
-					<div class="hint">Kombination aus 64 Ziffern/Buchstaben aus der Registrierungs-E-Mail.</div>
+					<input type="text" name="flight" id="flight"
+					 value="QQ9999"/>
+						<label>
+							<input type="radio" name="type"
+							 value="pax-regular"  checked="checked" />Normal						</label>
+						<label>
+							<input type="radio" name="type"
+							 value="cargo" />Cargo						</label>
+						<label>
+							<input type="radio" name="type"
+							 value="ferry" />Überführung						</label>
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell"></div>
+				<div class="cell">
+					<label><input type="radio" name="direction" value="arrival"  checked="checked" />Ankunft</label>
+					<label><input type="radio" name="direction" value="departure" />Abflug</label>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="cell label">Von</div>
+				<div class="cell">
+					<select id="airport-icao" name="airport">
+<option>empty</option>
+					</select>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="cell label">Datum</div>
+				<div class="cell">
+					<input type="text" name="from" id="from" value="00.00.0000"/>
+					<div style="display: inline;">STA:</div>
+					<div style="display: inline;">
+						<input type="text" name="time" id="time" style="margin-right: 0.5em;"
+						 value="00:00"/>HH:MM (lokal)
+					</div>
+					<div class="cell">
+						<label><input type="radio" name="interval" value="once" id="once"  checked="checked" />Einmalig</label><br>
+						<label><input type="radio" name="interval" value="daily" id="daily" />Täglich</label><br>
+						<label><input type="radio" name="interval" value="each" id="each" />Jeden</label>
+						<div style="margin-left: 1em; display: inline;">
+							<label><input type="checkbox" name="day[1]" id="mon" disabled />Mo</label>
+							<label><input type="checkbox" name="day[2]" id="tue" disabled />Di</label>
+							<label><input type="checkbox" name="day[3]" id="wed" disabled />Mi</label>
+							<label><input type="checkbox" name="day[4]" id="thu" disabled />Do</label>
+							<label><input type="checkbox" name="day[5]" id="fri" disabled />Fr</label>
+							<label><input type="checkbox" name="day[6]" id="sat" disabled />Sa</label>
+							<label><input type="checkbox" name="day[7]" id="sun" disabled />So</label>
+							<label><input type="checkbox" name="day[0]" id="all" disabled /><b>Alle</b></label>
+						</div>
+						<div class="cell">
+							<div style="display: inline;">Bis:</div>
+							<input type="text" name="until" id="until"
+							 value="00.00.0000" disabled>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
 	</fieldset>
-	<div class="center">
-		<input type="submit" id="submit" value="Absenden">
-	</div>
+	<div class="center"><input id="submit" type="submit" name="submit"/></div>
 </form>
 			</div>
 		</div>

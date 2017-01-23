@@ -21,35 +21,38 @@ prefix=$(rawurlencode $(sed s?http://??g <<<"$url"))
 
 ###############################################################################
 
-check "1" browse "$url/?req=register\&stopforumspam=$prefix" \
-		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+query <<-"SQL"
+	USE flederwiesel_fra-schedule;
 
-check "2" browse "$url/?req=register" \
-		--data-urlencode "email=hausmeister@flederwiesel.com" \
-		--data-urlencode "user=flederwiesel" \
-		--data-urlencode "passwd=elvizzz" \
-		--data-urlencode "passwd-confirm=elvizzz" \
-		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en"
+	INSERT INTO `users`
+	(
+		`id`, `name`, `email`, `salt`, `passwd`,
+		`language`, `tt-`, `tt+`, `tm-`, `tm+`
+	)
+	VALUES
+	(
+		2, 'flederwiesel', 'hausmeister@flederwiesel.com',
+		'cf78aafd5c5410b7b12c2794a52cda1bccd01316f30df57aa29c5609ba979c15',
+		'c4ae99aa0209ce5bea9687cf0548d8ebc942ba14e166c45957a876bcec194fed', # elvizzz
+		'en', -75, 86400, -75, 86400
+	);
 
-# grant addflight permission
-query --execute="USE flederwiesel_fra-schedule; UPDATE users SET permissions='1' WHERE name='flederwiesel'"
+	# grant user permissions
+	INSERT INTO `membership`(`user`, `group`)
+				 VALUES((SELECT `id` FROM `users`  WHERE `name`='flederwiesel'),
+						(SELECT `id` FROM `groups` WHERE `name`='addflights'));
 
-token=$(query --execute="USE flederwiesel_fra-schedule;
-	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)
+	INSERT INTO `airports`(`id`, `iata`, `icao`, `name`)
+	VALUES(1, 'ZZZ', 'ZZZ', 'Zzzz');
 
-check "3" browse "$url/?req=activate" \
-		--data-urlencode "user=flederwiesel" \
-		--data-urlencode "token=$token"
+	INSERT INTO `models`(`icao`) VALUES ('A321');
+SQL
 
-check "4" browse "$url/?req=login" \
-		--data-urlencode "user=flederwiesel" \
-		--data-urlencode "passwd=elvizzz"
+check "1" browse "$url/?req=login" \
+	--data-urlencode "user=flederwiesel" \
+	--data-urlencode "passwd=elvizzz"
 
-check "5" browse "$url/?page=addflight" \
-	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
-
-check "6" browse "$url/?page=addflight" \
+check "2" browse "$url/?page=addflight" \
 		--data-urlencode "reg=D-AIRY" \
 		--data-urlencode "model=A321" \
 		--data-urlencode "flight=QQ9999" \

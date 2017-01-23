@@ -21,27 +21,38 @@ prefix=$(rawurlencode $(sed s?http://??g <<<"$url"))
 
 ###############################################################################
 
+query <<-"SQL"
+	USE flederwiesel_fra-schedule;
+
+	INSERT INTO `users`
+	(
+		`id`, `name`, `email`, `salt`, `passwd`,
+		`language`, `tt-`, `tt+`, `tm-`, `tm+`
+	)
+	VALUES
+	(
+		2, 'flederwiesel', 'hausmeister@flederwiesel.com',
+		'cf78aafd5c5410b7b12c2794a52cda1bccd01316f30df57aa29c5609ba979c15',
+		'c4ae99aa0209ce5bea9687cf0548d8ebc942ba14e166c45957a876bcec194fed', # elvizzz
+		'de', -75, 86400, -75, 86400
+	);
+
+	# grant user permissions
+	INSERT INTO `membership`(`user`, `group`)
+				 VALUES((SELECT `id` FROM `users`  WHERE `name`='flederwiesel'),
+					(SELECT `id` FROM `groups`  WHERE `name`='users'));
+
+	INSERT INTO `airports`(`id`, `iata`, `icao`, `name`)
+	VALUES(1, 'ZZZ', 'ZZZ', 'Zzzz');
+
+	INSERT INTO `models`(`icao`) VALUES ('A321');
+SQL
+
 check "1" browse "$url/?lang=de"
-check "2" browse "$url/?req=register\&stopforumspam=$prefix" \
-		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
-check "3" browse "$url/?req=register" \
-		--data-urlencode "email=hausmeister@flederwiesel.com" \
-		--data-urlencode "user=flederwiesel" \
-		--data-urlencode "passwd=elvizzz" \
-		--data-urlencode "passwd-confirm=elvizzz" \
-		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=de"
-
-token=$(query --execute="USE flederwiesel_fra-schedule;
-	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)
-
-check "4" browse "$url/?req=activate" \
-		--data-urlencode "user=flederwiesel" \
-		--data-urlencode "token=$token"
-
-check "5" browse "$url/?page=addflight" \
-	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g
+check "2" browse "$url/?page=addflight" \
+	"|" sed -r "'
+		s/[0-9]{2}:[0-9]{2}/00:00/g
 		s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g
 		/<option/d
 		/<\/select/i <option>empty</option>'"
@@ -50,7 +61,7 @@ check "5" browse "$url/?page=addflight" \
 # not logged in
 ###############################################################################
 
-check "6" browse "$url/?page=addflight" \
+check "3" browse "$url/?page=addflight" \
 		--data-urlencode "reg=D-AIRY" \
 		--data-urlencode "model=A321" \
 		--data-urlencode "flight=QQ9999" \
@@ -58,11 +69,12 @@ check "6" browse "$url/?page=addflight" \
 		--data-urlencode "airline=QAirline" \
 		--data-urlencode "type=pax-regular" \
 		--data-urlencode "direction=arrival" \
-		--data-urlencode "airport=2" \
+		--data-urlencode "airport=1" \
 		--data-urlencode "from=19.01.2038" \
 		--data-urlencode "time=03:14" \
 		--data-urlencode "interval=once" \
-	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g
+	"|" sed -r "'
+		s/[0-9]{2}:[0-9]{2}/00:00/g
 		s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g
 		/<option/d
 		/<\/select/i <option>empty</option>'"
@@ -71,13 +83,13 @@ check "6" browse "$url/?page=addflight" \
 # logged in
 ###############################################################################
 
-check "7" browse "$url/?req=login" \
+check "4" browse "$url/?req=login" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz"
 
 # but still no permission...
 
-check "8" browse "$url/?page=addflight" \
+check "5" browse "$url/?page=addflight" \
 		--data-urlencode "reg=D-AIRY" \
 		--data-urlencode "model=A321" \
 		--data-urlencode "flight=QQ9999" \
@@ -85,11 +97,12 @@ check "8" browse "$url/?page=addflight" \
 		--data-urlencode "airline=QAirline" \
 		--data-urlencode "type=pax-regular" \
 		--data-urlencode "direction=arrival" \
-		--data-urlencode "airport=2" \
+		--data-urlencode "airport=1" \
 		--data-urlencode "from=19.01.2038" \
 		--data-urlencode "time=03:14" \
 		--data-urlencode "interval=once" \
-	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g
+	"|" sed -r "'
+		s/[0-9]{2}:[0-9]{2}/00:00/g
 		s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g
 		/<option/d
 		/<\/select/i <option>empty</option>'"

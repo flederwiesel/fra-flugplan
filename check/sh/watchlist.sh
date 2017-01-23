@@ -22,15 +22,25 @@ initdb && rm -f .COOKIES
 sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
 	USE flederwiesel_fra-schedule;
 
-	INSERT INTO `aircrafts`
-	(
-		`model`, `reg`
-	)
+	INSERT INTO `models`(`icao`)
+	VALUES ('B77W'), ('A333'), ('A346'), ('A310');
+
+	INSERT INTO `aircrafts`(`model`, `reg`)
 	VALUES
 	((SELECT `id` FROM `models` WHERE `icao` = 'B77W'), 'B-KPE'),
 	((SELECT `id` FROM `models` WHERE `icao` = 'A333'), 'C-GFAH'),
 	((SELECT `id` FROM `models` WHERE `icao` = 'A346'), 'ZS-SNC'),
 	((SELECT `id` FROM `models` WHERE `icao` = 'A310'), 'C-GSAT');
+
+	INSERT INTO `airlines`(`code`)
+	VALUES ('SA'), ('CX'), ('AC'), ('TS');
+
+	INSERT INTO `airports`(`iata`, `icao`, `name`)
+	VALUES
+	('JNB', 'FAOR', ''),
+	('HKG', 'VHHH', ''),
+	('YUL', 'CYUL', ''),
+	('YVR', 'CYVR', '');
 
 	INSERT INTO `flights`
 	(
