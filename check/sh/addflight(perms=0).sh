@@ -41,7 +41,11 @@ check "4" browse "$url/?req=activate" \
 		--data-urlencode "token=$token"
 
 check "5" browse "$url/?page=addflight" \
-	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
+	"|" sed -r "'
+		s/[0-9]{2}:[0-9]{2}/00:00/g
+		s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g
+		/<option/d
+		/<\/select/i <option>empty</option>'"
 
 ###############################################################################
 # not logged in
@@ -59,7 +63,10 @@ check "6" browse "$url/?page=addflight" \
 		--data-urlencode "from=19.01.2038" \
 		--data-urlencode "time=03:14" \
 		--data-urlencode "interval=once" \
-	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
+	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g
+		s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g
+		/<option/d
+		/<\/select/i <option>empty</option>'"
 
 ###############################################################################
 # logged in
@@ -83,4 +90,7 @@ check "8" browse "$url/?page=addflight" \
 		--data-urlencode "from=19.01.2038" \
 		--data-urlencode "time=03:14" \
 		--data-urlencode "interval=once" \
-	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
+	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g
+		s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g
+		/<option/d
+		/<\/select/i <option>empty</option>'"

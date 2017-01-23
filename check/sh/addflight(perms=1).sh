@@ -50,7 +50,10 @@ check "5" browse "$url/?req=login" \
 		--data-urlencode "passwd=elvizzz"
 
 check "6" browse "$url/?page=addflight" \
-	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
+	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g
+		s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g
+		/<option/d
+		/<\/select/i <option>empty</option>'"
 
 # Insert flight: once -> 2038-01-19 04:14 local (2147483640)
 check "7" browse "$url/?page=addflight" \
@@ -65,7 +68,10 @@ check "7" browse "$url/?page=addflight" \
 		--data-urlencode "from=19.01.2038" \
 		--data-urlencode "time=03:14" \
 		--data-urlencode "interval=once" \
-	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
+	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g
+		s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g
+		/<option/d
+		/<\/select/i <option>empty</option>'"
 
 # Insert flight: once -> +1 week
 check "7-1" browse "$url/?page=addflight" \
@@ -80,7 +86,10 @@ check "7-1" browse "$url/?page=addflight" \
 		--data-urlencode "from=$(date +'%d.%m.%Y' --date='+1 week')" \
 		--data-urlencode "time=14:00" \
 		--data-urlencode "interval=once" \
-	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g; s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g'"
+	"|" sed -r "'s/[0-9]{2}:[0-9]{2}/00:00/g
+		s/[0-9]{2}\.[0-9]{2}\.[0-9]{4}/00.00.0000/g
+		/<option/d
+		/<\/select/i <option>empty</option>'"
 
 # check inserted flights
 # 7 day preview only, so flight from "7" will not appear...
