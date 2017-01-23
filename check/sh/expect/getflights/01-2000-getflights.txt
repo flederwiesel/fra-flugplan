@@ -699,7 +699,7 @@ SELECT `id` FROM `models` WHERE `icao`='A320';
 =9
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='departure' AND `airline`=113 AND `code`='579' AND `scheduled`='0000-00-02T19:10:00+0000'
 =<empty>
-INSERT INTO `flights` (`uid`, `direction`, `type`, `airline`, `code`, `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`) VALUES(1, 'departure', 'P', 113, '579', '0000-00-02T19:10:00+0000', NULL, 136, 9, NULL, '0000-00-01T20:00:00+0000');
+INSERT INTO `flights` (`direction`, `type`, `airline`, `code`, `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`) VALUES('departure', 'P', 113, '579', '0000-00-02T19:10:00+0000', NULL, 136, 9, NULL, '0000-00-01T20:00:00+0000');
 =OK
 
 /************************************/

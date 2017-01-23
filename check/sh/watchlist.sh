@@ -22,26 +22,24 @@ initdb && rm -f .COOKIES
 sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
 	USE flederwiesel_fra-schedule;
 
-	SELECT `id` INTO @uid FROM `users` WHERE `name`='root';
-
 	INSERT INTO `aircrafts`
 	(
-		`uid`, `model`, `reg`
+		`model`, `reg`
 	)
 	VALUES
-	(@uid, (SELECT `id` FROM `models` WHERE `icao` = 'B77W'), 'B-KPE'),
-	(@uid, (SELECT `id` FROM `models` WHERE `icao` = 'A333'), 'C-GFAH'),
-	(@uid, (SELECT `id` FROM `models` WHERE `icao` = 'A346'), 'ZS-SNC'),
-	(@uid, (SELECT `id` FROM `models` WHERE `icao` = 'A310'), 'C-GSAT');
+	((SELECT `id` FROM `models` WHERE `icao` = 'B77W'), 'B-KPE'),
+	((SELECT `id` FROM `models` WHERE `icao` = 'A333'), 'C-GFAH'),
+	((SELECT `id` FROM `models` WHERE `icao` = 'A346'), 'ZS-SNC'),
+	((SELECT `id` FROM `models` WHERE `icao` = 'A310'), 'C-GSAT');
 
 	INSERT INTO `flights`
 	(
-		`uid`, `type`, `direction`, `airline`, `code`,
+		`type`, `direction`, `airline`, `code`,
 		`scheduled`, `expected`, `airport`, `model`, `aircraft`
 	)
 	VALUES
 	(
-		@uid, 'P', 'arrival',
+		'P', 'arrival',
 		(SELECT `id` FROM `airlines` WHERE `code`='SA'), '260',
 		'%{date} 06:15', NULL,
 		(SELECT `id` FROM `airports` WHERE `icao`='FAOR'),
@@ -49,7 +47,7 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
 		(SELECT `id` FROM `aircrafts` WHERE `reg`='ZS-SNC')
 	),
 	(
-		@uid, 'P', 'arrival',
+		'P', 'arrival',
 		(SELECT `id` FROM `airlines` WHERE `code`='CX'), '289',
 		'%{date} 06:20', NULL,
 		(SELECT `id` FROM `airports` WHERE `icao`='VHHH'),
@@ -57,7 +55,7 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
 		(SELECT `id` FROM `aircrafts` WHERE `reg`='B-KPE')
 	),
 	(
-		@uid, 'P', 'arrival',
+		'P', 'arrival',
 		(SELECT `id` FROM `airlines` WHERE `code`='AC'), '874',
 		'%{date} 07:00', NULL,
 		(SELECT `id` FROM `airports` WHERE `icao`='CYUL'),
@@ -65,7 +63,7 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
 		(SELECT `id` FROM `aircrafts` WHERE `reg`='C-GFAH')
 	),
 	(
-		@uid, 'P', 'arrival',
+		'P', 'arrival',
 		(SELECT `id` FROM `airlines` WHERE `code`='TS'), 'XXX',
 		'%{date} 07:00', NULL,
 		(SELECT `id` FROM `airports` WHERE `icao`='CYVR'),

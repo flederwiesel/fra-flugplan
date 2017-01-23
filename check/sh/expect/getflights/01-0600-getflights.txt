@@ -252,7 +252,7 @@ SELECT `id` FROM `models` WHERE `icao`='B772';
 =65
 SELECT `id` FROM `aircrafts` WHERE `reg`='N794UA';
 =<empty>
-INSERT INTO `aircrafts`(`uid`, `reg`,`model`) VALUES(1, 'N794UA', 65);
+INSERT INTO `aircrafts`(`reg`,`model`) VALUES('N794UA', 65);
 =12
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=120 AND `code`='903' AND `scheduled`='0000-00-01T09:45:00+0000'
 =29,4,0000-00-00 10:00:00
@@ -394,7 +394,7 @@ SELECT `id` FROM `models` WHERE `icao`='A346';
 =19
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=99 AND `code`='260' AND `scheduled`='0000-00-02T06:15:00+0000'
 =<empty>
-INSERT INTO `flights` (`uid`, `direction`, `type`, `airline`, `code`, `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`) VALUES(1, 'arrival', 'P', 99, '260', '0000-00-02T06:15:00+0000', NULL, 323, 19, NULL, '0000-00-01T06:00:00+0000');
+INSERT INTO `flights` (`direction`, `type`, `airline`, `code`, `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`) VALUES('arrival', 'P', 99, '260', '0000-00-02T06:15:00+0000', NULL, 323, 19, NULL, '0000-00-01T06:00:00+0000');
 =OK
 
 /************************************/

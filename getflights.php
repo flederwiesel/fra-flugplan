@@ -1139,7 +1139,6 @@ SQL;
 function SQL_InsertAirline(/* in/out */ &$airline)
 {
 	global $DEBUG;
-	global $uid;
 
 	if (0 == strlen($airline->code))
 	{
@@ -1153,8 +1152,8 @@ function SQL_InsertAirline(/* in/out */ &$airline)
 			$airline->name = addslashes($airline->name);
 
 		$query = <<<SQL
-			INSERT INTO `airlines`(`uid`, `code`, `name`)
-			VALUES($uid, '$airline->code', '$airline->name');
+			INSERT INTO `airlines`(`code`, `name`)
+			VALUES('$airline->code', '$airline->name');
 SQL;
 
 		if (!mysql_query($query))
@@ -1240,7 +1239,6 @@ SQL;
 function SQL_InsertAirport(/* in/out */ &$airport)
 {
 	global $DEBUG;
-	global $uid;
 
 	if (0 == strlen($airport->iata) ||
 		0 == strlen($airport->icao))
@@ -1252,8 +1250,8 @@ function SQL_InsertAirport(/* in/out */ &$airport)
 		$airport->name = addslashes($airport->name);
 
 		$query = <<<SQL
-			INSERT INTO `airports`(`uid`, `iata`, `icao`, `name`)
-			VALUES($uid,
+			INSERT INTO `airports`(`iata`, `icao`, `name`)
+			VALUES(
 				'$airport->iata',
 				'$airport->icao',
 				'$airport->name');
@@ -1336,7 +1334,6 @@ SQL;
 function SQL_InsertAircraftType(/* in/out */ &$aircraft)
 {
 	global $DEBUG;
-	global $uid;
 
 	if (0 == strlen($aircraft->type->icao))
 	{
@@ -1347,8 +1344,8 @@ function SQL_InsertAircraftType(/* in/out */ &$aircraft)
 		$aircraft->type->name = addslashes($aircraft->type->name);
 
 		$query = <<<SQL
-			INSERT INTO `models`(`uid`, `icao`,`name`)
-			VALUES($uid, '{$aircraft->type->icao}', '{$aircraft->type->name}');
+			INSERT INTO `models`(`icao`,`name`)
+			VALUES('{$aircraft->type->icao}', '{$aircraft->type->name}');
 SQL;
 
 		if (!mysql_query($query))
@@ -1426,7 +1423,6 @@ SQL;
 function SQL_InsertAircraft(/* in/out*/ &$aircraft)
 {
 	global $DEBUG;
-	global $uid;
 
 	if (0 == strlen($aircraft->reg))
 	{
@@ -1439,8 +1435,8 @@ function SQL_InsertAircraft(/* in/out*/ &$aircraft)
 	else
 	{
 		$query = <<<SQL
-			INSERT INTO `aircrafts`(`uid`, `reg`,`model`)
-			VALUES($uid, '$aircraft->reg', {$aircraft->type->id});
+			INSERT INTO `aircrafts`(`reg`,`model`)
+			VALUES('$aircraft->reg', {$aircraft->type->id});
 SQL;
 
 		if (!mysql_query($query))
@@ -1524,7 +1520,6 @@ SQL;
 function SQL_UpdateFlightDetails(/* in */ $id, /* in */ $f)
 {
 	global $DEBUG;
-	global $uid;
 
 	// Don't overwrite `expected`/`airport` with NULL!
 
@@ -1576,7 +1571,6 @@ SQL;
 function SQL_InsertFlight(/*in*/ $type, /* in */ $dir, /* in/out */ &$f)
 {
 	global $DEBUG;
-	global $uid;
 
 	if (NULL == $f->expected)
 	{
@@ -1596,10 +1590,10 @@ function SQL_InsertFlight(/*in*/ $type, /* in */ $dir, /* in/out */ &$f)
 
 	$query = <<<SQL
 		INSERT INTO `flights`
-		(`uid`, `direction`, `type`, `airline`, `code`,
+		(`direction`, `type`, `airline`, `code`,
 		 `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`)
 		VALUES(
-		 $uid, '$dir', '$type',
+		 '$dir', '$type',
 		 {$f->airline->id}, '{$f->fnr}',
 		 '{$f->scheduled}', $expected,
 		 {$f->airport->id},
@@ -2086,7 +2080,7 @@ SQL;
 	}
 }
 
-function mysql_connect_db(&$hdbc, &$uid)
+function mysql_connect_db(&$hdbc)
 {
 	$hdbc = mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
 
@@ -2115,14 +2109,9 @@ function mysql_connect_db(&$hdbc, &$uid)
 				$row = mysql_fetch_row($result);
 
 				if (!$row)
-				{
 					$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
-				}
 				else
-				{
 					$error = NULL;
-					$uid = $row[0];
-				}
 
 				mysql_free_result($result);
 			}
@@ -2148,7 +2137,7 @@ catch (Exception $e)
 if (!$error)
 {
 	if (!$error)
-		$error = mysql_connect_db($hdbc, $uid);
+		$error = mysql_connect_db($hdbc);
 
 	if (!$error)
 	{

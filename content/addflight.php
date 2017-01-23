@@ -262,8 +262,8 @@ function GetPostRegId(&$reg, &$model)
 				else
 				{
 					$model = $row[0];
-					$query = "INSERT INTO `aircrafts`(`uid`, `reg`, `model`)".
-							 " VALUES(".$user->id().", '$reg', $model)";
+					$query = "INSERT INTO `aircrafts`(`reg`, `model`)".
+							 " VALUES('$reg', $model)";
 
 					if (!mysql_query($query))
 					{
@@ -335,8 +335,8 @@ function GetPostAirlineId(&$airline)
 		if (strlen($_POST['code']) &&
 			strlen($_POST['airline']))
 		{
-			$query = "INSERT INTO `airlines`(`uid`, `code`, `name`)".
-					 " VALUES(".$user->id().", '$_POST[code]', '$_POST[airline]')";
+			$query = "INSERT INTO `airlines`(`code`, `name`)".
+					 " VALUES('$_POST[code]', '$_POST[airline]')";
 
 			if (!mysql_query($query))
 			{
@@ -457,12 +457,11 @@ if ($_POST)
 									{
 										$query = sprintf(
 											"INSERT INTO `flights`".
-											" (`uid`, `type`, `direction`, `airline`, `code`, ".
+											" (`type`, `direction`, `airline`, `code`, ".
 											"  `scheduled`, `airport`, `model`, `aircraft`)".
 											"VALUES(".
-											" '%s', '$type', '$dir', $airline, '$flight[1]', ".
+											" '$type', '$dir', $airline, '$flight[1]', ".
 											" '%s', %lu, %s, %s);",
-											$user->id(),
 											strftime('%Y-%m-%d %H:%M:%S', $scheduled),
 											$_POST['airport'],
 											$model ? $model : 'NULL',

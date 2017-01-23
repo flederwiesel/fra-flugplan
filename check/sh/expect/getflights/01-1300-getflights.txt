@@ -398,7 +398,7 @@ SELECT `id` FROM `models` WHERE `icao`='A320';
 =9
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=113 AND `code`='572' AND `scheduled`='0000-00-02T12:35:00+0000'
 =<empty>
-INSERT INTO `flights` (`uid`, `direction`, `type`, `airline`, `code`, `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`) VALUES(1, 'arrival', 'P', 113, '572', '0000-00-02T12:35:00+0000', NULL, 136, 9, NULL, '0000-00-01T13:00:00+0000');
+INSERT INTO `flights` (`direction`, `type`, `airline`, `code`, `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`) VALUES('arrival', 'P', 113, '572', '0000-00-02T12:35:00+0000', NULL, 136, 9, NULL, '0000-00-01T13:00:00+0000');
 =OK
 
 /************************************/
@@ -795,7 +795,7 @@ SELECT `id` FROM `models` WHERE `icao`='B744';
 =57
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='departure' AND `airline`=120 AND `code`='902' AND `scheduled`='0000-00-02T12:15:00+0000'
 =<empty>
-INSERT INTO `flights` (`uid`, `direction`, `type`, `airline`, `code`, `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`) VALUES(1, 'departure', 'P', 120, '902', '0000-00-02T12:15:00+0000', NULL, 201, 57, NULL, '0000-00-01T13:00:00+0000');
+INSERT INTO `flights` (`direction`, `type`, `airline`, `code`, `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`) VALUES('departure', 'P', 120, '902', '0000-00-02T12:15:00+0000', NULL, 201, 57, NULL, '0000-00-01T13:00:00+0000');
 =OK
 
 /************************************/
@@ -808,7 +808,7 @@ SELECT `id` FROM `models` WHERE `icao`='B77W';
 =68
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='departure' AND `airline`=24 AND `code`='288' AND `scheduled`='0000-00-02T12:55:00+0000'
 =<empty>
-INSERT INTO `flights` (`uid`, `direction`, `type`, `airline`, `code`, `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`) VALUES(1, 'departure', 'P', 24, '288', '0000-00-02T12:55:00+0000', NULL, 98, 68, NULL, '0000-00-01T13:00:00+0000');
+INSERT INTO `flights` (`direction`, `type`, `airline`, `code`, `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`) VALUES('departure', 'P', 24, '288', '0000-00-02T12:55:00+0000', NULL, 98, 68, NULL, '0000-00-01T13:00:00+0000');
 =OK
 
 /************************************/

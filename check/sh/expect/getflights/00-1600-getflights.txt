@@ -202,7 +202,7 @@ SELECT `id` FROM `models` WHERE `icao`='B77W';
 =68
 SELECT `id` FROM `aircrafts` WHERE `reg`='9V-SWK';
 =<empty>
-INSERT INTO `aircrafts`(`uid`, `reg`,`model`) VALUES(1, '9V-SWK', 68);
+INSERT INTO `aircrafts`(`reg`,`model`) VALUES('9V-SWK', 68);
 =9
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=105 AND `code`='326' AND `scheduled`='0000-00-00T20:30:00+0000'
 =11,,0000-00-00 05:00:00

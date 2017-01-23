@@ -230,7 +230,7 @@ SELECT `id` FROM `models` WHERE `icao`='A346';
 =19
 SELECT `id` FROM `aircrafts` WHERE `reg`='ZS-SNC';
 =<empty>
-INSERT INTO `aircrafts`(`uid`, `reg`,`model`) VALUES(1, 'ZS-SNC', 19);
+INSERT INTO `aircrafts`(`reg`,`model`) VALUES('ZS-SNC', 19);
 =10
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=99 AND `code`='260' AND `scheduled`='0000-00-01T06:15:00+0000'
 =25,,0000-00-00 06:00:00
@@ -251,7 +251,7 @@ SELECT `id` FROM `models` WHERE `icao`='B77W';
 =68
 SELECT `id` FROM `aircrafts` WHERE `reg`='B-KPF';
 =<empty>
-INSERT INTO `aircrafts`(`uid`, `reg`,`model`) VALUES(1, 'B-KPF', 68);
+INSERT INTO `aircrafts`(`reg`,`model`) VALUES('B-KPF', 68);
 =11
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=24 AND `code`='289' AND `scheduled`='0000-00-01T06:20:00+0000'
 =26,,0000-00-00 07:00:00
