@@ -28,7 +28,7 @@ CREATE TABLE `users`
 	`name` varchar(64) NOT NULL,
 	`salt` varchar(64) NOT NULL,
 	`passwd` varchar(64) NOT NULL,
-	`token` varchar(64) NULL DEFAULT NULL,
+	`token` varchar(64) DEFAULT NULL,
 	`token_type` enum('none', 'activation', 'password') NOT NULL,
 	`token_expires` timestamp NULL DEFAULT NULL,
 	`last login` timestamp NULL DEFAULT NULL,
@@ -39,8 +39,8 @@ CREATE TABLE `users`
 	`tm+` integer NOT NULL DEFAULT 3600,
 	`tt-` integer NOT NULL DEFAULT 0,
 	`tt+` integer NOT NULL DEFAULT 86400,
-	`notification-from` time NOT NULL DEFAULT '00:00',
-	`notification-until` time NOT NULL DEFAULT '00:00',
+	`notification-from` time NOT NULL DEFAULT '00:00:00',
+	`notification-until` time NOT NULL DEFAULT '00:00:00',
 	`send mail` BOOL DEFAULT TRUE,
 	`notification-timefmt` varchar(24) DEFAULT NULL,
 	PRIMARY KEY (`id`),
@@ -146,7 +146,7 @@ CREATE TABLE `visits`
 CREATE TABLE `watchlist`
 (
 	`id` integer NOT NULL AUTO_INCREMENT,
-	`user` int(11) NOT NULL,
+	`user` integer NOT NULL,
 	`notify` bool DEFAULT FALSE,
 	`reg` varchar(31) NOT NULL,
 	`comment` varchar(255) DEFAULT NULL,
