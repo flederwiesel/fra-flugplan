@@ -31,7 +31,6 @@ CREATE TABLE `users`
 	`token` varchar(64) NULL DEFAULT NULL,
 	`token_type` enum('none', 'activation', 'password') NOT NULL,
 	`token_expires` timestamp NULL DEFAULT NULL,
-	# ALTER TABLE `users` ADD COLUMN `last login` timestamp NULL DEFAULT NULL
 	`last login` timestamp NULL DEFAULT NULL,
 	`timezone` smallint DEFAULT 3600,
 	`language` varchar(2) NOT NULL DEFAULT 'en',
@@ -42,9 +41,7 @@ CREATE TABLE `users`
 	`tt+` integer NOT NULL DEFAULT 86400,
 	`notification-from` time NOT NULL DEFAULT '00:00',
 	`notification-until` time NOT NULL DEFAULT '00:00',
-	# ALTER TABLE `users` ADD COLUMN `send mail` BOOL DEFAULT TRUE
 	`send mail` BOOL DEFAULT TRUE,
-	# ALTER TABLE `users` ADD COLUMN `notification-timefmt` varchar(24)
 	`notification-timefmt` varchar(24) DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	UNIQUE KEY `name` (`name`),
@@ -151,7 +148,6 @@ CREATE TABLE `watchlist`
 	`id` integer NOT NULL AUTO_INCREMENT,
 	`user` int(11) NOT NULL,
 	`notify` bool DEFAULT FALSE,
-	# ALTER TABLE `watchlist` MODIFY `reg` varchar(31)
 	`reg` varchar(31) NOT NULL,
 	`comment` varchar(255) DEFAULT NULL,
 	PRIMARY KEY (`id`),
