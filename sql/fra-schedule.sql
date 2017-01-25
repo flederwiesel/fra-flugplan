@@ -21,7 +21,7 @@ USE `flederwiesel_fra-schedule`;
  * Tables
  ******************************************************************************/
 
-CREATE TABLE IF NOT EXISTS `users`
+CREATE TABLE `users`
 (
 	`id` integer NOT NULL AUTO_INCREMENT,
 	`email` varchar(255) NOT NULL,
@@ -51,7 +51,7 @@ CREATE TABLE IF NOT EXISTS `users`
 	UNIQUE KEY `email` (`email`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `groups`
+CREATE TABLE `groups`
 (
 	`id` integer NOT NULL AUTO_INCREMENT,
 	`name` varchar(64) NOT NULL,
@@ -69,7 +69,7 @@ CREATE TABLE `membership`
 	FOREIGN KEY(`group`) REFERENCES `groups`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `airlines`
+CREATE TABLE `airlines`
 (
 	`id` integer NOT NULL AUTO_INCREMENT,
 	`code` varchar(3),
@@ -78,7 +78,7 @@ CREATE TABLE IF NOT EXISTS `airlines`
 	CONSTRAINT `unique: code` UNIQUE (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `models`
+CREATE TABLE `models`
 (
 	`id` integer NOT NULL AUTO_INCREMENT,
 	`icao` varchar(4) NOT NULL,
@@ -88,7 +88,7 @@ CREATE TABLE IF NOT EXISTS `models`
 ) COMMENT = 'http://www.airlinecodes.co.uk'
 ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `aircrafts`
+CREATE TABLE `aircrafts`
 (
 	`id` integer NOT NULL AUTO_INCREMENT,
 	`reg` varchar(8) NOT NULL,
@@ -98,7 +98,7 @@ CREATE TABLE IF NOT EXISTS `aircrafts`
 	FOREIGN KEY(`model`) REFERENCES `models`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `airports`
+CREATE TABLE `airports`
 (
 	`id` integer NOT NULL AUTO_INCREMENT,
 	`iata` varchar(3) NULL,
@@ -108,7 +108,7 @@ CREATE TABLE IF NOT EXISTS `airports`
 	CONSTRAINT `unique:icao` UNIQUE(`icao`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `flights`
+CREATE TABLE `flights`
 (
 	`id` integer NOT NULL AUTO_INCREMENT,
 	`type` enum('P', 'F', 'C') NOT NULL DEFAULT 'P',
@@ -130,13 +130,13 @@ CREATE TABLE IF NOT EXISTS `flights`
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* Copy `flights` table structure (including indices!) */
-CREATE TABLE IF NOT EXISTS `history` LIKE `flights`;
+CREATE TABLE `history` LIKE `flights`;
 
 /* Remove AUTO_INCREMENT */
 ALTER TABLE `history` AUTO_INCREMENT = 0;
 
 /* Count visits to FRA */
-CREATE TABLE IF NOT EXISTS `visits`
+CREATE TABLE `visits`
 (
 	`aircraft` integer NOT NULL,
 	`num` integer NOT NULL,
@@ -146,7 +146,7 @@ CREATE TABLE IF NOT EXISTS `visits`
 	FOREIGN KEY(`aircraft`) REFERENCES `aircrafts`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `watchlist`
+CREATE TABLE `watchlist`
 (
 	`id` integer NOT NULL AUTO_INCREMENT,
 	`user` int(11) NOT NULL,
@@ -159,7 +159,7 @@ CREATE TABLE IF NOT EXISTS `watchlist`
 	FOREIGN KEY(`user`) REFERENCES `users`(`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE IF NOT EXISTS `watchlist-notifications`
+CREATE TABLE `watchlist-notifications`
 (
 	`id` integer NOT NULL AUTO_INCREMENT,
 	`watch` integer NOT NULL,
