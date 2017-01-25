@@ -69,8 +69,8 @@ CREATE TABLE `membership`
 CREATE TABLE `airlines`
 (
 	`id` integer NOT NULL AUTO_INCREMENT,
-	`code` varchar(3),
-	`name` varchar(128),
+	`code` varchar(3) NOT NULL,
+	`name` varchar(128) DEFAULT NULL,
 	PRIMARY KEY (`id`),
 	CONSTRAINT `unique: code` UNIQUE (`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -98,7 +98,7 @@ CREATE TABLE `aircrafts`
 CREATE TABLE `airports`
 (
 	`id` integer NOT NULL AUTO_INCREMENT,
-	`iata` varchar(3) NULL,
+	`iata` varchar(3) DEFAULT NULL,
 	`icao` varchar(4) NOT NULL,
 	`name` varchar(255) NOT NULL,
 	PRIMARY KEY (`id`),
@@ -117,7 +117,7 @@ CREATE TABLE `flights`
 	`airport` integer DEFAULT NULL,
 	`model` integer DEFAULT NULL,
 	`aircraft` integer DEFAULT NULL,
-	`last update` timestamp NULL,
+	`last update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`),
 	CONSTRAINT `unique:direction, airline, code, scheduled` UNIQUE (`direction`, `airline`, `code`, `scheduled`),
 	FOREIGN KEY(`airline`) REFERENCES `airlines`(`id`),
