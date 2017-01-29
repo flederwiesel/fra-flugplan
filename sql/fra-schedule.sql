@@ -44,8 +44,8 @@ CREATE TABLE `users`
 	`send mail` BOOL DEFAULT TRUE,
 	`notification-timefmt` varchar(24) DEFAULT NULL,
 	PRIMARY KEY (`id`),
-	UNIQUE KEY `name` (`name`),
-	UNIQUE KEY `email` (`email`)
+	UNIQUE KEY `u:users(email)`(`email`),
+	UNIQUE KEY `u:users(name)`(`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `groups`
@@ -54,7 +54,7 @@ CREATE TABLE `groups`
 	`name` varchar(64) NOT NULL,
 	`comment` varchar(64) DEFAULT NULL,
 	PRIMARY KEY (`id`),
-	UNIQUE KEY `name` (`name`)
+	UNIQUE KEY `u:groups(name)`(`name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `membership`
@@ -62,10 +62,10 @@ CREATE TABLE `membership`
 	`user` integer NOT NULL,
 	`group` integer NOT NULL,
 	PRIMARY KEY (`user`, `group`),
-	FOREIGN KEY (`user`) REFERENCES `users`(`id`),
-	FOREIGN KEY (`group`) REFERENCES `groups`(`id`),
-	INDEX `membership:user`(`user` ASC),
-	INDEX `membership:group`(`group` ASC)
+	CONSTRAINT `fk:membership(user)=users(id)` FOREIGN KEY (`user`) REFERENCES `users`(`id`),
+	CONSTRAINT `fk:membership(group)=groups(id)` FOREIGN KEY (`group`) REFERENCES `groups`(`id`),
+	INDEX `i:membership(user)`(`user`),
+	INDEX `i:membership(group)`(`group`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `airlines`
@@ -74,7 +74,7 @@ CREATE TABLE `airlines`
 	`code` varchar(3) NOT NULL,
 	`name` varchar(128) DEFAULT NULL,
 	PRIMARY KEY (`id`),
-	CONSTRAINT `unique: code` UNIQUE (`code`)
+	UNIQUE KEY `u:airlines(code)`(`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `models`
@@ -83,7 +83,7 @@ CREATE TABLE `models`
 	`icao` varchar(4) NOT NULL,
 	`name` varchar(96) NOT NULL,
 	PRIMARY KEY (`id`),
-	CONSTRAINT `unique:icao` UNIQUE (`icao`)
+	UNIQUE KEY `u:models(icao)`(`icao`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='http://www.airlinecodes.co.uk';
 
 CREATE TABLE `aircrafts`
@@ -92,8 +92,8 @@ CREATE TABLE `aircrafts`
 	`reg` varchar(8) NOT NULL,
 	`model` integer NOT NULL,
 	PRIMARY KEY (`id`),
-	FOREIGN KEY (`model`) REFERENCES `models`(`id`),
-	CONSTRAINT `unique:reg` UNIQUE (`reg`)
+	CONSTRAINT `fk:aircrafts(model)=models(id)` FOREIGN KEY (`model`) REFERENCES `models`(`id`),
+	UNIQUE KEY `u:aircrafts(reg)`(`reg`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `airports`
@@ -103,7 +103,7 @@ CREATE TABLE `airports`
 	`icao` varchar(4) NOT NULL,
 	`name` varchar(255) NOT NULL,
 	PRIMARY KEY (`id`),
-	CONSTRAINT `unique:icao` UNIQUE(`icao`)
+	UNIQUE KEY `u:airports(icao)`(`icao`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `flights`
@@ -120,14 +120,14 @@ CREATE TABLE `flights`
 	`aircraft` integer DEFAULT NULL,
 	`last update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`),
-	FOREIGN KEY (`airline`) REFERENCES `airlines`(`id`),
-	FOREIGN KEY (`airport`) REFERENCES `airports`(`id`),
-	FOREIGN KEY (`model`) REFERENCES `models`(`id`),
-	FOREIGN KEY (`aircraft`) REFERENCES `aircrafts`(`id`),
-	CONSTRAINT `unique:direction, airline, code, scheduled` UNIQUE (`direction`, `airline`, `code`, `scheduled`),
-	INDEX `flights:scheduled`(`scheduled` ASC),
-	INDEX `flights:code`(`code` ASC),
-	INDEX `flights:direction`(`direction` ASC)
+	CONSTRAINT `fk:flights(airline)=airlines(id)` FOREIGN KEY (`airline`) REFERENCES `airlines`(`id`),
+	CONSTRAINT `fk:flights(airport)=airports(id)` FOREIGN KEY (`airport`) REFERENCES `airports`(`id`),
+	CONSTRAINT `fk:flights(model)=models(id)` FOREIGN KEY (`model`) REFERENCES `models`(`id`),
+	CONSTRAINT `fk:flights(aircraft)=aircrafts(id)` FOREIGN KEY (`aircraft`) REFERENCES `aircrafts`(`id`),
+	UNIQUE KEY `u:flights(direction,airline,code,scheduled)` (`direction`, `airline`, `code`, `scheduled`),
+	INDEX `i:flights(direction)`(`direction`),
+	INDEX `i:flights(scheduled)`(`scheduled`),
+	INDEX `i:flights(code)`(`code`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* Copy `flights` table structure (including indices!) */
@@ -144,9 +144,9 @@ CREATE TABLE `visits`
 	`current` datetime NOT NULL,
 	`previous` datetime DEFAULT NULL,
 	PRIMARY KEY (`aircraft`),
-	FOREIGN KEY (`aircraft`) REFERENCES `aircrafts`(`id`),
-	INDEX `visits:aircraft`(`aircraft` ASC),
-	INDEX `visits:current`(`current` ASC)
+	CONSTRAINT `fk:visits(aircraft)=aircraft(id)` FOREIGN KEY (`aircraft`) REFERENCES `aircrafts`(`id`),
+	INDEX `i:visits(aircraft)`(`aircraft`),
+	INDEX `i:visits(current)`(`current`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `watchlist`
@@ -157,10 +157,10 @@ CREATE TABLE `watchlist`
 	`reg` varchar(31) NOT NULL,
 	`comment` varchar(255) DEFAULT NULL,
 	PRIMARY KEY (`id`),
-	FOREIGN KEY (`user`) REFERENCES `users`(`id`),
-	UNIQUE KEY `user, reg` (`user`, `reg`),
-	INDEX `watchlist:user`(`user` ASC),
-	INDEX `watchlist:reg`(`reg` ASC)
+	CONSTRAINT `fk:watchlist(user)=users(id)` FOREIGN KEY (`user`) REFERENCES `users`(`id`),
+	UNIQUE KEY `u:watchlist(user,reg)`(`user`, `reg`),
+	INDEX `i:watchlist(reg)`(`reg`),
+	INDEX `i:watchlist(user)`(`user`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `watchlist-notifications`
@@ -170,9 +170,9 @@ CREATE TABLE `watchlist-notifications`
 	`flight` integer NOT NULL,
 	`notified` datetime DEFAULT NULL,
 	PRIMARY KEY (`id`),
-	FOREIGN KEY (`watch`) REFERENCES `watchlist`(`id`),
-	FOREIGN KEY (`flight`) REFERENCES `flights`(`id`),
-	UNIQUE KEY (`watch`, `flight`)
+	CONSTRAINT `fk:watchlist-notifications(watch)=watchlist(id)` FOREIGN KEY (`watch`) REFERENCES `watchlist`(`id`),
+	CONSTRAINT `fk:watchlist-notifications(flight)=flights(id)` FOREIGN KEY (`flight`) REFERENCES `flights`(`id`),
+	UNIQUE KEY `u:watchlist-notifications(watch, flight)`(`watch`, `flight`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /******************************************************************************
