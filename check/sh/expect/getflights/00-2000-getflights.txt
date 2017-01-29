@@ -84,7 +84,7 @@ http://localhost/.../www.frankfurt-airport.com/de/_jcr_content.arrivals.json/fil
     "id": "a00000000ac874"
 },
 http://localhost/.../www.frankfurt-airport.com/de/_jcr_content.arrivals.json/filter?type=arrival&lang=de&time=0000-00-00T20%3A00%3A00%2B0000&perpage=3&page=3
-{"data":[{"dir":"A","sched":"0000-00-01T09:45:00+0000","lu":"0000-00-00T20:00:00+0000","typ":"P","al":"UA","fnr":"UA 903","alname":"United Airlines","iata":"SFO","ac":"B744","reg":"N116UA","id":"a00000000ua903"},{"dir":"A","sched":"0000-00-01T10:40:00+0000","lu":"0000-00-00T20:00:00+0000","typ":"P","al":"TK","fnr":"TK 1587","alname":"Turkish Airlines","iata":"IST","ac":"A343","id":"a00000000tk1587"},{"dir":"A","sched":"0000-00-01T11:15:00+0000","lu":"0000-00-00T20:00:00+0000","typ":"P","al":"AC","fnr":"AC 844","alname":"Air Canada","iata":"YYC","ac":"A333","id":"a00000000ac844"}],"type":"arrival","luops":"0000-00-00T20:00:00+0000","lusaison":"0000-00-00T20:00:00+0000","results":14,"entriesperpage":"3","maxpage":5,"page":"3"}
+{"data":[{"dir":"A","sched":"0000-00-01T09:45:00+0000","lu":"0000-00-00T20:00:00+0000","typ":"P","al":"UA","fnr":"UA 903","alname":"United Airlines","iata":"SFO","ac":"B744","reg":"N116UA","id":"a00000000ua903"},{"dir":"A","sched":"0000-00-01T10:40:00+0000","lu":"0000-00-00T20:00:00+0000","typ":"P","al":"TK","fnr":"TK 1587","alname":"Turkish Airlines","iata":"!!!","ac":"A343","id":"a00000000tk1587"},{"dir":"A","sched":"0000-00-01T11:15:00+0000","lu":"0000-00-00T20:00:00+0000","typ":"P","al":"AC","fnr":"AC 844","alname":"Air Canada","iata":"YYC","ac":"A333","id":"a00000000ac844"}],"type":"arrival","luops":"0000-00-00T20:00:00+0000","lusaison":"0000-00-00T20:00:00+0000","results":14,"entriesperpage":"3","maxpage":5,"page":"3"}
 {
     "dir": "A",
     "sched": "0000-00-01T09:45:00+0000",
@@ -106,7 +106,7 @@ http://localhost/.../www.frankfurt-airport.com/de/_jcr_content.arrivals.json/fil
     "al": "TK",
     "fnr": "TK 1587",
     "alname": "Turkish Airlines",
-    "iata": "IST",
+    "iata": "!!!",
     "ac": "A343",
     "id": "a00000000tk1587"
 },
@@ -281,13 +281,29 @@ UPDATE `flights` SET `airport`=201, `aircraft`=4, `model`=57 WHERE `id`=29;
 
 SELECT `id` FROM `airlines` WHERE `code`='TK';
 =112
-SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='IST';
-=109
+SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='!!!';
+=<empty>
+http://localhost/.../www.frankfurt-airport.com/de/_jcr_content.airports.json?local
+{
+    "region": "eu",
+    "id": "!!!",
+    "nameshort": "nameshort",
+    "soend": "0000-00-00T00:00:00+0000",
+    "uwi": 0,
+    "icao": "!!!!",
+    "name": "name",
+    "land": "Deutschland",
+    "sostart": "0000-00-00T00:00:00+0000",
+    "regionorg": "!!",
+    "uso": 1
+}
+INSERT INTO `airports`(`iata`, `icao`, `name`, `country`) VALUES('!!!', '!!!!', 'name', 83);
+=OK
 SELECT `id` FROM `models` WHERE `icao`='A343';
 =17
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=112 AND `code`='1587' AND `scheduled`='0000-00-01T10:40:00+0000'
 =30,,0000-00-00 11:00:00
-UPDATE `flights` SET `airport`=109, `aircraft`=NULL, `model`=17 WHERE `id`=30;
+UPDATE `flights` SET `airport`=2147483644, `aircraft`=NULL, `model`=17 WHERE `id`=30;
 =OK
 
 /************************************/

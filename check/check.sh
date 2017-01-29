@@ -289,6 +289,7 @@ do
 						s/\(code [0-9]+\)/(code ***)/g
 						/(Activation|Password) token is:/ { N; s/\n.+\$/\n***/g }
 						/Das (Aktivierungs-)?Token( dafür)? ist:/ { N; s/\n.+\$/\n***/g }
+						s/^.*\.php\([0-9]+\): *//g
 					" > "$results/mail-utf-8.txt" &&
 					mv "$results/mail-utf-8.txt" "$results/mail.txt"
 				fi

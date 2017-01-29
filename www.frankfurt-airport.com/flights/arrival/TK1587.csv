@@ -15,9 +15,9 @@
 0 15:00;A;1 10:40;;;P;TK;1587;Turkish Airlines;IST;A343;;
 0 16:00;A;1 10:40;;;P;TK;1587;Turkish Airlines;IST;A343;;
 0 17:00;A;1 10:40;;;P;TK;1587;Turkish Airlines;IST;A343;;
-0 18:00;A;1 10:40;;;P;TK;1587;Turkish Airlines;IST;A343;;
-0 19:00;A;1 10:40;;;P;TK;1587;Turkish Airlines;IST;A343;;
-0 20:00;A;1 10:40;;;P;TK;1587;Turkish Airlines;IST;A343;;
+0 18:00;A;1 10:40;;;P;TK;1587;Turkish Airlines;!??;A343;;/* unknown airport */
+0 19:00;A;1 10:40;;;P;TK;1587;Turkish Airlines;!!?;A343;;/* unknown country for airport */
+0 20:00;A;1 10:40;;;P;TK;1587;Turkish Airlines;!!!;A343;;/* airport in country #-1"" */
 0 21:00;A;1 10:40;;;P;TK;1587;Turkish Airlines;IST;A343;;
 0 22:00;A;1 10:40;;;P;TK;1587;Turkish Airlines;IST;A343;;
 0 23:00;A;1 10:40;;;P;TK;1587;Turkish Airlines;IST;A343;;

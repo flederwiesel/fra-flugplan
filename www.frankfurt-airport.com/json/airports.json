@@ -1,0 +1,32 @@
+{
+  "data": [
+    {
+      "region": "eu",
+      "id": "!!?",
+      "nameshort": "nameshort",
+      "soend": "0000-00-00T00:00:00+0000",
+      "uwi": 0,
+      "icao": "?!!?",
+      "name": "name",
+      "land": "unknown",
+      "sostart": "0000-00-00T00:00:00+0000",
+      "regionorg": "!!",
+      "uso": 1
+    },
+    {
+      "region": "eu",
+      "id": "!!!",
+      "nameshort": "nameshort",
+      "soend": "0000-00-00T00:00:00+0000",
+      "uwi": 0,
+      "icao": "!!!!",
+      "name": "name",
+      "land": "Deutschland",
+      "sostart": "0000-00-00T00:00:00+0000",
+      "regionorg": "!!",
+      "uso": 1
+    }
+  ],
+  "lu": "0000-00-00T00:00:00+0000",
+  "version": "0.0.0"
+}

@@ -27,13 +27,17 @@ echo "$mails" > /etc/mailtodisk/hausmeister@flederwiesel.com # user
 
 query < <(
 	echo 'USE `flederwiesel_fra-schedule`;'
-	cat ../sql/data/airlines.sql \
+	cat ../sql/data/countries.sql \
+		../sql/data/airlines.sql \
 		../sql/data/airports.sql \
 		../sql/data/models.sql
 )
 
 query <<-"SQL"
 	USE `flederwiesel_fra-schedule`;
+
+	# Get predictive values...
+	ALTER TABLE `airports` AUTO_INCREMENT=2147483642;
 
 	INSERT INTO `users`(`name`, `email`, `salt`, `passwd`, `language`)
 	VALUES
@@ -180,6 +184,7 @@ SQL
 			s#(FROM_UNIXTIME\()[0-9]+#\10#g
 			s#(http://[^/]+/).*/(www.frankfurt-airport.com/.*)#\1.../\2#g
 			s#(\`(current|previous)\`=)[0-9]+#\10#g
+			/: Inserted airport/d
 			'"
 
 		flights=$(query --execute='USE `flederwiesel_fra-schedule`;

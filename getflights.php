@@ -249,6 +249,16 @@ function warn_once($line, $info)
 	}
 }
 
+function warn($line, $text)
+{
+	global $warning;
+
+	if (!$warning)
+		$warning = '';
+
+	$warning .= __FILE__."($line): $text\n";
+}
+
 function info($line, $text)
 {
 	global $info;
@@ -488,6 +498,7 @@ class airport
 	public $iata;
 	public $icao;
 	public $name;
+	public $country;
 
 	public function __construct($iata = NULL)
 	{
@@ -495,6 +506,7 @@ class airport
 		$this->iata = $iata;
 		$this->icao = NULL;
 		$this->name = NULL;
+		$this->country = (object) [ 'id' => 0, 'name' => '' ];
 	}
 }
 
@@ -633,8 +645,40 @@ function CURL_GetAirport(/* in */ $curl, /* in/out */ &$airport)
 	global $DEBUG;
 	global $prefix;
 
-	$error = NULL;
-	$url = "http://${prefix}www.frankfurt-airport.com/de/_jcr_content.airports.json";
+	$result = mysql_query("SELECT `id`,`de`,`alpha-2` FROM `countries`");
+
+	if (!$result)
+	{
+		$error = seterrorinfo(__LINE__,
+					sprintf("[%d] %s: %s",
+						mysql_errno(), mysql_error(), unify_query($query)));
+	}
+	else
+	{
+		$countries = array();
+
+		while ($row = mysql_fetch_assoc($result))
+			$countries["$row[de]"] = $row['id'];
+
+		foreach (array( 'USA' => 'Vereinigte Staaten von Amerika',
+						'Korea-Süd' => 'Südkorea',
+						'Großbritannien' => 'Vereinigtes Königreich',
+						'Weißrußland' => 'Weißrussland',
+						'Äquatorial-Guinea' => 'Äquatorialguinea',
+						'Saint Lucia' => 'St. Lucia',
+						'Ver.Arab.Emirate' => 'Vereinigte Arabische Emirate',
+						'Bosnien-Herzegow' => 'Bosnien und Herzegovina',
+						'Dominikan. Rep.' => 'Dominikanische Republik',
+						'Niederländische Antillen' => 'Curaçao',
+						'Bangladesh' => 'Bangladesch',
+						) as $alias => $name)
+		{
+			$countries["$alias"] = $countries["$name"];
+		}
+
+		$error = NULL;
+		$url = "http://${prefix}www.frankfurt-airport.com/de/_jcr_content.airports.json".
+				($prefix ? "?local" : "");
 
 	if (isset($DEBUG['url']))
 		echo "$url\n";
@@ -684,7 +728,14 @@ function CURL_GetAirport(/* in */ $curl, /* in/out */ &$airport)
 					$airport->icao = $a->icao;
 					$airport->name = $a->name;
 
-					break;
+						if (isset($countries["$a->land"]))
+						{
+							$airport->country->id = $countries["$a->land"];
+							$airport->country->name = "$a->land";
+						}
+
+						break;
+					}
 				}
 			}
 		}
@@ -1250,11 +1301,12 @@ function SQL_InsertAirport(/* in/out */ &$airport)
 		$airport->name = addslashes($airport->name);
 
 		$query = <<<SQL
-			INSERT INTO `airports`(`iata`, `icao`, `name`)
+			INSERT INTO `airports`(`iata`, `icao`, `name`, `country`)
 			VALUES(
 				'$airport->iata',
 				'$airport->icao',
-				'$airport->name');
+				'$airport->name',
+				{$airport->country->id});
 SQL;
 
 		if (!mysql_query($query))
@@ -2204,16 +2256,28 @@ if (!$error)
 								if (!$error)
 								{
 									if (!$f->airport->icao)
-										$f->airport->icao = '????';
+										$f->airport->icao = "#{$f->airport->iata}";
 
 									$error = SQL_InsertAirport($f->airport);
 
 									if (!$error)
 									{
-										info(__LINE__,
-											 "Inserted airport {$f->airport->iata} as ".
-											 "{$f->airport->icao} \"{$f->airport->name}\"".
-											 " ($dir {$f->airline->code}{$f->fnr} \"{$f->scheduled}\").");
+										if ($f->airport->country->id > 0)
+										{
+											info(__LINE__,
+												 "Inserted airport {$f->airport->iata} as ".
+												 "{$f->airport->icao} \"{$f->airport->name}\"".
+												 " ($dir {$f->airline->code}{$f->fnr} \"{$f->scheduled}\")".
+												 " located in '{$f->airport->country->name}'.");
+										}
+										else
+										{
+											warn(__LINE__,
+												 "Inserted airport {$f->airport->iata} as ".
+												 "{$f->airport->icao} \"{$f->airport->name}\"".
+												 " ($dir {$f->airline->code}{$f->fnr} \"{$f->scheduled}\")".
+												 ", however, I was unable to determine the country it is located in.");
+										}
 									}
 								}
 							}

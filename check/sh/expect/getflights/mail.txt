@@ -79,6 +79,30 @@ X-Mailer: PHP/*
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
+To: Tobias =?ISO-8859-1?Q?K=FChne?=<flederwiesel@fra-flugplan.de>
+Subject: fra-schedule - getflights.php: warning
+From: fra-schedule
+
+Inserted airport !?? as #!?? "" (arrival TK1587 "0000-00-00T10:40:00+0100"), however, I was unable to determine the country it is located in.
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+To: Tobias =?ISO-8859-1?Q?K=FChne?=<flederwiesel@fra-flugplan.de>
+Subject: fra-schedule - getflights.php: warning
+From: fra-schedule
+
+Inserted airport !!? as ?!!? "name" (arrival TK1587 "0000-00-00T10:40:00+0100"), however, I was unable to determine the country it is located in.
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
+To: Tobias =?ISO-8859-1?Q?K=FChne?=<flederwiesel@fra-flugplan.de>
+Subject: fra-schedule - getflights.php: info
+From: fra-schedule
+
+Inserted airport !!! as !!!! "name" (arrival TK1587 "0000-00-00T10:40:00+0100") located in 'Deutschland'.
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
 To: flederwiesel<hausmeister@flederwiesel.com>
 Subject: watchlist
 From: FRA schedule <watchlist@fra-flugplan.de>

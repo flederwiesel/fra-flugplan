@@ -68,6 +68,26 @@ CREATE TABLE `membership`
 	INDEX `i:membership(group)`(`group`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+CREATE TABLE IF NOT EXISTS `countries` # ISO 3166-1
+(
+	`id` integer NOT NULL AUTO_INCREMENT,
+	`en` varchar(64) NOT NULL,
+	`de` varchar(64) NOT NULL,
+	`fr` varchar(64) NOT NULL,
+	`alpha-2` varchar(2) NOT NULL,
+	`alpha-3` varchar(3) NOT NULL,
+	`num` smallint NOT NULL,
+	CONSTRAINT `pk:countries(id)` PRIMARY KEY(`id`),
+	CONSTRAINT `u:countries(alpha-2)` UNIQUE(`alpha-2`),
+	CONSTRAINT `u:countries(alpha-3)` UNIQUE(`alpha-3`),
+	CONSTRAINT `u:countries(num)` UNIQUE(`num`),
+	INDEX `i:countries(en)`(`en`),
+	INDEX `i:countries(de)`(`de`),
+	INDEX `i:countries(fr)`(`fr`),
+	INDEX `i:countries(alpha-2)`(`alpha-2`),
+	INDEX `i:countries(alpha-3)`(`alpha-3`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=	'#https://www.iso.org/obp/ui/#search';
+
 CREATE TABLE `airlines`
 (
 	`id` integer NOT NULL AUTO_INCREMENT,
@@ -102,7 +122,9 @@ CREATE TABLE `airports`
 	`iata` varchar(3) DEFAULT NULL,
 	`icao` varchar(4) NOT NULL,
 	`name` varchar(255) NOT NULL,
+	`country` integer DEFAULT NULL,
 	CONSTRAINT `pk:airports(id)` PRIMARY KEY (`id`),
+	CONSTRAINT `fk:airports(country)=countries(id)` FOREIGN KEY (`country`) REFERENCES `countries`(`id`),
 	UNIQUE KEY `u:airports(icao)`(`icao`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
