@@ -80,10 +80,15 @@ minversion() {
 }
 
 chkdep() {
-	"$@" &>/dev/null
+	$@ &>/dev/null
 
 	if [ $? -ne 0 ]; then
-		echo -e "\033[1;31m$1 $2 failed: $3 <-> $4\033[m"
+		if [ -z "$3" -o -z "$4" ]; then
+			echo -e "\033[1;31m$1 $2 failed.\033[m" >&2
+		else
+			echo -e "\033[1;31m$1 $2 failed: $3 <-> $4\033[m" >&2
+		fi
+
 		exit 1
 	fi
 }
@@ -170,16 +175,18 @@ export -f rawurlencode
 # <preparation>
 ###############################################################################
 
+set -o pipefail
+
 chkdep readlink --version
-chkdep minversion sed        "4.2.1"  "$(sed --version | sed -nr '/^(GNU *)?sed/ { s/^[^0-9]*//g; /^$/d; p }')"
-chkdep minversion awk        "4.1.1"  "$(awk --version)" "||" \
-       minversion mawk       "1.3.3"  "$(awk -W version 2>&1 | sed -nr '/mawk/ { s/^[^0-9]*([^ ]+).*/\1/g; p }')"
-chkdep minversion curl       "7.26.0" "$(curl --version | sed -nr '/^curl/ { s/^[^0-9]*([^ ]+).*/\1/g; p }')"
+chkdep minversion sed        "4.2.1"  "$(sed --version 2>&1 || echo | sed -nr '/^(GNU *)?sed/ { s/^[^0-9]*//g; /^$/d; p }')"
+chkdep minversion awk        "4.1.1"  "$(awk --version 2>&1)" "||" \
+       minversion mawk       "1.3.3"  "$(awk -W version 2>&1 || echo | sed -nr '/mawk/ { s/^[^0-9]*([^ ]+).*/\1/g; p }')"
+chkdep minversion curl       "7.26.0" "$(curl --version 2>&1 || echo | sed -nr '/^curl/ { s/^[^0-9]*([^ ]+).*/\1/g; p }')"
 chkdep minversion php        "5.4"    "$(curl --silent --head http://localhost | sed -n '/PHP\//{s#.*PHP/##g; s# .*$##g; p}')"
-chkdep minversion mysql      "14.14"  "$(mysql --version | sed -r 's/^[^0-9]*([^ ]+).*/\1/g')"
-chkdep minversion jq         "1.5"    "$(jq --version 2>&1 | sed 's/^[^0-9]*//g')"
+chkdep minversion mysql      "14.14"  "$(mysql --version 2>&1 || echo | sed -r 's/^[^0-9]*([^ ]+).*/\1/g')"
+chkdep minversion jq         "1.5"    "$(jq --version 2>&1 || echo | sed 's/^[^0-9]*//g')"
 chkdep minversion python     "2.7.3"  "$(python --version 2>&1 | sed 's/^[^0-9]*//g')"
-chkdep minversion mailtodisk "1028"   "$(mailtodisk --version)"
+chkdep minversion mailtodisk "1028"   "$(mailtodisk --version 2>&1)"
 
 IFS=$'\n'
 
