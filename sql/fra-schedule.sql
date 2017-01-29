@@ -61,9 +61,11 @@ CREATE TABLE `membership`
 (
 	`user` integer NOT NULL,
 	`group` integer NOT NULL,
-	PRIMARY KEY(`user`, `group`),
-	FOREIGN KEY(`user`) REFERENCES `users`(`id`),
-	FOREIGN KEY(`group`) REFERENCES `groups`(`id`)
+	PRIMARY KEY (`user`, `group`),
+	FOREIGN KEY (`user`) REFERENCES `users`(`id`),
+	FOREIGN KEY (`group`) REFERENCES `groups`(`id`),
+	INDEX `membership:user`(`user` ASC),
+	INDEX `membership:group`(`group` ASC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `airlines`
@@ -82,8 +84,7 @@ CREATE TABLE `models`
 	`name` varchar(96) NOT NULL,
 	PRIMARY KEY (`id`),
 	CONSTRAINT `unique:icao` UNIQUE (`icao`)
-) COMMENT = 'http://www.airlinecodes.co.uk'
-ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='http://www.airlinecodes.co.uk';
 
 CREATE TABLE `aircrafts`
 (
@@ -91,8 +92,8 @@ CREATE TABLE `aircrafts`
 	`reg` varchar(8) NOT NULL,
 	`model` integer NOT NULL,
 	PRIMARY KEY (`id`),
-	CONSTRAINT `unique:reg` UNIQUE (`reg`),
-	FOREIGN KEY(`model`) REFERENCES `models`(`id`)
+	FOREIGN KEY (`model`) REFERENCES `models`(`id`),
+	CONSTRAINT `unique:reg` UNIQUE (`reg`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `airports`
@@ -119,11 +120,14 @@ CREATE TABLE `flights`
 	`aircraft` integer DEFAULT NULL,
 	`last update` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	PRIMARY KEY (`id`),
+	FOREIGN KEY (`airline`) REFERENCES `airlines`(`id`),
+	FOREIGN KEY (`airport`) REFERENCES `airports`(`id`),
+	FOREIGN KEY (`model`) REFERENCES `models`(`id`),
+	FOREIGN KEY (`aircraft`) REFERENCES `aircrafts`(`id`),
 	CONSTRAINT `unique:direction, airline, code, scheduled` UNIQUE (`direction`, `airline`, `code`, `scheduled`),
-	FOREIGN KEY(`airline`) REFERENCES `airlines`(`id`),
-	FOREIGN KEY(`airport`) REFERENCES `airports`(`id`),
-	FOREIGN KEY(`model`) REFERENCES `models`(`id`),
-	FOREIGN KEY(`aircraft`) REFERENCES `aircrafts`(`id`)
+	INDEX `flights:scheduled`(`scheduled` ASC),
+	INDEX `flights:code`(`code` ASC),
+	INDEX `flights:direction`(`direction` ASC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* Copy `flights` table structure (including indices!) */
@@ -140,7 +144,9 @@ CREATE TABLE `visits`
 	`current` datetime NOT NULL,
 	`previous` datetime DEFAULT NULL,
 	PRIMARY KEY (`aircraft`),
-	FOREIGN KEY(`aircraft`) REFERENCES `aircrafts`(`id`)
+	FOREIGN KEY (`aircraft`) REFERENCES `aircrafts`(`id`),
+	INDEX `visits:aircraft`(`aircraft` ASC),
+	INDEX `visits:current`(`current` ASC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `watchlist`
@@ -151,8 +157,10 @@ CREATE TABLE `watchlist`
 	`reg` varchar(31) NOT NULL,
 	`comment` varchar(255) DEFAULT NULL,
 	PRIMARY KEY (`id`),
+	FOREIGN KEY (`user`) REFERENCES `users`(`id`),
 	UNIQUE KEY `user, reg` (`user`, `reg`),
-	FOREIGN KEY(`user`) REFERENCES `users`(`id`)
+	INDEX `watchlist:user`(`user` ASC),
+	INDEX `watchlist:reg`(`reg` ASC)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `watchlist-notifications`
@@ -161,28 +169,15 @@ CREATE TABLE `watchlist-notifications`
 	`watch` integer NOT NULL,
 	`flight` integer NOT NULL,
 	`notified` datetime DEFAULT NULL,
-	PRIMARY KEY(`id`),
-	UNIQUE KEY(`watch`, `flight`),
-	FOREIGN KEY(`watch`) REFERENCES `watchlist`(`id`),
-	FOREIGN KEY(`flight`) REFERENCES `flights`(`id`)
+	PRIMARY KEY (`id`),
+	FOREIGN KEY (`watch`) REFERENCES `watchlist`(`id`),
+	FOREIGN KEY (`flight`) REFERENCES `flights`(`id`),
+	UNIQUE KEY (`watch`, `flight`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /******************************************************************************
  * Indices
  ******************************************************************************/
-
-CREATE INDEX `flights:scheduled` ON `flights`(`scheduled` ASC);
-CREATE INDEX `flights:code` ON `flights`(`code` ASC);
-CREATE INDEX `flights:direction` ON `flights`(`direction` ASC);
-CREATE INDEX `history:scheduled` ON `history`(`scheduled` ASC);
-CREATE INDEX `history:code` ON `history`(`code` ASC);
-CREATE INDEX `history:direction` ON `history`(`direction` ASC);
-CREATE INDEX `watchlist:user` ON `watchlist`(`user` ASC);
-CREATE INDEX `watchlist:reg` ON `watchlist`(`reg` ASC);
-CREATE INDEX `visits:aircraft` ON `visits`(`aircraft` ASC);
-CREATE INDEX `visits:current` ON `visits`(`current` ASC);
-CREATE INDEX `membership:user` ON `membership`(`user` ASC);
-CREATE INDEX `membership:group` ON `membership`(`group` ASC);
 
 INSERT INTO `groups`(`name`, `comment`)
 VALUES
