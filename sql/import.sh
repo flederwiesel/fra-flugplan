@@ -1,16 +1,19 @@
-#!/bin/sh
+#!/bin/bash
+
+getpass() {
+	sed -rn '/^machine[ \t]+mysql:\/\/localhost\/fra-flugplan\/?$/ {
+		:next n; s/^[ \t]*password[ \t]*//g; Tnext; p }
+	' ~/.netrc
+}
 
 sqlexec() {
-	mysql --host=localhost --protocol=TCP --user=root --password= --default-character-set=utf8 "$@"
+	mysql --host=localhost --protocol=TCP --user=flugplan --password="$(getpass)" --default-character-set=utf8 "$@"
 }
 
 if [ $# -lt 1 ]; then
 	echo "Usage: $(basename $0) <file>"
 else
 	schema="flederwiesel_fra-schedule"
-
-	sqlexec <<< "DROP DATABASE IF EXISTS \`$schema\`"
-	sqlexec <<< "CREATE DATABASE \`$schema\`"
 
 	case "${1##*.}" in
 	'bz2')
@@ -31,5 +34,5 @@ else
 		;;
 	esac
 
-	sqlexec <<< "USE \`$schema\`; $(eval $cmd)"
+	sqlexec <<< "USE \`$schema\`; $(eval $cmd | sed 's/flederwi_/flederwiesel_/g')"
 fi
