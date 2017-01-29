@@ -31,7 +31,6 @@ CREATE TABLE `users`
 	`token` varchar(64) DEFAULT NULL,
 	`token_type` enum('none', 'activation', 'password') NOT NULL,
 	`token_expires` timestamp NULL DEFAULT NULL,
-	`last login` timestamp NULL DEFAULT NULL,
 	`timezone` smallint DEFAULT 3600,
 	`language` varchar(2) NOT NULL DEFAULT 'en',
 	`ip` varchar(16) NOT NULL,	/* at the time of registration */
@@ -41,6 +40,7 @@ CREATE TABLE `users`
 	`tt+` integer NOT NULL DEFAULT 86400,
 	`notification-from` time NOT NULL DEFAULT '00:00:00',
 	`notification-until` time NOT NULL DEFAULT '00:00:00',
+	`last login` timestamp NULL DEFAULT NULL,
 	`send mail` BOOL DEFAULT TRUE,
 	`notification-timefmt` varchar(24) DEFAULT NULL,
 	PRIMARY KEY (`id`),
