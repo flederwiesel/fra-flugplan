@@ -14,6 +14,10 @@
  *
  ******************************************************************************/
 
+// http://php.net/manual/en/curl.constants.php
+if (!defined('CURLE_OPERATION_TIMEDOUT'))
+	define('CURLE_OPERATION_TIMEDOUT', CURLE_OPERATION_TIMEOUTED);
+
 class curl
 {
 	private $me = 0;
