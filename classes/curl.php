@@ -58,17 +58,22 @@ class curl
 			curl_setopt($this->me, CURLOPT_CONNECTTIMEOUT, 10);
 
 			// Need to use a proxy?
-			if (file_exists('.curlrc'))
+			$curlrc = getenv('curlrc');
+
+			if ($curlrc)
 			{
-				$curlrc = file('.curlrc');
-
-				if ($curlrc)
+				if (file_exists($curlrc))
 				{
-					curl_setopt($this->me, CURLOPT_HTTPPROXYTUNNEL, 0);
-					curl_setopt($this->me, CURLOPT_PROXY, trim($curlrc[0]));
-					curl_setopt($this->me, CURLOPT_PROXYUSERPWD, trim($curlrc[1]));
+					$curlrc = file($curlrc);
 
-					unset($curlrc);
+					if ($curlrc)
+					{
+						curl_setopt($this->me, CURLOPT_HTTPPROXYTUNNEL, 0);
+						curl_setopt($this->me, CURLOPT_PROXY, trim($curlrc[0]));
+						curl_setopt($this->me, CURLOPT_PROXYUSERPWD, trim($curlrc[1]));
+
+						unset($curlrc);
+					}
 				}
 			}
 		}
