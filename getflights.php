@@ -1112,7 +1112,7 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 			{
 				/* This is certainly a html error document... */
 				$html = unify_html($json);
-				$error = seterrorinfo(__LINE__, sprintf("[%s] $url".($html ? ": `$html`" : ""), $error));
+				$error = seterrorinfo(__LINE__, sprintf("[%s] %s: %s", $error, $url, $html, $html ? ": `$html`" : ""));
 				$page = 0;
 			}
 
