@@ -440,10 +440,13 @@ class jflight
 		{ 'Ankunft vom', },
 		{ 'im Anflug', 'approaching', '在飞行中' },
 		{ 'gelandet', 'landed', '已着陆' },
+		{ 'auf Position', 'auf Position', 'auf Position', },
 		{ 'Gep\u00e4ckausgabe', 'baggage delivery', '托运行李领取' },
 		{ 'Gep\u00e4ckausgabe beendet', 'baggage delivery finished', '托运行李领取已结束' },
 		{ 'Neues Gate', 'Neues Gate', 'Neues Gate' },
 		{ 'Gate offen', 'Gate open', '登机口开放' },
+		{ 'Aufruf', 'Aufruf', 'Aufruf' },
+		{ 'Boarding', 'Boarding', 'Boarding' },
 		{ 'geschlossen', 'closed', '已关闭' },
 		{ 'gestartet', 'started' '已起飞' },
 		{ 'Zug', 'train', '火车' },
@@ -839,6 +842,8 @@ function MapFlightStatus(/*in/out*/ &$status)
 		$status = FlightStatus::APPROACHING;
 		break;
 
+	case 'auf Position':
+		// fallthrough
 	case 'gelandet':
 	case 'landed':
 	case '已着陆':
@@ -859,6 +864,10 @@ function MapFlightStatus(/*in/out*/ &$status)
 	case 'Gate offen':
 	case 'Gate open':
 	case '登机口开放':
+		// fallthrough
+	case 'Aufruf':
+		// fallthrough
+	case 'Boarding':
 		// fallthrough
 	case 'geschlossen':
 	case 'closed':
