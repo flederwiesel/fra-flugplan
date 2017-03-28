@@ -605,36 +605,50 @@ function CURL_GetAirline(/* in */ $curl, /* in/out */ &$airline)
 	if ($error)
 	{
 		/* This is certainly a html error document... */
-		$json = unify_html($json);
-		$error = seterrorinfo(__LINE__, "$error: $url: `$json`");
-	}
-	else
- 	{
-		$obj = json_decode($json);
-
-		if (NULL == $obj)
+		if ($json)
 		{
-			$error = seterrorinfo(__LINE__, "json_decode($json)");
-			$result = -1;
+			$json = unify_html($json);
+			$error = seterrorinfo(__LINE__, "$error: $url: `$json`");
 		}
 		else
 		{
-			$error = NULL;
+			$error = seterrorinfo(__LINE__, "$error: $url");
+		}
+	}
+	else
+	{
+		if (!$json)
+		{
+			$error = seterrorinfo(__LINE__, "Empty response: $url");
+		}
+		else
+		{
+			$obj = json_decode($json);
 
-			foreach ($obj->data as $idx => $value)
+			if (NULL == $obj)
 			{
-				$a = (object)$value;
+				$error = seterrorinfo(__LINE__, "json_decode($json)");
+				$result = -1;
+			}
+			else
+			{
+				$error = NULL;
 
-				if ($a->id == $airline->code)
+				foreach ($obj->data as $idx => $value)
 				{
-					if (isset($DEBUG['jflights']))
-					{
-						echo json_encode($a, JSON_PRETTY_PRINT);
-						echo "\n";
-					}
+					$a = (object)$value;
 
-					$airline->name = $a->name;
-					break;
+					if ($a->id == $airline->code)
+					{
+						if (isset($DEBUG['jflights']))
+						{
+							echo json_encode($a, JSON_PRETTY_PRINT);
+							echo "\n";
+						}
+
+						$airline->name = $a->name;
+						break;
+					}
 				}
 			}
 		}
@@ -700,44 +714,58 @@ function CURL_GetAirport(/* in */ $curl, /* in/out */ &$airport)
 	if ($error)
 	{
 		/* This is certainly a html error document... */
-		$json = unify_html($json);
-		$error = seterrorinfo(__LINE__, "$error: $url: `$json`");
-	}
-	else
-	{
-		$obj = json_decode($json);
-
-		if (NULL == $obj)
+		if ($json)
 		{
-			$error = seterrorinfo(__LINE__, "json_decode($json)");
-			$result = -1;
+			$json = unify_html($json);
+			$error = seterrorinfo(__LINE__, "$error: $url: `$json`");
 		}
 		else
 		{
-			$error = NULL;
+			$error = seterrorinfo(__LINE__, "$error: $url");
+		}
+	}
+	else
+	{
+		if (!$json)
+		{
+			$error = seterrorinfo(__LINE__, "Empty response: $url");
+		}
+		else
+		{
+			$obj = json_decode($json);
 
-			foreach ($obj->data as $idx => $value)
+			if (NULL == $obj)
 			{
-				$a = (object)$value;
+				$error = seterrorinfo(__LINE__, "json_decode($json)");
+				$result = -1;
+			}
+			else
+			{
+				$error = NULL;
 
-				if ($a->id == $airport->iata)
+				foreach ($obj->data as $idx => $value)
 				{
-					if (isset($DEBUG['jflights']))
+					$a = (object)$value;
+
+					if ($a->id == $airport->iata)
 					{
-						echo json_encode($a, JSON_PRETTY_PRINT);
-						echo "\n";
-					}
-
-					$airport->icao = $a->icao;
-					$airport->name = $a->name;
-
-						if (isset($countries["$a->land"]))
+						if (isset($DEBUG['jflights']))
 						{
-							$airport->country->id = $countries["$a->land"];
-							$airport->country->name = "$a->land";
+							echo json_encode($a, JSON_PRETTY_PRINT);
+							echo "\n";
 						}
 
-						break;
+						$airport->icao = $a->icao;
+						$airport->name = $a->name;
+
+							if (isset($countries["$a->land"]))
+							{
+								$airport->country->id = $countries["$a->land"];
+								$airport->country->name = "$a->land";
+							}
+
+							break;
+						}
 					}
 				}
 			}
@@ -772,37 +800,51 @@ function CURL_GetAircraftType(/* in */ $curl, /* in/out */ &$aircraft)
 	if ($error)
 	{
 		/* This is certainly a html error document... */
-		$json = unify_html($json);
-		$error = seterrorinfo(__LINE__, "$error: $url: `$json`");
-	}
-	else
- 	{
-		$obj = json_decode($json);
-
-		if (NULL == $obj)
+		if ($json)
 		{
-			$error = seterrorinfo(__LINE__, "json_decode($json)");
-			$result = -1;
+			$json = unify_html($json);
+			$error = seterrorinfo(__LINE__, "$error: $url: `$json`");
 		}
 		else
 		{
-			$error = NULL;
+			$error = seterrorinfo(__LINE__, "$error: $url");
+		}
+	}
+	else
+	{
+		if (!$json)
+		{
+			$error = seterrorinfo(__LINE__, "Empty response: $url");
+		}
+		else
+		{
+			$obj = json_decode($json);
 
-			foreach ($obj->data as $idx => $value)
+			if (NULL == $obj)
 			{
-				$a = (object)$value;
+				$error = seterrorinfo(__LINE__, "json_decode($json)");
+				$result = -1;
+			}
+			else
+			{
+				$error = NULL;
 
-				if ($a->id == $aircraft->type->icao)
+				foreach ($obj->data as $idx => $value)
 				{
-					if (isset($DEBUG['jflights']))
+					$a = (object)$value;
+
+					if ($a->id == $aircraft->type->icao)
 					{
-						echo json_encode($a, JSON_PRETTY_PRINT);
-						echo "\n";
+						if (isset($DEBUG['jflights']))
+						{
+							echo json_encode($a, JSON_PRETTY_PRINT);
+							echo "\n";
+						}
+
+						$aircraft->type->name = "$a->fab $a->name";
+
+						break;
 					}
-
-					$aircraft->type->name = "$a->fab $a->name";
-
-					break;
 				}
 			}
 		}
@@ -1117,24 +1159,39 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 			}
 			while ($error && --$retry);
 
-			if ($error)
+		if ($error)
+		{
+			/* This is certainly a html error document... */
+			if ($json)
 			{
-				/* This is certainly a html error document... */
-				$html = unify_html($json);
-				$error = seterrorinfo(__LINE__, sprintf("[%s] %s: %s", $error, $url, $html, $html ? ": `$html`" : ""));
-				$page = 0;
+				$json = unify_html($json);
+				$error = seterrorinfo(__LINE__, sprintf("[%s] %s: `%s`", $error, $url, $json));
 			}
-
 			else
 			{
-				if (isset($DEBUG['json']))
-					echo "$json\n";
+				$error = seterrorinfo(__LINE__, sprintf("[%s] %s", $error, $url));
+			}
 
-				// Interpret JSON into `$flights` vector
-				if (JSON_InterpretFlights($dir, $json, $defer, $flights, $current, $count) <= 0)
-					$page = 0;
-				else
-					$page++;
+			$page = 0;
+		}
+		else
+		{
+			if (!$json)
+			{
+				$error = seterrorinfo(__LINE__, "Empty response: $url");
+				$page = 0;
+			}
+			else
+			{
+					if (isset($DEBUG['json']))
+						echo "$json\n";
+
+					// Interpret JSON into `$flights` vector
+					if (JSON_InterpretFlights($dir, $json, $defer, $flights, $current, $count) <= 0)
+						$page = 0;
+					else
+						$page++;
+				}
 			}
 		}
 	}
