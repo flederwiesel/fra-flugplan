@@ -697,66 +697,66 @@ function CURL_GetAirport(/* in */ $curl, /* in/out */ &$airport)
 		$url = "http://${prefix}www.frankfurt-airport.com/de/_jcr_content.airports.json".
 				($prefix ? "?local" : "");
 
-	if (isset($DEBUG['url']))
-		echo "$url\n";
+		if (isset($DEBUG['url']))
+			echo "$url\n";
 
-	$retry = 3;
+		$retry = 3;
 
-	do
-	{
-		/* Set script execution limit. If set to zero, no time limit is imposed. */
-		set_time_limit(0);
-
-		$error = $curl->exec($url, $json, 5);
-	}
-	while (!$error && !$json && --$retry);
-
-	if ($error)
-	{
-		/* This is certainly a html error document... */
-		if ($json)
+		do
 		{
-			$json = unify_html($json);
-			$error = seterrorinfo(__LINE__, "$error: $url: `$json`");
+			/* Set script execution limit. If set to zero, no time limit is imposed. */
+			set_time_limit(0);
+
+			$error = $curl->exec($url, $json, 5);
 		}
-		else
-		{
-			$error = seterrorinfo(__LINE__, "$error: $url");
-		}
-	}
-	else
-	{
-		if (!$json)
-		{
-			$error = seterrorinfo(__LINE__, "Empty response: $url");
-		}
-		else
-		{
-			$obj = json_decode($json);
+		while (!$error && !$json && --$retry);
 
-			if (NULL == $obj)
+		if ($error)
+		{
+			/* This is certainly a html error document... */
+			if ($json)
 			{
-				$error = seterrorinfo(__LINE__, "json_decode($json)");
-				$result = -1;
+				$json = unify_html($json);
+				$error = seterrorinfo(__LINE__, "$error: $url: `$json`");
 			}
 			else
 			{
-				$error = NULL;
+				$error = seterrorinfo(__LINE__, "$error: $url");
+			}
+		}
+		else
+		{
+			if (!$json)
+			{
+				$error = seterrorinfo(__LINE__, "Empty response: $url");
+			}
+			else
+			{
+				$obj = json_decode($json);
 
-				foreach ($obj->data as $idx => $value)
+				if (NULL == $obj)
 				{
-					$a = (object)$value;
+					$error = seterrorinfo(__LINE__, "json_decode($json)");
+					$result = -1;
+				}
+				else
+				{
+					$error = NULL;
 
-					if ($a->id == $airport->iata)
+					foreach ($obj->data as $idx => $value)
 					{
-						if (isset($DEBUG['jflights']))
-						{
-							echo json_encode($a, JSON_PRETTY_PRINT);
-							echo "\n";
-						}
+						$a = (object)$value;
 
-						$airport->icao = $a->icao;
-						$airport->name = $a->name;
+						if ($a->id == $airport->iata)
+						{
+							if (isset($DEBUG['jflights']))
+							{
+								echo json_encode($a, JSON_PRETTY_PRINT);
+								echo "\n";
+							}
+
+							$airport->icao = $a->icao;
+							$airport->name = $a->name;
 
 							if (isset($countries["$a->land"]))
 							{
@@ -1159,30 +1159,30 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 			}
 			while ($error && --$retry);
 
-		if ($error)
-		{
-			/* This is certainly a html error document... */
-			if ($json)
+			if ($error)
 			{
-				$json = unify_html($json);
-				$error = seterrorinfo(__LINE__, sprintf("[%s] %s: `%s`", $error, $url, $json));
-			}
-			else
-			{
-				$error = seterrorinfo(__LINE__, sprintf("[%s] %s", $error, $url));
-			}
+				/* This is certainly a html error document... */
+				if ($json)
+				{
+					$json = unify_html($json);
+					$error = seterrorinfo(__LINE__, sprintf("[%s] %s: `%s`", $error, $url, $json));
+				}
+				else
+				{
+					$error = seterrorinfo(__LINE__, sprintf("[%s] %s", $error, $url));
+				}
 
-			$page = 0;
-		}
-		else
-		{
-			if (!$json)
-			{
-				$error = seterrorinfo(__LINE__, "Empty response: $url");
 				$page = 0;
 			}
 			else
 			{
+				if (!$json)
+				{
+					$error = seterrorinfo(__LINE__, "Empty response: $url");
+					$page = 0;
+				}
+				else
+				{
 					if (isset($DEBUG['json']))
 						echo "$json\n";
 
