@@ -475,6 +475,10 @@ $columns = <<<EOF
 	`airports`.`name` AS `airport_name`,
 EOF;
 
+$columns .= sprintf('`countries`.`%s` AS `country`,', 'de');	//$lang['$id']);
+
+$join = 'LEFT JOIN `countries` ON `airports`.`country` = `countries`.`id`';
+
 /* Fixed: */
 $columns .= <<<EOF
 	IFNULL(`expected`,`scheduled`) AS `expected`,
@@ -498,6 +502,7 @@ $query = <<<EOF
 	 LEFT JOIN `models` ON `flights`.`model` = `models`.`id`
 	 LEFT JOIN `aircrafts` ON `flights`.`aircraft` = `aircrafts`.`id`
 	 LEFT JOIN `visits` ON `flights`.`aircraft` = `visits`.`aircraft`
+	 $join
 	WHERE `flights`.`direction`='$dir'
 	 AND TIMESTAMPDIFF(SECOND, '$now', IFNULL(`expected`, `scheduled`)) >= $lookback
 	 AND TIMESTAMPDIFF(SECOND, '$now', IFNULL(`expected`, `scheduled`)) <= $lookahead
@@ -556,9 +561,16 @@ else
 			echo "<td>$row[airport_icao]</td>";
 
 			if (0 == strlen($row['airport_name']))
+			{
 				echo "<td><div>&nbsp;</div></td>";
+			}
 			else
-				echo "<td><div>$row[airport_name]</div></td>";
+			{
+				if (0 == strlen($row['country']))
+					echo "<td><div>$row[airport_name]</div></td>";
+				else
+					echo "<td><div>$row[airport_name], $row[country]</div></td>";
+			}
 		}
 
 		switch ($row['type'])
