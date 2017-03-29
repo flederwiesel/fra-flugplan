@@ -18,7 +18,7 @@ root=
 target=fra-schedule
 
 cd $(dirname "$0")
-sed -i "/define[ \t]*([ \t]*'DEBUG'/d" .config
+sed -i "s#^[^/]*define[ \t]*([ \t]*'DEBUG'#//&#g" .config
 
 svn upgrade
 
