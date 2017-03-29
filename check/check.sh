@@ -225,13 +225,8 @@ register(failure)
 activate(failure)
 login(failure)
 changepasswd(failure)
-#addflight(failure)
 # success
 register(spam)
-addflight(perms=1)
-addflight(perms=1), lang=de
-addflight(perms=0)
-addflight(perms=0), lang=de
 changepasswd
 changepasswd lang=de
 profile
