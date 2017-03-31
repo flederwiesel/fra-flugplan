@@ -440,13 +440,13 @@ class jflight
 		{ 'Ankunft vom', },
 		{ 'im Anflug', 'approaching', '在飞行中' },
 		{ 'gelandet', 'landed', '已着陆' },
-		{ 'auf Position', 'auf Position', 'auf Position', },
+		{ 'auf Position', 'on position', '至机位', },
 		{ 'Gep\u00e4ckausgabe', 'baggage delivery', '托运行李领取' },
 		{ 'Gep\u00e4ckausgabe beendet', 'baggage delivery finished', '托运行李领取已结束' },
 		{ 'Neues Gate', 'Neues Gate', 'Neues Gate' },
 		{ 'Gate offen', 'Gate open', '登机口开放' },
-		{ 'Aufruf', 'Aufruf', 'Aufruf' },
-		{ 'Boarding', 'Boarding', 'Boarding' },
+		{ 'Aufruf', 'ready for Boarding', '准备登机' },
+		{ 'Boarding', 'Boarding', '登机' },
 		{ 'geschlossen', 'closed', '已关闭' },
 		{ 'gestartet', 'started' '已起飞' },
 		{ 'Zug', 'train', '火车' },
@@ -599,6 +599,7 @@ function CURL_GetAirline(/* in */ $curl, /* in/out */ &$airline)
 		set_time_limit(0);
 
 		$error = $curl->exec($url, $json, 5);
+// check: curl ETIMEDOUT ??
 	}
 	while (!$error && !$json && --$retry);
 
@@ -885,6 +886,8 @@ function MapFlightStatus(/*in/out*/ &$status)
 		break;
 
 	case 'auf Position':
+	case 'on position':
+	case '至机位':
 		// fallthrough
 	case 'gelandet':
 	case 'landed':
@@ -908,8 +911,11 @@ function MapFlightStatus(/*in/out*/ &$status)
 	case '登机口开放':
 		// fallthrough
 	case 'Aufruf':
+	case 'ready for Boarding':
+	case '准备登机':
 		// fallthrough
 	case 'Boarding':
+	case '登机':
 		// fallthrough
 	case 'geschlossen':
 	case 'closed':
