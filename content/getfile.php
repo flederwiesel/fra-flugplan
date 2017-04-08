@@ -177,13 +177,11 @@ if (!$error)
 				(
 					SELECT `expected`, `scheduled`, `airline`, `code`, `airport`, `model`, `aircraft`
 					FROM `flights`
-					USE INDEX (`flights:direction`)
 					WHERE `direction` = '$direction'
 					AND IFNULL(`expected`, `scheduled`) BETWEEN '$from' AND '$until'
 					UNION ALL
 					SELECT `expected`, `scheduled`, `airline`, `code`, `airport`, `model`, `aircraft`
 					FROM `history`
-					USE INDEX (`history:direction`)
 					WHERE `direction` = '$direction'
 					AND IFNULL(`expected`, `scheduled`) BETWEEN '$from' AND '$until'
 				) AS `flights`
