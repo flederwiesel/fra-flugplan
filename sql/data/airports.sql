@@ -760,4 +760,7 @@ VALUES
 (788, 'ALL', 'LIMG', 'Albenga-Clemente Panero', 110),
 (789, 'CRA', 'LRCV', 'Craiova-International', 182),
 (790, 'PKC', 'UHPP', 'Petropavlovsk-Kamchats', 183),
-(791, 'DYR', 'UHMA', 'Anadyr-Ugolnyye Kopi', 183);
+(791, 'DYR', 'UHMA', 'Anadyr-Ugolnyye Kopi', 183),
+(792, 'BQT', 'UMBB', 'Brest', 21),
+(793, 'SCQ', 'LEST', 'Santiago de Compostela', 209),
+(794, 'QNJ', 'LFLI', 'Annemasse Airport', 76);
