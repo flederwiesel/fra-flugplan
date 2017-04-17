@@ -1,3 +1,5 @@
+USE `flederwiesel_fra-schedule`;
+
 INSERT INTO `airlines`(`id`, `code`, `name`)
 VALUES
 (  1, 'A3',  'Aegean Airlines'),

@@ -1,3 +1,5 @@
+USE `flederwiesel_fra-schedule`;
+
 INSERT INTO `models`(`id`, `icao`, `name`)
 VALUES
 (  1, 'A124', 'Antonov AN-124 Ruslan'),

@@ -1,3 +1,5 @@
+USE `flederwiesel_fra-schedule`;
+
 INSERT INTO `airports` (`id`, `iata`, `icao`, `name`, `country`)
 VALUES
 (  1, 'ABV', 'DNAA', 'Abuja', 162),

@@ -13,8 +13,6 @@ sqlexec() {
 if [ $# -lt 1 ]; then
 	echo "Usage: $(basename $0) <file>"
 else
-	schema="flederwiesel_fra-schedule"
-
 	case "${1##*.}" in
 	'bz2')
 		cmd="bunzip2 -c '$1'"
@@ -34,5 +32,5 @@ else
 		;;
 	esac
 
-	sqlexec <<< "USE \`$schema\`; $(eval $cmd | sed 's/flederwi_/flederwiesel_/g')"
+	sqlexec <<< "$(eval $cmd | sed 's/flederwi_/flederwiesel_/g')"
 fi
