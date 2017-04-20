@@ -123,6 +123,8 @@ CREATE TABLE `airports`
 	`icao` varchar(4) NOT NULL,
 	`name` varchar(255) NOT NULL,
 	`country` integer DEFAULT NULL,
+	`lat` double DEFAULT NULL,
+	`lon` double DEFAULT NULL,
 	CONSTRAINT `pk:airports(id)` PRIMARY KEY (`id`),
 	CONSTRAINT `fk:airports(country)=countries(id)` FOREIGN KEY (`country`) REFERENCES `countries`(`id`),
 	UNIQUE KEY `u:airports(icao)`(`icao`)
