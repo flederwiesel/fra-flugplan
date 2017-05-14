@@ -340,74 +340,74 @@ function /* char *error */ LoginUserSql($db, $byid, $id, /* __in __out */ &$pass
 	}
 	else
 	{
-	if (!$st->execute(array($id)))
-	{
-		$error = sprintf($lang['dberror'], $st->errorCode());
-	}
-	else
-	{
-		if ($st->rowCount() != 1)
+		if (!$st->execute(array($id)))
 		{
-			if ('00000' == $st->errorCode())
-				$error = $lang['authfailed'];
-			else
-				$error = sprintf($lang['dberror'], $st->errorCode());
+			$error = sprintf($lang['dberror'], $st->errorCode());
 		}
 		else
 		{
-			// TODO: fetch as User class object
-			$row = $st->fetchObject();
-
-			if (!$row)
+			if ($st->rowCount() != 1)
 			{
-				$error = sprintf($lang['dberror'], $st->errorCode());
+				if ('00000' == $st->errorCode())
+					$error = $lang['authfailed'];
+				else
+					$error = sprintf($lang['dberror'], $st->errorCode());
 			}
 			else
 			{
-				if (isset($row->token_type))
+				// TODO: fetch as User class object
+				$row = $st->fetchObject();
+
+				if (!$row)
 				{
-					switch ($row->token_type)
-					{
-					case 'activation':
-						$error = $lang['activationrequired'];
-						break;
-
-					case 'password':
-						$error = $lang['authfailedtoken'];
-						break;
-
-					case 'none':
-					default:
-						break;
-					}
+					$error = sprintf($lang['dberror'], $st->errorCode());
 				}
-
-				if (!$error)
+				else
 				{
-					$hash = $byid ? $password : hash_hmac('sha256', $password, $row->salt);
-
-					if ($row->passwd != $hash)
+					if (isset($row->token_type))
 					{
-						$error = $lang['authfailed'];
-					}
-					else
-					{
-						$password = $hash;
-
-						if ($byid)
+						switch ($row->token_type)
 						{
-							$name = $row->name;
+						case 'activation':
+							$error = $lang['activationrequired'];
+							break;
+
+						case 'password':
+							$error = $lang['authfailedtoken'];
+							break;
+
+						case 'none':
+						default:
+							break;
+						}
+					}
+
+					if (!$error)
+					{
+						$hash = $byid ? $password : hash_hmac('sha256', $password, $row->salt);
+
+						if ($row->passwd != $hash)
+						{
+							$error = $lang['authfailed'];
 						}
 						else
 						{
-							$name = $id;
-							$id = $row->id;
+							$password = $hash;
+
+							if ($byid)
+							{
+								$name = $row->name;
+							}
+							else
+							{
+								$name = $id;
+								$id = $row->id;
+							}
 						}
 					}
 				}
 			}
 		}
-	}
 	}
 
 	if (!$error)
@@ -427,47 +427,47 @@ SQL;
 		}
 		else
 		{
-		if (!$st->execute(array($id)))
-		{
-			$error = sprintf($lang['dberror'], $st->errorCode());
-		}
-		else
-		{
-			if (0 == $st->rowCount())
+			if (!$st->execute(array($id)))
 			{
-				$error = $lang['nopermission'];
+				$error = sprintf($lang['dberror'], $st->errorCode());
 			}
 			else
 			{
-				while ($group = $st->fetchColumn())
-					$groups[] = $group;
-
-				if (!$groups)
+				if (0 == $st->rowCount())
 				{
-					$error = sprintf($lang['dberror'], $st->errorCode());
+					$error = $lang['nopermission'];
 				}
 				else
 				{
-					$user = new User($id, $name, $row->email, $row->timezone, $row->language, $groups);
+					while ($group = $st->fetchColumn())
+						$groups[] = $group;
 
-					if ($user)
+					if (!$groups)
 					{
-						$user->opt('tm-', $row->{'tm-'});
-						$user->opt('tm+', $row->{'tm+'});
-						$user->opt('tt-', $row->{'tt-'});
-						$user->opt('tt+', $row->{'tt+'});
-						$user->opt('notification-from', $row->{'notification-from'});
-						$user->opt('notification-until', $row->{'notification-until'});
-						$user->opt('notification-timefmt', $row->{'notification-timefmt'});
+						$error = sprintf($lang['dberror'], $st->errorCode());
+					}
+					else
+					{
+						$user = new User($id, $name, $row->email, $row->timezone, $row->language, $groups);
 
-						$query = sprintf("UPDATE `users` SET `last login`='%s' WHERE `id`=%u",
-										 strftime('%Y-%m-%d %H:%M:%S'), $user->id());
+						if ($user)
+						{
+							$user->opt('tm-', $row->{'tm-'});
+							$user->opt('tm+', $row->{'tm+'});
+							$user->opt('tt-', $row->{'tt-'});
+							$user->opt('tt+', $row->{'tt+'});
+							$user->opt('notification-from', $row->{'notification-from'});
+							$user->opt('notification-until', $row->{'notification-until'});
+							$user->opt('notification-timefmt', $row->{'notification-timefmt'});
 
-						$db->exec($query);
+							$query = sprintf("UPDATE `users` SET `last login`='%s' WHERE `id`=%u",
+											 strftime('%Y-%m-%d %H:%M:%S'), $user->id());
+
+							$db->exec($query);
+						}
 					}
 				}
 			}
-		}
 		}
 	}
 
@@ -712,38 +712,38 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 	}
 	else
 	{
-	if (!$st->execute(array($user)))
-	{
-		$error = sprintf($lang['dberror'], $st->errorCode());
-	}
-	else
-	{
-		if ($st->rowCount() != 0)
-			$error = $lang['userexists'];
-
-		if (!$error)
+		if (!$st->execute(array($user)))
 		{
-			$query = "SELECT `id` FROM `users` WHERE `email`=?";
-			$st = $db->prepare($query);
+			$error = sprintf($lang['dberror'], $st->errorCode());
+		}
+		else
+		{
+			if ($st->rowCount() != 0)
+				$error = $lang['userexists'];
 
-			if (!$st)
+			if (!$error)
 			{
-				$error = sprintf($lang['dberror'], $db->errorCode());
-			}
-			else
-			{
-			if (!$st->execute(array($email)))
-			{
-				$error = sprintf($lang['dberror'], $st->errorCode());
-			}
-			else
-			{
-				if ($st->rowCount() != 0)
-					$error = $lang['emailexists'];
-			}
+				$query = "SELECT `id` FROM `users` WHERE `email`=?";
+				$st = $db->prepare($query);
+
+				if (!$st)
+				{
+					$error = sprintf($lang['dberror'], $db->errorCode());
+				}
+				else
+				{
+				if (!$st->execute(array($email)))
+				{
+					$error = sprintf($lang['dberror'], $st->errorCode());
+				}
+				else
+				{
+					if ($st->rowCount() != 0)
+						$error = $lang['emailexists'];
+				}
+				}
 			}
 		}
-	}
 	}
 
 	if (!$error)
@@ -803,40 +803,40 @@ SQL;
 					}
 					else
 					{
-					if (0 == $st->rowCount())
-					{
-						$error = $lang['regfailed'];
-					}
-					else
-					{
-						$row = $st->fetchObject();
-						//&& $_POST['timezone'] -> localtime($expires)
-
-						if (!$row)
+						if (0 == $st->rowCount())
 						{
-							$error = $st->errorCode();
+							$error = $lang['regfailed'];
 						}
 						else
 						{
-							$uid = $row->id;
-							$expires = $row->token_expires;
-							$_SESSION['lang'] = $language;
+							$row = $st->fetchObject();
+							//&& $_POST['timezone'] -> localtime($expires)
+
+							if (!$row)
+							{
+								$error = $st->errorCode();
+							}
+							else
+							{
+								$uid = $row->id;
+								$expires = $row->token_expires;
+								$_SESSION['lang'] = $language;
+							}
 						}
-					}
 					}
 
 					if (!$eror)
 					{
-				$query = <<<SQL
-					INSERT INTO `membership`(`user`, `group`)
-					VALUES(
-						LAST_INSERT_ID(),
-						(SELECT `id` FROM `groups` WHERE `name`='users')
-					);
+						$query = <<<SQL
+							INSERT INTO `membership`(`user`, `group`)
+							VALUES(
+								LAST_INSERT_ID(),
+								(SELECT `id` FROM `groups` WHERE `name`='users')
+							);
 SQL;
 
-				if (!$db->exec($query))
-					$error = sprintf($lang['dberror'], $db->errorCode());
+						if (!$db->exec($query))
+							$error = sprintf($lang['dberror'], $db->errorCode());
 					}
 				}
 			}
@@ -1008,53 +1008,53 @@ function /* char *error */ ActivateUserSql($db, $user, $token)
 	}
 	else
 	{
-	if (!$st->execute(array($user)))
-	{
-		$error = sprintf($lang['dberror'], $st->errorCode());
-	}
-	else
-	{
-		if ($st->rowCount() != 1)
+		if (!$st->execute(array($user)))
 		{
-			$error = sprintf($lang['activationfailed'], __LINE__);
+			$error = sprintf($lang['dberror'], $st->errorCode());
 		}
 		else
 		{
-			$row = $st->fetchObject();
-
-			if (!$row)
+			if ($st->rowCount() != 1)
 			{
-				$error = sprintf($lang['dberror'], $st->errorCode());
+				$error = sprintf($lang['activationfailed'], __LINE__);
 			}
 			else
 			{
-				$uid = $row->id;
-				$now = $row->now;
+				$row = $st->fetchObject();
 
-				if ('none' == $row->token_type ||
-					NULL == $row->token ||
-					NULL == $row->expires)
+				if (!$row)
 				{
-					// Already activated, silently accept re-activation
-					$token = NULL;
+					$error = sprintf($lang['dberror'], $st->errorCode());
 				}
 				else
 				{
-					$expires = $row->expires;
+					$uid = $row->id;
+					$now = $row->now;
 
-					if ($expires > 0)
+					if ('none' == $row->token_type ||
+						NULL == $row->token ||
+						NULL == $row->expires)
 					{
-						$error = $lang['activationexpired'];
+						// Already activated, silently accept re-activation
+						$token = NULL;
 					}
 					else
 					{
-						if ($token != $row->token)
-							$error = sprintf($lang['activationfailed'], __LINE__);
+						$expires = $row->expires;
+
+						if ($expires > 0)
+						{
+							$error = $lang['activationexpired'];
+						}
+						else
+						{
+							if ($token != $row->token)
+								$error = sprintf($lang['activationfailed'], __LINE__);
+						}
 					}
 				}
 			}
 		}
-	}
 	}
 
 	if (NULL == $token)
@@ -1216,80 +1216,80 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 			}
 			else
 			{
-			if (0 == $st->rowCount())
-			{
-				if ($user)
+				if (0 == $st->rowCount())
 				{
-					if ($email)
-						$error = $lang['nosuchuseremail'];
-					else
-						$error = $lang['nosuchuser'];
-				}
-				else
-				{
-					if ($email)
-						$error = $lang['nosuchemail'];
-					else
-						$error = $lang['nosuchuseremail'];
-				}
-			}
-			else
-			{
-				$row = $st->fetchObject($result);
-
-				if (!$row)
-				{
-					$error = sprintf($lang['dberror'], $st->errorCode());
-				}
-				else
-				{
-					$uid = $row->id;
-					$user = $row->name;
-					$email = $row->email;
-					$type = $row->token_type;
-					$left = $row->expires;
-
-					if ('activation' == $type)
+					if ($user)
 					{
-						$error = sprintf($lang['activatefirst'], $user);
+						if ($email)
+							$error = $lang['nosuchuseremail'];
+						else
+							$error = $lang['nosuchuser'];
 					}
-					else if ('password' == $type)
+					else
 					{
-						if ($left < 0)
+						if ($email)
+							$error = $lang['nosuchemail'];
+						else
+							$error = $lang['nosuchuseremail'];
+					}
+				}
+				else
+				{
+					$row = $st->fetchObject($result);
+
+					if (!$row)
+					{
+						$error = sprintf($lang['dberror'], $st->errorCode());
+					}
+					else
+					{
+						$uid = $row->id;
+						$user = $row->name;
+						$email = $row->email;
+						$type = $row->token_type;
+						$left = $row->expires;
+
+						if ('activation' == $type)
 						{
-							$left *= -1;
-							$retry = '';
-
-							if ($left > 3600)
+							$error = sprintf($lang['activatefirst'], $user);
+						}
+						else if ('password' == $type)
+						{
+							if ($left < 0)
 							{
-								$h = (($left - $left % 3600) / 3600);
-								$left -= 3600 * $h;
-								$retry .= "$h h";
+								$left *= -1;
+								$retry = '';
+
+								if ($left > 3600)
+								{
+									$h = (($left - $left % 3600) / 3600);
+									$left -= 3600 * $h;
+									$retry .= "$h h";
+								}
+
+								if ($left > 60)
+								{
+									if (strlen($retry))
+										$retry .= ' ';
+
+									$min = (($left - $left % 60) / 60);
+									$left -= 60 * $min;
+									$retry .= "$min min";
+								}
+
+								if ($left > 0)
+								{
+									if (strlen($retry))
+										$retry .= ' ';
+
+									$retry .= "$left s";
+								}
+
+								$error = sprintf($lang['noretrybefore'], $retry);
 							}
-
-							if ($left > 60)
-							{
-								if (strlen($retry))
-									$retry .= ' ';
-
-								$min = (($left - $left % 60) / 60);
-								$left -= 60 * $min;
-								$retry .= "$min min";
-							}
-
-							if ($left > 0)
-							{
-								if (strlen($retry))
-									$retry .= ' ';
-
-								$retry .= "$left s";
-							}
-
-							$error = sprintf($lang['noretrybefore'], $retry);
 						}
 					}
 				}
-			}
 			}
 		}
 	}
@@ -1444,81 +1444,81 @@ function /* char *error */ ChangePasswordSql($db, $user, $token, $password)
 	}
 	else
 	{
-	if (!$st->execute(array($user)))
-	{
-		$error = sprintf($lang['dberror'], $st->errorCode());
-	}
-	else
-	{
-		if ($st->rowCount() != 1)
+		if (!$st->execute(array($user)))
 		{
-			if ('00000' == $st->errorCode())
-				$error = $lang['authfailedpasswdnotch'];
-			else
-				$error = sprintf($lang['dberror'], $st->errorCode());
+			$error = sprintf($lang['dberror'], $st->errorCode());
 		}
 		else
 		{
-			$row = $st->fetchObject();
-
-			if (!$row)
+			if ($st->rowCount() != 1)
 			{
-				$error = sprintf($lang['dberror'], $st->errorCode());
+				if ('00000' == $st->errorCode())
+					$error = $lang['authfailedpasswdnotch'];
+				else
+					$error = sprintf($lang['dberror'], $st->errorCode());
 			}
 			else
 			{
-				$expires = $row->expires;
+				$row = $st->fetchObject();
 
-				if (isset($token))
+				if (!$row)
 				{
-					if (!isset($row->token) /* No token has been requested! */ ||
-						$token != $row->token)
-					{
-						$error = $lang['authfailedpasswdnotch'];
-					}
-					else
-					{
-						// check token exiration time
-						if ($expires > 0)
-							$error = $lang['passwdtokenexpired'];
-					}
+					$error = sprintf($lang['dberror'], $st->errorCode());
 				}
-
-				if (!$error)
+				else
 				{
-					if (!PasswordConstraintMet($_POST['passwd']))
-					{
-						$error = PasswordHint();
-					}
-					else if (!PasswordsMatch($_POST['passwd'], $_POST['passwd-confirm']))
-					{
-						$error = $lang['passwordsmismatch'];
-					}
-					else
-					{
-						$uid = $row->id;
-						$salt = token();
-						$password = hash_hmac('sha256', $password, $salt);
-						$query = "UPDATE `users`".
-								 " SET `salt`='$salt', `passwd`='$password',".
-								 " `token`=NULL, `token_type`='none', `token_expires`=NULL".
-								 " WHERE `id`=$uid";
+					$expires = $row->expires;
 
-						if (!$db->exec($query))
+					if (isset($token))
+					{
+						if (!isset($row->token) /* No token has been requested! */ ||
+							$token != $row->token)
 						{
-							$error = sprintf($lang['dberror'], $db->errorCode());
+							$error = $lang['authfailedpasswdnotch'];
 						}
 						else
 						{
-							if (isset($_COOKIE['autologin']))
-								if ($_COOKIE['autologin'])
-									setcookie('hash', $password, time() + COOKIE_LIFETIME);
+							// check token exiration time
+							if ($expires > 0)
+								$error = $lang['passwdtokenexpired'];
+						}
+					}
+
+					if (!$error)
+					{
+						if (!PasswordConstraintMet($_POST['passwd']))
+						{
+							$error = PasswordHint();
+						}
+						else if (!PasswordsMatch($_POST['passwd'], $_POST['passwd-confirm']))
+						{
+							$error = $lang['passwordsmismatch'];
+						}
+						else
+						{
+							$uid = $row->id;
+							$salt = token();
+							$password = hash_hmac('sha256', $password, $salt);
+							$query = "UPDATE `users`".
+									 " SET `salt`='$salt', `passwd`='$password',".
+									 " `token`=NULL, `token_type`='none', `token_expires`=NULL".
+									 " WHERE `id`=$uid";
+
+							if (!$db->exec($query))
+							{
+								$error = sprintf($lang['dberror'], $db->errorCode());
+							}
+							else
+							{
+								if (isset($_COOKIE['autologin']))
+									if ($_COOKIE['autologin'])
+										setcookie('hash', $password, time() + COOKIE_LIFETIME);
+							}
 						}
 					}
 				}
 			}
 		}
-	}
 	}
 
 	AdminMail('passwdch',
