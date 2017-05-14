@@ -145,22 +145,30 @@ if ('dispinterval' == $item)
 			{
 				$query = <<<SQL
 					UPDATE `users`
-					SET `tm-`=%ld,
-						`tm+`=%ld,
-						`tt-`=%ld,
-						`tt+`=%ld
-					WHERE `id`=%lu
+					SET `tm-`=:tmm,
+						`tm+`=:tmp,
+						`tt-`=:ttm,
+						`tt+`=:ttp
+					WHERE `id`=:uid
 SQL;
 
-				$query = sprintf($query,
-								 $_POST['tm-'], $_POST['tm+'], $_POST['tt-'], $_POST['tt+'],
-								 $user->id());
+				$st = $db->prepare($query);
 
-				$result = mysql_query($query);
-
-				if (!$result)
+				if (!$st)
 				{
-					$error = mysql_error();
+					$error = sprintf($lang['dberror'], $db->errorCode());
+				}
+				else
+				{
+					$st->bindValue(':tmm', $_POST['tm-']);
+					$st->bindValue(':tmp', $_POST['tm+']);
+					$st->bindValue(':ttm', $_POST['tt-']);
+					$st->bindValue(':ttp', $_POST['tt+']);
+					$st->bindValue(':uid', $user->id());
+
+				if (!$st->execute())
+				{
+					$error = $st->errorCode();
 				}
 				else
 				{
@@ -170,6 +178,7 @@ SQL;
 					$user->opt('tt+', $_POST['tt+']);
 
 					$message = $lang['settingsssaved'];
+				}
 				}
 			}
 
@@ -286,22 +295,28 @@ if ('notifinterval' == $item)
 				{
 					$query = <<<SQL
 						UPDATE `users`
-						SET `notification-from`='%s',
-							`notification-until`='%s',
-							`notification-timefmt`=%s
-						WHERE `id`=%lu
+						SET `notification-from`=:from,
+							`notification-until`=:until,
+							`notification-timefmt`=:fmt
+						WHERE `id`=:uid
 SQL;
-					$query = sprintf($query,
-									 $_POST['from'],
-									 $_POST['until'],
-									 $_POST_timefmt ? "'$_POST_timefmt'" : "NULL",
-									 $user->id());
 
-					$result = mysql_query($query);
+					$st = $db->prepare($query);
 
-					if (!$result)
+					if (!$st)
 					{
-						$error = mysql_error();
+						$error = sprintf($lang['dberror'], $sb->errorCode());
+					}
+					else
+					{
+						$st->bindValue(':from', $_POST['from']);
+						$st->bindValue(':until', $_POST['until']);
+						$st->bindValue(':fmt', $_POST_timefmt ? "'$_POST_timefmt'" : NULL);
+						$st->bindValue(':uid', $user->id());
+
+					if (!$st->execute())
+					{
+						$error = sprintf($lang['dberror'], $st->errorCode());
 					}
 					else
 					{
@@ -311,6 +326,7 @@ SQL;
 
 						$message = "$lang[settingsssaved] ".
 									sprintf($lang['strftime-true'], $time);
+					}
 					}
 				}
 			}

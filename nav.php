@@ -42,7 +42,7 @@ function navitem($item, $href)
 <?php
 	}
 
-	if ($hdbc)
+	if ($db)
 	{
 		if (isset($_GET['page']))
 		{
@@ -119,7 +119,7 @@ function navitem($item, $href)
 </ul>
 <ul class="menu right">
 <?php
-	if ($hdbc)
+	if ($db)
 	{
 		if ($user)
 		{

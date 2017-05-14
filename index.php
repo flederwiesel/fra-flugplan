@@ -254,36 +254,32 @@ setcookie('lang', $_SESSION['lang'], time() + COOKIE_LIFETIME);
  * initialise variables
  ******************************************************************************/
 
+$db= NULL;
 $error = null;
 $message = null;
 $user = null;
 
-$hdbc = @mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
-
-if (!$hdbc)
+try
 {
-	$error = sprintf("[%s] %s", mysql_errno(), mysql_error());
+	$db = new PDO(sprintf("mysql:host=%s;dbname=%s;charset=utf8",
+					DB_HOSTNAME, DB_NAME),
+					DB_USERNAME, DB_PASSWORD);
 }
-else
+catch(PDOException $e)
 {
-	if (mysql_select_db(DB_NAME, $hdbc))
-	{
-		mysql_set_charset('utf8');
-	}
-	else
-	{
-		$error = mysql_error();
-		mysql_close($hdbc);
-		$hdbc = null;
-	}
+	$error = sprintf($lang['dberror'], $e->getCode());
+	// TODO: Log to file:
+	//$error = $e->getMessage();
 }
 
 if (!$error)
 {
+	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+
 	// callback function for user login, register, etc.
 	require_once 'user.php';
 
-	$error = UserProcessRequest($user, $message);
+	$error = UserProcessRequest($db, $user, $message);
 }
 
 if ($user)
@@ -423,14 +419,14 @@ if ('de' == $_SESSION['lang']) {
 				}
 			}
 
-			if (!$hdbc)
+			if (!$db)
 			{
 				if (!$error)
 					$error = $lang['unexpected'];
 ?>
 				<div id="error">
 					<h1><?php echo $lang['fatal']; ?></h1>
-					<?php echo sprintf($lang['dberror'], $error); ?>
+					<?php echo $error; ?>
 				</div>
 <?php
 				if (isset($_GET['page']))
@@ -484,6 +480,6 @@ if ('de' == $_SESSION['lang']) {
 </html>
 <?php /*</html>****************************************************************/
 
-if ($hdbc)
-	mysql_close($hdbc);
+if ($db)
+	mysql_close($db);
 ?>

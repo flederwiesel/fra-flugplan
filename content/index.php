@@ -27,17 +27,12 @@ if (isset($_POST['add']) ||
 	}
 	else
 	{
-		if ($hdbc)
+		if ($db)
 		{
-			if (!mysql_query('SET AUTOCOMMIT=0'))
 			{
-				$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
-			}
-			else
-			{
-				if (!mysql_query('START TRANSACTION'))
+				if (!$db->beginTransaction())
 				{
-					$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+					$error = sprintf($lang['dberror'], $db->errorCode());
 				}
 				else
 				{
@@ -65,31 +60,50 @@ if (isset($_POST['add']) ||
 									FROM `watchlist-notifications`
 									INNER JOIN (SELECT `id` FROM `watchlist`
 												WHERE `user`=$uid
-												AND `reg`='$reg') AS `watchlist`
+												AND `reg`=?) AS `watchlist`
 									        ON `watchlist`.`id`=`watchlist-notifications`.`watch`
 SQL;
 
-								if (!mysql_query($query))
+								$st = $db->prepare($query);
+
+								if (!$st)
 								{
-									$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
-									break;
+									$error = sprintf($lang['dberror'], $db->errorCode());
+								}
+								else
+								{
+								if (!$st->execute(array($reg)))
+								{
+									$error = sprintf($lang['dberror'], $st->errorCode());
 								}
 								else
 								{
 									$query = <<<SQL
 										DELETE FROM `watchlist`
 										WHERE `user`=$uid
-											AND `reg`='$reg'
+											AND `reg`=?
 SQL;
 
-									if (!mysql_query($query))
+									$st = $db->prepare($query);
+
+									if (!$st)
 									{
-										$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
-										break;
+										$error = sprintf($lang['dberror'], $db->errorCode());
 									}
+									else
+									{
+									if (!$st->execute(array($reg)))
+									{
+										$error = sprintf($lang['dberror'], $st->errorCode());
+									}
+									}
+								}
 								}
 							}
 						}
+
+						if ($error)
+							break;
 					}
 
 					if (!$error)
@@ -114,25 +128,28 @@ SQL;
 									if ($notify)
 										$notif_req = TRUE;
 
-									if (!get_magic_quotes_gpc())
-									{
-										// escape backslashes and single quotes
-										$reg     = str_replace("\\", "", $reg);
-										$reg     = str_replace("'", "", $reg);
-										$comment = str_replace("\\", "\\\\", $comment);
-										$comment = str_replace("'", "\\'", $comment);
-									}
-
 									$query = <<<SQL
 										INSERT INTO `watchlist`(`user`,`reg`,`comment`, `notify`)
-										VALUES($uid, '$reg', '$comment', $notify)
-										ON DUPLICATE KEY UPDATE `comment`='$comment', `notify`=$notify
+										VALUES($uid, :reg, :comment, :notify)
+										ON DUPLICATE KEY UPDATE `comment`=:comment, `notify`=:notify
 SQL;
 
-									if (!mysql_query($query))
+									$st = $db->prepare($query);
+
+									if (!$st)
 									{
-										$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
-										break;
+										$error = sprintf($lang['dberror'], $db->errorCode());
+									}
+									else
+									{
+										$st->bindValue(':reg', $reg);
+										$st->bindValue(':comment', $comment);
+										$st->bindValue(':notify', $notify);
+
+									if (!$st->execute())
+									{
+										$error = sprintf($lang['dberror'], $st->errorCode());
+									}
 									}
 								}
 							}
@@ -148,15 +165,16 @@ SQL;
 						}
 					}
 
+					// TODO: This can be handled mor smartly using exceptions
 					if ($error)
 					{
-						if (!mysql_query('ROLLBACK'))
-							$error .= sprintf("\n%s(%u): %s".__FILE__, __LINE__, mysql_error());
+						if (!$db->rollBack())
+							$error = sprintf($lang['dberror'], $db->errorCode());
 					}
 					else
 					{
-						if (!mysql_query('COMMIT'))
-							$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+						if (!$db->commit())
+							$error = sprintf($lang['dberror'], $db->errorCode());
 					}
 				}
 			}
@@ -268,23 +286,34 @@ $watch = array();
 
 if ($user)
 {
-	if ($hdbc)
+	if ($db)
 	{
-		$result = mysql_query("SELECT `reg`, `comment`, `notify` ".
-							  "FROM `watchlist`".
-							  " WHERE `user`=".$user->id().
-							  " ORDER BY `reg`");
+		$query = <<<SQL
+			SELECT `reg`, `comment`, `notify`
+			FROM `watchlist`
+			WHERE `user`=?
+			ORDER BY `reg`
+SQL;
 
-		if (!$result)
+		$st = $db->prepare($query);
+
+		if (!$st)
 		{
-			$error .= sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+			$error = sprintf($lang['dberror'], $db->errorCode());
 		}
 		else
 		{
-			while (list($reg, $comment, $notify) = mysql_fetch_row($result))
-				$watch[$reg] = array('comment' => $comment, 'notify' => $notify);
+		if (!$st->execute(array($user->id())))
+		{
+			$error = sprintf($lang['dberror'], $st->errorCode());
+		}
+		else
+		{
+			while ($row = $st->fetch(PDO::FETCH_OBJ))
+				$watch[$row->reg] = array('comment' => $row->comment, 'notify' => $row->notify);
 
 			mysql_free_result($result);
+		}
 		}
 	}
 
@@ -509,24 +538,32 @@ $query = <<<EOF
 	ORDER BY `expected` ASC, `airlines`.`code`, `flights`.`code`;
 EOF;
 
-$result = mysql_query($query);
-
-if (!$result)
+if ($db)
 {
-	$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+$st = $db->query($query);
+
+if (!$st)
+{
+	$error = sprintf($lang['dberror'], $db->errorCode());
 }
 else
 {
-	while ($row = mysql_fetch_assoc($result))
+if (!$st->execute())
+{
+	$error = sprintf($lang['dberror'], $st->errorCode());
+}
+else
+{
+	while ($row = $st->fetchObject())
 	{
-		if (strtotime($row['expected']) - strtotime($now) < 0)
+		if (strtotime($row->expected) - strtotime($now) < 0)
 			echo '<tr class="past">';
 		else
 			echo '<tr>';
 
 		/* Calculate day offset, considering that when dst changes,
 		 * one week is 604800 +/- 3600 ... */
-		$t_expected = strtotime(substr($row['expected'], 0, 10));
+		$t_expected = strtotime(substr($row->expected, 0, 10));
 		$t_now = strtotime(substr($now, 0, 10));
 		$diff = 0;
 
@@ -547,48 +584,48 @@ else
 		if ($day >= 0)
 			$day = '+'.$day;
 
-		$early = $row['timediff'] < 0 ? ' class="early"' : '';
-		$hhmm = substr($row['expected'], 11, 5);
+		$early = $row->timediff < 0 ? ' class="early"' : '';
+		$hhmm = substr($row->expected, 11, 5);
 
 		/* <td> inherits 'class="left"' from div.box */
 		echo "<td$early>$day $hhmm</td>";
-		echo "<td>$row[fl_airl]$row[fl_code]</td>";
+		echo "<td>{$row->fl_airl}{$row->fl_code}</td>";
 
 		if (!$mobile)
 		{
-			echo "<td><div>$row[airline]</div></td>";
-			echo "<td>$row[airport_iata]</td>";
-			echo "<td>$row[airport_icao]</td>";
+			echo "<td><div>{$row->airline}</div></td>";
+			echo "<td>{$row->airport_iata}</td>";
+			echo "<td>{$row->airport_icao}</td>";
 
-			if (0 == strlen($row['airport_name']))
+			if (0 == strlen($row->airport_name))
 			{
 				echo "<td><div>&nbsp;</div></td>";
 			}
 			else
 			{
-				if (0 == strlen($row['country']))
-					echo "<td><div>$row[airport_name]</div></td>";
+				if (0 == strlen($row->country))
+					echo "<td><div>{$row->airport_name}</div></td>";
 				else
-					echo "<td><div>$row[airport_name], $row[country]</div></td>";
+					echo "<td><div>{$row->airport_name}, {$row->country}</div></td>";
 			}
 		}
 
-		switch ($row['type'])
+		switch ($row->type)
 		{
 		case 'C':
-			echo "<td class=\"model cargo\">$row[model]</td>";
+			echo "<td class=\"model cargo\">{$row->model}</td>";
 			break;
 
 		case 'F':
-			echo "<td class=\"model\">$row[model]</td>";
+			echo "<td class=\"model\">{$row->model}</td>";
 			break;
 
 		default:
-			echo "<td class=\"model\">$row[model]</td>";
+			echo "<td class=\"model\">{$row->model}</td>";
 		}
 
-		$reg = $row['reg'];
-		$vtf = $row['vtf'] ? $row['vtf'] : '9999';
+		$reg = $row->reg;
+		$vtf = $row->vtf ? $row->vtf : '9999';
 		$hilite = NULL;
 
 		if (0 == strlen($reg))
@@ -596,7 +633,7 @@ else
 		}
 		else
 		{
-			$hhmm = substr(str_replace(array(' ', '.', ':', '-'), '', $row['expected']), 8, 4);
+			$hhmm = substr(str_replace(array(' ', '.', ':', '-'), '', $row->expected), 8, 4);
 
 			if (isset($watch[$reg]))
 			{
@@ -669,7 +706,8 @@ else
 	}
 ?>
 <?php
-	mysql_free_result($result);
+}
+}
 }
 ?>
 		</tbody>

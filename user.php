@@ -18,7 +18,6 @@ require_once '.config';
 require_once 'classes/etc.php';
 require_once 'classes/curl.php';
 
-
 function /* char* */ token() { return hash('sha256', mcrypt_create_iv(32)); }
 
 function /* char* */ PasswordRegex($min, $letter, $upper, $lower, $digit, $specials)
@@ -225,22 +224,6 @@ class User
 	}
 }
 
-function /* bool */ pwmatch()
-	// __out $_POST['passwd']
-	// __out $_POST['passwd-confirm']
-{
-	if (isset($_POST['passwd']))
-	{
-		if (isset($_POST['passwd-confirm']))
-		{
-			if ($_POST['passwd'] == $_POST['passwd-confirm'])
-				return true;
-		}
-	}
-
-	return false;
-}
-
 function LogoutUser(/* __out */ &$user)
 	// __out $_GET['req']
 	// __out $_COOKIE['userID']
@@ -261,7 +244,7 @@ function LogoutUser(/* __out */ &$user)
 	return null;
 }
 
-function LoginUserAutomatically(/* __out */ &$user)
+function LoginUserAutomatically($db, /* __out */ &$user)
 	// __out $_COOKIE['userID']
 	// __out $_COOKIE['hash']
 	// __out $_COOKIE['autologin']
@@ -273,13 +256,28 @@ function LoginUserAutomatically(/* __out */ &$user)
 		isset($_COOKIE['hash']) &&
 		isset($_COOKIE['autologin']))
 	{
-		$error = LoginUserSql($user, $_COOKIE['userID'], true, $_COOKIE['hash'], 1);
+		$hash = $_COOKIE['hash'];
+		$error = LoginUserSql($db, true, $_COOKIE['userID'], $hash, $user);
+
+		if ($error)
+		{
+			setcookie('hash', null, 0);
+		}
+		else
+		{
+			$expires = isset($_POST['autologin']) ? time() + COOKIE_LIFETIME : 0;
+
+			setcookie('userID',    $user->id(),       $expires);
+			setcookie('hash',      $hash,             $expires);
+			setcookie('autologin', true,              $expires);
+			setcookie('lang',      $user->language(), $expires);
+		}
 	}
 
 	return $error;
 }
 
-function /*bool*/ LoginUser(/* __out */ &$user)
+function /*bool*/ LoginUser($db, /* __out */ &$user)
 	// __out $_POST['user']
 	// __out $_POST['passwd']
 {
@@ -295,17 +293,31 @@ function /*bool*/ LoginUser(/* __out */ &$user)
 		}
 		else
 		{
-			$error = LoginUserSql($user, $_POST['user'], false, $_POST['passwd'], isset($_POST['autologin']));
+			$hash = $_POST['passwd'];
+			$error = LoginUserSql($db, false, $_POST['user'], $hash, $user);
 
-			if (!$error)
+			if ($error)
+			{
+				setcookie('hash', null, 0);
+			}
+			else
+			{
+				$expires = isset($_POST['autologin']) ? time() + COOKIE_LIFETIME : 0;
+
+				setcookie('userID',    $user->id(),       $expires);
+				setcookie('hash',      $hash,             $expires);
+				setcookie('autologin', true,              $expires);
+				setcookie('lang',      $user->language(), $expires);
+
 				unset($_GET['req']);
+			}
 		}
 	}
 
 	return $error;
 }
 
-function /* char *error */ LoginUserSql(/* __out */ &$user, $id, $byid, $password, $remember)
+function /* char *error */ LoginUserSql($db, $byid, $id, /* __in __out */ &$password, /* __out */ &$user)
 {
 	global $lang;
 
@@ -315,39 +327,46 @@ function /* char *error */ LoginUserSql(/* __out */ &$user, $id, $byid, $passwor
 	$query = sprintf("SELECT `%s`, `passwd`, `salt`, `email`, `timezone`, `language`,".
 					 " `token_type`, `tm-`, `tm+`, `tt-`, `tt+`,".
 					 " `notification-from`, `notification-until`, `notification-timefmt`".
-					 " FROM `users` WHERE `%s`='%s'",
+					 " FROM `users` WHERE `%s`=?",
 					 $byid ? 'name' : 'id',
 					 $byid ? 'id' : 'name',
 					 $id);
 
-	$result = mysql_query($query);
+	$st = $db->prepare($query);
 
-	if (!$result)
+	if (!$st)
 	{
-		$error = mysql_error();
+		$error = sprintf($lang['dberror'], $db->errorCode());
 	}
 	else
 	{
-		if (mysql_num_rows($result) != 1)
+	if (!$st->execute(array($id)))
+	{
+		$error = sprintf($lang['dberror'], $st->errorCode());
+	}
+	else
+	{
+		if ($st->rowCount() != 1)
 		{
-			$error = mysql_error();
-
-			if (!$error)
+			if ('00000' == $st->errorCode())
 				$error = $lang['authfailed'];
+			else
+				$error = sprintf($lang['dberror'], $st->errorCode());
 		}
 		else
 		{
-			$row = mysql_fetch_assoc($result);
+			// TODO: fetch as User class object
+			$row = $st->fetchObject();
 
 			if (!$row)
 			{
-				$error = mysql_error();
+				$error = sprintf($lang['dberror'], $st->errorCode());
 			}
 			else
 			{
-				if (isset($row['token_type']))
+				if (isset($row->token_type))
 				{
-					switch ($row['token_type'])
+					switch ($row->token_type)
 					{
 					case 'activation':
 						$error = $lang['activationrequired'];
@@ -365,31 +384,30 @@ function /* char *error */ LoginUserSql(/* __out */ &$user, $id, $byid, $passwor
 
 				if (!$error)
 				{
-					$hash = $byid ? $password : hash_hmac('sha256', $password, $row['salt']);
+					$hash = $byid ? $password : hash_hmac('sha256', $password, $row->salt);
 
-					if ($row['passwd'] != $hash)
+					if ($row->passwd != $hash)
 					{
-						setcookie('hash', null, 0);
-
 						$error = $lang['authfailed'];
 					}
 					else
 					{
+						$password = $hash;
+
 						if ($byid)
 						{
-							$name = $row['name'];
+							$name = $row->name;
 						}
 						else
 						{
 							$name = $id;
-							$id = $row['id'];
+							$id = $row->id;
 						}
 					}
 				}
 			}
 		}
-
-		mysql_free_result($result);
+	}
 	}
 
 	if (!$error)
@@ -398,60 +416,58 @@ function /* char *error */ LoginUserSql(/* __out */ &$user, $id, $byid, $passwor
 			SELECT `groups`.`name`
 			FROM `membership`
 			INNER JOIN `groups` ON `membership`.`group` = `groups`.`id`
-			WHERE `user`=$id
+			WHERE `user`=?
 SQL;
 
-		$result = mysql_query($query);
+		$st = $db->prepare($query);
 
-		if (!$result)
+		if (!$st)
 		{
-			$error = mysql_error();
+			$error = sprintf($lang['dberror'], $db->errorCode());
 		}
 		else
 		{
-			if (0 == mysql_num_rows($result))
+		if (!$st->execute(array($id)))
+		{
+			$error = sprintf($lang['dberror'], $st->errorCode());
+		}
+		else
+		{
+			if (0 == $st->rowCount())
 			{
 				$error = $lang['nopermission'];
 			}
 			else
 			{
-				while ($group = mysql_fetch_row($result))
-					$groups[] = $group[0];
+				while ($group = $st->fetchColumn())
+					$groups[] = $group;
 
 				if (!$groups)
 				{
-					$error = mysql_error();
+					$error = sprintf($lang['dberror'], $st->errorCode());
 				}
 				else
 				{
-					$user = new User($id, $name, $row['email'], $row['timezone'], $row['language'], $groups);
+					$user = new User($id, $name, $row->email, $row->timezone, $row->language, $groups);
 
 					if ($user)
 					{
-						$user->opt('tm-', $row['tm-']);
-						$user->opt('tm+', $row['tm+']);
-						$user->opt('tt-', $row['tt-']);
-						$user->opt('tt+', $row['tt+']);
-						$user->opt('notification-from', $row['notification-from']);
-						$user->opt('notification-until', $row['notification-until']);
-						$user->opt('notification-timefmt', $row['notification-timefmt']);
-
-						$expires = (1 == $remember) ? time() + COOKIE_LIFETIME : 0;
-
-						setcookie('userID',    $user->id(),       $expires);
-						setcookie('hash',      $hash,             $expires);
-						setcookie('autologin', true,              $expires);
-						setcookie('lang',      $user->language(), $expires);
+						$user->opt('tm-', $row->{'tm-'});
+						$user->opt('tm+', $row->{'tm+'});
+						$user->opt('tt-', $row->{'tt-'});
+						$user->opt('tt+', $row->{'tt+'});
+						$user->opt('notification-from', $row->{'notification-from'});
+						$user->opt('notification-until', $row->{'notification-until'});
+						$user->opt('notification-timefmt', $row->{'notification-timefmt'});
 
 						$query = sprintf("UPDATE `users` SET `last login`='%s' WHERE `id`=%u",
 										 strftime('%Y-%m-%d %H:%M:%S'), $user->id());
 
-						mysql_query($query);
+						$db->exec($query);
 					}
 				}
 			}
-
-			mysql_free_result($result);
+		}
 		}
 	}
 
@@ -549,7 +565,7 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 	return $message;
 }
 
-function /* char *error */ RegisterUser(/* __out */ &$message)
+function /* char *error */ RegisterUser($db, /* __out */ &$message)
 	// __in $_POST['user']
 	// __in $_POST['email']
 	// __in $_POST['passwd']
@@ -631,6 +647,7 @@ function /* char *error */ RegisterUser(/* __out */ &$message)
 						{
 							$ipaddr['fwd'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
 
+							// TODO: Remove VC server IP check
 							if (preg_match('/83.125.11[2-5]/', $ipaddr['fwd']))
 								$ipaddr['fwd'] = NULL;
 						}
@@ -652,7 +669,7 @@ function /* char *error */ RegisterUser(/* __out */ &$message)
 						{
 							if (!$error)
 							{
-								$error = RegisterUserSql($_POST['user'], $_POST['email'], $_POST['passwd'],
+								$error = RegisterUserSql($db, $_POST['user'], $_POST['email'], $_POST['passwd'],
 														 $ipaddr['real'].($ipaddr['fwd'] ? " ($ipaddr[fwd])" : ""),
 														 isset($_POST['lang']) ? $_POST['lang'] :
 														 isset($_SESSION['lang']) ? $_SESSION['lang'] : 'en');
@@ -675,7 +692,7 @@ function /* char *error */ RegisterUser(/* __out */ &$message)
 	return $error;
 }
 
-function /* char *error */ RegisterUserSql($user, $email, $password, $ipaddr, $language)
+function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipaddr, $language)
 	// __in  $_SERVER['REMOTE_ADDR']
 	// __out $_SESSION['lang']
 {
@@ -685,35 +702,48 @@ function /* char *error */ RegisterUserSql($user, $email, $password, $ipaddr, $l
 	$error = null;
 	$expires = null;
 
-	$result = mysql_query("SELECT `id` FROM `users` WHERE `name`='$user'");
+	// TODO: join name/email queries
+	$query = "SELECT `id` FROM `users` WHERE `name`=?";
+	$st = $db->prepare($query);
 
-	if (!$result)
+	if (!$st)
 	{
-		$error = mysql_error();
+		$error = sprintf($lang['dberror'], $db->errorCode());
 	}
 	else
 	{
-		if (mysql_num_rows($result) != 0)
+	if (!$st->execute(array($user)))
+	{
+		$error = sprintf($lang['dberror'], $st->errorCode());
+	}
+	else
+	{
+		if ($st->rowCount() != 0)
 			$error = $lang['userexists'];
-
-		mysql_free_result($result);
 
 		if (!$error)
 		{
-			$result = mysql_query("SELECT `id` FROM `users` WHERE `email`='$email'");
+			$query = "SELECT `id` FROM `users` WHERE `email`=?";
+			$st = $db->prepare($query);
 
-			if (!$result)
+			if (!$st)
 			{
-				$error = mysql_error();
+				$error = sprintf($lang['dberror'], $db->errorCode());
 			}
 			else
 			{
-				if (mysql_num_rows($result) != 0)
+			if (!$st->execute(array($email)))
+			{
+				$error = sprintf($lang['dberror'], $st->errorCode());
+			}
+			else
+			{
+				if ($st->rowCount() != 0)
 					$error = $lang['emailexists'];
-
-				mysql_free_result($result);
+			}
 			}
 		}
+	}
 	}
 
 	if (!$error)
@@ -722,9 +752,9 @@ function /* char *error */ RegisterUserSql($user, $email, $password, $ipaddr, $l
 		$token = token();
 		$password = hash_hmac('sha256', $password, $salt);
 
-		if (!mysql_query('START TRANSACTION'))
+		if (!$db->beginTransaction())
 		{
-			$error = mysql_user_error($lang['regfailed']);
+			$error = $lang['regfailed'];
 		}
 		else
 		{
@@ -732,57 +762,71 @@ function /* char *error */ RegisterUserSql($user, $email, $password, $ipaddr, $l
 				INSERT INTO
 				`users`(
 					`name`, `email`, `passwd`, `salt`, `language`,
-					`token`, `token_type`, `token_expires`, `ip`
+					`token`, `token_type`,
+					`token_expires`, `ip`
 				)
 				VALUES(
-					'$user', '$email', '$password', '$salt', '$language',
-					'$token', 'activation',
+					:user, :email, :password, :salt, :language,
+					:token, 'activation',
 					FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu), '%s'
 				);
 SQL;
 
 			$query = sprintf($query, TOKEN_LIFETIME, $_SERVER['REMOTE_ADDR']);
+			$st = $db->prepare($query);
 
-			if (!mysql_query($query))
+			if (!$st)
 			{
-				$error = mysql_user_error($lang['regfailed']);
+				$error = sprintf($lang['dberror'], $db->errorCode());
 			}
 			else
 			{
-				$result = mysql_query("SELECT `id`,`token_expires` ".
-									   "FROM `users` ".
-									   "WHERE `id`=LAST_INSERT_ID()");
+				$st->bindValue(':user', $user);
+				$st->bindValue(':email', $email);
+				$st->bindValue(':password', $password);
+				$st->bindValue(':salt', $salt);
+				$st->bindValue(':token', $token);
+				$st->bindValue(':language', $language);
 
-				if (!$result)
+				if (!$st->execute())
 				{
-					$error = mysql_error();
+					$error = sprintf($lang['dberror'], $st->errorCode());
 				}
 				else
 				{
-					if (0 == mysql_num_rows($result))
+					$st = $db->query("SELECT `id`,`token_expires` ".
+									 "FROM `users` ".
+									 "WHERE `id`=LAST_INSERT_ID()");
+					if (!$st)
+					{
+						$error = sprintf($lang['dberror'], $db->errorCode());
+					}
+					else
+					{
+					if (0 == $st->rowCount())
 					{
 						$error = $lang['regfailed'];
 					}
 					else
 					{
-						$row = mysql_fetch_row($result);
+						$row = $st->fetchObject();
 						//&& $_POST['timezone'] -> localtime($expires)
 
 						if (!$row)
 						{
-							$error = mysql_error();
+							$error = $st->errorCode();
 						}
 						else
 						{
-							$uid = $row[0];
-							$expires = $row[1];
+							$uid = $row->id;
+							$expires = $row->token_expires;
 							$_SESSION['lang'] = $language;
 						}
 					}
+					}
 
-					mysql_free_result($result);
-				}
-
+					if (!$eror)
+					{
 				$query = <<<SQL
 					INSERT INTO `membership`(`user`, `group`)
 					VALUES(
@@ -791,19 +835,21 @@ SQL;
 					);
 SQL;
 
-				if (!mysql_query($query))
-					$error = mysql_user_error($lang['regfailed']);
+				if (!$db->exec($query))
+					$error = sprintf($lang['dberror'], $db->errorCode());
+					}
+				}
 			}
 		}
 
 		if ($error)
 		{
-			mysql_query('ROLLBACK');
+			$db->rollBack();
 		}
 		else
 		{
-			if (!mysql_query('COMMIT'))
-				$error = mysql_user_error($lang['regfailed']);
+			if (!$db->commit())
+				$error = $db->errorCode();
 		}
 	}
 
@@ -847,7 +893,7 @@ SQL;
 	return $error;
 }
 
-function /* char *error */ ActivateUser(/* __out */ &$message)
+function /* char *error */ ActivateUser($db, /* __out */ &$message)
 	// __in $_POST['user']
 	// __in $_POST['token']
 
@@ -911,7 +957,7 @@ function /* char *error */ ActivateUser(/* __out */ &$message)
 	{
 		if ($user)
 		{
-			$error = ActivateUserSql($user, $token);
+			$error = ActivateUserSql($db, $user, $token);
 
 			if (!$error)
 			{
@@ -942,7 +988,7 @@ function /* char *error */ ActivateUser(/* __out */ &$message)
 	return $error;
 }
 
-function /* char *error */ ActivateUserSql($user, $token)
+function /* char *error */ ActivateUserSql($db, $user, $token)
 {
 	global $lang;
 
@@ -952,43 +998,49 @@ function /* char *error */ ActivateUserSql($user, $token)
 
 	$query = sprintf("SELECT `id`, `token`, `token_type`, UTC_TIMESTAMP() as `now`, ".
 			 		 "(SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`)) AS `expires`".
-			 		 " FROM `users` WHERE `name`='%s'", $user);
+			 		 " FROM `users` WHERE `name`=?");
 
-	$result = mysql_query($query);
+	$st = $db->prepare($query);
 
-	if (!$result)
+	if (!$st)
 	{
-		$error = mysql_error();
+		$error = sprintf($lang['dberror'], $db->errorCode());
 	}
 	else
 	{
-		if (mysql_num_rows($result) != 1)
+	if (!$st->execute(array($user)))
+	{
+		$error = sprintf($lang['dberror'], $st->errorCode());
+	}
+	else
+	{
+		if ($st->rowCount() != 1)
 		{
 			$error = sprintf($lang['activationfailed'], __LINE__);
 		}
 		else
 		{
-			$row = mysql_fetch_assoc($result);
+			$row = $st->fetchObject();
 
 			if (!$row)
 			{
-				$error = mysql_error();
+				$error = sprintf($lang['dberror'], $st->errorCode());
 			}
 			else
 			{
-				$uid = $row['id'];
-				$now = $row['now'];
+				$uid = $row->id;
+				$now = $row->now;
 
-				if ('none' == $row['token_type'] ||
-					NULL == $row['token'] ||
-					NULL == $row['expires'])
+				if ('none' == $row->token_type ||
+					NULL == $row->token ||
+					NULL == $row->expires)
 				{
 					// Already activated, silently accept re-activation
 					$token = NULL;
 				}
 				else
 				{
-					$expires = $row['expires'];
+					$expires = $row->expires;
 
 					if ($expires > 0)
 					{
@@ -996,14 +1048,13 @@ function /* char *error */ ActivateUserSql($user, $token)
 					}
 					else
 					{
-						if ($token != $row['token'])
+						if ($token != $row->token)
 							$error = sprintf($lang['activationfailed'], __LINE__);
 					}
 				}
 			}
 		}
-
-		mysql_free_result($result);
+	}
 	}
 
 	if (NULL == $token)
@@ -1018,8 +1069,8 @@ function /* char *error */ ActivateUserSql($user, $token)
 						 " SET `token`=NULL, `token_type`='none', `token_expires`=NULL".
 						 " WHERE `id`=$uid";
 
-				if (!mysql_query($query))
-					$error = mysql_error();
+				if (!$db->exec($query))
+					$error = $db->errorCode();
 		}
 
 		if ($error)
@@ -1052,7 +1103,7 @@ function /* char *error */ ActivateUserSql($user, $token)
 	return $error;
 }
 
-function /* char *error */ RequestPasswordToken(/* __out */ &$message)
+function /* char *error */ RequestPasswordToken($db, /* __out */ &$message)
 	// __in $_POST['user']
 	// __in $_POST['email']
 
@@ -1084,7 +1135,7 @@ function /* char *error */ RequestPasswordToken(/* __out */ &$message)
 		}
 		else
 		{
-			$error = RequestPasswordTokenSql($user, $email);
+			$error = RequestPasswordTokenSql($db, $user, $email);
 		}
 
 		if (!$error)
@@ -1099,7 +1150,7 @@ function /* char *error */ RequestPasswordToken(/* __out */ &$message)
 	return $error;
 }
 
-function /* char *error */ RequestPasswordTokenSql($user, $email)
+function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 {
 	global $lang;
 
@@ -1110,18 +1161,24 @@ function /* char *error */ RequestPasswordTokenSql($user, $email)
 
 	if ($user)
 	{
-		if (strlen($user))
-			$where = "`name`='$user'";
+		if (0 == strlen($user))
+			$user =NULL;
+		else
+			$where = "`name`=:user";
 	}
 
 	if ($email)
 	{
-		if (strlen($email))
+		if (0 == strlen($email))
+		{
+			$email = NULL;
+		}
+		else
 		{
 			if ($where)
-				$where .= " AND `email`='$email'";
+				$where .= " AND `email`=:email";
 			else
-				$where = "`email`='$email'";
+				$where = "`email`=:email";
 		}
 	}
 
@@ -1139,15 +1196,27 @@ function /* char *error */ RequestPasswordTokenSql($user, $email)
 
 	if (!$error)
 	{
-		$result = mysql_query($query);
+		$st = $db->prepare($query);
 
-		if (!$result)
+		if (!$st)
 		{
-			$error = mysql_error();
+			$error = sprintf($lang['dberror'], $db->errorCode());
 		}
 		else
 		{
-			if (0 == mysql_num_rows($result))
+			if ($user)
+				$st->bindValue(':user', $user);
+
+			if ($email)
+				$st->bindValue(':email', $email);
+
+			if (!$st->execute())
+			{
+				$error = sprintf($lang['dberror'], $st->errorCode());
+			}
+			else
+			{
+			if (0 == $st->rowCount())
 			{
 				if ($user)
 				{
@@ -1166,19 +1235,19 @@ function /* char *error */ RequestPasswordTokenSql($user, $email)
 			}
 			else
 			{
-				$row = mysql_fetch_assoc($result);
+				$row = $st->fetchObject($result);
 
 				if (!$row)
 				{
-					$error = mysql_error();
+					$error = sprintf($lang['dberror'], $st->errorCode());
 				}
 				else
 				{
-					$uid = $row['id'];
-					$user = $row['name'];
-					$email = $row['email'];
-					$type = $row['token_type'];
-					$left = $row['expires'];
+					$uid = $row->id;
+					$user = $row->name;
+					$email = $row->email;
+					$type = $row->token_type;
+					$left = $row->expires;
 
 					if ('activation' == $type)
 					{
@@ -1221,9 +1290,8 @@ function /* char *error */ RequestPasswordTokenSql($user, $email)
 					}
 				}
 			}
+			}
 		}
-
-		mysql_free_result($result);
 	}
 
 	if (!$error)
@@ -1234,38 +1302,34 @@ function /* char *error */ RequestPasswordTokenSql($user, $email)
 				 		 "FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu) WHERE `id`=$uid",
 				 		 TOKEN_LIFETIME);
 
-		if (!mysql_query($query))
+		if (!$db->exec($query))
 		{
-			$error = mysql_error();
+			$error = sprintf($lang['dberror'], $db->errorCode());
 		}
 		else
 		{
 			$expires = null;
 			$query = "SELECT `token_expires` FROM `users` WHERE `id`=$uid";
 
-			$result = mysql_query($query);
+			$st = $db->query($query);
 
-			if (!$result)
+			if (!$st)
 			{
-				$error = mysql_error();
+				$error = sprintf($lang['dberror'], $db->errorCode());
 			}
 			else
 			{
-				if (0 == mysql_num_rows($result))
+				if (0 == $st->rowCount())
 				{
-					$error = mysql_error();
+					$error = $st->errorCode();
 				}
 				else
 				{
-					$row = mysql_fetch_row($result);
+					$expires = $st->fetchColumn();
 
-					if (!$row)
-						$error = mysql_error();
-					else
-						$expires = $row[0];
+					if (!$expires)
+						$error = sprintf($lang['dberror'], $st->errorCode());
 				}
-
-				mysql_free_result($result);
 			}
 		}
 	}
@@ -1308,7 +1372,7 @@ function /* char *error */ RequestPasswordTokenSql($user, $email)
 	return $error;
 }
 
-function /* char *error */ ChangePassword($user, /* __out */ &$message)
+function /* char *error */ ChangePassword($db, $user, /* __out */ &$message)
 	// __in $_POST['user']
 	// __in $_POST['passwd']
 	// __in $_POST['passwd-confirm']
@@ -1325,7 +1389,8 @@ function /* char *error */ ChangePassword($user, /* __out */ &$message)
 		 isset($_POST['passwd']) &&
 		 isset($_POST['passwd-confirm']))		/* else: no post, display form */
 	{
-		$error = ChangePasswordSql(isset($_POST['user']) ? $_POST['user'] : $user->name(),
+		$error = ChangePasswordSql($db,
+								   isset($_POST['user']) ? $_POST['user'] : $user->name(),
 								   isset($_POST['token']) ? $_POST['token'] : null,
 								   $_POST['passwd']);
 
@@ -1355,7 +1420,7 @@ function /* char *error */ ChangePassword($user, /* __out */ &$message)
 	return $error;
 }
 
-function /* char *error */ ChangePasswordSql($user, $token, $password)
+function /* char *error */ ChangePasswordSql($db, $user, $token, $password)
 	// __in $_POST['passwd']
 	// __in $_POST['passwd-confirm']
 	// __in $_COOKIE['autologin']
@@ -1368,40 +1433,46 @@ function /* char *error */ ChangePasswordSql($user, $token, $password)
 
 	$query = sprintf("SELECT `id`,".
 					 " (SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`)) AS `expires`%s".
-					 " FROM `users` WHERE `name`='$user'",
+					 " FROM `users` WHERE `name`=?",
 					 isset($token) ? ', `token`' : '');
 
-	$result = mysql_query($query);
+	$st = $db->prepare($query);
 
-	if (!$result)
+	if (!$st)
 	{
-		$error = mysql_error();
+		$error = sprintf($lang['dberror'], $db->errorCode());
 	}
 	else
 	{
-		if (mysql_num_rows($result) != 1)
+	if (!$st->execute(array($user)))
+	{
+		$error = sprintf($lang['dberror'], $st->errorCode());
+	}
+	else
+	{
+		if ($st->rowCount() != 1)
 		{
-			$error = mysql_error();
-
-			if ('' == $error)
+			if ('00000' == $st->errorCode())
 				$error = $lang['authfailedpasswdnotch'];
+			else
+				$error = sprintf($lang['dberror'], $st->errorCode());
 		}
 		else
 		{
-			$row = mysql_fetch_assoc($result);
+			$row = $st->fetchObject();
 
 			if (!$row)
 			{
-				$error = mysql_error();
+				$error = sprintf($lang['dberror'], $st->errorCode());
 			}
 			else
 			{
-				$expires = $row['expires'];
+				$expires = $row->expires;
 
 				if (isset($token))
 				{
-					if (!isset($row['token']) /* No token has been requested! */ ||
-						$token != $row['token'])
+					if (!isset($row->token) /* No token has been requested! */ ||
+						$token != $row->token)
 					{
 						$error = $lang['authfailedpasswdnotch'];
 					}
@@ -1425,7 +1496,7 @@ function /* char *error */ ChangePasswordSql($user, $token, $password)
 					}
 					else
 					{
-						$uid = $row['id'];
+						$uid = $row->id;
 						$salt = token();
 						$password = hash_hmac('sha256', $password, $salt);
 						$query = "UPDATE `users`".
@@ -1433,9 +1504,9 @@ function /* char *error */ ChangePasswordSql($user, $token, $password)
 								 " `token`=NULL, `token_type`='none', `token_expires`=NULL".
 								 " WHERE `id`=$uid";
 
-						if (!mysql_query($query))
+						if (!$db->exec($query))
 						{
-							$error = mysql_error();
+							$error = sprintf($lang['dberror'], $db->errorCode());
 						}
 						else
 						{
@@ -1447,8 +1518,7 @@ function /* char *error */ ChangePasswordSql($user, $token, $password)
 				}
 			}
 		}
-
-		mysql_free_result($result);
+	}
 	}
 
 	AdminMail('passwdch',
@@ -1485,7 +1555,7 @@ function /*str*/ mysql_user_error($default)
 	return $error;
 }
 
-function /* char *error */ UserProcessRequest(&$user, &$message)
+function /* char *error */ UserProcessRequest($db, &$user, &$message)
 	// __in $_GET['req']
 	// __out $_GET['req']
 {
@@ -1494,7 +1564,7 @@ function /* char *error */ UserProcessRequest(&$user, &$message)
 	if (!isset($_GET['req']))
 	{
 		// try autologin from cookies
-		$error = LoginUserAutomatically($user);
+		$error = LoginUserAutomatically($db, $user);
 	}
 	else
 	{
@@ -1505,28 +1575,28 @@ function /* char *error */ UserProcessRequest(&$user, &$message)
 			break;
 
 		case 'login':
-			$error = LoginUser($user);
+			$error = LoginUser($db, $user);
 			break;
 
 		case 'register':
-			$error = RegisterUser($message);
+			$error = RegisterUser($db, $message);
 			break;
 
 		case 'activate':
-			$error = ActivateUser($message);
+			$error = ActivateUser($db, $message);
 			break;
 
 		case 'reqtok':
-			$error = RequestPasswordToken($message);
+			$error = RequestPasswordToken($db, $message);
 			break;
 
 		case 'changepw':
-			LoginUserAutomatically($user);
-			$error = ChangePassword($user, $message);
+			LoginUserAutomatically($db, $user);
+			$error = ChangePassword($db, $user, $message);
 			break;
 
 		default:
-			LoginUserAutomatically($user);
+			LoginUserAutomatically($db, $user);
 		}
 	}
 
