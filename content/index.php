@@ -72,32 +72,30 @@ SQL;
 								}
 								else
 								{
-								if (!$st->execute(array($reg)))
-								{
-									$error = sprintf($lang['dberror'], $st->errorCode());
-								}
-								else
-								{
-									$query = <<<SQL
-										DELETE FROM `watchlist`
-										WHERE `user`=$uid
-											AND `reg`=?
-SQL;
-
-									$st = $db->prepare($query);
-
-									if (!$st)
-									{
-										$error = sprintf($lang['dberror'], $db->errorCode());
-									}
-									else
-									{
 									if (!$st->execute(array($reg)))
 									{
 										$error = sprintf($lang['dberror'], $st->errorCode());
 									}
+									else
+									{
+										$query = <<<SQL
+											DELETE FROM `watchlist`
+											WHERE `user`=$uid
+												AND `reg`=?
+SQL;
+
+										$st = $db->prepare($query);
+
+										if (!$st)
+										{
+											$error = sprintf($lang['dberror'], $db->errorCode());
+										}
+										else
+										{
+											if (!$st->execute(array($reg)))
+												$error = sprintf($lang['dberror'], $st->errorCode());
+										}
 									}
-								}
 								}
 							}
 						}
@@ -146,10 +144,8 @@ SQL;
 										$st->bindValue(':comment', $comment);
 										$st->bindValue(':notify', $notify);
 
-									if (!$st->execute())
-									{
-										$error = sprintf($lang['dberror'], $st->errorCode());
-									}
+										if (!$st->execute())
+											$error = sprintf($lang['dberror'], $st->errorCode());
 									}
 								}
 							}
@@ -540,174 +536,174 @@ EOF;
 
 if ($db)
 {
-$st = $db->query($query);
+	$st = $db->query($query);
 
-if (!$st)
-{
-	$error = sprintf($lang['dberror'], $db->errorCode());
-}
-else
-{
-if (!$st->execute())
-{
-	$error = sprintf($lang['dberror'], $st->errorCode());
-}
-else
-{
-	while ($row = $st->fetchObject())
+	if (!$st)
 	{
-		if (strtotime($row->expected) - strtotime($now) < 0)
-			echo '<tr class="past">';
-		else
-			echo '<tr>';
-
-		/* Calculate day offset, considering that when dst changes,
-		 * one week is 604800 +/- 3600 ... */
-		$t_expected = strtotime(substr($row->expected, 0, 10));
-		$t_now = strtotime(substr($now, 0, 10));
-		$diff = 0;
-
-		$tm = localtime($t_expected, true);
-
-		if ($tm['tm_isdst'])
-			$diff -= 3600;
-
-		$tm = localtime($t_now, true);
-
-		if ($tm['tm_isdst'])
-			$diff += 3600;
-
-		$diff = $t_expected - $t_now - $diff;
-		$day = (int)($diff / 24 / 60 / 60);
-
-		/* $day should always be >= 0 ... */
-		if ($day >= 0)
-			$day = '+'.$day;
-
-		$early = $row->timediff < 0 ? ' class="early"' : '';
-		$hhmm = substr($row->expected, 11, 5);
-
-		/* <td> inherits 'class="left"' from div.box */
-		echo "<td$early>$day $hhmm</td>";
-		echo "<td>{$row->fl_airl}{$row->fl_code}</td>";
-
-		if (!$mobile)
-		{
-			echo "<td><div>{$row->airline}</div></td>";
-			echo "<td>{$row->airport_iata}</td>";
-			echo "<td>{$row->airport_icao}</td>";
-
-			if (0 == strlen($row->airport_name))
-			{
-				echo "<td><div>&nbsp;</div></td>";
-			}
-			else
-			{
-				if (0 == strlen($row->country))
-					echo "<td><div>{$row->airport_name}</div></td>";
-				else
-					echo "<td><div>{$row->airport_name}, {$row->country}</div></td>";
-			}
-		}
-
-		switch ($row->type)
-		{
-		case 'C':
-			echo "<td class=\"model cargo\">{$row->model}</td>";
-			break;
-
-		case 'F':
-			echo "<td class=\"model\">{$row->model}</td>";
-			break;
-
-		default:
-			echo "<td class=\"model\">{$row->model}</td>";
-		}
-
-		$reg = $row->reg;
-		$vtf = $row->vtf ? $row->vtf : '9999';
-		$hilite = NULL;
-
-		if (0 == strlen($reg))
-		{
-		}
-		else
-		{
-			$hhmm = substr(str_replace(array(' ', '.', ':', '-'), '', $row->expected), 8, 4);
-
-			if (isset($watch[$reg]))
-			{
-				$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($watch[$reg]));
-			}
-			else
-			{
-				if (isset($watch['wildcards']))
-				{
-					foreach ($watch['wildcards'] as $key => $comment)
-					{
-						if (preg_match('/^\/.*\/$/', $key))
-						{
-							/* Regex */
-							if (preg_match($key, $reg))
-							{
-								$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($comment));
-								break;
-							}
-						}
-						else
-						{
-							if (fnmatch($key, $reg))
-							{
-								/* Wildcard */
-								$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($comment));
-								break;
-							}
-						}
-					}
-				}
-
-				if (!$hilite)
-				{
-					if ($vtf < 10)
-					{
-						$vtf = ordinal($vtf, $_SESSION['lang']);
-						$hilite = sprintf(' class="rare" title="%s"', htmlspecialchars("$vtf$lang[vtf]"));
-					}
-				}
-			}
-		}
-
-		$href = NULL;
-
-		if (!$reg)
-		{
-			echo "<td>";
-		}
-		else
-		{
-			echo "<td$hilite>";
-
-			if ($mobile)
-			{
-			}
-			else
-			{
-?>
-				<a href = "http://www.airliners.net/search?keywords=<?php echo $reg ?>&amp;sortBy=datePhotographedYear&amp;sortOrder=desc" target="a-net">
-					<img src="img/a-net.png" alt="www.airliners.net">
-				</a>
-<?php
-			}
-
-			echo "$reg";
-		}
-
-		echo "</td></tr>\n";
+		$error = sprintf($lang['dberror'], $db->errorCode());
 	}
+	else
+	{
+		if (!$st->execute())
+		{
+			$error = sprintf($lang['dberror'], $st->errorCode());
+		}
+		else
+		{
+			while ($row = $st->fetchObject())
+			{
+				if (strtotime($row->expected) - strtotime($now) < 0)
+					echo '<tr class="past">';
+				else
+					echo '<tr>';
+
+				/* Calculate day offset, considering that when dst changes,
+				 * one week is 604800 +/- 3600 ... */
+				$t_expected = strtotime(substr($row->expected, 0, 10));
+				$t_now = strtotime(substr($now, 0, 10));
+				$diff = 0;
+
+				$tm = localtime($t_expected, true);
+
+				if ($tm['tm_isdst'])
+					$diff -= 3600;
+
+				$tm = localtime($t_now, true);
+
+				if ($tm['tm_isdst'])
+					$diff += 3600;
+
+				$diff = $t_expected - $t_now - $diff;
+				$day = (int)($diff / 24 / 60 / 60);
+
+				/* $day should always be >= 0 ... */
+				if ($day >= 0)
+					$day = '+'.$day;
+
+				$early = $row->timediff < 0 ? ' class="early"' : '';
+				$hhmm = substr($row->expected, 11, 5);
+
+				/* <td> inherits 'class="left"' from div.box */
+				echo "<td$early>$day $hhmm</td>";
+				echo "<td>{$row->fl_airl}{$row->fl_code}</td>";
+
+				if (!$mobile)
+				{
+					echo "<td><div>{$row->airline}</div></td>";
+					echo "<td>{$row->airport_iata}</td>";
+					echo "<td>{$row->airport_icao}</td>";
+
+					if (0 == strlen($row->airport_name))
+					{
+						echo "<td><div>&nbsp;</div></td>";
+					}
+					else
+					{
+						if (0 == strlen($row->country))
+							echo "<td><div>{$row->airport_name}</div></td>";
+						else
+							echo "<td><div>{$row->airport_name}, {$row->country}</div></td>";
+					}
+				}
+
+				switch ($row->type)
+				{
+				case 'C':
+					echo "<td class=\"model cargo\">{$row->model}</td>";
+					break;
+
+				case 'F':
+					echo "<td class=\"model\">{$row->model}</td>";
+					break;
+
+				default:
+					echo "<td class=\"model\">{$row->model}</td>";
+				}
+
+				$reg = $row->reg;
+				$vtf = $row->vtf ? $row->vtf : '9999';
+				$hilite = NULL;
+
+				if (0 == strlen($reg))
+				{
+				}
+				else
+				{
+					$hhmm = substr(str_replace(array(' ', '.', ':', '-'), '', $row->expected), 8, 4);
+
+					if (isset($watch[$reg]))
+					{
+						$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($watch[$reg]));
+					}
+					else
+					{
+						if (isset($watch['wildcards']))
+						{
+							foreach ($watch['wildcards'] as $key => $comment)
+							{
+								if (preg_match('/^\/.*\/$/', $key))
+								{
+									/* Regex */
+									if (preg_match($key, $reg))
+									{
+										$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($comment));
+										break;
+									}
+								}
+								else
+								{
+									if (fnmatch($key, $reg))
+									{
+										/* Wildcard */
+										$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($comment));
+										break;
+									}
+								}
+							}
+						}
+
+						if (!$hilite)
+						{
+							if ($vtf < 10)
+							{
+								$vtf = ordinal($vtf, $_SESSION['lang']);
+								$hilite = sprintf(' class="rare" title="%s"', htmlspecialchars("$vtf$lang[vtf]"));
+							}
+						}
+					}
+				}
+
+				$href = NULL;
+
+				if (!$reg)
+				{
+					echo "<td>";
+				}
+				else
+				{
+					echo "<td$hilite>";
+
+					if ($mobile)
+					{
+					}
+					else
+					{
+?>
+						<a href = "http://www.airliners.net/search?keywords=<?php echo $reg ?>&amp;sortBy=datePhotographedYear&amp;sortOrder=desc" target="a-net">
+							<img src="img/a-net.png" alt="www.airliners.net">
+						</a>
+<?php
+					}
+
+					echo "$reg";
+				}
+
+				echo "</td></tr>\n";
+			}
 ?>
 <?php
-}
-}
+		}
+	}
 }
 ?>
 		</tbody>
