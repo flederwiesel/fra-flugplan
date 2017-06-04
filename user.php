@@ -265,7 +265,7 @@ function LoginUserAutomatically($db, /* __out */ &$user)
 		}
 		else
 		{
-			$expires = isset($_POST['autologin']) ? time() + COOKIE_LIFETIME : 0;
+			$expires = isset($_COOKIE['autologin']) ? time() + COOKIE_LIFETIME : 0;
 
 			setcookie('userID',    $user->id(),       $expires);
 			setcookie('hash',      $hash,             $expires);

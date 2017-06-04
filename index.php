@@ -254,7 +254,7 @@ setcookie('lang', $_SESSION['lang'], time() + COOKIE_LIFETIME);
  * initialise variables
  ******************************************************************************/
 
-$db= NULL;
+$db = NULL;
 $error = null;
 $message = null;
 $user = null;
