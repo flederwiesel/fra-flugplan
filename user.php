@@ -749,15 +749,15 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 				}
 				else
 				{
-				if (!$st->execute(array($email)))
-				{
-					$error = sprintf($lang['dberror'], $st->errorCode());
-				}
-				else
-				{
-					if ($st->rowCount() != 0)
-						$error = $lang['emailexists'];
-				}
+					if (!$st->execute(array($email)))
+					{
+						$error = sprintf($lang['dberror'], $st->errorCode());
+					}
+					else
+					{
+						if ($st->rowCount() != 0)
+							$error = $lang['emailexists'];
+					}
 				}
 			}
 		}
