@@ -299,17 +299,17 @@ SQL;
 		}
 		else
 		{
-		if (!$st->execute(array($user->id())))
-		{
-			$error = sprintf($lang['dberror'], $st->errorCode());
-		}
-		else
-		{
-			while ($row = $st->fetch(PDO::FETCH_OBJ))
-				$watch[$row->reg] = array('comment' => $row->comment, 'notify' => $row->notify);
+			if (!$st->execute(array($user->id())))
+			{
+				$error = sprintf($lang['dberror'], $st->errorCode());
+			}
+			else
+			{
+				while ($row = $st->fetch(PDO::FETCH_OBJ))
+					$watch[$row->reg] = array('comment' => $row->comment, 'notify' => $row->notify);
 
-			mysql_free_result($result);
-		}
+				mysql_free_result($result);
+			}
 		}
 	}
 
@@ -689,9 +689,9 @@ if ($db)
 					else
 					{
 ?>
-						<a href = "http://www.airliners.net/search?keywords=<?php echo $reg ?>&amp;sortBy=datePhotographedYear&amp;sortOrder=desc" target="a-net">
-							<img src="img/a-net.png" alt="www.airliners.net">
-						</a>
+				<a href = "http://www.airliners.net/search?keywords=<?php echo $reg ?>&amp;sortBy=datePhotographedYear&amp;sortOrder=desc" target="a-net">
+					<img src="img/a-net.png" alt="www.airliners.net">
+				</a>
 <?php
 					}
 
