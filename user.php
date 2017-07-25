@@ -1529,32 +1529,6 @@ function /* char *error */ ChangePasswordSql($db, $user, $token, $password)
 	return $error;
 }
 
-function /*str*/ mysql_user_error($default)
-{
-	$error = mysql_error();
-
-	$expl = explode(": ", $error, 2);
-	$errno = $expl[0];
-
-	switch ($errno)
-	{
-	case '400':
-		$error = sprintf($lang['usernamelengthmin'], $GLOBALS['USERNAME_MIN']);
-		break;
-
-	case '401':
-		$error = sprintf($lang['usernamelengthmax'], $GLOBALS['USERNAME_MAX']);
-		break;
-
-	case '402':
-	case '403':
-		$error = $default;
-		break;
-	}
-
-	return $error;
-}
-
 function /* char *error */ UserProcessRequest($db, &$user, &$message)
 	// __in $_GET['req']
 	// __out $_GET['req']

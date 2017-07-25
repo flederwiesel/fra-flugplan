@@ -307,8 +307,6 @@ SQL;
 			{
 				while ($row = $st->fetch(PDO::FETCH_OBJ))
 					$watch[$row->reg] = array('comment' => $row->comment, 'notify' => $row->notify);
-
-				mysql_free_result($result);
 			}
 		}
 	}
