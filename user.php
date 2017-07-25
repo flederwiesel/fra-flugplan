@@ -366,20 +366,8 @@ function /* char *error */ LoginUserSql($db, $byid, $id, /* __in __out */ &$pass
 				{
 					if (isset($row->token_type))
 					{
-						switch ($row->token_type)
-						{
-						case 'activation':
+						if ('activation' == $row->token_type)
 							$error = $lang['activationrequired'];
-							break;
-
-						case 'password':
-							$error = $lang['authfailedtoken'];
-							break;
-
-						case 'none':
-						default:
-							break;
-						}
 					}
 
 					if (!$error)
@@ -460,8 +448,12 @@ SQL;
 							$user->opt('notification-until', $row->{'notification-until'});
 							$user->opt('notification-timefmt', $row->{'notification-timefmt'});
 
-							$query = sprintf("UPDATE `users` SET `last login`='%s' WHERE `id`=%u",
-											 strftime('%Y-%m-%d %H:%M:%S'), $user->id());
+							$query = sprintf(<<<SQL
+								UPDATE `users`
+								SET `last login`='%s', `token`=NULL, `token_type`='none', `token_expires`=NULL
+								WHERE `id`=%u
+SQL
+								, strftime('%Y-%m-%d %H:%M:%S'), $user->id());
 
 							$db->exec($query);
 						}
