@@ -605,7 +605,9 @@ function /* char *error */ RegisterUser($db, /* __out */ &$message)
 	if (isset($_GET['stopforumspam']))
 	{
 		$_SESSION['stopforumspam'] = $_GET['stopforumspam'];
-		$_SESSION['ipaddr'] = $_SERVER['HTTP_X_REAL_IP'];
+		$_SESSION['ipaddr'] = isset($_SERVER['HTTP_X_REAL_IP']) ?
+			$_SERVER['HTTP_X_REAL_IP'] :
+			$_SERVER['REMOTE_ADDR'];
 	}
 
 	if (isset($_POST['user']) &&
@@ -795,7 +797,11 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 				);
 SQL;
 
-			$query = sprintf($query, TOKEN_LIFETIME, $_SERVER['REMOTE_ADDR']);
+			$query = sprintf($query, TOKEN_LIFETIME,
+							 isset($_SERVER['HTTP_X_REAL_IP']) ?
+								$_SERVER['HTTP_X_REAL_IP'] :
+								$_SERVER['REMOTE_ADDR']);
+
 			$st = $db->prepare($query);
 
 			if (!$st)
