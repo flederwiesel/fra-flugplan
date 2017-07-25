@@ -503,19 +503,40 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 			{
 				if ($json->success)
 				{
-					if ($json->username->confidence < 96.0)
-						$json->username->appears = 0;
-
-					if ($json->email->confidence < 92.0 &&
-						$json->ip->confidence    < 92.0)
+					if (!isset($json->username->confidence))
 					{
 						$json->username->appears = 0;
-						$json->email->appears = 0;
-						$json->ip->appears = 0;
+					}
+					else
+					{
+						if ($json->username->confidence < 96.0)
+							$json->username->appears = 0;
 					}
 
-					if ($json->ip->confidence < 98.0)
+					if (!isset($json->email->confidence))
+					{
+						$json->email->appears = 0;
+					}
+					else
+					{
+						if ($json->email->confidence < 92.0 &&
+							$json->ip->confidence    < 92.0)
+						{
+							$json->username->appears = 0;
+							$json->email->appears = 0;
+							$json->ip->appears = 0;
+						}
+					}
+
+					if (!isset($json->ip->confidence))
+					{
 						$json->ip->appears = 0;
+					}
+					else
+					{
+						if ($json->ip->confidence < 98.0)
+							$json->ip->appears = 0;
+					}
 
 					if ($json->username->appears ||
 						$json->email->appears    ||
@@ -652,14 +673,16 @@ function /* char *error */ RegisterUser($db, /* __out */ &$message)
 								$ipaddr['fwd'] = NULL;
 						}
 
-						$ipaddr['real'] = $_SESSION['ipaddr'];
+						$ipaddr['real'] = isset($_SESSION['ipaddr']) ? $_SESSION['ipaddr'] : NULL;
 
 						if (!$ipaddr['real'])
 						{
 							if (isset($_SERVER['HTTP_X_REAL_IP']))
 								$ipaddr['real'] = $_SERVER['HTTP_X_REAL_IP'];
-							else
+							else if (isset($_SERVER['REMOTE_ADDR']))
 								$ipaddr['real'] = $_SERVER['REMOTE_ADDR'];
+							else
+								$ipaddr['real'] = '<unknown>';
 						}
 
 						$ipaddr['fwd'] = str_replace('::1', '127.0.0.1', $ipaddr['fwd']);
@@ -825,7 +848,7 @@ SQL;
 						}
 					}
 
-					if (!$eror)
+					if (!$error)
 					{
 						$query = <<<SQL
 							INSERT INTO `membership`(`user`, `group`)
@@ -972,10 +995,17 @@ function /* char *error */ ActivateUser($db, /* __out */ &$message)
 
 	if ($error)
 	{
-		define(SHA_256_LEN, 64);
+		if (!isset($token))
+		{
+			$token = NULL;
+		}
+		else
+		{
+			define('SHA_256_LEN', 64);
 
-		if (strlen($token) > SHA_256_LEN)
-			$token = substr($token, 0, SHA_256_LEN + 1).'...';
+			if (strlen($token) > SHA_256_LEN)
+				$token = substr($token, 0, SHA_256_LEN + 1).'...';
+		}
 
 		if (strlen($user) > $GLOBALS['USERNAME_MAX'])
 			$user = substr($user, 0, $GLOBALS['USERNAME_MAX'] + 1).'...';
@@ -1235,7 +1265,7 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 				}
 				else
 				{
-					$row = $st->fetchObject($result);
+					$row = $st->fetchObject();
 
 					if (!$row)
 					{
