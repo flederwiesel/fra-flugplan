@@ -2,7 +2,7 @@
 
 /******************************************************************************
  *
- * Copyright © Tobias Kühne
+ * Copyright ? Tobias K?hne
  *
  * You may use and distribute this software free of charge for non-commercial
  * purposes. The software must be distributed in its entirety, i.e. containing
@@ -42,15 +42,16 @@ if (isset($_POST['table']) &&
 SQL
 ;
 
-	if (mysql_query($query))
+	if ($db->exec($query))
 	{
 		unset($_POST);
 		$message = 'OK';
 	}
 	else
 	{
+		$error = $db->errorInfo();
 		$error = seterrorinfo(__LINE__,
-					sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+					sprintf("%s [%d] %s", $query, $error[1], $error[2]));
 	}
 }
 
@@ -74,8 +75,7 @@ if (isset($_POST['key']))
 				AND `airline`=$key[airline]
 				AND `code`=$key[code]
 				AND `scheduled`='$key[Y]-$key[m]-$key[dHMS]'
-SQL
-;
+SQL;
 
 		$query = <<<SQL
 			SELECT
@@ -94,8 +94,7 @@ SQL
 				LEFT JOIN `airports` ON `airports`.`id` = `flights`.`airport`
 				LEFT JOIN `aircrafts` ON `aircrafts`.`id` = `flights`.`aircraft`
 				LEFT JOIN `models` ON `models`.`id` =`flights`.`model`
-SQL
-;
+SQL;
 
 		$query = sprintf($query,
 						 '%Y-%m-%d %H:%i',
@@ -103,20 +102,29 @@ SQL
 						 str_replace("%", "history", $template),
 						 str_replace("%", "flights", $template));
 
-		$result = mysql_query($query);
+		$st = $db->prepare($query);
 
-		if (!$result)
+		if (!$st)
 		{
+			$error = $db->errorInfo();
 			$error = seterrorinfo(__LINE__,
-						sprintf("%s [%d] %s", $query, mysql_errno(), mysql_error()));
+						sprintf("%s [%d] %s", $query, $error[1], $error[2]));
 		}
 		else
 		{
-			$count = mysql_num_rows($result);
+			if (!$st->execute())
+			{
+				$error = $db->errorInfo();
+				$error = seterrorinfo(__LINE__,
+							sprintf("%s [%d] %s", $query, $error[1], $error[2]));
+			}
+			else
+			{
+			$count = $st->rowCount();
 
 			if ($count)
 			{
-				$row = mysql_fetch_assoc($result);
+				$row = $st->fetch(PDO::FETCH_ASSOC);
 ?>
 <div id="schedule">
 	<h4>Remove Duplicate: <?php echo "$row[flight] ($row[airline])"; ?></h4>
@@ -170,11 +178,10 @@ SQL
 ?>
 			</tr>
 <?php
-					$row = mysql_fetch_assoc($result);
+					$row = $st->fetch(PDO::FETCH_ASSOC);
 				}
 			}
-
-			mysql_free_result($result);
+			}
 		}
 	}
 ?>
