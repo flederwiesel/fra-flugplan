@@ -950,6 +950,10 @@ function MapFlightStatus(/*in/out*/ &$status)
 		{
 			$status = FlightStatus::APPROACHING;
 		}
+		else if ('delayed from' == mb_substr($status, 0, 12))
+		{
+			$status = FlightStatus::APPROACHING;
+		}
 		else
 		{
 			warn_once(__LINE__, "Status '$status' is unknown.");
