@@ -1,6 +1,19 @@
 {
   "data": [
     {
+      "region": "eu",
+      "id": "AAL",
+      "nameshort": "Aalborg",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 1,
+      "icao": "EKYT",
+      "name": "Aalborg",
+      "land": "Denmark",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Nord-Europa",
+      "uso": 2
+    },
+    {
       "region": "af",
       "id": "ABV",
       "nameshort": "Abuja",
@@ -18,7 +31,7 @@
       "uwi": 0,
       "icao": "EGPD",
       "name": "Aberdeen-International",
-      "land": "Grossbritannien",
+      "land": "Great Britain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 1
@@ -31,7 +44,7 @@
       "uwi": 0,
       "icao": "GCRR",
       "name": "Lanzarote-Arrecife",
-      "land": "Spanien",
+      "land": "Spain",
       "sostart": "2017-03-26T03:00:00+0200",
       "regionorg": "Süd-Europa",
       "uso": 1
@@ -43,7 +56,7 @@
       "uwi": 3,
       "icao": "LTAF",
       "name": "Adana-Sakirpasa",
-      "land": "Türkei",
+      "land": "Turkey",
       "regionorg": "Süd-Europa"
     },
     {
@@ -53,28 +66,31 @@
       "uwi": 3,
       "icao": "LTBJ",
       "name": "Izmir-Adnan Menderes",
-      "land": "Türkei",
+      "land": "Turkey",
       "regionorg": "Süd-Europa"
     },
     {
       "region": "af",
       "id": "ADD",
-      "nameshort": "Addis Abeba",
+      "nameshort": "Addis Ababa",
       "uwi": 3,
       "icao": "HAAB",
-      "name": "Addis Abeba-Bole International",
-      "land": "Äthiopien",
+      "name": "Addis Ababa-Bole International",
+      "land": "Ethiopia",
       "regionorg": "Ost-Afrika"
     },
     {
       "region": "eu",
-      "id": "AER",
-      "nameshort": "Sochi",
-      "uwi": 3,
-      "icao": "URSS",
-      "name": "Sochi-International",
-      "land": "Russland",
-      "regionorg": "Russland"
+      "id": "AES",
+      "nameshort": "Alesund",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 1,
+      "icao": "ENAL",
+      "name": "Alesund-Vigra",
+      "land": "Norway",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Nord-Europa",
+      "uso": 2
     },
     {
       "region": "af",
@@ -84,7 +100,7 @@
       "uwi": 0,
       "icao": "GMAD",
       "name": "Agadir-Al Massira",
-      "land": "Marokko",
+      "land": "Morocco",
       "sostart": "2017-03-26T03:00:00+0200",
       "regionorg": "West-Afrika",
       "uso": 1
@@ -97,7 +113,7 @@
       "uwi": 1,
       "icao": "LEMG",
       "name": "Malaga-Costa del Sol",
-      "land": "Spanien",
+      "land": "Spain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -109,7 +125,7 @@
       "uwi": 6,
       "icao": "UAAA",
       "name": "Almaty-International",
-      "land": "Kasachstan",
+      "land": "Kazakhstan",
       "regionorg": "Russland"
     },
     {
@@ -120,7 +136,7 @@
       "uwi": 1,
       "icao": "LEAL",
       "name": "Alicante",
-      "land": "Spanien",
+      "land": "Spain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -128,11 +144,11 @@
     {
       "region": "af",
       "id": "ALG",
-      "nameshort": "Algier",
+      "nameshort": "Algiers",
       "uwi": 1,
       "icao": "DAAG",
-      "name": "Algier-Houari Boumediene",
-      "land": "Algerien",
+      "name": "Algiers-Houari Boumediene",
+      "land": "Algeria",
       "regionorg": "Nord-Afrika"
     },
     {
@@ -143,7 +159,7 @@
       "uwi": 2,
       "icao": "OJAI",
       "name": "Amman-Queen Alia International",
-      "land": "Jordanien",
+      "land": "Jordan",
       "sostart": "2017-03-30T22:00:00+0200",
       "regionorg": "Vorder-Asien",
       "uso": 3
@@ -156,7 +172,7 @@
       "uwi": 1,
       "icao": "EHAM",
       "name": "Amsterdam-Schiphol",
-      "land": "Niederlande",
+      "land": "Netherlands",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -169,7 +185,7 @@
       "uwi": -9,
       "icao": "PANC",
       "name": "Anchorage",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T11:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -8
@@ -181,7 +197,7 @@
       "uwi": -4,
       "icao": "TAPA",
       "name": "Antigua-V.C. Bird International",
-      "land": "Antigua und Barbuda",
+      "land": "Antigua and Barbuda",
       "regionorg": "Karibik"
     },
     {
@@ -192,7 +208,7 @@
       "uwi": 1,
       "icao": "ESSA",
       "name": "Stockholm-Arlanda",
-      "land": "Schweden",
+      "land": "Sweden",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -214,18 +230,18 @@
       "uwi": 3,
       "icao": "LTAU",
       "name": "Kayseri-Erkilet",
-      "land": "Türkei",
+      "land": "Turkey",
       "regionorg": "Süd-Europa"
     },
     {
       "region": "eu",
       "id": "ATH",
-      "nameshort": "Athen",
+      "nameshort": "Athens",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 2,
       "icao": "LGAV",
       "name": "Athen-Eleftherios Venizelos",
-      "land": "Griechenland",
+      "land": "Greece",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
@@ -238,7 +254,7 @@
       "uwi": -5,
       "icao": "KATL",
       "name": "Atlanta-Hartsfield-Jackson International",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T07:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -4
@@ -250,18 +266,18 @@
       "uwi": 4,
       "icao": "OMAA",
       "name": "Abu Dhabi-International",
-      "land": "Vereinigte Arabische Emirate",
+      "land": "United Arab Emirates",
       "regionorg": "Vorder-Asien"
     },
     {
       "region": "am",
       "id": "AUS",
-      "nameshort": "Austin",
+      "nameshort": "Austin-Bergstrom",
       "soend": "2017-11-05T07:00:00+0100",
       "uwi": -6,
       "icao": "KAUS",
-      "name": "Austin-Robert Mueller Municipal",
-      "land": "Vereinigte Staaten von Amerika",
+      "name": "Austin-Bergstrom International Airport",
+      "land": "United States",
       "sostart": "2017-03-12T08:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -5
@@ -273,7 +289,7 @@
       "uwi": 3,
       "icao": "LTAI",
       "name": "Antalya",
-      "land": "Türkei",
+      "land": "Turkey",
       "regionorg": "Süd-Europa"
     },
     {
@@ -283,7 +299,7 @@
       "uwi": -4,
       "icao": "MDCY",
       "name": "Samana-El Catey International",
-      "land": "Dominikanische Republik",
+      "land": "Dominikan Republic",
       "regionorg": "Mittel-Amerika"
     },
     {
@@ -304,7 +320,7 @@
       "uwi": 1,
       "icao": "LEBL",
       "name": "Barcelona",
-      "land": "Spanien",
+      "land": "Spain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -312,12 +328,12 @@
     {
       "region": "eu",
       "id": "BEG",
-      "nameshort": "Belgrad",
+      "nameshort": "Belgrade",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LYBE",
-      "name": "Belgrad-Nikola Tesla",
-      "land": "Serbien",
+      "name": "Belgrade-Nikola Tesla",
+      "land": "Serbia",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -330,10 +346,23 @@
       "uwi": 2,
       "icao": "OLBA",
       "name": "Beirut-Rafic Hariri International",
-      "land": "Libanon",
+      "land": "Lebanon",
       "sostart": "2017-03-25T22:00:00+0100",
       "regionorg": "Vorder-Asien",
       "uso": 3
+    },
+    {
+      "region": "eu",
+      "id": "BFS",
+      "nameshort": "Belfast",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 0,
+      "icao": "EGAA",
+      "name": "Belfast-International",
+      "land": "Great Britain",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Nord-Europa",
+      "uso": 1
     },
     {
       "region": "am",
@@ -348,11 +377,11 @@
     {
       "region": "as",
       "id": "BGW",
-      "nameshort": "Bagdad",
+      "nameshort": "Baghdad",
       "uwi": 3,
       "icao": "ORBI",
       "name": "Bagdad-International",
-      "land": "Irak",
+      "land": "Iraq",
       "regionorg": "Vorder-Asien"
     },
     {
@@ -363,10 +392,23 @@
       "uwi": 1,
       "icao": "LIME",
       "name": "Bergamo-Orio Al Serio",
-      "land": "Italien",
+      "land": "Italy",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
+    },
+    {
+      "region": "eu",
+      "id": "BHD",
+      "nameshort": "Belfast City Airport",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 0,
+      "icao": "EGAC",
+      "name": "Belfast-George Best City Airport",
+      "land": "Great Britain",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Nord-Europa",
+      "uso": 1
     },
     {
       "region": "eu",
@@ -376,7 +418,7 @@
       "uwi": 0,
       "icao": "EGBB",
       "name": "Birmingham",
-      "land": "Grossbritannien",
+      "land": "Great Britain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 1
@@ -389,7 +431,7 @@
       "uwi": 1,
       "icao": "LFKB",
       "name": "Bastia-Poretta",
-      "land": "Frankreich",
+      "land": "France",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -402,7 +444,7 @@
       "uwi": 1,
       "icao": "LEBB",
       "name": "Bilbao",
-      "land": "Spanien",
+      "land": "Spain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -414,7 +456,7 @@
       "uwi": 3,
       "icao": "LTFE",
       "name": "Bodrum-Milas",
-      "land": "Türkei",
+      "land": "Turkey",
       "regionorg": "Süd-Europa"
     },
     {
@@ -435,7 +477,7 @@
       "uwi": 1,
       "icao": "EKBI",
       "name": "Billund",
-      "land": "Dänemark",
+      "land": "Denmark",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -448,7 +490,7 @@
       "uwi": 1,
       "icao": "LIPE",
       "name": "Bologna-Guglielmo Marconi",
-      "land": "Italien",
+      "land": "Italy",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -460,7 +502,7 @@
       "uwi": 5.5,
       "icao": "VOBL",
       "name": "Bangalore-Bengaluru International",
-      "land": "Indien",
+      "land": "India",
       "regionorg": "Zentral-Asien"
     },
     {
@@ -471,7 +513,7 @@
       "uwi": 1,
       "icao": "LFBD",
       "name": "Bordeaux-Merignac",
-      "land": "Frankreich",
+      "land": "France",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -483,18 +525,18 @@
       "uwi": -5,
       "icao": "SKBO",
       "name": "Bogota-El Dorado International",
-      "land": "Kolumbien",
+      "land": "Colombia",
       "regionorg": "Süd-Amerika"
     },
     {
       "region": "eu",
       "id": "BOJ",
-      "nameshort": "Burgas",
+      "nameshort": "Bourgas",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 2,
       "icao": "LBBG",
-      "name": "Burgas",
-      "land": "Bulgarien",
+      "name": "Bourgas",
+      "land": "Bulgaria",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
@@ -506,21 +548,8 @@
       "uwi": 5.5,
       "icao": "VABB",
       "name": "Mumbai-Chhatrapati Shivaji International",
-      "land": "Indien",
+      "land": "India",
       "regionorg": "Zentral-Asien"
-    },
-    {
-      "region": "eu",
-      "id": "BOO",
-      "nameshort": "Bodo",
-      "soend": "2017-10-29T01:00:00+0200",
-      "uwi": 1,
-      "icao": "ENBO",
-      "name": "Bodo",
-      "land": "Norwegen",
-      "sostart": "2017-03-26T01:00:00+0100",
-      "regionorg": "Nord-Europa",
-      "uso": 2
     },
     {
       "region": "am",
@@ -529,11 +558,21 @@
       "soend": "2017-11-05T06:00:00+0100",
       "uwi": -5,
       "icao": "KBOS",
-      "name": "Boston-Edward L.Logan International",
-      "land": "Vereinigte Staaten von Amerika",
+      "name": "Boston",
+      "land": "United States",
       "sostart": "2017-03-12T07:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -4
+    },
+    {
+      "region": "am",
+      "id": "BQN",
+      "nameshort": "Aguadilla",
+      "uwi": -4,
+      "icao": "TJBQ",
+      "name": "Aguadilla-Rafael Hernndez",
+      "land": "Puerto Rico",
+      "regionorg": "Karibik"
     },
     {
       "region": "de",
@@ -543,7 +582,7 @@
       "uwi": 1,
       "icao": "EDDW",
       "name": "Bremen",
-      "land": "Deutschland",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -556,7 +595,7 @@
       "uwi": 1,
       "icao": "LIBD",
       "name": "Bari-Karol Wojtyla",
-      "land": "Italien",
+      "land": "Italy",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -569,7 +608,7 @@
       "uwi": 0,
       "icao": "EGGD",
       "name": "Bristol",
-      "land": "Grossbritannien",
+      "land": "Great Britain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 1
@@ -577,12 +616,12 @@
     {
       "region": "eu",
       "id": "BRU",
-      "nameshort": "Brüssel",
+      "nameshort": "Brussels",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EBBR",
-      "name": "Brüssel",
-      "land": "Belgien",
+      "name": "Brussels",
+      "land": "Belgium",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -594,21 +633,8 @@
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LFSB",
-      "name": "Basel-Mülhausen EuroAirport Swiss",
-      "land": "Schweiz",
-      "sostart": "2017-03-26T01:00:00+0100",
-      "regionorg": "Süd-Europa",
-      "uso": 2
-    },
-    {
-      "region": "eu",
-      "id": "BTS",
-      "nameshort": "Bratislava",
-      "soend": "2017-10-29T01:00:00+0200",
-      "uwi": 1,
-      "icao": "LZIB",
-      "name": "Bratislava-M.R. Stefanik",
-      "land": "Slowakei",
+      "name": "Basel-Mulhouse EuroAirport Swiss",
+      "land": "Switzerland",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -621,7 +647,7 @@
       "uwi": 1,
       "icao": "LHBP",
       "name": "Budapest-Liszt Ferenc International",
-      "land": "Ungarn",
+      "land": "Hungary",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -633,8 +659,21 @@
       "uwi": -1,
       "icao": "GVBA",
       "name": "Boa Vista-Aristides Pereira International",
-      "land": "Kap Verde",
+      "land": "Cape Verde",
       "regionorg": "West-Afrika"
+    },
+    {
+      "region": "de",
+      "id": "BWE",
+      "nameshort": "Braunschweig",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 1,
+      "icao": "EDVE",
+      "name": "Braunschweig/Wolfsburg",
+      "land": "Germany",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Nord-Europa",
+      "uso": 2
     },
     {
       "region": "am",
@@ -644,7 +683,7 @@
       "uwi": -5,
       "icao": "KBWI",
       "name": "Baltimore-Washington International",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T07:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -4
@@ -657,7 +696,7 @@
       "uwi": 1,
       "icao": "EPBY",
       "name": "Bydgoszcz-Ignacy Jan Paderewski",
-      "land": "Polen",
+      "land": "Poland",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -670,7 +709,7 @@
       "uwi": 1,
       "icao": "LIEE",
       "name": "Cagliari-Elmas",
-      "land": "Italien",
+      "land": "Italy",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -678,11 +717,11 @@
     {
       "region": "af",
       "id": "CAI",
-      "nameshort": "Kairo",
+      "nameshort": "Cairo",
       "uwi": 2,
       "icao": "HECA",
-      "name": "Kairo-International",
-      "land": "Ägypten",
+      "name": "Cairo-International",
+      "land": "Egypt",
       "regionorg": "Ost-Afrika"
     },
     {
@@ -703,20 +742,7 @@
       "uwi": 1,
       "icao": "LFPG",
       "name": "Paris Charles de Gaulle",
-      "land": "Frankreich",
-      "sostart": "2017-03-26T01:00:00+0100",
-      "regionorg": "Süd-Europa",
-      "uso": 2
-    },
-    {
-      "region": "eu",
-      "id": "CFE",
-      "nameshort": "Clermont-Ferrand",
-      "soend": "2017-10-29T01:00:00+0200",
-      "uwi": 1,
-      "icao": "LFLC",
-      "name": "Clermont-Ferrand-Auvergne",
-      "land": "Frankreich",
+      "land": "France",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -724,12 +750,12 @@
     {
       "region": "eu",
       "id": "CFU",
-      "nameshort": "Korfu/Kerkyra",
+      "nameshort": "Corfu/Kerkyra",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 2,
       "icao": "LGKR",
-      "name": "Korfu/Kerkyra Ioannis Kapodistrias",
-      "land": "Griechenland",
+      "name": "Corfu/Kerkyra Ioannis Kapodistrias",
+      "land": "Greece",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
@@ -737,12 +763,12 @@
     {
       "region": "de",
       "id": "CGN",
-      "nameshort": "Köln/Bonn",
+      "nameshort": "Cologne/Bonn",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EDDK",
-      "name": "Köln/Bonn",
-      "land": "Deutschland",
+      "name": "Cologne/Bonn",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -765,7 +791,7 @@
       "uwi": 2,
       "icao": "LGSA",
       "name": "Chania-International",
-      "land": "Griechenland",
+      "land": "Greece",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
@@ -781,6 +807,19 @@
       "regionorg": "China"
     },
     {
+      "region": "eu",
+      "id": "CLJ",
+      "nameshort": "Cluj",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 2,
+      "icao": "LRCL",
+      "name": "Cluj-Avram Iancu International",
+      "land": "Romania",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Süd-Europa",
+      "uso": 3
+    },
+    {
       "region": "am",
       "id": "CLT",
       "nameshort": "Charlotte",
@@ -788,23 +827,10 @@
       "uwi": -5,
       "icao": "KCLT",
       "name": "Charlotte-Douglas International",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T07:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -4
-    },
-    {
-      "region": "eu",
-      "id": "CMF",
-      "nameshort": "Chambery",
-      "soend": "2017-10-29T01:00:00+0200",
-      "uwi": 1,
-      "icao": "LFLB",
-      "name": "Chambery/Aix-les-Bains",
-      "land": "Frankreich",
-      "sostart": "2017-03-26T01:00:00+0100",
-      "regionorg": "Süd-Europa",
-      "uso": 2
     },
     {
       "region": "af",
@@ -814,7 +840,7 @@
       "uwi": 0,
       "icao": "GMMN",
       "name": "Casablanca-Mohammed V International",
-      "land": "Marokko",
+      "land": "Morocco",
       "sostart": "2017-03-26T03:00:00+0200",
       "regionorg": "West-Afrika",
       "uso": 1
@@ -822,12 +848,12 @@
     {
       "region": "eu",
       "id": "CPH",
-      "nameshort": "Kopenhagen-Kastrup",
+      "nameshort": "Copenhagen-Kastrup",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EKCH",
-      "name": "Kopenhagen-Kastrup",
-      "land": "Dänemark",
+      "name": "Copenhagen-Kastrup",
+      "land": "Denmark",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -835,11 +861,11 @@
     {
       "region": "af",
       "id": "CPT",
-      "nameshort": "Kapstadt",
+      "nameshort": "Cape Town",
       "uwi": 2,
       "icao": "FACT",
-      "name": "Kapstadt-International",
-      "land": "Südafrika",
+      "name": "Cape Town-International",
+      "land": "South Africa",
       "regionorg": "Süd-Afrika"
     },
     {
@@ -860,7 +886,7 @@
       "uwi": 1,
       "icao": "LICC",
       "name": "Catania-Fontanarossa",
-      "land": "Italien",
+      "land": "Italy",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -883,7 +909,7 @@
       "uwi": -5,
       "icao": "MMUN",
       "name": "Cancun-International",
-      "land": "Mexiko",
+      "land": "Mexico",
       "sostart": "2016-04-03T08:00:00+0200",
       "regionorg": "Mittel-Amerika",
       "uso": -4
@@ -896,7 +922,7 @@
       "uwi": -3,
       "icao": "SBCT",
       "name": "Curitiba-Afonso Pena International",
-      "land": "Brasilien",
+      "land": "Brazil",
       "sostart": "2017-10-15T03:00:00+0200",
       "regionorg": "Süd-Amerika",
       "uso": -2
@@ -908,8 +934,21 @@
       "uwi": 6,
       "icao": "VGHS",
       "name": "Dhaka-Hazrat Shahjalal International",
-      "land": "Bangladesch",
+      "land": "Bangladesh",
       "regionorg": "Zentral-Asien"
+    },
+    {
+      "region": "am",
+      "id": "DAY",
+      "nameshort": "Dayton",
+      "soend": "2017-11-05T06:00:00+0100",
+      "uwi": -5,
+      "icao": "KDAY",
+      "name": "Dayton-James M.Cox International",
+      "land": "United States",
+      "sostart": "2017-03-12T07:00:00+0100",
+      "regionorg": "Nord-Amerika II",
+      "uso": -4
     },
     {
       "region": "eu",
@@ -919,7 +958,7 @@
       "uwi": 1,
       "icao": "LDDU",
       "name": "Dubrovnik",
-      "land": "Kroatien",
+      "land": "Croatia",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -931,7 +970,7 @@
       "uwi": 5.5,
       "icao": "VIDP",
       "name": "Delhi-Indira Gandhi International",
-      "land": "Indien",
+      "land": "India",
       "regionorg": "Zentral-Asien"
     },
     {
@@ -941,8 +980,8 @@
       "soend": "2017-11-05T08:00:00+0100",
       "uwi": -7,
       "icao": "KDEN",
-      "name": "Denver-International",
-      "land": "Vereinigte Staaten von Amerika",
+      "name": "Denver",
+      "land": "United States",
       "sostart": "2017-03-12T09:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -6
@@ -955,7 +994,7 @@
       "uwi": -6,
       "icao": "KDFW",
       "name": "Dallas-Fort Worth International",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T08:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -5
@@ -967,7 +1006,7 @@
       "uwi": 1,
       "icao": "DTTJ",
       "name": "Djerba-Zarzis International",
-      "land": "Tunesien",
+      "land": "Tunisia",
       "regionorg": "Nord-Afrika"
     },
     {
@@ -976,7 +1015,7 @@
       "nameshort": "Dakar",
       "uwi": 0,
       "icao": "GOOY",
-      "name": "Dakar-Léopold Sédar Senghor International",
+      "name": "Dakar-Lopold Sdar Senghor International",
       "land": "Senegal",
       "regionorg": "West-Afrika"
     },
@@ -987,17 +1026,17 @@
       "uwi": 3,
       "icao": "LTBS",
       "name": "Dalaman",
-      "land": "Türkei",
+      "land": "Turkey",
       "regionorg": "Süd-Europa"
     },
     {
       "region": "eu",
       "id": "DME",
-      "nameshort": "Moskau-Domodedovo",
+      "nameshort": "Moscow-Domodedovo",
       "uwi": 3,
       "icao": "UUDD",
-      "name": "Moskau-Domodedovo",
-      "land": "Russland",
+      "name": "Moscow-Domodedovo",
+      "land": "Russia",
       "regionorg": "Russland"
     },
     {
@@ -1007,7 +1046,7 @@
       "uwi": 3,
       "icao": "OEDF",
       "name": "Dammam-King Fahd International",
-      "land": "Saudi-Arabien",
+      "land": "Saudi Arabia",
       "regionorg": "Vorder-Asien"
     },
     {
@@ -1017,7 +1056,7 @@
       "uwi": 3,
       "icao": "OTHH",
       "name": "Doha-Hamad International Airport",
-      "land": "Katar",
+      "land": "Qatar",
       "regionorg": "Vorder-Asien"
     },
     {
@@ -1028,20 +1067,7 @@
       "uwi": 1,
       "icao": "EDDC",
       "name": "Dresden-International",
-      "land": "Deutschland",
-      "sostart": "2017-03-26T01:00:00+0100",
-      "regionorg": "Nord-Europa",
-      "uso": 2
-    },
-    {
-      "region": "de",
-      "id": "DTM",
-      "nameshort": "Dortmund",
-      "soend": "2017-10-29T01:00:00+0200",
-      "uwi": 1,
-      "icao": "EDLW",
-      "name": "Dortmund",
-      "land": "Deutschland",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -1054,7 +1080,7 @@
       "uwi": -5,
       "icao": "KDTW",
       "name": "Detroit-Metropolitan Wayne County",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T07:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -4
@@ -1062,12 +1088,12 @@
     {
       "region": "de",
       "id": "DTZ",
-      "nameshort": "Dortmund Hbf",
+      "nameshort": "Dortmund Main St.",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "",
-      "name": "Dortmund Hauptbahnhof",
-      "land": "Deutschland",
+      "name": "Dortmund Main Station",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -1080,7 +1106,7 @@
       "uwi": 0,
       "icao": "EIDW",
       "name": "Dublin",
-      "land": "Irland",
+      "land": "Ireland",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 1
@@ -1088,12 +1114,12 @@
     {
       "region": "de",
       "id": "DUS",
-      "nameshort": "Düsseldorf",
+      "nameshort": "Dusseldorf",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EDDL",
-      "name": "Düsseldorf",
-      "land": "Deutschland",
+      "name": "Dusseldorf",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -1105,7 +1131,7 @@
       "uwi": 4,
       "icao": "OMDW",
       "name": "Dubai-Al Maktoum International",
-      "land": "Vereinigte Arabische Emirate",
+      "land": "United Arab Emirates",
       "regionorg": "Vorder-Asien"
     },
     {
@@ -1115,17 +1141,17 @@
       "uwi": 4,
       "icao": "OMDB",
       "name": "Dubai-International",
-      "land": "Vereinigte Arabische Emirate",
+      "land": "United Arab Emirates",
       "regionorg": "Vorder-Asien"
     },
     {
       "region": "eu",
       "id": "DYU",
-      "nameshort": "Duschanbe",
+      "nameshort": "Dushanbe",
       "uwi": 5,
       "icao": "UTDD",
       "name": "Dushanbe-International",
-      "land": "Tadschikistan",
+      "land": "Tajikistan",
       "regionorg": "Russland"
     },
     {
@@ -1135,7 +1161,7 @@
       "uwi": 3,
       "icao": "ORER",
       "name": "Erbil-International",
-      "land": "Irak",
+      "land": "Iraq",
       "regionorg": "Vorder-Asien"
     },
     {
@@ -1146,7 +1172,7 @@
       "uwi": 0,
       "icao": "EGPH",
       "name": "Edinburgh",
-      "land": "Grossbritannien",
+      "land": "Great Britain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 1
@@ -1159,20 +1185,23 @@
       "uwi": 0,
       "icao": "EGNX",
       "name": "East Midlands",
-      "land": "Grossbritannien",
+      "land": "Great Britain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 1
     },
     {
-      "region": "eu",
-      "id": "ERC",
-      "nameshort": "Erzincan",
-      "uwi": 3,
-      "icao": "LTCD",
-      "name": "Erzincan",
-      "land": "Türkei",
-      "regionorg": "Süd-Europa"
+      "region": "de",
+      "id": "ERF",
+      "nameshort": "Erfurt",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 1,
+      "icao": "EDDE",
+      "name": "Erfurt-Weimar",
+      "land": "Germany",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Nord-Europa",
+      "uso": 2
     },
     {
       "region": "eu",
@@ -1181,7 +1210,7 @@
       "uwi": 3,
       "icao": "LTAC",
       "name": "Ankara-Esenboga",
-      "land": "Türkei",
+      "land": "Turkey",
       "regionorg": "Süd-Europa"
     },
     {
@@ -1192,7 +1221,7 @@
       "uwi": -5,
       "icao": "KEWR",
       "name": "New York-Newark",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T07:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -4
@@ -1204,7 +1233,7 @@
       "uwi": -3,
       "icao": "SAEZ",
       "name": "Buenos Aires-Ministro Pistarini International",
-      "land": "Argentinien",
+      "land": "Argentina",
       "regionorg": "Süd-Amerika"
     },
     {
@@ -1214,8 +1243,21 @@
       "uwi": 3,
       "icao": "LTCA",
       "name": "Elazig",
-      "land": "Türkei",
+      "land": "Turkey",
       "regionorg": "Süd-Europa"
+    },
+    {
+      "region": "eu",
+      "id": "FAB",
+      "nameshort": "Farnborough",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 0,
+      "icao": "EGLF",
+      "name": "Farnborough",
+      "land": "Great Britain",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Nord-Europa",
+      "uso": 1
     },
     {
       "region": "am",
@@ -1225,7 +1267,7 @@
       "uwi": -9,
       "icao": "PAFA",
       "name": "Fairbanks",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T11:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -8
@@ -1246,12 +1288,12 @@
     {
       "region": "eu",
       "id": "FCO",
-      "nameshort": "Rom-Fiumicino",
+      "nameshort": "Rome-Fiumicino",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LIRF",
-      "name": "Rom-Fiumicino",
-      "land": "Italien",
+      "name": "Rome-Fiumicino",
+      "land": "Italy",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -1274,7 +1316,7 @@
       "uwi": 1,
       "icao": "EDNY",
       "name": "Friedrichshafen",
-      "land": "Deutschland",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -1287,7 +1329,7 @@
       "uwi": 1,
       "icao": "EDSB",
       "name": "Karlsruhe/Baden-Baden",
-      "land": "Deutschland",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -1295,12 +1337,12 @@
     {
       "region": "eu",
       "id": "FLR",
-      "nameshort": "Florenz",
+      "nameshort": "Florence",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LIRQ",
-      "name": "Florenz-Peretola",
-      "land": "Italien",
+      "name": "Florence-Peretola",
+      "land": "Italy",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -1308,12 +1350,12 @@
     {
       "region": "de",
       "id": "FMO",
-      "nameshort": "Münster/Osnabrück",
+      "nameshort": "Muenster/Osnabrueck",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EDDG",
-      "name": "Münster/Osnabrück International",
-      "land": "Deutschland",
+      "name": "Muenster/Osnabrueck International",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -1339,7 +1381,7 @@
       "uwi": -3,
       "icao": "SBFZ",
       "name": "Fortaleza-Pinto Martins International",
-      "land": "Brasilien",
+      "land": "Brazil",
       "sostart": "2017-10-15T03:00:00+0200",
       "regionorg": "Süd-Amerika",
       "uso": -2
@@ -1352,7 +1394,7 @@
       "uwi": 1,
       "icao": "EDDF",
       "name": "Frankfurt",
-      "land": "Deutschland",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -1365,7 +1407,7 @@
       "uwi": 0,
       "icao": "GCFV",
       "name": "Fuerteventura",
-      "land": "Spanien",
+      "land": "Spain",
       "sostart": "2017-03-26T03:00:00+0200",
       "regionorg": "Süd-Europa",
       "uso": 1
@@ -1378,7 +1420,7 @@
       "uwi": -6,
       "icao": "MMGL",
       "name": "Guadalajara-Don Miguel Hidalgo y Costilla Int",
-      "land": "Mexiko",
+      "land": "Mexico",
       "sostart": "2017-04-02T08:00:00+0200",
       "regionorg": "Mittel-Amerika",
       "uso": -5
@@ -1386,12 +1428,12 @@
     {
       "region": "eu",
       "id": "GDN",
-      "nameshort": "Gdansk/Danzig",
+      "nameshort": "Gdansk",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EPGD",
-      "name": "Gdansk/Danzig-Lech Walesa",
-      "land": "Polen",
+      "name": "Gdansk-Lech Walesa",
+      "land": "Poland",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -1404,7 +1446,7 @@
       "uwi": -3,
       "icao": "SBGL",
       "name": "Rio de Janeiro/Galeao-Antonio Carlos Jobim",
-      "land": "Brasilien",
+      "land": "Brazil",
       "sostart": "2017-10-15T03:00:00+0200",
       "regionorg": "Süd-Amerika",
       "uso": -2
@@ -1417,7 +1459,7 @@
       "uwi": 0,
       "icao": "EGPF",
       "name": "Glasgow",
-      "land": "Grossbritannien",
+      "land": "Great Britain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 1
@@ -1435,12 +1477,12 @@
     {
       "region": "eu",
       "id": "GOT",
-      "nameshort": "Göteborg",
+      "nameshort": "Gothenburg",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "ESGG",
-      "name": "Göteborg-Landvetter",
-      "land": "Schweden",
+      "name": "Gothenburg-Landvetter",
+      "land": "Sweden",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -1448,28 +1490,15 @@
     {
       "region": "eu",
       "id": "GPA",
-      "nameshort": "Patras",
+      "nameshort": "Patras-Araxos",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 2,
       "icao": "LGRX",
       "name": "Patras-Araxos",
-      "land": "Griechenland",
+      "land": "Greece",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
-    },
-    {
-      "region": "eu",
-      "id": "GRS",
-      "nameshort": "Grosetto",
-      "soend": "2017-10-29T01:00:00+0200",
-      "uwi": 1,
-      "icao": "LIRS",
-      "name": "Grosetto-Corrado Baccarini",
-      "land": "Italien",
-      "sostart": "2017-03-26T01:00:00+0100",
-      "regionorg": "Süd-Europa",
-      "uso": 2
     },
     {
       "region": "am",
@@ -1479,7 +1508,7 @@
       "uwi": -3,
       "icao": "SBGR",
       "name": "Sao Paulo-Guarulhos International",
-      "land": "Brasilien",
+      "land": "Brazil",
       "sostart": "2017-10-15T03:00:00+0200",
       "regionorg": "Süd-Amerika",
       "uso": -2
@@ -1492,7 +1521,7 @@
       "uwi": 1,
       "icao": "LOWG",
       "name": "Graz",
-      "land": "Österreich",
+      "land": "Austria",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -1500,12 +1529,12 @@
     {
       "region": "eu",
       "id": "GVA",
-      "nameshort": "Genf",
+      "nameshort": "Geneva",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LSGG",
-      "name": "Genf-International",
-      "land": "Schweiz",
+      "name": "Geneva-International",
+      "land": "Switzerland",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -1518,7 +1547,7 @@
       "uwi": 1,
       "icao": "EDXW",
       "name": "Westerland-Sylt",
-      "land": "Deutschland",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -1531,7 +1560,7 @@
       "uwi": 4,
       "icao": "UBBB",
       "name": "Baku-Heydar Aliyev International",
-      "land": "Aserbaidschan",
+      "land": "Azerbaijan",
       "sostart": "2017-03-26T00:00:00+0100",
       "regionorg": "Russland",
       "uso": 5
@@ -1543,18 +1572,18 @@
       "uwi": 3,
       "icao": "LTAJ",
       "name": "Gaziantep-Oguzeli",
-      "land": "Türkei",
+      "land": "Turkey",
       "regionorg": "Süd-Europa"
     },
     {
       "region": "de",
       "id": "HAJ",
-      "nameshort": "Hannover",
+      "nameshort": "Hanover",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EDDV",
-      "name": "Hannover",
-      "land": "Deutschland",
+      "name": "Hanover",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -1566,8 +1595,8 @@
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EDDH",
-      "name": "Hamburg-Fuhlsbüttel",
-      "land": "Deutschland",
+      "name": "Hamburg-Fuhlsbuettel",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -1585,12 +1614,12 @@
     {
       "region": "am",
       "id": "HAV",
-      "nameshort": "Havanna",
+      "nameshort": "Havana",
       "soend": "2017-11-05T05:00:00+0100",
       "uwi": -5,
       "icao": "MUHA",
-      "name": "Havanna-Jose Marti International",
-      "land": "Kuba",
+      "name": "Havana-Jose Marti International",
+      "land": "Cuba",
       "sostart": "2017-03-12T05:00:00+0100",
       "regionorg": "Mittel-Amerika",
       "uso": -4
@@ -1603,7 +1632,7 @@
       "uwi": 1,
       "icao": "EDAH",
       "name": "Heringsdorf",
-      "land": "Deutschland",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -1616,7 +1645,7 @@
       "uwi": 2,
       "icao": "EFHK",
       "name": "Helsinki-Vantaa",
-      "land": "Finnland",
+      "land": "Finland",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 3
@@ -1629,20 +1658,23 @@
       "uwi": 2,
       "icao": "LGIR",
       "name": "Heraklion-Nikos Kazantzakis",
-      "land": "Griechenland",
+      "land": "Greece",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
     },
     {
-      "region": "as",
-      "id": "HFE",
-      "nameshort": "Hefei",
-      "uwi": 8,
-      "icao": "ZSOF",
-      "name": "Hefei-Xinqiao International",
-      "land": "China",
-      "regionorg": "China"
+      "region": "de",
+      "id": "HHN",
+      "nameshort": "Frankfurt-Hahn",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 1,
+      "icao": "EDFH",
+      "name": "Frankfurt-Hahn",
+      "land": "Germany",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Nord-Europa",
+      "uso": 2
     },
     {
       "region": "as",
@@ -1667,10 +1699,10 @@
     {
       "region": "as",
       "id": "HND",
-      "nameshort": "Tokio-Haneda",
+      "nameshort": "Tokyo-Haneda",
       "uwi": 9,
       "icao": "RJTT",
-      "name": "Tokio-Haneda International",
+      "name": "Tokyo-Haneda International",
       "land": "Japan",
       "regionorg": "Ost-Asien"
     },
@@ -1682,9 +1714,22 @@
       "uwi": -5,
       "icao": "MUHG",
       "name": "Holguin-Frank Pais",
-      "land": "Kuba",
+      "land": "Cuba",
       "sostart": "2017-03-12T05:00:00+0100",
       "regionorg": "Mittel-Amerika",
+      "uso": -4
+    },
+    {
+      "region": "am",
+      "id": "HPN",
+      "nameshort": "Westchester County",
+      "soend": "2017-11-05T06:00:00+0100",
+      "uwi": -5,
+      "icao": "KHPN",
+      "name": "Westchester County",
+      "land": "United States",
+      "sostart": "2017-03-12T07:00:00+0100",
+      "regionorg": "Nord-Amerika II",
       "uso": -4
     },
     {
@@ -1694,7 +1739,7 @@
       "uwi": 2,
       "icao": "HEGN",
       "name": "Hurghada",
-      "land": "Ägypten",
+      "land": "Egypt",
       "regionorg": "Ost-Afrika"
     },
     {
@@ -1704,7 +1749,7 @@
       "uwi": 5.5,
       "icao": "VOHS",
       "name": "Hyderabad-Rajiv Gandhi International",
-      "land": "Indien",
+      "land": "India",
       "regionorg": "Zentral-Asien"
     },
     {
@@ -1715,7 +1760,7 @@
       "uwi": -5,
       "icao": "KIAD",
       "name": "Washington-Dulles International",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T07:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -4
@@ -1728,7 +1773,7 @@
       "uwi": -6,
       "icao": "KIAH",
       "name": "Houston-George Bush Intercontinental",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T08:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -5
@@ -1741,7 +1786,7 @@
       "uwi": 1,
       "icao": "LEIB",
       "name": "Ibiza",
-      "land": "Spanien",
+      "land": "Spain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -1753,7 +1798,7 @@
       "uwi": 9,
       "icao": "RKSI",
       "name": "Seoul-Incheon International",
-      "land": "Korea-Süd",
+      "land": "South Korea",
       "regionorg": "Ost-Asien"
     },
     {
@@ -1764,7 +1809,7 @@
       "uwi": 1,
       "icao": "ETSI",
       "name": "Ingolstadt-Manching",
-      "land": "Deutschland",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -1772,11 +1817,11 @@
     {
       "region": "as",
       "id": "IKA",
-      "nameshort": "Teheran",
+      "nameshort": "Tehran Imam Khomeini",
       "soend": "2017-09-21T19:30:00+0200",
       "uwi": 3.5,
       "icao": "OIIE",
-      "name": "Teheran-Imam Khomeini International",
+      "name": "Tehran-Imam Khomeini International",
       "land": "Iran",
       "sostart": "2017-03-21T20:30:00+0100",
       "regionorg": "Vorder-Asien",
@@ -1790,7 +1835,7 @@
       "uwi": -5,
       "icao": "KIND",
       "name": "Indianapolis-International",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T07:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -4
@@ -1803,7 +1848,7 @@
       "uwi": 1,
       "icao": "LOWI",
       "name": "Innsbruck-Kranebitten",
-      "land": "Österreich",
+      "land": "Austria",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -1815,7 +1860,7 @@
       "uwi": 3,
       "icao": "LTBA",
       "name": "Istanbul-Ataturk",
-      "land": "Türkei",
+      "land": "Turkey",
       "regionorg": "Süd-Europa"
     },
     {
@@ -1826,7 +1871,7 @@
       "uwi": 2,
       "icao": "EFIV",
       "name": "Ivalo",
-      "land": "Finnland",
+      "land": "Finland",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 3
@@ -1838,21 +1883,8 @@
       "uwi": 3,
       "icao": "OEJN",
       "name": "Jeddah-King Abdulaziz International",
-      "land": "Saudi-Arabien",
+      "land": "Saudi Arabia",
       "regionorg": "Vorder-Asien"
-    },
-    {
-      "region": "eu",
-      "id": "JER",
-      "nameshort": "Jersey",
-      "soend": "2017-10-29T01:00:00+0200",
-      "uwi": 0,
-      "icao": "EGJJ",
-      "name": "Jersey",
-      "land": "Grossbritannien",
-      "sostart": "2017-03-26T01:00:00+0100",
-      "regionorg": "Nord-Europa",
-      "uso": 1
     },
     {
       "region": "am",
@@ -1861,8 +1893,8 @@
       "soend": "2017-11-05T06:00:00+0100",
       "uwi": -5,
       "icao": "KJFK",
-      "name": "New York-John F. Kennedy International",
-      "land": "Vereinigte Staaten von Amerika",
+      "name": "New York-J.F.Kennedy",
+      "land": "United States",
       "sostart": "2017-03-12T07:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -4
@@ -1875,7 +1907,7 @@
       "uwi": 1,
       "icao": "ESGJ",
       "name": "Jonkoping",
-      "land": "Schweden",
+      "land": "Sweden",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -1888,7 +1920,7 @@
       "uwi": 2,
       "icao": "LGMK",
       "name": "Mykonos",
-      "land": "Griechenland",
+      "land": "Greece",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
@@ -1900,7 +1932,7 @@
       "uwi": 2,
       "icao": "FAOR",
       "name": "Johannesburg-O.R. Tambo International",
-      "land": "Südafrika",
+      "land": "South Africa",
       "regionorg": "Süd-Afrika"
     },
     {
@@ -1910,7 +1942,7 @@
       "uwi": 3,
       "icao": "HTKJ",
       "name": "Kilimanjaro-International",
-      "land": "Tansania",
+      "land": "Tanzania",
       "regionorg": "Ost-Afrika"
     },
     {
@@ -1921,7 +1953,7 @@
       "uwi": 2,
       "icao": "LGSK",
       "name": "Skiathos-Alexandros Papadiamantis",
-      "land": "Griechenland",
+      "land": "Greece",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
@@ -1929,24 +1961,37 @@
     {
       "region": "eu",
       "id": "JTR",
-      "nameshort": "Thira Santorin",
+      "nameshort": "Thira Santorini",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 2,
       "icao": "LGSR",
-      "name": "Thira Santorin",
-      "land": "Griechenland",
+      "name": "Thira Santorini",
+      "land": "Greece",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
     },
     {
       "region": "eu",
+      "id": "KAO",
+      "nameshort": "Kuusamo",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 2,
+      "icao": "EFKS",
+      "name": "Kuusamo",
+      "land": "Finland",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Nord-Europa",
+      "uso": 3
+    },
+    {
+      "region": "eu",
       "id": "KBP",
-      "nameshort": "Kiew-Boryspil",
+      "nameshort": "Kiev-Boryspil",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 2,
       "icao": "UKBB",
-      "name": "Kiew-Boryspil International",
+      "name": "Kiev-Boryspil International",
       "land": "Ukraine",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Russland",
@@ -1958,7 +2003,7 @@
       "uwi": 0,
       "icao": "BIKF",
       "name": "Reykjavik-Keflavik International",
-      "land": "Island",
+      "land": "Iceland",
       "regionorg": "Polarregion/Südeuropa"
     },
     {
@@ -1969,7 +2014,7 @@
       "uwi": 2,
       "icao": "LGKO",
       "name": "Kos-Hippocrates",
-      "land": "Griechenland",
+      "land": "Greece",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
@@ -1982,7 +2027,7 @@
       "uwi": 2,
       "icao": "LUKK",
       "name": "Chisinau-International",
-      "land": "Moldawien",
+      "land": "Moldova",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
@@ -2000,12 +2045,12 @@
     {
       "region": "de",
       "id": "KJR",
-      "nameshort": "Karlsruhe Hbf",
+      "nameshort": "Karlsruhe Main St.",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "",
-      "name": "Karlsruhe/Baden-Baden Hauptbahnhof",
-      "land": "Deutschland",
+      "name": "Karlsruhe/Baden-Baden Main Station",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -2018,7 +2063,7 @@
       "uwi": 2,
       "icao": "LGKL",
       "name": "Kalamata",
-      "land": "Griechenland",
+      "land": "Greece",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
@@ -2026,12 +2071,12 @@
     {
       "region": "eu",
       "id": "KRK",
-      "nameshort": "Krakau",
+      "nameshort": "Krakow",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EPKK",
-      "name": "Krakau-Balice",
-      "land": "Polen",
+      "name": "Krakow-Balice",
+      "land": "Poland",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -2044,7 +2089,20 @@
       "uwi": 1,
       "icao": "ESOK",
       "name": "Karlstad",
-      "land": "Schweden",
+      "land": "Sweden",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Nord-Europa",
+      "uso": 2
+    },
+    {
+      "region": "de",
+      "id": "KSF",
+      "nameshort": "Kassel",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 1,
+      "icao": "EDVK",
+      "name": "Kassel",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -2052,12 +2110,12 @@
     {
       "region": "eu",
       "id": "KTW",
-      "nameshort": "Kattowitz",
+      "nameshort": "Katowice",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EPKT",
-      "name": "Kattowitz-International",
-      "land": "Polen",
+      "name": "Katowice-International",
+      "land": "Poland",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -2070,7 +2128,7 @@
       "uwi": 2,
       "icao": "EYKA",
       "name": "Kaunas-International",
-      "land": "Litauen",
+      "land": "Lithuania",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 3
@@ -2083,7 +2141,7 @@
       "uwi": 2,
       "icao": "LGKV",
       "name": "Kavala-Megas Alexandros",
-      "land": "Griechenland",
+      "land": "Greece",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
@@ -2105,7 +2163,7 @@
       "uwi": 3,
       "icao": "UWKD",
       "name": "Kazan-International",
-      "land": "Russland",
+      "land": "Russia",
       "regionorg": "Russland"
     },
     {
@@ -2126,7 +2184,7 @@
       "uwi": -8,
       "icao": "KLAS",
       "name": "Las Vegas-McCarran International",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T10:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -7
@@ -2139,7 +2197,7 @@
       "uwi": -8,
       "icao": "KLAX",
       "name": "Los Angeles-International",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T10:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -7
@@ -2152,7 +2210,7 @@
       "uwi": 1,
       "icao": "LFPB",
       "name": "Paris-Le Bourget",
-      "land": "Frankreich",
+      "land": "France",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -2165,7 +2223,7 @@
       "uwi": 2,
       "icao": "LCLK",
       "name": "Larnaca-International",
-      "land": "Zypern",
+      "land": "Cyprus",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
@@ -2178,23 +2236,10 @@
       "uwi": 0,
       "icao": "EGLC",
       "name": "London-City",
-      "land": "Grossbritannien",
+      "land": "Great Britain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 1
-    },
-    {
-      "region": "eu",
-      "id": "LDE",
-      "nameshort": "Lourdes/Tarbes",
-      "soend": "2017-10-29T01:00:00+0200",
-      "uwi": 1,
-      "icao": "LFBT",
-      "name": "Tarbes-Lourdes-Pyérnées",
-      "land": "Frankreich",
-      "sostart": "2017-03-26T01:00:00+0100",
-      "regionorg": "Süd-Europa",
-      "uso": 2
     },
     {
       "region": "eu",
@@ -2203,7 +2248,7 @@
       "uwi": 3,
       "icao": "ULLI",
       "name": "Sankt Petersburg-Pulkovo",
-      "land": "Russland",
+      "land": "Russia",
       "regionorg": "Russland"
     },
     {
@@ -2214,22 +2259,9 @@
       "uwi": 1,
       "icao": "EDDP",
       "name": "Leipzig/Halle",
-      "land": "Deutschland",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
-      "uso": 2
-    },
-    {
-      "region": "eu",
-      "id": "LEN",
-      "nameshort": "Leon",
-      "soend": "2017-10-29T01:00:00+0200",
-      "uwi": 1,
-      "icao": "LELN",
-      "name": "Leon",
-      "land": "Spanien",
-      "sostart": "2017-03-26T01:00:00+0100",
-      "regionorg": "Süd-Europa",
       "uso": 2
     },
     {
@@ -2240,7 +2272,7 @@
       "uwi": 0,
       "icao": "EGKK",
       "name": "London-Gatwick",
-      "land": "Grossbritannien",
+      "land": "Great Britain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 1
@@ -2253,7 +2285,7 @@
       "uwi": 0,
       "icao": "EGLL",
       "name": "London-Heathrow",
-      "land": "Grossbritannien",
+      "land": "Great Britain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 1
@@ -2271,12 +2303,12 @@
     {
       "region": "eu",
       "id": "LIN",
-      "nameshort": "Mailand-Linate",
+      "nameshort": "Milan-Linate",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LIML",
-      "name": "Mailand-Linate",
-      "land": "Italien",
+      "name": "Milan-Linate",
+      "land": "Italy",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -2284,11 +2316,11 @@
     {
       "region": "eu",
       "id": "LIS",
-      "nameshort": "Lissabon",
+      "nameshort": "Lisbon",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 0,
       "icao": "LPPT",
-      "name": "Lissabon-Humberto Delgado",
+      "name": "Lisbon-Humberto Delgado",
       "land": "Portugal",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
@@ -2302,22 +2334,22 @@
       "uwi": 1,
       "icao": "LJLJ",
       "name": "Ljubljana-Joze Pucnik",
-      "land": "Slowenien",
+      "land": "Slovenia",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
     },
     {
       "region": "eu",
-      "id": "LME",
-      "nameshort": "Le Mans",
+      "id": "LLA",
+      "nameshort": "Lulea",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
-      "icao": "LFRM",
-      "name": "Le Mans-Arnage",
-      "land": "Frankreich",
+      "icao": "ESPA",
+      "name": "Lulea-Kallax",
+      "land": "Sweden",
       "sostart": "2017-03-26T01:00:00+0100",
-      "regionorg": "Süd-Europa",
+      "regionorg": "Nord-Europa",
       "uso": 2
     },
     {
@@ -2327,8 +2359,8 @@
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LOWL",
-      "name": "Linz-Blü Danube",
-      "land": "Österreich",
+      "name": "Linz-Blue Danube",
+      "land": "Austria",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -2351,7 +2383,7 @@
       "uwi": 0,
       "icao": "GCLP",
       "name": "Gran Canaria",
-      "land": "Spanien",
+      "land": "Spain",
       "sostart": "2017-03-26T03:00:00+0200",
       "regionorg": "Süd-Europa",
       "uso": 1
@@ -2363,7 +2395,7 @@
       "uwi": -4,
       "icao": "MDLR",
       "name": "La Romana-International",
-      "land": "Dominikanische Republik",
+      "land": "Dominikan Republic",
       "regionorg": "Mittel-Amerika"
     },
     {
@@ -2374,33 +2406,20 @@
       "uwi": 0,
       "icao": "EGGW",
       "name": "London-Luton",
-      "land": "Grossbritannien",
+      "land": "Great Britain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 1
     },
     {
       "region": "eu",
-      "id": "LUG",
-      "nameshort": "Lugano",
-      "soend": "2017-10-29T01:00:00+0200",
-      "uwi": 1,
-      "icao": "LSZA",
-      "name": "Lugano",
-      "land": "Schweiz",
-      "sostart": "2017-03-26T01:00:00+0100",
-      "regionorg": "Süd-Europa",
-      "uso": 2
-    },
-    {
-      "region": "eu",
       "id": "LUX",
-      "nameshort": "Luxemburg",
+      "nameshort": "Luxembourg",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "ELLX",
-      "name": "Luxemburg",
-      "land": "Luxemburg",
+      "name": "Luxembourg",
+      "land": "Luxembourg",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -2412,7 +2431,7 @@
       "uwi": 2,
       "icao": "HELX",
       "name": "Luxor-International",
-      "land": "Ägypten",
+      "land": "Egypt",
       "regionorg": "Ost-Afrika"
     },
     {
@@ -2423,7 +2442,7 @@
       "uwi": 1,
       "icao": "LFLL",
       "name": "Lyon-Saint Exupéry",
-      "land": "Frankreich",
+      "land": "France",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -2435,7 +2454,7 @@
       "uwi": 5.5,
       "icao": "VOMM",
       "name": "Chennai/Madras-International",
-      "land": "Indien",
+      "land": "India",
       "regionorg": "Zentral-Asien"
     },
     {
@@ -2446,7 +2465,7 @@
       "uwi": 1,
       "icao": "LEMD",
       "name": "Madrid-Barajas",
-      "land": "Spanien",
+      "land": "Spain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -2459,7 +2478,7 @@
       "uwi": 1,
       "icao": "LEMH",
       "name": "Menorca",
-      "land": "Spanien",
+      "land": "Spain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -2472,7 +2491,7 @@
       "uwi": 0,
       "icao": "EGCC",
       "name": "Manchester",
-      "land": "Grossbritannien",
+      "land": "Great Britain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 1
@@ -2484,7 +2503,7 @@
       "uwi": 3,
       "icao": "HKMO",
       "name": "Mombasa-Moi International",
-      "land": "Kenia",
+      "land": "Kenya",
       "regionorg": "Ost-Afrika"
     },
     {
@@ -2494,7 +2513,7 @@
       "uwi": -5,
       "icao": "MKJS",
       "name": "Montego Bay-Sangster International",
-      "land": "Jamaika",
+      "land": "Jamaica",
       "regionorg": "Mittel-Amerika"
     },
     {
@@ -2504,8 +2523,8 @@
       "soend": "2017-11-05T06:00:00+0100",
       "uwi": -5,
       "icao": "KMCO",
-      "name": "Orlando-International",
-      "land": "Vereinigte Staaten von Amerika",
+      "name": "Orlando",
+      "land": "United States",
       "sostart": "2017-03-12T07:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -4
@@ -2527,8 +2546,8 @@
       "soend": "2017-11-05T07:00:00+0100",
       "uwi": -6,
       "icao": "KMEM",
-      "name": "Memphis-International",
-      "land": "Vereinigte Staaten von Amerika",
+      "name": "Memphis",
+      "land": "United States",
       "sostart": "2017-03-12T08:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -5
@@ -2541,7 +2560,7 @@
       "uwi": -6,
       "icao": "MMMX",
       "name": "Mexico City-Benito Jurez International",
-      "land": "Mexiko",
+      "land": "Mexico",
       "sostart": "2017-04-02T08:00:00+0200",
       "regionorg": "Mittel-Amerika",
       "uso": -5
@@ -2549,12 +2568,12 @@
     {
       "region": "de",
       "id": "MHJ",
-      "nameshort": "Mannheim Hbf",
+      "nameshort": "Mannheim Main St.",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "",
-      "name": "Mannheim Hauptbahnhof",
-      "land": "Deutschland",
+      "name": "Mannheim Main Station",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -2566,11 +2585,21 @@
       "soend": "2017-11-05T06:00:00+0100",
       "uwi": -5,
       "icao": "KMIA",
-      "name": "Miami-International",
-      "land": "Vereinigte Staaten von Amerika",
+      "name": "Miami",
+      "land": "United States",
       "sostart": "2017-03-12T07:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -4
+    },
+    {
+      "region": "af",
+      "id": "MIR",
+      "nameshort": "Monastir",
+      "uwi": 1,
+      "icao": "DTMB",
+      "name": "Monastir-Habib Bourguiba International",
+      "land": "Tunisia",
+      "regionorg": "Nord-Afrika"
     },
     {
       "region": "eu",
@@ -2592,8 +2621,21 @@
       "uwi": 5,
       "icao": "VRMM",
       "name": "Male-Ibrahim Nasir International",
-      "land": "Malediven",
+      "land": "Maldives",
       "regionorg": "Zentral-Asien"
+    },
+    {
+      "region": "eu",
+      "id": "MOL",
+      "nameshort": "Molde",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 1,
+      "icao": "ENML",
+      "name": "Molde-Aro",
+      "land": "Norway",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Nord-Europa",
+      "uso": 2
     },
     {
       "region": "eu",
@@ -2603,7 +2645,7 @@
       "uwi": 1,
       "icao": "LFML",
       "name": "Marseille-Provence",
-      "land": "Frankreich",
+      "land": "France",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -2626,7 +2668,7 @@
       "uwi": -6,
       "icao": "KMSP",
       "name": "Minneapolis/St.Paul-International",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T08:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -5
@@ -2638,8 +2680,21 @@
       "uwi": 3,
       "icao": "UMMS",
       "name": "Minsk-National",
-      "land": "Weissrussland",
+      "land": "Belarus",
       "regionorg": "Russland"
+    },
+    {
+      "region": "eu",
+      "id": "MST",
+      "nameshort": "Maastricht/Aachen",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 1,
+      "icao": "EHBK",
+      "name": "Maastricht/Aachen",
+      "land": "Netherlands",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Nord-Europa",
+      "uso": 2
     },
     {
       "region": "am",
@@ -2648,8 +2703,8 @@
       "soend": "2017-11-05T07:00:00+0100",
       "uwi": -6,
       "icao": "KMSY",
-      "name": "New Orleans-Louis Armstrong International",
-      "land": "Vereinigte Staaten von Amerika",
+      "name": "New Orleans",
+      "land": "United States",
       "sostart": "2017-03-12T08:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -5
@@ -2657,12 +2712,12 @@
     {
       "region": "de",
       "id": "MUC",
-      "nameshort": "München",
+      "nameshort": "Munich",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EDDM",
-      "name": "München",
-      "land": "Deutschland",
+      "name": "Munich",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -2683,12 +2738,12 @@
     {
       "region": "eu",
       "id": "MXP",
-      "nameshort": "Mailand-Malpensa",
+      "nameshort": "Milan-Malpensa",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LIMC",
-      "name": "Mailand-Malpensa",
-      "land": "Italien",
+      "name": "Milan-Malpensa",
+      "land": "Italy",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -2696,12 +2751,12 @@
     {
       "region": "eu",
       "id": "NAP",
-      "nameshort": "Neapel",
+      "nameshort": "Naples",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LIRN",
-      "name": "Neapel-International",
-      "land": "Italien",
+      "name": "Naples-International",
+      "land": "Italy",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -2726,7 +2781,7 @@
       "uwi": -3,
       "icao": "SBNT",
       "name": "Natal-Augusto Severo International",
-      "land": "Brasilien",
+      "land": "Brazil",
       "regionorg": "Süd-Amerika"
     },
     {
@@ -2736,7 +2791,7 @@
       "uwi": 1,
       "icao": "DTNH",
       "name": "Enfidha-Hammamet International",
-      "land": "Tunesien",
+      "land": "Tunisia",
       "regionorg": "Nord-Afrika"
     },
     {
@@ -2746,21 +2801,34 @@
       "uwi": 3,
       "icao": "HKJK",
       "name": "Nairobi-Jomo Kenyatta International",
-      "land": "Kenia",
+      "land": "Kenya",
       "regionorg": "Ost-Afrika"
     },
     {
       "region": "eu",
       "id": "NCE",
-      "nameshort": "Nizza",
+      "nameshort": "Nice",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LFMN",
-      "name": "Nizza-Cote d'Azur",
-      "land": "Frankreich",
+      "name": "Nice-Cote d'Azur",
+      "land": "France",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
+    },
+    {
+      "region": "eu",
+      "id": "NCL",
+      "nameshort": "Newcastle",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 0,
+      "icao": "EGNT",
+      "name": "Newcastle-International",
+      "land": "Great Britain",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Nord-Europa",
+      "uso": 1
     },
     {
       "region": "af",
@@ -2770,7 +2838,7 @@
       "uwi": 0,
       "icao": "GMMW",
       "name": "Nador-Al Aroui International",
-      "land": "Marokko",
+      "land": "Morocco",
       "sostart": "2017-03-26T03:00:00+0200",
       "regionorg": "West-Afrika",
       "uso": 1
@@ -2798,22 +2866,22 @@
     {
       "region": "as",
       "id": "NRT",
-      "nameshort": "Tokio-Narita",
+      "nameshort": "Tokyo-Narita",
       "uwi": 9,
       "icao": "RJAA",
-      "name": "Tokio-Narita International",
+      "name": "Tokyo-Narita International",
       "land": "Japan",
       "regionorg": "Ost-Asien"
     },
     {
       "region": "de",
       "id": "NUE",
-      "nameshort": "Nürnberg",
+      "nameshort": "Nuremberg",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EDDN",
-      "name": "Nürnberg",
-      "land": "Deutschland",
+      "name": "Nuremberg",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -2825,8 +2893,18 @@
       "uwi": 5,
       "icao": "UTSA",
       "name": "Navoi",
-      "land": "Usbekistan",
+      "land": "Uzbekistan",
       "regionorg": "Russland"
+    },
+    {
+      "region": "eu",
+      "id": "OGU",
+      "nameshort": "Ordu-Giresun",
+      "uwi": 3,
+      "icao": "LTCB",
+      "name": "Ordu-Giresun",
+      "land": "Turkey",
+      "regionorg": "Süd-Europa"
     },
     {
       "region": "eu",
@@ -2836,7 +2914,7 @@
       "uwi": 1,
       "icao": "LIEO",
       "name": "Olbia-Costa Smeralda",
-      "land": "Italien",
+      "land": "Italy",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -2862,7 +2940,7 @@
       "uwi": -6,
       "icao": "KORD",
       "name": "Chicago-O'Hare International",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T08:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -5
@@ -2874,21 +2952,8 @@
       "uwi": 1,
       "icao": "DAOO",
       "name": "Oran-Es-Senia-Ben Bella",
-      "land": "Algerien",
+      "land": "Algeria",
       "regionorg": "Nord-Afrika"
-    },
-    {
-      "region": "eu",
-      "id": "ORY",
-      "nameshort": "Paris-Orly",
-      "soend": "2017-10-29T01:00:00+0200",
-      "uwi": 1,
-      "icao": "LFPO",
-      "name": "Paris-Orly",
-      "land": "Frankreich",
-      "sostart": "2017-03-26T01:00:00+0100",
-      "regionorg": "Süd-Europa",
-      "uso": 2
     },
     {
       "region": "eu",
@@ -2898,7 +2963,7 @@
       "uwi": 1,
       "icao": "ENGM",
       "name": "Oslo-Gardermoen",
-      "land": "Norwegen",
+      "land": "Norway",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -2906,15 +2971,25 @@
     {
       "region": "eu",
       "id": "OTP",
-      "nameshort": "Bukarest",
+      "nameshort": "Bucharest",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 2,
       "icao": "LROP",
-      "name": "Bukarest-Henri Coanda International",
-      "land": "Rumänien",
+      "name": "Bucharest-Henri Coanda International",
+      "land": "Romania",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
+    },
+    {
+      "region": "af",
+      "id": "OUA",
+      "nameshort": "Ouagadougou",
+      "uwi": 0,
+      "icao": "DFFD",
+      "name": "Ouagadougou",
+      "land": "Burkina Faso",
+      "regionorg": "Nord-Afrika"
     },
     {
       "region": "eu",
@@ -2923,7 +2998,7 @@
       "uwi": 6,
       "icao": "UNNT",
       "name": "Novosibirsk-Tolmachevo",
-      "land": "Russland",
+      "land": "Russia",
       "regionorg": "Russland"
     },
     {
@@ -2934,7 +3009,7 @@
       "uwi": 1,
       "icao": "EDLP",
       "name": "Paderborn/Lippstadt",
-      "land": "Deutschland",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -2946,7 +3021,7 @@
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": -1,
       "icao": "LPPD",
-      "name": "Ponta Delgada/Sao Migül",
+      "name": "Ponta Delgada",
       "land": "Portugal",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
@@ -2960,7 +3035,7 @@
       "uwi": -8,
       "icao": "KPDX",
       "name": "Portland-International",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T10:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -7
@@ -2968,10 +3043,10 @@
     {
       "region": "as",
       "id": "PEK",
-      "nameshort": "Peking",
+      "nameshort": "Beijing",
       "uwi": 8,
       "icao": "ZBAA",
-      "name": "Peking-Capital International",
+      "name": "Beijing-Capital International",
       "land": "China",
       "regionorg": "China"
     },
@@ -2983,7 +3058,7 @@
       "uwi": 2,
       "icao": "LCPH",
       "name": "Paphos-International",
-      "land": "Zypern",
+      "land": "Cyprus",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
@@ -2996,7 +3071,7 @@
       "uwi": 1,
       "icao": "LFMP",
       "name": "Perpignan-Rivesaltes",
-      "land": "Frankreich",
+      "land": "France",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -3019,7 +3094,7 @@
       "uwi": -5,
       "icao": "KPHL",
       "name": "Philadelphia-International",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T07:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -4
@@ -3032,7 +3107,7 @@
       "uwi": -5,
       "icao": "KPIT",
       "name": "Pittsburgh-International",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T07:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -4
@@ -3045,7 +3120,7 @@
       "uwi": 1,
       "icao": "LEPA",
       "name": "Palma de Mallorca",
-      "land": "Spanien",
+      "land": "Spain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -3058,7 +3133,7 @@
       "uwi": 1,
       "icao": "LICJ",
       "name": "Palermo-Falcone Borsellino",
-      "land": "Italien",
+      "land": "Italy",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -3070,7 +3145,7 @@
       "uwi": 5.5,
       "icao": "VAPO",
       "name": "Pune",
-      "land": "Indien",
+      "land": "India",
       "regionorg": "Zentral-Asien"
     },
     {
@@ -3080,18 +3155,18 @@
       "uwi": -4,
       "icao": "MDPP",
       "name": "Puerto Plata-Gregorio Luperon International",
-      "land": "Dominikanische Republik",
+      "land": "Dominikan Republic",
       "regionorg": "Mittel-Amerika"
     },
     {
       "region": "eu",
       "id": "POZ",
-      "nameshort": "Poznan/Posen",
+      "nameshort": "Poznan",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EPPO",
-      "name": "Poznan/Posen-Lawica Henryk Wieniawski",
-      "land": "Polen",
+      "name": "Poznan-Lawica Henryk Wieniawski",
+      "land": "Poland",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -3099,12 +3174,12 @@
     {
       "region": "eu",
       "id": "PRG",
-      "nameshort": "Prag",
+      "nameshort": "Prague",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LKPR",
-      "name": "Prag-Vaclav Havel",
-      "land": "Tschechien",
+      "name": "Prague-Vaclav Havel",
+      "land": "Czech Republic",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -3129,7 +3204,7 @@
       "uwi": 1,
       "icao": "LIRP",
       "name": "Pisa-Galileo Galilei International",
-      "land": "Italien",
+      "land": "Italy",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -3137,7 +3212,7 @@
     {
       "region": "am",
       "id": "PTP",
-      "nameshort": "Pointe a Pitre",
+      "nameshort": "Pointe-a-Pitre",
       "uwi": -4,
       "icao": "TFFR",
       "name": "Pointe a Pitre-Le Raizet",
@@ -3161,7 +3236,7 @@
       "uwi": -4,
       "icao": "MDPC",
       "name": "Punta Cana",
-      "land": "Dominikanische Republik",
+      "land": "Dominikan Republic",
       "regionorg": "Mittel-Amerika"
     },
     {
@@ -3172,7 +3247,7 @@
       "uwi": 1,
       "icao": "LDPL",
       "name": "Pula",
-      "land": "Kroatien",
+      "land": "Croatia",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -3195,7 +3270,7 @@
       "uwi": 2,
       "icao": "LGPZ",
       "name": "Preveza/Lefkada-Aktion",
-      "land": "Griechenland",
+      "land": "Greece",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
@@ -3203,12 +3278,12 @@
     {
       "region": "de",
       "id": "QDU",
-      "nameshort": "Düsseldorf Hbf",
+      "nameshort": "Dusseldorf Main St.",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EDLQ",
-      "name": "Düsseldorf Hauptbahnhof",
-      "land": "Deutschland",
+      "name": "Dusseldorf Main Station",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -3216,12 +3291,12 @@
     {
       "region": "de",
       "id": "QKL",
-      "nameshort": "Köln Hbf",
+      "nameshort": "Cologne Main Station",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EDKK",
-      "name": "Köln Hauptbahnhof",
-      "land": "Deutschland",
+      "name": "Cologne Main Station",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -3229,12 +3304,12 @@
     {
       "region": "af",
       "id": "RAK",
-      "nameshort": "Marrakesch",
+      "nameshort": "Marrakech",
       "soend": "2017-10-29T02:00:00+0100",
       "uwi": 0,
       "icao": "GMMX",
-      "name": "Marrakesch",
-      "land": "Marokko",
+      "name": "Marrakech",
+      "land": "Morocco",
       "sostart": "2017-03-26T03:00:00+0200",
       "regionorg": "West-Afrika",
       "uso": 1
@@ -3247,7 +3322,7 @@
       "uwi": -3,
       "icao": "SBRF",
       "name": "Recife-Guararapes International",
-      "land": "Brasilien",
+      "land": "Brazil",
       "sostart": "2017-10-15T03:00:00+0200",
       "regionorg": "Süd-Amerika",
       "uso": -2
@@ -3255,12 +3330,12 @@
     {
       "region": "eu",
       "id": "RHO",
-      "nameshort": "Rhodos",
+      "nameshort": "Rhodes",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 2,
       "icao": "LGRP",
-      "name": "Rhodos-Diagoras",
-      "land": "Griechenland",
+      "name": "Rhodes-Diagoras",
+      "land": "Greece",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
@@ -3273,23 +3348,19 @@
       "uwi": 2,
       "icao": "EVRA",
       "name": "Riga-International",
-      "land": "Lettland",
+      "land": "Latvia",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 3
     },
     {
-      "region": "eu",
-      "id": "RJL",
-      "nameshort": "Logrono-Agoncillo",
-      "soend": "2017-10-29T01:00:00+0200",
-      "uwi": 1,
-      "icao": "LERJ",
-      "name": "Logrono-Agoncillo",
-      "land": "Spanien",
-      "sostart": "2017-03-26T01:00:00+0100",
-      "regionorg": "Süd-Europa",
-      "uso": 2
+      "id": "RKV",
+      "nameshort": "Reykjavik",
+      "uwi": 0,
+      "icao": "BIRK",
+      "name": "Reykjavik-Domestic",
+      "land": "Iceland",
+      "regionorg": "Polarregion/Südeuropa"
     },
     {
       "region": "af",
@@ -3298,30 +3369,30 @@
       "uwi": 2,
       "icao": "HEMA",
       "name": "Marsa Alam-International",
-      "land": "Ägypten",
+      "land": "Egypt",
       "regionorg": "Ost-Afrika"
     },
     {
       "region": "eu",
-      "id": "RMI",
-      "nameshort": "Rimini",
+      "id": "RTM",
+      "nameshort": "Rotterdam",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
-      "icao": "LIPR",
-      "name": "Rimini-Federico Fellini International",
-      "land": "Italien",
+      "icao": "EHRD",
+      "name": "Rotterdam-The Hague",
+      "land": "Netherlands",
       "sostart": "2017-03-26T01:00:00+0100",
-      "regionorg": "Süd-Europa",
+      "regionorg": "Nord-Europa",
       "uso": 2
     },
     {
       "region": "as",
       "id": "RUH",
-      "nameshort": "Riad",
+      "nameshort": "Riyadh",
       "uwi": 3,
       "icao": "OERK",
-      "name": "Riad-King Khalid International",
-      "land": "Saudi-Arabien",
+      "name": "Riyadh-King Khalid International",
+      "land": "Saudi Arabia",
       "regionorg": "Vorder-Asien"
     },
     {
@@ -3332,7 +3403,7 @@
       "uwi": -8,
       "icao": "KSAN",
       "name": "San Diego-Lindberg Field",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T10:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -7
@@ -3344,31 +3415,31 @@
       "uwi": 3,
       "icao": "LTFJ",
       "name": "Istanbul-Sabiha Gokcen",
-      "land": "Türkei",
+      "land": "Turkey",
       "regionorg": "Süd-Europa"
     },
     {
       "region": "am",
       "id": "SCL",
       "nameshort": "Santiago de Chile",
-      "soend": "2017-05-14T03:00:00+0200",
+      "soend": "2018-05-13T03:00:00+0200",
       "uwi": -4,
       "icao": "SCEL",
       "name": "Santiago de Chile-Arturo Merino Bentitez Intl",
       "land": "Chile",
-      "sostart": "2016-08-14T04:00:00+0200",
+      "sostart": "2017-08-13T04:00:00+0200",
       "regionorg": "Süd-Amerika",
       "uso": -3
     },
     {
       "region": "de",
       "id": "SCN",
-      "nameshort": "Saarbrücken",
+      "nameshort": "Saarbruecken",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EDDR",
-      "name": "Saarbrücken",
-      "land": "Deutschland",
+      "name": "Saarbruecken",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -3380,8 +3451,8 @@
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LEST",
-      "name": "Santiago de Compostela",
-      "land": "Spanien",
+      "name": "Santiago Compostela",
+      "land": "Spain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -3393,7 +3464,7 @@
       "uwi": -4,
       "icao": "MDSD",
       "name": "Santo Domingo-Las Americas International",
-      "land": "Dominikanische Republik",
+      "land": "Dominikan Republic",
       "regionorg": "Mittel-Amerika"
     },
     {
@@ -3403,8 +3474,8 @@
       "soend": "2017-11-05T09:00:00+0100",
       "uwi": -8,
       "icao": "KSEA",
-      "name": "Seattle-Tacoma International",
-      "land": "Vereinigte Staaten von Amerika",
+      "name": "Seattle",
+      "land": "United States",
       "sostart": "2017-03-12T10:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -7
@@ -3416,7 +3487,7 @@
       "uwi": 4,
       "icao": "FSIA",
       "name": "Mahe-Seychelles International",
-      "land": "Seychellen",
+      "land": "Seychelles",
       "regionorg": "Süd-Afrika"
     },
     {
@@ -3427,7 +3498,7 @@
       "uwi": -8,
       "icao": "KSFO",
       "name": "San Francisco-International",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T10:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -7
@@ -3440,7 +3511,7 @@
       "uwi": 1,
       "icao": "EDGS",
       "name": "Siegen/Siegerland",
-      "land": "Deutschland",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -3462,7 +3533,7 @@
       "uwi": 4,
       "icao": "OMSJ",
       "name": "Sharjah-International",
-      "land": "Vereinigte Arabische Emirate",
+      "land": "United Arab Emirates",
       "regionorg": "Vorder-Asien"
     },
     {
@@ -3472,17 +3543,17 @@
       "uwi": -1,
       "icao": "GVAC",
       "name": "Sal-Amilcar Cabral International",
-      "land": "Kap Verde",
+      "land": "Cape Verde",
       "regionorg": "West-Afrika"
     },
     {
       "region": "au",
       "id": "SIN",
-      "nameshort": "Singapur",
+      "nameshort": "Singapore",
       "uwi": 8,
       "icao": "WSSS",
-      "name": "Singapur-Changi",
-      "land": "Singapur",
+      "name": "Singapore-Changi",
+      "land": "Singapore",
       "regionorg": "Ozeanien III"
     },
     {
@@ -3493,7 +3564,7 @@
       "uwi": -8,
       "icao": "KSJC",
       "name": "San Jose-Norman Y. Mineta International",
-      "land": "Vereinigte Staaten von Amerika",
+      "land": "United States",
       "sostart": "2017-03-12T10:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -7
@@ -3526,7 +3597,7 @@
       "uwi": 2,
       "icao": "LGTS",
       "name": "Thessaloniki-Makedonia",
-      "land": "Griechenland",
+      "land": "Greece",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
@@ -3539,7 +3610,7 @@
       "uwi": 1,
       "icao": "LWSK",
       "name": "Skopje-Alexander the Great",
-      "land": "Mazedonien",
+      "land": "Macedonia",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -3552,7 +3623,7 @@
       "uwi": 2,
       "icao": "LGSM",
       "name": "Samos-Aristarchos",
-      "land": "Griechenland",
+      "land": "Greece",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
@@ -3565,23 +3636,10 @@
       "uwi": 0,
       "icao": "EINN",
       "name": "Shannon",
-      "land": "Irland",
+      "land": "Ireland",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 1
-    },
-    {
-      "region": "am",
-      "id": "SNU",
-      "nameshort": "Santa Clara",
-      "soend": "2017-11-05T05:00:00+0100",
-      "uwi": -5,
-      "icao": "MUSC",
-      "name": "Santa Clara-Abel Santamaria",
-      "land": "Kuba",
-      "sostart": "2017-03-12T05:00:00+0100",
-      "regionorg": "Mittel-Amerika",
-      "uso": -4
     },
     {
       "region": "eu",
@@ -3590,8 +3648,8 @@
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LHSM",
-      "name": "Sarmelleek/Balaton",
-      "land": "Ungarn",
+      "name": "Sarmellek/Balaton",
+      "land": "Hungary",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -3604,7 +3662,7 @@
       "uwi": 2,
       "icao": "LBSF",
       "name": "Sofia",
-      "land": "Bulgarien",
+      "land": "Bulgaria",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
@@ -3617,7 +3675,7 @@
       "uwi": 0,
       "icao": "GCLA",
       "name": "La Palma",
-      "land": "Spanien",
+      "land": "Spain",
       "sostart": "2017-03-26T03:00:00+0200",
       "regionorg": "Süd-Europa",
       "uso": 1
@@ -3630,7 +3688,7 @@
       "uwi": 1,
       "icao": "LDSP",
       "name": "Split",
-      "land": "Kroatien",
+      "land": "Croatia",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -3642,7 +3700,7 @@
       "uwi": 1,
       "icao": "FGSL",
       "name": "Malabo-International",
-      "land": "Äquatorial-Guinea",
+      "land": "Equatorial Guinea",
       "regionorg": "Süd-Afrika"
     },
     {
@@ -3652,7 +3710,7 @@
       "uwi": 2,
       "icao": "HESH",
       "name": "Sharm El-Sheik International",
-      "land": "Ägypten",
+      "land": "Egypt",
       "regionorg": "Ost-Afrika"
     },
     {
@@ -3663,7 +3721,7 @@
       "uwi": 0,
       "icao": "EGSS",
       "name": "London-Stansted",
-      "land": "Grossbritannien",
+      "land": "Great Britain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 1
@@ -3676,7 +3734,7 @@
       "uwi": 1,
       "icao": "EDDS",
       "name": "Stuttgart",
-      "land": "Deutschland",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -3689,7 +3747,7 @@
       "uwi": 1,
       "icao": "LICA",
       "name": "Lamezia Terme",
-      "land": "Italien",
+      "land": "Italy",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -3702,7 +3760,7 @@
       "uwi": 1,
       "icao": "ENZV",
       "name": "Stavanger-Sola",
-      "land": "Norwegen",
+      "land": "Norway",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -3710,35 +3768,45 @@
     {
       "region": "eu",
       "id": "SVO",
-      "nameshort": "Moskau-Sheremetyevo",
+      "nameshort": "Moscow-Sheremetyevo",
       "uwi": 3,
       "icao": "UUEE",
-      "name": "Moskau-Sheremetyevo",
-      "land": "Russland",
+      "name": "Moscow-Sheremetyevo",
+      "land": "Russia",
       "regionorg": "Russland"
     },
     {
       "region": "eu",
       "id": "SVQ",
-      "nameshort": "Sevilla",
+      "nameshort": "Seville",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LEZL",
-      "name": "Sevilla",
-      "land": "Spanien",
+      "name": "Seville",
+      "land": "Spain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
     },
     {
       "region": "eu",
+      "id": "SVX",
+      "nameshort": "Yekaterinburg",
+      "uwi": 5,
+      "icao": "USSS",
+      "name": "Yekaterinburg-Koltsovo",
+      "land": "Russia",
+      "regionorg": "Russland"
+    },
+    {
+      "region": "eu",
       "id": "SXB",
-      "nameshort": "Strassburg",
+      "nameshort": "Strasbourg",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LFST",
-      "name": "Strassburg-International",
-      "land": "Frankreich",
+      "name": "Strasbourg-International",
+      "land": "France",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -3746,12 +3814,12 @@
     {
       "region": "de",
       "id": "SXF",
-      "nameshort": "Berlin-Schönefeld",
+      "nameshort": "Berlin-Schoenefeld",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EDDB",
-      "name": "Berlin-Schönefeld",
-      "land": "Deutschland",
+      "name": "Berlin-Schoenefeld",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -3763,7 +3831,7 @@
       "uwi": 3,
       "icao": "LTFH",
       "name": "Samsun-Carsamba",
-      "land": "Türkei",
+      "land": "Turkey",
       "regionorg": "Süd-Europa"
     },
     {
@@ -3774,7 +3842,7 @@
       "uwi": 1,
       "icao": "LOWS",
       "name": "Salzburg-W.A. Mozart",
-      "land": "Österreich",
+      "land": "Austria",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -3796,7 +3864,7 @@
       "uwi": -4,
       "icao": "TTCP",
       "name": "Tobago-A.N.R. Robinson International",
-      "land": "Trinidad und Tobago",
+      "land": "Trinidad and Tobago",
       "regionorg": "Karibik"
     },
     {
@@ -3812,22 +3880,22 @@
     {
       "region": "eu",
       "id": "TAS",
-      "nameshort": "Taschkent",
+      "nameshort": "Tashkent",
       "uwi": 5,
       "icao": "UTTT",
-      "name": "Taschkent-International",
-      "land": "Usbekistan",
+      "name": "Tashkent-International",
+      "land": "Uzbekistan",
       "regionorg": "Russland"
     },
     {
       "region": "eu",
       "id": "TFS",
-      "nameshort": "Teneriffa-Sur",
+      "nameshort": "Tenerife-Sur",
       "soend": "2017-10-29T02:00:00+0100",
       "uwi": 0,
       "icao": "GCTS",
-      "name": "Teneriffa-Sur",
-      "land": "Spanien",
+      "name": "Tenerife-Sur",
+      "land": "Spain",
       "sostart": "2017-03-26T03:00:00+0200",
       "regionorg": "Süd-Europa",
       "uso": 1
@@ -3853,7 +3921,7 @@
       "uwi": 1,
       "icao": "LATI",
       "name": "Tirana-Nene Tereza International",
-      "land": "Albanien",
+      "land": "Albania",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -3866,7 +3934,7 @@
       "uwi": 2,
       "icao": "EETN",
       "name": "Tallinn-Lennart Meri",
-      "land": "Estland",
+      "land": "Estonia",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 3
@@ -3879,7 +3947,7 @@
       "uwi": 1,
       "icao": "LFBO",
       "name": "Toulouse-Blagnac",
-      "land": "Frankreich",
+      "land": "France",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -3905,7 +3973,7 @@
       "uwi": 1,
       "icao": "ENTC",
       "name": "Tromso-Langnes",
-      "land": "Norwegen",
+      "land": "Norway",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -3917,8 +3985,8 @@
       "soend": "2017-11-05T06:00:00+0100",
       "uwi": -5,
       "icao": "KTPA",
-      "name": "Tampa-International",
-      "land": "Vereinigte Staaten von Amerika",
+      "name": "Tampa",
+      "land": "United States",
       "sostart": "2017-03-12T07:00:00+0100",
       "regionorg": "Nord-Amerika II",
       "uso": -4
@@ -3926,10 +3994,10 @@
     {
       "region": "as",
       "id": "TPE",
-      "nameshort": "Taipeh",
+      "nameshort": "Taipei",
       "uwi": 8,
       "icao": "RCTP",
-      "name": "Taipeh-Taiwan Taoyuan International",
+      "name": "Taipei-Taiwan Taoyuan International",
       "land": "Taiwan",
       "regionorg": "Ost-Asien"
     },
@@ -3941,7 +4009,7 @@
       "uwi": 1,
       "icao": "LIMF",
       "name": "Turin-Caselle",
-      "land": "Italien",
+      "land": "Italy",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -3953,18 +4021,18 @@
       "uwi": 6,
       "icao": "UACC",
       "name": "Astana-International",
-      "land": "Kasachstan",
+      "land": "Kazakhstan",
       "regionorg": "Russland"
     },
     {
       "region": "eu",
       "id": "TSF",
-      "nameshort": "Venedig-Treviso",
+      "nameshort": "Venice-Treviso",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LIPH",
-      "name": "Venedig-Treviso Sant'Angelo",
-      "land": "Italien",
+      "name": "Venice-Treviso Sant'Angelo",
+      "land": "Italy",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -3980,13 +4048,26 @@
       "regionorg": "China"
     },
     {
+      "region": "eu",
+      "id": "TSR",
+      "nameshort": "Timisoara",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 2,
+      "icao": "LRTR",
+      "name": "Timisoara-Traian Vuia International",
+      "land": "Romania",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Süd-Europa",
+      "uso": 3
+    },
+    {
       "region": "af",
       "id": "TUN",
       "nameshort": "Tunis",
       "uwi": 1,
       "icao": "DTTA",
       "name": "Tunis-Carthage",
-      "land": "Tunesien",
+      "land": "Tunisia",
       "regionorg": "Nord-Afrika"
     },
     {
@@ -3997,7 +4078,7 @@
       "uwi": 1,
       "icao": "EDDT",
       "name": "Berlin-Tegel",
-      "land": "Deutschland",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -4009,31 +4090,41 @@
       "uwi": 3,
       "icao": "LTCG",
       "name": "Trabzon",
-      "land": "Türkei",
+      "land": "Turkey",
       "regionorg": "Süd-Europa"
+    },
+    {
+      "region": "am",
+      "id": "UIO",
+      "nameshort": "Quito",
+      "uwi": -5,
+      "icao": "SEQU",
+      "name": "Quito-Mariscal Sucre International",
+      "land": "Ecuador",
+      "regionorg": "Süd-Amerika"
     },
     {
       "region": "as",
       "id": "ULN",
-      "nameshort": "Ulan Bator",
+      "nameshort": "Ulaanbaatar",
       "soend": "2018-09-28T15:00:00+0200",
       "uwi": 8,
       "icao": "ZMUB",
-      "name": "Ulan Bator-Chinggis Khaan International",
-      "land": "Mongolei",
+      "name": "Ulaanbaatar-Chinggis Khaan International",
+      "land": "Mongolia",
       "sostart": "2018-03-30T18:00:00+0200",
       "regionorg": "China",
       "uso": 9
     },
     {
-      "region": "am",
-      "id": "UVF",
-      "nameshort": "Saint Lucia",
-      "uwi": -4,
-      "icao": "TLPL",
-      "name": "Saint Lucia-Hewanorra International",
-      "land": "Saint Lucia",
-      "regionorg": "Karibik"
+      "region": "eu",
+      "id": "URA",
+      "nameshort": "Uralsk",
+      "uwi": 5,
+      "icao": "UARR",
+      "name": "Uralsk-Ak Zhol",
+      "land": "Kazakhstan",
+      "regionorg": "Russland"
     },
     {
       "region": "eu",
@@ -4043,7 +4134,7 @@
       "uwi": 2,
       "icao": "LBWN",
       "name": "Varna",
-      "land": "Bulgarien",
+      "land": "Bulgaria",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
@@ -4051,12 +4142,12 @@
     {
       "region": "eu",
       "id": "VCE",
-      "nameshort": "Venedig-Marco Polo",
+      "nameshort": "Venice-Marco Polo",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LIPZ",
-      "name": "Venedig-Marco Polo",
-      "land": "Italien",
+      "name": "Venice-Marco Polo",
+      "land": "Italy",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -4069,7 +4160,7 @@
       "uwi": -3,
       "icao": "SBKP",
       "name": "Sao Paulo-Viracopos International",
-      "land": "Brasilien",
+      "land": "Brazil",
       "sostart": "2017-10-15T03:00:00+0200",
       "regionorg": "Süd-Amerika",
       "uso": -2
@@ -4077,25 +4168,12 @@
     {
       "region": "eu",
       "id": "VIE",
-      "nameshort": "Wien",
+      "nameshort": "Vienna",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LOWW",
-      "name": "Wien-Schwechat",
-      "land": "Österreich",
-      "sostart": "2017-03-26T01:00:00+0100",
-      "regionorg": "Süd-Europa",
-      "uso": 2
-    },
-    {
-      "region": "eu",
-      "id": "VIT",
-      "nameshort": "Vitoria",
-      "soend": "2017-10-29T01:00:00+0200",
-      "uwi": 1,
-      "icao": "LEVT",
-      "name": "Vitoria",
-      "land": "Spanien",
+      "name": "Vienna",
+      "land": "Austria",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -4108,20 +4186,7 @@
       "uwi": 1,
       "icao": "LEVC",
       "name": "Valencia",
-      "land": "Spanien",
-      "sostart": "2017-03-26T01:00:00+0100",
-      "regionorg": "Süd-Europa",
-      "uso": 2
-    },
-    {
-      "region": "eu",
-      "id": "VLL",
-      "nameshort": "Valladolid",
-      "soend": "2017-10-29T01:00:00+0200",
-      "uwi": 1,
-      "icao": "LEVD",
-      "name": "Valladolid",
-      "land": "Spanien",
+      "land": "Spain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -4134,7 +4199,7 @@
       "uwi": 2,
       "icao": "EYVI",
       "name": "Vilnius-International",
-      "land": "Litauen",
+      "land": "Lithuania",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 3
@@ -4147,7 +4212,7 @@
       "uwi": -5,
       "icao": "MUVR",
       "name": "Varadero-Juan Gualberto Gomez",
-      "land": "Kuba",
+      "land": "Cuba",
       "sostart": "2017-03-12T05:00:00+0100",
       "regionorg": "Mittel-Amerika",
       "uso": -4
@@ -4160,7 +4225,7 @@
       "uwi": 1,
       "icao": "LIPX",
       "name": "Verona-Villafranca",
-      "land": "Italien",
+      "land": "Italy",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -4168,12 +4233,12 @@
     {
       "region": "eu",
       "id": "WAW",
-      "nameshort": "Warschau",
+      "nameshort": "Warsaw",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EPWA",
-      "name": "Warschau-Frederic Chopin",
-      "land": "Polen",
+      "name": "Warsaw-Frederic Chopin",
+      "land": "Poland",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -4181,11 +4246,11 @@
     {
       "region": "af",
       "id": "WDH",
-      "nameshort": "Windhuk",
+      "nameshort": "Windhoek",
       "soend": "2018-03-31T00:00:00+0200",
       "uwi": 1,
       "icao": "FYWH",
-      "name": "Windhuk-Hosea Kutako International",
+      "name": "Windhoek-Hosea Kutako International",
       "land": "Namibia",
       "sostart": "2017-09-03T01:00:00+0200",
       "regionorg": "Süd-Afrika",
@@ -4194,12 +4259,12 @@
     {
       "region": "eu",
       "id": "WRO",
-      "nameshort": "Wroclaw/Breslau",
+      "nameshort": "Wroclaw",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EPWR",
-      "name": "Wroclaw/Breslau-Copernicus",
-      "land": "Polen",
+      "name": "Wroclaw-Copernicus",
+      "land": "Poland",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
@@ -4207,12 +4272,12 @@
     {
       "region": "eu",
       "id": "XER",
-      "nameshort": "Strassburg-Bus St.",
+      "nameshort": "Strasbourg-Bus St.",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LFSS",
-      "name": "Straßburg-Bus Station",
-      "land": "Frankreich",
+      "name": "Strasbourg-Bus Station",
+      "land": "France",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -4225,7 +4290,7 @@
       "uwi": 1,
       "icao": "LEJR",
       "name": "Jerez de la Frontera",
-      "land": "Spanien",
+      "land": "Spain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -4238,7 +4303,7 @@
       "uwi": -5,
       "icao": "CYHM",
       "name": "Hamilton-John C. Munro Hamilton International",
-      "land": "Kanada",
+      "land": "Canada",
       "sostart": "2017-03-12T07:00:00+0100",
       "regionorg": "Nord-Amerika I",
       "uso": -4
@@ -4251,7 +4316,7 @@
       "uwi": -4,
       "icao": "CYHZ",
       "name": "Halifax-Stanfield International",
-      "land": "Kanada",
+      "land": "Canada",
       "sostart": "2017-03-12T06:00:00+0100",
       "regionorg": "Nord-Amerika I",
       "uso": -3
@@ -4264,7 +4329,7 @@
       "uwi": -5,
       "icao": "CYOW",
       "name": "Ottawa-Macdonald-Cartier International",
-      "land": "Kanada",
+      "land": "Canada",
       "sostart": "2017-03-12T07:00:00+0100",
       "regionorg": "Nord-Amerika I",
       "uso": -4
@@ -4277,7 +4342,7 @@
       "uwi": -5,
       "icao": "CYUL",
       "name": "Montreal-Pierre Elliot Trudeau",
-      "land": "Kanada",
+      "land": "Canada",
       "sostart": "2017-03-12T07:00:00+0100",
       "regionorg": "Nord-Amerika I",
       "uso": -4
@@ -4290,7 +4355,7 @@
       "uwi": -8,
       "icao": "CYVR",
       "name": "Vancouver-International",
-      "land": "Kanada",
+      "land": "Canada",
       "sostart": "2017-03-12T10:00:00+0100",
       "regionorg": "Nord-Amerika I",
       "uso": -7
@@ -4303,7 +4368,7 @@
       "uwi": -8,
       "icao": "CYXY",
       "name": "Whitehorse-Erik Nielsen International",
-      "land": "Kanada",
+      "land": "Canada",
       "sostart": "2017-03-12T10:00:00+0100",
       "regionorg": "Nord-Amerika I",
       "uso": -7
@@ -4316,7 +4381,7 @@
       "uwi": -7,
       "icao": "CYYC",
       "name": "Calgary-International",
-      "land": "Kanada",
+      "land": "Canada",
       "sostart": "2017-03-12T09:00:00+0100",
       "regionorg": "Nord-Amerika I",
       "uso": -6
@@ -4329,7 +4394,7 @@
       "uwi": -5,
       "icao": "CYYZ",
       "name": "Toronto-Lester B.Pearson International",
-      "land": "Kanada",
+      "land": "Canada",
       "sostart": "2017-03-12T07:00:00+0100",
       "regionorg": "Nord-Amerika I",
       "uso": -4
@@ -4342,7 +4407,7 @@
       "uwi": 1,
       "icao": "LDZD",
       "name": "Zadar",
-      "land": "Kroatien",
+      "land": "Croatia",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -4355,7 +4420,20 @@
       "uwi": 1,
       "icao": "LDZA",
       "name": "Zagreb-Pleso",
-      "land": "Kroatien",
+      "land": "Croatia",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Süd-Europa",
+      "uso": 2
+    },
+    {
+      "region": "eu",
+      "id": "ZAZ",
+      "nameshort": "Zaragoza",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 1,
+      "icao": "LEZG",
+      "name": "Zaragoza",
+      "land": "Spain",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -4363,22 +4441,35 @@
     {
       "region": "af",
       "id": "ZNZ",
-      "nameshort": "Sansibar",
+      "nameshort": "Zanzibar",
       "uwi": 3,
       "icao": "HTZA",
-      "name": "Sansibar-Abeid Amani Karume International",
-      "land": "Tansania",
+      "name": "Zanzibar-Abeid Amani Karume International",
+      "land": "Tanzania",
       "regionorg": "Ost-Afrika"
+    },
+    {
+      "region": "de",
+      "id": "ZQC",
+      "nameshort": "Speyer",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 1,
+      "icao": "EDRY",
+      "name": "Speyer",
+      "land": "Germany",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Nord-Europa",
+      "uso": 2
     },
     {
       "region": "eu",
       "id": "ZRH",
-      "nameshort": "Zürich",
+      "nameshort": "Zurich",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "LSZH",
-      "name": "Zürich",
-      "land": "Schweiz",
+      "name": "Zurich",
+      "land": "Switzerland",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 2
@@ -4386,12 +4477,12 @@
     {
       "region": "eu",
       "id": "ZTH",
-      "nameshort": "Zakynthos",
+      "nameshort": "Zakinthos",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 2,
       "icao": "LGZA",
-      "name": "Zakynthos-Dionysios Solomos",
-      "land": "Griechenland",
+      "name": "Zakinthos-Dionysios Solomos",
+      "land": "Greece",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Süd-Europa",
       "uso": 3
@@ -4399,17 +4490,102 @@
     {
       "region": "de",
       "id": "ZWS",
-      "nameshort": "Stuttgart Hbf",
+      "nameshort": "Stuttgart Main St.",
       "soend": "2017-10-29T01:00:00+0200",
       "uwi": 1,
       "icao": "EDTQ",
-      "name": "Stuttgart Hauptbahnhof",
-      "land": "Deutschland",
+      "name": "Stuttgart Main Station",
+      "land": "Germany",
       "sostart": "2017-03-26T01:00:00+0100",
       "regionorg": "Nord-Europa",
       "uso": 2
+    },
+    {
+      "region": "eu",
+      "id": "ACH",
+      "nameshort": "Altenrhein",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 1,
+      "icao": "LSZR",
+      "name": "Altenrhein",
+      "land": "Switzerland",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Süd-Europa",
+      "uso": 2
+    },
+    {
+      "region": "eu",
+      "id": "BQH",
+      "nameshort": "London-Biggin Hill",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 0,
+      "icao": "EGKB",
+      "name": "London-Biggin Hill",
+      "land": "Great Britain",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Nord-Europa",
+      "uso": 1
+    },
+    {
+      "region": "eu",
+      "id": "DNZ",
+      "nameshort": "Denizli",
+      "uwi": 3,
+      "icao": "LTAY",
+      "name": "Denizli-Cardak",
+      "land": "Turkey",
+      "regionorg": "Süd-Europa"
+    },
+    {
+      "region": "eu",
+      "id": "ETZ",
+      "nameshort": "Metz-Nancy-Lorraine",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 1,
+      "icao": "LFJL",
+      "name": "Metz-Nancy-Lorraine",
+      "land": "France",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Süd-Europa",
+      "uso": 2
+    },
+    {
+      "region": "de",
+      "id": "III",
+      "nameshort": "",
+      "uwi": 1,
+      "icao": "",
+      "name": "",
+      "land": "Germany",
+      "regionorg": "Nord-Europa"
+    },
+    {
+      "region": "eu",
+      "id": "REU",
+      "nameshort": "Reus",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 1,
+      "icao": "LERS",
+      "name": "Reus",
+      "land": "Spain",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Süd-Europa",
+      "uso": 2
+    },
+    {
+      "region": "eu",
+      "id": "TCE",
+      "nameshort": "Tulcea",
+      "soend": "2017-10-29T01:00:00+0200",
+      "uwi": 2,
+      "icao": "LRTC",
+      "name": "Tulcea-Delta Dunarii",
+      "land": "Romania",
+      "sostart": "2017-03-26T01:00:00+0100",
+      "regionorg": "Süd-Europa",
+      "uso": 3
     }
   ],
-  "lu": "2017-04-27T13:14:01+0200",
+  "lu": "2017-07-27T13:14:01+0200",
   "version": "1.2.6"
 }

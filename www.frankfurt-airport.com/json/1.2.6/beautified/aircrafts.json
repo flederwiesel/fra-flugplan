@@ -36,9 +36,24 @@
       "fab": "AgustaWestland"
     },
     {
+      "id": "A19N",
+      "name": "A-319neo",
+      "fab": "Airbus"
+    },
+    {
+      "id": "A20N",
+      "name": "A-320neo",
+      "fab": "Airbus"
+    },
+    {
       "id": "A210",
       "name": "A-210/AT-01",
       "fab": "Aquila"
+    },
+    {
+      "id": "A21N",
+      "name": "A-321neo",
+      "fab": "Airbus"
     },
     {
       "id": "A225",
@@ -264,11 +279,6 @@
       "id": "AN72",
       "name": "An-72/74-100/200",
       "fab": "Antonov"
-    },
-    {
-      "id": "AQ",
-      "name": "",
-      "fab": ""
     },
     {
       "id": "AR79",
@@ -781,6 +791,11 @@
       "fab": "Bücker"
     },
     {
+      "id": "BU81",
+      "name": "Bü-181 Bestmann",
+      "fab": "Buecker"
+    },
+    {
       "id": "BUS",
       "name": "LH-Busse",
       "fab": ""
@@ -1166,6 +1181,11 @@
       "fab": "Airtech"
     },
     {
+      "id": "CONI",
+      "name": "L-1049 Super Constellation",
+      "fab": "LOCKHEED"
+    },
+    {
       "id": "CRJ1",
       "name": "CL-600-2B19 Regional Jet RJ-100/CRJ-100",
       "fab": "Canadair/Bombardier"
@@ -1216,9 +1236,19 @@
       "fab": "Dornier"
     },
     {
+      "id": "D31",
+      "name": "D-31 Turbulent",
+      "fab": "Stark"
+    },
+    {
       "id": "D328",
       "name": "Do-328",
       "fab": "Dornier/Fairchild-Dornier"
+    },
+    {
+      "id": "DA40",
+      "name": "Katana",
+      "fab": "Diamond"
     },
     {
       "id": "DA42",
@@ -1499,6 +1529,11 @@
       "id": "EH10",
       "name": "AW/EH101 Merlin,Heliliner,Cormorant (CH-149)",
       "fab": "AgustaWestland"
+    },
+    {
+      "id": "ELST",
+      "name": "Elster B",
+      "fab": "PUTZER"
     },
     {
       "id": "EN28",
@@ -2071,6 +2106,11 @@
       "fab": "Cessna"
     },
     {
+      "id": "P149",
+      "name": "P-149",
+      "fab": "PIAGGIO"
+    },
+    {
       "id": "P180",
       "name": "P-180 Avanti",
       "fab": "Piaggio"
@@ -2114,6 +2154,11 @@
       "id": "P46T",
       "name": "PA-46-500TP Malibu Meridian",
       "fab": "Piper"
+    },
+    {
+      "id": "P51",
+      "name": "P-51 Mustang",
+      "fab": "NORTH AMERICAN"
     },
     {
       "id": "P68",
@@ -2321,6 +2366,11 @@
       "fab": "Navion"
     },
     {
+      "id": "RELI",
+      "name": "ReliantSR-9C",
+      "fab": "STINSON"
+    },
+    {
       "id": "RJ1H",
       "name": "RJ-100",
       "fab": "British Aerospace"
@@ -2349,6 +2399,11 @@
       "id": "S38",
       "name": "S-38 Replica",
       "fab": "Sikorsky"
+    },
+    {
+      "id": "S58P",
+      "name": "S 85 C",
+      "fab": "SIKORSKY"
     },
     {
       "id": "S601",
@@ -2454,6 +2509,11 @@
       "id": "SU95",
       "name": "Superjet 100-95",
       "fab": "Sukhoi"
+    },
+    {
+      "id": "SV4",
+      "name": "SV4B",
+      "fab": "Stampe"
     },
     {
       "id": "SW2",
@@ -2604,8 +2664,13 @@
       "id": "YK52",
       "name": "Yak-52",
       "fab": "Yakovlev"
+    },
+    {
+      "id": "Z26",
+      "name": "Z-526 Akrobat",
+      "fab": "MORAVAN"
     }
   ],
-  "lu": "2017-04-27T13:18:02+0200",
+  "lu": "2017-07-27T13:18:01+0200",
   "version": "1.2.6"
 }
