@@ -7,7 +7,8 @@ getpass() {
 }
 
 sqlexec() {
-	mysql --host=localhost --protocol=TCP --user=flugplan --password="$(getpass)" --default-character-set=utf8 "$@"
+	[[ "$(uname -o)" =~ "Cygwin" ]] && proto="--protocol=TCP"
+	mysql --host=localhost $proto --user=flugplan --password="$(getpass)" --default-character-set=utf8 "$@"
 }
 
 if [ $# -lt 1 ]; then
