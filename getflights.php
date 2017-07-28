@@ -300,7 +300,7 @@ function unify_html($html)
 	return $html;
 }
 
-// Insert hyhen into reg, based on regex
+// Insert hyphen into reg, based on regex
 function patchreg($reg)
 {
 	$regdb = array(
@@ -2421,19 +2421,24 @@ if (!$error)
 
 					if (!$error)
 					{
-						if (strtotime($f->lu) <= strtotime($lu))
+						if (strtotime($f->lu) <= strtotime($lu) ||
+							strtotime($f->lu) < $now->time_t - 86400 && 0 == $lu)
+						{
+							// Not updated since
+							// Updated > 1 day ago and not in `flights` (maybe in `history` - too lazy to check)
 							$f->status = FlightStatus::IGNORE;
+						}
 
-						if (!(FlightStatus::IGNORE == $f->status))
+						if (FlightStatus::IGNORE == $f->status)
+						{
+							if (isset($DEBUG['sql']))
+								echo "/* ignored */\n";
+						}
+						else
 						{
 							$visits = 0;
 
-							if (FlightStatus::IGNORE == $f->status)
-							{
-								if (isset($DEBUG['sql']))
-									echo "/* ignored */\n";
-							}
-							else if (FlightStatus::CANCELLED == $f->status)
+							if (FlightStatus::CANCELLED == $f->status)
 							{
 								if ($f->id)
 								{
