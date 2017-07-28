@@ -58,6 +58,18 @@ if (isset($_GET['type']))
 	}
 }
 
+if (!$dir)
+{
+	$dir = preg_replace('/.*(arrival|departure)s(\.cargo)?\.json.*/', '\1',
+						$_SERVER['REQUEST_URI']);
+}
+
+if (!('arrival' == $dir ||
+	'departure' == $dir))
+{
+	die("Please specify `dir`.");
+}
+
 if (isset($_GET['time']))
 	$now =  strtotime($_GET['time']);
 
@@ -82,7 +94,7 @@ if ($html)
 <pre><?php
 }
 
-$today = strtotime('00:00:00+0100');
+$today = strtotime('00:00');
 $day = (int)(($now - $today) / 86400);
 $time = strftime('%H:%M', $now);
 
