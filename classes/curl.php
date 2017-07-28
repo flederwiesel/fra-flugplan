@@ -52,6 +52,13 @@ class curl
 			// but url would have needed a trailing backslash then...
 			curl_setopt($this->me, CURLOPT_FOLLOWLOCATION, 1);
 
+			// As we allow redirection, we might be redirected to a secure location.
+			// So better, we have the certificate at hand...
+			curl_setopt($this->me, CURLOPT_CAINFO, "$_SERVER[DOCUMENT_ROOT]/etc/ssl/fraport.pem");
+			// Now can securely connect with proper verification
+			curl_setopt($this->me, CURLOPT_SSL_VERIFYPEER, TRUE);
+			curl_setopt($this->me, CURLOPT_SSL_VERIFYHOST, 2);
+
 			// Should cURL return or print out the data? (true = return, false = print)
 			curl_setopt($this->me, CURLOPT_RETURNTRANSFER, TRUE);
 
