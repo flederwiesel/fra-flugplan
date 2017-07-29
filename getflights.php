@@ -269,6 +269,16 @@ function info($line, $text)
 	$info .= __FILE__."($line): $text\n";
 }
 
+function sqlErrorInfo($line, $obj, $query)
+{
+	$error = $obj->errorInfo();
+
+	return seterrorinfo($line,
+					sprintf("[%s-%s]: %s: %s",
+						$error[0], $error[1], $error[2],
+						unify_query($query)));
+}
+
 function unify_query($query)
 {
 	// Cleanup query for single line display with 1 space separator
@@ -662,20 +672,24 @@ function CURL_GetAirport(/* in */ $curl, /* in/out */ &$airport)
 {
 	global $DEBUG;
 	global $prefix;
+	global $db;
 
-	$result = mysql_query("SELECT `id`,`de`,`alpha-2` FROM `countries`");
+	$query = <<<SQL
+		SELECT `id`,`de`,`alpha-2`
+		FROM `countries`
+SQL;
 
-	if (!$result)
+	$st = $db->query($query);
+
+	if (!$st)
 	{
-		$error = seterrorinfo(__LINE__,
-					sprintf("[%d] %s: %s",
-						mysql_errno(), mysql_error(), unify_query($query)));
+		$error = sqlErrorInfo(__LINE__, $db, $query);
 	}
 	else
 	{
 		$countries = array();
 
-		while ($row = mysql_fetch_assoc($result))
+		while ($row = $st->fetch(PDO::FETCH_ASSOC))
 			$countries["$row[de]"] = $row['id'];
 
 		foreach (array( 'USA' => 'Vereinigte Staaten von Amerika',
@@ -1212,6 +1226,7 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 function SQL_GetAirline(/* in/out */ &$airline)
 {
 	global $DEBUG;
+	global $db;
 
 	// Is airline already in database?
 	$query = <<<SQL
@@ -1220,13 +1235,11 @@ function SQL_GetAirline(/* in/out */ &$airline)
 		WHERE `code`='$airline->code';
 SQL;
 
-	$result = mysql_query($query);
+	$st = $db->query($query);
 
-	if (!$result)
+	if (!$st)
 	{
-		$error = seterrorinfo(__LINE__,
-					sprintf("[%d] %s: %s",
-						mysql_errno(), mysql_error(), unify_query($query)));
+		$error = sqlErrorInfo(__LINE__, $db, $query);
 	}
 	else
 	{
@@ -1235,7 +1248,7 @@ SQL;
 		if (isset($DEBUG['sql']))
 			echo unify_query($query);
 
-		if (0 == mysql_num_rows($result))
+		if (0 == $st->rowCount())
 		{
 			if (isset($DEBUG['sql']))
 			{
@@ -1248,7 +1261,7 @@ SQL;
 		else
 		{
 			// Yes
-			$row = mysql_fetch_row($result);
+			$row = $st->fetch(PDO::FETCH_NUM);
 
 			if ($row)
 				$airline->id = $row[0];
@@ -1256,8 +1269,6 @@ SQL;
 			if (isset($DEBUG['sql']))
 				echo "=$airline->id\n";
 		}
-
-		mysql_free_result($result);
 	}
 
 	return $error;
@@ -1266,6 +1277,7 @@ SQL;
 function SQL_InsertAirline(/* in/out */ &$airline)
 {
 	global $DEBUG;
+	global $db;
 
 	if (0 == strlen($airline->code))
 	{
@@ -1283,17 +1295,15 @@ function SQL_InsertAirline(/* in/out */ &$airline)
 			VALUES('$airline->code', '$airline->name');
 SQL;
 
-		if (!mysql_query($query))
+		if ($db->exec($query) === FALSE)
 		{
 			$airline->id = NULL;
-			$error = seterrorinfo(__LINE__,
-						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), unify_query($query)));
+			$error = sqlErrorInfo(__LINE__, $db, $query);
 		}
 		else
 		{
 			$error = NULL;
-			$airline->id = mysql_insert_id();
+			$airline->id = $db->lastInsertId();
 
 			if (isset($DEBUG['sql']))
 			{
@@ -1309,6 +1319,7 @@ SQL;
 function SQL_GetAirport(/* in/out */ &$airport)
 {
 	global $DEBUG;
+	global $db;
 
 	$query = <<<SQL
 		SELECT DISTINCT `airports`.`id`
@@ -1316,13 +1327,11 @@ function SQL_GetAirport(/* in/out */ &$airport)
 		WHERE `iata`='$airport->iata';
 SQL;
 
-	$result = mysql_query($query);
+	$st = $db->query($query);
 
-	if (!$result)
+	if (!$st)
 	{
-		$error = seterrorinfo(__LINE__,
-					sprintf("[%d] %s: %s",
-						mysql_errno(), mysql_error(), unify_query($query)));
+		$error = sqlErrorInfo(__LINE__, $db, $query);
 	}
 	else
 	{
@@ -1331,7 +1340,7 @@ SQL;
 		if (isset($DEBUG['sql']))
 			echo unify_query($query);
 
-		if (0 == mysql_num_rows($result))
+		if (0 == $st->rowCount())
 		{
 			if (isset($DEBUG['sql']))
 			{
@@ -1347,7 +1356,7 @@ SQL;
 // distinguish which one is really meant, since json only contains iata code
 // For our tests to run, we simply fetch the last id to make the script select
 // the proper icao code for JNB...
-			while ($row = mysql_fetch_row($result))
+			while ($row = $st->fetch(PDO::FETCH_NUM))
 			{
 				if ($row)
 					$airport->id = $row[0];
@@ -1356,8 +1365,6 @@ SQL;
 					echo "=$airport->id\n";
 			}
 		}
-
-		mysql_free_result($result);
 	}
 
 	return $error;
@@ -1366,6 +1373,7 @@ SQL;
 function SQL_InsertAirport(/* in/out */ &$airport)
 {
 	global $DEBUG;
+	global $db;
 
 	if (0 == strlen($airport->iata) ||
 		0 == strlen($airport->icao))
@@ -1385,16 +1393,14 @@ function SQL_InsertAirport(/* in/out */ &$airport)
 				{$airport->country->id});
 SQL;
 
-		if (!mysql_query($query))
+		if ($db->exec($query) === FALSE)
 		{
-			$error = seterrorinfo(__LINE__,
-						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), unify_query($query)));
+			$error = sqlErrorInfo(__LINE__, $db, $query);
 		}
 		else
 		{
 			$error = NULL;
-			$airport->id = mysql_insert_id();
+			$airport->id = $db->lastInsertId();
 
 			if (isset($DEBUG['sql']))
 			{
@@ -1410,6 +1416,7 @@ SQL;
 function SQL_GetAircraftType(/* in/out*/ &$aircraft)
 {
 	global $DEBUG;
+	global $db;
 
 	$query = <<<SQL
 		SELECT `id`
@@ -1417,13 +1424,11 @@ function SQL_GetAircraftType(/* in/out*/ &$aircraft)
 		WHERE `icao`='{$aircraft->type->icao}';
 SQL;
 
-	$result = mysql_query($query);
+	$st = $db->query($query);
 
-	if (!$result)
+	if (!$st)
 	{
-		$error = seterrorinfo(__LINE__,
-					sprintf("[%d] %s: %s",
-						mysql_errno(), mysql_error(), unify_query($query)));
+		$error = sqlErrorInfo(__LINE__, $db, $query);
 	}
 	else
 	{
@@ -1432,7 +1437,7 @@ SQL;
 		if (isset($DEBUG['sql']))
 			echo unify_query($query);
 
-		if (0 == mysql_num_rows($result))
+		if (0 == $st->rowCount())
 		{
 			if (isset($DEBUG['sql']))
 			{
@@ -1444,7 +1449,7 @@ SQL;
 		}
 		else
 		{
-			$row = mysql_fetch_row($result);
+			$row = $st->fetch(PDO::FETCH_NUM);
 
 			if ($row)
 				$aircraft->type->id = $row[0];
@@ -1452,8 +1457,6 @@ SQL;
 			if (isset($DEBUG['sql']))
 				echo "={$aircraft->type->id}\n";
 		}
-
-		mysql_free_result($result);
 	}
 
 	return $error;
@@ -1462,6 +1465,7 @@ SQL;
 function SQL_InsertAircraftType(/* in/out */ &$aircraft)
 {
 	global $DEBUG;
+	global $db;
 
 	if (0 == strlen($aircraft->type->icao))
 	{
@@ -1476,16 +1480,14 @@ function SQL_InsertAircraftType(/* in/out */ &$aircraft)
 			VALUES('{$aircraft->type->icao}', '{$aircraft->type->name}');
 SQL;
 
-		if (!mysql_query($query))
+		if ($db->exec($query) === FALSE)
 		{
-			$error = seterrorinfo(__LINE__,
-						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), unify_query($query)));
+			$error = sqlErrorInfo(__LINE__, $db, $query);
 		}
 		else
 		{
 			$error = NULL;
-			$aircraft->type->id = mysql_insert_id();
+			$aircraft->type->id = $db->lastInsertId();
 
 			if (isset($DEBUG['sql']))
 			{
@@ -1499,6 +1501,7 @@ SQL;
 function SQL_GetAircraft(/* in/out*/ &$aircraft)
 {
 	global $DEBUG;
+	global $db;
 
 	$query = <<<SQL
 		SELECT `id`
@@ -1506,13 +1509,11 @@ function SQL_GetAircraft(/* in/out*/ &$aircraft)
 		WHERE `reg`='$aircraft->reg';
 SQL;
 
-	$result = mysql_query($query);
+	$st = $db->query($query);
 
-	if (!$result)
+	if (!$st)
 	{
-		$error = seterrorinfo(__LINE__,
-					sprintf("[%d] %s: %s",
-						mysql_errno(), mysql_error(), unify_query($query)));
+		$error = sqlErrorInfo(__LINE__, $db, $query);
 	}
 	else
 	{
@@ -1521,7 +1522,7 @@ SQL;
 		if (isset($DEBUG['sql']))
 			echo unify_query($query);
 
-		if (0 == mysql_num_rows($result))
+		if (0 == $st->rowCount())
 		{
 			if (isset($DEBUG['sql']))
 			{
@@ -1533,7 +1534,7 @@ SQL;
 		}
 		else
 		{
-			$row = mysql_fetch_row($result);
+			$row = $st->fetch(PDO::FETCH_NUM);
 
 			if ($row)
 				$aircraft->id = $row[0];
@@ -1541,8 +1542,6 @@ SQL;
 			if (isset($DEBUG['sql']))
 				echo "=$aircraft->id\n";
 		}
-
-		mysql_free_result($result);
 	}
 
 	return $error;
@@ -1551,6 +1550,7 @@ SQL;
 function SQL_InsertAircraft(/* in/out*/ &$aircraft)
 {
 	global $DEBUG;
+	global $db;
 
 	if (0 == strlen($aircraft->reg))
 	{
@@ -1567,16 +1567,14 @@ function SQL_InsertAircraft(/* in/out*/ &$aircraft)
 			VALUES('$aircraft->reg', {$aircraft->type->id});
 SQL;
 
-		if (!mysql_query($query))
+		if ($db->exec($query) === FALSE)
 		{
-			$error = seterrorinfo(__LINE__,
-						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), unify_query($query)));
+			$error = sqlErrorInfo(__LINE__, $db, $query);
 		}
 		else
 		{
 			$error = NULL;
-			$aircraft->id = mysql_insert_id();
+			$aircraft->id = $db->lastInsertId();
 
 			if (isset($DEBUG['sql']))
 			{
@@ -1592,6 +1590,7 @@ SQL;
 function SQL_GetFlightDetails(/* in */ $dir, /* in */ $f, /* out */ &$id, /* out */ &$ac, /* out */ &$lu)
 {
 	global $DEBUG;
+	global $db;
 
 	$query = <<<SQL
 		SELECT `id`, `aircraft`, `last update`
@@ -1602,13 +1601,11 @@ function SQL_GetFlightDetails(/* in */ $dir, /* in */ $f, /* out */ &$id, /* out
 		 AND `scheduled`='{$f->scheduled}'
 SQL;
 
-	$result = mysql_query($query);
+	$st = $db->query($query);
 
-	if (!$result)
+	if (!$st)
 	{
-		$error = seterrorinfo(__LINE__,
-					sprintf("[%d] %s: %s",
-						mysql_errno(), mysql_error(), unify_query($query)));
+		$error = sqlErrorInfo(__LINE__, $db, $query);
 	}
 	else
 	{
@@ -1617,7 +1614,7 @@ SQL;
 		if (isset($DEBUG['sql']))
 			echo unify_query($query);
 
-		$row = mysql_fetch_row($result);
+		$row = $st->fetch(PDO::FETCH_NUM);
 
 		if (FALSE == $row)
 		{
@@ -1638,8 +1635,6 @@ SQL;
 			if (isset($DEBUG['sql']))
 				echo "=$id,$ac,$lu\n";
 		}
-
-		mysql_free_result($result);
 	}
 
 	return $error;
@@ -1648,6 +1643,7 @@ SQL;
 function SQL_UpdateFlightDetails(/* in */ $id, /* in */ $f)
 {
 	global $DEBUG;
+	global $db;
 
 	// Don't overwrite `expected`/`airport` with NULL!
 
@@ -1676,11 +1672,9 @@ function SQL_UpdateFlightDetails(/* in */ $id, /* in */ $f)
 		WHERE `id`=$id;
 SQL;
 
-	if (!mysql_query($query))
+	if ($db->exec($query) === FALSE)
 	{
-		$error = seterrorinfo(__LINE__,
-					sprintf("[%d] %s: %s",
-						mysql_errno(), mysql_error(), unify_query($query)));
+		$error = sqlErrorInfo(__LINE__, $db, $query);
 	}
 	else
 	{
@@ -1699,6 +1693,7 @@ SQL;
 function SQL_InsertFlight(/*in*/ $type, /* in */ $dir, /* in/out */ &$f)
 {
 	global $DEBUG;
+	global $db;
 
 	if (NULL == $f->expected)
 	{
@@ -1728,11 +1723,9 @@ function SQL_InsertFlight(/*in*/ $type, /* in */ $dir, /* in/out */ &$f)
 		 $aircraft, $reg, $lu);
 SQL;
 
-	if (!mysql_query($query))
+	if ($db->exec($query) === FALSE)
 	{
-		$error = seterrorinfo(__LINE__,
-					sprintf("[%d] %s: %s",
-						mysql_errno(), mysql_error(), unify_query($query)));
+		$error = sqlErrorInfo(__LINE__, $db, $query);
 	}
 	else
 	{
@@ -1752,6 +1745,7 @@ SQL;
 function SQL_DeleteFlight($id)
 {
 	global $DEBUG;
+	global $db;
 
 	if (!$id)
 	{
@@ -1765,13 +1759,11 @@ function SQL_DeleteFlight($id)
 			WHERE `id`=$id
 SQL;
 
-		$result = mysql_query($query);
+		$result = $db->exec($query);
 
-		if (!$result)
+		if ($result === FALSE)
 		{
-			$error = seterrorinfo(__LINE__,
-						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), unify_query($query)));
+			$error = sqlErrorInfo(__LINE__, $db, $query);
 		}
 		else
 		{
@@ -1783,7 +1775,7 @@ SQL;
 				echo "=OK\n";
 			}
 
-			if (0 == mysql_affected_rows())
+			if (0 == $result)
 				warn_once(__LINE__, "No flight deleted: $id");
 		}
 	}
@@ -1794,6 +1786,7 @@ SQL;
 function SQL_UpdateVisitsToFra($scheduled, $reg, $op)
 {
 	global $DEBUG;
+	global $db;
 
 	$query = <<<SQL
 		SELECT `num`, `current`, `previous`
@@ -1801,13 +1794,11 @@ function SQL_UpdateVisitsToFra($scheduled, $reg, $op)
 		WHERE `aircraft`=$reg;
 SQL;
 
-	$result = mysql_query($query);
+	$st = $db->query($query);
 
-	if (!$result)
+	if (!$st)
 	{
-		$error = seterrorinfo(__LINE__,
-					sprintf("[%d] %s: %s",
-						mysql_errno(), mysql_error(), unify_query($query)));
+		$error = sqlErrorInfo(__LINE__, $db, $query);
 	}
 	else
 	{
@@ -1816,9 +1807,7 @@ SQL;
 		if (isset($DEBUG['sql']))
 			echo unify_query($query);
 
-		$row = mysql_fetch_assoc($result);
-
-		mysql_free_result($result);
+		$row = $st->fetch(PDO::FETCH_ASSOC);
 
 		if (!$row)
 		{
@@ -1906,22 +1895,18 @@ SQL;
 							) AS `flights`
 SQL;
 
-						$result = mysql_query($query);
+						$st = $db->query($query);
 
-						if (!$result)
+						if (!$st)
 						{
-							$error = seterrorinfo(__LINE__,
-										sprintf("[%d] %s: %s",
-											mysql_errno(), mysql_error(), unify_query($query)));
+							$error = sqlErrorInfo(__LINE__, $db, $query);
 						}
 						else
 						{
 							if (isset($DEBUG['sql']))
 								echo unify_query($query);
 
-							$row = mysql_fetch_assoc($result);
-
-							mysql_free_result($result);
+							$row = $st->fetch(PDO::FETCH_ASSOC);
 
 							if ($row)
 							{
@@ -1943,6 +1928,8 @@ SQL;
 								}
 							}
 						}
+
+						$query = NULL;
 					}
 
 					if ($previous)
@@ -1960,9 +1947,9 @@ SQL;
 
 		if ($query)
 		{
-			if (!mysql_query($query))
+			if ($db->exec($query) === FALSE)
 			{
-				$error = seterrorinfo(__LINE__, $query.": ".mysql_error());
+				$error = sqlErrorInfo(__LINE__, $db, $query);
 			}
 			else
 			{
@@ -1983,6 +1970,7 @@ SQL;
 function SQL_DeleteNotifications($id, $all)
 {
 	global $DEBUG;
+	global $db;
 
 	if (!$id)
 	{
@@ -2001,13 +1989,9 @@ function SQL_DeleteNotifications($id, $all)
 			WHERE `flight`={$id}{$cond}
 SQL;
 
-		$result = mysql_query($query);
-
-		if (!$result)
+		if ($db->exec($query) === FALSE)
 		{
-			$error = seterrorinfo(__LINE__,
-						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), unify_query($query)));
+			$error = sqlErrorInfo(__LINE__, $db, $query);
 		}
 		else
 		{
@@ -2026,52 +2010,52 @@ SQL;
 
 function SQL_FlightsToHistory()
 {
-	$error = NULL;
-	$result = mysql_query('START TRANSACTION');
+	global $db;
 
-	if (!$result)
+	$error = NULL;
+
+	if (!$db->beginTransaction())
 	{
-		$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
+		$error = sqlErrorInfo(__LINE__, $db, "beginTransaction()");
 	}
 	else
 	{
-		$result = mysql_query('CREATE TEMPORARY TABLE `move flights`(`id` integer)');
+		$query = 'CREATE TEMPORARY TABLE `move flights`(`id` integer)';
 
-		if (!$result)
+		if ($db->exec($query) === FALSE)
 		{
-			$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
+			$error = sqlErrorInfo(__LINE__, $db, $query);
 		}
 		else
 		{
 			$query = <<<SQL
-							INSERT INTO `move flights`
-								SELECT `id`
-								FROM `flights`
-								WHERE (DATEDIFF(NOW(), IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 2)
-								LIMIT 100
+				INSERT INTO `move flights`
+					SELECT `id`
+					FROM `flights`
+					WHERE (DATEDIFF(NOW(), IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 2)
+					LIMIT 100
 SQL;
 
-			$result = mysql_query($query);
-
-			if (!$result)
+			if ($db->exec($query) === FALSE)
 			{
-				$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
+				$error = sqlErrorInfo(__LINE__, $db, $query);
 			}
 			else
 			{
-				$result = mysql_query("INSERT INTO `history`".
-									  "  SELECT * FROM `flights`".
-									  "    INNER JOIN `move flights` USING(`id`);");
+				$query = <<<SQL
+					INSERT INTO `history`
+					SELECT * FROM `flights`
+						INNER JOIN `move flights` USING(`id`)
+SQL;
 
-				if (!$result)
+				if ($db->exec($query) === FALSE)
 				{
-					$error = mysql_errno();
-					$result = mysql_error();
+					$error = $db->errorInfo();
 
 					// [1062] Duplicate entry 'arrival-67-511-2014-04-27 11:15:00'
-					if (1062 == $error)
+					if (1062 == $error[1])
 					{
-						if (preg_match("/(.*Duplicate entry ')([^']+)('.*)/i", $result, $m))
+						if (preg_match("/(.*Duplicate entry ')([^']+)('.*)/i", $error[2], $m))
 						{
 							$result = sprintf("%s<a href='http://$_SERVER[SERVER_NAME]/".
 											  "?page=rmdup&key=%s'>%s</a>%s",
@@ -2079,24 +2063,32 @@ SQL;
 						}
 					}
 
-					$error = seterrorinfo(__LINE__, sprintf("[%d] %s", $error, $result));
+					$error = sqlErrorInfo(__LINE__, $db, $query);
 				}
 				else
 				{
-					$result = mysql_query("DELETE `flights` FROM `flights`".
-										  "  INNER JOIN `move flights` USING(`id`)");
+					$query = <<<SQL
+						DELETE `flights` FROM `flights`
+						INNER JOIN `move flights` USING(`id`)
+SQL;
 
-					if (!$result)
-						$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
+					if ($db->exec($query) === FALSE)
+						$error = sqlErrorInfo(__LINE__, $db, $query);
 				}
 			}
 		}
 	}
 
-	$result = mysql_query($error ? 'ROLLBACK' : 'COMMIT');
-
-	if (!$result)
-		$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
+	if ($error)
+	{
+		if (!$db->rollBack())
+			$error = sqlErrorInfo(__LINE__, $db, "rollBack()");
+	}
+	else
+	{
+		if (!$db->commit())
+			$error = sqlErrorInfo(__LINE__, $db, "commit()");
+	}
 
 	return $error;
 }
@@ -2105,6 +2097,7 @@ function SendWatchlistNotification($name, $email, $fmt, $locale, $notifications)
 {
 	global $DEBUG;
 	global $now;
+	global $db;
 
 	if ('de' == $locale)
 	{
@@ -2201,52 +2194,11 @@ SQL;
 		if (isset($DEBUG['sql']))
 			echo unify_query($query);
 
-		if (mysql_query($query))
+		if ($db->exec($query) === FALSE)
+			$error = sqlErrorInfo(__LINE__, $db, $query);
+		else
 			$error = NULL;
-		else
-			$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
 	}
-}
-
-function mysql_connect_db(&$hdbc)
-{
-	$hdbc = mysql_connect(DB_HOSTNAME, DB_USERNAME, DB_PASSWORD);
-
-	if (!$hdbc)
-	{
-		$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
-	}
-	else
-	{
-		if (!mysql_select_db(DB_NAME, $hdbc))
-		{
-			$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
-		}
-		else
-		{
-			mysql_set_charset("utf8");
-
-			$result = mysql_query("SELECT `id` FROM `users` WHERE `name`='root'");
-
-			if (!$result)
-			{
-				$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
-			}
-			else
-			{
-				$row = mysql_fetch_row($result);
-
-				if (!$row)
-					$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
-				else
-					$error = NULL;
-
-				mysql_free_result($result);
-			}
-		}
-	}
-
-	return $error;
 }
 
 // main()
@@ -2264,11 +2216,23 @@ catch (Exception $e)
 
 if (!$error)
 {
-	if (!$error)
-		$error = mysql_connect_db($hdbc);
+	try
+	{
+		$db = new PDO(sprintf("mysql:host=%s;dbname=%s;charset=utf8",
+						DB_HOSTNAME, DB_NAME),
+						DB_USERNAME, DB_PASSWORD);
+	}
+	catch(PDOException $e)
+	{
+		$error = sprintf($lang['dberror'], $e->getCode());
+		// TODO: Log to file:
+		//$error = $e->getMessage();
+	}
 
 	if (!$error)
 	{
+		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
+
 		// Iterate through [pax,cargo] [arrival, departure] tables
 		foreach (array('P', 'C') as $type)
 		{
@@ -2541,11 +2505,9 @@ if (!$error)
 			FOR UPDATE
 SQL;
 
-		if (!mysql_query($query))
+		if ($db->exec($query) === FALSE)
 		{
-			$error = seterrorinfo(__LINE__,
-						sprintf("[%d] %s: %s",
-							mysql_errno(), mysql_error(), unify_query($query)));
+			$error = sqlErrorInfo(__LINE__, $db, $query);
 		}
 		else
 		{
@@ -2587,13 +2549,11 @@ SQL;
 					`expected` ASC
 SQL;
 
-			$result = mysql_query($query);
+			$st = $db->query($query);
 
-			if (!$result)
+			if (!$st)
 			{
-				$error = seterrorinfo(__LINE__,
-							sprintf("[%d] %s: %s",
-								mysql_errno(), mysql_error(), unify_query($query)));
+				$error = sqlErrorInfo(__LINE__, $db, $query);
 			}
 			else
 			{
@@ -2609,7 +2569,7 @@ SQL;
 
 				$notifications = array();
 
-				$row = mysql_fetch_assoc($result);
+				$row = $st->fetch(PDO::FETCH_ASSOC);
 
 				while ($row)
 				{
@@ -2640,15 +2600,13 @@ SQL;
 							'comment'  => $row['comment'],
 						);
 
-					$row = mysql_fetch_assoc($result);
+					$row = $st->fetch(PDO::FETCH_ASSOC);
 				}
 
 				if ($email)
 					SendWatchlistNotification($name, $email, $fmt, $lang, $notifications);
 
 				unset($notifications);
-
-				mysql_free_result($result);
 			}
 		}
 
@@ -2664,14 +2622,12 @@ SQL;
 		if (isset($DEBUG['sql']))
 			echo unify_query($query);
 
-		if (!mysql_query($query))
-			$error = seterrorinfo(__LINE__, sprintf("[%d] %s", mysql_errno(), mysql_error()));
+		if ($db->exec($query) === FALSE)
+			$error = sqlErrorInfo(__LINE__, $db, $query);
 
 		/* Move outdated flights to history table */
 		if (!$error)
 			$error = SQL_FlightsToHistory();
-
-		mysql_close($hdbc);
 	}
 
 	/* betriebsrichtung.html */
