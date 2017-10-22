@@ -2044,8 +2044,8 @@ SQL;
 			{
 				$query = <<<SQL
 					INSERT INTO `history`
-					SELECT * FROM `flights`
-						INNER JOIN `move flights` USING(`id`)
+						SELECT * FROM `flights`
+							INNER JOIN `move flights` USING(`id`)
 SQL;
 
 				if ($db->exec($query) === FALSE)
@@ -2631,7 +2631,7 @@ SQL;
 	}
 
 	/* betriebsrichtung.html */
-	$url = "http://${prefix}apps.fraport.de/betriebsrichtung/betriebsrichtung.html";
+	$url = "http://${prefix}applics.fraport.de/betriebsrichtung/betriebsrichtung.html";
 
 	do
 	{
