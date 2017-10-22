@@ -15,6 +15,7 @@
  ******************************************************************************/
 
 // http://php.net/manual/en/curl.constants.php
+// https://curl.haxx.se/libcurl/c/libcurl-errors.html
 if (!defined('CURLE_OPERATION_TIMEDOUT'))
 	define('CURLE_OPERATION_TIMEDOUT', CURLE_OPERATION_TIMEOUTED);
 
@@ -75,13 +76,21 @@ class curl
 			{
 				if (file_exists($curlrc))
 				{
-					$curlrc = file($curlrc);
+					$curlrc = parse_ini_file($curlrc);
 
 					if ($curlrc)
 					{
-						curl_setopt($this->me, CURLOPT_HTTPPROXYTUNNEL, 0);
-						curl_setopt($this->me, CURLOPT_PROXY, trim($curlrc[0]));
-						curl_setopt($this->me, CURLOPT_PROXYUSERPWD, trim($curlrc[1]));
+						// noproxy = localhost
+						if (isset($curlrc['noproxy']) && defined(CURLOPT_NOPROXY))
+							curl_setopt($this->me, CURLOPT_NOPROXY, trim($curlrc['noproxy']));
+
+						// proxy = proxy.domain.tld:3128
+						if (isset($curlrc['proxy']))
+							curl_setopt($this->me, CURLOPT_PROXY, trim($curlrc['proxy']));
+
+						// proxy-user = user:********
+						if (isset($curlrc['proxy-user']))
+							curl_setopt($this->me, CURLOPT_PROXYUSERPWD, trim($curlrc['proxy-user']));
 
 						unset($curlrc);
 					}
