@@ -20,7 +20,7 @@ $message = NULL;
 ?>
 <div style="margin: 1em 0; padding: 1em 0.5em; border: 1px solid grey; font-size: 11pt"><?php
     echo sprintf('de' == $_SESSION['lang'] ?
-                 'Beachtet auch mein neustes Projekt, den %s Bildschirschoner.' :
+                 'Beachtet auch mein neustes Projekt, den %s Bildschirmschoner.' :
                  'Check out my latest project, the %s screensaver.',
             sprintf('<a href="%s"><span style="font-weight: bold; font-style: italic">FRA-airtraffic</span></a>',
                 sprintf('https://github.com/flederwiesel/fra-airtraffic/blob/master/README%s.md',
