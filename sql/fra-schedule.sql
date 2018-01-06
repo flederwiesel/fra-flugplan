@@ -92,6 +92,8 @@ CREATE TABLE `airlines`
 (
 	`id` integer NOT NULL AUTO_INCREMENT,
 	`code` varchar(3) NOT NULL,
+	`iata` varchar(2) DEFAULT NULL,
+	`icao` varchar(3) DEFAULT NULL,
 	`name` varchar(128) DEFAULT NULL,
 	CONSTRAINT `pk:airlines(id)` PRIMARY KEY (`id`),
 	UNIQUE KEY `u:airlines(code)`(`code`)
