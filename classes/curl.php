@@ -81,7 +81,7 @@ class curl
 					if ($curlrc)
 					{
 						// noproxy = localhost
-						if (isset($curlrc['noproxy']) && defined(CURLOPT_NOPROXY))
+						if (isset($curlrc['noproxy']) && defined('CURLOPT_NOPROXY'))
 							curl_setopt($this->me, CURLOPT_NOPROXY, trim($curlrc['noproxy']));
 
 						// proxy = proxy.domain.tld:3128
