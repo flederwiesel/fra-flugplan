@@ -203,7 +203,7 @@ sed "s/^[[:space:]]*define('DEBUG'.*$/\/\/&/" --in-place ../.config
 
 ###############################################################################
 
-datadir="${prj%%/htdocs/*}/htdocs/var/run/fra-flugplan"
+datadir="${prj%%/htdocs/*}/htdocs/var/run/fra-schedule"
 
 mkdir -p "$datadir"
 # Runways 18,99 in use

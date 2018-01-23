@@ -19,7 +19,7 @@
  *  Debug options: debug=[url,json,jflights,flights,sql]
  *                 fmt=[htm|html|...]
  *
- *   Test options: prefix=localhost/fra-schedule/fra-schedule-trunk/
+ *   Test options: prefix=localhost/fra-flugplan/fra-flugplan-trunk/
  *                 time={localtime as '%Y-%m-%dT%H:%M:%S%z'}
  *
  ******************************************************************************/
