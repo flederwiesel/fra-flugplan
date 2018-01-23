@@ -715,7 +715,8 @@ SQL;
 						'Bangladesh' => 'Bangladesch',
 						) as $alias => $name)
 		{
-			$countries["$alias"] = $countries["$name"];
+			if (isset($countries["$name"]))
+				$countries["$alias"] = $countries["$name"];
 		}
 
 		$error = NULL;
@@ -2641,32 +2642,58 @@ SQL;
 	}
 
 	/* betriebsrichtung.html */
-	$url = "http://${prefix}applics.fraport.de/betriebsrichtung/betriebsrichtung.html";
+	$file = @fopen("$datadir/betriebsrichtung.ini", "w");
 
-	do
+	if ($file)
 	{
-		/* Set script execution limit. If set to zero, no time limit is imposed. */
-		set_time_limit(0);
+		$url = "http://${prefix}applics.fraport.de/betriebsrichtung/betriebsrichtungsvg.js";
 
-		$error = $curl->exec($url, $betriebsrichtung, 5);
-	}
-	while (!$error && !$betriebsrichtung && --$retry);
-
-	if ($error)
-	{
-		/* This is certainly a html error document... */
-		$betriebsrichtung = unify_html($betriebsrichtung);
-		$error = seterrorinfo(__LINE__, "$error: $url: `$betriebsrichtung`");
-	}
-	else
-	{
-		$file = @fopen("$datadir/betriebsrichtung.html", "w");
-
-		if ($file)
+		do
 		{
-			fwrite($file, $betriebsrichtung);
-			fclose($file);
+			/* Set script execution limit. If set to zero, no time limit is imposed. */
+			set_time_limit(0);
+
+			$error = $curl->exec($url, $betriebsrichtung, 5);
 		}
+		while (!$error && !$betriebsrichtung && --$retry);
+
+		if ($error)
+		{
+			/* This is certainly a html error document... */
+			$betriebsrichtung = unify_html($betriebsrichtung);
+			$error = seterrorinfo(__LINE__, "$error: $url: `$betriebsrichtung`");
+		}
+		else
+		{
+			$line = strtok($betriebsrichtung, "\n");
+
+			while ($line)
+			{
+				if (strstr($line, '<h2>Betriebsrichtung</h2>'))
+				{
+					$line = strtok("\n");
+
+					if ($line)
+						if (preg_match("/<p>[ \t]*(07|25|99)[ \t]*/", $line, $match))
+							fwrite($file, "$match[1] = active\n");
+				}
+				else if (strstr($line, '<p>18 West<br/>'))
+				{
+					$line = strtok("\n");
+
+					if ($line)
+					{
+						$rwy18 = strstr($line, "in Betrieb") ? '' : 'in';
+						fwrite($file, "18 = active\n");
+						break;
+					}
+				}
+
+				$line = strtok("\n");
+			}
+		}
+
+		fclose($file);
 	}
 
 	unset($curl);

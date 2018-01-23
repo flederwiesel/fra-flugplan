@@ -198,17 +198,18 @@ mkdir -p sh/results
 # Test in release mode
 sed "s/^[[:space:]]*define('DEBUG'.*$/\/\/&/" --in-place ../.config
 
-# No mainteance...
+# No maintenance...
 [ -e ../adminmessage.php ] && mv ../adminmessage.php ../~adminmessage.php
 
 ###############################################################################
 
-datadir="${prj%%/htdocs/*}/var/run/fra-schedule"
+datadir="${prj%%/htdocs/*}/htdocs/var/run/fra-flugplan"
 
 mkdir -p "$datadir"
-cat > "$datadir/betriebsrichtung.html" <<EOF
-<li><div><div class="titel" style=" padding-top:6px;margin-bottom:0px;padding-bottom:3px;">+++ Betriebsrichtung +++ </div><div style="font-size:12px;"><b> 99 </b></div><div style="font-size:12px;padding-right:125px;"> seit 00.00.0000, 00:00:00</div></div>   </li>
-<li><div><div class="titel" style=" padding-top:6px;margin-bottom:0px;padding-bottom:3px;">+++ Startbahn +++</div> <div style="font-size:12px;"><b>18 West</b></div><div style="font-size:12px;padding-right:125px;"> in Betrieb</div></div></li>
+# Runways 18,99 in use
+cat <<EOF > "$datadir/betriebsrichtung.ini"
+18 = active
+99 = active
 EOF
 
 ###############################################################################

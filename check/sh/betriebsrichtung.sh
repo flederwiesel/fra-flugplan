@@ -37,9 +37,5 @@ findroot() {
 
 datadir=$(findroot "${BASH_SOURCE[0]}")
 
-check "1" browse "$url/www.frankfurt-airport.com/betriebsrichtung/betriebsrichtung.html" \
-	"| tee $datadir/var/run/fra-schedule/betriebsrichtung.html" \
-	"| sed -r '
-		s/[0-9]{2}:[0-9]{2}:[0-9]{2}/00:00:00/g
-		s/[0-9]{2}.[0-9]{2}.[0-9]{4}/00.00.0000/g
-	'"
+check "1" browse "$url/www.frankfurt-airport.com/betriebsrichtung/betriebsrichtungsvg.js" \
+	"| tee $datadir/var/run/fra-schedule/betriebsrichtung.ini"

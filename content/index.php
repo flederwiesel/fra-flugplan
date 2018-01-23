@@ -224,53 +224,50 @@ else
  * Runway direction
  ******************************************************************************/
 
-$datadir = "$_SERVER[DOCUMENT_ROOT]/var/run/fra-schedule";
-
-$file = @file("$datadir/betriebsrichtung.html");
-
-if (!$file)
-{
-	$rwydir = '??';
-}
-else
-{
-	$rwydir = '';
-	$oneeight = 0;
-	$fmt = '<span>%s</span>';
-
-	foreach ($file as $line)
-	{
-		if (strstr($line, "Betriebsrichtung"))
-		{
-			if (preg_match("/<b>[ \t]*(07|25|99)[ \t]*/", $line, $match))
-				$rwydir = $match[1];
-		}
-		else
-		{
-			if (strstr($line, "18 West"))
-				$oneeight = strstr($line, "in Betrieb") ? 1 : 0;
-		}
-	}
-
-	if (strlen($rwydir))
-	{
-		if ('departure' == $dir)
-		{
-			if ('07' == $rwydir)
-				$rwydir = sprintf($fmt, $rwydir.($oneeight ? ' | 18' : ''));
-			else
-				$rwydir = sprintf($fmt, ($oneeight ? '18 | ' : '').$rwydir);
-		}
-	}
-}
-
 ?>
 <div id="rwy_cont">
 	<div id="rwy_div" style="float: <?php echo 'arrival' == $dir ? 'left' : 'right'; ?> ;">
 		<span id="rwy_l" style="vertical-align: middle;">
 			<img alt="<?php echo $lang['rwydir']; ?>" src="img/<?php echo $dir; ?>-yellow-16x14.png">
 		</span>
-		<span id="rwy_r"><?php echo $rwydir; ?></span>
+		<span id="rwy_r"><?php
+			$datadir = "$_SERVER[DOCUMENT_ROOT]/var/run/fra-flugplan";
+
+			$rwy = @parse_ini_file("$datadir/betriebsrichtung.ini");
+
+			if (isset($rwy['07']))
+				echo "07";
+
+			if ('departure' == $dir)
+			{
+				if (isset($rwy['18']))
+				{
+					if (isset($rwy['07']))
+						echo " | ";
+
+					echo "18";
+				}
+			}
+
+			if (isset($rwy['25']))
+			{
+				if ('departure' == $dir)
+					if (isset($rwy['18']))
+						echo " | ";
+
+				echo "25";
+			}
+
+			/* used whilst testing... */
+			if (isset($rwy['99']))
+			{
+				if ('departure' == $dir)
+					if (isset($rwy['18']))
+						echo " | ";
+
+				echo "99";
+			}
+		?></span>
 	</div>
 </div>
 <?php
