@@ -324,17 +324,18 @@ function /* char *error */ LoginUserSql($db, $byid, $id, /* __in __out */ &$pass
 	$user = null;
 	$error = null;
 
-	$query = sprintf(<<<SQL
+	$query = <<<SQL
 		/*[Q1]*/
 		SELECT `%s`, `passwd`, `salt`, `email`, `timezone`, `language`,
 			`token_type`, `tm-`, `tm+`, `tt-`, `tt+`,
 			`notification-from`, `notification-until`, `notification-timefmt`
-		FROM `users` WHERE `%s`=?
-SQL
-					,
+		FROM `users`
+		WHERE `%s`=?
+SQL;
+
+	$query = sprintf($query,
 					 $byid ? 'name' : 'id',
-					 $byid ? 'id' : 'name',
-					 $id);
+					 $byid ? 'id' : 'name');
 
 	$st = $db->prepare($query);
 
@@ -822,13 +823,15 @@ SQL;
 				}
 				else
 				{
-					$st = $db->query(<<<SQL
+					$query = <<<SQL
 						/*[Q7]*/
 						SELECT `id`,`token_expires`
 						FROM `users`
 						WHERE `id`=LAST_INSERT_ID()
-SQL
-					);
+SQL;
+
+					$st = $db->query($query);
+
 					if (!$st)
 					{
 						$error = sprintf($lang['dberror'], $db->errorCode());
@@ -1036,13 +1039,12 @@ function /* char *error */ ActivateUserSql($db, $user, $token)
 	$now = null;
 	$error = null;
 
-	$query = sprintf(<<<SQL
+	$query = <<<SQL
 		/*[Q9]*/
 		SELECT `id`, `token`, `token_type`, UTC_TIMESTAMP() as `now`,
 			(SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`)) AS `expires`
 		FROM `users` WHERE `name`=?
-SQL
-	);
+SQL;
 
 	$st = $db->prepare($query);
 
@@ -1235,14 +1237,15 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 	}
 	else
 	{
-		$query = sprintf(<<<SQL
+		$query = <<<SQL
 			/*[Q11]*/
 			SELECT `id`, `name`, `email`, `token_type`,
 				IF (ISNULL(`token_expires`), %lu,
 					(SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`))) AS `expires`
 			FROM `users` WHERE $where
-SQL
-				, TOKEN_LIFETIME);
+SQL;
+
+		$query = sprintf($query, TOKEN_LIFETIME);
 	}
 
 	if (!$error)
@@ -1349,14 +1352,15 @@ SQL
 	{
 		$token = token();
 
-		$query = sprintf(<<<SQL
+		$query = <<<SQL
 			/*[Q12]*/
 			UPDATE `users`
 			SET `token`='$token', `token_type`='password',
 				`token_expires`=FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu)
 			WHERE `id`=$uid
-SQL
-			, TOKEN_LIFETIME);
+SQL;
+
+		$query = sprintf($query, TOKEN_LIFETIME);
 
 		if (!$db->exec($query))
 		{
@@ -1486,14 +1490,14 @@ function /* char *error */ ChangePasswordSql($db, $user, $token, $password)
 	$uid = null;
 	$now = null;
 	$error = null;
+	$column = isset($token) ? ', `token`' : '';
 
-	$query = sprintf(<<<SQL
+	$query = <<<SQL
 		/*[Q14]*/
 		SELECT `id`,
-			(SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`)) AS `expires`%s
+			(SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`)) AS `expires`$column
 		FROM `users` WHERE `name`=?
-SQL
-		, isset($token) ? ', `token`' : '');
+SQL;
 
 	$st = $db->prepare($query);
 
