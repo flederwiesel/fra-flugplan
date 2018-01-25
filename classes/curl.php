@@ -69,7 +69,9 @@ class curl
 			// Timeout in seconds
 			curl_setopt($this->me, CURLOPT_CONNECTTIMEOUT, 10);
 
-			// Need to use a proxy?
+			// Process options from .curlrc
+			// Path to this file can be set in apache server env
+			// https://curl.haxx.se/docs/manpage.html
 			$curlrc = getenv('curlrc');
 
 			if ($curlrc)
