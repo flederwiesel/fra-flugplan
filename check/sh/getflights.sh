@@ -184,6 +184,7 @@ SQL
 			s#(FROM_UNIXTIME\()[0-9]+#\10#g
 			s#(http://[^/]+/).*/(www.frankfurt-airport.com/.*)#\1.../\2#g
 			s#(\`(current|previous)\`=)[0-9]+#\10#g
+			s#/\*\[Q[0-9]+\]\*/ *##g
 			/: Inserted airport/d
 			'"
 
@@ -282,6 +283,7 @@ do
 		s/(T[0-9]{2}%3A[0-9]{2}%3A00%2B0)[12](00)/\10\2/g
 		s#(FROM_UNIXTIME\()[0-9]+#\10#g
 		s#(http://[^/]+/).*/(www.frankfurt-airport.com/.*)#\1.../\2#g
+		s#/\*\[Q[0-9]+\]\*/ *##g
 		'"
 
 	notifications=$(query --execute='USE `flederwiesel_fra-schedule`;

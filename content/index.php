@@ -56,6 +56,7 @@ if (isset($_POST['add']) ||
 								}
 
 								$query = <<<SQL
+									/*[Q16]*/
 									DELETE `watchlist-notifications`
 									FROM `watchlist-notifications`
 									INNER JOIN (SELECT `id` FROM `watchlist`
@@ -79,6 +80,7 @@ SQL;
 									else
 									{
 										$query = <<<SQL
+											/*[Q17]*/
 											DELETE FROM `watchlist`
 											WHERE `user`=$uid
 												AND `reg`=?
@@ -127,6 +129,7 @@ SQL;
 										$notif_req = TRUE;
 
 									$query = <<<SQL
+										/*[Q18]*/
 										INSERT INTO `watchlist`(`user`,`reg`,`comment`, `notify`)
 										VALUES($uid, :reg, :comment, :notify)
 										ON DUPLICATE KEY UPDATE `comment`=:comment, `notify`=:notify
@@ -282,6 +285,7 @@ if ($user)
 	if ($db)
 	{
 		$query = <<<SQL
+			/*[Q19]*/
 			SELECT `reg`, `comment`, `notify`
 			FROM `watchlist`
 			WHERE `user`=?
@@ -515,6 +519,7 @@ $columns .= <<<EOF
 EOF;
 
 $query = <<<EOF
+	/*[Q20]*/
 	SELECT $columns
 	FROM `flights`
 	 LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id`

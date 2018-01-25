@@ -685,6 +685,7 @@ function CURL_GetAirport(/* in */ $curl, /* in/out */ &$airport)
 	global $db;
 
 	$query = <<<SQL
+		/*[Q21]*/ 
 		SELECT `id`,`de`,`alpha-2`
 		FROM `countries`
 SQL;
@@ -1241,6 +1242,7 @@ function SQL_GetAirline(/* in/out */ &$airline)
 
 	// Is airline already in database?
 	$query = <<<SQL
+		/*[Q22]*/
 		SELECT `id`
 		FROM `airlines`
 		WHERE `code`='$airline->code';
@@ -1302,6 +1304,7 @@ function SQL_InsertAirline(/* in/out */ &$airline)
 			$airline->name = addslashes($airline->name);
 
 		$query = <<<SQL
+			/*[Q23]*/
 			INSERT INTO `airlines`(`code`, `name`)
 			VALUES('$airline->code', '$airline->name');
 SQL;
@@ -1333,6 +1336,7 @@ function SQL_GetAirport(/* in/out */ &$airport)
 	global $db;
 
 	$query = <<<SQL
+		/*[Q24]*/
 		SELECT DISTINCT `airports`.`id`
 		FROM `airports`
 		WHERE `iata`='$airport->iata';
@@ -1396,6 +1400,7 @@ function SQL_InsertAirport(/* in/out */ &$airport)
 		$airport->name = addslashes($airport->name);
 
 		$query = <<<SQL
+			/*[Q25]*/
 			INSERT INTO `airports`(`iata`, `icao`, `name`, `country`)
 			VALUES(
 				'$airport->iata',
@@ -1430,6 +1435,7 @@ function SQL_GetAircraftType(/* in/out*/ &$aircraft)
 	global $db;
 
 	$query = <<<SQL
+		/*[Q26]*/
 		SELECT `id`
 		FROM `models`
 		WHERE `icao`='{$aircraft->type->icao}';
@@ -1487,6 +1493,7 @@ function SQL_InsertAircraftType(/* in/out */ &$aircraft)
 		$aircraft->type->name = addslashes($aircraft->type->name);
 
 		$query = <<<SQL
+			/*[Q27]*/
 			INSERT INTO `models`(`icao`,`name`)
 			VALUES('{$aircraft->type->icao}', '{$aircraft->type->name}');
 SQL;
@@ -1515,6 +1522,7 @@ function SQL_GetAircraft(/* in/out*/ &$aircraft)
 	global $db;
 
 	$query = <<<SQL
+		/*[Q28]*/
 		SELECT `id`
 		FROM `aircrafts`
 		WHERE `reg`='$aircraft->reg';
@@ -1574,6 +1582,7 @@ function SQL_InsertAircraft(/* in/out*/ &$aircraft)
 	else
 	{
 		$query = <<<SQL
+			/*[Q29]*/
 			INSERT INTO `aircrafts`(`reg`,`model`)
 			VALUES('$aircraft->reg', {$aircraft->type->id});
 SQL;
@@ -1604,6 +1613,7 @@ function SQL_GetFlightDetails(/* in */ $dir, /* in */ $f, /* out */ &$id, /* out
 	global $db;
 
 	$query = <<<SQL
+		/*[Q30]*/
 		SELECT `id`, `aircraft`, `last update`
 		FROM `flights`
 		WHERE `direction`='$dir'
@@ -1675,6 +1685,7 @@ function SQL_UpdateFlightDetails(/* in */ $id, /* in */ $f)
 	$reg = $f->aircraft->id ? $f->aircraft->id : "NULL";
 
 	$query = <<<SQL
+		/*[Q31]*/
 		UPDATE `flights`
 		SET $expected
 		 $airport
@@ -1723,6 +1734,7 @@ function SQL_InsertFlight(/*in*/ $type, /* in */ $dir, /* in/out */ &$f)
 	$lu = $f->lu ? "'$f->lu'" : "NULL";
 
 	$query = <<<SQL
+		/*[Q32]*/
 		INSERT INTO `flights`
 		(`direction`, `type`, `airline`, `code`,
 		 `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`)
@@ -1765,6 +1777,7 @@ function SQL_DeleteFlight($id)
 	else
 	{
 		$query = <<<SQL
+			/*[Q33]*/
 			DELETE
 			FROM `flights`
 			WHERE `id`=$id
@@ -1800,6 +1813,7 @@ function SQL_UpdateVisitsToFra($scheduled, $reg, $op)
 	global $db;
 
 	$query = <<<SQL
+		/*[Q34]*/
 		SELECT `num`, `current`, `previous`
 		FROM `visits`
 		WHERE `aircraft`=$reg;
@@ -1837,6 +1851,7 @@ SQL;
 			else
 			{
 				$query = <<<SQL
+					/*[Q35]*/
 					INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`)
 					VALUES($reg, 1, '$scheduled', NULL);
 SQL;
@@ -1864,6 +1879,7 @@ SQL;
 					$previous = $current ? "'$current'" : "NULL";
 
 					$query = <<<SQL
+						/*[Q36]*/
 						UPDATE `visits`
 						SET `num`=$num,
 							`current`='$scheduled',
@@ -1881,6 +1897,7 @@ SQL;
 				else if ($num == 1)
 				{
 					$query = <<<SQL
+						/*[Q37]*/
 						DELETE FROM `visits`
 						WHERE `aircraft`=$reg
 SQL;
@@ -1893,6 +1910,7 @@ SQL;
 					if (!$previous)
 					{
 						$query = <<<SQL
+							/*[Q38]*/
 							SELECT MAX(`scheduled`) AS `scheduled`
 							FROM
 							(
@@ -1946,7 +1964,9 @@ SQL;
 					if ($previous)
 					{
 						$num--;
+
 						$query = <<<SQL
+							/*[Q39]*/
 							UPDATE `visits`
 							SET `num`=$num, `current`='$previous', `previous`=NULL
 							WHERE `aircraft`=$reg
@@ -1995,6 +2015,7 @@ function SQL_DeleteNotifications($id, $all)
 			$cond = ' AND `notified` IS NULL';
 
 		$query = <<<SQL
+			/*[Q40]*/
 			DELETE
 			FROM `watchlist-notifications`
 			WHERE `flight`={$id}{$cond}
@@ -2040,6 +2061,7 @@ function SQL_FlightsToHistory()
 		else
 		{
 			$query = <<<SQL
+				/*[Q41]*/
 				INSERT INTO `move flights`
 					SELECT `id`
 					FROM `flights`
@@ -2054,6 +2076,7 @@ SQL;
 			else
 			{
 				$query = <<<SQL
+					/*[Q42]*/
 					INSERT INTO `history`
 						SELECT * FROM `flights`
 							INNER JOIN `move flights` USING(`id`)
@@ -2079,6 +2102,7 @@ SQL;
 				else
 				{
 					$query = <<<SQL
+						/*[Q43]*/
 						DELETE `flights` FROM `flights`
 						INNER JOIN `move flights` USING(`id`)
 SQL;
@@ -2490,6 +2514,7 @@ if (!$error)
 
 		/* Add watches to `watchlist-notifications` table */
 		$query = <<<SQL
+			/*[Q44]*/
 			INSERT INTO `watchlist-notifications`(`flight`, `watch`)
 
 			SELECT `flights`.`id`, `watchlist`.`id`
@@ -2527,6 +2552,7 @@ SQL;
 				echo unify_query($query);
 
 			$query = <<<SQL
+				/*[Q45]*/
 				SELECT
 					`watchlist-notifications`.`id` AS `id`,
 					UNIX_TIMESTAMP(IFNULL(`flights`.`expected`, `flights`.`scheduled`)) AS `expected`,
@@ -2623,6 +2649,7 @@ SQL;
 
 		/* Delete notifications for flights having been arrived prior to yesterday */
 		$query = <<<SQL
+			/*[Q46]*/
 			DELETE `watchlist-notifications`
 			FROM `watchlist-notifications`
 			INNER JOIN `flights`

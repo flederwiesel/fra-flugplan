@@ -324,10 +324,14 @@ function /* char *error */ LoginUserSql($db, $byid, $id, /* __in __out */ &$pass
 	$user = null;
 	$error = null;
 
-	$query = sprintf("SELECT `%s`, `passwd`, `salt`, `email`, `timezone`, `language`,".
-					 " `token_type`, `tm-`, `tm+`, `tt-`, `tt+`,".
-					 " `notification-from`, `notification-until`, `notification-timefmt`".
-					 " FROM `users` WHERE `%s`=?",
+	$query = sprintf(<<<SQL
+		/*[Q1]*/
+		SELECT `%s`, `passwd`, `salt`, `email`, `timezone`, `language`,
+			`token_type`, `tm-`, `tm+`, `tt-`, `tt+`,
+			`notification-from`, `notification-until`, `notification-timefmt`
+		FROM `users` WHERE `%s`=?
+SQL
+					,
 					 $byid ? 'name' : 'id',
 					 $byid ? 'id' : 'name',
 					 $id);
@@ -401,6 +405,7 @@ function /* char *error */ LoginUserSql($db, $byid, $id, /* __in __out */ &$pass
 	if (!$error)
 	{
 		$query = <<<SQL
+			/*[Q2]*/
 			SELECT `groups`.`name`
 			FROM `membership`
 			INNER JOIN `groups` ON `membership`.`group` = `groups`.`id`
@@ -449,6 +454,7 @@ SQL;
 							$user->opt('notification-timefmt', $row->{'notification-timefmt'});
 
 							$query = sprintf(<<<SQL
+								/*[Q3]*/
 								UPDATE `users`
 								SET `last login`='%s', `token`=NULL, `token_type`='none', `token_expires`=NULL
 								WHERE `id`=%u
@@ -720,7 +726,7 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 	$expires = null;
 
 	// TODO: join name/email queries
-	$query = "SELECT `id` FROM `users` WHERE `name`=?";
+	$query = "/*[Q4]*/ SELECT `id` FROM `users` WHERE `name`=?";
 	$st = $db->prepare($query);
 
 	if (!$st)
@@ -740,7 +746,7 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 
 			if (!$error)
 			{
-				$query = "SELECT `id` FROM `users` WHERE `email`=?";
+				$query = "/*[Q5]*/ SELECT `id` FROM `users` WHERE `email`=?";
 				$st = $db->prepare($query);
 
 				if (!$st)
@@ -776,6 +782,7 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 		else
 		{
 			$query = <<<SQL
+				/*[Q6]*/
 				INSERT INTO
 				`users`(
 					`name`, `email`, `passwd`, `salt`, `language`,
@@ -815,9 +822,13 @@ SQL;
 				}
 				else
 				{
-					$st = $db->query("SELECT `id`,`token_expires` ".
-									 "FROM `users` ".
-									 "WHERE `id`=LAST_INSERT_ID()");
+					$st = $db->query(<<<SQL
+						/*[Q7]*/
+						SELECT `id`,`token_expires`
+						FROM `users`
+						WHERE `id`=LAST_INSERT_ID()
+SQL
+					);
 					if (!$st)
 					{
 						$error = sprintf($lang['dberror'], $db->errorCode());
@@ -849,6 +860,7 @@ SQL;
 					if (!$error)
 					{
 						$query = <<<SQL
+							/*[Q8]*/
 							INSERT INTO `membership`(`user`, `group`)
 							VALUES(
 								LAST_INSERT_ID(),
@@ -1024,9 +1036,13 @@ function /* char *error */ ActivateUserSql($db, $user, $token)
 	$now = null;
 	$error = null;
 
-	$query = sprintf("SELECT `id`, `token`, `token_type`, UTC_TIMESTAMP() as `now`, ".
-			 		 "(SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`)) AS `expires`".
-			 		 " FROM `users` WHERE `name`=?");
+	$query = sprintf(<<<SQL
+		/*[Q9]*/
+		SELECT `id`, `token`, `token_type`, UTC_TIMESTAMP() as `now`,
+			(SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`)) AS `expires`
+		FROM `users` WHERE `name`=?
+SQL
+	);
 
 	$st = $db->prepare($query);
 
@@ -1093,12 +1109,15 @@ function /* char *error */ ActivateUserSql($db, $user, $token)
 	{
 		if (!$error)
 		{
-				$query = "UPDATE `users`".
-						 " SET `token`=NULL, `token_type`='none', `token_expires`=NULL".
-						 " WHERE `id`=$uid";
+			$query = <<<SQL
+				/*[Q10]*/
+				UPDATE `users`
+				SET `token`=NULL, `token_type`='none', `token_expires`=NULL
+				WHERE `id`=$uid
+SQL;
 
-				if (!$db->exec($query))
-					$error = $db->errorCode();
+			if (!$db->exec($query))
+				$error = $db->errorCode();
 		}
 
 		if ($error)
@@ -1216,10 +1235,14 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 	}
 	else
 	{
-		$query = sprintf("SELECT `id`, `name`, `email`, `token_type`, IF (ISNULL(`token_expires`), %lu, ".
-				 		 "(SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`))) AS `expires`".
-				 		 "FROM `users` WHERE $where",
-						 TOKEN_LIFETIME);
+		$query = sprintf(<<<SQL
+			/*[Q11]*/
+			SELECT `id`, `name`, `email`, `token_type`,
+				IF (ISNULL(`token_expires`), %lu,
+					(SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`))) AS `expires`
+			FROM `users` WHERE $where
+SQL
+				, TOKEN_LIFETIME);
 	}
 
 	if (!$error)
@@ -1326,9 +1349,14 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 	{
 		$token = token();
 
-		$query = sprintf("UPDATE `users` SET `token`='$token', `token_type`='password', `token_expires`=".
-				 		 "FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu) WHERE `id`=$uid",
-				 		 TOKEN_LIFETIME);
+		$query = sprintf(<<<SQL
+			/*[Q12]*/
+			UPDATE `users`
+			SET `token`='$token', `token_type`='password',
+				`token_expires`=FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu)
+			WHERE `id`=$uid
+SQL
+			, TOKEN_LIFETIME);
 
 		if (!$db->exec($query))
 		{
@@ -1337,7 +1365,7 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 		else
 		{
 			$expires = null;
-			$query = "SELECT `token_expires` FROM `users` WHERE `id`=$uid";
+			$query = "/*[Q13]*/ SELECT `token_expires` FROM `users` WHERE `id`=$uid";
 
 			$st = $db->query($query);
 
@@ -1459,10 +1487,13 @@ function /* char *error */ ChangePasswordSql($db, $user, $token, $password)
 	$now = null;
 	$error = null;
 
-	$query = sprintf("SELECT `id`,".
-					 " (SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`)) AS `expires`%s".
-					 " FROM `users` WHERE `name`=?",
-					 isset($token) ? ', `token`' : '');
+	$query = sprintf(<<<SQL
+		/*[Q14]*/
+		SELECT `id`,
+			(SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`)) AS `expires`%s
+		FROM `users` WHERE `name`=?
+SQL
+		, isset($token) ? ', `token`' : '');
 
 	$st = $db->prepare($query);
 
@@ -1527,10 +1558,13 @@ function /* char *error */ ChangePasswordSql($db, $user, $token, $password)
 							$uid = $row->id;
 							$salt = token();
 							$password = hash_hmac('sha256', $password, $salt);
-							$query = "UPDATE `users`".
-									 " SET `salt`='$salt', `passwd`='$password',".
-									 " `token`=NULL, `token_type`='none', `token_expires`=NULL".
-									 " WHERE `id`=$uid";
+							$query = <<<SQL
+								/*[Q15]*/
+								UPDATE `users`
+								SET `salt`='$salt', `passwd`='$password',
+									`token`=NULL, `token_type`='none', `token_expires`=NULL
+								WHERE `id`=$uid
+SQL;
 
 							if (!$db->exec($query))
 							{
