@@ -666,13 +666,7 @@ function /* char *error */ RegisterUser($db, /* __out */ &$message)
 						$ipaddr['fwd'] = NULL;
 
 						if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-						{
 							$ipaddr['fwd'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
-
-							// TODO: Remove VC server IP check
-							if (preg_match('/83.125.11[2-5]/', $ipaddr['fwd']))
-								$ipaddr['fwd'] = NULL;
-						}
 
 						$ipaddr['real'] = isset($_SESSION['ipaddr']) ? $_SESSION['ipaddr'] : NULL;
 
