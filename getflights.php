@@ -700,8 +700,8 @@ SQL;
 	{
 		$countries = array();
 
-		while ($row = $st->fetch(PDO::FETCH_ASSOC))
-			$countries["$row[de]"] = $row['id'];
+		while ($row = $st->fetchObject())
+			$countries["$row->de"] = (int)$row->id;
 
 		foreach (array( 'USA' => 'Vereinigte Staaten von Amerika',
 						'Korea-Süd' => 'Südkorea',
@@ -1299,7 +1299,7 @@ SQL;
 			$row = $st->fetch(PDO::FETCH_NUM);
 
 			if ($row)
-				$airline->id = $row[0];
+				$airline->id = (int)$row[0];
 
 			if (isset($DEBUG['sql']))
 				echo "=$airline->id\n";
@@ -1396,7 +1396,7 @@ SQL;
 			while ($row = $st->fetch(PDO::FETCH_NUM))
 			{
 				if ($row)
-					$airport->id = $row[0];
+					$airport->id = (int)$row[0];
 
 				if (isset($DEBUG['sql']))
 					echo "=$airport->id\n";
@@ -1491,7 +1491,7 @@ SQL;
 			$row = $st->fetch(PDO::FETCH_NUM);
 
 			if ($row)
-				$aircraft->type->id = $row[0];
+				$aircraft->type->id = (int)$row[0];
 
 			if (isset($DEBUG['sql']))
 				echo "={$aircraft->type->id}\n";
@@ -1578,7 +1578,7 @@ SQL;
 			$row = $st->fetch(PDO::FETCH_NUM);
 
 			if ($row)
-				$aircraft->id = $row[0];
+				$aircraft->id = (int)$row[0];
 
 			if (isset($DEBUG['sql']))
 				echo "=$aircraft->id\n";
@@ -1657,7 +1657,7 @@ SQL;
 		if (isset($DEBUG['sql']))
 			echo unify_query($query);
 
-		$row = $st->fetch(PDO::FETCH_NUM);
+		$row = $st->fetchObject();
 
 		if (FALSE == $row)
 		{
@@ -1671,9 +1671,9 @@ SQL;
 		}
 		else
 		{
-			$id = $row[0];
-			$ac = $row[1];
-			$lu = $row[2];
+			$id = (int)$row->id;
+			$ac = $row->aircraft ? (int)$row->aircraft : NULL;
+			$lu = $row->{'last update'};
 
 			if (isset($DEBUG['sql']))
 				echo "=$id,$ac,$lu\n";
@@ -1854,7 +1854,7 @@ SQL;
 		if (isset($DEBUG['sql']))
 			echo unify_query($query);
 
-		$row = $st->fetch(PDO::FETCH_ASSOC);
+		$row = $st->fetchObject();
 
 		if (!$row)
 		{
@@ -1881,9 +1881,9 @@ SQL;
 		}
 		else
 		{
-			$num = $row['num'];
-			$current = $row['current'];
-			$previous = $row['previous'];
+			$num = (int)$row->num;
+			$current = $row->current;
+			$previous = $row->previous;
 			$row = NULL;
 
 			if (isset($DEBUG['sql']))
@@ -1957,11 +1957,11 @@ SQL;
 							if (isset($DEBUG['sql']))
 								echo unify_query($query);
 
-							$row = $st->fetch(PDO::FETCH_ASSOC);
+							$row = $st->fetchObject();
 
 							if ($row)
 							{
-								$previous = $row['scheduled'];
+								$previous = $row->scheduled;
 
 								if (isset($DEBUG['sql']))
 									echo "='$previous'\n";
@@ -2628,11 +2628,11 @@ SQL;
 
 				$notifications = array();
 
-				$row = $st->fetch(PDO::FETCH_ASSOC);
+				$row = $st->fetchObject();
 
 				while ($row)
 				{
-					if ($email != $row['email'])
+					if ($email != $row->email)
 					{
 						/* We get here every time $row['email'] changes, at least */
 						/* once at the beginning, i.e. $time and $fmt will be set, */
@@ -2645,21 +2645,21 @@ SQL;
 						}
 
 						/* Remember first ID of new email */
-						$email = $row['email'];
-						$name = $row['name'];
-						$fmt = $row['fmt'];
-						$lang = $row['lang'];
+						$email = $row->email;
+						$name = $row->name;
+						$fmt = $row->fmt;
+						$lang = $row->lang;
 					}
 
 					$notifications[] = array(
-							'id'       => $row['id'],
-							'expected' => $row['expected'],
-							'flight'   => $row['flight'],
-							'reg'      => $row['reg'],
-							'comment'  => $row['comment'],
+							'id'       => (int)$row->id,
+							'expected' => $row->expected,
+							'flight'   => $row->flight,
+							'reg'      => $row->reg,
+							'comment'  => $row->comment,
 						);
 
-					$row = $st->fetch(PDO::FETCH_ASSOC);
+					$row = $st->fetchObject();
 				}
 
 				if ($email)

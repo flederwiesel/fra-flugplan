@@ -306,7 +306,7 @@ SQL;
 			}
 			else
 			{
-				while ($row = $st->fetch(PDO::FETCH_OBJ))
+				while ($row = $st->fetchObject())
 					$watch[$row->reg] = array('comment' => $row->comment, 'notify' => $row->notify);
 			}
 		}

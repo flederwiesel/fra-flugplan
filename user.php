@@ -394,7 +394,7 @@ SQL;
 							else
 							{
 								$name = $id;
-								$id = $row->id;
+								$id = (int)$row->id;
 							}
 						}
 					}
@@ -851,7 +851,7 @@ SQL;
 							}
 							else
 							{
-								$uid = $row->id;
+								$uid = (int)$row->id;
 								$expires = $row->token_expires;
 								$_SESSION['lang'] = $language;
 							}
@@ -1072,7 +1072,7 @@ SQL;
 				}
 				else
 				{
-					$uid = $row->id;
+					$uid = (int)$row->id;
 					$now = $row->now;
 
 					if ('none' == $row->token_type ||
@@ -1295,7 +1295,7 @@ SQL;
 					}
 					else
 					{
-						$uid = $row->id;
+						$uid = (int)$row->id;
 						$user = $row->name;
 						$email = $row->email;
 						$type = $row->token_type;
@@ -1557,9 +1557,10 @@ SQL;
 						}
 						else
 						{
-							$uid = $row->id;
+							$uid = (int)$row->id;
 							$salt = token();
 							$password = hash_hmac('sha256', $password, $salt);
+
 							$query = <<<SQL
 								/*[Q15]*/
 								UPDATE `users`
