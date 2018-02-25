@@ -53,7 +53,7 @@ nospam=0
 spam@gmail.com=99.05
 <localhost>=0
 
-Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=<localhost>&email=spam%40gmail.com&username=nospam&evidence=Automated%20registration%2e
+Report: https://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=<localhost>&email=spam%40gmail.com&username=nospam&evidence=Automated%20registration%2e
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
@@ -72,7 +72,7 @@ spam=98.34
 spam@gmail.com=99.05
 <localhost>=0
 
-Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=<localhost>&email=spam%40gmail.com&username=spam&evidence=Automated%20registration%2e
+Report: https://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=<localhost>&email=spam%40gmail.com&username=spam&evidence=Automated%20registration%2e
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
@@ -91,7 +91,7 @@ spam=98.34
 nospam@flederwiesel.com=0
 46.118.155.73=99.99
 
-Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=46.118.155.73&email=nospam%40flederwiesel.com&username=spam&evidence=Automated%20registration%2e
+Report: https://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=46.118.155.73&email=nospam%40flederwiesel.com&username=spam&evidence=Automated%20registration%2e
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
@@ -110,7 +110,7 @@ nospam=0
 spam@gmail.com=99.05
 46.118.155.73=99.99
 
-Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=46.118.155.73&email=spam%40gmail.com&username=nospam&evidence=Automated%20registration%2e
+Report: https://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=46.118.155.73&email=spam%40gmail.com&username=nospam&evidence=Automated%20registration%2e
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
@@ -129,7 +129,7 @@ spam=98.34
 spam@gmail.com=99.05
 46.118.155.73=99.99
 
-Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=46.118.155.73&email=spam%40gmail.com&username=spam&evidence=Automated%20registration%2e
+Report: https://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=46.118.155.73&email=spam%40gmail.com&username=spam&evidence=Automated%20registration%2e
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
@@ -148,6 +148,6 @@ nospam=0
 nospam@flederwiesel.com=0
 46.118.155.73=99.99
 
-Report: http://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=46.118.155.73&email=nospam%40flederwiesel.com&username=nospam&evidence=Automated%20registration%2e
+Report: https://www.stopforumspam.com/add.php?api_key=nrt20iomfc34sz&ip_addr=46.118.155.73&email=nospam%40flederwiesel.com&username=nospam&evidence=Automated%20registration%2e
 
 ======================================================

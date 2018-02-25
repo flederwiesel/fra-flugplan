@@ -488,7 +488,7 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 	{
 		/* Suspected spam? */
 		$stopforumspam = isset($_SESSION['stopforumspam']) ? urldecode("$_SESSION[stopforumspam]/") : NULL;
-		$stopforumspam = sprintf("http://${stopforumspam}api.stopforumspam.org/api?".
+		$stopforumspam = sprintf("https://${stopforumspam}api.stopforumspam.org/api?".
 								 "f=json&ip=%s&email=%s&username=%s",
 								 $ipaddr['real'], urlencode($email), urlencode($user));
 
@@ -543,7 +543,7 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 					{
 						AdminMail('registration',
 							sprintf("\nSuspected spam:\n%s=%s\n%s=%s\n%s=%s\n".
-									"\nReport: http://www.stopforumspam.com/add.php?".
+									"\nReport: https://www.stopforumspam.com/add.php?".
 									"api_key=nrt20iomfc34sz&ip_addr=%s&email=%s&username=%s".
 									"&evidence=Automated%%20registration%%2e\n",
 									$user, $json->username->appears ? $json->username->confidence : 0,
