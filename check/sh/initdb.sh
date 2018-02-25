@@ -16,3 +16,11 @@
 
 # drop/re-create database
 initdb && rm -f .COOKIES
+
+query < <(
+	echo 'USE `flederwiesel_fra-schedule`;'
+	cat ../sql/data/countries.sql \
+		../sql/data/airlines.sql \
+		../sql/data/airports.sql \
+		../sql/data/models.sql
+)
