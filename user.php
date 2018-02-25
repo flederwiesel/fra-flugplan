@@ -494,7 +494,11 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 
 		$error = $curl->exec($stopforumspam, $json, 5);
 
-		if (!$error)
+		if ($error)
+		{
+			$message = $lang['spamcheckfailed'];
+		}
+		else
 		{
 			$json = (object)json_decode($json);
 

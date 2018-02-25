@@ -214,6 +214,7 @@ $lang = array
 	'spam:sing' => 'Registration has been rejected, because your %s has been identified as spam.',
 	'spam:plur' => 'Registration has been rejected, because your %s have been identified as spam.',
 	'ipaddress' => 'ip address',
+	'spamcheckfailed' => 'The spam check failed due to an internal error. Please try again later.',
 );
 
 ?>

@@ -215,6 +215,7 @@ $lang = array
 	'spam:sing' => 'Die Registrierung wurde abgelehnt, da %s als Spam identifiziert wurde.',
 	'spam:plur' => 'Die Registrierung wurde abgelehnt, da %s als Spam identifiziert wurden.',
 	'ipaddress' => 'ip address',
+	'spamcheckfailed' => 'Spam-Überprüfung fehlgeschlagen. Bitte später noch einmal probieren.',
 );
 
 ?>
