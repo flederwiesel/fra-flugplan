@@ -1175,25 +1175,47 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 			// Fetch JSON data
 			$retry = 10;
 
-			do
+			while ($retry--)
 			{
 				/* Set script execution limit. If set to zero, no time limit is imposed. */
 				set_time_limit(0);
 
 				$error = $curl->exec($url, $json, 5);
 
-				if ($error)
+				if (!$error)
 				{
-					if ($error != CURLE_COULDNT_RESOLVE_HOST &&
-						$error != CURLE_OPERATION_TIMEDOUT)
+					$retry = 0;
+				}
+				else
+				{
+					// Error listed explicitly here _might_ be recoverable
+					switch ($error)
 					{
-						$log = fopen("$_SERVER[DOCUMENT_ROOT]/var/log/curl.error", "a+");
-						fwrite($log, "$url: $error @$retry");
-						fclose($log);
+					// curl errors
+					case CURLE_WRITE_ERROR:
+					case CURLE_SEND_ERROR:
+					case CURLE_READ_ERROR:
+					case CURLE_RECV_ERROR:
+					case CURLE_OPERATION_TIMEDOUT:
+					case CURLE_GOT_NOTHING:
+					case CURLE_AGAIN:
+						sleep(5);
+						break;
+
+					// HTTP result codes
+					case 408:
+					case 500:
+					case 504:
+					case 507:
+						sleep(15);
+						break;
+
+					default:
+						// Not recoverable
+						$retry = 0;
 					}
 				}
 			}
-			while ($error && --$retry);
 
 			if ($error)
 			{
