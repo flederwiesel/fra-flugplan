@@ -1599,7 +1599,7 @@ function SQL_InsertAircraft(/* in/out*/ &$aircraft)
 	}
 	else if (0 == $aircraft->type->id)
 	{
-		$error = seterrorinfo(__LINE__, 'aircraft(aircraft->type->id)');
+		$error = seterrorinfo(__LINE__, 'aircraft->type->id == 0');
 	}
 	else
 	{
