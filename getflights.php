@@ -36,10 +36,11 @@ mb_internal_encoding('UTF-8');
 
 ini_set('max_execution_time', 180);
 
-include ".config";
-include "classes/etc.php";
-include "classes/curl.php";
-include "classes/vector.php";
+require_once ".config";
+require_once "classes/etc.php";
+require_once "classes/curl.php";
+require_once "classes/vector.php";
+require_once "classes/sql-xpdo.php";
 
 /* Create dir for warn_once() */
 $datadir = "$_SERVER[DOCUMENT_ROOT]/var/run/fra-schedule";
@@ -2275,7 +2276,12 @@ if (!$error)
 {
 	try
 	{
-		$db = new PDO(sprintf("mysql:host=%s;dbname=%s;charset=utf8",
+		if (isset($ExplainSQL))
+			$classname = 'xPDO';
+		else
+			$classname = 'PDO';
+
+		$db = new $classname(sprintf("mysql:host=%s;dbname=%s;charset=utf8",
 						DB_HOSTNAME, DB_NAME),
 						DB_USERNAME, DB_PASSWORD);
 	}

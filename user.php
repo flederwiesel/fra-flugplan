@@ -17,6 +17,7 @@
 require_once '.config';
 require_once 'classes/etc.php';
 require_once 'classes/curl.php';
+require_once "classes/sql-xpdo.php";
 
 function /* char* */ token() { return hash('sha256', mcrypt_create_iv(32)); }
 

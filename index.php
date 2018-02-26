@@ -16,6 +16,7 @@
 
 require_once '.config';
 require_once 'classes/etc.php';
+require_once 'classes/sql-xpdo.php';
 
 if (defined('DEBUG'))
 	error_reporting(E_ALL | E_NOTICE);
@@ -261,11 +262,16 @@ $user = null;
 
 try
 {
-	$db = new PDO(sprintf("mysql:host=%s;dbname=%s;charset=utf8",
+	if (isset($ExplainSQL))
+		$classname = 'xPDO';
+	else
+		$classname = 'PDO';
+
+	$db = new $classname(sprintf("mysql:host=%s;dbname=%s;charset=utf8",
 					DB_HOSTNAME, DB_NAME),
 					DB_USERNAME, DB_PASSWORD);
 }
-catch(PDOException $e)
+catch (PDOException $e)
 {
 	$error = sprintf($lang['dberror'], $e->getCode());
 	// TODO: Log to file:
