@@ -1,7 +1,7 @@
 #!/bin/bash
 
 date=$(date --rfc-3339=seconds)
-result=$(curl -s http://www.fra-flugplan.de/fra-schedule/getflights.php 2>&1)
+result=$(curl -s https://www.fra-flugplan.de/fra-schedule/getflights.php 2>&1)
 status=$?
 
 if [ $status -eq 0 ]; then
