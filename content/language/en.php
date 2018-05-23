@@ -60,7 +60,9 @@ $lang = array
 	'register' => 'Register',
 	'registernote' => 'In order to use the complete set of features this site provides, '.
 		'you need to register once, which is free of charge. No consequential charges will arise, '.
-		'data entered here will be handled according to the German Federal Data Protection Act.<br><br>'.
+		'data entered here will be handled according to the German Federal Data Protection Act. '.
+		'By registering you agree to the <a href="?page=help&lang=en#data-privacy" target="_blank">'.
+		'data privacy statement.</a><br><br>'.
 		'For security reasons, you need to activate your account with a token, which will be sent to your '.
 		'email address in the next step. Accounts not having been activated will be deleted on a regular basis.',
 	'profile' => 'User profile',

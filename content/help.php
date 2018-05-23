@@ -32,6 +32,7 @@ include "help-$_SESSION[lang].php";
 			<li><a href="#sorting_reg"><?php echo $lang_help[6]; ?></a></li>
 		</ul>
 		<li><a href="#mobile"><?php echo $lang_help[7]; ?></a></li>
+		<li><a href="#data-privacy"><?php echo $lang_help[33]; ?></a></li>
 		<li><a href="#trouble"><?php echo $lang_help[8]; ?></a></li>
 	</ul>
 
@@ -121,6 +122,44 @@ include "help-$_SESSION[lang].php";
 						</ul>
 					</div>
 				</div>
+			</li>
+			<a class="back" href="#"><?php echo $lang_help[0]; ?></a>
+		</ul>
+
+		<a id="data-privacy">
+		<h4></a><?php echo $lang_help[33]; ?></h4>
+		<ul class="naked help">
+			<li>
+				<div><?php echo $lang_help[34]; ?></div>
+				<div><?php echo $lang_help[35]; ?></div>
+			</li>
+			<li>
+				<div><?php echo $lang_help[36]; ?>
+					<ul>
+						<li><?php echo $lang_help[37]; ?></li>
+						<li><?php echo $lang_help[38]; ?></li>
+						<li><?php echo $lang_help[39]; ?></li>
+						<li><?php echo $lang_help[40]; ?></li>
+						<li><?php echo $lang_help[41]; ?></li>
+					</ul>
+				</div>
+			</li>
+			<li>
+				<div><?php echo $lang_help[42]; ?>
+					<ul>
+						<li><?php echo $lang_help[43]; ?></li>
+						<li><?php echo $lang_help[44]; ?>
+							<ul>
+								<li><?php echo $lang_help[45]; ?></li>
+								<li><?php echo $lang_help[46]; ?></li>
+								<li><?php echo $lang_help[47]; ?></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</li>
+			<li>
+				<div><?php echo $lang_help[48]; ?></div>
 			</li>
 			<a class="back" href="#"><?php echo $lang_help[0]; ?></a>
 		</ul>

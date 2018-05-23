@@ -60,7 +60,9 @@ $lang = array
 	'register' => 'Registrieren',
 	'registernote' => 'Um die Funktionalität dieser Seite in vollem Umfang benutzen zu können, '.
 		'bedarf es einer einmaligen, kostenlosen Registrierung. Es entstehen hierbei keine Folgekosten, '.
-		'angegebene Daten werden entsprechend den Datenschutzrichtlinien behandelt.<br><br>'.
+		'angegebene Daten werden entsprechend den Datenschutzrichtlinien behandelt. '.
+		'Mit der Registrierung wird die <a href="?page=help&lang=en#data-privacy" target="_blank">'.
+		'Datenschutzerklärung</a> akzeptiert.<br><br>'.
 		'Aus Sicherheitsgründen muß das Benutzerkonto mittels einem per E-Mail zugesendeten Token '.
 		'anschließend einmalig aktiviert werden. Nicht aktivierte Konten werden regelmäßig gelöscht.',
 	'profile' => 'Benutzerprofil',

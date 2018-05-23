@@ -48,6 +48,23 @@ $lang_help = array(
 	30 => 'If you feel this site is violating licences of one of these projects, please contact',
 	31 => 'Due to limited display space on mobile phones, the following icons are used instead of text',
 	32 => '(8) Seltene Flugzeuge (Besuche in FRA < 10) werden in <span style="font-weight: bold">fetter</span> Schrift dargestellt',
+	33 => 'Datenschutzerklärung',
+	34 => 'Bei der Nutzung dieser Website ohne Registrierung werden grundsätzlich keine personenbezogenen Daten erhoben.',
+	35 => 'Im Rahmen der Registrierung erklären Sie sich mit der Erhebung, Verarbeitung und Nutzung von Daten gemäß der nachfolgenden Beschreibung einverstanden.',
+	36 => 'Erhobene Daten',
+	37 => 'Die angegebene E-Mail-Adresse wird zusammen mit Benutzernamen hinterlegt.',
+	38 => 'Diese Daten sowie die bei der Registrierung aktuelle IP-Adresse werden zur Identifizierung von Spam benutzt und dafür einmalig an <a href="https://www.stopforumspam.com/">www.stopforumspam.com</a> übermittelt.',
+	39 => 'Weiterhin wird für statistische Zwecke der Zeitstempel des letzten Logins gespeichert.',
+	40 => 'Alle in der Beobachtungsliste eingegebenen Daten und Einstellungen, die im Profil vorgenommen werden können, werden benutzerspezifisch in der Datenbank abgelegt.',
+	41 => 'Gespeicherte Daten können auf Anfrage zeitnah eingesehen werden.',
+	42 => 'Cookies',
+	43 => 'Registrierte Benutzer können automatisch beim nächsten Besuch eingeloggt werden. Zu diesem Zwecke werden auf dem lokalen Speicher Cookies angelegt.',
+	44 => 'Cookies werden grundsätzlich NICHT benutzt, um:',
+	45 => 'Benutzer folgen zu können, oder deren Verhalten zu analysieren (Tracking).',
+	46 => 'Verbindung der Daten zu sozialen Netzwerken herzustellen.',
+	47 => 'Zu Werbezwecken.',
+	48 => 'Es werden &ndash; mit Ausnahme der Spam-Prüfung bei der Registrierung &ndash; grundsätzlich keine Daten zu Dritten zur Weiterverarbeitung übermittelt. Benutzerdaten können jederzeit auf Anfrage gelöscht werden.',
+	49 => 'Über...',
 );
 
 ?>

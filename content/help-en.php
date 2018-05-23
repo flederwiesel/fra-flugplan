@@ -48,6 +48,23 @@ $lang_help = array(
 	30 => 'If you feel this site is violating licences of one of these projects, please contact me:',
 	31 => 'Due to limited display space on mobile phones, the following icons are used instead of text',
 	32 => '(8) Rare aircrafts (i.e. visits to FRA < 10) are display in <span style="font-weight: bold">bold</span> font',
+	33 => 'Data privacy statement',
+	34 => 'When using this website without registration no personal data will be collected.',
+	35 => 'When registering, you agree to the collection and processing of personal data according to the following conditions.',
+	36 => 'Collected data',
+	37 => 'Your email address and user name will be stored upon registration.',
+	38 => 'This data as well as the IP address at the time of registration will be used for spam detection and therefore sent once to <a href="https://www.stopforumspam.com/">www.stopforumspam.com</a>.',
+	39 => 'For statistical purposes, the time of your last login will be stored.',
+	40 => 'All watchlist entries as well as your profile settings will be stored in the database specifically for your user account.',
+	41 => 'Stored data can be viewed upon request.',
+	42 => 'Cookies',
+	43 => 'Registered users can be logged in automatically Therefore cookies will be saved in local storage.',
+	44 => 'Cookies will NOT be used to:',
+	45 => 'Track users or analyse their behaviour.',
+	46 => 'Connect your data to social media.',
+	47 => 'For advertising.',
+	48 => 'Na data will be transferred to third parties &ndash; spam checking your registration being the one exception. Private data will be deleted upon request.',
+	49 => 'About...',
 );
 
 ?>
