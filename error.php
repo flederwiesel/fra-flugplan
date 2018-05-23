@@ -95,26 +95,12 @@ session_start();
 if (isset($_GET['lang']))
 {
 	if (strlen($_GET['lang']))
-	{
-		setcookie('lang', $_GET['lang'], time() + COOKIE_LIFETIME);
 		$_SESSION['lang'] = $_GET['lang'];
-	}
 }
 else if (isset($_POST['lang']))
 {
 	if (strlen($_POST['lang']))
-	{
-		setcookie('lang', $_POST['lang'], time() + COOKIE_LIFETIME);
 		$_SESSION['lang'] = $_POST['lang'];
-	}
-}
-else
-{
-	if (!isset($_SESSION['lang']))
-	{
-		if (isset($_COOKIE['lang']))
-			$_SESSION['lang'] = $_COOKIE['lang'];
-	}
 }
 
 if (!isset($_SESSION['lang']))
@@ -168,8 +154,6 @@ if (file_exists($file))
 	include "$file";
 else
 	include "content/language/en.php";
-
-setcookie('lang', $_SESSION['lang'], time() + COOKIE_LIFETIME);
 
 /******************************************************************************
  * initialise variables

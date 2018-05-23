@@ -271,7 +271,6 @@ function LoginUserAutomatically($db, /* __out */ &$user)
 			setcookie('userID',    $user->id(),       $expires);
 			setcookie('hash',      $hash,             $expires);
 			setcookie('autologin', true,              $expires);
-			setcookie('lang',      $user->language(), $expires);
 		}
 	}
 
@@ -308,7 +307,6 @@ function /*bool*/ LoginUser($db, /* __out */ &$user)
 				setcookie('userID',    $user->id(),       $expires);
 				setcookie('hash',      $hash,             $expires);
 				setcookie('autologin', true,              $expires);
-				setcookie('lang',      $user->language(), $expires);
 
 				unset($_GET['req']);
 			}

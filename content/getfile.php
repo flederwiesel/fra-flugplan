@@ -56,7 +56,6 @@ session_start();
 /* Set session language from $_POST or $_COOKIE */
 if (isset($_GET['lang']))
 {
-	setcookie('lang', $_GET['lang'], time() + COOKIE_LIFETIME);
 	$_SESSION['lang'] = $_GET['lang'];
 }
 else
@@ -69,8 +68,6 @@ else
 			$_SESSION['lang'] = 'en';
 //&& 	$_SERVER[HTTP_ACCEPT_LANGUAGE]
 	}
-
-	setcookie('lang', $_SESSION['lang'], time() + COOKIE_LIFETIME);
 }
 
 $file = 'language/'.$_SESSION['lang'].'.php';

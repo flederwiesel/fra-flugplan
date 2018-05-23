@@ -119,26 +119,12 @@ session_start();
 if (isset($_GET['lang']))
 {
 	if (strlen($_GET['lang']))
-	{
-		setcookie('lang', $_GET['lang'], time() + COOKIE_LIFETIME);
 		$_SESSION['lang'] = $_GET['lang'];
-	}
 }
 else if (isset($_POST['lang']))
 {
 	if (strlen($_POST['lang']))
-	{
-		setcookie('lang', $_POST['lang'], time() + COOKIE_LIFETIME);
 		$_SESSION['lang'] = $_POST['lang'];
-	}
-}
-else
-{
-	if (!isset($_SESSION['lang']))
-	{
-		if (isset($_COOKIE['lang']))
-			$_SESSION['lang'] = $_COOKIE['lang'];
-	}
 }
 
 if (!isset($_SESSION['lang']))
@@ -187,45 +173,6 @@ $dir = $_SESSION['dir'];
 $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 
 /******************************************************************************
- * set profile cookies
- ******************************************************************************/
-
-if (isset($_GET['req']))
-{
-	if ('profile'  == $_GET['req'] ||
-		'changepw' == $_GET['req'])
-	{
-		if (isset($_GET['dispinterval']))
-		{
-			$item = 'dispinterval';
-		}
-		else
-		{
-			if (isset($_GET['notifinterval']))
-			{
-				$item = 'notifinterval';
-			}
-			else
-			{
-				if (isset($_GET['changepw']))
-				{
-					$item = 'changepw';
-				}
-				else
-				{
-					if (isset($_COOKIE['profile-item']))
-						$item = $_COOKIE['profile-item'];
-					else
-						$item = 'dispinterval';
-				}
-			}
-		}
-
-		setcookie('profile-item', $item, time() + COOKIE_LIFETIME);
-	}
-}
-
-/******************************************************************************
  * header
  ******************************************************************************/
 
@@ -248,8 +195,6 @@ if (file_exists($file))
 	include "$file";
 else
 	include "content/language/en.php";
-
-setcookie('lang', $_SESSION['lang'], time() + COOKIE_LIFETIME);
 
 /******************************************************************************
  * initialise variables
@@ -290,6 +235,45 @@ if (!$error)
 
 if ($user)
 {
+	/**************************************************************************
+	 * set profile cookies
+	 **************************************************************************/
+
+	if (isset($_GET['req']))
+	{
+		if ('profile'  == $_GET['req'] ||
+			'changepw' == $_GET['req'])
+		{
+			if (isset($_GET['dispinterval']))
+			{
+				$item = 'dispinterval';
+			}
+			else
+			{
+				if (isset($_GET['notifinterval']))
+				{
+					$item = 'notifinterval';
+				}
+				else
+				{
+					if (isset($_GET['changepw']))
+					{
+						$item = 'changepw';
+					}
+					else
+					{
+						if (isset($_COOKIE['profile-item']))
+							$item = $_COOKIE['profile-item'];
+						else
+							$item = 'dispinterval';
+					}
+				}
+			}
+
+			setcookie('profile-item', $item, time() + COOKIE_LIFETIME);
+		}
+	}
+
 	if (isset($_GET['lang']))
 		$user->language($_GET['lang']);	//&& -> hdbc
 }
