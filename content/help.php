@@ -19,8 +19,7 @@ include "help-$_SESSION[lang].php";
 ?>
 
 <div style="max-width: 792px;">
-	<a id="top"></a>
-	<h3><?php echo $lang_help[1]; ?></h3>
+	<h3><a id="top"></a><?php echo $lang_help[1]; ?></h3>
 	<ul>
 		<li><a href="#basic"><?php echo $lang_help[2]; ?></a></li>
 		<li><a href="#watchlist"><?php echo $lang_help[3]; ?></a></li>
@@ -34,12 +33,12 @@ include "help-$_SESSION[lang].php";
 		<li><a href="#mobile"><?php echo $lang_help[7]; ?></a></li>
 		<li><a href="#data-privacy"><?php echo $lang_help[33]; ?></a></li>
 		<li><a href="#trouble"><?php echo $lang_help[8]; ?></a></li>
+		<li><a href="#about"><?php echo $lang_help[49]; ?></a></li>
 	</ul>
 
 	<hr>
 	<div>
-		<a id="basic"></a>
-		<h4><?php echo $lang_help[2]; ?></h4>
+		<h4><a id="basic"></a><?php echo $lang_help[2]; ?></h4>
 		<ul class="naked help">
 			<li><?php echo $lang_help[9]; ?>.
 			<li><?php echo $lang_help[10]; ?>.
@@ -56,8 +55,7 @@ include "help-$_SESSION[lang].php";
 			</li>
 		</ul>
 
-		<a id="watchlist"></a>
-		<h4><?php echo $lang_help[3]; ?></h4>
+		<h4><a id="watchlist"></a><?php echo $lang_help[3]; ?></h4>
 		<ul class="naked help">
 			<li><?php echo $lang_help[17]; ?>.
 			<li><?php echo $lang_help[18]; ?>.
@@ -68,8 +66,7 @@ include "help-$_SESSION[lang].php";
 			</li>
 		</ul>
 
-		<a id="watchlist_def"></a>
-		<h5><?php echo $lang_help[4]; ?></h5>
+		<h5><a id="watchlist_def"></a><?php echo $lang_help[4]; ?></h5>
 		<ul class="naked help">
 			<li><?php echo $lang_help[20]; ?>
 			<li><?php echo $lang_help[21]; ?>.
@@ -81,8 +78,7 @@ include "help-$_SESSION[lang].php";
 			</li>
 		</ul>
 
-		<a id="sorting"></a>
-		<h4><?php echo $lang_help[5]; ?></h4>
+		<h4><a id="sorting"></a><?php echo $lang_help[5]; ?></h4>
 		<ul class="naked help">
 			<li><?php echo $lang_help[24]; ?>.
 			<li class="img">
@@ -91,8 +87,7 @@ include "help-$_SESSION[lang].php";
 			</li>
 		</ul>
 
-		<a id="sorting_reg"></a>
-		<h5><?php echo $lang_help[6]; ?></h5>
+		<h5><a id="sorting_reg"></a><?php echo $lang_help[6]; ?></h5>
 		<ul class="naked help">
 			<li><?php echo $lang_help[25]; ?>.
 			<li class="img">
@@ -101,8 +96,7 @@ include "help-$_SESSION[lang].php";
 			</li>
 		</ul>
 
-		<a id="mobile"></a>
-		<h4><?php echo $lang_help[7]; ?></h4>
+		<h4><a id="mobile"></a><?php echo $lang_help[7]; ?></h4>
 		<ul class="help">
 			<li><?php echo $lang_help[26]; ?>.
 				<div><?php echo $lang_help[31]; ?>:
@@ -126,8 +120,7 @@ include "help-$_SESSION[lang].php";
 			<a class="back" href="#"><?php echo $lang_help[0]; ?></a>
 		</ul>
 
-		<a id="data-privacy">
-		<h4></a><?php echo $lang_help[33]; ?></h4>
+		<h4><a id="data-privacy"></a><?php echo $lang_help[33]; ?></h4>
 		<ul class="naked help">
 			<li>
 				<div><?php echo $lang_help[34]; ?></div>
@@ -164,15 +157,13 @@ include "help-$_SESSION[lang].php";
 			<a class="back" href="#"><?php echo $lang_help[0]; ?></a>
 		</ul>
 
-		<a id="trouble"></a>
-		<h4><?php echo $lang_help[8]; ?></h4>
+		<h4><a id="trouble"></a><?php echo $lang_help[8]; ?></h4>
 		<ul class="naked help">
 			<?php echo $lang_help[27]; ?>.
 			<a class="back" href="#"><?php echo $lang_help[0]; ?></a>
 		</ul>
 
-		<a id="copyright"></a>
-		<h4>About</h4>
+		<h4><a id="about"></a>About</h4>
 		<ul class="naked help">
 			<?php echo $lang_help[28]; ?>:
 			<div>
