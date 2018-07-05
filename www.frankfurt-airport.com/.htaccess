@@ -8,9 +8,9 @@ RewriteCond %{REQUEST_URI} www.frankfurt-airport.com
 RewriteRule (arrival|departure)s\.json        index.php
 RewriteRule (arrival|departure)s\.cargo\.json index.php?cargo&%{QUERY_STRING}
 # This will yield the downloaded files - comment the above out, if you want to get here...
-RewriteRule (de|en|cn)/.*(((arrival|deparure)s)(\.cargo)?).json json/1.2.6/$2.json [NC,L]
+RewriteRule (de|en|cn)/.*(((arrival|deparure)s)(\.cargo)?).json json/1.4.2/$2.json [NC,L]
 RewriteCond %{QUERY_STRING} ^$
-RewriteRule (de|en|cn)/.*(air(craft|line|port)s)\.json json/1.2.6/$2.json [NC,L]
+RewriteRule (de|en|cn)/.*(air(craft|line|port)s)\.json json/1.4.2/$2.json [NC,L]
 RewriteCond %{QUERY_STRING} local
 RewriteRule (de|en|cn)/.*(air(craft|line|port)s)\.json$ json/airports.json [NC,L]
 
