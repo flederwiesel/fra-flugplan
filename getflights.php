@@ -346,7 +346,7 @@ function patchreg($reg)
 		'/^CCCP/', 4,
 		'/^D[^246MQ]/', 1,
 		'/^D[246MQ]/', 2,
-		'/^E[35CIKLPRSTWXYZ]/', 2,
+		'/^E[35CIJKLPRSTWXYZ]/', 2,
 		'/^F[A-Z]{4}/', 1,
 		'/^FAE[0-9]+/', 3,
 		'/^G/', 1,
@@ -686,7 +686,7 @@ function CURL_GetAirport(/* in */ $curl, /* in/out */ &$airport)
 	global $db;
 
 	$query = <<<SQL
-		/*[Q21]*/ 
+		/*[Q21]*/
 		SELECT `id`,`de`,`alpha-2`
 		FROM `countries`
 SQL;
