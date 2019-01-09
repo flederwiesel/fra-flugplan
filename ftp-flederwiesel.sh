@@ -15,7 +15,7 @@
 ###############################################################################
 
 root=
-target=fra-schedule
+target=fra-flugplan
 
 cd $(dirname "$0")
 sed -i "s#^[^/]*define[ \t]*([ \t]*'DEBUG'#//&#g" .config
