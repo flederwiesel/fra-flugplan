@@ -2452,6 +2452,7 @@ if (!$error)
 
 					if (!$error)
 					{
+						/*
 						if (strtotime($f->lu) <= strtotime($lu) ||
 							strtotime($f->lu) < $now->time_t - 86400 && 0 == $lu)
 						{
@@ -2459,6 +2460,7 @@ if (!$error)
 							// Updated > 1 day ago and not in `flights` (maybe in `history` - too lazy to check)
 							$f->status = FlightStatus::IGNORE;
 						}
+						*/
 
 						if (FlightStatus::IGNORE == $f->status)
 						{
