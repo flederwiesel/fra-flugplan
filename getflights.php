@@ -369,7 +369,7 @@ function patchreg($reg)
 		'/^RDPL/', 4,
 		'/^S[23579ELNPTUX]/', 2,
 		'/^T[379CFGIJLNRSTUYZ]/', 2,
-		'/^U[HKLNR]/', 2,
+		'/^U[HKLNPR]/', 2,
 		'/^V[234578HNPQRT]/', 2,
 		'/^X[ABCHTUVWYZ]/', 2,
 		'/^Y[AEIJKLNRSUV]/', 2,
