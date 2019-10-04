@@ -291,7 +291,7 @@ do
 				fi
 
 				# Copy referenced scripts to properly view results
-				cp -a ../css ../img ../script "$results"
+				cp -al ../css ../img ../script "$results"
 
 				diff=$(diff "$expect" "$results" \
 					--brief \
