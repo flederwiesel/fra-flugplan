@@ -100,10 +100,10 @@ SQL;
 									}
 								}
 							}
-						}
 
-						if ($error)
-							break;
+							if ($error)
+								break;
+						}
 					}
 
 					if (!$error)
