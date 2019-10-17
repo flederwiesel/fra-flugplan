@@ -772,111 +772,57 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 		$expires = time() + TOKEN_LIFETIME;
 		$password = hash_hmac('sha256', $password, $salt);
 
-		if (!$db->beginTransaction())
+		$query = <<<SQL
+			/*[Q6]*/
+			INSERT INTO
+			`users`(
+				`name`, `email`, `passwd`, `salt`, `language`,
+				`token`, `token_type`,
+				`token_expires`, `ip`
+			)
+			VALUES(
+				:user, :email, :password, :salt, :language,
+				:token, 'activation',
+				FROM_UNIXTIME({$expires}), '{$ipaddr}'
+			);
+SQL;
+
+		$st = $db->prepare($query);
+
+		if (!$st)
 		{
-			$error = $lang['regfailed'];
+			$error = sprintf($lang['dberror'], $db->errorCode());
 		}
 		else
 		{
-			$query = <<<SQL
-				/*[Q6]*/
-				INSERT INTO
-				`users`(
-					`name`, `email`, `passwd`, `salt`, `language`,
-					`token`, `token_type`,
-					`token_expires`, `ip`
-				)
-				VALUES(
-					:user, :email, :password, :salt, :language,
-					:token, 'activation',
-					FROM_UNIXTIME({$expires}), '{$ipaddr}'
-				);
-SQL;
+			$st->bindValue(':user', $user);
+			$st->bindValue(':email', $email);
+			$st->bindValue(':password', $password);
+			$st->bindValue(':salt', $salt);
+			$st->bindValue(':token', $token);
+			$st->bindValue(':language', $language);
 
-			$st = $db->prepare($query);
-
-			if (!$st)
+			if (!$st->execute())
 			{
-				$error = sprintf($lang['dberror'], $db->errorCode());
+				$error = sprintf($lang['dberror'], $st->errorCode());
 			}
 			else
 			{
-				$st->bindValue(':user', $user);
-				$st->bindValue(':email', $email);
-				$st->bindValue(':password', $password);
-				$st->bindValue(':salt', $salt);
-				$st->bindValue(':token', $token);
-				$st->bindValue(':language', $language);
+				$uid = (int)$db->lastInsertId();
+				$_SESSION['lang'] = $language;
 
-				if (!$st->execute())
-				{
-					$error = sprintf($lang['dberror'], $st->errorCode());
-				}
-				else
-				{
-					$query = <<<SQL
-						/*[Q7]*/
-						SELECT `id`, UNIX_TIMESTAMP(`token_expires`)
-						FROM `users`
-						WHERE `id`=LAST_INSERT_ID()
+				$query = <<<SQL
+					/*[Q8]*/
+					INSERT INTO `membership`(`user`, `group`)
+					VALUES(
+						LAST_INSERT_ID(),
+						(SELECT `id` FROM `groups` WHERE `name`='users')
+					);
 SQL;
 
-					$st = $db->query($query);
-
-					if (!$st)
-					{
-						$error = sprintf($lang['dberror'], $db->errorCode());
-					}
-					else
-					{
-						if (0 == $st->rowCount())
-						{
-							$error = $lang['regfailed'];
-						}
-						else
-						{
-							$row = $st->fetchObject();
-							//&& $_POST['timezone'] -> localtime($expires)
-
-							if (!$row)
-							{
-								$error = $st->errorCode();
-							}
-							else
-							{
-								$uid = (int)$row->id;
-								$expires = $row->token_expires;
-								$_SESSION['lang'] = $language;
-							}
-						}
-					}
-
-					if (!$error)
-					{
-						$query = <<<SQL
-							/*[Q8]*/
-							INSERT INTO `membership`(`user`, `group`)
-							VALUES(
-								LAST_INSERT_ID(),
-								(SELECT `id` FROM `groups` WHERE `name`='users')
-							);
-SQL;
-
-						if (!$db->exec($query))
-							$error = sprintf($lang['dberror'], $db->errorCode());
-					}
-				}
+				if (!$db->exec($query))
+					$error = sprintf($lang['dberror'], $db->errorCode());
 			}
-		}
-
-		if ($error)
-		{
-			$db->rollBack();
-		}
-		else
-		{
-			if (!$db->commit())
-				$error = $db->errorCode();
 		}
 	}
 
