@@ -489,7 +489,7 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 		$stopforumspam = isset($_SESSION['stopforumspam']) ? urldecode("$_SESSION[stopforumspam]/") : NULL;
 		$stopforumspam = sprintf("https://${stopforumspam}api.stopforumspam.org/api?".
 								 "f=json&ip=%s&email=%s&username=%s",
-								 $ipaddr['real'], urlencode($email), urlencode($user));
+								 $ipaddr, urlencode($email), urlencode($user));
 
 		$error = $curl->exec($stopforumspam, $json, 5);
 
@@ -551,8 +551,8 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 									"&evidence=Automated%%20registration%%2e\n",
 									$user, $spamchk->username->appears ? $spamchk->username->confidence : 0,
 									$email, $spamchk->email->appears ? $spamchk->email->confidence : 0,
-									$ipaddr['real'], $spamchk->ip->appears ? $spamchk->ip->confidence : 0,
-									$ipaddr['real'], urlencode($email), urlencode($user),
+									$ipaddr, $spamchk->ip->appears ? $spamchk->ip->confidence : 0,
+									$ipaddr, urlencode($email), urlencode($user),
 									$_SERVER['SERVER_NAME']));
 
 						$suspicion = array();
@@ -605,12 +605,26 @@ function /* char *error */ RegisterUser($db, /* __out */ &$message)
 	$message = null;
 
 	if (isset($_GET['stopforumspam']))
-	{
 		$_SESSION['stopforumspam'] = $_GET['stopforumspam'];
-		$_SESSION['ipaddr'] = isset($_SERVER['HTTP_X_REAL_IP']) ?
-			$_SERVER['HTTP_X_REAL_IP'] :
-			$_SERVER['REMOTE_ADDR'];
+
+	// Get remote IP address.
+	$ipaddr = NULL;
+	// First try proxy
+	if (isset($_SERVER['HTTP_X_REAL_IP']))
+	{
+		if (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/',
+					   $_SERVER['HTTP_X_REAL_IP']))
+			$ipaddr = $_SERVER['HTTP_X_REAL_IP'];
 	}
+	if (!$ipaddr && isset($_SERVER['HTTP_X_FORWARDED_FOR']))
+	{
+		if (preg_match('/[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}/',
+					   $_SERVER['HTTP_X_FORWARDED_FOR'], $m))
+			$ipaddr = $m[0];
+	}
+
+	if (!$ipaddr)
+		$ipaddr = $_SERVER['REMOTE_ADDR'];
 
 	if (isset($_POST['user']) &&
 		isset($_POST['email']))		/* else: no request, just display form */
@@ -666,32 +680,12 @@ function /* char *error */ RegisterUser($db, /* __out */ &$message)
 					}
 					else
 					{
-						$ipaddr['fwd'] = NULL;
-
-						if (isset($_SERVER['HTTP_X_FORWARDED_FOR']))
-							$ipaddr['fwd'] = $_SERVER['HTTP_X_FORWARDED_FOR'];
-
-						$ipaddr['real'] = isset($_SESSION['ipaddr']) ? $_SESSION['ipaddr'] : NULL;
-
-						if (!$ipaddr['real'])
-						{
-							if (isset($_SERVER['HTTP_X_REAL_IP']))
-								$ipaddr['real'] = $_SERVER['HTTP_X_REAL_IP'];
-							else if (isset($_SERVER['REMOTE_ADDR']))
-								$ipaddr['real'] = $_SERVER['REMOTE_ADDR'];
-							else
-								$ipaddr['real'] = '<unknown>';
-						}
-
-						$ipaddr['fwd'] = str_replace('::1', '127.0.0.1', $ipaddr['fwd']);
-						$ipaddr['real'] = str_replace('::1', '127.0.0.1', $ipaddr['real']);
-
 						if (!SuspectedSpam($_POST['user'], $_POST['email'], $ipaddr, $error))
 						{
 							if (!$error)
 							{
 								$error = RegisterUserSql($db, $_POST['user'], $_POST['email'], $_POST['passwd'],
-														 $ipaddr['real'].($ipaddr['fwd'] ? " ($ipaddr[fwd])" : ""),
+														 $ipaddr,
 														 isset($_POST['lang']) ? $_POST['lang'] :
 														 isset($_SESSION['lang']) ? $_SESSION['lang'] : 'en');
 
@@ -790,14 +784,9 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 				VALUES(
 					:user, :email, :password, :salt, :language,
 					:token, 'activation',
-					FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu), '%s'
+					FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu), '{$ipaddr}'
 				);
 SQL;
-
-			$query = sprintf($query, TOKEN_LIFETIME,
-							 isset($_SERVER['HTTP_X_REAL_IP']) ?
-								$_SERVER['HTTP_X_REAL_IP'] :
-								$_SERVER['REMOTE_ADDR']);
 
 			$st = $db->prepare($query);
 
