@@ -485,11 +485,13 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 
 	if ($curl)
 	{
-		/* Suspected spam? */
+		/* We need to save 'stopforumspam' in the session, as the POST
+		 will not contain the value initially set in the GET... */
 		$stopforumspam = isset($_SESSION['stopforumspam']) ? urldecode("$_SESSION[stopforumspam]/") : NULL;
-		$stopforumspam = sprintf("https://${stopforumspam}api.stopforumspam.org/api?".
-								 "f=json&ip=%s&email=%s&username=%s",
-								 $ipaddr, urlencode($email), urlencode($user));
+		$stopforumspam = "https://${stopforumspam}api.stopforumspam.org/api?".
+						 "f=json".($ipaddr ? "&ip=$ipaddr" : "").
+						 "&email=".urlencode($email).
+						 "&username=".urlencode($user);
 
 		$error = $curl->exec($stopforumspam, $json, 5);
 
@@ -604,6 +606,8 @@ function /* char *error */ RegisterUser($db, /* __out */ &$message)
 	$error = null;
 	$message = null;
 
+	/* We need to save 'stopforumspam' in the session, as the POST
+	 will not contain the value initially set in the GET... */
 	if (isset($_GET['stopforumspam']))
 		$_SESSION['stopforumspam'] = $_GET['stopforumspam'];
 
