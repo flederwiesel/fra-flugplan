@@ -499,71 +499,71 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 		}
 		else
 		{
-			$json = (object)json_decode($json);
+			$spamchk = (object)json_decode($json);
 
-			if ($json)
+			if ($spamchk)
 			{
-				if ($json->success)
+				if ($spamchk->success)
 				{
-					if (!isset($json->username->confidence))
+					if (!isset($spamchk->username->confidence))
 					{
-						$json->username->appears = 0;
+						$spamchk->username->appears = 0;
 					}
 					else
 					{
-						if ($json->username->confidence < 96.0)
-							$json->username->appears = 0;
+						if ($spamchk->username->confidence < 96.0)
+							$spamchk->username->appears = 0;
 					}
 
-					if (!isset($json->email->confidence))
+					if (!isset($spamchk->email->confidence))
 					{
-						$json->email->appears = 0;
+						$spamchk->email->appears = 0;
 					}
 					else
 					{
-						if ($json->email->confidence < 92.0 &&
-							$json->ip->confidence    < 92.0)
+						if ($spamchk->email->confidence < 92.0 &&
+							$spamchk->ip->confidence    < 92.0)
 						{
-							$json->username->appears = 0;
-							$json->email->appears = 0;
-							$json->ip->appears = 0;
+							$spamchk->username->appears = 0;
+							$spamchk->email->appears = 0;
+							$spamchk->ip->appears = 0;
 						}
 					}
 
-					if (!isset($json->ip->confidence))
+					if (!isset($spamchk->ip->confidence))
 					{
-						$json->ip->appears = 0;
+						$spamchk->ip->appears = 0;
 					}
 					else
 					{
-						if ($json->ip->confidence < 98.0)
-							$json->ip->appears = 0;
+						if ($spamchk->ip->confidence < 98.0)
+							$spamchk->ip->appears = 0;
 					}
 
-					if ($json->username->appears ||
-						$json->email->appears    ||
-						$json->ip->appears)
+					if ($spamchk->username->appears ||
+						$spamchk->email->appears    ||
+						$spamchk->ip->appears)
 					{
 						AdminMail('registration',
 							sprintf("\nSuspected spam:\n%s=%s\n%s=%s\n%s=%s\n".
 									"\nReport: https://www.stopforumspam.com/add.php?".
 									"api_key=nrt20iomfc34sz&ip_addr=%s&email=%s&username=%s".
 									"&evidence=Automated%%20registration%%2e\n",
-									$user, $json->username->appears ? $json->username->confidence : 0,
-									$email, $json->email->appears ? $json->email->confidence : 0,
-									$ipaddr['real'], $json->ip->appears ? $json->ip->confidence : 0,
+									$user, $spamchk->username->appears ? $spamchk->username->confidence : 0,
+									$email, $spamchk->email->appears ? $spamchk->email->confidence : 0,
+									$ipaddr['real'], $spamchk->ip->appears ? $spamchk->ip->confidence : 0,
 									$ipaddr['real'], urlencode($email), urlencode($user),
 									$_SERVER['SERVER_NAME']));
 
 						$suspicion = array();
 
-						if ($json->username->appears)
+						if ($spamchk->username->appears)
 							$suspicion[0] = $lang['username'];
 
-						if ($json->email->appears)
+						if ($spamchk->email->appears)
 							$suspicion[1] = $lang['emailaddress'];
 
-						if ($json->ip->appears)
+						if ($spamchk->ip->appears)
 							$suspicion[2] = $lang['ipaddress'];
 
 						/* Join suspicions to string, separated with command and "and" */
@@ -572,9 +572,9 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 						$both  = array_filter(array_merge(array($first), $last), 'strlen');
 						$insert = join(" $lang[and] ", $both);
 
-						$plural = $json->username->appears ?
-								 ($json->email->appears || $json->ip->appears) :
-								 ($json->email->appears && $json->ip->appears);
+						$plural = $spamchk->username->appears ?
+								 ($spamchk->email->appears || $spamchk->ip->appears) :
+								 ($spamchk->email->appears && $spamchk->ip->appears);
 
 						$message = sprintf($plural ? $lang['spam:plur'] : $lang['spam:sing'], $insert);
 					}
