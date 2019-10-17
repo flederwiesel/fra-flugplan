@@ -769,6 +769,7 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 	{
 		$salt = token();
 		$token = token();
+		$expires = time() + TOKEN_LIFETIME;
 		$password = hash_hmac('sha256', $password, $salt);
 
 		if (!$db->beginTransaction())
@@ -788,7 +789,7 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 				VALUES(
 					:user, :email, :password, :salt, :language,
 					:token, 'activation',
-					FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + %lu), '{$ipaddr}'
+					FROM_UNIXTIME({$expires}), '{$ipaddr}'
 				);
 SQL;
 
@@ -815,7 +816,7 @@ SQL;
 				{
 					$query = <<<SQL
 						/*[Q7]*/
-						SELECT `id`,`token_expires`
+						SELECT `id`, UNIX_TIMESTAMP(`token_expires`)
 						FROM `users`
 						WHERE `id`=LAST_INSERT_ID()
 SQL;
@@ -879,6 +880,8 @@ SQL;
 		}
 	}
 
+	$ExpDate = strftime('%Y-%m-%d %H:%M:%S', $expires);
+
 	if (!$error)
 	{
 		/* Send registration email to user */
@@ -899,7 +902,7 @@ SQL;
 		$body = sprintf($lang['emailactivation'],
 						$ipaddr,
 						$user, ORGANISATION, SITE_URL,
-						$token, php_self(), $user, $token, $expires, ORGANISATION);
+						$token, php_self(), $user, $token, $ExpDate, ORGANISATION);
 
 		/* http://www.outlookfaq.net/index.php?action=artikel&cat=6&id=84&artlang=de */
 		$body = mb_convert_encoding($body, 'ISO-8859-1', 'UTF-8');
@@ -913,7 +916,7 @@ SQL;
 
 	AdminMail('registration',
 			  sprintf("$uid:$user <$email>%s = %s\n",
-			  		  $expires ? " (expires $expires)" : "",
+					  $expires ? " (expires $ExpDate)" : "",
 					  $error ? $error : "OK"));
 
 	return $error;
