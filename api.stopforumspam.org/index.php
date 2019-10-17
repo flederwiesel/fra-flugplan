@@ -31,14 +31,7 @@
 			'nospam' => array(
 				'appears' => 0,
 			),
-			'spam' => array(
-				'appears' => 1,
-				'frequency' => 1,
-				'lastseen' => '2015-12-18 19:38:00',
-				'confidence' => 98.34,
-			),
-			'CommonNameOftenUsedInSpam' => array(
-			// But actually no spam, just an unfortunate name...
+			'spammer' => array(
 				'appears' => 1,
 				'frequency' => 1,
 				'lastseen' => '2015-12-18 19:38:00',
