@@ -214,7 +214,12 @@ try
 
 	$db = new $classname(sprintf("mysql:host=%s;dbname=%s;charset=utf8",
 					DB_HOSTNAME, DB_NAME),
-					DB_USERNAME, DB_PASSWORD);
+					DB_USERNAME, DB_PASSWORD,
+					[
+						PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+						PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+					]
+				);
 }
 catch (PDOException $e)
 {
@@ -225,8 +230,6 @@ catch (PDOException $e)
 
 if (!$error)
 {
-	$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
-
 	// callback function for user login, register, etc.
 	require_once 'user.php';
 
