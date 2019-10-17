@@ -793,7 +793,7 @@ SELECT `watchlist-notifications`.`id` AS `id`, UNIX_TIMESTAMP(IFNULL(`flights`.`
 hausmeister@flederwiesel.com:
 Tag, 00. Monat 0000 22:30	CS-TNP	"TAP - Star Alliance"
 Tag, 00. Monat 0000 11:45	C-GHKW	"Air Canada - 936"
-UPDATE `watchlist-notifications` LEFT JOIN `watchlist` ON `watchlist`.`id`=`watchlist-notifications`.`watch` INNER JOIN `users` ON `users`.`id`=`watchlist`.`user` AND `users`.`email`='hausmeister@flederwiesel.com' SET `watchlist-notifications`.`notified`='0000-00-01T21:00:00+0000' WHERE `watchlist-notifications`.`id` IN(23,24)
+UPDATE `watchlist-notifications` LEFT JOIN `watchlist` ON `watchlist`.`id`=`watchlist-notifications`.`watch` INNER JOIN `users` ON `users`.`id`=`watchlist`.`user` AND `users`.`email`='hausmeister@flederwiesel.com' SET `watchlist-notifications`.`notified`='0000-00-01T21:00:00+0000' WHERE `watchlist-notifications`.`id` IN(24,23)
 DELETE `watchlist-notifications` FROM `watchlist-notifications` INNER JOIN `flights` ON `flights`.`id`=`watchlist-notifications`.`flight` WHERE (DATEDIFF('0000-00-01T21:00:00+0000', IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 1)
 
 
