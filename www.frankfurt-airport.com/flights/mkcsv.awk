@@ -26,6 +26,8 @@ BEGIN {
 	ac = 0;
 	reg = "";
 	dir = ""
+	printChanges = 0
+	printSummary = 0
 }
 
 /^#/ && 1 == NR {
@@ -71,6 +73,9 @@ BEGIN {
 			flights[fid]["fnr"] = $7$8;
 			# insert flight id
 			$3 = $3 "/*=" fid "*/";
+
+			if (printChanges)
+				print $1 ": flight   " $7$8 "=" fid >"/dev/stderr"
 		}
 
 		# if $5 is set, server(lu) will be == db(lu)
@@ -115,6 +120,9 @@ BEGIN {
 					aircrafts[ac]["reg"] = $12;
 					aircrafts[ac]["visits"] = 0;
 					new = "/*=" ac;
+
+					if (printChanges)
+						print $1 ": aircraft " $12 "=" ac "," aircrafts[ac]["visits"] + 1 >"/dev/stderr"
 				}
 
 				if ($13 == "annulliert") {
@@ -234,13 +242,13 @@ BEGIN {
 }
 
 END {
-	if(0){
-	for (f in flights)
-		print f "=" flights[f]["uniq"] ":" flights[f]["ac"] > "/dev/stderr"
+	if (printSummary) {
+		for (f in flights)
+			print f "=" flights[f]["uniq"] ":" flights[f]["ac"] > "/dev/stderr"
 
-	n = asorti(aircrafts, indices);
+		n = asorti(aircrafts, indices);
 
-	for (i = 1; i <= n; i++)
-		print indices[i] "=" aircrafts[indices[i]]["reg"] ":" aircrafts[indices[i]]["visits"] > "/dev/stderr";
-}
+		for (i = 1; i <= n; i++)
+			print indices[i] "=" aircrafts[indices[i]]["reg"] ":" aircrafts[indices[i]]["visits"] > "/dev/stderr";
+	}
 }
