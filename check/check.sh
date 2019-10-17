@@ -128,7 +128,8 @@ query() {
 
 	[ 1 == $debug ] && echo -e "\033[1;33m$@\033[m" >&2
 
-	mysql --silent --protocol=TCP --host=localhost --user=root --password= \
+	mysql --silent --protocol=TCP --host=localhost \
+		--user=flugplan --password=$(getpass machine=mysql://localhost login=flugplan) \
 		--default-character-set=utf8 --skip-column-names "$@"
 }
 
@@ -176,6 +177,8 @@ export -f rawurlencode
 ###############################################################################
 
 set -o pipefail
+
+export PATH=$(dirname "$0")/../etc:$PATH
 
 chkdep readlink --version
 chkdep minversion sed        "4.2.1"  "$(sed --version 2>&1 || echo | sed -nr '/^(GNU *)?sed/ { s/^[^0-9]*//g; /^$/d; p }')"

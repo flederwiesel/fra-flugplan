@@ -1,0 +1,58 @@
+#!/bin/bash
+
+for arg
+do
+	if [ "${arg//=/}" = "$arg" ]; then
+		echo "*** \`$arg\` is not a valid argument" >&2
+		echo "Arguments must be formed as name=value with" >&2
+		echo "machine= and login= being valid keys." >&2
+	else
+		args[${#args[@]}]=-v
+		args[${#args[@]}]="$arg"
+	fi
+done
+
+awk ${args[@]} '
+
+BEGIN {
+	m = NULL
+	l = NULL
+	p = NULL
+}
+
+/machine/ {
+
+	if ($2 == machine || $2 == "*")
+	{
+		# reset login for a new machine
+		l = NULL
+		m = $2
+	}
+}
+
+/login/ {
+
+	if ($2 == login || $2 == "*")
+		l = $2
+}
+
+/password/ {
+
+	if ((m == machine || NULL == machine) &&
+	    (l == login   || NULL == login))
+	{
+		print $2
+		p = $2 # save for evaluation in END{}
+		exit
+	}
+}
+
+/^$/ {
+	m = NULL
+	l = NULL
+}
+
+END {
+	exit p ? 0 : 1
+}
+' $HOME/.netrc
