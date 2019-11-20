@@ -1144,20 +1144,8 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 
 	if ($flights)
 	{
-		if (0)
-		{
-			// Retrieve flights from one hour ago (plus alignment)
-			//   until no more 'esti' or 'reg' in flight data
-			// Align timestamp on full hour...
-			$offset = ($now->time_t - strtotime('00:00', $now->time_t)) % 3600 + $lookback;
-		}
-		else
-		{
-			$offset = 0;
-		}
-
 		$type = 'C' == $type ? '.cargo' : '';
-		$start = $now->time_t - $offset;
+		$start = $now->time_t;
 		$time = date(DATE_ISO8601, $start);
 		$time = urlencode($time);
 		$current = $start;
