@@ -19,7 +19,15 @@ require_once 'classes/etc.php';
 require_once 'classes/curl.php';
 require_once "classes/sql-xpdo.php";
 
-function /* char* */ token() { return hash('sha256', mcrypt_create_iv(32)); }
+function /* char* */ token()
+{
+	$version = explode('.', phpversion());
+
+	if ('5' == $version[0])
+		return hash('sha256', mcrypt_create_iv(32));
+	else
+		return hash('sha256', random_bytes(32));
+}
 
 function /* char* */ PasswordRegex($min, $letter, $upper, $lower, $digit, $specials)
 {
