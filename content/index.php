@@ -19,6 +19,7 @@ $message = NULL;
 
 /* Update watchlist from posted values */
 if (isset($_POST['add']) ||
+	isset($_POST['upd']) ||
 	isset($_POST['del']))
 {
 	if (!$user)
@@ -29,153 +30,190 @@ if (isset($_POST['add']) ||
 	{
 		if ($db)
 		{
+			try
 			{
-				if (!$db->beginTransaction())
-				{
-					$error = sprintf($lang['dberror'], $db->errorCode());
-				}
-				else
-				{
-					$uid = $user->id();
+				$uid = $user->id();
 
-					if (isset($_POST['del']))
+				// If at least one notification is set active,
+				// warn if notification times need to be set
+				$CheckNotifTimes = FALSE;
+
+				if (isset($_POST['upd']))
+				{
+					$query = <<<SQL
+						/*[Q20]*/
+						UPDATE `watchlist`
+						SET
+							`reg`=:new,
+							`comment`=:comment,
+							`notify`=:notify
+						WHERE `user`=$uid AND `reg`=:reg
+SQL;
+
+					$st = $db->prepare($query);
+
+					if (!$st)
 					{
-						$del = explode("\n", $_POST['del']);
+						$error = sprintf($lang['dberror'], $db->errorCode());
+					}
+					else
+					{
+						$upd = explode("\n", $_POST['upd']);
 
-						foreach ($del as $reg)
+						foreach ($upd as $line)
 						{
-							if (strlen($reg))
-							{
-								$reg = strtoupper(trim($reg));
+							list($reg, $new, $comment, $notify) = explode("\t", $line);
 
-								if (!get_magic_quotes_gpc())
-								{
-									// escape backslashes and single quotes
-									$reg = str_replace("\\", "", $reg);
-									$reg = str_replace("'", "", $reg);
-								}
+							$reg = strtoupper(trim($reg));
+							$new = strtoupper(trim($new));
 
-								$query = <<<SQL
-									/*[Q16]*/
-									DELETE `watchlist-notifications`
-									FROM `watchlist-notifications`
-									INNER JOIN (SELECT `id` FROM `watchlist`
-												WHERE `user`=$uid
-												AND `reg`=?) AS `watchlist`
-									        ON `watchlist`.`id`=`watchlist-notifications`.`watch`
-SQL;
+							if (!$reg)
+								$reg = $new;
 
-								$st = $db->prepare($query);
+							$notify = trim($notify);
 
-								if (!$st)
-								{
-									$error = sprintf($lang['dberror'], $db->errorCode());
-								}
-								else
-								{
-									if (!$st->execute(array($reg)))
-									{
-										$error = sprintf($lang['dberror'], $st->errorCode());
-									}
-									else
-									{
-										$query = <<<SQL
-											/*[Q17]*/
-											DELETE FROM `watchlist`
-											WHERE `user`=$uid
-												AND `reg`=?
-SQL;
+							if ($notify)
+								$CheckNotifTimes = TRUE;
 
-										$st = $db->prepare($query);
+							$st->bindValue('reg', $reg);
+							$st->bindValue('new', $new);
+							$st->bindValue('comment', $comment);
+							$st->bindValue('notify', $notify);
 
-										if (!$st)
-										{
-											$error = sprintf($lang['dberror'], $db->errorCode());
-										}
-										else
-										{
-											if (!$st->execute(array($reg)))
-												$error = sprintf($lang['dberror'], $st->errorCode());
-										}
-									}
-								}
-							}
-
-							if ($error)
-								break;
+							if (!$st->execute())
+								$error = sprintf($lang['dberror'], $st->errorCode());
 						}
 					}
+				}
 
-					if (!$error)
+				if (!$error)
+				{
+					if (isset($_POST['add']))
 					{
-						if (isset($_POST['add']))
-						{
-							$notif_req = FALSE;
+						$query = <<<SQL
+							/*[Q18]*/
+							INSERT INTO `watchlist`(`user`, `reg`, `comment`, `notify`)
+							VALUES($uid, :reg, :comment, :notify)
+SQL;
 
+						$st = $db->prepare($query);
+
+						if (!$st)
+						{
+							$error = sprintf($lang['dberror'], $db->errorCode());
+						}
+						else
+						{
 							$add = explode("\n", $_POST['add']);
 
 							foreach ($add as $line)
 							{
 								list($reg, $comment, $notify) = explode("\t", $line);
 
-								if (strlen($reg))
+								$reg = strtoupper(trim($reg));
+
+								if ($reg)
 								{
-									$reg = strtoupper(trim($reg));
 									$notify = trim($notify);
 
-									$watch[$reg] = $comment;
-
 									if ($notify)
-										$notif_req = TRUE;
+										$CheckNotifTimes = TRUE;
 
-									$query = <<<SQL
-										/*[Q18]*/
-										INSERT INTO `watchlist`(`user`,`reg`,`comment`, `notify`)
-										VALUES($uid, :reg, :comment, :notify)
-										ON DUPLICATE KEY UPDATE `comment`=:comment, `notify`=:notify
-SQL;
+									$st->bindValue('reg', $reg);
+									$st->bindValue('comment', $comment);
+									$st->bindValue('notify', $notify);
 
-									$st = $db->prepare($query);
-
-									if (!$st)
-									{
-										$error = sprintf($lang['dberror'], $db->errorCode());
-									}
-									else
-									{
-										$st->bindValue(':reg', $reg);
-										$st->bindValue(':comment', $comment);
-										$st->bindValue(':notify', $notify);
-
-										if (!$st->execute())
-											$error = sprintf($lang['dberror'], $st->errorCode());
-									}
-								}
-							}
-
-							if (!$error)
-							{
-								if ($notif_req)
-								{
-									if ($user->opt('notification-from') == $user->opt('notification-until'))
-										$message = $lang['notif-setinterval'];
+									if (!$st->execute())
+										$error = sprintf($lang['dberror'], $st->errorCode());
 								}
 							}
 						}
 					}
+				}
 
-					// TODO: This can be handled mor smartly using exceptions
-					if ($error)
+				if (!$error)
+				{
+					if (isset($_POST['del']))
 					{
-						if (!$db->rollBack())
+						$query = <<<SQL
+							/*[Q16]*/
+							DELETE `watchlist-notifications`
+							FROM `watchlist-notifications`
+							INNER JOIN (SELECT `id` FROM `watchlist`
+										WHERE `user`=$uid
+										AND `reg`=?) AS `watchlist`
+									ON `watchlist`.`id`=`watchlist-notifications`.`watch`
+SQL;
+
+						$st16 = $db->prepare($query);
+
+						if (!$st16)
+						{
 							$error = sprintf($lang['dberror'], $db->errorCode());
-					}
-					else
-					{
-						if (!$db->commit())
-							$error = sprintf($lang['dberror'], $db->errorCode());
+						}
+						else
+						{
+							$query = <<<SQL
+								/*[Q17]*/
+								DELETE FROM `watchlist`
+								WHERE `user`=$uid
+									AND `reg`=?
+SQL;
+							$st17 = $db->prepare($query);
+
+							if (!$st17)
+							{
+								$error = sprintf($lang['dberror'], $db->errorCode());
+							}
+							else
+							{
+								$del = explode("\n", $_POST['del']);
+
+								foreach ($del as $reg)
+								{
+									$reg = strtoupper(trim($reg));
+
+									if (!get_magic_quotes_gpc())
+									{
+										// escape backslashes and single quotes
+										$reg = str_replace("\\", "", $reg);
+										$reg = str_replace("'", "", $reg);
+									}
+
+									if (!$st16->execute(array($reg)))
+									{
+										$error = sprintf($lang['dberror'], $st->errorCode());
+									}
+									else
+									{
+										if (!$st17->execute(array($reg)))
+											$error = sprintf($lang['dberror'], $st->errorCode());
+									}
+
+									if ($error)
+										break;
+								}
+							}
+						}
 					}
 				}
+
+				if (!$error)
+				{
+					if (isset($_POST['add']) ||
+						isset($_POST['upd']))
+					{
+						if ($CheckNotifTimes)
+						{
+							if ($user->opt('notification-from') == $user->opt('notification-until'))
+								$message = $lang['notif-setinterval'];
+						}
+					}
+				}
+			}
+			catch (Exception $e)
+			{
+				$error = sprintf($lang['dberror'], $db->errorCode());
 			}
 		}
 	}

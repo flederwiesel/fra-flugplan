@@ -112,10 +112,13 @@ function CloneRow(input)
 {
 	var tr = input.parentNode.parentNode;
 	var row;
+	var inp;
+	var a;
+	var img;
 
 	/* Create new row to be inserted before this one, containing copies of col[0..n] */
 	row = tr.cloneNode(true);
-
+	row.setAttribute("add", "true");
 	tr.parentNode.insertBefore(row, tr.nextSibling);
 
 	inp = row.getElementsByTagName("input");
@@ -142,73 +145,132 @@ function CloneRow(input)
 	}
 
 	inp[0].focus();
+
+	return row;
 }
 
 function RemoveRow(input)
 {
-	tr = input.parentNode.parentNode;
-	rows = GetElementsByTag(/*<tbody>*/tr.parentNode, "tr", "");
+	var tr = input.parentNode.parentNode;
+	var rows = GetElementsByTag(/*<tbody>*/tr.parentNode, "tr", "");
+	var next;
+	var inp;
 
 	if (1 == rows.length)
 	{
-		CloneRow(input);
+		next = CloneRow(input);
 
 		tr.style.display = "none";
+		tr.setAttribute("del", "true");
 	}
-	else if (rows.length > 1)
+	else
 	{
-		for (i = 0; i < rows.length; i++)
+		if (rows.length > 1)
 		{
-			if (rows[i] == tr)
+			for (i = 0; i < rows.length; i++)
 			{
-				if (i < rows.length - 1)
-					next = rows[i + 1];
-				else
-					next = rows[i - 1];
+				if (rows[i] == tr)
+				{
+					tr.style.display = "none";
+					tr.setAttribute("del", "true");
 
-				break;
+					if (i < rows.length - 1)
+						next = rows[i + 1];
+					else
+						next = rows[i - 1];
+
+					break;
+				}
 			}
 		}
-
-		tr.style.display = "none";
-		tr.setAttribute("");
-
-		inp = next.getElementsByTagName("input");
-		inp[0].focus();
 	}
+
+	inp = next.getElementsByTagName("input");
+	inp[0].focus();
+
 }
 
 $(function()	// PreparePostData()
 {
+	$("#watch").on("focusin", "input.reg", function()
+	{
+		// For a newly added row, we don't need to remember reg
+		// When updating a reg, remember original value for
+		// SQL UPDATE statement in attr("reg")
+		if (!$($(this).parents("tr")[0]).attr("add"))
+		{
+			if (!$(this).data("reg"))
+				$(this).data("reg", $(this).val());
+		}
+	});
+
+	$("#watch").on("change", "input", function()
+	{
+		// Whenever an input values changes, mark row as changed
+		// ...unless it is a newly added row
+		if (!$($(this).parents("tr")[0]).attr("add"))
+			$($(this).parents("tr")[0]).attr("upd", "true");
+	});
+
 	$("#watch").submit(function(event) {
 
-		var add = "";
-		var del = "";
+		var add = null;
+		var del = null;
+		var upd = null;
 
 		$("input:submit", $(this)).attr("disabled", "disabled");
 
-		$("#watch tbody tr").each(function() {
-			reg     = $("input.reg",     $(this))[0];
-			comment = $("input.comment", $(this))[0];
-			notify  = $("input.notify",  $(this))[0];
+		// Loop through table rows, check whether they are marked as to be added,
+		// updated or deleted and build up three strings, being separated with
+		// newline from each other.
+		// Within these lines, multiple input values are separated using tabs.
+		$("#watch tbody tr").each(function()
+		{
+			reg = $("input.reg", $(this))[0];
 
-			if ($(reg).is(":visible"))
+			if ($(this).attr("del") == "true")
 			{
-				if (add.length > 0)
-					add += "\n";
-				add += $(reg).val() + "\t" + $(comment).val() + "\t" + ($(notify).is(":checked") ? 1 : 0);
+				// "$reg\n$reg"
+				del = del ? del + "\n" : "";
+				del += $(reg).val();
 			}
 			else
 			{
-				if (del.length > 0)
-					del += "\n";
+				comment = $("input.comment", $(this))[0];
+				notify  = $("input.notify",  $(this))[0];
 
-				del += $(reg).val();
+				if ($(this).attr("add") == "true")
+				{
+					// "$reg\t$comment\t$notify\n..."
+					add = add ? add + "\n" : "";
+					add += $(reg).val() + "\t" +
+						$(comment).val() + "\t" +
+						($(notify).is(":checked") ? 1 : 0);
+				}
+				else
+				{
+					if ($(this).attr("upd") == "true")
+					{
+						// "$reg\t$NewReg\t$comment\t$notify\n..."
+						upd = upd ? upd + "\n" : "";
+						upd += ($(reg).data("reg") ? $(reg).data("reg") : "") + "\t" +
+							$(reg).val() + "\t" +
+							$(comment).val() + "\t" +
+							($(notify).is(":checked") ? 1 : 0);
+					}
+				}
 			}
 		});
 
-		$("#watch").append($("<input>").attr("type", "hidden").attr("name", "add").val(add));
-		$("#watch").append($("<input>").attr("type", "hidden").attr("name", "del").val(del));
+
+		if (add)
+			$("#watch").append($("<input>").attr("type", "hidden").attr("name", "add").val(add));
+
+		if (del)
+			$("#watch").append($("<input>").attr("type", "hidden").attr("name", "del").val(del));
+
+		if (upd)
+			$("#watch").append($("<input>").attr("type", "hidden").attr("name", "upd").val(upd));
 
 		event.preventDefault();
 		this.submit();
