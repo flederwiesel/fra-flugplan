@@ -53,7 +53,13 @@ i=0
 
 for p in ${projects[@]}
 do
-	sed -r "s|(DefaultFile=).*\$|\\1http://localhost/$prjroot/${p##*:}|g;
+	if grep -q '\?' <<<"$p"; then
+		fin='\&'
+	else
+		fin='?'
+	fi
+
+	sed -r "s|(DefaultFile=).*\$|\\1http://localhost/$prjroot/${p##*:}$fin|g;
 			s|\\\$prjroot|$prjroot|g" > "$cygpath/.phped/${p%%:*}.ppj" <<-EOF
 		[Debugger]
 		dbgsessions=1
