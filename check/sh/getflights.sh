@@ -39,21 +39,23 @@ query <<-"SQL"
 	# Get predictive values...
 	ALTER TABLE `airports` AUTO_INCREMENT=2147483642;
 
-	INSERT INTO `users`(`name`, `email`, `salt`, `passwd`, `language`)
+	INSERT INTO `users`(`name`, `email`, `salt`, `passwd`, `language`, `ip`)
 	VALUES
 	(
 		'root',
 		'flederwiesel@fra-flugplan.de',
 		'cf78aafd5c5410b7b12c2794a52cda1bccd01316f30df57aa29c5609ba979c15',
 		'c4ae99aa0209ce5bea9687cf0548d8ebc942ba14e166c45957a876bcec194fed',
-		'en'
+		'en',
+		'::1'
 	),
 	(
 		'flederwiesel',
 		'hausmeister@flederwiesel.com',
 		'cf78aafd5c5410b7b12c2794a52cda1bccd01316f30df57aa29c5609ba979c15',
 		'c4ae99aa0209ce5bea9687cf0548d8ebc942ba14e166c45957a876bcec194fed',
-		'en'
+		'en',
+		'::1'
 	);
 
 	SELECT `id` INTO @root
