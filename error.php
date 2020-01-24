@@ -135,6 +135,13 @@ $rev = NULL;
  * header
  ******************************************************************************/
 
+if (isset($_GET['http_status']))
+	$status = $_GET['http_status'];
+else
+	$status = 500;
+
+header("HTTP/1.1 $status");
+
 // always modified
 header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
 
@@ -244,11 +251,6 @@ else
 				<div id="text">
 					<h1 style="display: inline">
 <?php
-					if (isset($_GET['http_status']))
-						$status = $_GET['http_status'];
-					else
-						$status = 500;
-
 					echo "$status ";
 
 					switch ($status)
