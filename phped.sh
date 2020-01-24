@@ -62,8 +62,8 @@ do
 	sed -r "s|(DefaultFile=).*\$|\\1http://localhost/$prjroot/${p##*:}$fin|g;
 			s|\\\$prjroot|$prjroot|g" > "$cygpath/.phped/${p%%:*}.ppj" <<-EOF
 		[Debugger]
+		stopbeginning=0
 		dbgsessions=1
-		stopbeginning=1
 		excset=Exception
 		profwithdbg=0
 		excign=
@@ -71,13 +71,13 @@ do
 		cp=System default encoding
 		tunnel=
 		readonlyed=0
-		host=localhost
 		custom=0
+		host=localhost
 		errset=E_ERROR,E_WARNING,E_PARSE,E_CORE_ERROR,E_CORE_WARNING,E_COMPILE_ERROR,E_COMPILE_WARNING,E_USER_ERROR,E_USER_WARNING,E_STRICT,E_RECOVERABLE_ERROR
 		sesstimeout=15
 		blkout=0
-		Custom.Debug.Settings=0
 		showmaperrors=1
+		Custom.Debug.Settings=0
 		breakerr=1
 
 		[PHPEdProject.Filters.Allow]
@@ -112,13 +112,16 @@ do
 		[Wizard]
 		runmode=2
 		projectroot=$winpath
-		localwebroot=E:\home\common\prj\HTML\htdocs
 		webrooturl=http://localhost/
+		localwebroot=E:\home\common\prj\HTML\htdocs
+
+		[PHPEdProject.JSLibraries]
+		Count=0
 
 		[Testing]
 		TestingCustomLoader=
 		TestingCustomLoaderExtraArg=
-		TestingConfig=
+		TestingConfig=phpunit.xml
 		FindTestMode=0
 		TestingRoot=
 		EnableTesting=0
@@ -127,14 +130,16 @@ do
 		HideDirs=CVS;.svn;.git
 		CvsRoot=
 		MappingLocal0=$winpath
-		ParserProp_CSS_SubLang=1
+		ParserProp_CSS_SubLang=2
+		UrlMappingCount=0
 		CvsModule=
 		EncoderEnabled=0
 		DefaultEncodingCount=1
-		CvsPassw=
+		CvsPassw=xGkz19Uq0yChJr+8rWLrmDnmp6WFmgMQUZbvrF3SG4hJJ3e1NQozAAEGH5wNQkt4aZZZh+V6Y/Cxdk+MvbJ7aA==
 		DriverID=
 		IncPath_count=0
 		RelativeRootDir=..\\..\\$workspace
+		UsedPHPFrameworkPath=
 		MappingMainIdx=0
 		ParserProp_CSS_ParsePHP=0
 		MappingURL0=http://localhost/$prjroot
@@ -148,23 +153,35 @@ do
 		URL=http://localhost/$prjroot
 		CvsCVSROOT=:pserver:@
 		DefaultFile=http://localhost/$prjroot/index.php
+		ChangeTime=
 		ParserProp_JS_ParsePHP=0
 		ParserProp_Override=0
+		RemoteCliAccount=
 		GUID={8FD21476-5E2E-483B-970B-58875E6E0727}
+		RemoteCliPhp=
 		CvsUseUtf8=0
 		MappingCount=1
 		ParserProp_AllowSingleAsteriskXDoc=0
+		UsedPHPFrameworkId=
 		PublishingAllowFilterCount=1
 		MappingRemoteDir=$winpath
+		PhpUnitPackage=
 		DontPublishDirs=CVS;.svn;.git
-		MappingPublishing0=
 		SourceControl=0
-		ParserProp_HTML_SubLang=2
+		MappingPublishing0=
+		ScriptRunTarget=2
+		ParserProp_HTML_SubLang=8
+		UsedPHPFrameworkChecked=0
 		ParserPropPHPShortTags=1
-		ParserProp_PHP_SubLang=3
-		HideFiles=.gitignore;.cvsignore
-		CustomPropCount=0
+		ParserProp_PHP_SubLang=4
 		PublishingFilterCount=1
+		CustomPropCount=0
+		HideFiles=.gitignore;.cvsignore
+
+		[Publishing]
+		DebuggerPublishingIdx=-1
+		count=0
+		DfltPublishingIdx=-1
 EOF
 
 	# workspace entries
