@@ -142,16 +142,6 @@ else
 
 header("HTTP/1.1 $status");
 
-// always modified
-header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
-
-// HTTP/1.1
-header('Cache-control: private'); // IE 6 FIX
-header('Cache-Control: no-store, no-cache, must-revalidate');
-header('Cache-Control: post-check=0, pre-check=0', false);
-// HTTP/1.0
-header('Pragma: no-cache');
-
 header('Content-Type: text/html; charset=UTF-8');
 header('Content-Language: '.$_SESSION['lang']);
 
