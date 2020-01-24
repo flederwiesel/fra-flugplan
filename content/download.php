@@ -45,7 +45,7 @@ $(function()
 	$('#date-from').datepicker({
 		dateFormat: 'dd.mm.yy',
 		firstDay: 1,
-		minDate: '-1Y',
+		minDate: new Date(2012, 6 - 1, 6),
 		maxDate: 0,
 		changeMonth: true,
 		changeYear: true
@@ -54,7 +54,7 @@ $(function()
 	$('#date-until').datepicker({
 		dateFormat: 'dd.mm.yy',
 		firstDay: 1,
-		minDate: '-1Y',
+		minDate: new Date(2012, 6 - 1, 6),
 		maxDate: '0',
 		changeMonth: true,
 		changeYear: true,
