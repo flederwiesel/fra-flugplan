@@ -2225,6 +2225,7 @@ function SendWatchlistNotification($name, $email, $fmt, $locale, $notifications)
 	else
 	{
 		$query = <<<SQL
+			/*[Q47]*/
 			UPDATE `watchlist-notifications`
 			LEFT JOIN `watchlist`
 				   ON `watchlist`.`id`=`watchlist-notifications`.`watch`
