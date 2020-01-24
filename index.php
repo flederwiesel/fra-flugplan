@@ -312,7 +312,10 @@ if ('de' == $_SESSION['lang']) {
 <meta name="viewport" content="width=device-width; initial-scale=1.0;"/>
 <?php } ?>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-<link type="image/gif" rel="icon" href="favicon.gif">
+<!-- IE -->
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<!-- other browsers -->
+<link rel="icon" type="image/x-icon" href="favicon.ico">
 <link type="text/css" rel="stylesheet" href="script/<?php echo "{$jqueryui}/themes/base/{$jqueryminified}jquery.ui.core{$jquerymin}.css"; rev(); ?>">
 <link type="text/css" rel="stylesheet" href="script/<?php echo "${jqueryui}/themes/base/{$jqueryminified}jquery.ui.theme{$jquerymin}.css"; rev(); ?>">
 <link type="text/css" rel="stylesheet" href="script/<?php echo "${jqueryui}/themes/base/{$jqueryminified}jquery.ui.tooltip{$jquerymin}.css"; rev(); ?>">
