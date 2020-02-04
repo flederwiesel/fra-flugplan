@@ -19,6 +19,8 @@ $notice = null;
 if (!$user)
 {
 	$error = $lang['notloggedin'];
+
+	session_regenerate_id();
 }
 else
 {
@@ -66,7 +68,7 @@ $(function()
 	});
 });
 </script>
-<form method="post" action="content/getfile.php">
+<form method="post" action="content/getfile.php?session=<?php echo session_id(); ?>">
 	<fieldset>
 		<legend><?php echo $lang['dlflights']; ?></legend>
 <?php if (isset($error)) { ?>
