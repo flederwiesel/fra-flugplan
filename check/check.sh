@@ -138,7 +138,9 @@ strftime() {
 }
 
 browse() {
-	curl -s --noproxy localhost --cookie .COOKIES --cookie-jar .COOKIES "$@"
+	curl --silent --location --noproxy localhost \
+		--cacert ../etc/ssl/ca-certificates.crt \
+		--cookie .COOKIES --cookie-jar .COOKIES "$@"
 }
 
 rawurlencode() {
@@ -185,7 +187,7 @@ chkdep minversion sed        "4.2.1"  "$(sed --version 2>&1 || echo | sed -nr '/
 chkdep minversion awk        "4.1.1"  "$(awk --version 2>&1)" "||" \
        minversion mawk       "1.3.3"  "$(awk -W version 2>&1 || echo | sed -nr '/mawk/ { s/^[^0-9]*([^ ]+).*/\1/g; p }')"
 chkdep minversion curl       "7.26.0" "$(curl --version 2>&1 || echo | sed -nr '/^curl/ { s/^[^0-9]*([^ ]+).*/\1/g; p }')"
-chkdep minversion php        "5.4"    "$(curl --silent --head http://localhost | sed -n '/PHP\//{s#.*PHP/##g; s# .*$##g; p}')"
+chkdep minversion php        "5.4"    "$(browse --head http://localhost | sed -n '/PHP\//{s#.*PHP/##g; s# .*$##g; p}')"
 chkdep minversion mysql      "14.14"  "$(mysql --version 2>&1 || echo | sed -r 's/^[^0-9]*([^ ]+).*/\1/g')"
 chkdep minversion jq         "1.5"    "$(jq --version 2>&1 || echo | sed 's/^[^0-9]*//g')"
 chkdep minversion python     "2.7.3"  "$(python --version 2>&1 | sed 's/^[^0-9]*//g')"
@@ -194,7 +196,7 @@ chkdep minversion mailtodisk "1028"   "$(mailtodisk --version 2>&1)"
 IFS=$'\n'
 
 export prj="$(readlink -f ..)"
-export url=http://localhost/$(rawurlencode "${prj##*htdocs/}" "/")
+export url=https://localhost/$(rawurlencode "${prj##*htdocs/}" "/")
 
 mkdir -p sh/results
 
@@ -277,7 +279,7 @@ do
 						s#::1#<localhost>#g
 						s#127.0.0.1#<localhost>#g
 						s#(X-Mailer: PHP/).*\$#\1*#g
-						s#(http://[^/]+/).*/([^/?]+\?.*)#\1.../\2#g
+						s#(https?://[^/]+/).*/([^/?]+\?.*)#\1.../\2#g
 						s#((Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day), [0-9]+/[0-9]+/[0-9]+#Day, 00/00/00#g
 						s/((Mon|Diens|Donners|Frei|Sams|Sonn)tag|Mittwoch), [0-9]+\. (Januar|Februar|März|April|Mai|Ju[nl]i|August|(Sept|Nov|Dez)ember|Oktober) [0-9]+/Tag, 00. Monat 0000/g
 						s/^(Date:[ \t]+).+\$/\1Day, 0 Month 0000 00:00:00 +0000/g

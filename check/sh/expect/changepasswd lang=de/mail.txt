@@ -16,7 +16,7 @@ Das Aktivierungs-Token ist:
 ***
 
 Benutze diesen Link, um fortzufahren:
-http://localhost/.../index.php?req=activate&user=flederwiesel&token=***
+https://localhost/.../index.php?req=activate&user=flederwiesel&token=***
 Dieses Token läuft um 0000-00-00 00:00:00 GMT ab.
 
 Falls Du keine Registrierung veranlaßt hast, ignoriere diese Mail einfach.
@@ -68,7 +68,7 @@ Das Token dafür ist:
 ***
 
 Benutze diesen Link, um fortzufahren:
-http://localhost/.../index.php?req=changepw&user=flederwiesel&token=***
+https://localhost/.../index.php?req=changepw&user=flederwiesel&token=***
 Dieses Token läuft um 0000-00-00 00:00:00 GMT ab.
 
 Falls Du das Zurücksetzen Deines Passworts nicht veranlaßt hast, ignoriere diese Mail einfach.

@@ -17,7 +17,7 @@
 # drop/re-create database
 initdb && rm -f .COOKIES
 
-prefix=$(rawurlencode $(sed s?http://??g <<<"$url"))
+prefix=$(rawurlencode $(sed -r 's|https?://||g' <<<"$url"))
 
 ###############################################################################
 

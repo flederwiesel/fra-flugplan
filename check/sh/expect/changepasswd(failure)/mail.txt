@@ -16,7 +16,7 @@ Activation token is:
 ***
 
 You can also use this link to process your request:
-http://localhost/.../index.php?req=activate&user=flederwiesel&token=***
+https://localhost/.../index.php?req=activate&user=flederwiesel&token=***
 This token will expire on 0000-00-00 00:00:00 GMT.
 
 Please ignore this e-mail if you did not request a registration. Our apologies for any inconvenience.
@@ -107,7 +107,7 @@ Password token is:
 ***
 
 You can also use this link to process your request:
-http://localhost/.../index.php?req=changepw&user=flederwiesel&token=***
+https://localhost/.../index.php?req=changepw&user=flederwiesel&token=***
 This token will expire on 0000-00-00 00:00:00 GMT.
 
 Please ignore this e-mail if you didn't request a change of password. Our apologies for any inconvenience.

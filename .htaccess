@@ -17,10 +17,10 @@ ErrorDocument 500 /error.php
 RewriteEngine On
 
 # This checks to make sure the connection is not already HTTPS
-RewriteCond %{HTTPS} off
+RewriteCond %{HTTPS} !=on
 # This rule will redirect users from their original location
 # to the same location but using HTTPS.
-RewriteRule ^/?(.*) https://%{SERVER_NAME}/$1 [R,L]
+RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # For testing and debugging of getflights script, redirect to www.frankfurt-airport.com mock
 RewriteRule applics.fraport.de/(.*) www.frankfurt-airport.com/$1

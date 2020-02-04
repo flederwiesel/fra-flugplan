@@ -31,7 +31,8 @@ function php_self($https = 0)
 
 	$pageURL .= '://'.$_SERVER['SERVER_NAME'];
 
-	if ($_SERVER['SERVER_PORT'] != 80)
+	if ($_SERVER['SERVER_PORT'] != 80 &&
+		$_SERVER['SERVER_PORT'] != 443)
 		$pageURL .= ":".$_SERVER['SERVER_PORT'];
 
 	$pageURL .= $_SERVER['PHP_SELF'];
