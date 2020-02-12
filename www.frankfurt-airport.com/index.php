@@ -49,27 +49,17 @@ if (isset($_GET['fmt']))
 		$html = TRUE;
 }
 
-if (isset($_GET['type']))
+if (isset($_GET['flighttype']))
 {
-	if ('arrival'   == $_GET['type'] ||
-		'departure' == $_GET['type'])
+	$dir = $_GET['flighttype'];
+	$dir = substr($dir, 0, -1);
+
+	if (!('arrival'   == $dir ||
+		  'departure' == $dir))
 	{
-		$dir = $_GET['type'];
+		die('{"error":"`flighttype` needed"}');
 	}
 }
-
-if (!$dir)
-{
-	$dir = preg_replace('/.*(arrival|departure)s(\.cargo)?\.json.*/', '\1',
-						$_SERVER['REQUEST_URI']);
-}
-
-if (!('arrival' == $dir ||
-	'departure' == $dir))
-{
-	die("Please specify `dir`.");
-}
-
 if (isset($_GET['time']))
 	$now =  strtotime($_GET['time']);
 

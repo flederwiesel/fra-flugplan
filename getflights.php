@@ -1008,7 +1008,7 @@ function JSON_InterpretFlights(/*in*/ $dir, /*in*/ $json, /*in*/ $defer,
 		$result = 0;
 
 		if (isset($obj->version))
-			if (!('1.4.5' == $obj->version))
+			if (!('1.5' == $obj->version))
 				warn_once(__LINE__, "version = $obj->version");
 
 		if ($obj->results > 0)
@@ -1155,8 +1155,8 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 		while ($current < $start + 84600 && $page > 0)
 		{
 			// Build request URL
-			$url = "http://${prefix}www.frankfurt-airport.com/de/_jcr_content.${dir}s${type}.json/filter".
-				   "?type=${dir}&lang=de&time=${time}&perpage=${items}&page=${page}";
+			$url = "http://${prefix}www.frankfurt-airport.com/de/_jcr_content.flights${type}.json/filter".
+				   "?flighttype=${dir}s&lang=de&time=${time}&perpage=${items}&page=${page}";
 
 			if (isset($DEBUG['url']))
 				echo "$url\n";

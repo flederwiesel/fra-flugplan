@@ -35,8 +35,8 @@ do
 		for dir in arrival departure
 		do
 			# get number of pages
-			airport="www.frankfurt-airport.com/flights_copy.${dir}s.json/filter"
-			request="type=$dir&time=$(rawurlencode $YYYYmmddTHHMMSSZ)&items=$items&page=1"
+			airport="www.frankfurt-airport.com/_jcr_content.flights.json/filter"
+			request="flighttype=${dir}s&time=$(rawurlencode $YYYYmmddTHHMMSSZ)&items=$items&page=1"
 			pages=$(browse "$url/$airport?$request" | jq .maxpage)
 
 			if [ $? -eq 0 ]; then
@@ -45,7 +45,7 @@ do
 
 					while [ $page -le $pages ]
 					do
-						request="type=$dir&time=$(rawurlencode $YYYYmmddTHHMMSSZ)&items=$items&page=$page"
+						request="flighttype=${dir}s&time=$(rawurlencode $YYYYmmddTHHMMSSZ)&items=$items&page=$page"
 						json=$(browse "$url/$airport?$request" | jq '.data[]|{dir:.dir,sched:.sched,esti:.esti,fnr:.fnr,reg:.reg}')
 						check $(printf "$day-%02u00-$dir-$page" $time) "echo '$json'" \
 							"| sed -r '

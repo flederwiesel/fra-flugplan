@@ -1,6 +1,6 @@
 #/bin/bash
 
-version=1.4.5
+version=1.5
 
 this=$(readlink -f "${BASH_SOURCE[0]}")
 scriptdir=$(dirname "$this")
@@ -13,10 +13,11 @@ time=$(date +'%Y-%m-%dT%H:%M:%S%z' | sed 's/:/%3A/g;s/\+/%2B/g')
 curl --silent --noproxy localhost "https://www.frankfurt-airport.com/de/_jcr_content.aircrafts.json" > aircrafts.json
 curl --silent --noproxy localhost "https://www.frankfurt-airport.com/de/_jcr_content.airlines.json" > airlines.json
 curl --silent --noproxy localhost "https://www.frankfurt-airport.com/de/_jcr_content.airports.json" > airports.json
-curl --silent --noproxy localhost "https://www.frankfurt-airport.com/de/_jcr_content.arrivals.json/filter?perpage=10&lang=de&time=$time" > arrivals.json
-curl --silent --noproxy localhost "https://www.frankfurt-airport.com/de/_jcr_content.departures.json/filter?perpage=10&lang=de&time=$time" > departures.json
-curl --silent --noproxy localhost "https://www.frankfurt-airport.com/de/_jcr_content.arrivals.cargo.json/filter?type=departure&lang=de&time=$time" > arrivals.cargo.json
-curl --silent --noproxy localhost "https://www.frankfurt-airport.com/de/_jcr_content.departures.cargo.json/filter?type=departure&lang=de&time=$time" > departures.cargo.json
+# https://www.frankfurt-airport.com/de/am-flughafen/fluege.html
+curl --silent --noproxy localhost "https://www.frankfurt-airport.com/de/_jcr_content.flights.json/filter?flighttype=arrivals&perpage=10&lang=de&time=$time" > arrivals.json
+curl --silent --noproxy localhost "https://www.frankfurt-airport.com/de/_jcr_content.flights.json/filter?flighttype=departures&perpage=10&lang=de&time=$time" > departures.json
+curl --silent --noproxy localhost "https://www.frankfurt-airport.com/de/_jcr_content.flights.cargo.json/filter?flighttype=arrivals&lang=de&time=$time" > arrivals.cargo.json
+curl --silent --noproxy localhost "https://www.frankfurt-airport.com/de/_jcr_content.flights.cargo.json/filter?flighttype=departures&lang=de&time=$time" > departures.cargo.json
 
 mkdir -p beautified
 
