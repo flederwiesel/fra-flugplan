@@ -427,12 +427,13 @@ class jflight
 {
 	public $id; 		// = "a20151222lh1013"
 	// last update
-	public $lu;			// = "2015-12-07T05;31;58+0100"
+	public $lu;			// = "2015-12-07T05:31:58+0100"
 	// flight
 	public $typ;		// = enum { "P", "F" }
 	public $fnr;		// = "LH 1013"
-	public $sched;		// = "2015-12-07T05-12-22T16;10;00+0100"
-	public $esti;		// = [null] "2015-12-05T16;21;00+0100"
+	public $schedDep;	// = "2015-12-07T15:10:00+0100"
+	public $sched;		// = "2015-12-07T16:10:00+0100"
+	public $esti;		// = [null] "2015-12-05T16:21:00+0100"
 	// airline
 	public $al;			// = "LH"
 	public $alname;		// = "Lufthansa"
@@ -446,7 +447,7 @@ class jflight
 	public $rou;		// = [null] "ABV"
 	public $rouname;	// = [null] "Abuja"
 	// aircraft
-	public $ac;			// = [null?] "TRN"
+	public $ac;			// = [null?] "TRN", "TRS"
 	public $reg;		// = [null] "DABFA"
 
 	// ...
@@ -485,8 +486,8 @@ class jflight
 
 	// unknown
 	public $s;			// = [null] enum { false, true }
-	public $flstatus;	// = [null] enum { 0, 1, 2, 3 }
-	public $duration;	// = [null] 60
+	public $flstatus;	// = [null] enum { 0 /* default */ , 1, 2, 3 /* verspätet auf ... */ }
+	public $duration;	// = [null] 60 // min
 
 	public $lang;		// = "de"
 }
