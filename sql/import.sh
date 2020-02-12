@@ -1,14 +1,13 @@
 #!/bin/bash
 
-getpass() {
-	sed -rn '/^machine[ \t]+mysql:\/\/localhost\/fra-flugplan\/?$/ {
-		:next n; s/^[ \t]*password[ \t]*//g; Tnext; p }
-	' ~/.netrc
+which getpass &>/dev/null || {
+	echo '`getpass` not found.' >&2
+	exit 1
 }
 
 sqlexec() {
 	[[ "$(uname -o)" =~ "Cygwin" ]] && proto="--protocol=TCP"
-	mysql --host=localhost $proto --user=flugplan --password="$(getpass)" --default-character-set=utf8 "$@"
+	mysql --host=localhost $proto --user=flugplan --password="$(getpass machine=mysql://localhost login=flugplan)" --default-character-set=utf8 "$@"
 }
 
 if [ $# -lt 1 ]; then
