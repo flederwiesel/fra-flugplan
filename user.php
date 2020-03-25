@@ -554,16 +554,13 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 						$spamchk->email->appears    ||
 						$spamchk->ip->appears)
 					{
-						AdminMail('registration',
-							sprintf("\nSuspected spam:\n%s=%s\n%s=%s\n%s=%s\n".
-									"\nReport: https://www.stopforumspam.com/add.php?".
+						$stopforumspam =
+							sprintf("https://www.stopforumspam.com/add.php?".
 									"api_key=nrt20iomfc34sz&ip_addr=%s&email=%s&username=%s".
-									"&evidence=Automated%%20registration%%2e\n",
-									$user, $spamchk->username->appears ? $spamchk->username->confidence : 0,
-									$email, $spamchk->email->appears ? $spamchk->email->confidence : 0,
-									$ipaddr, $spamchk->ip->appears ? $spamchk->ip->confidence : 0,
-									$ipaddr, urlencode($email), urlencode($user),
-									$_SERVER['SERVER_NAME']));
+									"&evidence=Automated%%20registration%%2e",
+									$ipaddr, urlencode($email), urlencode($user));
+
+						$curl->exec($stopforumspam, $unused, 5);
 
 						$suspicion = array();
 
@@ -868,11 +865,6 @@ SQL;
 		}
 	}
 
-	AdminMail('registration',
-			  sprintf("$uid:$user <$email>%s = %s\n",
-					  $expires ? " (expires $ExpDate)" : "",
-					  $error ? $error : "OK"));
-
 	return $error;
 }
 
@@ -969,10 +961,6 @@ function /* char *error */ ActivateUser($db, /* __out */ &$message)
 
 		if (strlen($user) > $GLOBALS['USERNAME_MAX'])
 			$user = substr($user, 0, $GLOBALS['USERNAME_MAX'] + 1).'...';
-
-		AdminMail('activation',
-			sprintf("%s user='%s' token='%s'\n",
-					$error, $user, $token));
 	}
 
 	return $error;
@@ -1081,18 +1069,6 @@ SQL;
 
 			if (strlen($user) > $GLOBALS['USERNAME_MAX'])
 				$user = substr($user, 0, $GLOBALS['USERNAME_MAX'] + 1).'...';
-
-			AdminMail('activation',
-				sprintf("$uid:$user%s = %s token='%s'\n",
-						 $now ? " ($now)" : "",
-						 $error ? $error : "OK",
-						 $token));
-		}
-		else
-		{
-			AdminMail('activation',
-				sprintf("$uid:$user%s = OK\n",
-						 $now ? " ($now)" : ""));
 		}
 	}
 
@@ -1371,11 +1347,6 @@ SQL;
 		}
 	}
 
-	AdminMail('reqpasswdch',
-		sprintf("$uid:$user%s = %s\n",
-				$expires ? " (expires $expires)" : "",
-				$error ? $error : "OK"));
-
 	return $error;
 }
 
@@ -1534,11 +1505,6 @@ SQL;
 			}
 		}
 	}
-
-	AdminMail('passwdch',
-		sprintf("$uid:$user%s = %s\n",
-				$now ? " ($now)" : "",
-				$error ? $error : "OK"));
 
 	return $error;
 }

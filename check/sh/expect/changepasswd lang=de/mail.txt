@@ -25,32 +25,6 @@ Falls Du keine Registrierung veranlaßt hast, ignoriere diese Mail einfach.
 Das Frankfurt Aviation Friends Team
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: Tobias =?ISO-8859-1?Q?K=FChne?= <flederwiesel@fra-flugplan.de>
-Subject: user registration
-From: FRA schedule <flederwiesel@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
-Mime-Version: 1.0
-Content-type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Mailer: PHP/*
-
-1:flederwiesel <hausmeister@flederwiesel.com> (expires 0000-00-00 00:00:00) = OK
-
-======================================================
-Date: Day, 0 Month 0000 00:00:00 +0000
-To: Tobias =?ISO-8859-1?Q?K=FChne?= <flederwiesel@fra-flugplan.de>
-Subject: user activation
-From: FRA schedule <flederwiesel@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
-Mime-Version: 1.0
-Content-type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Mailer: PHP/*
-
-1:flederwiesel (0000-00-00 00:00:00) = OK
-
-======================================================
-Date: Day, 0 Month 0000 00:00:00 +0000
 To: hausmeister@flederwiesel.com
 Subject: =?ISO-8859-1?Q?Passwort=E4nderung?=
 From: Frankfurt Aviation Friends <flederwiesel@fra-flugplan.de>
@@ -75,43 +49,4 @@ Falls Du das Zurücksetzen Deines Passworts nicht veranlaßt hast, ignoriere die
 
 
 Das Frankfurt Aviation Friends Team
-======================================================
-Date: Day, 0 Month 0000 00:00:00 +0000
-To: Tobias =?ISO-8859-1?Q?K=FChne?= <flederwiesel@fra-flugplan.de>
-Subject: user reqpasswdch
-From: FRA schedule <flederwiesel@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
-Mime-Version: 1.0
-Content-type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Mailer: PHP/*
-
-1:flederwiesel (expires 0000-00-00 00:00:00) = OK
-
-======================================================
-Date: Day, 0 Month 0000 00:00:00 +0000
-To: Tobias =?ISO-8859-1?Q?K=FChne?= <flederwiesel@fra-flugplan.de>
-Subject: user passwdch
-From: FRA schedule <flederwiesel@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
-Mime-Version: 1.0
-Content-type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Mailer: PHP/*
-
-1:flederwiesel = OK
-
-======================================================
-Date: Day, 0 Month 0000 00:00:00 +0000
-To: Tobias =?ISO-8859-1?Q?K=FChne?= <flederwiesel@fra-flugplan.de>
-Subject: user passwdch
-From: FRA schedule <flederwiesel@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
-Mime-Version: 1.0
-Content-type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: 8bit
-X-Mailer: PHP/*
-
-1:flederwiesel = OK
-
 ======================================================
