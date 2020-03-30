@@ -155,8 +155,53 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
 					WHERE `reg`='ZS-SNC') AS `watchlist`
 	       ON `watchlist`.`reg`=`aircrafts`.`reg`
 	WHERE `aircraft`=
-		(SELECT `id` FROM `aircrafts` AS `aircraft` WHERE `reg`='ZS-SNC')
+		(SELECT `id` FROM `aircrafts` AS `aircraft` WHERE `reg`='ZS-SNC');
+
+	UPDATE `users`
+	SET
+		`notification-from`='00:00',
+		`notification-until`='24:00'
+	WHERE
+		`id`=@uid;
 SQL
+
+### add existing reg
+
+check "4-0" browse "$url/?arrival\&time=$time" \
+			--data-urlencode "add='ZS-SNC	SAA - Star Alliance	1'" \
+	"| sed -r '
+		s/time=$today/time=0000-00-00/g
+	'"
+
+# del+add same reg
+
+check "4-1" browse "$url/?arrival\&time=$time" \
+		--data-urlencode "del='ZS-SNC'" \
+		--data-urlencode "add='ZS-SNC	SAA - Star Alliance	1'" \
+	"| sed -r '
+		s/time=$today/time=0000-00-00/g
+	'"
+
+### upd+add same reg
+
+check "4-2" browse "$url/?arrival\&time=$time" \
+		--data-urlencode "upd='ZS-SNC	ZS-SNC	ZS-SNC	African Airways - Star Alliance	0'" \
+		--data-urlencode "add='ZS-SNC	South African Airways - Star Alliance	1
+ZS-SNC	South African Airways - Star Alliance	1'" \
+	"| sed -r '
+		s/time=$today/time=0000-00-00/g
+	'"
+
+### add+upd same reg
+
+check "4-3" browse "$url/?arrival\&time=$time" \
+		--data-urlencode "add='C-FDAT	Air Transat - A310	1'" \
+		--data-urlencode "upd='C-FDAT	C-FDAT	Air Transat - A310	0'" \
+	"| sed -r '
+		s/time=$today/time=0000-00-00/g
+	'"
+
+## del reg
 
 # DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
 check "5" browse "$url/?arrival\&time=$time" \
