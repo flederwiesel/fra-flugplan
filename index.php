@@ -205,35 +205,42 @@ $error = null;
 $message = null;
 $user = null;
 
-try
+if (file_exists("db.disabled"))
 {
-	if (isset($ExplainSQL))
-		$classname = 'xPDO';
-	else
-		$classname = 'PDO';
-
-	$db = new $classname(sprintf("mysql:host=%s;dbname=%s;charset=utf8",
-					DB_HOSTNAME, DB_NAME),
-					DB_USERNAME, DB_PASSWORD,
-					[
-						PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-						PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-					]
-				);
+	$message = $lang["db.disabled"];
 }
-catch (PDOException $e)
+else
 {
-	$error = sprintf($lang['dberror'], $e->getCode());
-	// TODO: Log to file:
-	//$error = $e->getMessage();
-}
+	try
+	{
+		if (isset($ExplainSQL))
+			$classname = 'xPDO';
+		else
+			$classname = 'PDO';
 
-if (!$error)
-{
-	// callback function for user login, register, etc.
-	require_once 'user.php';
+		$db = new $classname(sprintf("mysql:host=%s;dbname=%s;charset=utf8",
+						DB_HOSTNAME, DB_NAME),
+						DB_USERNAME, DB_PASSWORD,
+						[
+							PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+							PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+						]
+					);
+	}
+	catch (PDOException $e)
+	{
+		$error = sprintf($lang['dberror'], $e->getCode());
+		// TODO: Log to file:
+		//$error = $e->getMessage();
+	}
 
-	$error = UserProcessRequest($db, $user, $message);
+	if (!$error)
+	{
+		// callback function for user login, register, etc.
+		require_once 'user.php';
+
+		$error = UserProcessRequest($db, $user, $message);
+	}
 }
 
 if ($user)
@@ -418,13 +425,27 @@ if ('de' == $_SESSION['lang']) {
 			if (!$db)
 			{
 				if (!$error)
-					$error = $lang['unexpected'];
+				{
+					if ($message)
+					{
+?>
+						<div id="notification" class="notice nodb">
+							<?php echo $message; ?>
+						</div>
+<?php
+					}
+					else
+					{
+						$error = $lang['unexpected'];
 ?>
 				<div id="error">
 					<h1><?php echo $lang['fatal']; ?></h1>
 					<?php echo $error; ?>
 				</div>
 <?php
+					}
+				}
+
 				if (isset($_GET['page']))
 				{
 					if ('help' == $_GET['page'])

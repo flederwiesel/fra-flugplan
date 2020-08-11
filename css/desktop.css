@@ -277,6 +277,12 @@ img.emil
 	margin: 0;
 }
 
+.nodb
+{
+	margin-top: 1em;
+	font-size: 14pt;
+}
+
 form
 {
 	margin: auto;

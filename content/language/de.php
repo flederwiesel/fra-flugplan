@@ -218,6 +218,7 @@ $lang = array
 	'spam:plur' => 'Die Registrierung wurde abgelehnt, da %s als Spam identifiziert wurden.',
 	'ipaddress' => 'ip address',
 	'spamcheckfailed' => 'Spam-Überprüfung fehlgeschlagen. Bitte später noch einmal probieren.',
+	'db.disabled' => 'Die Datenbank wurde für Wartungszwecke heruntergefahren. Bis später...',
 );
 
 ?>
