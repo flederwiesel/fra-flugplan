@@ -2537,27 +2537,31 @@ if (!$error)
 			/*[Q44]*/
 			INSERT INTO `watchlist-notifications`(`flight`, `watch`)
 
-			SELECT `flights`.`id`, `watchlist`.`id`
-			FROM `watchlist`
+			SELECT
+				`flights`.`id`,
+				`watchlist`.`id`
+
+			FROM
+				`watchlist`
+
 			INNER JOIN `aircrafts`
 				ON `aircrafts`.`reg` LIKE REPLACE(REPLACE(`watchlist`.`reg`, '*', '%'), '?', '_')
 				OR `aircrafts`.`reg` RLIKE REPLACE(`watchlist`.`reg`, '/', '') AND `watchlist`.`reg` LIKE '/_%/'
-			INNER JOIN
-				(SELECT
-					`id`,
-					`direction`,
-					IFNULL(`expected`, `scheduled`) AS `expected`,
-					`aircraft`
-				 FROM `flights`
-				 WHERE `aircraft` IS NOT NULL)
-					AS `flights`
-				ON `aircrafts`.`id` = `flights`.`aircraft`
+
+			INNER JOIN `flights`
+				ON  `flights`.`aircraft` = `aircrafts`.`id` AND
+					`flights`.`aircraft` IS NOT NULL
+
 			LEFT JOIN `watchlist-notifications`
-				ON `watchlist-notifications`.`flight` = `flights`.`id`
-			WHERE `watchlist`.`notify` = TRUE
-				AND `watchlist-notifications`.`flight` IS NULL
-				AND 'arrival' = `flights`.`direction`
-				AND `expected` > '$now->atom'
+				ON  `watchlist-notifications`.`watch` = `watchlist`.`id` AND
+					`watchlist-notifications`.`flight` = flights.id
+
+			WHERE
+				`watchlist`.`notify` = TRUE AND
+				`watchlist-notifications`.`flight` IS NULL AND
+				'arrival' = `flights`.`direction` AND
+				TIMESTAMPDIFF(SECOND, '$now->atom', IFNULL(flights.expected, flights.scheduled)) > 0
+
 			FOR UPDATE
 SQL;
 

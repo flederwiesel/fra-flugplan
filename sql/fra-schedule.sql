@@ -153,7 +153,8 @@ CREATE TABLE `flights`
 	UNIQUE KEY `u:flights(direction,airline,code,scheduled)` (`direction`, `airline`, `code`, `scheduled`),
 	INDEX `i:flights(direction)`(`direction`),
 	INDEX `i:flights(scheduled)`(`scheduled`),
-	INDEX `i:flights(code)`(`code`)
+	INDEX `i:flights(code)`(`code`),
+	INDEX `i:flights(aircraft)`(`aircraft`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* Copy `flights` table structure (including indices!) */
