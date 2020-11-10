@@ -184,7 +184,7 @@ SQL
 			s#((Mon|Diens|Donners|Frei|Sams|Sonn)tag|Mittwoch), [0-9]+\. (Januar|Februar|M.rz|April|Mai|Ju[nl]i|August|(Sept|Nov|Dez)ember|Oktober) [0-9]+#Tag, 00. Monat 0000#g
 			s#((Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day), [0-9]+/[0-9]+/[0-9]+#Day, 00/00/00#g
 			s#(FROM_UNIXTIME\()[0-9]+#\10#g
-			s#(http://[^/]+/).*/(www.frankfurt-airport.com/.*)#\1.../\2#g
+			s#(https://[^/]+/).*/(www.frankfurt-airport.com/.*)#\1.../\2#g
 			s#(\`(current|previous)\`=)[0-9]+#\10#g
 			s#/\*\[Q[0-9]+\]\*/ *##g
 			/: Inserted airport/d
@@ -284,7 +284,7 @@ do
 		s/(T[0-9]{2}:[0-9]{2}:00\+0)[12](00)/\10\2/g
 		s/(T[0-9]{2}%3A[0-9]{2}%3A00%2B0)[12](00)/\10\2/g
 		s#(FROM_UNIXTIME\()[0-9]+#\10#g
-		s#(http://[^/]+/).*/(www.frankfurt-airport.com/.*)#\1.../\2#g
+		s#(https://[^/]+/).*/(www.frankfurt-airport.com/.*)#\1.../\2#g
 		s#/\*\[Q[0-9]+\]\*/ *##g
 		'"
 
