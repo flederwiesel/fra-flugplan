@@ -608,7 +608,7 @@ function CURL_GetAirline(/* in */ $curl, /* in/out */ &$airline)
 	global $prefix;
 
 	$error = NULL;
-	$url = "http://${prefix}www.frankfurt-airport.com/de/_jcr_content.airlines.json";
+	$url = "https://${prefix}www.frankfurt-airport.com/de/_jcr_content.airlines.json";
 
 	if (isset($DEBUG['url']))
 		echo "$url\n";
@@ -723,7 +723,7 @@ SQL;
 		}
 
 		$error = NULL;
-		$url = "http://${prefix}www.frankfurt-airport.com/de/_jcr_content.airports.json".
+		$url = "https://${prefix}www.frankfurt-airport.com/de/_jcr_content.airports.json".
 				($prefix ? "?local" : "");
 
 		if (isset($DEBUG['url']))
@@ -810,7 +810,7 @@ function CURL_GetAircraftType(/* in */ $curl, /* in/out */ &$aircraft)
 	global $prefix;
 
 	$error = NULL;
-	$url = "http://${prefix}www.frankfurt-airport.com/de/_jcr_content.aircrafts.json";
+	$url = "https://${prefix}www.frankfurt-airport.com/de/_jcr_content.aircrafts.json";
 
 	if (isset($DEBUG['url']))
 		echo "$url\n";
@@ -1156,7 +1156,7 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 		while ($current < $start + 84600 && $page > 0)
 		{
 			// Build request URL
-			$url = "http://${prefix}www.frankfurt-airport.com/de/_jcr_content.flights${type}.json/filter".
+			$url = "https://${prefix}www.frankfurt-airport.com/de/_jcr_content.flights${type}.json/filter".
 				   "?flighttype=${dir}s&lang=de&time=${time}&perpage=${items}&page=${page}";
 
 			if (isset($DEBUG['url']))
@@ -2103,7 +2103,7 @@ SQL;
 					{
 						if (preg_match("/(.*Duplicate entry ')([^']+)('.*)/i", $error[2], $m))
 						{
-							$result = sprintf("%s<a href='http://$_SERVER[SERVER_NAME]/".
+							$result = sprintf("%s<a href='https://$_SERVER[SERVER_NAME]/".
 											  "?page=rmdup&key=%s'>%s</a>%s",
 											  $m[1],  urlencode($m[2]), $m[2], $m[3]);
 						}
@@ -2697,7 +2697,7 @@ SQL;
 
 	if ($file)
 	{
-		$url = "http://${prefix}applics.fraport.de/betriebsrichtung/betriebsrichtungsvg.js";
+		$url = "https://${prefix}applics.fraport.de/betriebsrichtung/betriebsrichtungsvg.js";
 
 		do
 		{
