@@ -934,6 +934,7 @@ function MapFlightStatus(/*in/out*/ &$status)
 		break;
 
 	case 'Neues Gate':
+	case 'new Gate':
 	case 'Gate offen':
 	case 'Gate open':
 	case '登机口开放':
