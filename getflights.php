@@ -1194,11 +1194,11 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 						break;
 
 					// HTTP result codes
-					case 408:
-					case 500:
-					case 503:
-					case 504:
-					case 507:
+					case 408:	// Request Timeout
+					case 500:	// Internal Server Error
+					case 503:	// Service Unavailable
+					case 504:	// Gateway Timeout
+					case 507:	// Insufficient Storage
 						sleep(15);
 						break;
 
