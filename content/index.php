@@ -530,9 +530,15 @@ foreach ($watch as $reg => $comment)
 $tz = date_default_timezone_set('Europe/Berlin');
 
 if (isset($_GET['time']))
-	$now = $_GET['time'];
+{
+	$now->iso = $_GET['time'];
+	$now->sql = "'$_GET[time]'";
+}
 else
-	$now = date(DATE_ISO8601);
+{
+	$now->iso = date(DATE_ISO8601);
+	$now->sql = 'NOW()';
+}
 
 /* This might be configurable in the future... */
 /* Variable: */
@@ -574,8 +580,8 @@ $query = <<<EOF
 	 LEFT JOIN `visits` ON `flights`.`aircraft` = `visits`.`aircraft`
 	 $join
 	WHERE `flights`.`direction`='$dir'
-	 AND TIMESTAMPDIFF(SECOND, '$now', IFNULL(`expected`, `scheduled`)) >= $lookback
-	 AND TIMESTAMPDIFF(SECOND, '$now', IFNULL(`expected`, `scheduled`)) <= $lookahead
+	 AND TIMESTAMPDIFF(SECOND, {$now->sql}, IFNULL(`expected`, `scheduled`)) >= $lookback
+	 AND TIMESTAMPDIFF(SECOND, {$now->sql}, IFNULL(`expected`, `scheduled`)) <= $lookahead
 	ORDER BY `expected` ASC, `airlines`.`code`, `flights`.`code`;
 EOF;
 
@@ -597,7 +603,7 @@ if ($db)
 		{
 			while ($row = $st->fetchObject())
 			{
-				if (strtotime($row->expected) - strtotime($now) < 0)
+				if (strtotime($row->expected) - strtotime($now->iso) < 0)
 					echo '<tr class="past">';
 				else
 					echo '<tr>';
@@ -605,7 +611,7 @@ if ($db)
 				/* Calculate day offset, considering that when dst changes,
 				 * one week is 604800 +/- 3600 ... */
 				$t_expected = strtotime(substr($row->expected, 0, 10));
-				$t_now = strtotime(substr($now, 0, 10));
+				$t_now = strtotime(substr($now->iso, 0, 10));
 				$diff = 0;
 
 				$tm = localtime($t_expected, true);
