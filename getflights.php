@@ -1196,6 +1196,7 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 					// HTTP result codes
 					case 408:
 					case 500:
+					case 503:
 					case 504:
 					case 507:
 						sleep(15);
