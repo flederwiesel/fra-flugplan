@@ -46,8 +46,16 @@ echo '------------------------------------------------------------------------'
 LC_MESSAGES=en_US svn log | sed -nr 'H; :a /---/ { x; s/\([a-z]+,[^)]+\) //g; s/[0-9]+ lines?//g; s/-*-$//g; s/\n//g; p; n; h; ba }'
 ) > history
 
+# If checked out under Windows, cygwin permissions are wrong, which
+# may lead to permissions being wrong on the server.
+
+find -type d -print0 | xargs -0 chmod 755
+find -type f -print0 | xargs -0 chmod 644
+IFS=$'\n' executable=($(svn propget -R svn:executable | sed 's/ - \*//g'))
+chmod 755 "${executable[@]}"
+
 ssh fra-flugplan.de "rm -rf $root/$rev"
-rsync -rv . fra-flugplan.de:"$root/$rev" \
+rsync -av  \
 --exclude=*.dsk \
 --exclude=*.ppw \
 --exclude=.phped \
@@ -59,11 +67,12 @@ rsync -rv . fra-flugplan.de:"$root/$rev" \
 --exclude=ftp-flederwiesel.sh \
 --exclude=METAR \
 --exclude=sql \
---exclude=www.frankfurt-airport.com
+--exclude=www.frankfurt-airport.com \
+. fra-flugplan.de:"$root/$rev"
 
 ssh fra-flugplan.de "echo $rev > $root/target"
 
-rm revision
+svn revert revision
 rm history
 
 echo -e "\033[36mRevision: $rev\033[m"
