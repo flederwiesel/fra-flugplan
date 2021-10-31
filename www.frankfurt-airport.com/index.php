@@ -24,6 +24,8 @@
 
 mb_internal_encoding('UTF-8');
 
+header("Content-Type: application/json");
+
 function compare_sched($a, $b)
 {
 	if ($a['sched'] == $b['sched'])
