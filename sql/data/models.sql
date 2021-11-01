@@ -1,4 +1,4 @@
-USE `flederwiesel_fra-schedule`;
+USE `fra-flugplan`;
 
 INSERT INTO `models`(`id`, `icao`, `name`)
 VALUES

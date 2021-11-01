@@ -43,7 +43,7 @@ require_once "classes/vector.php";
 require_once "classes/sql-xpdo.php";
 
 /* Create dir for warn_once() */
-$datadir = "$_SERVER[DOCUMENT_ROOT]/var/run/fra-schedule";
+$datadir = "$_SERVER[DOCUMENT_ROOT]/var/run/fra-flugplan";
 $ignorelist = "$datadir/warnings.ignore";
 
 /* Initialise warnings for warn_once() */
@@ -1918,7 +1918,7 @@ SQL;
 				}
 				else
 				{
-					/*	From bulk INSERT in "fra-schedule.sql" we do not get `previous`
+					/*	From bulk INSERT in "fra-flugplan.sql" we do not get `previous`
 						even for `num` > 1, where normally this would be NOT NULL.
 						Need to check for this also... */
 					if (!$previous)
@@ -2758,9 +2758,9 @@ if ($errorinfo)
 		echo $errorinfo;
 
 	mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').'<'.ADMIN_EMAIL.'>',
-		 "fra-schedule - getflights.php: error",
+		 "getflights.php: error",
 		 "$errorinfo",
-		 "From: fra-schedule");
+		 "From: FRA-Flugplan");
 }
 
 if ($warning)
@@ -2769,9 +2769,9 @@ if ($warning)
 		echo $warning;
 
 	mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').'<'.ADMIN_EMAIL.'>',
-		 "fra-schedule - getflights.php: warning",
+		 "getflights.php: warning",
 		 "$warning",
-		 "From: fra-schedule");
+		 "From: FRA-Flugplan");
 }
 
 if ($info)
@@ -2780,9 +2780,9 @@ if ($info)
 		echo $info;
 
 	mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').'<'.ADMIN_EMAIL.'>',
-		 "fra-schedule - getflights.php: info",
+		 "getflights.php: info",
 		 "$info",
-		 "From: fra-schedule");
+		 "From: FRA-Flugplan");
 }
 
 if (isset($DEBUG['any']))

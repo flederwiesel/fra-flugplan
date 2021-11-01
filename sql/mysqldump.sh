@@ -191,7 +191,7 @@ rotate() {
 
 cd $(dirname "$0")
 
-filename="flederwiesel_fra-schedule-$(date --utc +'%Y-%m-%d %H~%M~00').sql.bz2"
+filename="fra-flugplan-$(date --utc +'%Y-%m-%d %H~%M~00').sql.bz2"
 
 for target in \
 	mysql \

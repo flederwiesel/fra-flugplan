@@ -44,5 +44,5 @@ header("Location: https://www.fra-flugplan.de$_get"); /* Redirect browser */
 </head>
 <body>
 If you are not being redirected properly, please use the following link to go to the
-<a href="http://www.flederwiesel.com/fra-schedule">Live Schedule</a>
+<a href="http://www.fra-flugplan.de/fra-flugplan">Live Schedule</a>
 </body>

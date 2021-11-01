@@ -180,9 +180,9 @@ else
 <meta name="author" content="Tobias Kühne">
 <meta name="description" lang="en" content="Spotter schedule for Frankfurt airport (FRA/EDDF) including aircraft registrations">
 <meta name="description" lang="en" content="Spotter-Flugplan für Frankfurt (FRA/EDDF) einschließlich Flugzeugkennungen">
-<meta name="keywords" content="fra, eddf, frankfurt, fraspotter, fraspotting, planespotting, fra-flights, fra-schedule, flederwiesel">
-<meta name="keywords" lang="en" content="airport, aircraft, aviation, spotter, spotting, schedule, flights, flight schedule, flight plan">
-<meta name="keywords" lang="de" content="Flughafen, Flugzeug, Luftfahrt, Spotter, Spotting, Flugzeugfotografie, Flüge, Flugplan">
+<meta name="keywords" content="fra,eddf,frankfurt,spotter,spotting,planespotting,flederwiesel">
+<meta name="keywords" lang="en" content="airport,aircraft,aviation,schedule,flights,fra-schedule">
+<meta name="keywords" lang="de" content="Flughafen,Flugzeug,Luftfahrt,Flugzeugfotografie,Flugplan,fra-flugplan">
 <meta name="robots" content="index, nofollow">
 <meta name="generator" content="http://www.ultraedit.com/">
 <?php if ($mobile && !$tablet) { ?>
@@ -226,7 +226,7 @@ else
 				</div>
 				<div id="nav">
 					<ul class="menu left">
-						<li><a href="/fra-schedule"><?php echo $lang['home']; ?></a>
+						<li><a href="/fra-flugplan"><?php echo $lang['home']; ?></a>
 <?php if ($referrer) { ?>
 						<li class="sep"><a href="">Back</a></li>
 <?php } ?>

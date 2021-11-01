@@ -111,7 +111,8 @@ $lang = array
 		'If no activation mail arrives on your inbox, please also check your spam folder.<br><br>'.
 		'Depending on your internet service provider and mail transport agent settings, delivery of e-mails can take '.
 		'longer than the activation token is valid. In this case, don\'t hesitate to contact us at '.
-		'<a href="content/emil.php?subject=fra-schedule%20activation%20trouble"><img alt="email" src="content/mkpng.php?font=verdana&amp;size=10&amp;bg=white&amp;fg=%2300007f&amp;res=ADMIN_EMAIL"></a>.',
+		'<a href="content/emil.php?subject=FRA-schedule%20activation%20trouble"><img alt="email" '.
+		'src="content/mkpng.php?font=verdana&amp;size=10&amp;bg=white&amp;fg=%2300007f&amp;res=ADMIN_EMAIL"></a>.',
 	'regfailed' => 'Registration failed. Please contact an administrator.',
 	'activationsuccess' => 'Activation successful. You may now login.',
 	'nosuchuser' => 'No such user.',

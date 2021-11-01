@@ -279,7 +279,7 @@ else
 			<img alt="<?php echo $lang['rwydir']; ?>" src="img/<?php echo $dir; ?>-yellow-16x14.png">
 		</span>
 		<span id="rwy_r"><?php
-			$datadir = "$_SERVER[DOCUMENT_ROOT]/var/run/fra-schedule";
+			$datadir = "$_SERVER[DOCUMENT_ROOT]/var/run/fra-flugplan";
 
 			$rwy = @parse_ini_file("$datadir/betriebsrichtung.ini");
 

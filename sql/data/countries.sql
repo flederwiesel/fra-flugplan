@@ -1,4 +1,4 @@
-USE `flederwiesel_fra-schedule`;
+USE `fra-flugplan`;
 
 INSERT INTO `countries`(`id`, `en`, `de`, `fr`, `alpha-2`, `alpha-3`, `num`)
 VALUES

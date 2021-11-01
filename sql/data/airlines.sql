@@ -1,4 +1,4 @@
-USE `flederwiesel_fra-schedule`;
+USE `fra-flugplan`;
 
 INSERT INTO `airlines`(`id`, `code`, `name`, `iata`, `icao`)
 VALUES

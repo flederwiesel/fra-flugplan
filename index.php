@@ -303,7 +303,9 @@ if ($user)
 if ('de' == $_SESSION['lang']) {
 ?>
 <meta name="description" content="Spotter-Flugplan für Frankfurt (FRA/EDDF) einschließlich Flugzeugkennungen">
-<meta name="keywords" content="flederwiesel, fra-schedule, FRA, EDDF, Frankfurt, Flugplan, Flughafen, Airport, Spotter, Spotting, Planespotting, Flugzeugfotografie, Luftfahrt">
+<meta name="keywords" content="fra,eddf,frankfurt,spotter,spotting,planespotting,flederwiesel">
+<meta name="keywords" lang="en" content="airport,aircraft,aviation,schedule,flights,fra-schedule">
+<meta name="keywords" lang="de" content="Flughafen,Flugzeug,Luftfahrt,Flugzeugfotografie,Flugplan,fra-flugplan">
 <?php
 } else {
 ?>

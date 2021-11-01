@@ -1,4 +1,4 @@
-# /fra-schedule/.htaccess
+# /fra-flugplan/.htaccess
 
 #//Prevent viewing of .htaccess file
 <Files .htaccess>
