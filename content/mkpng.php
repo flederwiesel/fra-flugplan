@@ -117,24 +117,31 @@ else
 
 /* Get image geometry */
 $box = ImageTTFBbox($size, 0, $font, $text);
-$width = abs($box[4] - $box[0]) + 2;
-$height = abs($box[3] - $box[7]) + 2;
 
-$img = ImageCreateTrueColor($width, $height);
+if ($box)
+{
+	$width = abs($box[4] - $box[0]) + 2;
+	$height = abs($box[3] - $box[7]) + 2;
 
-/* Fill background with transparent colour */
-ImageAlphaBlending($img, true);
-ImageFill($img, 0, 0, ImageColorAllocateAlpha($img, $bg->r, $bg->g, $bg->b, 0));
+	$img = ImageCreateTrueColor($width, $height);
 
-/* Draw Text */
-ImageTTFText($img, $size, 0, 0, $size + 2,
-	ImageColorAllocate($img, $fg->r, $fg->g, $fg->b), $font, $text);
+	if ($img)
+	{
+		/* Fill background with transparent colour */
+		ImageAlphaBlending($img, true);
+		ImageFill($img, 0, 0, ImageColorAllocateAlpha($img, $bg->r, $bg->g, $bg->b, 0));
 
-/* Finally... */
-header('Content-Type: image/png');
+		/* Draw Text */
+		ImageTTFText($img, $size, 0, 0, $size + 2,
+			ImageColorAllocate($img, $fg->r, $fg->g, $fg->b), $font, $text);
 
-ImageSaveAlpha($img, true);
-ImagePNG($img);
-ImageDestroy($img);
+		/* Finally... */
+		header('Content-Type: image/png');
+
+		ImageSaveAlpha($img, true);
+		ImagePNG($img);
+		ImageDestroy($img);
+	}
+}
 
 ?>
