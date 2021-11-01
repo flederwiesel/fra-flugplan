@@ -26,7 +26,7 @@ echo "$mails" > /etc/mailtodisk/hausmeister@flederwiesel.com # user
 ###############################################################################
 
 query < <(
-	echo 'USE `flederwiesel_fra-schedule`;'
+	echo 'USE `fra-flugplan`;'
 	cat ../sql/data/countries.sql \
 		../sql/data/airlines.sql \
 		../sql/data/airports.sql \
@@ -34,7 +34,7 @@ query < <(
 )
 
 query <<-"SQL"
-	USE `flederwiesel_fra-schedule`;
+	USE `fra-flugplan`;
 
 	# Get predictive values...
 	ALTER TABLE `airports` AUTO_INCREMENT=2147483642;
@@ -133,7 +133,7 @@ do
 		case "$day $time" in
 		"1 05:00")
 			query <<-"SQL"
-				USE flederwiesel_fra-schedule;
+				USE fra-flugplan;
 
 				UPDATE `users`
 				SET `notification-timefmt`='%A, %c'
@@ -142,12 +142,12 @@ SQL
 			;;
 
 		"1 10:00")
-			# From bulk INSERT in "fra-schedule.sql" we do not get `previous`
+			# From bulk INSERT in "fra-flugplan.sql" we do not get `previous`
 			# even for `num` > 1, where normally this would be NOT NULL.
 			# Need to check for this also...
 			# '0000-00-00 22:30:00' -> NULL
 			query <<-"SQL"
-				USE `flederwiesel_fra-schedule`;
+				USE `fra-flugplan`;
 
 				UPDATE `visits`
 				SET `previous` = NULL
@@ -161,7 +161,7 @@ SQL
 
 		"1 12:00")
 			query <<-"SQL"
-				USE flederwiesel_fra-schedule;
+				USE fra-flugplan;
 
 				UPDATE `users`
 				SET `notification-timefmt`='%A, %d. %B %Y %H:%M',
@@ -190,7 +190,7 @@ SQL
 			/: Inserted airport/d
 			'"
 
-		flights=$(query --execute='USE `flederwiesel_fra-schedule`;
+		flights=$(query --execute='USE `fra-flugplan`;
 			SELECT
 			 `flights`.`direction`,
 			 `flights`.`scheduled`,
@@ -235,7 +235,7 @@ SQL
 				s/(T[0-9]{2}%3A[0-9]{2}%3A00%2B0)[12](00)/\10\2/g
 			'"
 
-		notifications=$(query --execute='USE `flederwiesel_fra-schedule`;
+		notifications=$(query --execute='USE `fra-flugplan`;
 			SELECT `flight`, `watch`, `notified`
 			FROM `watchlist-notifications`
 			ORDER BY `flight`'
@@ -247,7 +247,7 @@ SQL
 				s/$YYYY_mm_dd_1/0000-00-01/g
 			'"
 
-		visits=$(query --execute='USE flederwiesel_fra-schedule;
+		visits=$(query --execute='USE fra-flugplan;
 			SELECT
 			 `aircrafts`.`reg`,
 			 `visits`.`num`,
@@ -288,7 +288,7 @@ do
 		s#/\*\[Q[0-9]+\]\*/ *##g
 		'"
 
-	notifications=$(query --execute='USE `flederwiesel_fra-schedule`;
+	notifications=$(query --execute='USE `fra-flugplan`;
 		SELECT `flight`, `watch`, `notified`
 		FROM `watchlist-notifications`
 		ORDER BY `flight`'
@@ -301,7 +301,7 @@ do
 		'"
 done
 
-visits=$(query --execute='USE flederwiesel_fra-schedule;
+visits=$(query --execute='USE fra-flugplan;
 	SELECT
 	 `aircrafts`.`reg`,
 	 `visits`.`num`,

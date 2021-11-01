@@ -18,7 +18,7 @@
 initdb && rm -f .COOKIES
 
 query <<-"EOF"
-	USE flederwiesel_fra-schedule;
+	USE fra-flugplan;
 
 	INSERT INTO `users`
 	(

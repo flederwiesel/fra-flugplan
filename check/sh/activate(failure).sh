@@ -57,12 +57,12 @@ check "9" browse "$url/?req=activate" \
 	sed -r "'s/(Activation failed \(code )[0-9]+(\))/\10\2/g'"
 
 # Token has expired...
-query --execute="USE flederwiesel_fra-schedule;
+query --execute="USE fra-flugplan;
 	UPDATE users SET token_expires=
 	FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) - 3600)
 	WHERE name='flederwiesel'"
 
-token=$(query --execute="USE flederwiesel_fra-schedule;
+token=$(query --execute="USE fra-flugplan;
 	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)
 
 check "9-1" browse "$url/?req=activate" --data-urlencode "user=flederwiesel" --data-urlencode "token=$token"

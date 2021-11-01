@@ -35,7 +35,7 @@ check "3" browse "$url/?req=register" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1"
 
-token=$(query --execute="USE flederwiesel_fra-schedule;
+token=$(query --execute="USE fra-flugplan;
 	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)
 
 check "4" browse "$url/?req=activate" \
