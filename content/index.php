@@ -528,6 +528,7 @@ foreach ($watch as $reg => $comment)
 
 // Make sure we use the correct timezone
 $tz = date_default_timezone_set('Europe/Berlin');
+$now = new StdClass();
 
 if (isset($_GET['time']))
 {
