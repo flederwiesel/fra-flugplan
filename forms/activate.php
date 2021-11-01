@@ -44,7 +44,15 @@
 			<?php echo $message; ?>
 		</div>
 <?php } ?>
-		<div class="explainatory"><?php echo $lang['snailmail']; ?></div>
+		<div class="explainatory">
+			<p><?php echo $lang['snailmail_1']; ?></p>
+			<p><?php echo $lang['snailmail_2']; ?></p>
+			<p><?php echo $lang['snailmail_3']; ?>
+				<a href="content/emil.php?subject=<?php echo urlencode($lang["activation-trouble"]); ?>">
+					<img class="emil" alt="email" src="content/mkpng.php?font=verdana&size=10&bg=white&fg=%2300007f&res=ADMIN_EMAIL">
+				</a>
+			</p>
+		</div>
 		<div class="table">
 			<div class="row">
 				<div class="cell label"><?php echo ucfirst($lang['username']); ?></div>

@@ -107,12 +107,11 @@ $lang = array
 	'userexists' => 'Benutzername bereits vergeben.',
 	'emailexists' => 'E-Mailadresse bereits vergeben.',
 	'regsuccess' => 'Registrierung erfolgreich. Aktivierungs-Token eingeben.',
-	'snailmail' => 'Bitte Token aus der E-Mail eigeben, die an die angegebene Adresse gesendet wurde.<br><br>'.
-		'Sollte keine Aktivierungs-Mail im Posteingang auftauchen, bitte den Spam-Ordner prüfen.<br><br>'.
-		'Je nach Internetanbieter und Mailserver kann es vorkommen, daß die Zustellung von E-Mails '.
-		'länger dauert als das Token gültig ist. In diesem Fall, bitte Kontakt mit mir unter '.
-		'<a href="content/emil.php?subject=FRA-Flugplan%20Aktivierungsproblem"><img alt="email" '.
-		'src="content/mkpng.php?font=verdana&amp;size=10&amp;bg=white&amp;fg=%2300007f&amp;res=ADMIN_EMAIL"></a> aufnehmen.<br>',
+	'snailmail_1' => 'Bitte Token aus der E-Mail eigeben, die an die angegebene Adresse gesendet wurde.',
+	'snailmail_2' => 'Sollte keine Aktivierungs-Mail im Posteingang auftauchen, bitte den Spam-Ordner prüfen.',
+	'snailmail_3' => 'Je nach Internetanbieter und Mailserver kann es vorkommen, daß die Zustellung von E-Mails '.
+		'länger dauert als das Token gültig ist. In diesem Fall, bitte Kontakt aufnehmen mit ',
+	'activation-trouble' => 'FRA-Flugplan Aktivierungsproblem',
 	'regfailed' => 'Registrierung fehlgeschlagen. Bitte Administrator kontaktieren.',
 	'activationsuccess' => 'Aktivierung erfolgreich. Login steht zur Verfügung.',
 	'nosuchuser' => 'Benutzername unbekannt.',

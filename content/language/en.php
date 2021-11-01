@@ -107,12 +107,11 @@ $lang = array
 	'userexists' => 'User name already in use.',
 	'emailexists' => 'Email address already in use.',
 	'regsuccess' => 'Registration successful. Please enter activation token.',
-	'snailmail' => 'Please enter the token which you should have received on the e-mail address you provided.<br><br>'.
-		'If no activation mail arrives on your inbox, please also check your spam folder.<br><br>'.
-		'Depending on your internet service provider and mail transport agent settings, delivery of e-mails can take '.
-		'longer than the activation token is valid. In this case, don\'t hesitate to contact us at '.
-		'<a href="content/emil.php?subject=FRA-schedule%20activation%20trouble"><img alt="email" '.
-		'src="content/mkpng.php?font=verdana&amp;size=10&amp;bg=white&amp;fg=%2300007f&amp;res=ADMIN_EMAIL"></a>.',
+	'snailmail_1' => 'Please enter the token which you should have received on the e-mail address you provided.',
+	'snailmail_2' => 'If no activation mail arrives on your inbox, please also check your spam folder.',
+	'snailmail_3' => 'Depending on your internet service provider and mail transport agent settings, delivery of e-mails can take '.
+		'longer than the activation token is valid. In this case, don\'t hesitate to contact us at ',
+	'activation-trouble' => 'FRA-schedule activation trouble',
 	'regfailed' => 'Registration failed. Please contact an administrator.',
 	'activationsuccess' => 'Activation successful. You may now login.',
 	'nosuchuser' => 'No such user.',
