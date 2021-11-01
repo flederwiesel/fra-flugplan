@@ -696,7 +696,7 @@ function /* char *error */ RegisterUser($db, /* __out */ &$message)
 								$error = RegisterUserSql($db, $_POST['user'], $_POST['email'], $_POST['passwd'],
 														 $ipaddr,
 														 isset($_POST['lang']) ? $_POST['lang'] :
-														 isset($_SESSION['lang']) ? $_SESSION['lang'] : 'en');
+														 (isset($_SESSION['lang']) ? $_SESSION['lang'] : 'en'));
 
 								if (!$error)
 								{
