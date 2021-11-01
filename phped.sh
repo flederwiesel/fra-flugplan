@@ -35,6 +35,7 @@ projects=(
 	"www.frankfurt-airport.com:www.frankfurt-airport.com/index.php?flighttype=arrivals\&lang=de\&perpage=3\&page=1\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
 	"www.frankfurt-airport.com-airlines:www.frankfurt-airport.com/de/_jcr_content.airlines.json"
 	"www.frankfurt-airport.com-airports:www.frankfurt-airport.com/de/_jcr_content.airports.json"
+	"mkpng:content/mkpng.php?res=ADMIN_SNAILMAIL"
 )
 
 filename=$(readlink -f "${BASH_SOURCE[0]}")
