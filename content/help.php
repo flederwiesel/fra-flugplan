@@ -177,7 +177,7 @@ include "help-$_SESSION[lang].php";
 			<div>
 				<ul class="help">
 					<li>
-						<a href="content/emil.php?subject=fra-schedule%20trouble">
+						<a href="content/emil.php?subject=<?php echo $lang_help[50]; ?>">
 							<img id="address" class="emil" alt="email" src="content/mkpng.php?font=verdana&amp;size=10&amp;bg=white&amp;fg=%2300007f&amp;res=ADMIN_SNAILMAIL">
 						</a>
 					</li>

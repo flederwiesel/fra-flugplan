@@ -65,6 +65,7 @@ $lang_help = array(
 	47 => 'For advertising.',
 	48 => 'Na data will be transferred to third parties &ndash; spam checking your registration being the one exception. Private data will be deleted upon request.',
 	49 => 'About...',
+	50 => 'FRA-schedule licenses',
 );
 
 ?>
