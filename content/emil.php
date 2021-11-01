@@ -20,10 +20,10 @@ $mail = 'Location: mailto:';
 $mail .= ADMIN_EMAIL;
 
 if (isset($_GET['subject']))
-	$mail .= '&amp;subject='.mb_encode_mimeheader($_GET['subject'], 'ISO-8859-1', 'Q');
+	$mail .= '&subject='.mb_encode_mimeheader($_GET['subject'], 'ISO-8859-1', 'Q');
 
 if (isset($_GET['body']))
-	$mail .= '&amp;body='.mb_encode_mimeheader($_GET['body'], 'ISO-8859-1', 'Q');
+	$mail .= '&body='.mb_encode_mimeheader($_GET['body'], 'ISO-8859-1', 'Q');
 
 header($mail);
 
