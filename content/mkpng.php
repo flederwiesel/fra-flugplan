@@ -81,7 +81,7 @@ class RGB
 };
 
 /* Parameters */
-$font = 'verdana.ttf';
+$font = __DIR__ . '/verdana.ttf';
 
 if (isset($_GET['font']))
 	if (file_exists($_GET['font'].'ttf'))
