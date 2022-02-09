@@ -975,6 +975,10 @@ function MapFlightStatus(/*in/out*/ &$status)
 		{
 			$status = FlightStatus::APPROACHING;
 		}
+		else if ('arrival from' == mb_substr($status, 0, 12))
+		{
+			$status = FlightStatus::APPROACHING;
+		}
 		else if ('delayed to' == mb_substr($status, 0, 10))
 		{
 			$status = FlightStatus::APPROACHING;
