@@ -24,11 +24,12 @@ urlencode() {
 }
 
 projects=(
+	# name:query_string
 	"index:index.php?arrival\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
-	"index-spam:index.php?req=register\&stopforumspam=localhost/\$prjroot\&user=spam\&email=spam@gmail.com"
+	"index-spam:index.php?req=register\&stopforumspam=localhost/\${projectpath}\&user=spam\&email=spam@gmail.com"
 	"betriebsrichtung:apps.fraport.de/betriebsrichtung/betriebsrichtung.html"
 	"getflights:getflights.php?debug=url,json,sql\&fmt=html"
-	"getflights-local:getflights.php?debug=url,json,sql\&fmt=html\&prefix=localhost/\$prjroot/\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
+	"getflights-local:getflights.php?debug=url,json,sql\&fmt=html\&prefix=localhost/\${projectpath}/\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
 	"download:index.php?page=download"
 	"specials:index.php?page=specials"
 	"stopforumspam:api.stopforumspam.org/index.php?username=spam\&email=spam@gmail.com\&ip=46.118.155.73"
@@ -38,14 +39,18 @@ projects=(
 	"mkpng:content/mkpng.php?res=ADMIN_SNAILMAIL"
 )
 
-filename=$(readlink -f "${BASH_SOURCE[0]}")
-cygpath=$(dirname "$filename")
-winpath=$(cygpath --windows "$cygpath")
-prjdir=$(dirname "$filename")
-prjroot=${prjdir##*htdocs/}
-workspace=${prjdir##*/}
+filename=$(realpath "${BASH_SOURCE[0]}")
+scriptdir=$(dirname "$filename")
+webroot=${scriptdir%%/htdocs/*}/htdocs
+projectpath=${scriptdir##*/htdocs/}
+workspace=${scriptdir##*/}
 
-mkdir -p "$cygpath/.phped"
+if [[ $(uname -o) == Cygwin ]]; then
+	scriptdir=$(cygpath --windows "$scriptdir")
+	webroot=$(cygpath --windows "$webroot")
+fi
+
+mkdir -p "$scriptdir/.phped"
 
 # PROJECT
 # Create *.ppj for each project
@@ -54,32 +59,35 @@ i=0
 
 for p in ${projects[@]}
 do
-	if grep -q '\?' <<<"$p"; then
-		fin='\&'
+	if grep -q '\?' <<<"${p}"; then
+		fin='&'
 	else
 		fin='?'
 	fi
 
-	sed -r "s|(DefaultFile=).*\$|\\1http://localhost/$prjroot/${p##*:}$fin|g;
-			s|\\\$prjroot|$prjroot|g" > "$cygpath/.phped/${p%%:*}.ppj" <<-EOF
+	# Use eval for variables embedded in query string
+	index=$(eval echo "${p##*:}${fin}")
+	project="${p%%:*}"
+
+	cat > "${scriptdir}/.phped/${project}.ppj" <<-EOF
 		[Debugger]
-		stopbeginning=0
-		dbgsessions=1
-		excset=Exception
-		profwithdbg=0
-		excign=
+		blkout=0
+		breakerr=1
 		breakexc=1
 		cp=System default encoding
-		tunnel=
-		readonlyed=0
-		custom=0
-		host=localhost
-		errset=E_ERROR,E_WARNING,E_PARSE,E_CORE_ERROR,E_CORE_WARNING,E_COMPILE_ERROR,E_COMPILE_WARNING,E_USER_ERROR,E_USER_WARNING,E_STRICT,E_RECOVERABLE_ERROR
-		sesstimeout=15
-		blkout=0
-		showmaperrors=1
 		Custom.Debug.Settings=0
-		breakerr=1
+		custom=0
+		dbgsessions=1
+		errset=E_ERROR,E_WARNING,E_PARSE,E_CORE_ERROR,E_CORE_WARNING,E_COMPILE_ERROR,E_COMPILE_WARNING,E_USER_ERROR,E_USER_WARNING,E_STRICT,E_RECOVERABLE_ERROR
+		excign=
+		excset=Exception
+		host=localhost
+		profwithdbg=0
+		readonlyed=0
+		sesstimeout=15
+		showmaperrors=1
+		stopbeginning=0
+		tunnel=
 
 		[PHPEdProject.Filters.Allow]
 		\=
@@ -91,112 +99,112 @@ do
 		\=
 
 		[Encoder]
-		excl=0
 		asptags=0
-		obfusclevel=0
-		stoponerr=0
-		extinfo=0
-		licensing=0
-		phpdoc=1
 		compatibilitylevel=1
-		nofreeinc=0
 		copyall=1
-		suppresssucc=0
-		headertype=0
-		shorttags=1
-		lineinfo=0
 		destinationtype=0
+		excl=0
+		extinfo=0
+		headertype=0
+		licensing=0
+		lineinfo=0
+		nofreeinc=0
+		obfusclevel=0
+		phpdoc=1
+		shorttags=1
+		stoponerr=0
+		suppresssucc=0
 
 		[PHPEdProject.Encodings]
 		\=UTF-8
 
 		[Wizard]
+		localwebroot=${webroot}
+		projectroot=${scriptdir}
 		runmode=2
-		projectroot=$winpath
 		webrooturl=http://localhost/
-		localwebroot=E:\home\common\prj\HTML\htdocs
 
 		[PHPEdProject.JSLibraries]
 		Count=0
 
 		[Testing]
+		EnableTesting=0
+		FindTestMode=0
+		TestingConfig=phpunit.xml
 		TestingCustomLoader=
 		TestingCustomLoaderExtraArg=
-		TestingConfig=phpunit.xml
-		FindTestMode=0
 		TestingRoot=
-		EnableTesting=0
 
 		[PHPEdProject]
-		HideDirs=CVS;.svn;.git
-		CvsRoot=
-		MappingLocal0=$winpath
-		ParserProp_CSS_SubLang=2
-		UrlMappingCount=0
-		CvsModule=
-		EncoderEnabled=0
-		DefaultEncodingCount=1
-		CvsPassw=xGkz19Uq0yChJr+8rWLrmDnmp6WFmgMQUZbvrF3SG4hJJ3e1NQozAAEGH5wNQkt4aZZZh+V6Y/Cxdk+MvbJ7aA==
-		DriverID=
-		IncPath_count=0
-		RelativeRootDir=..\\..\\$workspace
-		UsedPHPFrameworkPath=
-		MappingMainIdx=0
-		ParserProp_CSS_ParsePHP=0
-		MappingURL0=http://localhost/$prjroot
-		MappingPublishingRoot=
-		ParserProp_PHP_AspTags=0
-		MappingRemote0=$winpath
-		CvsHost=
-		RunMode=2
-		CvsMethod=pserver
-		CvsUser=
-		URL=http://localhost/$prjroot
-		CvsCVSROOT=:pserver:@
-		DefaultFile=http://localhost/$prjroot/index.php
 		ChangeTime=
+		CustomPropCount=0
+		CvsCVSROOT=:pserver:@
+		CvsHost=
+		CvsMethod=pserver
+		CvsModule=
+		CvsPassw=
+		CvsRoot=
+		CvsUser=
+		CvsUseUtf8=0
+		DefaultEncodingCount=1
+		DefaultFile=http://localhost/${projectpath}/${index}
+		DontPublishDirs=CVS;.svn;.git
+		DriverID=
+		EncoderEnabled=0
+		GUID={8FD21476-5E2E-483B-970B-58875E6E0727}
+		HideDirs=CVS;.svn;.git;.phped
+		HideFiles=.gitignore;.cvsignore;*.dsk;*.idx;*.ppx;*.ppw
+		IncPath_count=0
+		MappingCount=1
+		MappingLocal0=${webroot}
+		MappingMainIdx=0
+		MappingPublishing0=
+		MappingPublishingRoot=
+		MappingRemote0=${webroot}
+		MappingRemoteDir=${webroot}
+		MappingURL0=http://localhost/${projectpath}
+		ParserProp_AllowSingleAsteriskXDoc=0
+		ParserProp_CSS_ParsePHP=0
+		ParserProp_CSS_SubLang=2
+		ParserProp_HTML_SubLang=8
 		ParserProp_JS_ParsePHP=0
 		ParserProp_Override=0
-		RemoteCliAccount=
-		GUID={8FD21476-5E2E-483B-970B-58875E6E0727}
-		RemoteCliPhp=
-		CvsUseUtf8=0
-		MappingCount=1
-		ParserProp_AllowSingleAsteriskXDoc=0
-		UsedPHPFrameworkId=
-		PublishingAllowFilterCount=1
-		MappingRemoteDir=$winpath
-		PhpUnitPackage=
-		DontPublishDirs=CVS;.svn;.git
-		SourceControl=0
-		MappingPublishing0=
-		ScriptRunTarget=2
-		ParserProp_HTML_SubLang=8
-		UsedPHPFrameworkChecked=0
-		ParserPropPHPShortTags=1
+		ParserProp_PHP_AspTags=0
 		ParserProp_PHP_SubLang=4
+		ParserPropPHPShortTags=1
+		PhpUnitPackage=
+		PublishingAllowFilterCount=1
 		PublishingFilterCount=1
-		CustomPropCount=0
-		HideFiles=.gitignore;.cvsignore
+		RelativeRootDir=..
+		RemoteCliAccount=
+		RemoteCliPhp=
+		RunMode=2
+		ScriptRunTarget=2
+		SourceControl=0
+		URL=http://localhost/${projectpath}
+		UrlMappingCount=0
+		UsedPHPFrameworkChecked=0
+		UsedPHPFrameworkId=
+		UsedPHPFrameworkPath=
 
 		[Publishing]
-		DebuggerPublishingIdx=-1
 		count=0
+		DebuggerPublishingIdx=-1
 		DfltPublishingIdx=-1
 EOF
 
 	# workspace entries
 	Projects="${Projects}
-Project$i=$winpath\.phped\\${p%%:*}.ppj
-Unloaded$i=0"
+Project${i}=${scriptdir}\.phped\\${project}.ppj
+Unloaded${i}=0"
 	((i++))
 done
 
 # WORKSPACE
 
-cat > "$cygpath/$workspace.ppw" <<EOF
+cat > "${scriptdir}/${workspace}.ppw" <<EOF
 [PHPEdWorkspace]
-ProjectCount=$i
-$Projects
-ActiveProject=$winpath\.phped\index.ppj
+ProjectCount=${i}
+${Projects}
+ActiveProject=${scriptdir}\.phped\${projects[0]%%:*}.ppj
 EOF
