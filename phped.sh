@@ -27,7 +27,7 @@ projects=(
 	# name:query_string
 	"index:index.php?arrival\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
 	"index-spam:index.php?req=register\&stopforumspam=localhost/\${projectpath}\&user=spam\&email=spam@gmail.com"
-	"betriebsrichtung:applics.fraport.de/betriebsrichtung/betriebsrichtungsvg.js"
+	"betriebsrichtung:applics.fraport.de/betriebsrichtung/betriebsrichtungsvg.js?rwy=25"
 	"getflights:getflights.php?debug=url,json,sql\&fmt=html"
 	"getflights-local:getflights.php?debug=url,json,sql\&fmt=html\&prefix=localhost/\${projectpath}/\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
 	"download:index.php?page=download"
@@ -66,7 +66,7 @@ do
 	fi
 
 	# Use eval for variables embedded in query string
-	index=$(eval echo "${p##*:}${fin}")
+	index="$(eval echo ${p##*:})${fin}"
 	project="${p%%:*}"
 
 	cat > "${scriptdir}/.phped/${project}.ppj" <<-EOF
