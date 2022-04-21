@@ -27,7 +27,7 @@ projects=(
 	# name:query_string
 	"index:index.php?arrival\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
 	"index-spam:index.php?req=register\&stopforumspam=localhost/\${projectpath}\&user=spam\&email=spam@gmail.com"
-	"betriebsrichtung:apps.fraport.de/betriebsrichtung/betriebsrichtung.html"
+	"betriebsrichtung:applics.fraport.de/betriebsrichtung/betriebsrichtungsvg.js"
 	"getflights:getflights.php?debug=url,json,sql\&fmt=html"
 	"getflights-local:getflights.php?debug=url,json,sql\&fmt=html\&prefix=localhost/\${projectpath}/\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
 	"download:index.php?page=download"
