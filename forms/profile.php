@@ -166,19 +166,19 @@ SQL;
 					$st->bindValue(':ttp', $_POST['tt+']);
 					$st->bindValue(':uid', $user->id());
 
-				if (!$st->execute())
-				{
-					$error = $st->errorCode();
-				}
-				else
-				{
-					$user->opt('tm-', $_POST['tm-']);
-					$user->opt('tm+', $_POST['tm+']);
-					$user->opt('tt-', $_POST['tt-']);
-					$user->opt('tt+', $_POST['tt+']);
+					if (!$st->execute())
+					{
+						$error = $st->errorCode();
+					}
+					else
+					{
+						$user->opt('tm-', $_POST['tm-']);
+						$user->opt('tm+', $_POST['tm+']);
+						$user->opt('tt-', $_POST['tt-']);
+						$user->opt('tt+', $_POST['tt+']);
 
-					$message = $lang['settingsssaved'];
-				}
+						$message = $lang['settingsssaved'];
+					}
 				}
 			}
 
@@ -314,19 +314,19 @@ SQL;
 						$st->bindValue(':fmt', $_POST_timefmt ? "'$_POST_timefmt'" : NULL);
 						$st->bindValue(':uid', $user->id());
 
-					if (!$st->execute())
-					{
-						$error = sprintf($lang['dberror'], $st->errorCode());
-					}
-					else
-					{
-						$user->opt('notification-from', $_POST['from']);
-						$user->opt('notification-until', $_POST['until']);
-						$user->opt('notification-timefmt', $_POST_timefmt);
+						if (!$st->execute())
+						{
+							$error = sprintf($lang['dberror'], $st->errorCode());
+						}
+						else
+						{
+							$user->opt('notification-from', $_POST['from']);
+							$user->opt('notification-until', $_POST['until']);
+							$user->opt('notification-timefmt', $_POST_timefmt);
 
-						$message = "$lang[settingsssaved] ".
-									sprintf($lang['strftime-true'], $time);
-					}
+							$message = "$lang[settingsssaved] ".
+										sprintf($lang['strftime-true'], $time);
+						}
 					}
 				}
 			}
