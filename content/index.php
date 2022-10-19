@@ -14,6 +14,12 @@
  *
  ******************************************************************************/
 
+$URL = [
+	'airliners.net' => 'http://www.airliners.net/search?sortBy=datePhotographedYear&sortOrder=desc&keywords={reg}',
+];
+
+$photodb = 'airliners.net';
+
 $error = NULL;
 $message = NULL;
 
@@ -388,7 +394,7 @@ SQL;
 ?>
 									<tr>
 										<!-- inputs do not have names, POST values will be generated upon submit -->
-										<td><img src="img/a-net-ina.png" alt="www.airliners.net"></td>
+										<td><img src="img/a-net-ina.png" alt="<?php echo "$photodb"; ?>"></td>
 										<td><input type="text" class="reg" value="" maxlength="31"></td>
 										<td><input type="text" class="comment" value="" maxlength="255"></td>
 										<td><input type="checkbox" class="notify" value=""></td>
@@ -413,13 +419,13 @@ SQL;
 <?php		if (preg_match('/^\/.*\/$|[*?]/', $reg))
 			{
 ?>
-											<img src="img/a-net-ina.png" alt="www.airliners.net">
+											<img src="img/a-net-ina.png" alt="<?php echo "$photodb"; ?>">
 <?php
 			}
 			else
 			{
 ?>
-											<a href="http://www.airliners.net/search?keywords=<?php echo $reg; ?>&amp;sortBy=datePhotographedYear&amp;sortOrder=desc" target="a-net"><img src="img/a-net.png" alt="www.airliners.net"></a>
+											<a href="<?php echo str_replace([ '&', '{reg}' ], [ '&amp;', "$reg" ], $URL["$photodb"]); ?>" target="<?php echo "$photodb"; ?>"><img src="img/a-net.png" alt="<?php echo "$photodb"; ?>"></a>
 <?php
 			}
 ?>
@@ -741,8 +747,8 @@ if ($db)
 					else
 					{
 ?>
-				<a href = "http://www.airliners.net/search?keywords=<?php echo $reg ?>&amp;sortBy=datePhotographedYear&amp;sortOrder=desc" target="a-net">
-					<img src="img/a-net.png" alt="www.airliners.net">
+				<a href="<?php echo str_replace([ '&', '{reg}' ], [ '&amp;', "$reg" ], $URL["$photodb"]); ?>" target="<?php echo "$photodb"; ?>">
+					<img src="img/a-net.png" alt="<?php echo "$photodb"; ?>">
 				</a>
 <?php
 					}
