@@ -394,7 +394,7 @@ SQL;
 ?>
 									<tr>
 										<!-- inputs do not have names, POST values will be generated upon submit -->
-										<td><img src="img/a-net-ina.png" alt="<?php echo "$photodb"; ?>"></td>
+										<td><img src="img/photodb-ina.png" alt="<?php echo "$photodb"; ?>"></td>
 										<td><input type="text" class="reg" value="" maxlength="31"></td>
 										<td><input type="text" class="comment" value="" maxlength="255"></td>
 										<td><input type="checkbox" class="notify" value=""></td>
@@ -419,7 +419,7 @@ SQL;
 <?php		if (preg_match('/^\/.*\/$|[*?]/', $reg))
 			{
 ?>
-											<img src="img/a-net-ina.png" alt="<?php echo "$photodb"; ?>">
+											<img src="img/photodb-ina.png" alt="<?php echo "$photodb"; ?>">
 <?php
 			}
 			else

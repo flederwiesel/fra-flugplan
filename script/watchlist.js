@@ -134,7 +134,7 @@ function CloneRow(input)
 		{
 			img = a[0].getElementsByTagName("img");
 
-			img[0].src = "img/a-net-ina.png";
+			img[0].src = "img/photodb-ina.png";
 
 			if (a[0])
 			{
