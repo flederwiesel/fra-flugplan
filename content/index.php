@@ -425,7 +425,7 @@ SQL;
 			else
 			{
 ?>
-											<a href="<?php echo str_replace([ '&', '{reg}' ], [ '&amp;', "$reg" ], $URL["$photodb"]); ?>" target="<?php echo "$photodb"; ?>"><img src="img/a-net.png" alt="<?php echo "$photodb"; ?>"></a>
+											<a href="<?php echo str_replace([ '&', '{reg}' ], [ '&amp;', "$reg" ], $URL["$photodb"]); ?>" target="<?php echo "$photodb"; ?>"><img src="img/photodb.png" alt="<?php echo "$photodb"; ?>"></a>
 <?php
 			}
 ?>
@@ -748,7 +748,7 @@ if ($db)
 					{
 ?>
 				<a href="<?php echo str_replace([ '&', '{reg}' ], [ '&amp;', "$reg" ], $URL["$photodb"]); ?>" target="<?php echo "$photodb"; ?>">
-					<img src="img/a-net.png" alt="<?php echo "$photodb"; ?>">
+					<img src="img/photodb.png" alt="<?php echo "$photodb"; ?>">
 				</a>
 <?php
 					}
