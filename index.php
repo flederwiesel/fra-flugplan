@@ -254,6 +254,8 @@ if ($user)
 		if ('profile'  == $_GET['req'] ||
 			'changepw' == $_GET['req'])
 		{
+			// TODO: This should be done more professional...
+			// e.g. profile/dispinterval, so we can check for 'profile' substr
 			if (isset($_GET['dispinterval']))
 			{
 				$item = 'dispinterval';
@@ -266,16 +268,23 @@ if ($user)
 				}
 				else
 				{
-					if (isset($_GET['changepw']))
+					if (isset($_GET['photodb']))
 					{
-						$item = 'changepw';
+						$item = 'photodb';
 					}
 					else
 					{
-						if (isset($_COOKIE['profile-item']))
-							$item = $_COOKIE['profile-item'];
+						if (isset($_GET['changepw']))
+						{
+							$item = 'changepw';
+						}
 						else
-							$item = 'dispinterval';
+						{
+							if (isset($_COOKIE['profile-item']))
+								$item = $_COOKIE['profile-item'];
+							else
+								$item = 'dispinterval';
+						}
 					}
 				}
 			}

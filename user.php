@@ -335,7 +335,8 @@ function /* char *error */ LoginUserSql($db, $byid, $id, /* __in __out */ &$pass
 		/*[Q1]*/
 		SELECT `%s`, `passwd`, `salt`, `email`, `timezone`, `language`,
 			`token_type`, `tm-`, `tm+`, `tt-`, `tt+`,
-			`notification-from`, `notification-until`, `notification-timefmt`
+			`notification-from`, `notification-until`, `notification-timefmt`,
+			`photodb`
 		FROM `users`
 		WHERE `%s`=?
 SQL;
@@ -460,6 +461,7 @@ SQL;
 							$user->opt('notification-from', $row->{'notification-from'});
 							$user->opt('notification-until', $row->{'notification-until'});
 							$user->opt('notification-timefmt', $row->{'notification-timefmt'});
+							$user->opt('photodb', $row->{'photodb'});
 
 							$query = sprintf(<<<SQL
 								/*[Q3]*/

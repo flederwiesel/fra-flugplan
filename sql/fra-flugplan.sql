@@ -43,6 +43,7 @@ CREATE TABLE `users`
 	`last login` timestamp NULL DEFAULT NULL,
 	`send mail` BOOL DEFAULT TRUE,
 	`notification-timefmt` varchar(24) DEFAULT NULL,
+	`photodb` varchar(24) DEFAULT 'airliners.net',
 	CONSTRAINT `pk:users(id)` PRIMARY KEY (`id`),
 	UNIQUE KEY `u:users(email)`(`email`),
 	UNIQUE KEY `u:users(name)`(`name`)

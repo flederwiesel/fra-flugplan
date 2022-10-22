@@ -19,6 +19,8 @@
 $(function()
 {
 <?php
+include 'photodb.php';
+
 if ('dispinterval' == $item)
 {
 ?>
@@ -115,12 +117,14 @@ if ('notifinterval' == $item)
 	});
 <?php
 }
+/* At this point `user` is always set */
 ?>
 });
 </script>
 <ul class="menu left">
 	<li><?php navitem('dispinterval', 'dispinterval' == $item ? NULL : '?req=profile&amp;dispinterval'); ?></li>
 	<li class="sep"><?php navitem('notifinterval', 'notifinterval' == $item ? NULL : '?req=profile&amp;notifinterval'); ?></li>
+	<li class="sep"><?php navitem('photodb', 'photodb' == $item ? NULL : '?req=profile&amp;photodb'); ?></li>
 	<li class="sep"><?php navitem('changepw', 'changepw' == $item ? NULL : '?req=profile&amp;changepw'); ?></li>
 </ul>
 <div style="clear: both;">
@@ -133,7 +137,6 @@ if ('dispinterval' == $item)
 	<fieldset>
 		<legend><?php echo $lang['dispinterval']; ?></legend>
 <?php
-	/* At this point `user` is always set */
 	if (isset($_POST['submit']))
 	{
 		if ('interval' == $_POST['submit'])
@@ -250,7 +253,6 @@ if ('notifinterval' == $item)
 	<fieldset>
 		<legend><?php echo $lang['notifinterval']; ?></legend>
 <?php
-	/* At this point `user` is always set */
 	if (isset($_POST['submit']))
 	{
 		if ('notifications' == $_POST['submit'])
@@ -440,6 +442,91 @@ SQL;
 	<div class="center">
 		<input type="hidden" name="submit" value="notifications">
 		<input type="submit" id="submit" value="<?php echo $lang['submit']; ?>">
+	</div>
+</form>
+<?php
+}
+else if ('photodb' == $item)
+{
+?>
+<form method="post" action="?req=profile&amp;photodb"
+	onsubmit="document.getElementById('submit').disabled=true;">
+	<fieldset>
+		<legend><?php echo $lang['photodb']; ?></legend>
+<?php
+	if (isset($_POST['submit']))
+	{
+		if ('photodb' == $_POST['submit'])
+		{
+			if (isset($_POST['photodb']))
+			{
+				$query = <<<SQL
+					UPDATE `users`
+					SET `photodb`=:photodb
+					WHERE `id`=:uid
+SQL;
+
+				$st = $db->prepare($query);
+
+				if (!$st)
+				{
+					$error = sprintf($lang['dberror'], $db->errorCode());
+				}
+				else
+				{
+					$st->bindValue(':photodb', $_POST['photodb']);
+					$st->bindValue(':uid', $user->id());
+
+					if (!$st->execute())
+					{
+						$error = $st->errorCode();
+					}
+					else
+					{
+						$user->opt('photodb', $_POST['photodb']);
+
+						$message = $lang['settingsssaved'];
+					}
+				}
+			}
+
+			if ($error)
+			{
+?>
+		<div id="notification" class="error"><?php echo $error; ?></div>
+<?php
+			}
+
+			if ($message)
+			{
+?>
+		<div id="notification" class="success"><?php echo $message; ?></div>
+<?php
+			}
+		}
+	}
+?>
+		<div class="explainatory"><?php echo sprintf($lang['photodbdesc'], "<img src='img/photodb.png' alt='$photodb'>"); ?></div>
+		<div class="table">
+			<div class="row">
+				<div class="cell label"><?php echo $lang['photodbsel']; ?></div>
+				<div class="cell">
+					<select name="photodb" id="photodb">
+						<?php
+							foreach ($URL as $domain => $url)
+							{
+								$sel = $domain == $user->opt('photodb') ? ' selected' : '';
+								echo "<option value='$domain'$sel>$domain</option>";
+							}
+						?>
+					</select>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+	<div class="center">
+		<input type="hidden" name="submit" value="photodb">
+		<input type="submit" id="submit" name="submit" value="<?php echo $lang['submit']; ?>">
 	</div>
 </form>
 <?php

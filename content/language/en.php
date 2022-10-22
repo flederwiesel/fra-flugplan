@@ -218,6 +218,9 @@ $lang = array
 	'ipaddress' => 'ip address',
 	'spamcheckfailed' => 'The spam check failed due to an internal error. Please try again later.',
 	'db.disabled' => 'Database has been shutdown for maintainance. Please come back later.',
+	'photodb' => 'Photo Database',
+	'photodbdesc' => 'Wherever the %s icon is shown alongside aircraft registrations, you may click on it to open a browser window with the search results of the aircraft in the photo database of your choice.',
+	'photodbsel' => 'Open image search on',
 );
 
 ?>

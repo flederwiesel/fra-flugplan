@@ -14,14 +14,15 @@
  *
  ******************************************************************************/
 
-$URL = [
-	'airliners.net' => 'http://www.airliners.net/search?sortBy=datePhotographedYear&sortOrder=desc&keywords={reg}',
-];
-
-$photodb = 'airliners.net';
-
 $error = NULL;
 $message = NULL;
+
+include 'photodb.php';
+
+if ($user)
+	$photodb = $user->opt('photodb');
+else
+	$photodb = 'airliners.net';
 
 /* Update watchlist from posted values */
 if (isset($_POST['add']) ||

@@ -218,6 +218,9 @@ $lang = array
 	'ipaddress' => 'ip address',
 	'spamcheckfailed' => 'Spam-Überprüfung fehlgeschlagen. Bitte später noch einmal probieren.',
 	'db.disabled' => 'Die Datenbank wurde für Wartungszwecke heruntergefahren. Bis später...',
+	'photodb' => 'Fotodatenbank',
+	'photodbdesc' => 'Wo das %s Symbol neben einer Flugzeugkennung erscheint, kann mit einem Klick darauf ein Browserfenster mit der Bildersuche zu diesem Flugzeug in der bevorzugten Fotodatenbank geöffnet werden.',
+	'photodbsel' => 'Öffnet Bildersuche auf',
 );
 
 ?>
