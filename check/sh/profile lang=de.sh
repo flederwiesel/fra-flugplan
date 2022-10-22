@@ -76,3 +76,85 @@ check "11" browse "$url/?req=profile" \
 	--data-urlencode "until=22:00" \
 	--data-urlencode "submit=notifications" \
 	"|" sed -r "'s/\+0 [0-9]{2}:[0-9]{2}/+0 00:00/g'"
+
+sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
+	USE fra-flugplan;
+
+	SELECT `id` INTO @flederwiesel
+	FROM `users`
+	WHERE `name`='flederwiesel';
+
+	# watchlist
+	INSERT INTO `watchlist`(`id`, `user`, `notify`, `reg`, `comment`)
+	VALUES
+	(2, @flederwiesel, TRUE, 'C-GFAH', 'Air Canada - 932');
+
+	INSERT INTO `models`(`icao`)
+	VALUES ('B77W'), ('A333'), ('A346'), ('A310');
+
+	INSERT INTO `aircrafts`(`model`, `reg`)
+	VALUES
+	((SELECT `id` FROM `models` WHERE `icao` = 'B77W'), 'B-KPE'),
+	((SELECT `id` FROM `models` WHERE `icao` = 'A333'), 'C-GFAH'),
+	((SELECT `id` FROM `models` WHERE `icao` = 'A346'), 'ZS-SNC'),
+	((SELECT `id` FROM `models` WHERE `icao` = 'A310'), 'C-GSAT');
+
+	INSERT INTO `airlines`(`code`)
+	VALUES ('SA'), ('CX'), ('AC'), ('TS');
+
+	INSERT INTO `airports`(`iata`, `icao`, `name`)
+	VALUES
+	('JNB', 'FAOR', ''),
+	('HKG', 'VHHH', ''),
+	('YUL', 'CYUL', ''),
+	('YVR', 'CYVR', '');
+
+	INSERT INTO `flights`
+	(
+		`type`, `direction`, `airline`, `code`,
+		`scheduled`, `expected`, `airport`, `model`, `aircraft`
+	)
+	VALUES
+	(
+		'P', 'arrival',
+		(SELECT `id` FROM `airlines` WHERE `code`='SA'), '260',
+		'%{date} 06:15', NULL,
+		(SELECT `id` FROM `airports` WHERE `icao`='FAOR'),
+		(SELECT `id` FROM `models` WHERE `icao`='A346'),
+		(SELECT `id` FROM `aircrafts` WHERE `reg`='ZS-SNC')
+	),
+	(
+		'P', 'arrival',
+		(SELECT `id` FROM `airlines` WHERE `code`='CX'), '289',
+		'%{date} 06:20', NULL,
+		(SELECT `id` FROM `airports` WHERE `icao`='VHHH'),
+		(SELECT `id` FROM `models` WHERE `icao`='B77W'),
+		(SELECT `id` FROM `aircrafts` WHERE `reg`='B-KPE')
+	),
+	(
+		'P', 'arrival',
+		(SELECT `id` FROM `airlines` WHERE `code`='AC'), '874',
+		'%{date} 07:00', NULL,
+		(SELECT `id` FROM `airports` WHERE `icao`='CYUL'),
+		(SELECT `id` FROM `models` WHERE `icao`='A333'),
+		(SELECT `id` FROM `aircrafts` WHERE `reg`='C-GFAH')
+	),
+	(
+		'P', 'arrival',
+		(SELECT `id` FROM `airlines` WHERE `code`='TS'), 'XXX',
+		'%{date} 07:00', NULL,
+		(SELECT `id` FROM `airports` WHERE `icao`='CYVR'),
+		(SELECT `id` FROM `models` WHERE `icao`='A310'),
+		(SELECT `id` FROM `aircrafts` WHERE `reg`='C-GSAT')
+	);
+SQL
+
+check "12" browse "$url"
+
+check "13" browse "$url/?req=profile\&photodb"
+
+check "14" browse "$url/?req=profile\&photodb" \
+	--data-urlencode "submit=photodb" \
+	--data-urlencode "photodb=jetphotos.com"
+
+check "15" browse "$url"
