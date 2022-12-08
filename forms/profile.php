@@ -512,13 +512,13 @@ SQL;
 				<div class="cell label"><?php echo $lang['photodbsel']; ?></div>
 				<div class="cell">
 					<select name="photodb" id="photodb">
-						<?php
+<?php
 							foreach ($URL as $domain => $url)
 							{
 								$sel = $domain == $user->opt('photodb') ? ' selected' : '';
 								echo "<option value='$domain'$sel>$domain</option>\n";
 							}
-						?>
+?>
 					</select>
 				</div>
 			</div>
