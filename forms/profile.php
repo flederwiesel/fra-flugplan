@@ -516,7 +516,7 @@ SQL;
 							foreach ($URL as $domain => $url)
 							{
 								$sel = $domain == $user->opt('photodb') ? ' selected' : '';
-								echo "<option value='$domain'$sel>$domain</option>";
+								echo "<option value='$domain'$sel>$domain</option>\n";
 							}
 						?>
 					</select>
