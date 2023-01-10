@@ -54,6 +54,7 @@ find -type f -print0 | xargs -0 chmod 644
 IFS=$'\n' executable=($(svn propget -R svn:executable | sed 's/ - \*//g'))
 chmod 755 "${executable[@]}"
 
+ssh fra-flugplan.de "mkdir-p $HOME/httpdocs/vault/fra-flugplan $HOME/httpdocs/var/log"
 ssh fra-flugplan.de "rm -rf $root/$rev"
 rsync -av  \
 --exclude=*.dsk \
