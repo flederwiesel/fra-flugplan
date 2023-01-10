@@ -147,6 +147,15 @@ class curl
 			// but url would have needed a trailing backslash then...
 			curl_setopt($this->me, CURLOPT_FOLLOWLOCATION, 1);
 
+			// When debugging, localhost is using a certificate attributing back
+			// a custom CA, which we need to make known to curl.
+			// Put any root certificates here (not just the custom ones), otherwise
+			// with a missing ca-certificates.crt file, curl uses its default.
+			$cacerts = "$_SERVER[DOCUMENT_ROOT]/etc/ssl/certs/ca-certificates.crt";
+
+			if (file_exists($cacerts))
+				curl_setopt($this->me, CURLOPT_CAINFO, $cacerts);
+
 			// Now can securely connect with proper verification
 			curl_setopt($this->me, CURLOPT_SSL_VERIFYPEER, TRUE);
 			curl_setopt($this->me, CURLOPT_SSL_VERIFYHOST, 2);
