@@ -25,16 +25,16 @@ echo "$mails" > /etc/mailtodisk/flederwiesel@fra-flugplan.de # admin
 ###############################################################################
 
 check "1" browse "$url/"
-check "2" browse "$url/?req=register\&stopforumspam=$prefix" \
-		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+check "2" browse "$url/?req=register"
 
-check "3" browse "$url/?req=register" \
+check "3" browse "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en"
+		--data-urlencode "lang=en" "|" \
+		"sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
 token=$(query --execute="USE fra-flugplan;
 	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)

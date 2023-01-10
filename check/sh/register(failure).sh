@@ -123,22 +123,23 @@ check "13" browse "$url/?req=register" \
 		--data-urlencode "lang=en"
 
 # multiple registration
-check "14" browse "$url/?req=register" \
+check "14" browse "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en"
+		--data-urlencode "lang=en" "|" \
+		"sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
-check "15" browse "$url/?req=register" \
+check "15" browse "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en"
-
+		--data-urlencode "lang=en" "|" \
+		"sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
 check "16" browse "$url/?req=register" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
