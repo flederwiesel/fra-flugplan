@@ -7,7 +7,7 @@ deny from all
 </Files>
 
 #//Prevent directory listings
-Options All -Indexes
+Options -Indexes
 
 ErrorDocument 403 /error.php
 ErrorDocument 404 /error.php
