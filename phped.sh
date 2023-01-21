@@ -59,7 +59,7 @@ i=0
 
 for p in ${projects[@]}
 do
-	if grep -q '\?' <<<"${p}"; then
+	if grep -q '?' <<<"${p}"; then
 		fin='&'
 	else
 		fin='?'
