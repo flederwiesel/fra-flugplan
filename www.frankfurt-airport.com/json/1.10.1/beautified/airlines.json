@@ -1,0 +1,785 @@
+{
+  "data": [
+    {
+      "name": "ACM Air Charter",
+      "id": "BVR"
+    },
+    {
+      "name": "AIRSTREAM A.S.",
+      "id": "AQS"
+    },
+    {
+      "t": 1,
+      "name": "ANA",
+      "h": "B",
+      "id": "NH"
+    },
+    {
+      "name": "ASL Airlines Belgium",
+      "id": "TAY"
+    },
+    {
+      "t": 1,
+      "name": "Aegean Airlines",
+      "h": "B",
+      "id": "A3"
+    },
+    {
+      "t": 2,
+      "name": "Aer Lingus",
+      "h": "E",
+      "id": "EI"
+    },
+    {
+      "name": "AeroLogic",
+      "id": "BOX"
+    },
+    {
+      "t": 2,
+      "name": "Aeroitalia",
+      "id": "AEZ"
+    },
+    {
+      "name": "Aeromexico",
+      "id": "AM"
+    },
+    {
+      "t": 2,
+      "name": "Air Algérie",
+      "h": "E",
+      "id": "AH"
+    },
+    {
+      "name": "Air Alsie",
+      "id": "MMD"
+    },
+    {
+      "t": 2,
+      "name": "Air Astana",
+      "h": "E",
+      "id": "KC"
+    },
+    {
+      "t": 2,
+      "name": "Air Atlanta Icelandic",
+      "h": "E",
+      "id": "CC"
+    },
+    {
+      "t": 2,
+      "name": "Air Cairo",
+      "id": "SM"
+    },
+    {
+      "t": 1,
+      "name": "Air Canada",
+      "h": "B",
+      "id": "AC"
+    },
+    {
+      "t": 1,
+      "name": "Air China",
+      "h": "B",
+      "id": "CA"
+    },
+    {
+      "s": "314-461",
+      "t": 1,
+      "name": "Air Dolomiti",
+      "h": "A",
+      "id": "EN"
+    },
+    {
+      "t": 2,
+      "name": "Air Europa",
+      "h": "E",
+      "id": "UX"
+    },
+    {
+      "t": 2,
+      "name": "Air France",
+      "h": "D",
+      "id": "AF"
+    },
+    {
+      "t": 2,
+      "name": "Air Horizont",
+      "id": "HAT"
+    },
+    {
+      "t": 1,
+      "name": "Air India",
+      "h": "C",
+      "id": "AI"
+    },
+    {
+      "t": 2,
+      "name": "Air Malta",
+      "id": "KM"
+    },
+    {
+      "t": 2,
+      "name": "Air Moldova",
+      "h": "E",
+      "id": "9U"
+    },
+    {
+      "t": 2,
+      "name": "Air Montenegro",
+      "h": "D",
+      "id": "MNE"
+    },
+    {
+      "t": 1,
+      "name": "Air New Zealand",
+      "h": "B",
+      "id": "NZ"
+    },
+    {
+      "t": 2,
+      "name": "Air Premia",
+      "h": "D",
+      "id": "YP"
+    },
+    {
+      "t": 2,
+      "name": "Air Serbia",
+      "h": "E",
+      "id": "JU"
+    },
+    {
+      "name": "Airest",
+      "id": "AEG"
+    },
+    {
+      "name": "Airlink",
+      "id": "JAR"
+    },
+    {
+      "t": 2,
+      "name": "Albastar",
+      "h": "E",
+      "id": "AP"
+    },
+    {
+      "name": "Amelia International",
+      "id": "AEH"
+    },
+    {
+      "t": 2,
+      "name": "American Airlines",
+      "h": "E",
+      "id": "AA"
+    },
+    {
+      "t": 1,
+      "name": "Asiana Airlines",
+      "h": "C",
+      "id": "OZ"
+    },
+    {
+      "name": "Atlas Air Inc.",
+      "id": "GTI"
+    },
+    {
+      "s": "314-461",
+      "t": 1,
+      "name": "Austrian Airlines",
+      "h": "A",
+      "id": "OS"
+    },
+    {
+      "name": "Avianca",
+      "id": "AV"
+    },
+    {
+      "t": 2,
+      "name": "Azerbaijan Airlines",
+      "h": "E",
+      "id": "AHY"
+    },
+    {
+      "t": 2,
+      "name": "Bamboo Airways",
+      "h": "E",
+      "id": "QH"
+    },
+    {
+      "t": 2,
+      "name": "Blue Islands",
+      "id": "SI"
+    },
+    {
+      "t": 2,
+      "name": "British Airways",
+      "h": "E",
+      "id": "BA"
+    },
+    {
+      "s": "314-461",
+      "t": 1,
+      "name": "Brussels Airlines",
+      "h": "A",
+      "id": "SN"
+    },
+    {
+      "t": 2,
+      "name": "Bulgaria Air",
+      "h": "E",
+      "id": "FB"
+    },
+    {
+      "t": 2,
+      "name": "Cathay Pacific",
+      "h": "E",
+      "id": "CX"
+    },
+    {
+      "t": 2,
+      "name": "China Airlines",
+      "h": "D",
+      "id": "CI"
+    },
+    {
+      "name": "China Cargo Airlines",
+      "id": "CK"
+    },
+    {
+      "t": 2,
+      "name": "China Eastern Airlines",
+      "h": "D",
+      "id": "MU"
+    },
+    {
+      "t": 2,
+      "name": "China Southern Airlines",
+      "h": "D",
+      "id": "CZ"
+    },
+    {
+      "s": "752-789",
+      "t": 1,
+      "name": "Condor",
+      "h": "C",
+      "id": "DE"
+    },
+    {
+      "t": 2,
+      "name": "Corendon Airlines",
+      "h": "D",
+      "id": "XC"
+    },
+    {
+      "t": 1,
+      "name": "Croatia Airlines",
+      "h": "B",
+      "id": "OU"
+    },
+    {
+      "t": 2,
+      "name": "Delta",
+      "h": "D",
+      "id": "DL"
+    },
+    {
+      "name": "EAT-European Air Transport",
+      "id": "QY"
+    },
+    {
+      "t": 1,
+      "name": "EL AL",
+      "h": "C",
+      "id": "LY"
+    },
+    {
+      "name": "ETF Airways d.o.o.",
+      "id": "LI"
+    },
+    {
+      "t": 1,
+      "name": "EgyptAir",
+      "h": "B",
+      "id": "MS"
+    },
+    {
+      "t": 2,
+      "name": "Emirates",
+      "h": "E",
+      "id": "EK"
+    },
+    {
+      "t": 2,
+      "name": "Enter Air",
+      "h": "E",
+      "id": "ENT"
+    },
+    {
+      "t": 1,
+      "name": "Ethiopian Airlines",
+      "h": "B",
+      "id": "ET"
+    },
+    {
+      "t": 2,
+      "name": "Etihad Airways",
+      "h": "D",
+      "id": "EY"
+    },
+    {
+      "t": 2,
+      "name": "European Air Charter",
+      "h": "D",
+      "id": "BUC"
+    },
+    {
+      "t": 1,
+      "name": "Eurowings",
+      "h": "C",
+      "id": "EW"
+    },
+    {
+      "t": 1,
+      "name": "Eurowings Discover",
+      "h": "C",
+      "id": "4Y"
+    },
+    {
+      "name": "Excellent Air",
+      "id": "ECA"
+    },
+    {
+      "name": "Fedex",
+      "id": "FX"
+    },
+    {
+      "t": 2,
+      "name": "Finnair",
+      "h": "D",
+      "id": "AY"
+    },
+    {
+      "t": 2,
+      "name": "FlyEgypt",
+      "id": "FEG"
+    },
+    {
+      "name": "Flynas",
+      "id": "XY"
+    },
+    {
+      "t": 2,
+      "name": "Freebird Airlines",
+      "id": "FHY"
+    },
+    {
+      "t": 2,
+      "name": "Freebird Airlines Europe",
+      "id": "FHM"
+    },
+    {
+      "name": "Galistair",
+      "id": "GTR"
+    },
+    {
+      "t": 2,
+      "name": "German Airways",
+      "id": "GER"
+    },
+    {
+      "name": "Government of Turkmenistan",
+      "id": "TUG"
+    },
+    {
+      "t": 2,
+      "name": "Gulf Air",
+      "h": "D",
+      "id": "GF"
+    },
+    {
+      "t": 2,
+      "name": "HiSky",
+      "h": "E",
+      "id": "HYS"
+    },
+    {
+      "t": 2,
+      "name": "ITA Airways",
+      "h": "D",
+      "id": "AZ"
+    },
+    {
+      "t": 2,
+      "name": "Iberia",
+      "h": "E",
+      "id": "IB"
+    },
+    {
+      "t": 2,
+      "name": "Icelandair",
+      "h": "E",
+      "id": "FI"
+    },
+    {
+      "t": 2,
+      "name": "IranAir",
+      "h": "D",
+      "id": "IR"
+    },
+    {
+      "t": 2,
+      "name": "Iraqi Airways",
+      "h": "E",
+      "id": "IA"
+    },
+    {
+      "t": 2,
+      "name": "JAL Japan Airlines",
+      "h": "D",
+      "id": "JL"
+    },
+    {
+      "name": "JetBlue",
+      "id": "B6"
+    },
+    {
+      "name": "Jetfly Aviation",
+      "id": "JFA"
+    },
+    {
+      "t": 2,
+      "name": "KLM Royal Dutch Airlines",
+      "h": "D",
+      "id": "KL"
+    },
+    {
+      "t": 2,
+      "name": "Korean Air",
+      "h": "D",
+      "id": "KE"
+    },
+    {
+      "t": 2,
+      "name": "Kuwait Airways",
+      "h": "D",
+      "id": "KU"
+    },
+    {
+      "name": "LAN Cargo",
+      "id": "UC"
+    },
+    {
+      "t": 1,
+      "name": "LATAM Airlines Chile",
+      "h": "C",
+      "id": "LA"
+    },
+    {
+      "t": 1,
+      "name": "LOT Polish Airlines",
+      "h": "B",
+      "id": "LO"
+    },
+    {
+      "name": "LVG'S OHNE bekannten IACO/IATA-CODE",
+      "id": "YY"
+    },
+    {
+      "s": "314-461",
+      "t": 1,
+      "name": "Lufthansa",
+      "h": "A",
+      "id": "LH"
+    },
+    {
+      "t": 2,
+      "name": "Luxair",
+      "id": "LG"
+    },
+    {
+      "t": 2,
+      "name": "MEA Middle East Airlines",
+      "h": "D",
+      "id": "ME"
+    },
+    {
+      "t": 2,
+      "name": "MGA Mavigök Airlines",
+      "id": "MGH"
+    },
+    {
+      "t": 2,
+      "name": "MIAT Mongolian Airlines",
+      "h": "D",
+      "id": "OM"
+    },
+    {
+      "name": "Marabu Airlines",
+      "id": "MBU"
+    },
+    {
+      "name": "MasAir",
+      "id": "M7"
+    },
+    {
+      "name": "Neos",
+      "id": "NO"
+    },
+    {
+      "t": 2,
+      "name": "Nesma Airlines",
+      "id": "NE"
+    },
+    {
+      "name": "NetJets",
+      "id": "NJE"
+    },
+    {
+      "t": 2,
+      "name": "Nouvelair",
+      "id": "LBT"
+    },
+    {
+      "t": 2,
+      "name": "Oman Air",
+      "h": "E",
+      "id": "WY"
+    },
+    {
+      "t": 2,
+      "name": "Pegasus Airlines",
+      "h": "E",
+      "id": "PC"
+    },
+    {
+      "name": "Premium Jet",
+      "id": "PJV"
+    },
+    {
+      "t": 2,
+      "name": "Privilege Style",
+      "id": "PVG"
+    },
+    {
+      "t": 2,
+      "name": "Qatar Airways",
+      "h": "E",
+      "id": "QR"
+    },
+    {
+      "name": "Red Sea Airlines",
+      "id": "RSX"
+    },
+    {
+      "t": 2,
+      "name": "Royal Air Maroc",
+      "h": "D",
+      "id": "AT"
+    },
+    {
+      "t": 2,
+      "name": "Royal Jordanian Airlines",
+      "h": "E",
+      "id": "RJ"
+    },
+    {
+      "t": 1,
+      "name": "SAS Scandinavian Airlines",
+      "h": "B",
+      "id": "SK"
+    },
+    {
+      "t": 2,
+      "name": "SATA Azores Airlines",
+      "h": "E",
+      "id": "S4"
+    },
+    {
+      "name": "SF Airlines",
+      "id": "CSS"
+    },
+    {
+      "s": "314-461",
+      "t": 1,
+      "name": "SWISS",
+      "h": "A",
+      "id": "LX"
+    },
+    {
+      "t": 2,
+      "name": "Saudia",
+      "h": "D",
+      "id": "SV"
+    },
+    {
+      "t": 1,
+      "name": "Singapore Airlines",
+      "h": "C",
+      "id": "SQ"
+    },
+    {
+      "t": 2,
+      "name": "Smart Wings",
+      "id": "QS"
+    },
+    {
+      "t": 2,
+      "name": "SmartLynx Airlines",
+      "id": "ART"
+    },
+    {
+      "t": 2,
+      "name": "SriLankan Airlines",
+      "h": "D",
+      "id": "UL"
+    },
+    {
+      "name": "Star East Airlines",
+      "id": "SEK"
+    },
+    {
+      "t": 1,
+      "name": "SunExpress",
+      "h": "C",
+      "id": "XQ"
+    },
+    {
+      "t": 2,
+      "name": "Sundair",
+      "h": "D",
+      "id": "SDR"
+    },
+    {
+      "t": 1,
+      "name": "TAP Air Portugal",
+      "h": "B",
+      "id": "TP"
+    },
+    {
+      "t": 2,
+      "name": "TAROM",
+      "h": "E",
+      "id": "RO"
+    },
+    {
+      "t": 2,
+      "name": "TUI fly",
+      "id": "X3"
+    },
+    {
+      "t": 1,
+      "name": "Thai Airways International",
+      "h": "C",
+      "id": "TG"
+    },
+    {
+      "t": 2,
+      "name": "Titan Airways",
+      "h": "E",
+      "id": "ZT"
+    },
+    {
+      "t": 2,
+      "name": "Tunisair",
+      "h": "E",
+      "id": "TU"
+    },
+    {
+      "t": 1,
+      "name": "Turkish Airlines",
+      "id": "TK"
+    },
+    {
+      "t": 2,
+      "name": "Turkmenistan Airlines",
+      "h": "D",
+      "id": "TUA"
+    },
+    {
+      "t": 2,
+      "name": "UR Airlines",
+      "id": "UBD"
+    },
+    {
+      "t": 1,
+      "name": "United Airlines",
+      "h": "B",
+      "id": "UA"
+    },
+    {
+      "t": 2,
+      "name": "Uzbekistan Airways",
+      "h": "D",
+      "id": "HY"
+    },
+    {
+      "t": 2,
+      "name": "Vietnam Airlines",
+      "h": "D",
+      "id": "VN"
+    },
+    {
+      "name": "Virgin Atlantic",
+      "id": "VS"
+    },
+    {
+      "t": 2,
+      "name": "Vistara",
+      "h": "D",
+      "id": "UK"
+    },
+    {
+      "t": 2,
+      "name": "Vueling",
+      "id": "VY"
+    },
+    {
+      "name": "Wideroe's Flyveselskap",
+      "id": "WF"
+    },
+    {
+      "name": "Zimex",
+      "id": "AZD"
+    },
+    {
+      "t": 2,
+      "name": "airBaltic",
+      "h": "E",
+      "id": "BT"
+    },
+    {
+      "t": 2,
+      "name": "iberojet",
+      "id": "EVE"
+    },
+    {
+      "name": "Air Hamburg",
+      "id": "AHO"
+    },
+    {
+      "name": "Atlas Air Service",
+      "id": "ATL"
+    },
+    {
+      "name": "Jet2.com",
+      "id": "EXS"
+    },
+    {
+      "name": "ProAir",
+      "id": "PAV"
+    },
+    {
+      "name": "Quick Air Jet Charter",
+      "id": "QAJ"
+    },
+    {
+      "name": "VistaJet",
+      "id": "VJT"
+    },
+    {
+      "name": "Wind Rose Aviation",
+      "id": "7W"
+    }
+  ],
+  "lu": "2023-04-25T00:00:00+0200",
+  "version": "1.10.1"
+}
