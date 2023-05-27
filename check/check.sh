@@ -191,7 +191,13 @@ chkdep minversion php        "5.4"    "$(browse --head http://localhost | sed -n
 chkdep minversion mysql      "14.14"  "$(mysql --version 2>&1 || echo | sed -r 's/^[^0-9]*([^ ]+).*/\1/g')"
 chkdep minversion jq         "1.5"    "$(jq --version 2>&1 || echo | sed 's/^[^0-9]*//g')"
 chkdep minversion python     "2.7.3"  "$(python --version 2>&1 | sed 's/^[^0-9]*//g')"
-chkdep minversion mailtodisk "1028"   "$(mailtodisk --version 2>&1)"
+chkdep minversion mailtodisk "1.0"    "$(mailtodisk --version 2>&1)"
+
+mailtodisk --check ||
+{
+	echo "mailtodisk is not properly set up." >&2
+	exit 1
+}
 
 IFS=$'\n'
 
