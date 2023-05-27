@@ -268,9 +268,9 @@ do
 
 			if [ 0 == $? ]; then
 
-				rm -f /etc/mailtodisk/*
+				mailtodisk --remove '*'
 
-				export mails=$(readlink -m "$results/mail.txt")
+				export mailfile=$(readlink -m "$results/mail.txt")
 
 				eval "$(cat sh/$script.sh)"
 

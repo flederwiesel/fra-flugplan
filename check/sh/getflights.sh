@@ -19,9 +19,9 @@ initdb && rm -f .COOKIES
 
 prefix=$(rawurlencode $(sed -r 's|https?://||g' <<<"$url"))
 
-echo "$mails" > /etc/mailtodisk/flederwiesel@fra-flugplan.de # admin
-echo "$mails" > /etc/mailtodisk/flederwiesel@fra-flugplan.de # root
-echo "$mails" > /etc/mailtodisk/hausmeister@flederwiesel.com # user
+mailtodisk --add flederwiesel@fra-flugplan.de "$mailfile" # admin
+mailtodisk --add flederwiesel@fra-flugplan.de "$mailfile" # root
+mailtodisk --add hausmeister@flederwiesel.com "$mailfile" # user
 
 ###############################################################################
 

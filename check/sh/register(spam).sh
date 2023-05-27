@@ -19,9 +19,9 @@ initdb && rm -f .COOKIES
 
 prefix=$(rawurlencode $(sed -r 's|https?://||g' <<<"$url"))
 
-echo "$mails" > /etc/mailtodisk/flederwiesel@fra-flugplan.de # admin
-echo "$mails" > /etc/mailtodisk/nospam@flederwiesel.com
-echo "$mails" > /etc/mailtodisk/spam@gmail.com
+mailtodisk --add flederwiesel@fra-flugplan.de "$mailfile" # admin
+mailtodisk --add nospam@flederwiesel.com "$mailfile"
+mailtodisk --add spam@gmail.com "$mailfile"
 
 sed='s/(ip=)[0-9]+(,email=)[0-9]+(,username=)[0-9]+/\1*\2*\3*/g'
 
