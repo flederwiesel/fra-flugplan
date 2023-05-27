@@ -1,9 +1,8 @@
 #!/bin/bash
 
-which getpass &>/dev/null || {
-	echo '`getpass` not found.' >&2
-	exit 1
-}
+readonly SCRIPTDIR=$(dirname "${BASH_SOURCE[0]}")
+
+export PATH="${SCRIPTDIR}/../bin:$PATH"
 
 sqlexec() {
 	[[ "$(uname -o)" =~ "Cygwin" ]] && proto="--protocol=TCP"

@@ -180,7 +180,7 @@ export -f rawurlencode
 
 set -o pipefail
 
-export PATH=$(dirname "$0")/../etc:$PATH
+export PATH=$(dirname "$0")/../bin:$PATH
 
 chkdep readlink --version
 chkdep minversion sed        "4.2.1"  "$(sed --version 2>&1 || echo | sed -nr '/^(GNU *)?sed/ { s/^[^0-9]*//g; /^$/d; p }')"
