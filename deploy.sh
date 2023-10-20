@@ -16,7 +16,7 @@
 
 set -e
 
-root=httpdocs/vault/fra-flugplan
+readonly root=httpdocs/vault/fra-flugplan
 
 cd $(dirname "$0")
 
@@ -34,7 +34,7 @@ fi
 # If checked out under Windows, cygwin permissions are wrong, which
 # may lead to permissions being wrong on the server.
 
-ssh fra-flugplan.de "mkdir -p httpdocs/vault/fra-flugplan httpdocs/var/log"
+ssh fra-flugplan.de "mkdir -p $root httpdocs/var/log"
 ssh fra-flugplan.de "rm -rf $root/$tag"
 rsync -av  \
 --exclude=*.dsk \
