@@ -14,19 +14,18 @@
 #
 ###############################################################################
 
-set -e
+set -euo pipefail
 
+readonly SCRIPTDIR=$(dirname "${BASH_SOURCE[0]}")
 readonly root=httpdocs/vault/fra-flugplan
 
-cd $(dirname "$0")
-
-git diff-index --quiet HEAD -- ||
+git -C "$SCRIPTDIR" diff-index --quiet HEAD -- ||
 {
 	echo "Working copy is dirty. Aborting." >&2
 	exit 1
 }
 
-if ! tag=$(git describe --tags --exact-match); then
+if ! tag=$(git -C "$SCRIPTDIR" describe --tags --exact-match); then
 	echo "Cannot determine tag." >&2
 	exit 1
 fi
@@ -49,7 +48,7 @@ rsync -av  \
 --exclude=METAR \
 --exclude=sql \
 --exclude=www.frankfurt-airport.com \
-. fra-flugplan.de:"$root/$tag"
+"$SCRIPTDIR/" fra-flugplan.de:"$root/$tag"
 
 ssh fra-flugplan.de "echo $tag > $root/target"
 
