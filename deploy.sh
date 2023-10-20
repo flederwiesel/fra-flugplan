@@ -14,6 +14,8 @@
 #
 ###############################################################################
 
+set -e
+
 root=httpdocs/vault/fra-flugplan
 
 cd $(dirname "$0")
@@ -32,7 +34,7 @@ fi
 # If checked out under Windows, cygwin permissions are wrong, which
 # may lead to permissions being wrong on the server.
 
-ssh fra-flugplan.de "mkdir-p $HOME/httpdocs/vault/fra-flugplan $HOME/httpdocs/var/log"
+ssh fra-flugplan.de "mkdir -p httpdocs/vault/fra-flugplan httpdocs/var/log"
 ssh fra-flugplan.de "rm -rf $root/$tag"
 rsync -av  \
 --exclude=*.dsk \
@@ -50,3 +52,5 @@ rsync -av  \
 . fra-flugplan.de:"$root/$tag"
 
 ssh fra-flugplan.de "echo $tag > $root/target"
+
+echo -e "\033[32mSUCCESS.\033[m"
