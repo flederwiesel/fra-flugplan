@@ -35,19 +35,43 @@ fi
 
 ssh fra-flugplan.de "mkdir -p $root httpdocs/var/log"
 ssh fra-flugplan.de "rm -rf $root/$tag"
-rsync -av  \
---exclude=*.dsk \
---exclude=*.ppw \
---exclude=.phped \
---exclude=.git \
---exclude=api.stopforumspam.org \
---exclude=check \
---exclude=etc \
---exclude=flagcounter.txt \
---exclude=ftp-flederwiesel.sh \
---exclude=METAR \
---exclude=sql \
---exclude=www.frankfurt-airport.com \
+rsync -av \
+--exclude="~*" \
+--exclude="*~" \
+--exclude="*.pdn" \
+--filter="+ .config" \
+--filter="+ .htaccess" \
+--filter="+ apple-touch-icon.png" \
+--filter="+ classes/" \
+--filter="+ classes/*" \
+--filter="+ content/" \
+--filter="+ content/*" \
+--filter="+ content/img/de" \
+--filter="+ content/img/de/*" \
+--filter="+ content/img/en" \
+--filter="+ content/img/en/*" \
+--filter="+ content/language/*" \
+--filter="+ css/" \
+--filter="+ css/*" \
+--filter="+ css/ie/*" \
+--filter="+ error.php" \
+--filter="+ favicon.*" \
+--filter="+ forms/" \
+--filter="+ forms/*" \
+--filter="+ getflights.*" \
+--filter="+ img/" \
+--filter="- img/src" \
+--filter="+ img/*" \
+--filter="+ index.php" \
+--filter="+ nav.php" \
+--filter="+ photodb.php" \
+--filter="+ redirect.php" \
+--filter="+ robots.txt" \
+--filter="+ script/" \
+--filter="+ script/*" \
+--filter="+ script/jquery*/***" \
+--filter="+ user.php" \
+--filter="- *" \
 "$SCRIPTDIR/" fra-flugplan.de:"$root/$tag"
 
 ssh fra-flugplan.de "echo $tag > $root/target"
