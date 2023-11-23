@@ -189,12 +189,12 @@ include "help-$_SESSION[lang].php";
 
 		<div class="right footnote">
 		<?php
-			$rev = file('revision');
+			$rev = file('git-rev');
 
 			if ($rev)
 			{
 				foreach ($rev as $line)
-					echo "$line.<br>";
+					echo "$line";
 			}
 		?></div>
 	</div>

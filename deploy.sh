@@ -30,6 +30,8 @@ if ! tag=$(git -C "$SCRIPTDIR" describe --tags --exact-match); then
 	exit 1
 fi
 
+rev=$(git -C "$SCRIPTDIR" log -1 --no-show-signature --pretty="Version $tag@%h %cd")
+
 # If checked out under Windows, cygwin permissions are wrong, which
 # may lead to permissions being wrong on the server.
 
@@ -59,6 +61,7 @@ rsync -av \
 --filter="+ forms/" \
 --filter="+ forms/*" \
 --filter="+ getflights.*" \
+--filter="+ git-rev" \
 --filter="+ img/" \
 --filter="- img/src" \
 --filter="+ img/*" \
@@ -74,6 +77,6 @@ rsync -av \
 --filter="- *" \
 "$SCRIPTDIR/" fra-flugplan.de:"$root/$tag"
 
-ssh fra-flugplan.de "echo $tag > $root/target"
+ssh fra-flugplan.de "echo $tag > $root/target; echo '$rev' > $root/git-rev"
 
 echo -e "\033[32mSUCCESS.\033[m"
