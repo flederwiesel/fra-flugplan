@@ -158,12 +158,6 @@ CREATE TABLE `flights`
 	INDEX `i:flights(aircraft)`(`aircraft`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-/* Copy `flights` table structure (including indices!) */
-CREATE TABLE `history` LIKE `flights`;
-
-/* Remove AUTO_INCREMENT */
-ALTER TABLE `history` AUTO_INCREMENT = 0;
-
 /* Count visits to FRA */
 CREATE TABLE `visits`
 (

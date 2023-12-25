@@ -193,9 +193,7 @@ cd $(dirname "$0")
 
 filename="fra-flugplan-$(date --utc +'%Y-%m-%d %H~%M~00').sql.bz2"
 
-for target in \
-	mysql \
-	mysql-nohist
+for target in mysql
 do
 	if [ ! -d "$target" ]; then
 		mkdir -p "$target"
@@ -208,17 +206,11 @@ do
 
 	pushd "$target" > /dev/null
 
-	if [[ "$target" =~ "nohist" ]]; then
-		opts='?exclude=history'
-	else
-		opts=
-	fi
-
 	result=$(curl \
 		--silent \
 		--fail \
 		--write-out '%{http_code}' \
-		--location "http://www.fra-flugplan.de/mysqldump-php$opts" \
+		--location "http://www.fra-flugplan.de/mysqldump-php" \
 		--output "$filename"
 	)
 

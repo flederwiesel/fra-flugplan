@@ -166,22 +166,14 @@ if (!$error)
 
 			$query = <<<SQL
 				SELECT `flights`.`expected`, `flights`.`scheduled`,
-				CONCAT(`airlines`.`code`, `flights`.`code`) AS `flight`,
-				CONCAT(`airports`.`iata`, '/', `airports`.`icao`)  AS `$airport`,
-				`models`.`icao`  AS `model`,
-				`aircrafts`.`reg` AS `reg`
-				FROM
-				(
-					SELECT `expected`, `scheduled`, `airline`, `code`, `airport`, `model`, `aircraft`
-					FROM `flights`
-					WHERE `direction` = '$direction'
+					CONCAT(`airlines`.`code`, `flights`.`code`) AS `flight`,
+					CONCAT(`airports`.`iata`, '/', `airports`.`icao`)  AS `$airport`,
+					`models`.`icao`  AS `model`,
+					`aircrafts`.`reg` AS `reg`
+				FROM `flights`
+				WHERE `direction` = '$direction'
 					AND IFNULL(`expected`, `scheduled`) BETWEEN '$from' AND '$until'
-					UNION ALL
-					SELECT `expected`, `scheduled`, `airline`, `code`, `airport`, `model`, `aircraft`
-					FROM `history`
-					WHERE `direction` = '$direction'
-					AND IFNULL(`expected`, `scheduled`) BETWEEN '$from' AND '$until'
-				) AS `flights`
+
 				LEFT JOIN `airlines` ON `airlines`.`id` = `flights`.`airline`
 				LEFT JOIN `airports` ON `airports`.`id` = `flights`.`airport`
 				LEFT JOIN `models` ON `models`.`id` = `flights`.`model`

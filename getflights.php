@@ -1930,16 +1930,8 @@ SQL;
 						$query = <<<SQL
 							/*[Q38]*/
 							SELECT MAX(`scheduled`) AS `scheduled`
-							FROM
-							(
-								SELECT `scheduled`
-								FROM `flights`
-								WHERE `direction`='arrival' AND `aircraft` = $reg
-								UNION ALL
-								SELECT `scheduled`
-								FROM `history`
-								WHERE `direction`='arrival' AND `aircraft` = $reg
-							) AS `flights`
+							FROM `flights`
+							WHERE `direction`='arrival' AND `aircraft` = $reg
 SQL;
 
 						$st = $db->query($query);
@@ -2053,94 +2045,6 @@ SQL;
 				echo "=OK\n";
 			}
 		}
-	}
-
-	return $error;
-}
-
-function SQL_FlightsToHistory()
-{
-	global $db;
-
-	$error = NULL;
-
-	if (!$db->beginTransaction())
-	{
-		$error = sqlErrorInfo(__LINE__, $db, "beginTransaction()");
-	}
-	else
-	{
-		$query = 'CREATE TEMPORARY TABLE `move flights`(`id` integer)';
-
-		if ($db->exec($query) === FALSE)
-		{
-			$error = sqlErrorInfo(__LINE__, $db, $query);
-		}
-		else
-		{
-			$query = <<<SQL
-				/*[Q41]*/
-				INSERT INTO `move flights`
-					SELECT `id`
-					FROM `flights`
-					WHERE (DATEDIFF(NOW(), IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 2)
-					LIMIT 100
-SQL;
-
-			if ($db->exec($query) === FALSE)
-			{
-				$error = sqlErrorInfo(__LINE__, $db, $query);
-			}
-			else
-			{
-				$query = <<<SQL
-					/*[Q42]*/
-					INSERT INTO `history`
-						SELECT * FROM `flights`
-							INNER JOIN `move flights` USING(`id`)
-SQL;
-
-				if ($db->exec($query) === FALSE)
-				{
-					$error = $db->errorInfo();
-
-					// [1062] Duplicate entry 'arrival-67-511-2014-04-27 11:15:00'
-					if (1062 == $error[1])
-					{
-						if (preg_match("/(.*Duplicate entry ')([^']+)('.*)/i", $error[2], $m))
-						{
-							$result = sprintf("%s<a href='https://$_SERVER[SERVER_NAME]/".
-											  "?page=rmdup&key=%s'>%s</a>%s",
-											  $m[1],  urlencode($m[2]), $m[2], $m[3]);
-						}
-					}
-
-					$error = sqlErrorInfo(__LINE__, $db, $query);
-				}
-				else
-				{
-					$query = <<<SQL
-						/*[Q43]*/
-						DELETE `flights` FROM `flights`
-						INNER JOIN `move flights` USING(`id`)
-SQL;
-
-					if ($db->exec($query) === FALSE)
-						$error = sqlErrorInfo(__LINE__, $db, $query);
-				}
-			}
-		}
-	}
-
-	if ($error)
-	{
-		if (!$db->rollBack())
-			$error = sqlErrorInfo(__LINE__, $db, "rollBack()");
-	}
-	else
-	{
-		if (!$db->commit())
-			$error = sqlErrorInfo(__LINE__, $db, "commit()");
 	}
 
 	return $error;
@@ -2692,10 +2596,6 @@ SQL;
 
 		if ($db->exec($query) === FALSE)
 			$error = sqlErrorInfo(__LINE__, $db, $query);
-
-		/* Move outdated flights to history table */
-		if (!$error)
-			$error = SQL_FlightsToHistory();
 	}
 
 	/* betriebsrichtung.html */
