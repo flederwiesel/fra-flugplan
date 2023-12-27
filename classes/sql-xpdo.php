@@ -131,6 +131,8 @@ class xPDOStatement
 		$result = call_user_func_array([&$this->pdos, $func], $args);
 
 		if ('fetch'       == $func ||
+			'fetchAll'    == $func ||
+			'fetchColumn' == $func ||
 			'fetchObject' == $func)
 		{
 			if ($result !== false)
