@@ -2703,7 +2703,7 @@ SQL;
 
 	if ($file)
 	{
-		$url = "http://${prefix}applics.fraport.de/betriebsrichtung/betriebsrichtungsvg.js";
+		$url = "https://${prefix}sslapps.fraport.de/betriebsrichtung/betriebsrichtungsvg.js";
 
 		do
 		{

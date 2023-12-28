@@ -37,4 +37,4 @@ findroot() {
 
 datadir=$(findroot "${BASH_SOURCE[0]}")
 
-check "1" browse "$url/www.frankfurt-airport.com/betriebsrichtung/betriebsrichtungsvg.js"
+check "1" browse "$url/sslapps.fraport.de/betriebsrichtung/betriebsrichtungsvg.js"
