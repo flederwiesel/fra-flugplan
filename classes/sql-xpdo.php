@@ -42,16 +42,13 @@ class xPDO
 		$orig = call_user_func_array(array(&$this->pdo, 'prepare'), $args);
 		$expl = NULL;
 
-		foreach ($args as &$arg)
-		{
-			$queryid = preg_replace('/.*\/\* *\[ *(Q[0-9]+) *\] *\*\/.*/s', '\1', $arg);
+		$query = array_shift($args);
+		$queryid = preg_replace('/.*\/\* *\[ *(Q[0-9]+) *\] *\*\/.*/s', '\1', $query);
 
-			if (in_array($queryid, $ExplainSQL))
-			{
-				$arg = "EXPLAIN $arg";
-				$expl = call_user_func_array(array(&$this->pdo, 'prepare'), $args);
-				break;
-			}
+		if (in_array($queryid, $ExplainSQL))
+		{
+			array_unshift($args, "EXPLAIN $query");
+			$expl = call_user_func_array(array(&$this->pdo, 'prepare'), $args);
 		}
 
 		return new xPDOStatement($orig, $expl);
@@ -67,16 +64,14 @@ class xPDO
 
 		if ($orig)
 		{
-			foreach ($args as &$arg)
-			{
-				$queryid = preg_replace('/.*\/\* *\[ *(Q[0-9]+) *\] *\*\/.*/s', '\1', $arg);
+			$query = array_shift($args);
+			$queryid = preg_replace('/.*\/\* *\[ *(Q[0-9]+) *\] *\*\/.*/s', '\1', $query);
 
-				if (in_array($queryid, $ExplainSQL))
-				{
-					$arg = "EXPLAIN $arg";
-					$expl = call_user_func_array(array(&$this->pdo, 'query'), $args);
-					break;
-				}
+			if (in_array($queryid, $ExplainSQL))
+			{
+				array_unshift($args, "EXPLAIN $query");
+
+				$expl = call_user_func_array(array(&$this->pdo, 'query'), $args);
 			}
 		}
 
@@ -92,22 +87,19 @@ class xPDO
 
 		if ($result !== false)
 		{
-			foreach ($args as &$arg)
+			$query = array_shift($args);
+			$queryid = preg_replace('/.*\/\* *\[ *(Q[0-9]+) *\] *\*\/.*/s', '\1', $query);
+
+			if (in_array($queryid, $ExplainSQL))
 			{
-				$queryid = preg_replace('/.*\/\* *\[ *(Q[0-9]+) *\] *\*\/.*/s', '\1', $arg);
+				array_unshift($args, "EXPLAIN $query");
 
-				if (in_array($queryid, $ExplainSQL))
-				{
-					$arg = "EXPLAIN $arg";
-					$expl = call_user_func_array(array(&$this->pdo, 'query'), $args);
+				$expl = call_user_func_array(array(&$this->pdo, 'query'), $args);
 
-					if ($expl !== false)
-						explain($expl);
-					else
-						printErrorInfo($this->pdo, $args[0]);
-
-					break;
-				}
+				if ($expl !== false)
+					explain($expl);
+				else
+					printErrorInfo($this->pdo, $query);
 			}
 		}
 
