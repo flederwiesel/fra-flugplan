@@ -148,7 +148,7 @@ class xPDOStatement
 		if ('bindValue' == $func)
 		{
 			// Bind params to explain statement also
-			if ($result !== FALSE)
+			if ($result !== FALSE && $this->expl)
 				$result = call_user_func_array(array(&$this->expl, $func), $args);
 		}
 
