@@ -41,22 +41,30 @@ class xPDO
 
 		$args = func_get_args();
 		$orig = call_user_func_array([&$this->pdo, 'prepare'], $args);
-		$expl = null;
 
-		$query = array_shift($args);
-		$queryid = preg_replace('/.*\/\* *\[ *(Q[0-9]+) *\] *\*\/.*/s', '\1', $query);
-
-		if (in_array($queryid, $ExplainSQL))
+		if (false === $orig)
 		{
-			array_unshift($args, "EXPLAIN $query");
-
-			$expl = call_user_func_array([&$this->pdo, 'prepare'], $args);
-
-			if (false === $expl)
-				printErrorInfo($this->pdo, $query);
+			return false;
 		}
+		else
+		{
+			$expl = null;
+			$query = array_shift($args);
+			$queryid = preg_replace('/.*\/\* *\[ *(Q[0-9]+) *\] *\*\/.*/s', '\1', $query);
 
-		return new xPDOStatement($orig, $expl);
+			if (in_array($queryid, $ExplainSQL))
+			{
+				array_unshift($args, "EXPLAIN $query");
+
+				// Prepare explain query
+				$expl = call_user_func_array([&$this->pdo, 'prepare'], $args);
+
+				if (false === $expl)
+					printErrorInfo($this->pdo, $query);
+			}
+
+			return new xPDOStatement($orig, $expl);
+		}
 	}
 
 	public function
@@ -64,12 +72,16 @@ class xPDO
 	{
 		global $ExplainSQL;
 
-		$expl = null;
 		$args = func_get_args();
 		$orig = call_user_func_array([&$this->pdo, 'query'], $args);
 
-		if ($orig)
+		if (false === $orig)
 		{
+			return false;
+		}
+		else
+		{
+			$expl = null;
 			$query = array_shift($args);
 			$queryid = preg_replace('/.*\/\* *\[ *(Q[0-9]+) *\] *\*\/.*/s', '\1', $query);
 
@@ -82,9 +94,9 @@ class xPDO
 				if (false === $expl)
 					printErrorInfo($this->pdo, $query);
 			}
-		}
 
-		return new xPDOStatement($orig, $expl);
+			return new xPDOStatement($orig, $expl);
+		}
 	}
 
 	public function
