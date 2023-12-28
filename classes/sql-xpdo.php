@@ -34,12 +34,12 @@ class xPDO
 		return call_user_func_array([&$this->pdo, $func], $args);
 	}
 
-	public function prepare()
+	public function prepare(/* string $query, array $options = [] */)
 	{
 		global $ExplainSQL;
 
 		$args = func_get_args();
-		$pdos = call_user_func_array([&$this->pdo, 'prepare'], $args);
+		$orig = call_user_func_array([&$this->pdo, 'prepare'], $args);
 		$expl = null;
 
 		foreach ($args as &$arg)
@@ -54,18 +54,18 @@ class xPDO
 			}
 		}
 
-		return new xPDOStatement($pdos, $expl);
+		return new xPDOStatement($orig, $expl);
 	}
 
-	public function query()
+	public function query(/* string $query, ?int $fetchMode = null */)
 	{
 		global $ExplainSQL;
 
 		$expl = null;
 		$args = func_get_args();
-		$pdos = call_user_func_array([&$this->pdo, 'query'], $args);
+		$orig = call_user_func_array([&$this->pdo, 'query'], $args);
 
-		if ($pdos)
+		if ($orig)
 		{
 			foreach ($args as &$arg)
 			{
@@ -80,10 +80,10 @@ class xPDO
 			}
 		}
 
-		return new xPDOStatement($pdos, $expl);
+		return new xPDOStatement($orig, $expl);
 	}
 
-	public function exec()
+	public function exec(/* string $statement */)
 	{
 		global $ExplainSQL;
 
@@ -104,7 +104,7 @@ class xPDO
 					if ($expl !== false)
 						explain($expl);
 					else
-						errorInfo($this->pdo, $args[0]);
+						printErrorInfo($this->pdo, $args[0]);
 
 					break;
 				}
@@ -117,12 +117,12 @@ class xPDO
 
 class xPDOStatement
 {
-	protected $pdos;
-	protected $expl;
+	protected $orig;	// Original prepared statement
+	protected $expl;	// Handle for the EXPLAIN statement
 
-	public function __construct($pdos, $expl)
+	public function __construct($orig, $expl)
 	{
-		$this->pdos = $pdos;
+		$this->orig = $orig;
 		$this->expl = $expl;
 	}
 
@@ -138,13 +138,13 @@ class xPDOStatement
 			if ($result !== false)
 			{
 				explain($this->expl);
-				$this->expl = null;
+				$this->expl = NULL;
 			}
 		}
 
 		if ('bindValue' == $func)
 		{
-			if ($result !== false)
+			if ($result !== FALSE)
 				$result = call_user_func_array([&$this->expl, $func], $args);
 		}
 
@@ -153,16 +153,16 @@ class xPDOStatement
 
 	public function bindColumn($column, &$param, $type = null)
 	{
-		if ($type === null)
+		if ($type === NULL)
 		{
-			$this->pdos->bindColumn($column, $param);
+			$this->orig->bindColumn($column, $param);
 
 			if ($this->expl)
 				$this->expl->bindColumn($column, $param);
 		}
 		else
 		{
-			$this->pdos->bindColumn($column, $param, $type);
+			$this->orig->bindColumn($column, $param, $type);
 
 			if ($this->expl)
 				$this->expl->bindColumn($column, $param, $type);
@@ -171,23 +171,23 @@ class xPDOStatement
 
 	public function bindParam($column, &$param, $type = null)
 	{
-		if ($type === null)
+		if ($type === NULL)
 		{
-			$this->pdos->bindParam($column, $param);
+			$this->orig->bindParam($column, $param);
 
 			if ($this->expl)
 				$this->expl->bindParam($column, $param);
 		}
 		else
 		{
-			$this->pdos->bindParam($column, $param, $type);
+			$this->orig->bindParam($column, $param, $type);
 
 			if ($this->expl)
 				$this->expl->bindParam($column, $param, $type);
 		}
 	}
 
-	public function execute()
+	public function execute(/* ?array $params = null */)
 	{
 		$args = func_get_args();
 		$result = call_user_func_array([&$this->pdos, 'execute'], $args);
@@ -197,7 +197,7 @@ class xPDOStatement
 			if (call_user_func_array([&$this->expl, 'execute'], $args))
 				explain($this->expl);
 			else
-				errorInfo($this->expl);
+				printErrorInfo($this->expl);
 		}
 
 		return $result;
@@ -205,7 +205,7 @@ class xPDOStatement
 
 	public function __get($property)
 	{
-		return $this->pdos->$property;
+		return $this->orig->$property;
 	}
 }
 
@@ -217,11 +217,11 @@ function explain($st)
 		$cols = 0;
 
 		echo <<<END
-<!--
-{$st->queryString}
-/*==============================================
+			<!--
+			{$st->queryString}
+			/*==============================================
 
-END;
+			END;
 
 		while ($row = $st->fetch(PDO::FETCH_ASSOC))
 		{
@@ -244,29 +244,29 @@ END;
 		}
 
 		echo <<<END
-==============================================*/
--->
+			==============================================*/
+			-->
 
-END;
+			END;
 	}
 }
 
-function errorInfo($obj, $query = null)
+function printErrorInfo($obj, $query = NULL)
 {
 	if (null == $query)
 		if ('xPDOStatement' == get_class($obj))
-        	$query = $obj->queryString;
+			$query = $obj->queryString;
 
-	$result = $obj->errorInfo();
+	$result = $obj->printErrorInfo();
 
 	echo <<<END
-<!--
-$query
-/*==============================================
-{$result[0]} {$result[1]} {$result[2]}
-==============================================*/
--->
-END;
+		<!--
+		$query
+		/*==============================================
+		{$result[0]} {$result[1]} {$result[2]}
+		==============================================*/
+		-->
+		END;
 }
 
 ?>
