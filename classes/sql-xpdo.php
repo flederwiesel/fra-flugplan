@@ -23,10 +23,12 @@
 class xPDO
 {
 	protected $pdo;
+	private $lastInsertId;
 
 	public function __construct($dsn, $user = null, $pass = null, $driver_options = null)
 	{
 		$this->pdo = new PDO($dsn, $user, $pass, $driver_options);
+		$this->lastInsertId = 0;
 	}
 
 	public function __call($func, $args)
@@ -63,7 +65,7 @@ class xPDO
 					printErrorInfo($this->pdo, $query);
 			}
 
-			return new xPDOStatement($orig, $expl);
+			return new xPDOStatement($this, $orig, $expl);
 		}
 	}
 
@@ -95,7 +97,7 @@ class xPDO
 					printErrorInfo($this->pdo, $query);
 			}
 
-			return new xPDOStatement($orig, $expl);
+			return new xPDOStatement($this, $orig, $expl);
 		}
 	}
 
@@ -109,6 +111,11 @@ class xPDO
 
 		if ($result !== false)
 		{
+			$id = $this->pdo->lastInsertId();
+
+			if ($id)
+				$this->lastInsertId = $this->pdo->lastInsertId();
+
 			$query = array_shift($args);
 			$queryid = preg_replace('/.*\/\* *\[ *(Q[0-9]+) *\] *\*\/.*/s', '\1', $query);
 
@@ -126,15 +133,33 @@ class xPDO
 
 		return $result;
 	}
+
+	public function lastInsertId()
+	{
+		return $this->lastInsertId;
+	}
+
+	// To be used by xPDOStatement
+	public function _getLastInsertId()
+	{
+		return $this->pdo->lastInsertId();
+	}
+
+	public function _setLastInsertId($id)
+	{
+		$this->lastInsertId = $id;
+	}
 }
 
 class xPDOStatement
 {
+	private $xpdo;
 	protected $orig;	// Original prepared statement
 	protected $expl;	// Handle for the EXPLAIN statement
 
-	public function __construct($orig, $expl)
+	public function __construct($xpdo, $orig, $expl)
 	{
+		$this->xpdo = $xpdo;
 		$this->orig = $orig;
 		$this->expl = $expl;
 	}
@@ -208,6 +233,11 @@ class xPDOStatement
 
 		if ($result && $this->expl)
 		{
+			$id = $this->xpdo->_getLastInsertId();
+
+			if ($id)
+				$this->xpdo->_setLastInsertId($id);
+
 			if (call_user_func_array([&$this->expl, 'execute'], $args))
 				explain($this->expl);
 			else
