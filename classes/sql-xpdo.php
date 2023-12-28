@@ -34,7 +34,8 @@ class xPDO
 		return call_user_func_array([&$this->pdo, $func], $args);
 	}
 
-	public function prepare(/* string $query, array $options = [] */)
+	public function
+	/*  xPDOStatement|false */ prepare(/* string $query, array $options = [] */)
 	{
 		global $ExplainSQL;
 
@@ -48,13 +49,18 @@ class xPDO
 		if (in_array($queryid, $ExplainSQL))
 		{
 			array_unshift($args, "EXPLAIN $query");
+
 			$expl = call_user_func_array([&$this->pdo, 'prepare'], $args);
+
+			if (false === $expl)
+				printErrorInfo($this->pdo, $query);
 		}
 
 		return new xPDOStatement($orig, $expl);
 	}
 
-	public function query(/* string $query, ?int $fetchMode = null */)
+	public function
+	/*  xPDOStatement|false */ query(/* string $query, ?int $fetchMode = null */)
 	{
 		global $ExplainSQL;
 
@@ -70,14 +76,19 @@ class xPDO
 			if (in_array($queryid, $ExplainSQL))
 			{
 				array_unshift($args, "EXPLAIN $query");
+
 				$expl = call_user_func_array([&$this->pdo, 'query'], $args);
+
+				if (false === $expl)
+					printErrorInfo($this->pdo, $query);
 			}
 		}
 
 		return new xPDOStatement($orig, $expl);
 	}
 
-	public function exec(/* string $statement */)
+	public function
+	/* $rows|false */ exec(/* string $statement */)
 	{
 		global $ExplainSQL;
 
@@ -94,10 +105,10 @@ class xPDO
 				array_unshift($args, "EXPLAIN $query");
 				$expl = call_user_func_array([&$this->pdo, 'query'], $args);
 
-				if ($expl !== false)
-					explain($expl);
-				else
+				if (false === $expl)
 					printErrorInfo($this->pdo, $query);
+				else
+					explain($expl);
 			}
 		}
 
@@ -177,7 +188,7 @@ class xPDOStatement
 		}
 	}
 
-	public function execute(/* ?array $params = null */)
+	public function /* true|false */ execute(/* ?array $params = null */)
 	{
 		$args = func_get_args();
 		$result = call_user_func_array([&$this->pdos, 'execute'], $args);
