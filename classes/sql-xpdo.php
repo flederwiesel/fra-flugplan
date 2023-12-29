@@ -51,7 +51,7 @@ class xPDO
 		else
 		{
 			$expl = NULL;
-			$query = array_shift($args);
+			$query = ltrim(array_shift($args));
 			$queryid = preg_replace('/.*\/\* *\[ *(Q[0-9]+) *\] *\*\/.*/s', '\1', $query);
 
 			if (in_array($queryid, $ExplainSQL))
@@ -84,7 +84,7 @@ class xPDO
 		else
 		{
 			$expl = NULL;
-			$query = array_shift($args);
+			$query = ltrim(array_shift($args));
 			$queryid = preg_replace('/.*\/\* *\[ *(Q[0-9]+) *\] *\*\/.*/s', '\1', $query);
 
 			if (in_array($queryid, $ExplainSQL))
@@ -116,7 +116,7 @@ class xPDO
 			if ($id)
 				$this->lastInsertId = $this->pdo->lastInsertId();
 
-			$query = array_shift($args);
+			$query = ltrim(array_shift($args));
 			$queryid = preg_replace('/.*\/\* *\[ *(Q[0-9]+) *\] *\*\/.*/s', '\1', $query);
 
 			if (in_array($queryid, $ExplainSQL))
@@ -261,41 +261,74 @@ function explain($st)
 {
 	if ($st)
 	{
-		$rows = 0;
+		$query = preg_replace(
+			"/[ \t]*EXPLAIN[ \t]*(\/\*\[Q[0-9]+\]\*\/)[ \t]*[\r\n]*/", "\\1\n",
+			$st->queryString
+		);
+
+		print("<!--{$query}\n");
+
+		$r = 0;
 		$cols = 0;
 
-		echo <<<END
-<!--
-{$st->queryString}
-/*==============================================
+		$rows = $st->fetchAll(PDO::FETCH_ASSOC);
 
-END;
-
-		while ($row = $st->fetch(PDO::FETCH_ASSOC))
+		foreach ($rows as $row)
 		{
-			$cols = count($row);
-
-			if (0 == $rows++)
+			if (0 == $r++)
 			{
+				$cols = count($row);
 				$c = 0;
 
 				foreach (array_keys($row) as $col)
-					printf("%s%s", $col, ++$c == $cols ? "\n" : "\t");
-
-				print("------------------------------------------------\n");
+					$width[$c++] = strlen($col);
 			}
 
 			$c = 0;
 
 			foreach ($row as $col)
-				printf("%s%s", $col, ++$c == $cols ? "\n" : "\t");
+			{
+				$len = strlen($col);
+
+				if ($width[$c] < $len)
+					$width[$c] = $len;
+
+				++$c;
+			}
 		}
 
-		echo <<<END
-==============================================*/
--->
+		$cx = array_sum($width);
+		$cx += 3 * ($cols - 1);
+		$r = 0;
 
-END;
+		printf(sprintf("%%'=-%us\n", $cx), "/*");
+
+		foreach ($rows as $row)
+		{
+			if (0 == $r++)
+			{
+				$c = 0;
+
+				foreach (array_keys($row) as $col)
+				{
+					$fmt = sprintf("%%-%us%%s", $width[$c]);
+					printf($fmt, $col, ++$c == $cols ? "\n" : " | ");
+				}
+
+				printf(sprintf("%%'-%us\n", $cx), "");
+			}
+
+			$c = 0;
+
+			foreach ($row as $col)
+			{
+				$fmt = sprintf("%%-%us%%s", $width[$c]);
+				printf($fmt, $col, ++$c == $cols ? "\n" : " | ");
+			}
+		}
+
+		printf(sprintf("%%'=%us\n", $cx), "*/");
+		print("-->\n");
 	}
 }
 
