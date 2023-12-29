@@ -195,10 +195,10 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='SFO';
 SELECT `id` FROM `models` WHERE `icao`='B772';
 =65
 SELECT `id` FROM `aircrafts` WHERE `reg`='N794UA';
-=12
+=13
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=120 AND `code`='903' AND `scheduled`='0000-00-01T09:45:00+0000'
-=29,12,0000-00-00 10:00:00
-UPDATE `flights` SET `airport`=201, `aircraft`=12, `model`=65 WHERE `id`=29;
+=29,13,0000-00-00 10:00:00
+UPDATE `flights` SET `airport`=201, `aircraft`=13, `model`=65 WHERE `id`=29;
 =OK
 
 /************************************/
@@ -315,8 +315,8 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='LIS';
 SELECT `id` FROM `models` WHERE `icao`='A320';
 =9
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=113 AND `code`='578' AND `scheduled`='0000-00-01T22:30:00+0000'
-=48,,0000-00-00 23:00:00
-UPDATE `flights` SET `airport`=136, `aircraft`=NULL, `model`=9 WHERE `id`=48;
+=49,,0000-00-00 23:00:00
+UPDATE `flights` SET `airport`=136, `aircraft`=NULL, `model`=9 WHERE `id`=49;
 =OK
 
 /************************************/
@@ -329,8 +329,8 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='JNB';
 SELECT `id` FROM `models` WHERE `icao`='A346';
 =19
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=99 AND `code`='260' AND `scheduled`='0000-00-02T06:15:00+0000'
-=49,,0000-00-01 06:00:00
-UPDATE `flights` SET `airport`=323, `aircraft`=NULL, `model`=19 WHERE `id`=49;
+=50,,0000-00-01 06:00:00
+UPDATE `flights` SET `airport`=323, `aircraft`=NULL, `model`=19 WHERE `id`=50;
 =OK
 
 /************************************/
@@ -342,8 +342,8 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='HKG';
 SELECT `id` FROM `models` WHERE `icao`='B77W';
 =68
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=24 AND `code`='289' AND `scheduled`='0000-00-02T06:20:00+0000'
-=50,,0000-00-01 07:00:00
-UPDATE `flights` SET `airport`=98, `aircraft`=NULL, `model`=68 WHERE `id`=50;
+=51,,0000-00-01 07:00:00
+UPDATE `flights` SET `airport`=98, `aircraft`=NULL, `model`=68 WHERE `id`=51;
 =OK
 
 /************************************/
@@ -355,8 +355,8 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='YUL';
 SELECT `id` FROM `models` WHERE `icao`='A333';
 =14
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=4 AND `code`='874' AND `scheduled`='0000-00-02T07:00:00+0000'
-=52,,0000-00-01 08:00:00
-UPDATE `flights` SET `airport`=245, `aircraft`=NULL, `model`=14 WHERE `id`=52;
+=53,,0000-00-01 08:00:00
+UPDATE `flights` SET `airport`=245, `aircraft`=NULL, `model`=14 WHERE `id`=53;
 =OK
 
 /************************************/
@@ -599,10 +599,10 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='SFO';
 SELECT `id` FROM `models` WHERE `icao`='B772';
 =65
 SELECT `id` FROM `aircrafts` WHERE `reg`='N794UA';
-=12
+=13
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='departure' AND `airline`=120 AND `code`='902' AND `scheduled`='0000-00-01T12:15:00+0000'
-=36,12,0000-00-00 13:00:00
-UPDATE `flights` SET `airport`=201, `aircraft`=12, `model`=65 WHERE `id`=36;
+=36,13,0000-00-00 13:00:00
+UPDATE `flights` SET `airport`=201, `aircraft`=13, `model`=65 WHERE `id`=36;
 =OK
 
 /************************************/
@@ -714,8 +714,8 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='SIN';
 SELECT `id` FROM `models` WHERE `icao`='B77W';
 =68
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='departure' AND `airline`=105 AND `code`='325' AND `scheduled`='0000-00-01T21:55:00+0000'
-=47,,0000-00-00 22:00:00
-UPDATE `flights` SET `airport`=204, `aircraft`=NULL, `model`=68 WHERE `id`=47;
+=48,,0000-00-00 22:00:00
+UPDATE `flights` SET `airport`=204, `aircraft`=NULL, `model`=68 WHERE `id`=48;
 =OK
 
 /************************************/
@@ -727,8 +727,8 @@ SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='LIS';
 SELECT `id` FROM `models` WHERE `icao`='A320';
 =9
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='departure' AND `airline`=113 AND `code`='571' AND `scheduled`='0000-00-02T06:20:00+0000'
-=51,,0000-00-01 07:00:00
-UPDATE `flights` SET `airport`=136, `aircraft`=NULL, `model`=9 WHERE `id`=51;
+=52,,0000-00-01 07:00:00
+UPDATE `flights` SET `airport`=136, `aircraft`=NULL, `model`=9 WHERE `id`=52;
 =OK
 
 /************************************/

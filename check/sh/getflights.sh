@@ -188,6 +188,7 @@ SQL
 			s#(\`(current|previous)\`=)[0-9]+#\10#g
 			s#/\*\[Q[0-9]+\]\*/ *##g
 			/: Inserted airport/d
+			s/.*\([0-9]+\): *(Inserted )/\1/g
 			'"
 
 		flights=$(query --execute='USE `fra-flugplan`;
