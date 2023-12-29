@@ -51,7 +51,7 @@ class xPDO
 		else
 		{
 			$expl = null;
-			$query = array_shift($args);
+			$query = ltrim(array_shift($args));
 			$queryid = preg_replace('/.*\/\* *\[ *(Q[0-9]+) *\] *\*\/.*/s', '\1', $query);
 
 			if (in_array($queryid, $ExplainSQL))
@@ -84,7 +84,7 @@ class xPDO
 		else
 		{
 			$expl = null;
-			$query = array_shift($args);
+			$query = ltrim(array_shift($args));
 			$queryid = preg_replace('/.*\/\* *\[ *(Q[0-9]+) *\] *\*\/.*/s', '\1', $query);
 
 			if (in_array($queryid, $ExplainSQL))
@@ -116,7 +116,7 @@ class xPDO
 			if ($id)
 				$this->lastInsertId = $this->pdo->lastInsertId();
 
-			$query = array_shift($args);
+			$query = ltrim(array_shift($args));
 			$queryid = preg_replace('/.*\/\* *\[ *(Q[0-9]+) *\] *\*\/.*/s', '\1', $query);
 
 			if (in_array($queryid, $ExplainSQL))
@@ -166,7 +166,7 @@ class xPDOStatement
 
 	public function __call($func, $args)
 	{
-		$result = call_user_func_array([&$this->pdos, $func], $args);
+		$result = call_user_func_array([&$this->orig, $func], $args);
 
 		if ('fetch'       == $func ||
 			'fetchAll'    == $func ||
@@ -176,7 +176,7 @@ class xPDOStatement
 			if ($result !== false)
 			{
 				explain($this->expl);
-				$this->expl = NULL;
+				$this->expl = null;
 			}
 		}
 
@@ -192,7 +192,7 @@ class xPDOStatement
 
 	public function bindColumn($column, &$param, $type = null)
 	{
-		if ($type === NULL)
+		if ($type === null)
 		{
 			$this->orig->bindColumn($column, $param);
 
@@ -210,7 +210,7 @@ class xPDOStatement
 
 	public function bindParam($column, &$param, $type = null)
 	{
-		if ($type === NULL)
+		if ($type === null)
 		{
 			$this->orig->bindParam($column, $param);
 
@@ -229,7 +229,7 @@ class xPDOStatement
 	public function /* true|false */ execute(/* ?array $params = null */)
 	{
 		$args = func_get_args();
-		$result = call_user_func_array([&$this->pdos, 'execute'], $args);
+		$result = call_user_func_array([&$this->orig, 'execute'], $args);
 
 		if ($result && $this->expl)
 		{
@@ -257,45 +257,80 @@ function explain($st)
 {
 	if ($st)
 	{
-		$rows = 0;
+		$query = preg_replace(
+			"/[ \t]*EXPLAIN[ \t]*(\/\*\[Q[0-9]+\]\*\/)[ \t]*[\r\n]*/", "\\1\n",
+			$st->queryString
+		);
+
+		// Save each column's width for alignment
+		$width = [];
 		$cols = 0;
+		$rows = $st->fetchAll(PDO::FETCH_ASSOC);
 
-		echo <<<END
-			<!--
-			{$st->queryString}
-			/*==============================================
-
-			END;
-
-		while ($row = $st->fetch(PDO::FETCH_ASSOC))
+		// First calculate table metrics, so we can align columns properly and
+		// draw separators
+		if ($rows)
 		{
-			$cols = count($row);
+			// Evaluate width of array keys, to be uses as header row
+			$row = $rows[0];
 
-			if (0 == $rows++)
+			foreach (array_keys($row) as $col)
+				$width[$cols++] = strlen($col);
+
+			// Evaluate max width of columns
+			foreach ($rows as $row)
 			{
 				$c = 0;
 
-				foreach (array_keys($row) as $col)
-					printf("%s%s", $col, ++$c == $cols ? "\n" : "\t");
+				foreach ($row as $col)
+				{
+					$len = strlen($col);
 
-				print("------------------------------------------------\n");
+					if ($width[$c] < $len)
+						$width[$c] = $len;
+
+					++$c;
+				}
 			}
 
+			$tablewidth = array_sum($width);
+			$tablewidth += 3 /* " | " */ * ($cols - 1);
+
+			// Print header and query
+			$fmt = sprintf("<!--\n%%s\n\n%%'=%us\n", $tablewidth);
+			printf($fmt, $query, "");
+
+			// Print table header
 			$c = 0;
 
-			foreach ($row as $col)
-				printf("%s%s", $col, ++$c == $cols ? "\n" : "\t");
+			foreach (array_keys($row) as $col)
+			{
+				$fmt = sprintf("%%-%us%%s", $width[$c]);
+				printf($fmt, $col, ++$c == $cols ? "\n" : " | ");
+			}
+
+			printf(sprintf("%%'-%us\n", $tablewidth), "");
+
+			// Print rows
+			foreach ($rows as $row)
+			{
+				$c = 0;
+
+				foreach ($row as $col)
+				{
+					$fmt = sprintf("%%-%us%%s", $width[$c]);
+					printf($fmt, $col, ++$c == $cols ? "\n" : " | ");
+				}
+			}
+
+			// Print footer
+			$fmt = sprintf("%%'=%us\n-->\n", $tablewidth);
+			printf($fmt, "");
 		}
-
-		echo <<<END
-			==============================================*/
-			-->
-
-			END;
 	}
 }
 
-function printErrorInfo($obj, $query = NULL)
+function printErrorInfo($obj, $query = null)
 {
 	if (null == $query)
 		if ('xPDOStatement' == get_class($obj))

@@ -191,7 +191,7 @@ SQL
 			s#(FROM_UNIXTIME\()[0-9]+#\10#g
 			s#(https://[^/]+/).*/(www.frankfurt-airport.com/.*)#\1.../\2#g
 			s#(\`(current|previous)\`=)[0-9]+#\10#g
-			s#/\*\[Q[0-9]+\]\*/ *##g
+			s#^/\*\[Q[0-9]+\]\*/ *##g
 			/: Inserted airport/d
 			s/.*\([0-9]+\): *(Inserted )/\1/g
 			'"
@@ -291,7 +291,7 @@ do
 		s/(T[0-9]{2}%3A[0-9]{2}%3A00%2B0)[12](00)/\10\2/g
 		s#(FROM_UNIXTIME\()[0-9]+#\10#g
 		s#(https://[^/]+/).*/(www.frankfurt-airport.com/.*)#\1.../\2#g
-		s#/\*\[Q[0-9]+\]\*/ *##g
+		s#^/\*\[Q[0-9]+\]\*/ *##g
 		'"
 
 	notifications=$(query --execute='USE `fra-flugplan`;
