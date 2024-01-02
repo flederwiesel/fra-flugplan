@@ -2,7 +2,7 @@ arrival
 ========
 
 https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.flights.json/filter?flighttype=arrivals&lang=de&time=0000-00-01T05%3A00%3A00%2B0000&perpage=3&page=1
-{"data":[{"dir":"A","sched":"0000-00-01T06:00:00+0000","esti":"0000-00-01T05:55:00+0000","lu":"0000-00-01T05:00:00+0000","typ":"C","al":"GO","fnr":"GO 6403","alname":"ULS Airlines Cargo","iata":"IST","ac":"A310","reg":"TCLER","id":"a20231229go6403"},{"dir":"A","sched":"0000-00-01T06:15:00+0000","esti":"0000-00-01T05:18:00+0000","lu":"0000-00-01T05:00:00+0000","typ":"P","al":"SA","fnr":"SA 260","alname":"South African Airways","iata":"JNB","ac":"A346","reg":"ZSSNC","status":"im Anflug","id":"a00000000sa260"},{"dir":"A","sched":"0000-00-01T06:20:00+0000","lu":"0000-00-01T05:00:00+0000","typ":"P","al":"CX","fnr":"CX 289","alname":"Cathay Pacific Airways","iata":"HKG","ac":"B77W","reg":"BKPF","id":"a00000000cx289"}],"type":"arrival","luops":"0000-00-01T05:00:00+0000","lusaison":"0000-00-01T05:00:00+0000","results":14,"entriesperpage":"3","maxpage":5,"page":"1"}
+{"data":[{"dir":"A","sched":"0000-00-01T06:00:00+0000","esti":"0000-00-01T05:55:00+0000","lu":"0000-00-01T05:00:00+0000","typ":"C","al":"GO","fnr":"GO 6403","alname":"ULS Airlines Cargo","iata":"IST","ac":"A310","reg":"TCLER","id":"a00000000go6403"},{"dir":"A","sched":"0000-00-01T06:15:00+0000","esti":"0000-00-01T05:18:00+0000","lu":"0000-00-01T05:00:00+0000","typ":"P","al":"SA","fnr":"SA 260","alname":"South African Airways","iata":"JNB","ac":"A346","reg":"ZSSNC","status":"im Anflug","id":"a00000000sa260"},{"dir":"A","sched":"0000-00-01T06:20:00+0000","lu":"0000-00-01T05:00:00+0000","typ":"P","al":"CX","fnr":"CX 289","alname":"Cathay Pacific Airways","iata":"HKG","ac":"B77W","reg":"BKPF","id":"a00000000cx289"}],"type":"arrival","luops":"0000-00-01T05:00:00+0000","lusaison":"0000-00-01T05:00:00+0000","results":14,"entriesperpage":"3","maxpage":5,"page":"1"}
 {
     "dir": "A",
     "sched": "0000-00-01T06:00:00+0000",
@@ -15,7 +15,7 @@ https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.flights.json/fil
     "iata": "IST",
     "ac": "A310",
     "reg": "TCLER",
-    "id": "a20231229go6403"
+    "id": "a00000000go6403"
 },
 {
     "dir": "A",

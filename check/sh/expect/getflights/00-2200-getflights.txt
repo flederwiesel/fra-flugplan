@@ -2,7 +2,7 @@ arrival
 ========
 
 https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.flights.json/filter?flighttype=arrivals&lang=de&time=0000-00-00T22%3A00%3A00%2B0000&perpage=3&page=1
-{"data":[{"dir":"A","sched":"0000-00-00T20:30:00+0000","lu":"0000-00-00T22:00:00+0000","typ":"P","al":"SQ","fnr":"SQ 326","alname":"Singapore Airlines","iata":"SIN","ac":"B77W","reg":"9VSWK","status":"Gep\u00e4ckausgabe","id":"a00000000sq326"},{"dir":"A","sched":"0000-00-00T22:30:00+0000","lu":"0000-00-00T22:00:00+0000","typ":"P","al":"TP","fnr":"TP 578","alname":"TAP Portugal","iata":"LIS","ac":"A320","reg":"CSTNP","id":"a00000000tp578"},{"dir":"A","sched":"0000-00-01T06:00:00+0000","lu":"0000-00-00T22:00:00+0000","typ":"C","al":"GO","fnr":"GO 6403","alname":"ULS Airlines Cargo","iata":"IST","ac":"A310","reg":"TCLER","id":"a20231229go6403"}],"type":"arrival","luops":"0000-00-00T22:00:00+0000","lusaison":"0000-00-00T22:00:00+0000","results":15,"entriesperpage":"3","maxpage":5,"page":"1"}
+{"data":[{"dir":"A","sched":"0000-00-00T20:30:00+0000","lu":"0000-00-00T22:00:00+0000","typ":"P","al":"SQ","fnr":"SQ 326","alname":"Singapore Airlines","iata":"SIN","ac":"B77W","reg":"9VSWK","status":"Gep\u00e4ckausgabe","id":"a00000000sq326"},{"dir":"A","sched":"0000-00-00T22:30:00+0000","lu":"0000-00-00T22:00:00+0000","typ":"P","al":"TP","fnr":"TP 578","alname":"TAP Portugal","iata":"LIS","ac":"A320","reg":"CSTNP","id":"a00000000tp578"},{"dir":"A","sched":"0000-00-01T06:00:00+0000","lu":"0000-00-00T22:00:00+0000","typ":"C","al":"GO","fnr":"GO 6403","alname":"ULS Airlines Cargo","iata":"IST","ac":"A310","reg":"TCLER","id":"a00000000go6403"}],"type":"arrival","luops":"0000-00-00T22:00:00+0000","lusaison":"0000-00-00T22:00:00+0000","results":15,"entriesperpage":"3","maxpage":5,"page":"1"}
 {
     "dir": "A",
     "sched": "0000-00-00T20:30:00+0000",
@@ -41,7 +41,7 @@ https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.flights.json/fil
     "iata": "IST",
     "ac": "A310",
     "reg": "TCLER",
-    "id": "a20231229go6403"
+    "id": "a00000000go6403"
 },
 https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.flights.json/filter?flighttype=arrivals&lang=de&time=0000-00-00T22%3A00%3A00%2B0000&perpage=3&page=2
 {"data":[{"dir":"A","sched":"0000-00-01T06:15:00+0000","lu":"0000-00-00T22:00:00+0000","typ":"P","al":"SA","fnr":"SA 260","alname":"South African Airways","iata":"JNB","ac":"A346","reg":"ZSSNC","id":"a00000000sa260"},{"dir":"A","sched":"0000-00-01T06:20:00+0000","lu":"0000-00-00T22:00:00+0000","typ":"P","al":"CX","fnr":"CX 289","alname":"Cathay Pacific Airways","iata":"HKG","ac":"B77W","reg":"BKPF","id":"a00000000cx289"},{"dir":"A","sched":"0000-00-01T07:00:00+0000","esti":"0000-00-01T07:00:00+0000","lu":"0000-00-00T22:00:00+0000","typ":"P","al":"AC","fnr":"AC 874","alname":"Air Canada","iata":"YUL","ac":"A333","id":"a00000000ac874"}],"type":"arrival","luops":"0000-00-00T22:00:00+0000","lusaison":"0000-00-00T22:00:00+0000","results":15,"entriesperpage":"3","maxpage":5,"page":"2"}
