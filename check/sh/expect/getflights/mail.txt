@@ -26,6 +26,14 @@ X-Mailer: PHP/*
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
+To: Tobias =?ISO-8859-1?Q?K=FChne?=<flederwiesel@fra-flugplan.de>
+Subject: getflights.php: info
+From: FRA-Flugplan
+
+Inserted aircraft A20N as "Airbus A-320neo" (arrival TP578 "0000-00-00T00:00:00+0000").
+
+======================================================
+Date: Day, 0 Month 0000 00:00:00 +0000
 To: flederwiesel<hausmeister@flederwiesel.com>
 Subject: watchlist
 From: FRA schedule <watchlist@fra-flugplan.de>
