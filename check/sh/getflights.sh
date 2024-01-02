@@ -180,7 +180,7 @@ SQL
 			s/$YYYY_mm_dd_3/0000-00-03/g
 			s/(T[0-9]{2}:[0-9]{2}:00\+0)[12](00)/\10\2/g
 			s/(T[0-9]{2}%3A[0-9]{2}%3A00%2B0)[12](00)/\10\2/g
-			s/([ad])[0-9]{8}(ac|cx|ku|lh|s[aq]|t[kp]|ua)([0-9]+)/\100000000\2\3/g
+			s/([ad])[0-9]{8}(ac|cx|go|ku|lh|s[aq]|t[kp]|ua)([0-9]+)/\100000000\2\3/g
 			s#((Mon|Diens|Donners|Frei|Sams|Sonn)tag|Mittwoch), [0-9]+\. (Januar|Februar|M.rz|April|Mai|Ju[nl]i|August|(Sept|Nov|Dez)ember|Oktober) [0-9]+#Tag, 00. Monat 0000#g
 			s#((Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day), [0-9]+/[0-9]+/[0-9]+#Day, 00/00/00#g
 			s#(FROM_UNIXTIME\()[0-9]+#\10#g
