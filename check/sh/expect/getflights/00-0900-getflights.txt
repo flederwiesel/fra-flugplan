@@ -124,7 +124,7 @@ https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.flights.json/fil
     "id": "a00000000tp576"
 },
 https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.flights.json/filter?flighttype=arrivals&lang=de&time=0000-00-00T09%3A00%3A00%2B0000&perpage=3&page=4
-{"data":[{"dir":"A","sched":"0000-00-00T20:30:00+0000","lu":"0000-00-00T09:00:00+0000","typ":"P","al":"SQ","fnr":"SQ 326","alname":"Singapore Airlines","iata":"SIN","ac":"B77W","id":"a00000000sq326"},{"dir":"A","sched":"0000-00-00T22:30:00+0000","lu":"0000-00-00T09:00:00+0000","typ":"P","al":"TP","fnr":"TP 578","alname":"TAP Portugal","iata":"LIS","ac":"A320","id":"a00000000tp578"},{"dir":"A","sched":"0000-00-01T06:15:00+0000","lu":"0000-00-00T09:00:00+0000","typ":"P","al":"SA","fnr":"SA 260","alname":"South African Airways","iata":"JNB","ac":"A346","id":"a00000000sa260"}],"type":"arrival","luops":"0000-00-00T09:00:00+0000","lusaison":"0000-00-00T09:00:00+0000","results":14,"entriesperpage":"3","maxpage":5,"page":"4"}
+{"data":[{"dir":"A","sched":"0000-00-00T20:30:00+0000","lu":"0000-00-00T09:00:00+0000","typ":"P","al":"SQ","fnr":"SQ 326","alname":"Singapore Airlines","iata":"SIN","ac":"B77W","id":"a00000000sq326"},{"dir":"A","sched":"0000-00-00T22:30:00+0000","lu":"0000-00-00T09:00:00+0000","typ":"P","al":"TP","fnr":"TP 578","alname":"TAP Portugal","iata":"LIS","ac":"A20N","id":"a00000000tp578"},{"dir":"A","sched":"0000-00-01T06:15:00+0000","lu":"0000-00-00T09:00:00+0000","typ":"P","al":"SA","fnr":"SA 260","alname":"South African Airways","iata":"JNB","ac":"A346","id":"a00000000sa260"}],"type":"arrival","luops":"0000-00-00T09:00:00+0000","lusaison":"0000-00-00T09:00:00+0000","results":14,"entriesperpage":"3","maxpage":5,"page":"4"}
 {
     "dir": "A",
     "sched": "0000-00-00T20:30:00+0000",
@@ -146,7 +146,7 @@ https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.flights.json/fil
     "fnr": "TP 578",
     "alname": "TAP Portugal",
     "iata": "LIS",
-    "ac": "A320",
+    "ac": "A20N",
     "id": "a00000000tp578"
 },
 {
@@ -304,11 +304,19 @@ SELECT `id` FROM `airlines` WHERE `code`='TP';
 =113
 SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='LIS';
 =136
-SELECT `id` FROM `models` WHERE `icao`='A320';
-=9
+SELECT `id` FROM `models` WHERE `icao`='A20N';
+=<empty>
+https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.aircrafts.json
+{
+    "fab": "Airbus",
+    "name": "A-320neo",
+    "id": "A20N"
+}
+INSERT INTO `models`(`icao`,`name`) VALUES('A20N', 'Airbus A-320neo');
+=267
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction`='arrival' AND `airline`=113 AND `code`='578' AND `scheduled`='0000-00-00T22:30:00+0000'
 =12,,0000-00-00 05:00:00
-UPDATE `flights` SET `airport`=136, `aircraft`=NULL, `model`=9 WHERE `id`=12;
+UPDATE `flights` SET `airport`=136, `aircraft`=NULL, `model`=267 WHERE `id`=12;
 =OK
 
 /************************************/
@@ -748,6 +756,7 @@ https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.flights.cargo.js
 INSERT INTO `watchlist-notifications`(`flight`, `watch`)  SELECT `flights`.`id`, `watchlist`.`id`  FROM `watchlist`  INNER JOIN `aircrafts` ON `aircrafts`.`reg` LIKE REPLACE(REPLACE(`watchlist`.`reg`, '*', '%'), '?', '_') OR `aircrafts`.`reg` RLIKE REPLACE(`watchlist`.`reg`, '/', '') AND `watchlist`.`reg` LIKE '/_%/'  INNER JOIN `flights` ON  `flights`.`aircraft` = `aircrafts`.`id` AND `flights`.`aircraft` IS NOT NULL  LEFT JOIN `watchlist-notifications` ON  `watchlist-notifications`.`watch` = `watchlist`.`id` AND `watchlist-notifications`.`flight` = flights.id  WHERE `watchlist`.`notify` = TRUE AND `watchlist-notifications`.`flight` IS NULL AND 'arrival' = `flights`.`direction` AND TIMESTAMPDIFF(SECOND, '0000-00-00T09:00:00+0000', IFNULL(flights.expected, flights.scheduled)) > 0  FOR UPDATE
 SELECT `watchlist-notifications`.`id` AS `id`, UNIX_TIMESTAMP(IFNULL(`flights`.`expected`, `flights`.`scheduled`)) AS `expected`, CONCAT(`airlines`.`code`, `flights`.`code`) AS `flight`, `aircrafts`.`reg` AS `reg`, `watchlist`.`comment` AS `comment`, `users`.`name` AS `name`, `users`.`email` AS `email`, `users`.`notification-timefmt` AS `fmt`, `users`.`language` AS `lang` FROM `watchlist-notifications` LEFT JOIN `watchlist` ON `watchlist-notifications`.`watch` = `watchlist`.`id` LEFT JOIN `flights` ON `watchlist-notifications`.`flight` = `flights`.`id` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` LEFT JOIN `aircrafts` ON `flights`.`aircraft` = `aircrafts`.`id` LEFT JOIN `users` ON `watchlist`.`user` = `users`.`id` WHERE IFNULL(`flights`.`expected`, `flights`.`scheduled`) > '0000-00-00T09:00:00+0000' AND `notified` IS NULL AND FROM_UNIXTIME(0, '%H:%i:%s') BETWEEN `users`.`notification-from` AND `users`.`notification-until` ORDER BY `email` ASC, `expected` ASC
 DELETE `watchlist-notifications` FROM `watchlist-notifications` INNER JOIN `flights` ON `flights`.`id`=`watchlist-notifications`.`flight` WHERE (DATEDIFF('0000-00-00T09:00:00+0000', IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 1)
+Inserted aircraft A20N as "Airbus A-320neo" (arrival TP578 "0000-00-00T22:30:00+0000").
 
 
 === fin. ===
