@@ -14,8 +14,8 @@ RewriteRule (de|en|cn)/.*(air(craft|line|port)s)\.json$ json/airports.json [NC,L
 
 # This will yield the downloaded files - comment the above out, if you want to get here...
 RewriteCond %{QUERY_STRING} (^|&)flighttype=((arrival|departure)s)(&|$) [NC]
-RewriteRule (de|en|cn)/.*flights(\.cargo)?.json/filter json/2.1.7/%2$2.json [NC,L]
+RewriteRule (de|en|cn)/.*flights(\.cargo)?.json/filter json/2.1.8/%2$2.json [NC,L]
 RewriteCond %{QUERY_STRING} ^$
-RewriteRule (de|en|cn)/.*(air(craft|line|port)s)\.json json/2.1.7/$2.json [NC,L]
+RewriteRule (de|en|cn)/.*(air(craft|line|port)s)\.json json/2.1.8/$2.json [NC,L]
 
 </IfModule>
