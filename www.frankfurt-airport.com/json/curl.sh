@@ -1,6 +1,6 @@
 #/bin/bash
 
-version=2.2.2
+version=2.2.3
 
 this=$(readlink -f "${BASH_SOURCE[0]}")
 scriptdir=$(dirname "$this")
