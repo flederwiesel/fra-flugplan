@@ -1014,7 +1014,7 @@ function JSON_InterpretFlights(/*in*/ $dir, /*in*/ $json, /*in*/ $defer,
 		$result = 0;
 
 		if (isset($obj->version))
-			if (!('2.2.3' == $obj->version))
+			if (!('2.3' == $obj->version))
 				warn_once(__LINE__, "version = $obj->version");
 
 		if ($obj->results > 0)
