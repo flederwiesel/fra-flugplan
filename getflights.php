@@ -723,8 +723,7 @@ SQL;
 		}
 
 		$error = NULL;
-		$url = "https://${prefix}www.frankfurt-airport.com/de/_jcr_content.airports.json".
-				($prefix ? "?local" : "");
+		$url = "https://${prefix}www.frankfurt-airport.com/de/_jcr_content.airports.json";
 
 		if (isset($DEBUG['url']))
 			echo "$url\n";
