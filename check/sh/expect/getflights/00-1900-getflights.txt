@@ -297,7 +297,7 @@ SELECT `id` FROM `airlines` WHERE `code`='TK';
 =112
 SELECT DISTINCT `airports`.`id` FROM `airports` WHERE `iata`='!!?';
 =<empty>
-https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.airports.json?local
+https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.airports.json
 {
     "region": "eu",
     "id": "!!?",
