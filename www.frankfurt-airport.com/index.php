@@ -86,10 +86,6 @@ if ($html)
 <pre><?php
 }
 
-$today = strtotime('00:00');
-$day = (int)(($now - $today) / 86400);
-$time = strftime('%H:%M', $now);
-
 if ($dir && $now && $page > 0)
 {
 	$flights = array();
@@ -144,10 +140,13 @@ if ($dir && $now && $page > 0)
 								/* Delete all C-Comments (and surrounding spaces) from line */
 								$line = preg_replace('/[ \t]*\/*(\*[^\/]+|[^*]\/)\*\/[ \t]*/', '', $line);
 
-								/* Create an assiciative array from line */
+								/* Create an associative array from line */
 								$flight = array_combine($keys, explode(';', $line));
 
-								if ($flight['now'] == "$day $time")
+								list($day, $time) = explode(' ', $flight['now']);
+								$flighttime = strtotime("+{$day} days {$time}");
+
+								if ($flighttime == $now)
 								{
 									/* Do not output `now` column */
 									unset($flight['now']);
@@ -212,9 +211,10 @@ if ($dir && $now && $page > 0)
 
 		if ($items < 1)
 		{
+			$items = 0;
+			$start = 0;
 			$pages = 0;
 			$page = 0;
-			$start = 0;
 		}
 		else
 		{
@@ -227,6 +227,7 @@ if ($dir && $now && $page > 0)
 			if ($page > $pages)
 			{
 				$results = 0;
+				$start = 0;
 				$items = 0;
 				$pages = 0;
 				$page = 0;
@@ -244,8 +245,8 @@ if ($dir && $now && $page > 0)
 			}
 		}
 
-		for ($i = 0; $i < $items; $i++)
-			$result['data'][$i] = $flights[$start + $i];
+		if ($results > 0)
+			$result['data'] = array_slice($flights, $start, $items);
 
 		$result['type'] = $dir;
 		$result['luops'] = date(DATE_ISO8601, $now);
