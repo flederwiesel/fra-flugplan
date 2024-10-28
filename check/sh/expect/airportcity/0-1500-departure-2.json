@@ -1,0 +1,23 @@
+[
+  {
+    "dir": "D",
+    "sched": "0000-00-00T20:45:00+0000",
+    "esti": null,
+    "fnr": "SA 261",
+    "reg": "ZSSNH"
+  },
+  {
+    "dir": "D",
+    "sched": "0000-00-00T21:09:00+0000",
+    "esti": null,
+    "fnr": "LH 3626",
+    "reg": null
+  },
+  {
+    "dir": "D",
+    "sched": "0000-00-00T21:55:00+0000",
+    "esti": null,
+    "fnr": "SQ 325",
+    "reg": null
+  }
+]

@@ -1,0 +1,23 @@
+[
+  {
+    "dir": "D",
+    "sched": "0000-00-01T12:55:00+0000",
+    "esti": null,
+    "fnr": "CX 288",
+    "reg": null
+  },
+  {
+    "dir": "D",
+    "sched": "0000-00-01T13:20:00+0000",
+    "esti": null,
+    "fnr": "TP 573",
+    "reg": null
+  },
+  {
+    "dir": "D",
+    "sched": "0000-00-01T13:30:00+0000",
+    "esti": null,
+    "fnr": "AC 875",
+    "reg": null
+  }
+]

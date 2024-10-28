@@ -46,8 +46,8 @@ do
 					while [ $page -le $pages ]
 					do
 						request="flighttype=${dir}s&time=$(rawurlencode $YYYYmmddTHHMMSSZ)&items=$items&page=$page"
-						json=$(browse "$url/$airport?$request" | jq '.data[]|{dir:.dir,sched:.sched,esti:.esti,fnr:.fnr,reg:.reg}')
-						check $(printf "$day-%02u00-$dir-$page" $time) "echo '$json'" \
+						json=$(browse "$url/$airport?$request" | jq '[.data[]|{dir:.dir,sched:.sched,esti:.esti,fnr:.fnr,reg:.reg}]')
+						fileext=json check $(printf "$day-%02u00-$dir-$page" $time) "echo '$json'" \
 							"| sed -r '
 								s/$YYYYmmdd_0/0000-00-00/g
 								s/$YYYYmmdd_1/0000-00-01/g

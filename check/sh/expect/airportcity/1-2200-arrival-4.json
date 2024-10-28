@@ -1,0 +1,23 @@
+[
+  {
+    "dir": "A",
+    "sched": "0000-00-02T12:35:00+0000",
+    "esti": null,
+    "fnr": "TP 572",
+    "reg": null
+  },
+  {
+    "dir": "A",
+    "sched": "0000-00-02T13:20:00+0000",
+    "esti": null,
+    "fnr": "KU 171",
+    "reg": null
+  },
+  {
+    "dir": "A",
+    "sched": "0000-00-02T14:50:00+0000",
+    "esti": null,
+    "fnr": "LH 3617",
+    "reg": null
+  }
+]

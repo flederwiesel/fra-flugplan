@@ -1,0 +1,16 @@
+[
+  {
+    "dir": "A",
+    "sched": "0000-00-02T18:25:00+0000",
+    "esti": null,
+    "fnr": "TP 576",
+    "reg": null
+  },
+  {
+    "dir": "A",
+    "sched": "0000-00-02T20:30:00+0000",
+    "esti": null,
+    "fnr": "SQ 326",
+    "reg": null
+  }
+]
