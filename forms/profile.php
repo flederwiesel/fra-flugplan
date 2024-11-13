@@ -506,7 +506,7 @@ SQL;
 		}
 	}
 ?>
-		<div class="explainatory"><?php echo sprintf($lang['photodbdesc'], "<img src='img/photodb.png' alt='$photodb'>"); ?></div>
+		<div class="explainatory"><?php echo sprintf($lang['photodbdesc'], "<img src='img/photodb.png' alt='{$user->opt('photodb')}'>"); ?></div>
 		<div class="table">
 			<div class="row">
 				<div class="cell label"><?php echo $lang['photodbsel']; ?></div>
