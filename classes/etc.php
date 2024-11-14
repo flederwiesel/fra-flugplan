@@ -212,4 +212,18 @@ function Input_SetValue($name, $whence, $debug)
 		echo htmlspecialchars($value);
 }
 
+function PDOErrorInfo(PDOException $ex, ?string $fmt = null) : string
+{
+	$id = "PDO:" . uniqid();
+
+	syslog(LOG_ERR,
+		<<<LOG
+			PDO:{$id} {$ex->getMessage()}
+			{$ex->getTraceAsString()}
+			LOG
+	);
+
+	return $fmt ? sprintf($fmt, $id) : "$id\n";
+}
+
 ?>

@@ -59,175 +59,127 @@ SQL;
 
 					$st16 = $db->prepare($query);
 
-					if (!$st16)
-					{
-						$error = sprintf($lang['dberror'], $db->errorCode());
-					}
-					else
-					{
-						$query = <<<SQL
-							/*[Q17]*/
-							DELETE FROM `watchlist`
-							WHERE `user`=$uid
-								AND `reg`=?
+					$query = <<<SQL
+						/*[Q17]*/
+						DELETE FROM `watchlist`
+						WHERE `user`=$uid
+							AND `reg`=?
 SQL;
-						$st17 = $db->prepare($query);
+					$st17 = $db->prepare($query);
 
-						if (!$st17)
+					$del = explode("\n", $_POST['del']);
+
+					foreach ($del as $reg)
+					{
+						$reg = strtoupper(trim($reg));
+
+						if (!get_magic_quotes_gpc())
 						{
-							$error = sprintf($lang['dberror'], $db->errorCode());
+							// escape backslashes and single quotes
+							$reg = str_replace("\\", "", $reg);
+							$reg = str_replace("'", "", $reg);
 						}
-						else
+
+						$st16->execute(array($reg));
+
+						$st17->execute(array($reg));
+					}
+				}
+
+				if (isset($_POST['upd']))
+				{
+					$query = <<<SQL
+						/*[Q20]*/
+						UPDATE `watchlist`
+						SET
+							`reg`=:new,
+							`comment`=:comment,
+							`notify`=:notify
+						WHERE `user`=$uid AND `reg`=:reg
+						SQL;
+
+					$st = $db->prepare($query);
+
+					$upd = explode("\n", $_POST['upd']);
+
+					foreach ($upd as $line)
+					{
+						list($reg, $new, $comment, $notify) = explode("\t", $line);
+
+						$reg = strtoupper(trim($reg));
+						$new = strtoupper(trim($new));
+
+						if (!$reg)
+							$reg = $new;
+
+						$notify = trim($notify);
+
+						if ($notify)
+							$CheckNotifTimes = TRUE;
+
+						$st->bindValue('reg', $reg);
+						$st->bindValue('new', $new);
+						$st->bindValue('comment', $comment);
+						$st->bindValue('notify', $notify);
+
+						$st->execute();
+					}
+				}
+
+				if (isset($_POST['add']))
+				{
+					$query = <<<SQL
+						/*[Q18]*/
+						INSERT INTO `watchlist`(`user`, `reg`, `comment`, `notify`)
+						VALUES(:uid, :reg, :comment, :notify)
+						ON DUPLICATE KEY UPDATE
+							`user` = :uid,
+							`reg` = :reg,
+							`comment` = :comment,
+							`notify` = :notify
+
+						SQL;
+
+					$st = $db->prepare($query);
+
+					$add = explode("\n", $_POST['add']);
+
+					foreach ($add as $line)
+					{
+						list($reg, $comment, $notify) = explode("\t", $line);
+
+						$reg = strtoupper(trim($reg));
+
+						if ($reg)
 						{
-							$del = explode("\n", $_POST['del']);
+							$notify = trim($notify);
 
-							foreach ($del as $reg)
-							{
-								$reg = strtoupper(trim($reg));
+							if ($notify)
+								$CheckNotifTimes = TRUE;
 
-								if (!get_magic_quotes_gpc())
-								{
-									// escape backslashes and single quotes
-									$reg = str_replace("\\", "", $reg);
-									$reg = str_replace("'", "", $reg);
-								}
+							$st->bindValue('uid', $uid);
+							$st->bindValue('reg', $reg);
+							$st->bindValue('comment', $comment);
+							$st->bindValue('notify', $notify);
 
-								if (!$st16->execute(array($reg)))
-								{
-									$error = sprintf($lang['dberror'], $st->errorCode());
-								}
-								else
-								{
-									if (!$st17->execute(array($reg)))
-										$error = sprintf($lang['dberror'], $st->errorCode());
-								}
-
-								if ($error)
-									break;
-							}
+							$st->execute();
 						}
 					}
 				}
 
-				if (!$error)
+				if (isset($_POST['add']) ||
+					isset($_POST['upd']))
 				{
-					if (isset($_POST['upd']))
+					if ($CheckNotifTimes)
 					{
-						$query = <<<SQL
-							/*[Q20]*/
-							UPDATE `watchlist`
-							SET
-								`reg`=:new,
-								`comment`=:comment,
-								`notify`=:notify
-							WHERE `user`=$uid AND `reg`=:reg
-	SQL;
-
-						$st = $db->prepare($query);
-
-						if (!$st)
-						{
-							$error = sprintf($lang['dberror'], $db->errorCode());
-						}
-						else
-						{
-							$upd = explode("\n", $_POST['upd']);
-
-							foreach ($upd as $line)
-							{
-								list($reg, $new, $comment, $notify) = explode("\t", $line);
-
-								$reg = strtoupper(trim($reg));
-								$new = strtoupper(trim($new));
-
-								if (!$reg)
-									$reg = $new;
-
-								$notify = trim($notify);
-
-								if ($notify)
-									$CheckNotifTimes = TRUE;
-
-								$st->bindValue('reg', $reg);
-								$st->bindValue('new', $new);
-								$st->bindValue('comment', $comment);
-								$st->bindValue('notify', $notify);
-
-								if (!$st->execute())
-									$error = sprintf($lang['dberror'], $st->errorCode());
-							}
-						}
-					}
-				}
-
-				if (!$error)
-				{
-					if (isset($_POST['add']))
-					{
-						$query = <<<SQL
-							/*[Q18]*/
-							INSERT INTO `watchlist`(`user`, `reg`, `comment`, `notify`)
-							VALUES(:uid, :reg, :comment, :notify)
-							ON DUPLICATE KEY UPDATE
-								`user` = :uid,
-								`reg` = :reg,
-								`comment` = :comment,
-								`notify` = :notify
-
-SQL;
-
-						$st = $db->prepare($query);
-
-						if (!$st)
-						{
-							$error = sprintf($lang['dberror'], $db->errorCode());
-						}
-						else
-						{
-							$add = explode("\n", $_POST['add']);
-
-							foreach ($add as $line)
-							{
-								list($reg, $comment, $notify) = explode("\t", $line);
-
-								$reg = strtoupper(trim($reg));
-
-								if ($reg)
-								{
-									$notify = trim($notify);
-
-									if ($notify)
-										$CheckNotifTimes = TRUE;
-
-									$st->bindValue('uid', $uid);
-									$st->bindValue('reg', $reg);
-									$st->bindValue('comment', $comment);
-									$st->bindValue('notify', $notify);
-
-									if (!$st->execute())
-										$error = sprintf($lang['dberror'], $st->errorCode());
-								}
-							}
-						}
-					}
-				}
-
-				if (!$error)
-				{
-					if (isset($_POST['add']) ||
-						isset($_POST['upd']))
-					{
-						if ($CheckNotifTimes)
-						{
-							if ($user->opt('notification-from') == $user->opt('notification-until'))
-								$message = $lang['notif-setinterval'];
-						}
+						if ($user->opt('notification-from') == $user->opt('notification-until'))
+							$message = $lang['notif-setinterval'];
 					}
 				}
 			}
-			catch (Exception $e)
+			catch (PDOException $ex)
 			{
-				$error = sprintf($lang['dberror'], $db->errorCode());
+				$error = PDOErrorInfo($ex, $lang['dberror']);
 			}
 		}
 	}
@@ -336,31 +288,26 @@ if ($user)
 {
 	if ($db)
 	{
-		$query = <<<SQL
-			/*[Q19]*/
-			SELECT `reg`, `comment`, `notify`
-			FROM `watchlist`
-			WHERE `user`=?
-			ORDER BY `reg`
-SQL;
-
-		$st = $db->prepare($query);
-
-		if (!$st)
+		try
 		{
-			$error = sprintf($lang['dberror'], $db->errorCode());
+			$query = <<<SQL
+				/*[Q19]*/
+				SELECT `reg`, `comment`, `notify`
+				FROM `watchlist`
+				WHERE `user`=?
+				ORDER BY `reg`
+				SQL;
+
+			$st = $db->prepare($query);
+
+			$st->execute(array($user->id()));
+
+			while ($row = $st->fetchObject())
+				$watch[$row->reg] = array('comment' => $row->comment, 'notify' => $row->notify);
 		}
-		else
+		catch (PDOException $ex)
 		{
-			if (!$st->execute(array($user->id())))
-			{
-				$error = sprintf($lang['dberror'], $st->errorCode());
-			}
-			else
-			{
-				while ($row = $st->fetchObject())
-					$watch[$row->reg] = array('comment' => $row->comment, 'notify' => $row->notify);
-			}
+			$error = PDOErrorInfo($ex, $lang['dberror']);
 		}
 	}
 
@@ -595,173 +542,168 @@ EOF;
 
 if ($db)
 {
-	$st = $db->query($query);
+	try
+	{
+		$st = $db->query($query);
 
-	if (!$st)
-	{
-		$error = sprintf($lang['dberror'], $db->errorCode());
-	}
-	else
-	{
-		if (!$st->execute())
+		$st->execute();
+
+		while ($row = $st->fetchObject())
 		{
-			$error = sprintf($lang['dberror'], $st->errorCode());
-		}
-		else
-		{
-			while ($row = $st->fetchObject())
+			if (strtotime($row->expected) - strtotime($now->iso) < 0)
+				echo '<tr class="past">';
+			else
+				echo '<tr>';
+
+			/* Calculate day offset, considering that when dst changes,
+			 * one week is 604800 +/- 3600 ... */
+			$t_expected = strtotime(substr($row->expected, 0, 10));
+			$t_now = strtotime(substr($now->iso, 0, 10));
+			$diff = 0;
+
+			$tm = localtime($t_expected, true);
+
+			if ($tm['tm_isdst'])
+				$diff -= 3600;
+
+			$tm = localtime($t_now, true);
+
+			if ($tm['tm_isdst'])
+				$diff += 3600;
+
+			$diff = $t_expected - $t_now - $diff;
+			$day = (int)($diff / 24 / 60 / 60);
+
+			/* $day should always be >= 0 ... */
+			if ($day >= 0)
+				$day = '+'.$day;
+
+			$early = $row->timediff < 0 ? ' class="early"' : '';
+			$hhmm = substr($row->expected, 11, 5);
+
+			/* <td> inherits 'class="left"' from div.box */
+			echo "<td$early>$day $hhmm</td>";
+			echo "<td>{$row->fl_airl}{$row->fl_code}</td>";
+
+			if (!$mobile)
 			{
-				if (strtotime($row->expected) - strtotime($now->iso) < 0)
-					echo '<tr class="past">';
-				else
-					echo '<tr>';
+				echo "<td><div>{$row->airline}</div></td>";
+				echo "<td>{$row->airport_iata}</td>";
+				echo "<td>{$row->airport_icao}</td>";
 
-				/* Calculate day offset, considering that when dst changes,
-				 * one week is 604800 +/- 3600 ... */
-				$t_expected = strtotime(substr($row->expected, 0, 10));
-				$t_now = strtotime(substr($now->iso, 0, 10));
-				$diff = 0;
-
-				$tm = localtime($t_expected, true);
-
-				if ($tm['tm_isdst'])
-					$diff -= 3600;
-
-				$tm = localtime($t_now, true);
-
-				if ($tm['tm_isdst'])
-					$diff += 3600;
-
-				$diff = $t_expected - $t_now - $diff;
-				$day = (int)($diff / 24 / 60 / 60);
-
-				/* $day should always be >= 0 ... */
-				if ($day >= 0)
-					$day = '+'.$day;
-
-				$early = $row->timediff < 0 ? ' class="early"' : '';
-				$hhmm = substr($row->expected, 11, 5);
-
-				/* <td> inherits 'class="left"' from div.box */
-				echo "<td$early>$day $hhmm</td>";
-				echo "<td>{$row->fl_airl}{$row->fl_code}</td>";
-
-				if (!$mobile)
+				if (0 == strlen($row->airport_name))
 				{
-					echo "<td><div>{$row->airline}</div></td>";
-					echo "<td>{$row->airport_iata}</td>";
-					echo "<td>{$row->airport_icao}</td>";
-
-					if (0 == strlen($row->airport_name))
-					{
-						echo "<td><div>&nbsp;</div></td>";
-					}
-					else
-					{
-						if (0 == strlen($row->country))
-							echo "<td><div>{$row->airport_name}</div></td>";
-						else
-							echo "<td><div>{$row->airport_name}, {$row->country}</div></td>";
-					}
-				}
-
-				switch ($row->type)
-				{
-				case 'C':
-					echo "<td class=\"model cargo\">{$row->model}</td>";
-					break;
-
-				case 'F':
-					echo "<td class=\"model\">{$row->model}</td>";
-					break;
-
-				default:
-					echo "<td class=\"model\">{$row->model}</td>";
-				}
-
-				$reg = $row->reg;
-				$vtf = $row->vtf ? $row->vtf : '9999';
-				$hilite = NULL;
-
-				if (0 == strlen($reg))
-				{
+					echo "<td><div>&nbsp;</div></td>";
 				}
 				else
 				{
-					$hhmm = substr(str_replace(array(' ', '.', ':', '-'), '', $row->expected), 8, 4);
-
-					if (isset($watch[$reg]))
-					{
-						$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($watch[$reg]));
-					}
+					if (0 == strlen($row->country))
+						echo "<td><div>{$row->airport_name}</div></td>";
 					else
+						echo "<td><div>{$row->airport_name}, {$row->country}</div></td>";
+				}
+			}
+
+			switch ($row->type)
+			{
+			case 'C':
+				echo "<td class=\"model cargo\">{$row->model}</td>";
+				break;
+
+			case 'F':
+				echo "<td class=\"model\">{$row->model}</td>";
+				break;
+
+			default:
+				echo "<td class=\"model\">{$row->model}</td>";
+			}
+
+			$reg = $row->reg;
+			$vtf = $row->vtf ? $row->vtf : '9999';
+			$hilite = NULL;
+
+			if (0 == strlen($reg))
+			{
+			}
+			else
+			{
+				$hhmm = substr(str_replace(array(' ', '.', ':', '-'), '', $row->expected), 8, 4);
+
+				if (isset($watch[$reg]))
+				{
+					$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($watch[$reg]));
+				}
+				else
+				{
+					if (isset($watch['wildcards']))
 					{
-						if (isset($watch['wildcards']))
+						foreach ($watch['wildcards'] as $key => $comment)
 						{
-							foreach ($watch['wildcards'] as $key => $comment)
+							if (preg_match('/^\/.*\/$/', $key))
 							{
-								if (preg_match('/^\/.*\/$/', $key))
+								/* Regex */
+								if (preg_match($key, $reg))
 								{
-									/* Regex */
-									if (preg_match($key, $reg))
-									{
-										$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($comment));
-										break;
-									}
+									$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($comment));
+									break;
 								}
-								else
+							}
+							else
+							{
+								if (fnmatch($key, $reg))
 								{
-									if (fnmatch($key, $reg))
-									{
-										/* Wildcard */
-										$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($comment));
-										break;
-									}
+									/* Wildcard */
+									$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($comment));
+									break;
 								}
 							}
 						}
+					}
 
-						if (!$hilite)
+					if (!$hilite)
+					{
+						if ($vtf < 10)
 						{
-							if ($vtf < 10)
-							{
-								$vtf = ordinal($vtf, $_SESSION['lang']);
-								$hilite = sprintf(' class="rare" title="%s"', htmlspecialchars("$vtf$lang[vtf]"));
-							}
+							$vtf = ordinal($vtf, $_SESSION['lang']);
+							$hilite = sprintf(' class="rare" title="%s"', htmlspecialchars("$vtf$lang[vtf]"));
 						}
 					}
 				}
+			}
 
-				$href = NULL;
+			$href = NULL;
 
-				if (!$reg)
+			if (!$reg)
+			{
+				echo "<td>";
+			}
+			else
+			{
+				echo "<td$hilite>";
+
+				if ($mobile)
 				{
-					echo "<td>";
 				}
 				else
 				{
-					echo "<td$hilite>";
-
-					if ($mobile)
-					{
-					}
-					else
-					{
 ?>
 				<a href="<?php echo str_replace([ '&', '{reg}' ], [ '&amp;', "$reg" ], $URL["$photodb"]); ?>" target="<?php echo "$photodb"; ?>">
 					<img src="img/photodb.png" alt="<?php echo "$photodb"; ?>">
 				</a>
 <?php
-					}
-
-					echo "$reg";
 				}
 
-				echo "</td></tr>\n";
+				echo "$reg";
 			}
+
+			echo "</td></tr>\n";
+		}
 ?>
 <?php
-		}
+	}
+	catch (PDOException $ex)
+	{
+		$error = PDOErrorInfo($ex, $lang['dberror']);
 	}
 }
 ?>

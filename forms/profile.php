@@ -146,42 +146,37 @@ if ('dispinterval' == $item)
 				isset($_POST['tt-']) &&
 				isset($_POST['tt+']))
 			{
-				$query = <<<SQL
-					UPDATE `users`
-					SET `tm-`=:tmm,
-						`tm+`=:tmp,
-						`tt-`=:ttm,
-						`tt+`=:ttp
-					WHERE `id`=:uid
-SQL;
-
-				$st = $db->prepare($query);
-
-				if (!$st)
+				try
 				{
-					$error = sprintf($lang['dberror'], $db->errorCode());
-				}
-				else
-				{
+					$query = <<<SQL
+						UPDATE `users`
+						SET `tm-`=:tmm,
+							`tm+`=:tmp,
+							`tt-`=:ttm,
+							`tt+`=:ttp
+						WHERE `id`=:uid
+						SQL;
+
+					$st = $db->prepare($query);
+
 					$st->bindValue(':tmm', $_POST['tm-']);
 					$st->bindValue(':tmp', $_POST['tm+']);
 					$st->bindValue(':ttm', $_POST['tt-']);
 					$st->bindValue(':ttp', $_POST['tt+']);
 					$st->bindValue(':uid', $user->id());
 
-					if (!$st->execute())
-					{
-						$error = $st->errorCode();
-					}
-					else
-					{
-						$user->opt('tm-', $_POST['tm-']);
-						$user->opt('tm+', $_POST['tm+']);
-						$user->opt('tt-', $_POST['tt-']);
-						$user->opt('tt+', $_POST['tt+']);
+					$st->execute();
 
-						$message = $lang['settingsssaved'];
-					}
+					$user->opt('tm-', $_POST['tm-']);
+					$user->opt('tm+', $_POST['tm+']);
+					$user->opt('tt-', $_POST['tt-']);
+					$user->opt('tt+', $_POST['tt+']);
+
+					$message = $lang['settingsssaved'];
+				}
+				catch (PDOException $ex)
+				{
+					$error = PDOErrorInfo($ex, $lang['dberror']);
 				}
 			}
 
@@ -295,40 +290,35 @@ if ('notifinterval' == $item)
 				}
 				else
 				{
-					$query = <<<SQL
-						UPDATE `users`
-						SET `notification-from`=:from,
-							`notification-until`=:until,
-							`notification-timefmt`=:fmt
-						WHERE `id`=:uid
-SQL;
-
-					$st = $db->prepare($query);
-
-					if (!$st)
+					try
 					{
-						$error = sprintf($lang['dberror'], $sb->errorCode());
-					}
-					else
-					{
+						$query = <<<SQL
+							UPDATE `users`
+							SET `notification-from`=:from,
+								`notification-until`=:until,
+								`notification-timefmt`=:fmt
+							WHERE `id`=:uid
+							SQL;
+
+						$st = $db->prepare($query);
+
 						$st->bindValue(':from', $_POST['from']);
 						$st->bindValue(':until', $_POST['until']);
 						$st->bindValue(':fmt', $_POST_timefmt ? "'$_POST_timefmt'" : NULL);
 						$st->bindValue(':uid', $user->id());
 
-						if (!$st->execute())
-						{
-							$error = sprintf($lang['dberror'], $st->errorCode());
-						}
-						else
-						{
-							$user->opt('notification-from', $_POST['from']);
-							$user->opt('notification-until', $_POST['until']);
-							$user->opt('notification-timefmt', $_POST_timefmt);
+						$st->execute();
 
-							$message = "$lang[settingsssaved] ".
-										sprintf($lang['strftime-true'], $time);
-						}
+						$user->opt('notification-from', $_POST['from']);
+						$user->opt('notification-until', $_POST['until']);
+						$user->opt('notification-timefmt', $_POST_timefmt);
+
+						$message = "$lang[settingsssaved] ".
+									sprintf($lang['strftime-true'], $time);
+					}
+					catch (PDOException $ex)
+					{
+						$error = PDOErrorInfo($ex, $lang['dberror']);
 					}
 				}
 			}
@@ -460,33 +450,28 @@ else if ('photodb' == $item)
 		{
 			if (isset($_POST['photodb']))
 			{
-				$query = <<<SQL
-					UPDATE `users`
-					SET `photodb`=:photodb
-					WHERE `id`=:uid
-SQL;
-
-				$st = $db->prepare($query);
-
-				if (!$st)
+				try
 				{
-					$error = sprintf($lang['dberror'], $db->errorCode());
-				}
-				else
-				{
+					$query = <<<SQL
+						UPDATE `users`
+						SET `photodb`=:photodb
+						WHERE `id`=:uid
+						SQL;
+
+					$st = $db->prepare($query);
+
 					$st->bindValue(':photodb', $_POST['photodb']);
 					$st->bindValue(':uid', $user->id());
 
-					if (!$st->execute())
-					{
-						$error = $st->errorCode();
-					}
-					else
-					{
-						$user->opt('photodb', $_POST['photodb']);
+					$st->execute();
 
-						$message = $lang['settingsssaved'];
-					}
+					$user->opt('photodb', $_POST['photodb']);
+
+					$message = $lang['settingsssaved'];
+				}
+				catch (PDOException $ex)
+				{
+					$error = PDOErrorInfo($ex, $lang['dberror']);
 				}
 			}
 

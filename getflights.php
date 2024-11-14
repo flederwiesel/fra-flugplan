@@ -24,10 +24,6 @@
  *
  ******************************************************************************/
 
-/*
-#!/usr/bin/php -f
-*/
-
 $script_start = microtime(TRUE);
 
 error_reporting(E_ALL | E_STRICT);
@@ -270,14 +266,25 @@ function info($line, $text)
 	$info .= __FILE__."($line): $text\n";
 }
 
-function sqlErrorInfo($line, $obj, $query)
+function sqlErrorInfo(PDOException $ex, $info = null) : string
 {
-	$error = $obj->errorInfo();
+	$query = null;
 
-	return seterrorinfo($line,
-					sprintf("[%s-%s]: %s: %s",
-						$error[0], $error[1], $error[2],
-						unify_query($query)));
+	if (isset($info))
+		if (gettype($info) == "object")
+			if (get_class($info) == "SqlDebug\\PDOStatement")
+				$query = $info->queryString;
+
+	$error = "*** {$ex->getMessage()}\n{$ex->getTraceAsString()}\n";
+
+	if ($query !== null)
+		$error .= <<<SQL
+			$query
+			SQL;
+
+	echo "$error";
+
+	return $error;
 }
 
 function unify_query($query)
@@ -511,7 +518,7 @@ class airline
 
 	public function __construct($al, $alname)
 	{
-		$this->id = 0;
+		$this->id = null;
 		$this->code = $al;
 		$this->name = $alname;
 	}
@@ -527,7 +534,7 @@ class airport
 
 	public function __construct($iata = NULL)
 	{
-		$this->id = 0;
+		$this->id = null;
 		$this->iata = $iata;
 		$this->icao = NULL;
 		$this->name = NULL;
@@ -543,7 +550,7 @@ class aircrafttype
 
 	public function __construct($icao = NULL)
 	{
-		$this->id = 0;
+		$this->id = null;
 		$this->icao = $icao;
 		$this->name = NULL;
 	}
@@ -557,7 +564,7 @@ class aircraft
 
 	public function __construct($reg, $type)
 	{
-		$this->id = 0;
+		$this->id = null;
 		$this->reg = $reg;
 		$this->type = new aircrafttype($type);
 	}
@@ -686,21 +693,17 @@ function CURL_GetAirport(/* in */ $curl, /* in/out */ &$airport)
 	global $prefix;
 	global $db;
 
-	$query = <<<SQL
-		/*[Q21]*/
-		SELECT `id`,`de`,`alpha-2`
-		FROM `countries`
-SQL;
-
-	$st = $db->query($query);
-
-	if (!$st)
+	try
 	{
-		$error = sqlErrorInfo(__LINE__, $db, $query);
-	}
-	else
-	{
+		$error = null;
 		$countries = array();
+
+		$st = $db->query(<<<SQL
+			/*[Q21]*/
+			SELECT `id`,`de`,`alpha-2`
+			FROM `countries`
+			SQL
+		);
 
 		while ($row = $st->fetchObject())
 			$countries["$row->de"] = (int)$row->id;
@@ -798,6 +801,10 @@ SQL;
 				}
 			}
 		}
+	}
+	catch (PDOException $ex)
+	{
+		$error = sqlErrorInfo($ex, $st);
 	}
 
 	return $error;
@@ -1257,23 +1264,19 @@ function SQL_GetAirline(/* in/out */ &$airline)
 	global $DEBUG;
 	global $db;
 
-	// Is airline already in database?
-	$query = <<<SQL
-		/*[Q22]*/
-		SELECT `id`
-		FROM `airlines`
-		WHERE `code`='$airline->code';
-SQL;
-
-	$st = $db->query($query);
-
-	if (!$st)
-	{
-		$error = sqlErrorInfo(__LINE__, $db, $query);
-	}
-	else
+	try
 	{
 		$error = NULL;
+
+		// Is airline already in database?
+		$query = <<<SQL
+			/*[Q22]*/
+			SELECT `id`
+			FROM `airlines`
+			WHERE `code`='$airline->code';
+			SQL;
+
+		$st = $db->query($query);
 
 		if (isset($DEBUG['sql']))
 			echo unify_query($query);
@@ -1300,6 +1303,10 @@ SQL;
 				echo "=$airline->id\n";
 		}
 	}
+	catch (PDOException $ex)
+	{
+		$error = sqlErrorInfo($ex, $st);
+	}
 
 	return $error;
 }
@@ -1315,32 +1322,36 @@ function SQL_InsertAirline(/* in/out */ &$airline)
 	}
 	else
 	{
+		$error = null;
+
 		if (0 == strlen($airline->name))
 			$airline->name = $airline->code;
 		else
 			$airline->name = addslashes($airline->name);
 
-		$query = <<<SQL
-			/*[Q23]*/
-			INSERT INTO `airlines`(`code`, `name`)
-			VALUES('$airline->code', '$airline->name');
-SQL;
+		$airline->id = NULL;
 
-		if ($db->exec($query) === FALSE)
+		try
 		{
-			$airline->id = NULL;
-			$error = sqlErrorInfo(__LINE__, $db, $query);
-		}
-		else
-		{
-			$error = NULL;
-			$airline->id = $db->lastInsertId();
+			$query = <<<SQL
+				/*[Q23]*/
+				INSERT INTO `airlines`(`code`, `name`)
+				VALUES('$airline->code', '$airline->name');
+				SQL;
+
+			$db->exec($query);
+
+			$airline->id = (int)$db->lastInsertId();
 
 			if (isset($DEBUG['sql']))
 			{
 				echo unify_query($query);
 				echo "=$airline->id\n";
 			}
+		}
+		catch (PDOException $ex)
+		{
+			$error = sqlErrorInfo($ex, $st);
 		}
 	}
 
@@ -1352,22 +1363,18 @@ function SQL_GetAirport(/* in/out */ &$airport)
 	global $DEBUG;
 	global $db;
 
-	$query = <<<SQL
-		/*[Q24]*/
-		SELECT DISTINCT `airports`.`id`
-		FROM `airports`
-		WHERE `iata`='$airport->iata';
-SQL;
-
-	$st = $db->query($query);
-
-	if (!$st)
+	try
 	{
-		$error = sqlErrorInfo(__LINE__, $db, $query);
-	}
-	else
-	{
-		$error = NULL;
+		$error = null;
+
+		$query = <<<SQL
+			/*[Q24]*/
+			SELECT DISTINCT `airports`.`id`
+			FROM `airports`
+			WHERE `iata`='$airport->iata';
+			SQL;
+
+		$st = $db->query($query);
 
 		if (isset($DEBUG['sql']))
 			echo unify_query($query);
@@ -1398,6 +1405,10 @@ SQL;
 			}
 		}
 	}
+	catch (PDOException $ex)
+	{
+		$error = sqlErrorInfo($ex, $st);
+	}
 
 	return $error;
 }
@@ -1414,32 +1425,35 @@ function SQL_InsertAirport(/* in/out */ &$airport)
 	}
 	else
 	{
-		$airport->name = addslashes($airport->name);
-
-		$query = <<<SQL
-			/*[Q25]*/
-			INSERT INTO `airports`(`iata`, `icao`, `name`, `country`)
-			VALUES(
-				'$airport->iata',
-				'$airport->icao',
-				'$airport->name',
-				{$airport->country->id});
-SQL;
-
-		if ($db->exec($query) === FALSE)
+		try
 		{
-			$error = sqlErrorInfo(__LINE__, $db, $query);
-		}
-		else
-		{
-			$error = NULL;
-			$airport->id = $db->lastInsertId();
+			$error = null;
+
+			$airport->name = addslashes($airport->name);
+
+			$query = <<<SQL
+				/*[Q25]*/
+				INSERT INTO `airports`(`iata`, `icao`, `name`, `country`)
+				VALUES(
+					'$airport->iata',
+					'$airport->icao',
+					'$airport->name',
+					{$airport->country->id});
+				SQL;
+
+			$db->exec($query);
+
+			$airport->id = (int)$db->lastInsertId();
 
 			if (isset($DEBUG['sql']))
 			{
 				echo unify_query($query);
 				echo "=OK\n";
 			}
+		}
+		catch (PDOException $ex)
+		{
+			$error = sqlErrorInfo($ex, $st);
 		}
 	}
 
@@ -1451,22 +1465,18 @@ function SQL_GetAircraftType(/* in/out*/ &$aircraft)
 	global $DEBUG;
 	global $db;
 
-	$query = <<<SQL
-		/*[Q26]*/
-		SELECT `id`
-		FROM `models`
-		WHERE `icao`='{$aircraft->type->icao}';
-SQL;
-
-	$st = $db->query($query);
-
-	if (!$st)
+	try
 	{
-		$error = sqlErrorInfo(__LINE__, $db, $query);
-	}
-	else
-	{
-		$error = NULL;
+		$error = null;
+
+		$query = <<<SQL
+			/*[Q26]*/
+			SELECT `id`
+			FROM `models`
+			WHERE `icao`='{$aircraft->type->icao}';
+			SQL;
+
+		$st = $db->query($query);
 
 		if (isset($DEBUG['sql']))
 			echo unify_query($query);
@@ -1492,6 +1502,10 @@ SQL;
 				echo "={$aircraft->type->id}\n";
 		}
 	}
+	catch (PDOException $ex)
+	{
+		$error = sqlErrorInfo($ex, $st);
+	}
 
 	return $error;
 }
@@ -1507,22 +1521,21 @@ function SQL_InsertAircraftType(/* in/out */ &$aircraft)
 	}
 	else
 	{
-		$aircraft->type->name = addslashes($aircraft->type->name);
-
-		$query = <<<SQL
-			/*[Q27]*/
-			INSERT INTO `models`(`icao`,`name`)
-			VALUES('{$aircraft->type->icao}', '{$aircraft->type->name}');
-SQL;
-
-		if ($db->exec($query) === FALSE)
+		try
 		{
-			$error = sqlErrorInfo(__LINE__, $db, $query);
-		}
-		else
-		{
-			$error = NULL;
-			$aircraft->type->id = $db->lastInsertId();
+			$error = null;
+
+			$aircraft->type->name = addslashes($aircraft->type->name);
+
+			$query = <<<SQL
+				/*[Q27]*/
+				INSERT INTO `models`(`icao`,`name`)
+				VALUES('{$aircraft->type->icao}', '{$aircraft->type->name}');
+				SQL;
+
+			$db->exec($query);
+
+			$aircraft->type->id = (int)$db->lastInsertId();
 
 			if (isset($DEBUG['sql']))
 			{
@@ -1530,7 +1543,13 @@ SQL;
 				echo "={$aircraft->type->id}\n";
 			}
 		}
+		catch (PDOException $ex)
+		{
+			$error = sqlErrorInfo($ex, $st);
+		}
 	}
+
+	return $error;
 }
 
 function SQL_GetAircraft(/* in/out*/ &$aircraft)
@@ -1538,22 +1557,18 @@ function SQL_GetAircraft(/* in/out*/ &$aircraft)
 	global $DEBUG;
 	global $db;
 
-	$query = <<<SQL
-		/*[Q28]*/
-		SELECT `id`
-		FROM `aircrafts`
-		WHERE `reg`='$aircraft->reg';
-SQL;
-
-	$st = $db->query($query);
-
-	if (!$st)
+	try
 	{
-		$error = sqlErrorInfo(__LINE__, $db, $query);
-	}
-	else
-	{
-		$error = NULL;
+		$error = null;
+
+		$query = <<<SQL
+			/*[Q28]*/
+			SELECT `id`
+			FROM `aircrafts`
+			WHERE `reg`='$aircraft->reg';
+			SQL;
+
+		$st = $db->query($query);
 
 		if (isset($DEBUG['sql']))
 			echo unify_query($query);
@@ -1579,6 +1594,10 @@ SQL;
 				echo "=$aircraft->id\n";
 		}
 	}
+	catch (PDOException $ex)
+	{
+		$error = sqlErrorInfo($ex, $st);
+	}
 
 	return $error;
 }
@@ -1598,26 +1617,29 @@ function SQL_InsertAircraft(/* in/out*/ &$aircraft)
 	}
 	else
 	{
-		$query = <<<SQL
-			/*[Q29]*/
-			INSERT INTO `aircrafts`(`reg`,`model`)
-			VALUES('$aircraft->reg', {$aircraft->type->id});
-SQL;
+		try
+		{
+			$error = null;
 
-		if ($db->exec($query) === FALSE)
-		{
-			$error = sqlErrorInfo(__LINE__, $db, $query);
-		}
-		else
-		{
-			$error = NULL;
-			$aircraft->id = $db->lastInsertId();
+			$query = <<<SQL
+				/*[Q29]*/
+				INSERT INTO `aircrafts`(`reg`,`model`)
+				VALUES('$aircraft->reg', {$aircraft->type->id});
+				SQL;
+
+			$db->exec($query);
+
+			$aircraft->id = (int)$db->lastInsertId();
 
 			if (isset($DEBUG['sql']))
 			{
 				echo unify_query($query);
 				echo "=$aircraft->id\n";
 			}
+		}
+		catch (PDOException $ex)
+		{
+			$error = sqlErrorInfo($ex, $st);
 		}
 	}
 
@@ -1629,25 +1651,21 @@ function SQL_GetFlightDetails(/* in */ $dir, /* in */ $f, /* out */ &$id, /* out
 	global $DEBUG;
 	global $db;
 
-	$query = <<<SQL
-		/*[Q30]*/
-		SELECT `id`, `aircraft`, `last update`
-		FROM `flights`
-		WHERE `direction`='$dir'
-		 AND `airline`={$f->airline->id}
-		 AND `code`='{$f->fnr}'
-		 AND `scheduled`='{$f->scheduled}'
-SQL;
-
-	$st = $db->query($query);
-
-	if (!$st)
+	try
 	{
-		$error = sqlErrorInfo(__LINE__, $db, $query);
-	}
-	else
-	{
-		$error = NULL;
+		$error = null;
+
+		$query = <<<SQL
+			/*[Q30]*/
+			SELECT `id`, `aircraft`, `last update`
+			FROM `flights`
+			WHERE `direction`='$dir'
+			 AND `airline`={$f->airline->id}
+			 AND `code`='{$f->fnr}'
+			 AND `scheduled`='{$f->scheduled}'
+			SQL;
+
+		$st = $db->query($query);
 
 		if (isset($DEBUG['sql']))
 			echo unify_query($query);
@@ -1673,6 +1691,10 @@ SQL;
 			if (isset($DEBUG['sql']))
 				echo "=$id,$ac,$lu\n";
 		}
+	}
+	catch (PDOException $ex)
+	{
+		$error = sqlErrorInfo($ex, $st);
 	}
 
 	return $error;
@@ -1701,29 +1723,31 @@ function SQL_UpdateFlightDetails(/* in */ $id, /* in */ $f)
 	$aircraft = $f->aircraft->type->id ? $f->aircraft->type->id : "NULL";
 	$reg = $f->aircraft->id ? $f->aircraft->id : "NULL";
 
-	$query = <<<SQL
-		/*[Q31]*/
-		UPDATE `flights`
-		SET $expected
-		 $airport
-		 `aircraft`=$reg,
-		 `model`=$aircraft
-		WHERE `id`=$id;
-SQL;
+	try
+	{
+		$error = null;
 
-	if ($db->exec($query) === FALSE)
-	{
-		$error = sqlErrorInfo(__LINE__, $db, $query);
-	}
-	else
-	{
-		$error = NULL;
+		$query = <<<SQL
+			/*[Q31]*/
+			UPDATE `flights`
+			SET $expected
+			 $airport
+			 `aircraft`=$reg,
+			 `model`=$aircraft
+			WHERE `id`=$id;
+			SQL;
+
+		$db->exec($query);
 
 		if (isset($DEBUG['sql']))
 		{
 			echo unify_query($query);
 			echo "=OK\n";
 		}
+	}
+	catch (PDOException $ex)
+	{
+		$error = sqlErrorInfo($ex, $st);
 	}
 
 	return $error;
@@ -1750,26 +1774,24 @@ function SQL_InsertFlight(/*in*/ $type, /* in */ $dir, /* in/out */ &$f)
 	$reg = $f->aircraft->id ? $f->aircraft->id : "NULL";
 	$lu = $f->lu ? "'$f->lu'" : "NULL";
 
-	$query = <<<SQL
-		/*[Q32]*/
-		INSERT INTO `flights`
-		(`direction`, `type`, `airline`, `code`,
-		 `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`)
-		VALUES(
-		 '$dir', '$type',
-		 {$f->airline->id}, '{$f->fnr}',
-		 '{$f->scheduled}', $expected,
-		 {$f->airport->id},
-		 $aircraft, $reg, $lu);
-SQL;
+	try
+	{
+		$error = null;
 
-	if ($db->exec($query) === FALSE)
-	{
-		$error = sqlErrorInfo(__LINE__, $db, $query);
-	}
-	else
-	{
-		$error = NULL;
+		$query = <<<SQL
+			/*[Q32]*/
+			INSERT INTO `flights`
+			(`direction`, `type`, `airline`, `code`,
+			 `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`)
+			VALUES(
+			 '$dir', '$type',
+			 {$f->airline->id}, '{$f->fnr}',
+			 '{$f->scheduled}', $expected,
+			 {$f->airport->id},
+			 $aircraft, $reg, $lu);
+			SQL;
+
+		$db->exec($query);
 
 		// Don't bother about id here...
 		if (isset($DEBUG['sql']))
@@ -1777,6 +1799,10 @@ SQL;
 			echo unify_query($query);
 			echo "=OK\n";
 		}
+	}
+	catch (PDOException $ex)
+	{
+		$error = sqlErrorInfo($ex, $st);
 	}
 
 	return $error;
@@ -1793,22 +1819,18 @@ function SQL_DeleteFlight($id)
 	}
 	else
 	{
-		$query = <<<SQL
-			/*[Q33]*/
-			DELETE
-			FROM `flights`
-			WHERE `id`=$id
-SQL;
-
-		$result = $db->exec($query);
-
-		if ($result === FALSE)
+		try
 		{
-			$error = sqlErrorInfo(__LINE__, $db, $query);
-		}
-		else
-		{
-			$error = NULL;
+			$error = null;
+
+			$query = <<<SQL
+				/*[Q33]*/
+				DELETE
+				FROM `flights`
+				WHERE `id`=$id
+				SQL;
+
+			$result = $db->exec($query);
 
 			if (isset($DEBUG['sql']))
 			{
@@ -1818,6 +1840,10 @@ SQL;
 
 			if (0 == $result)
 				warn_once(__LINE__, "No flight deleted: $id");
+		}
+		catch (PDOException $ex)
+		{
+			$error = sqlErrorInfo($ex, $st);
 		}
 	}
 
@@ -1829,22 +1855,18 @@ function SQL_UpdateVisitsToFra($scheduled, $reg, $op)
 	global $DEBUG;
 	global $db;
 
-	$query = <<<SQL
-		/*[Q34]*/
-		SELECT `num`, `current`, `previous`
-		FROM `visits`
-		WHERE `aircraft`=$reg;
-SQL;
-
-	$st = $db->query($query);
-
-	if (!$st)
+	try
 	{
-		$error = sqlErrorInfo(__LINE__, $db, $query);
-	}
-	else
-	{
-		$error = NULL;
+		$error = null;
+
+		$query = <<<SQL
+			/*[Q34]*/
+			SELECT `num`, `current`, `previous`
+			FROM `visits`
+			WHERE `aircraft`=$reg;
+			SQL;
+
+		$st = $db->query($query);
 
 		if (isset($DEBUG['sql']))
 			echo unify_query($query);
@@ -1871,7 +1893,7 @@ SQL;
 					/*[Q35]*/
 					INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`)
 					VALUES($reg, 1, '$scheduled', NULL);
-SQL;
+					SQL;
 			}
 		}
 		else
@@ -1902,7 +1924,7 @@ SQL;
 							`current`='$scheduled',
 							`previous`=$previous
 						WHERE `aircraft`=$reg
-SQL;
+						SQL;
 				}
 			}
 			else
@@ -1917,7 +1939,7 @@ SQL;
 						/*[Q37]*/
 						DELETE FROM `visits`
 						WHERE `aircraft`=$reg
-SQL;
+						SQL;
 				}
 				else
 				{
@@ -1939,39 +1961,32 @@ SQL;
 								FROM `history`
 								WHERE `direction`='arrival' AND `aircraft` = $reg
 							) AS `flights`
-SQL;
+							SQL;
 
 						$st = $db->query($query);
 
-						if (!$st)
+						if (isset($DEBUG['sql']))
+							echo unify_query($query);
+
+						$row = $st->fetchObject();
+
+						if ($row)
 						{
-							$error = sqlErrorInfo(__LINE__, $db, $query);
+							$previous = $row->scheduled;
+
+							if (isset($DEBUG['sql']))
+								echo "='$previous'\n";
 						}
 						else
 						{
+							$previous = NULL;
+
 							if (isset($DEBUG['sql']))
-								echo unify_query($query);
-
-							$row = $st->fetchObject();
-
-							if ($row)
 							{
-								$previous = $row->scheduled;
-
-								if (isset($DEBUG['sql']))
-									echo "='$previous'\n";
-							}
-							else
-							{
-								$previous = NULL;
-
-								if (isset($DEBUG['sql']))
-								{
-									if ('html' == $DEBUG['fmt'])
-										echo htmlspecialchars("=<empty>\n");
-									else
-										echo "=<empty>\n";
-								}
+								if ('html' == $DEBUG['fmt'])
+									echo htmlspecialchars("=<empty>\n");
+								else
+									echo "=<empty>\n";
 							}
 						}
 
@@ -1987,7 +2002,7 @@ SQL;
 							UPDATE `visits`
 							SET `num`=$num, `current`='$previous', `previous`=NULL
 							WHERE `aircraft`=$reg
-SQL;
+							SQL;
 					}
 				}
 			}
@@ -1995,19 +2010,18 @@ SQL;
 
 		if ($query)
 		{
-			if ($db->exec($query) === FALSE)
+			$db->exec($query);
+
+			if (isset($DEBUG['sql']))
 			{
-				$error = sqlErrorInfo(__LINE__, $db, $query);
-			}
-			else
-			{
-				if (isset($DEBUG['sql']))
-				{
-					echo unify_query($query);
-					echo "=OK\n";
-				}
+				echo unify_query($query);
+				echo "=OK\n";
 			}
 		}
+	}
+	catch (PDOException $ex)
+	{
+		$error = sqlErrorInfo($ex, $st);
 	}
 
 	return $error;
@@ -2031,26 +2045,28 @@ function SQL_DeleteNotifications($id, $all)
 		else
 			$cond = ' AND `notified` IS NULL';
 
-		$query = <<<SQL
-			/*[Q40]*/
-			DELETE
-			FROM `watchlist-notifications`
-			WHERE `flight`={$id}{$cond}
-SQL;
+		try
+		{
+			$error = null;
 
-		if ($db->exec($query) === FALSE)
-		{
-			$error = sqlErrorInfo(__LINE__, $db, $query);
-		}
-		else
-		{
-			$error = NULL;
+			$query = <<<SQL
+				/*[Q40]*/
+				DELETE
+				FROM `watchlist-notifications`
+				WHERE `flight`={$id}{$cond}
+				SQL;
+
+			$db->exec($query);
 
 			if (isset($DEBUG['sql']))
 			{
 				echo unify_query($query);
 				echo "=OK\n";
 			}
+		}
+		catch (PDOException $ex)
+		{
+			$error = sqlErrorInfo($ex, $st);
 		}
 	}
 
@@ -2061,85 +2077,49 @@ function SQL_FlightsToHistory()
 {
 	global $db;
 
-	$error = NULL;
+	try
+	{
+		$error = NULL;
 
-	if (!$db->beginTransaction())
-	{
-		$error = sqlErrorInfo(__LINE__, $db, "beginTransaction()");
-	}
-	else
-	{
+		$db->beginTransaction();
+
 		$query = 'CREATE TEMPORARY TABLE `move flights`(`id` integer)';
 
-		if ($db->exec($query) === FALSE)
-		{
-			$error = sqlErrorInfo(__LINE__, $db, $query);
-		}
-		else
-		{
-			$query = <<<SQL
-				/*[Q41]*/
-				INSERT INTO `move flights`
-					SELECT `id`
-					FROM `flights`
-					WHERE (DATEDIFF(NOW(), IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 2)
-					LIMIT 100
-SQL;
+		$db->exec($query);
 
-			if ($db->exec($query) === FALSE)
-			{
-				$error = sqlErrorInfo(__LINE__, $db, $query);
-			}
-			else
-			{
-				$query = <<<SQL
-					/*[Q42]*/
-					INSERT INTO `history`
-						SELECT * FROM `flights`
-							INNER JOIN `move flights` USING(`id`)
-SQL;
+		$query = <<<SQL
+			/*[Q41]*/
+			INSERT INTO `move flights`
+				SELECT `id`
+				FROM `flights`
+				WHERE (DATEDIFF(NOW(), IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 2)
+				LIMIT 100
+			SQL;
 
-				if ($db->exec($query) === FALSE)
-				{
-					$error = $db->errorInfo();
+		$db->exec($query);
 
-					// [1062] Duplicate entry 'arrival-67-511-2014-04-27 11:15:00'
-					if (1062 == $error[1])
-					{
-						if (preg_match("/(.*Duplicate entry ')([^']+)('.*)/i", $error[2], $m))
-						{
-							$result = sprintf("%s<a href='https://$_SERVER[SERVER_NAME]/".
-											  "?page=rmdup&key=%s'>%s</a>%s",
-											  $m[1],  urlencode($m[2]), $m[2], $m[3]);
-						}
-					}
+		$query = <<<SQL
+			/*[Q42]*/
+			INSERT INTO `history`
+				SELECT * FROM `flights`
+					INNER JOIN `move flights` USING(`id`)
+			SQL;
 
-					$error = sqlErrorInfo(__LINE__, $db, $query);
-				}
-				else
-				{
-					$query = <<<SQL
-						/*[Q43]*/
-						DELETE `flights` FROM `flights`
-						INNER JOIN `move flights` USING(`id`)
-SQL;
+		$db->exec($query);
 
-					if ($db->exec($query) === FALSE)
-						$error = sqlErrorInfo(__LINE__, $db, $query);
-				}
-			}
-		}
+		$query = <<<SQL
+			/*[Q43]*/
+			DELETE `flights` FROM `flights`
+			INNER JOIN `move flights` USING(`id`)
+			SQL;
+
+		$db->exec($query);
+
+		$db->commit();
 	}
-
-	if ($error)
+	catch (PDOException $ex)
 	{
-		if (!$db->rollBack())
-			$error = sqlErrorInfo(__LINE__, $db, "rollBack()");
-	}
-	else
-	{
-		if (!$db->commit())
-			$error = sqlErrorInfo(__LINE__, $db, "commit()");
+		$error = sqlErrorInfo($ex);
 	}
 
 	return $error;
@@ -2230,28 +2210,36 @@ function SendWatchlistNotification($name, $email, $fmt, $locale, $notifications)
 	}
 	else
 	{
-		$query = <<<SQL
-			/*[Q47]*/
-			UPDATE `watchlist-notifications`
-			LEFT JOIN `watchlist`
-				   ON `watchlist`.`id`=`watchlist-notifications`.`watch`
-			INNER JOIN `users`
-					ON `users`.`id`=`watchlist`.`user`
-						AND `users`.`email`='$email'
-			SET `watchlist-notifications`.`notified`='$now->atom'
-			WHERE `watchlist-notifications`.`id` IN(%s)
-SQL;
-
-		$query = sprintf($query, $update);
-
-		if (isset($DEBUG['sql']))
-			echo unify_query($query);
-
-		if ($db->exec($query) === FALSE)
-			$error = sqlErrorInfo(__LINE__, $db, $query);
-		else
+		try
+		{
 			$error = NULL;
+
+			$query = <<<SQL
+				/*[Q47]*/
+				UPDATE `watchlist-notifications`
+				LEFT JOIN `watchlist`
+					   ON `watchlist`.`id`=`watchlist-notifications`.`watch`
+				INNER JOIN `users`
+						ON `users`.`id`=`watchlist`.`user`
+							AND `users`.`email`='$email'
+				SET `watchlist-notifications`.`notified`='$now->atom'
+				WHERE `watchlist-notifications`.`id` IN(%s)
+				SQL;
+
+			$query = sprintf($query, $update);
+
+			if (isset($DEBUG['sql']))
+				echo unify_query($query);
+
+			$db->exec($query);
+		}
+		catch (PDOException $ex)
+		{
+			$error = sqlErrorInfo($ex, $st);
+		}
 	}
+
+	return $error;
 }
 
 // main()
@@ -2276,21 +2264,28 @@ if (!$error)
 		else
 			$classname = 'PDO';
 
-		$db = new $classname(sprintf("mysql:host=%s;dbname=%s;charset=utf8",
-						DB_HOSTNAME, DB_NAME),
-						DB_USERNAME, DB_PASSWORD);
+		$db = new $classname(
+			sprintf(
+				"mysql:host=%s;dbname=%s;charset=utf8",
+				DB_HOSTNAME,
+				DB_NAME
+			),
+			DB_USERNAME,
+			DB_PASSWORD,
+			[
+				PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+				PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+				PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8mb4'",
+			]
+		);
 	}
-	catch(PDOException $e)
+	catch (PDOException $ex)
 	{
-		$error = sprintf($lang['dberror'], $e->getCode());
-		// TODO: Log to file:
-		//$error = $e->getMessage();
+		$error = sqlErrorInfo($ex);
 	}
 
 	if (!$error)
 	{
-		$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_SILENT);
-
 		// Iterate through [pax,cargo] [arrival, departure] tables
 		foreach (array('P', 'C') as $type)
 		{
@@ -2537,45 +2532,43 @@ if (!$error)
 			}
 		}
 
-		/* Add watches to `watchlist-notifications` table */
-		$query = <<<SQL
-			/*[Q44]*/
-			INSERT INTO `watchlist-notifications`(`flight`, `watch`)
-
-			SELECT
-				`flights`.`id`,
-				`watchlist`.`id`
-
-			FROM
-				`watchlist`
-
-			INNER JOIN `aircrafts`
-				ON `aircrafts`.`reg` LIKE REPLACE(REPLACE(`watchlist`.`reg`, '*', '%'), '?', '_')
-				OR `aircrafts`.`reg` RLIKE REPLACE(`watchlist`.`reg`, '/', '') AND `watchlist`.`reg` LIKE '/_%/'
-
-			INNER JOIN `flights`
-				ON  `flights`.`aircraft` = `aircrafts`.`id` AND
-					`flights`.`aircraft` IS NOT NULL
-
-			LEFT JOIN `watchlist-notifications`
-				ON  `watchlist-notifications`.`watch` = `watchlist`.`id` AND
-					`watchlist-notifications`.`flight` = flights.id
-
-			WHERE
-				`watchlist`.`notify` = TRUE AND
-				`watchlist-notifications`.`flight` IS NULL AND
-				'arrival' = `flights`.`direction` AND
-				TIMESTAMPDIFF(SECOND, '$now->atom', IFNULL(flights.expected, flights.scheduled)) > 0
-
-			FOR UPDATE
-SQL;
-
-		if ($db->exec($query) === FALSE)
+		try
 		{
-			$error = sqlErrorInfo(__LINE__, $db, $query);
-		}
-		else
-		{
+			/* Add watches to `watchlist-notifications` table */
+			$query = <<<SQL
+				/*[Q44]*/
+				INSERT INTO `watchlist-notifications`(`flight`, `watch`)
+
+				SELECT
+					`flights`.`id`,
+					`watchlist`.`id`
+
+				FROM
+					`watchlist`
+
+				INNER JOIN `aircrafts`
+					ON `aircrafts`.`reg` LIKE REPLACE(REPLACE(`watchlist`.`reg`, '*', '%'), '?', '_')
+					OR `aircrafts`.`reg` RLIKE REPLACE(`watchlist`.`reg`, '/', '') AND `watchlist`.`reg` LIKE '/_%/'
+
+				INNER JOIN `flights`
+					ON  `flights`.`aircraft` = `aircrafts`.`id` AND
+						`flights`.`aircraft` IS NOT NULL
+
+				LEFT JOIN `watchlist-notifications`
+					ON  `watchlist-notifications`.`watch` = `watchlist`.`id` AND
+						`watchlist-notifications`.`flight` = flights.id
+
+				WHERE
+					`watchlist`.`notify` = TRUE AND
+					`watchlist-notifications`.`flight` IS NULL AND
+					'arrival' = `flights`.`direction` AND
+					TIMESTAMPDIFF(SECOND, '$now->atom', IFNULL(flights.expected, flights.scheduled)) > 0
+
+				FOR UPDATE
+				SQL;
+
+			$db->exec($query);
+
 			/* Check whether or which notifications are to be sent */
 			if (isset($DEBUG['sql']))
 				echo unify_query($query);
@@ -2613,84 +2606,87 @@ SQL;
 				ORDER BY
 					`email` ASC,
 					`expected` ASC
-SQL;
+				SQL;
 
 			$st = $db->query($query);
 
-			if (!$st)
+			if (isset($DEBUG['sql']))
+				echo unify_query($query);
+
+			$text = NULL;
+			$name = NULL;
+			$email = NULL;
+			$watch = NULL;
+			$fmt = NULL;
+			$lang = 'en';
+
+			$notifications = array();
+
+			$row = $st->fetchObject();
+
+			while ($row)
 			{
-				$error = sqlErrorInfo(__LINE__, $db, $query);
-			}
-			else
-			{
-				if (isset($DEBUG['sql']))
-					echo unify_query($query);
-
-				$text = NULL;
-				$name = NULL;
-				$email = NULL;
-				$watch = NULL;
-				$fmt = NULL;
-				$lang = 'en';
-
-				$notifications = array();
-
-				$row = $st->fetchObject();
-
-				while ($row)
+				if ($email != $row->email)
 				{
-					if ($email != $row->email)
+					/* We get here every time $row['email'] changes, at least */
+					/* once at the beginning, i.e. $time and $fmt will be set, */
+					/* if one row has been found  */
+					if ($email != NULL)
 					{
-						/* We get here every time $row['email'] changes, at least */
-						/* once at the beginning, i.e. $time and $fmt will be set, */
-						/* if one row has been found  */
-						if ($email != NULL)
-						{
-							/* Flush */
-							SendWatchlistNotification($name, $email, $fmt, $lang, $notifications);
-							$notifications = array();
-						}
-
-						/* Remember first ID of new email */
-						$email = $row->email;
-						$name = $row->name;
-						$fmt = $row->fmt;
-						$lang = $row->lang;
+						/* Flush */
+						SendWatchlistNotification($name, $email, $fmt, $lang, $notifications);
+						$notifications = array();
 					}
 
-					$notifications[] = array(
-							'id'       => (int)$row->id,
-							'expected' => $row->expected,
-							'flight'   => $row->flight,
-							'reg'      => $row->reg,
-							'comment'  => $row->comment,
-						);
-
-					$row = $st->fetchObject();
+					/* Remember first ID of new email */
+					$email = $row->email;
+					$name = $row->name;
+					$fmt = $row->fmt;
+					$lang = $row->lang;
 				}
 
-				if ($email)
-					SendWatchlistNotification($name, $email, $fmt, $lang, $notifications);
+				$notifications[] = array(
+						'id'       => (int)$row->id,
+						'expected' => $row->expected,
+						'flight'   => $row->flight,
+						'reg'      => $row->reg,
+						'comment'  => $row->comment,
+					);
 
-				unset($notifications);
+				$row = $st->fetchObject();
 			}
+
+			if ($email)
+				SendWatchlistNotification($name, $email, $fmt, $lang, $notifications);
+
+			unset($notifications);
+		}
+		catch (PDOException $ex)
+		{
+			$error = sqlErrorInfo($ex, $st);
 		}
 
-		/* Delete notifications for flights having been arrived prior to yesterday */
-		$query = <<<SQL
-			/*[Q46]*/
-			DELETE `watchlist-notifications`
-			FROM `watchlist-notifications`
-			INNER JOIN `flights`
-				    ON `flights`.`id`=`watchlist-notifications`.`flight`
-			WHERE (DATEDIFF('$now->atom', IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 1)
-SQL;
+		try
+		{
+			/* Delete notifications for flights having been arrived prior to yesterday */
+			$query = <<<SQL
+				/*[Q46]*/
+				DELETE `watchlist-notifications`
+				FROM `watchlist-notifications`
+				INNER JOIN `flights`
+					    ON `flights`.`id`=`watchlist-notifications`.`flight`
+				WHERE (DATEDIFF('$now->atom', IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 1)
+				SQL;
 
-		if (isset($DEBUG['sql']))
-			echo unify_query($query);
+			if (isset($DEBUG['sql']))
+				echo unify_query($query);
 
-		if ($db->exec($query) === FALSE)
-			$error = sqlErrorInfo(__LINE__, $db, $query);
+			$db->exec($query);
+		}
+		catch (PDOException $ex)
+		{
+			$error = sqlErrorInfo($ex, $st);
+		}
 
 		/* Move outdated flights to history table */
 		if (!$error)
@@ -2799,7 +2795,6 @@ if (isset($DEBUG['fmt']))
 	if ('htm'  == $DEBUG['fmt'] ||
 		'html' == $DEBUG['fmt'])
 	{
-
 ?>
 </pre>
 </body>

@@ -218,20 +218,20 @@ else
 		else
 			$classname = 'PDO';
 
-		$db = new $classname(sprintf("mysql:host=%s;dbname=%s;charset=utf8",
-						DB_HOSTNAME, DB_NAME),
-						DB_USERNAME, DB_PASSWORD,
-						[
-							PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
-							PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
-						]
-					);
+		$db = new $classname(
+			sprintf("mysql:host=%s;dbname=%s;charset=utf8mb4", DB_HOSTNAME, DB_NAME),
+			DB_USERNAME,
+			DB_PASSWORD,
+			[
+				PDO::ATTR_ERRMODE            => PDO::ERRMODE_EXCEPTION,
+				PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
+				PDO::MYSQL_ATTR_INIT_COMMAND => "SET NAMES 'utf8mb4'",
+			]
+		);
 	}
-	catch (PDOException $e)
+	catch (PDOException $ex)
 	{
-		$error = sprintf($lang['dberror'], $e->getCode());
-		// TODO: Log to file:
-		//$error = $e->getMessage();
+		$error = PDOErrorInfo($ex, $lang['dberror']);
 	}
 
 	if (!$error)

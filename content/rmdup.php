@@ -36,22 +36,21 @@ $message = NULL;
 if (isset($_POST['table']) &&
 	isset($_POST['id']))
 {
-	$query = <<<SQL
-		DELETE FROM `$_POST[table]`
-		WHERE `id`=$_POST[id]
-SQL
-;
-
-	if ($db->exec($query))
+	try
 	{
+		$query = <<<SQL
+			DELETE FROM `$_POST[table]`
+			WHERE `id`=$_POST[id]
+		SQL;
+
+		$db->exec($query);
+
 		unset($_POST);
 		$message = 'OK';
 	}
-	else
+	catch (PDOException $ex)
 	{
-		$error = $db->errorInfo();
-		$error = seterrorinfo(__LINE__,
-					sprintf("%s [%d] %s", $query, $error[1], $error[2]));
+		$error = PDOErrorInfo($ex, $lang['dberror']);
 	}
 }
 
