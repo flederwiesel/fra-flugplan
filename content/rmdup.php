@@ -38,12 +38,13 @@ if (isset($_POST['table']) &&
 {
 	try
 	{
-		$query = <<<SQL
+		$st = $db->prepare(<<<SQL
 			DELETE FROM `$_POST[table]`
-			WHERE `id`=$_POST[id]
-		SQL;
+			WHERE `id`=:id
+			SQL
+		);
 
-		$db->exec($query);
+		$st->execute(["id" => $_POST["id"]]);
 
 		unset($_POST);
 		$message = 'OK';

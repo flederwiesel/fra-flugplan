@@ -47,25 +47,27 @@ if (isset($_POST['add']) ||
 
 				if (isset($_POST['del']))
 				{
-					$query = <<<SQL
+					$stNotif = $db->prepare(<<<SQL
 						/*[Q16]*/
 						DELETE `watchlist-notifications`
 						FROM `watchlist-notifications`
-						INNER JOIN (SELECT `id` FROM `watchlist`
-									WHERE `user`=$uid
-									AND `reg`=?) AS `watchlist`
-								ON `watchlist`.`id`=`watchlist-notifications`.`watch`
-SQL;
+						INNER JOIN (
+							SELECT `id`
+							FROM `watchlist`
+							WHERE `user`=:uid
+								AND `reg`=:reg
+						) AS `watchlist`
+							ON `watchlist`.`id`=`watchlist-notifications`.`watch`
+						SQL
+					);
 
-					$st16 = $db->prepare($query);
-
-					$query = <<<SQL
+					$stWatch = $db->prepare(<<<SQL
 						/*[Q17]*/
 						DELETE FROM `watchlist`
-						WHERE `user`=$uid
-							AND `reg`=?
-SQL;
-					$st17 = $db->prepare($query);
+						WHERE `user`=:uid
+							AND `reg`=:reg
+						SQL
+					);
 
 					$del = explode("\n", $_POST['del']);
 
@@ -80,25 +82,30 @@ SQL;
 							$reg = str_replace("'", "", $reg);
 						}
 
-						$st16->execute(array($reg));
+						$stNotif->execute([
+							"uid" => $uid,
+							"reg" => $reg,
+						]);
 
-						$st17->execute(array($reg));
+						$stWatch->execute([
+							"uid" => $uid,
+							"reg" => $reg,
+						]);
 					}
 				}
 
 				if (isset($_POST['upd']))
 				{
-					$query = <<<SQL
+					$st = $db->prepare(<<<SQL
 						/*[Q20]*/
 						UPDATE `watchlist`
 						SET
 							`reg`=:new,
 							`comment`=:comment,
 							`notify`=:notify
-						WHERE `user`=$uid AND `reg`=:reg
-						SQL;
-
-					$st = $db->prepare($query);
+						WHERE `user`=:uid AND `reg`=:reg
+						SQL
+					);
 
 					$upd = explode("\n", $_POST['upd']);
 
@@ -117,18 +124,19 @@ SQL;
 						if ($notify)
 							$CheckNotifTimes = TRUE;
 
-						$st->bindValue('reg', $reg);
-						$st->bindValue('new', $new);
-						$st->bindValue('comment', $comment);
-						$st->bindValue('notify', $notify);
-
-						$st->execute();
+						$st->execute([
+							"uid" => $uid,
+							"reg" => $reg,
+							"new" => $new,
+							"comment" => $comment,
+							"notify" => $notify,
+						]);
 					}
 				}
 
 				if (isset($_POST['add']))
 				{
-					$query = <<<SQL
+					$st = $db->prepare(<<<SQL
 						/*[Q18]*/
 						INSERT INTO `watchlist`(`user`, `reg`, `comment`, `notify`)
 						VALUES(:uid, :reg, :comment, :notify)
@@ -138,9 +146,8 @@ SQL;
 							`comment` = :comment,
 							`notify` = :notify
 
-						SQL;
-
-					$st = $db->prepare($query);
+						SQL
+					);
 
 					$add = explode("\n", $_POST['add']);
 
@@ -157,12 +164,12 @@ SQL;
 							if ($notify)
 								$CheckNotifTimes = TRUE;
 
-							$st->bindValue('uid', $uid);
-							$st->bindValue('reg', $reg);
-							$st->bindValue('comment', $comment);
-							$st->bindValue('notify', $notify);
-
-							$st->execute();
+							$st->execute([
+								"uid" => $uid,
+								"reg" => $reg,
+								"comment" => $comment,
+								"notify" => $notify,
+							]);
 						}
 					}
 				}
@@ -290,20 +297,23 @@ if ($user)
 	{
 		try
 		{
-			$query = <<<SQL
+			$st = $db->prepare(<<<SQL
 				/*[Q19]*/
 				SELECT `reg`, `comment`, `notify`
 				FROM `watchlist`
 				WHERE `user`=?
 				ORDER BY `reg`
-				SQL;
+				SQL
+			);
 
-			$st = $db->prepare($query);
-
-			$st->execute(array($user->id()));
+			$st->execute([$user->id()]);
 
 			while ($row = $st->fetchObject())
-				$watch[$row->reg] = array('comment' => $row->comment, 'notify' => $row->notify);
+				$watch[$row->reg] =
+				[
+					"comment" => $row->comment,
+					"notify" => $row->notify
+				];
 		}
 		catch (PDOException $ex)
 		{
@@ -485,15 +495,9 @@ $tz = date_default_timezone_set('Europe/Berlin');
 $now = new StdClass();
 
 if (isset($_GET['time']))
-{
 	$now->iso = $_GET['time'];
-	$now->sql = "'$_GET[time]'";
-}
 else
-{
 	$now->iso = date(DATE_ISO8601);
-	$now->sql = 'NOW()';
-}
 
 /* This might be configurable in the future... */
 /* Variable: */
@@ -503,7 +507,7 @@ $columns = <<<EOF
 	`airports`.`iata` AS `airport_iata`,
 	`airports`.`icao` AS `airport_icao`,
 	`airports`.`name` AS `airport_name`,
-EOF;
+	EOF;
 
 $columns .= sprintf('`countries`.`%s` AS `country`,', 'de');	//$lang['$id']);
 
@@ -512,41 +516,46 @@ $join = 'LEFT JOIN `countries` ON `airports`.`country` = `countries`.`id`';
 /* Fixed: */
 $columns .= <<<EOF
 	IFNULL(`expected`,`scheduled`) AS `expected`,
-	 CASE
-	  WHEN `expected` IS NULL THEN 0
-	  WHEN `expected` < `scheduled` THEN -1
-	  WHEN `expected` > `scheduled` THEN 1
-	  ELSE 0 end AS `timediff`,
+	CASE
+		WHEN `expected` IS NULL THEN 0
+		WHEN `expected` < `scheduled` THEN -1
+		WHEN `expected` > `scheduled` THEN 1
+		ELSE 0 end AS `timediff`,
 	`airlines`.`code` AS `fl_airl`,
 	`flights`.`code` AS `fl_code`,
 	`models`.`icao` AS `model`,
 	`aircrafts`.`reg` AS `reg`,
 	`visits`.`num` AS `vtf`
-EOF;
+	EOF;
 
 $query = <<<EOF
 	/*[Q20]*/
 	SELECT $columns
 	FROM `flights`
-	 LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id`
-	 LEFT JOIN `airports` ON `flights`.`airport` = `airports`.`id`
-	 LEFT JOIN `models` ON `flights`.`model` = `models`.`id`
-	 LEFT JOIN `aircrafts` ON `flights`.`aircraft` = `aircrafts`.`id`
-	 LEFT JOIN `visits` ON `flights`.`aircraft` = `visits`.`aircraft`
-	 $join
-	WHERE `flights`.`direction`='$dir'
-	 AND TIMESTAMPDIFF(SECOND, {$now->sql}, IFNULL(`expected`, `scheduled`)) >= $lookback
-	 AND TIMESTAMPDIFF(SECOND, {$now->sql}, IFNULL(`expected`, `scheduled`)) <= $lookahead
+		LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id`
+		LEFT JOIN `airports` ON `flights`.`airport` = `airports`.`id`
+		LEFT JOIN `models` ON `flights`.`model` = `models`.`id`
+		LEFT JOIN `aircrafts` ON `flights`.`aircraft` = `aircrafts`.`id`
+		LEFT JOIN `visits` ON `flights`.`aircraft` = `visits`.`aircraft`
+		$join
+	WHERE `flights`.`direction`=:dir
+		AND TIMESTAMPDIFF(SECOND, :now, IFNULL(`expected`, `scheduled`)) >= :lookback
+		AND TIMESTAMPDIFF(SECOND, :now, IFNULL(`expected`, `scheduled`)) <= :lookahead
 	ORDER BY `expected` ASC, `airlines`.`code`, `flights`.`code`;
-EOF;
+	EOF;
 
 if ($db)
 {
 	try
 	{
-		$st = $db->query($query);
+		$st = $db->prepare($query);
 
-		$st->execute();
+		$st->execute([
+			"dir" => $dir,
+			"now" => $now->iso,
+			"lookback" => $lookback,
+			"lookahead" => $lookahead,
+		]);
 
 		while ($row = $st->fetchObject())
 		{

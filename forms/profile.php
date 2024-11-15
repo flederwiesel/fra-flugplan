@@ -148,24 +148,23 @@ if ('dispinterval' == $item)
 			{
 				try
 				{
-					$query = <<<SQL
+					$st = $db->prepare(<<<SQL
 						UPDATE `users`
 						SET `tm-`=:tmm,
 							`tm+`=:tmp,
 							`tt-`=:ttm,
 							`tt+`=:ttp
 						WHERE `id`=:uid
-						SQL;
+						SQL
+					);
 
-					$st = $db->prepare($query);
-
-					$st->bindValue(':tmm', $_POST['tm-']);
-					$st->bindValue(':tmp', $_POST['tm+']);
-					$st->bindValue(':ttm', $_POST['tt-']);
-					$st->bindValue(':ttp', $_POST['tt+']);
-					$st->bindValue(':uid', $user->id());
-
-					$st->execute();
+					$st->execute([
+						"tmm" => $_POST['tm-'],
+						"tmp" => $_POST['tm+'],
+						"ttm" => $_POST['tt-'],
+						"ttp" => $_POST['tt+'],
+						"uid" => $user->id(),
+					]);
 
 					$user->opt('tm-', $_POST['tm-']);
 					$user->opt('tm+', $_POST['tm+']);
@@ -292,29 +291,27 @@ if ('notifinterval' == $item)
 				{
 					try
 					{
-						$query = <<<SQL
+						$st = $db->prepare(<<<SQL
 							UPDATE `users`
 							SET `notification-from`=:from,
 								`notification-until`=:until,
 								`notification-timefmt`=:fmt
 							WHERE `id`=:uid
-							SQL;
+							SQL
+						);
 
-						$st = $db->prepare($query);
-
-						$st->bindValue(':from', $_POST['from']);
-						$st->bindValue(':until', $_POST['until']);
-						$st->bindValue(':fmt', $_POST_timefmt ? "'$_POST_timefmt'" : NULL);
-						$st->bindValue(':uid', $user->id());
-
-						$st->execute();
+						$st->execute([
+							"from" => $_POST['from'],
+							"until" => $_POST['until'],
+							"fmt" => $_POST_timefmt,
+							"uid" => $user->id(),
+						]);
 
 						$user->opt('notification-from', $_POST['from']);
 						$user->opt('notification-until', $_POST['until']);
 						$user->opt('notification-timefmt', $_POST_timefmt);
 
-						$message = "$lang[settingsssaved] ".
-									sprintf($lang['strftime-true'], $time);
+						$message = "$lang[settingsssaved] " . sprintf($lang['strftime-true'], $time);
 					}
 					catch (PDOException $ex)
 					{
@@ -452,18 +449,17 @@ else if ('photodb' == $item)
 			{
 				try
 				{
-					$query = <<<SQL
+					$st = $db->prepare(<<<SQL
 						UPDATE `users`
 						SET `photodb`=:photodb
 						WHERE `id`=:uid
-						SQL;
+						SQL
+					);
 
-					$st = $db->prepare($query);
-
-					$st->bindValue(':photodb', $_POST['photodb']);
-					$st->bindValue(':uid', $user->id());
-
-					$st->execute();
+					$st->execute([
+						"photodb" => $_POST['photodb'],
+						"uid" => $user->id(),
+					]);
 
 					$user->opt('photodb', $_POST['photodb']);
 
