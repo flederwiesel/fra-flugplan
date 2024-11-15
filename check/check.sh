@@ -22,6 +22,8 @@
 export debug=0
 export verbose=0
 
+copy_scsripts=
+
 declare -A argv=()
 
 while [ $# -gt 0 ]
@@ -30,6 +32,9 @@ do
 		'--help')
 			echo -e "\033[1;37m${0}\033[m\n"
 			exit 1
+			;;
+		'--copy-scripts')
+			copy_scsripts=1
 			;;
 		'-d') ;&
 		'--debug')
@@ -301,8 +306,10 @@ do
 					mv "$results/mail-utf-8.txt" "$results/mail.txt"
 				fi
 
-				# Copy referenced scripts to properly view results
-				cp -al ../css ../img ../script "$results"
+				if [[ $copy_scsripts ]]; then
+					# Copy referenced scripts to properly view results
+					cp -al ../css ../img ../script "$results"
+				fi
 
 				diff=$(diff "$expect" "$results" \
 					--brief \
