@@ -509,6 +509,13 @@ abstract class FlightStatus
 	const DEPARTED = 4;
 }
 
+abstract class VisitsToFra
+{
+	const DEC = -1;
+	const NOP =  0;
+	const INC =  1;
+}
+
 class airline
 {
 	public $id;
@@ -1902,7 +1909,7 @@ function SQL_UpdateVisitsToFra($scheduled, $aircraft, $op)
 					echo "=<empty>\n";
 			}
 
-			if (-1 == $op)	// "annulliert"
+			if (VisitsToFra::DEC == $op)	// "annulliert"
 			{
 				warn_once(__LINE__, "No visits found for '{$aircraft}'.");
 			}
@@ -1940,7 +1947,7 @@ function SQL_UpdateVisitsToFra($scheduled, $aircraft, $op)
 				echo "=$num,'$current',$prev\n";
 			}
 
-			if (1 == $op)
+			if (VisitsToFra::INC == $op)
 			{
 				if (strtotime($scheduled) <= strtotime($current))
 				{
@@ -2514,13 +2521,13 @@ if (!$error)
 						}
 						else
 						{
-							$visits = 0;
+							$visits = VisitsToFra::NOP;
 
 							if (FlightStatus::CANCELLED == $f->status)
 							{
 								if ($f->id)
 								{
-									$visits = -1;
+									$visits = VisitsToFra::DEC;
 
 									/* Delete from `watchlist-notifications` first, which uses
 									   `flights`.`is` a foreign key... */
@@ -2533,7 +2540,7 @@ if (!$error)
 							{
 								if (0 == $f->id)
 								{
-									$visits = 1;
+									$visits = VisitsToFra::INC;
 									$error = SQL_InsertFlight($type, $dir, $f);
 								}
 								else
@@ -2545,7 +2552,7 @@ if (!$error)
 										if (NULL == $ac)
 										{
 											if ('arrival' == $dir)
-												$visits = 1;
+												$visits = VisitsToFra::INC;
 										}
 										else
 										{
@@ -2553,9 +2560,9 @@ if (!$error)
 											{
 												if ('arrival' == $dir)
 												{
-													SQL_UpdateVisitsToFra($f->scheduled, $ac, -1);
+													SQL_UpdateVisitsToFra($f->scheduled, $ac, VisitsToFra::DEC);
 
-													$visits = 1;	/* for $f->aircraft */
+													$visits = VisitsToFra::INC;	/* for $f->aircraft */
 												}
 
 												SQL_DeleteNotifications($f->id, false);
