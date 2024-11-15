@@ -75,13 +75,6 @@ if (isset($_POST['add']) ||
 					{
 						$reg = strtoupper(trim($reg));
 
-						if (!get_magic_quotes_gpc())
-						{
-							// escape backslashes and single quotes
-							$reg = str_replace("\\", "", $reg);
-							$reg = str_replace("'", "", $reg);
-						}
-
 						$stNotif->execute([
 							"uid" => $uid,
 							"reg" => $reg,
