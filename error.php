@@ -14,11 +14,6 @@
  *
  ******************************************************************************/
 
-if ('localhost' == $_SERVER['SERVER_NAME'])
-	error_reporting(E_ALL | E_NOTICE);
-else
-	error_reporting(0);
-
 mb_internal_encoding('UTF-8');
 
 require_once '.config';

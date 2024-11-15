@@ -18,11 +18,6 @@ require_once '.config';
 require_once 'classes/etc.php';
 require_once 'classes/sql-xpdo.php';
 
-if (defined('DEBUG'))
-	error_reporting(E_ALL | E_NOTICE);
-else
-	error_reporting(0);
-
 mb_internal_encoding('UTF-8');
 
 $jqueryui = 'jquery-ui-1.10.3';

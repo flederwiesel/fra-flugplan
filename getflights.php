@@ -26,8 +26,6 @@
 
 $script_start = microtime(TRUE);
 
-error_reporting(E_ALL | E_STRICT);
-
 mb_internal_encoding('UTF-8');
 
 ini_set('max_execution_time', 180);
