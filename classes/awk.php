@@ -26,9 +26,9 @@ class awkrule
 	/* Those should be protected, but since there are no
 	 * friend classes, leave them public for the pure
 	 * reason of greater speed over access functions */
-	public $start    = NULL;
-	public $fin      = NULL;
-	public $action   = NULL;
+	public $start    = null;
+	public $fin      = null;
+	public $action   = null;
 	public $underway = false;
 
 	function __construct($regex, $action)
@@ -50,7 +50,7 @@ class awkrule
 
 class awk
 {
-	function __construct($rules, $FS = NULL, $RS = NULL)
+	function __construct($rules, $FS = null, $RS = null)
 	{
 		foreach ($rules as $regex => $action)
 			$this->rules[] = new awkrule($regex, $action);
@@ -123,7 +123,7 @@ class awk
 	protected $FS = " ";
 	protected $RS = "\n";
 
-	private $rules = NULL;
+	private $rules = null;
 	private $next = false;
 
 };

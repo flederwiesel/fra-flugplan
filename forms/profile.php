@@ -122,10 +122,10 @@ if ('notifinterval' == $item)
 });
 </script>
 <ul class="menu left">
-	<li><?php navitem('dispinterval', 'dispinterval' == $item ? NULL : '?req=profile&amp;dispinterval'); ?></li>
-	<li class="sep"><?php navitem('notifinterval', 'notifinterval' == $item ? NULL : '?req=profile&amp;notifinterval'); ?></li>
-	<li class="sep"><?php navitem('photodb', 'photodb' == $item ? NULL : '?req=profile&amp;photodb'); ?></li>
-	<li class="sep"><?php navitem('changepw', 'changepw' == $item ? NULL : '?req=profile&amp;changepw'); ?></li>
+	<li><?php navitem('dispinterval', 'dispinterval' == $item ? null : '?req=profile&amp;dispinterval'); ?></li>
+	<li class="sep"><?php navitem('notifinterval', 'notifinterval' == $item ? null : '?req=profile&amp;notifinterval'); ?></li>
+	<li class="sep"><?php navitem('photodb', 'photodb' == $item ? null : '?req=profile&amp;photodb'); ?></li>
+	<li class="sep"><?php navitem('changepw', 'changepw' == $item ? null : '?req=profile&amp;changepw'); ?></li>
 </ul>
 <div style="clear: both;">
 <?php
@@ -256,24 +256,24 @@ if ('notifinterval' == $item)
 			{
 				if (!isset($_POST['timefmt']))
 				{
-					$_POST_timefmt = NULL;
+					$_POST_timefmt = null;
 				}
 				else
 				{
 					if (!$_POST['timefmt'])
 					{
-						$_POST_timefmt = NULL;
+						$_POST_timefmt = null;
 					}
 					else
 					{
 						if (0 == strlen($_POST['timefmt']))
-							$_POST_timefmt = NULL;
+							$_POST_timefmt = null;
 						else
 							$_POST_timefmt = $_POST['timefmt'];
 					}
 				}
 
-				if (NULL == $_POST_timefmt)
+				if (null == $_POST_timefmt)
 				{
 					$time = strftime('+0 %H:%M');
 				}
@@ -283,7 +283,7 @@ if ('notifinterval' == $item)
 					$time = strftime($timefmt);
 				}
 
-				if (FALSE === $time)
+				if (false === $time)
 				{
 					$error = sprintf($lang['strftime-false'], $_POST_timefmt);
 				}

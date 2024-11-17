@@ -30,8 +30,8 @@ function seterrorinfo($line, $info)
  *
  ******************************************************************************/
 
-$error = NULL;
-$message = NULL;
+$error = null;
+$message = null;
 
 if (isset($_POST['table']) &&
 	isset($_POST['id']))

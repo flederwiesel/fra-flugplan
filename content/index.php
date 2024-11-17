@@ -14,8 +14,8 @@
  *
  ******************************************************************************/
 
-$error = NULL;
-$message = NULL;
+$error = null;
+$message = null;
 
 include 'photodb.php';
 
@@ -43,7 +43,7 @@ if (isset($_POST['add']) ||
 
 				// If at least one notification is set active,
 				// warn if notification times need to be set
-				$CheckNotifTimes = FALSE;
+				$CheckNotifTimes = false;
 
 				if (isset($_POST['del']))
 				{
@@ -115,7 +115,7 @@ if (isset($_POST['add']) ||
 						$notify = trim($notify);
 
 						if ($notify)
-							$CheckNotifTimes = TRUE;
+							$CheckNotifTimes = true;
 
 						$st->execute([
 							"uid" => $uid,
@@ -155,7 +155,7 @@ if (isset($_POST['add']) ||
 							$notify = trim($notify);
 
 							if ($notify)
-								$CheckNotifTimes = TRUE;
+								$CheckNotifTimes = true;
 
 							$st->execute([
 								"uid" => $uid,
@@ -622,7 +622,7 @@ if ($db)
 
 			$reg = $row->reg;
 			$vtf = $row->vtf ? $row->vtf : '9999';
-			$hilite = NULL;
+			$hilite = null;
 
 			if (0 == strlen($reg))
 			{
@@ -673,7 +673,7 @@ if ($db)
 				}
 			}
 
-			$href = NULL;
+			$href = null;
 
 			if (!$reg)
 			{

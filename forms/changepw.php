@@ -42,8 +42,8 @@
 		{
 			if ($_POST['submit'] != 'changepw')
 			{
-				$error = NULL;
-				$message = NULL;
+				$error = null;
+				$message = null;
 			}
 		}
 

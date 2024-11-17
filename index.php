@@ -195,7 +195,7 @@ else
  * initialise variables
  ******************************************************************************/
 
-$db = NULL;
+$db = null;
 $error = null;
 $message = null;
 $user = null;

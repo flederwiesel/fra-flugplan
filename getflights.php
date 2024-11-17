@@ -24,7 +24,7 @@
  *
  ******************************************************************************/
 
-$script_start = microtime(TRUE);
+$script_start = microtime(true);
 
 mb_internal_encoding('UTF-8');
 
@@ -69,9 +69,9 @@ else
 
 /* Initialise variables */
 
-$errorinfo = NULL;
-$warning = NULL;
-$info = NULL;
+$errorinfo = null;
+$warning = null;
+$info = null;
 
 $tz = date_default_timezone_set('Europe/Berlin');
 
@@ -541,12 +541,12 @@ class airport
 	public $name;
 	public $country;
 
-	public function __construct($iata = NULL)
+	public function __construct($iata = null)
 	{
 		$this->id = null;
 		$this->iata = $iata;
-		$this->icao = NULL;
-		$this->name = NULL;
+		$this->icao = null;
+		$this->name = null;
 		$this->country = (object) [ 'id' => 0, 'name' => '' ];
 	}
 }
@@ -557,11 +557,11 @@ class aircrafttype
 	public $icao;
 	public $name;
 
-	public function __construct($icao = NULL)
+	public function __construct($icao = null)
 	{
 		$this->id = null;
 		$this->icao = $icao;
-		$this->name = NULL;
+		$this->name = null;
 	}
 }
 
@@ -623,7 +623,7 @@ function CURL_GetAirline(/* in */ $curl, /* in/out */ &$airline)
 	global $DEBUG;
 	global $prefix;
 
-	$error = NULL;
+	$error = null;
 	$url = "https://${prefix}www.frankfurt-airport.com/de/_jcr_content.airlines.json";
 
 	if (isset($DEBUG['url']))
@@ -664,14 +664,14 @@ function CURL_GetAirline(/* in */ $curl, /* in/out */ &$airline)
 		{
 			$obj = json_decode($json);
 
-			if (NULL == $obj)
+			if (null == $obj)
 			{
 				$error = seterrorinfo(__LINE__, "json_decode($json)");
 				$result = -1;
 			}
 			else
 			{
-				$error = NULL;
+				$error = null;
 
 				foreach ($obj->data as $idx => $value)
 				{
@@ -735,7 +735,7 @@ function CURL_GetAirport(/* in */ $curl, /* in/out */ &$airport)
 				$countries["$alias"] = $countries["$name"];
 		}
 
-		$error = NULL;
+		$error = null;
 		$url = "https://${prefix}www.frankfurt-airport.com/de/_jcr_content.airports.json";
 
 		if (isset($DEBUG['url']))
@@ -775,14 +775,14 @@ function CURL_GetAirport(/* in */ $curl, /* in/out */ &$airport)
 			{
 				$obj = json_decode($json);
 
-				if (NULL == $obj)
+				if (null == $obj)
 				{
 					$error = seterrorinfo(__LINE__, "json_decode($json)");
 					$result = -1;
 				}
 				else
 				{
-					$error = NULL;
+					$error = null;
 
 					foreach ($obj->data as $idx => $value)
 					{
@@ -825,7 +825,7 @@ function CURL_GetAircraftType(/* in */ $curl, /* in/out */ &$aircraft)
 	global $DEBUG;
 	global $prefix;
 
-	$error = NULL;
+	$error = null;
 	$url = "https://${prefix}www.frankfurt-airport.com/de/_jcr_content.aircrafts.json";
 
 	if (isset($DEBUG['url']))
@@ -865,14 +865,14 @@ function CURL_GetAircraftType(/* in */ $curl, /* in/out */ &$aircraft)
 		{
 			$obj = json_decode($json);
 
-			if (NULL == $obj)
+			if (null == $obj)
 			{
 				$error = seterrorinfo(__LINE__, "json_decode($json)");
 				$result = -1;
 			}
 			else
 			{
-				$error = NULL;
+				$error = null;
 
 				foreach ($obj->data as $idx => $value)
 				{
@@ -1020,7 +1020,7 @@ function JSON_InterpretFlights(/*in*/ $dir, /*in*/ $json, /*in*/ $defer,
 
 	$obj = json_decode($json, false);
 
-	if (NULL == $obj)
+	if (null == $obj)
 	{
 		$error = seterrorinfo(__LINE__, "json_decode($json)");
 		$result = -1;
@@ -1132,10 +1132,10 @@ function JSON_InterpretFlights(/*in*/ $dir, /*in*/ $json, /*in*/ $defer,
 										isset($jflight->alname) ? $jflight->alname : '???',
 										preg_replace('/[^ ]+ /', '', $jflight->fnr),
 										$jflight->sched,
-										isset($jflight->esti) ? $jflight->esti : NULL,
-										isset($jflight->ac) ? $jflight->ac : NULL,
-										isset($jflight->reg) ? patchreg($jflight->reg) : NULL,
-										isset($jflight->iata) ? $jflight->iata : NULL,
+										isset($jflight->esti) ? $jflight->esti : null,
+										isset($jflight->ac) ? $jflight->ac : null,
+										isset($jflight->reg) ? patchreg($jflight->reg) : null,
+										isset($jflight->iata) ? $jflight->iata : null,
 										$jflight->status,
 										$jflight->lu);
 
@@ -1172,7 +1172,7 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 		$time = urlencode($time);
 		$current = $start;
 		$page = 1;
-		$error = NULL;
+		$error = null;
 
 		while ($current < $start + 84600 && $page > 0)
 		{
@@ -1276,7 +1276,7 @@ function SQL_GetAirline(/* in/out */ &$airline)
 
 	try
 	{
-		$error = NULL;
+		$error = null;
 
 		// Is airline already in database?
 		$st = $db->prepare(<<<SQL
@@ -1698,7 +1698,7 @@ function SQL_GetFlightDetails(/* in */ $dir, /* in */ $f, /* out */ &$id, /* out
 
 		$row = $st->fetchObject();
 
-		if (FALSE == $row)
+		if (false == $row)
 		{
 			if (isset($DEBUG['sql']))
 			{
@@ -1711,7 +1711,7 @@ function SQL_GetFlightDetails(/* in */ $dir, /* in */ $f, /* out */ &$id, /* out
 		else
 		{
 			$id = (int)$row->id;
-			$ac = $row->aircraft ? (int)$row->aircraft : NULL;
+			$ac = $row->aircraft ? (int)$row->aircraft : null;
 			$lu = $row->{'last update'};
 
 			if (isset($DEBUG['sql']))
@@ -1943,7 +1943,7 @@ function SQL_UpdateVisitsToFra($scheduled, $aircraft, $op)
 			$num = (int)$row->num;
 			$current = $row->current;
 			$previous = $row->previous;
-			$row = NULL;
+			$row = null;
 
 			if (isset($DEBUG['sql']))
 			{
@@ -2143,7 +2143,7 @@ function SQL_FlightsToHistory()
 
 	try
 	{
-		$error = NULL;
+		$error = null;
 
 		$db->beginTransaction();
 
@@ -2209,7 +2209,7 @@ function SendWatchlistNotification($name, $email, $fmt, $locale, $notifications)
 
 	$today = mktime_c(gmstrftime('%d.%m.%Y', $now->time_t));
 
-	if (NULL == $fmt)
+	if (null == $fmt)
 		$fmt = '%+ %H:%M';
 
 	$n = 0;
@@ -2259,7 +2259,7 @@ function SendWatchlistNotification($name, $email, $fmt, $locale, $notifications)
 
 	if (!mail($to, $subject, $text, $header))
 	{
-		$error = seterrorinfo(0, NULL);
+		$error = seterrorinfo(0, null);
 	}
 	else
 	{
@@ -2305,7 +2305,7 @@ function SendWatchlistNotification($name, $email, $fmt, $locale, $notifications)
 
 // main()
 
-$error = NULL;
+$error = null;
 
 try
 {
@@ -2553,7 +2553,7 @@ if (!$error)
 
 									if (!$error)
 									{
-										if (NULL == $ac)
+										if (null == $ac)
 										{
 											if ('arrival' == $dir)
 												$visits = VisitsToFra::INC;
@@ -2693,11 +2693,11 @@ if (!$error)
 			if (isset($DEBUG['sql']))
 				echo unify_query($st->queryString);
 
-			$text = NULL;
-			$name = NULL;
-			$email = NULL;
-			$watch = NULL;
-			$fmt = NULL;
+			$text = null;
+			$name = null;
+			$email = null;
+			$watch = null;
+			$fmt = null;
 			$lang = 'en';
 
 			$notifications = [];
@@ -2711,7 +2711,7 @@ if (!$error)
 					/* We get here every time $row['email'] changes, at least */
 					/* once at the beginning, i.e. $time and $fmt will be set, */
 					/* if one row has been found  */
-					if ($email != NULL)
+					if ($email != null)
 					{
 						/* Flush */
 						SendWatchlistNotification($name, $email, $fmt, $lang, $notifications);
@@ -2869,7 +2869,7 @@ if (isset($DEBUG['any']))
 	echo "\n\n=== fin. ===\n";
 
 fin:
-//printf("\ntotal duration: %f\n", microtime(TRUE) - $script_start);
+//printf("\ntotal duration: %f\n", microtime(true) - $script_start);
 
 if (isset($DEBUG['fmt']))
 {

@@ -204,19 +204,19 @@ class User
 	public function email() { return $this->email; }
 	public function timezone() { return $this->timezone; }
 
-	public function language($lang = NULL)
+	public function language($lang = null)
 	{
-		if (NULL == $lang)
+		if (null == $lang)
 			return $this->lang;
 		else
 			$this->lang = $lang;
 
-		 return NULL;
+		 return null;
 	}
 
 	public function IsMemberOf($group) { return in_array($group, $this->groups); }
 
-	public function opt($name, $value = NULL)
+	public function opt($name, $value = null)
 	{
 		if (null == $value)
 		{
@@ -229,7 +229,7 @@ class User
 			return $value;
 		}
 
-		 return NULL;
+		 return null;
 	}
 }
 
@@ -469,14 +469,14 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 {
 	global $lang;
 
- 	$suspicion = NULL;
+ 	$suspicion = null;
 	$curl = new curl();
 
 	if ($curl)
 	{
 		/* We need to save 'stopforumspam' in the session, as the POST
 		 will not contain the value initially set in the GET... */
-		$stopforumspam = isset($_SESSION['stopforumspam']) ? urldecode("$_SESSION[stopforumspam]/") : NULL;
+		$stopforumspam = isset($_SESSION['stopforumspam']) ? urldecode("$_SESSION[stopforumspam]/") : null;
 		$stopforumspam = "https://${stopforumspam}api.stopforumspam.org/api?".
 						 "f=json".($ipaddr ? "&ip=$ipaddr" : "").
 						 "&email=".urlencode($email).
@@ -598,7 +598,7 @@ function /* char *error */ RegisterUser($db, /* __out */ &$message)
 		$_SESSION['stopforumspam'] = $_GET['stopforumspam'];
 
 	// Get remote IP address.
-	$ipaddr = NULL;
+	$ipaddr = null;
 	// First try proxy
 	if (isset($_SERVER['HTTP_X_REAL_IP']))
 	{
@@ -829,9 +829,9 @@ function /* char *error */ ActivateUser($db, /* __out */ &$message)
 {
 	global $lang;
 
-	$error = NULL;
-	$message = NULL;
-	$user = NULL;
+	$error = null;
+	$message = null;
+	$user = null;
 
 	if (isset($_GET['user']))	/* from email link */
 	{
@@ -885,7 +885,7 @@ function /* char *error */ ActivateUser($db, /* __out */ &$message)
 
 			if (!$error)
 			{
-				$token = NULL;
+				$token = null;
 				$message = $lang['activationsuccess'];
 
 				$_GET['req'] = 'login';	// Form to be displayed next
@@ -898,7 +898,7 @@ function /* char *error */ ActivateUser($db, /* __out */ &$message)
 	{
 		if (!isset($token))
 		{
-			$token = NULL;
+			$token = null;
 		}
 		else
 		{
@@ -947,11 +947,11 @@ function /* char *error */ ActivateUserSql($db, $user, $token)
 			$now = $row->now;
 
 			if ('none' == $row->token_type ||
-				NULL == $row->token ||
-				NULL == $row->expires)
+				null == $row->token ||
+				null == $row->expires)
 			{
 				// Already activated, silently accept re-activation
-				$token = NULL;
+				$token = null;
 			}
 			else
 			{
@@ -971,7 +971,7 @@ function /* char *error */ ActivateUserSql($db, $user, $token)
 
 		if (!$error)
 		{
-			if (NULL == $token)
+			if (null == $token)
 			{
 				// Already activated, silently accept re-activation
 			}
@@ -1010,12 +1010,12 @@ function /* char *error */ RequestPasswordToken($db, /* __out */ &$message)
 {
 	global $lang;
 
-	$error = NULL;
-	$message = NULL;
+	$error = null;
+	$message = null;
 
 	// ToDo: trim($_POST[]) and issue warning, if trimmed
-	$user  = isset($_POST['user'])  ? $_POST['user']  : (isset($_GET['user'])  ? $_GET['user']  : NULL);
-	$email = isset($_POST['email']) ? $_POST['email'] : (isset($_GET['email']) ? $_GET['email'] : NULL);
+	$user  = isset($_POST['user'])  ? $_POST['user']  : (isset($_GET['user'])  ? $_GET['user']  : null);
+	$email = isset($_POST['email']) ? $_POST['email'] : (isset($_GET['email']) ? $_GET['email'] : null);
 
 	if ($user || $email)	/* else: no post, just display form */
 	{
@@ -1059,7 +1059,7 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 	if ($user)
 	{
 		if (0 == strlen($user))
-			$user =NULL;
+			$user = null;
 		else
 			$where = "`name`=:user";
 	}
@@ -1068,7 +1068,7 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 	{
 		if (0 == strlen($email))
 		{
-			$email = NULL;
+			$email = null;
 		}
 		else
 		{

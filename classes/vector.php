@@ -37,7 +37,7 @@ class vector
 	{
 		if (0 == $this->c)
 		{
-			$elem = NULL;
+			$elem = null;
 		}
 		else
 		{
@@ -51,7 +51,7 @@ class vector
 	public function get($n)
 	{
 		if ($n < 0 || $this->c <= $n)
-			return NULL;
+			return null;
 		else
 			return $this->v[$n];
 	}

@@ -36,11 +36,11 @@ function compare_sched($a, $b)
 
 // main()
 
-$dir = NULL;
-$now = NULL;
+$dir = null;
+$now = null;
 $page = 1;
 $items = 3;
-$html = FALSE;
+$html = false;
 
 if (isset($_GET['cargo']))
 	die('{"type":"arrival","luops":"0000-00-00T00:00:00+0100","lusaison":"0000-00-00T00:00:00+0100","results":0,"entriesperpage":0,"maxpage":0,"page":0}');	// for now ...
@@ -48,7 +48,7 @@ if (isset($_GET['cargo']))
 if (isset($_GET['fmt']))
 {
 	if ('html' == $_GET['fmt'])
-		$html = TRUE;
+		$html = true;
 }
 
 if (isset($_GET['flighttype']))
@@ -111,7 +111,7 @@ if ($dir && $now && $page > 0)
 			if (preg_match('/.*\.csv$/i', $file))
 			{
 				/* Description of the csv */
-				$keys = NULL;
+				$keys = null;
 				$lines = file("flights/$dir/$file");
 
 				foreach ($lines as $line)
@@ -127,7 +127,7 @@ if ($dir && $now && $page > 0)
 					}
 					else
 					{
-						if (NULL == $keys)
+						if (null == $keys)
 						{
 							printf("%s(%u): No keys to index array.\n", __FILE__, __LINE__);
 							break;
@@ -158,7 +158,7 @@ if ($dir && $now && $page > 0)
 
 									/* Adjust sched */
 									$d = strtok($flight['sched'], ' ');
-									$t = strtok(NULL);
+									$t = strtok(null);
 
 									$flight['sched'] = date(DATE_ISO8601, strtotime("$d days $t", $now));
 
@@ -170,7 +170,7 @@ if ($dir && $now && $page > 0)
 									else
 									{
 										$d = strtok($flight['esti'], ' ');
-										$t = strtok(NULL);
+										$t = strtok(null);
 
 										$flight['esti'] = date(DATE_ISO8601, strtotime("$d days $t", $now));
 									}

@@ -24,7 +24,7 @@ class xPDO
 {
 	protected $pdo;
 
-	public function __construct($dsn, $user=NULL, $pass=NULL, $driver_options=NULL)
+	public function __construct($dsn, $user = null, $pass = null, $driver_options = null)
 	{
 		$this->pdo = new PDO($dsn, $user, $pass, $driver_options);
 	}
@@ -40,7 +40,7 @@ class xPDO
 
 		$args = func_get_args();
 		$pdos = call_user_func_array([&$this->pdo, 'prepare'], $args);
-		$expl = NULL;
+		$expl = null;
 
 		foreach ($args as &$arg)
 		{
@@ -61,7 +61,7 @@ class xPDO
 	{
 		global $ExplainSQL;
 
-		$expl = NULL;
+		$expl = null;
 		$args = func_get_args();
 		$pdos = call_user_func_array([&$this->pdo, 'query'], $args);
 
@@ -133,25 +133,25 @@ class xPDOStatement
 		if ('fetch'       == $func ||
 			'fetchObject' == $func)
 		{
-			if ($result !== FALSE)
+			if ($result !== false)
 			{
 				explain($this->expl);
-				$this->expl = NULL;
+				$this->expl = null;
 			}
 		}
 
 		if ('bindValue' == $func)
 		{
-			if ($result !== FALSE)
+			if ($result !== false)
 				$result = call_user_func_array([&$this->expl, $func], $args);
 		}
 
 		return $result;
 	}
 
-	public function bindColumn($column, &$param, $type=NULL)
+	public function bindColumn($column, &$param, $type = null)
 	{
-		if ($type === NULL)
+		if ($type === null)
 		{
 			$this->pdos->bindColumn($column, $param);
 
@@ -167,9 +167,9 @@ class xPDOStatement
 		}
 	}
 
-	public function bindParam($column, &$param, $type=NULL)
+	public function bindParam($column, &$param, $type = null)
 	{
-		if ($type === NULL)
+		if ($type === null)
 		{
 			$this->pdos->bindParam($column, $param);
 
@@ -249,9 +249,9 @@ END;
 	}
 }
 
-function errorInfo($obj, $query = NULL)
+function errorInfo($obj, $query = null)
 {
-	if (NULL == $query)
+	if (null == $query)
 		if ('xPDOStatement' == get_class($obj))
         	$query = $obj->queryString;
 

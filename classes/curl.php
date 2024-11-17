@@ -157,14 +157,14 @@ class curl
 				curl_setopt($this->me, CURLOPT_CAINFO, $cacerts);
 
 			// Now can securely connect with proper verification
-			curl_setopt($this->me, CURLOPT_SSL_VERIFYPEER, TRUE);
+			curl_setopt($this->me, CURLOPT_SSL_VERIFYPEER, true);
 			curl_setopt($this->me, CURLOPT_SSL_VERIFYHOST, 2);
 
 			// Should cURL return or print out the data? (true = return, false = print)
-			curl_setopt($this->me, CURLOPT_RETURNTRANSFER, TRUE);
+			curl_setopt($this->me, CURLOPT_RETURNTRANSFER, true);
 
-			curl_setopt($this->me, CURLOPT_COOKIESESSION, TRUE);	// start new cookie "session"
-			curl_setopt($this->me, CURLOPT_FRESH_CONNECT, FALSE);
+			curl_setopt($this->me, CURLOPT_COOKIESESSION, true);	// start new cookie "session"
+			curl_setopt($this->me, CURLOPT_FRESH_CONNECT, false);
 
 			// Timeout in seconds
 			curl_setopt($this->me, CURLOPT_CONNECTTIMEOUT, 10);

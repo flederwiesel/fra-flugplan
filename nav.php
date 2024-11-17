@@ -80,11 +80,11 @@ function navitem($item, $href)
 			if ('arrival' == $dir)
 			{
 ?>
-			<li class="sep"><?php navitem('arrival', NULL); ?></li>
+			<li class="sep"><?php navitem('arrival', null); ?></li>
 			<li class="sep"><?php navitem('departure', '?departure'); ?></li>
 <?php } else { ?>
 			<li class="sep"><?php navitem('arrival', '?arrival'); ?></li>
-			<li class="sep"><?php navitem('departure', NULL); ?></li>
+			<li class="sep"><?php navitem('departure', null); ?></li>
 <?php
 			}
 
@@ -106,7 +106,7 @@ function navitem($item, $href)
 	if (isset($_GET['page']))
 	{
 ?>
-			<li class="sep"><?php navitem('help', 'help' == $_GET['page'] ? NULL : '?page=help'); ?></li>
+			<li class="sep"><?php navitem('help', 'help' == $_GET['page'] ? null : '?page=help'); ?></li>
 <?php
 	}
 	else
@@ -133,7 +133,7 @@ function navitem($item, $href)
 			else
 			{
 ?>
-			<li class="sep"><?php navitem('profile', 'profile' == $_GET['req'] ? NULL : '?req=profile'); ?></li>
+			<li class="sep"><?php navitem('profile', 'profile' == $_GET['req'] ? null : '?req=profile'); ?></li>
 <?php
 			}
 ?>

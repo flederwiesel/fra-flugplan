@@ -202,7 +202,7 @@ SQL;
 
 				if (!$file)
 				{
-					$error = seterrorinfo(__LINE__, NULL);;
+					$error = seterrorinfo(__LINE__, null);
 				}
 				else
 				{

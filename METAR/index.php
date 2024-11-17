@@ -254,7 +254,7 @@
 		echo "#{$lines}\t";
 
 		$pos = 0;
-		$metar = NULL;
+		$metar = null;
 
 		// Airport
 		$n = chunk($line, $pos, '/[A-Z][A-Z0-9]{3}/', $m);

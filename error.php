@@ -123,8 +123,8 @@ else
 	unset($device);
 }
 
-$dir = NULL;
-$rev = NULL;
+$dir = null;
+$rev = null;
 
 /******************************************************************************
  * header
@@ -156,7 +156,7 @@ $request = (isset($_GET['request']) ? $_GET['request'] : "");
 if (isset($_SERVER['HTTP_REFERER']))
 	$referrer = $_SERVER['HTTP_REFERER'];
 else
-	$referrer = NULL;
+	$referrer = null;
 
 /*<html>*******************************************************************/
 ?>

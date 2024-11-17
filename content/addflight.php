@@ -139,13 +139,13 @@ function GetPostVariables(&$type, &$reg, &$flight, &$dir, &$scheduled, &$until)
 
 	if (!isset($_POST['reg']))
 	{
-		$reg = NULL;
+		$reg = null;
 	}
 	else
 	{
 		if (0 == strlen($_POST['reg']))
 		{
-			$reg = NULL;
+			$reg = null;
 		}
 		else
 		{
