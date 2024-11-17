@@ -439,7 +439,7 @@ if ($_POST)
 							else
 							{
 								$insert = true;
-								$days = isset($_POST['day']) ? $_POST['day'] : array();
+								$days = isset($_POST['day']) ? $_POST['day'] : [];
 
 								do
 								{

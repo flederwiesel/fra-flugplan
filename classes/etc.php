@@ -162,7 +162,7 @@ function ordinal($number, $lang)
 {
 	if ('en' == $lang)
 	{
-		$suffix = array('th','st','nd','rd','th','th','th','th','th','th');
+		$suffix = ['th','st','nd','rd','th','th','th','th','th','th'];
 
 		if (($number % 100) >= 11 && ($number % 100) <= 13)
 			$ordinal = "${number}th";

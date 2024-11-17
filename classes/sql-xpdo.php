@@ -31,7 +31,7 @@ class xPDO
 
 	public function __call($func, $args)
 	{
-		return call_user_func_array(array(&$this->pdo, $func), $args);
+		return call_user_func_array([&$this->pdo, $func], $args);
 	}
 
 	public function prepare()
@@ -39,7 +39,7 @@ class xPDO
 		global $ExplainSQL;
 
 		$args = func_get_args();
-		$pdos = call_user_func_array(array(&$this->pdo, 'prepare'), $args);
+		$pdos = call_user_func_array([&$this->pdo, 'prepare'], $args);
 		$expl = NULL;
 
 		foreach ($args as &$arg)
@@ -49,7 +49,7 @@ class xPDO
 			if (in_array($queryid, $ExplainSQL))
 			{
 				$arg = "EXPLAIN $arg";
-				$expl = call_user_func_array(array(&$this->pdo, 'prepare'), $args);
+				$expl = call_user_func_array([&$this->pdo, 'prepare'], $args);
 				break;
 			}
 		}
@@ -63,7 +63,7 @@ class xPDO
 
 		$expl = NULL;
 		$args = func_get_args();
-		$pdos = call_user_func_array(array(&$this->pdo, 'query'), $args);
+		$pdos = call_user_func_array([&$this->pdo, 'query'], $args);
 
 		if ($pdos)
 		{
@@ -74,7 +74,7 @@ class xPDO
 				if (in_array($queryid, $ExplainSQL))
 				{
 					$arg = "EXPLAIN $arg";
-					$expl = call_user_func_array(array(&$this->pdo, 'query'), $args);
+					$expl = call_user_func_array([&$this->pdo, 'query'], $args);
 					break;
 				}
 			}
@@ -88,7 +88,7 @@ class xPDO
 		global $ExplainSQL;
 
 		$args = func_get_args();
-		$result = call_user_func_array(array(&$this->pdo, 'exec'), $args);
+		$result = call_user_func_array([&$this->pdo, 'exec'], $args);
 
 		if ($result !== false)
 		{
@@ -99,7 +99,7 @@ class xPDO
 				if (in_array($queryid, $ExplainSQL))
 				{
 					$arg = "EXPLAIN $arg";
-					$expl = call_user_func_array(array(&$this->pdo, 'query'), $args);
+					$expl = call_user_func_array([&$this->pdo, 'query'], $args);
 
 					if ($expl !== false)
 						explain($expl);
@@ -128,7 +128,7 @@ class xPDOStatement
 
 	public function __call($func, $args)
 	{
-		$result = call_user_func_array(array(&$this->pdos, $func), $args);
+		$result = call_user_func_array([&$this->pdos, $func], $args);
 
 		if ('fetch'       == $func ||
 			'fetchObject' == $func)
@@ -143,7 +143,7 @@ class xPDOStatement
 		if ('bindValue' == $func)
 		{
 			if ($result !== FALSE)
-				$result = call_user_func_array(array(&$this->expl, $func), $args);
+				$result = call_user_func_array([&$this->expl, $func], $args);
 		}
 
 		return $result;
@@ -188,11 +188,11 @@ class xPDOStatement
 	public function execute()
 	{
 		$args = func_get_args();
-		$result = call_user_func_array(array(&$this->pdos, 'execute'), $args);
+		$result = call_user_func_array([&$this->pdos, 'execute'], $args);
 
 		if ($result && $this->expl)
 		{
-			if (call_user_func_array(array(&$this->expl, 'execute'), $args))
+			if (call_user_func_array([&$this->expl, 'execute'], $args))
 				explain($this->expl);
 			else
 				errorInfo($this->expl);

@@ -159,10 +159,10 @@
 					<select class="stretched" id="lang" name="lang">
 <?php
 						/* Sort languages by local denomination */
-						$language = array(
+						$language = [
 							'de' => $lang['de'],
 							'en' => $lang['en']
-							);
+						];
 
 						asort($language);
 

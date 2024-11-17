@@ -26,46 +26,46 @@
   "error": "request not understood"
 }
 */
-	$db = array(
-		'username' => array(
-			'nospam' => array(
+	$db = [
+		'username' => [
+			'nospam' => [
 				'appears' => 0,
-			),
-			'spammer' => array(
+			],
+			'spammer' => [
 				'appears' => 1,
 				'frequency' => 1,
 				'lastseen' => '2015-12-18 19:38:00',
 				'confidence' => 98.34,
-			),
-		),
-		'email' => array(
-			'nospam@flederwiesel.com' => array(
+			],
+		],
+		'email' => [
+			'nospam@flederwiesel.com' => [
 				'appears' => 0,
-			),
-			'spam@gmail.com' => array(
+			],
+			'spam@gmail.com' => [
 				'appears' => 1,
 				'frequency' => 536,
 				'lastseen' => '2015-12-18 20:35:11',
 				'confidence' => 99.05,
-			),
-		),
-		'ip' => array(
-			'127.0.0.1' => array(
+			],
+		],
+		'ip' => [
+			'127.0.0.1' => [
 				'appears' => 0,
-			),
-			'46.118.155.73' => array(
+			],
+			'46.118.155.73' => [
 				'appears' => 1,
 				'frequency' => 65535,
 				'lastseen' => '2015-12-18 20:36:15',
 				'confidence' => 99.99,
-			),
-		),
-	);
+			],
+		],
+	];
 
-	$notfound = array(
+	$notfound = [
 		'appears' => 0,
 		'frequency' => 0,
-	);
+	];
 
 	$status = new StdClass();
 

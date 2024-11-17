@@ -14,7 +14,7 @@
  *
  ******************************************************************************/
 
-$lang_help = array(
+$lang_help = [
 	0 => '[Back to top]',
 	1 => 'Help - Contents',
 	2 => 'Basic usage',
@@ -66,6 +66,6 @@ $lang_help = array(
 	48 => 'Na data will be transferred to third parties &ndash; spam checking your registration being the one exception. Private data will be deleted upon request.',
 	49 => 'About...',
 	50 => 'FRA-schedule licenses',
-);
+];
 
 ?>

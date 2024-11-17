@@ -282,7 +282,7 @@ else
  * Watchlist
  ******************************************************************************/
 
-$watch = array();
+$watch = [];
 
 if ($user)
 {
@@ -469,7 +469,7 @@ else
 	}
 }
 
-$watch['wildcards'] = array();
+$watch['wildcards'] = [];
 
 foreach ($watch as $reg => $comment)
 {
@@ -629,7 +629,7 @@ if ($db)
 			}
 			else
 			{
-				$hhmm = substr(str_replace(array(' ', '.', ':', '-'), '', $row->expected), 8, 4);
+				$hhmm = substr(str_replace([' ', '.', ':', '-'], '', $row->expected), 8, 4);
 
 				if (isset($watch[$reg]))
 				{

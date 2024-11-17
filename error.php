@@ -99,9 +99,9 @@ else if (isset($_POST['lang']))
 }
 
 if (!isset($_SESSION['lang']))
-	$_SESSION['lang'] = http_preferred_language(array('en', 'de'));
+	$_SESSION['lang'] = http_preferred_language(['en', 'de']);
 else if (0 == strlen($_SESSION['lang']))
-	$_SESSION['lang'] = http_preferred_language(array('en', 'de'));
+	$_SESSION['lang'] = http_preferred_language(['en', 'de']);
 
 /******************************************************************************
  * detect device type

@@ -22,7 +22,7 @@ class vector
 	public function __construct()
 	{
 		$this->c = 0;
-		$this->v = array();
+		$this->v = [];
 	}
 
 	public function push($e)

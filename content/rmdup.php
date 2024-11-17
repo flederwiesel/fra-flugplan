@@ -65,7 +65,7 @@ if (isset($_POST['key']))
 	}
 	else
 	{
-		$key = array_combine(array('direction', 'airline', 'code', 'Y', 'm', 'dHMS'), $key);
+		$key = array_combine(['direction', 'airline', 'code', 'Y', 'm', 'dHMS'], $key);
 
 		$template = <<<SQL
 			SELECT '%' as `table`,

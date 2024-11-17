@@ -123,9 +123,9 @@ else if (isset($_POST['lang']))
 }
 
 if (!isset($_SESSION['lang']))
-	$_SESSION['lang'] = http_preferred_language(array('en', 'de'));
+	$_SESSION['lang'] = http_preferred_language(['en', 'de']);
 else if (0 == strlen($_SESSION['lang']))
-	$_SESSION['lang'] = http_preferred_language(array('en', 'de'));
+	$_SESSION['lang'] = http_preferred_language(['en', 'de']);
 
 if ('de' == $_SESSION['lang'])
 	$lang = setlocale(LC_TIME, 'deu', 'deu_deu');
@@ -394,11 +394,12 @@ if ('de' == $_SESSION['lang']) {
 				require_once 'adminmessage.php';
 
 				/*
-					$adminmessage = array(
+					$adminmessage = [
 						'from' => '%Y-%m-%d 03:30',
 						'until' => '%Y-%m-%d 04:30 +1 day',
 						'en' => '',
 						'de' => '',
+					]
 				*/
 
 				if (isset($adminmessage))

@@ -14,7 +14,7 @@
  *
  ******************************************************************************/
 
-$lang_help = array(
+$lang_help = [
 	0 => '[Nach oben]',
 	1 => 'Hilfe - Inhalt',
 	2 => 'Grundlegende Bedienung',
@@ -66,6 +66,6 @@ $lang_help = array(
 	48 => 'Es werden &ndash; mit Ausnahme der Spam-Prüfung bei der Registrierung &ndash; grundsätzlich keine Daten zu Dritten zur Weiterverarbeitung übermittelt. Benutzerdaten können jederzeit auf Anfrage gelöscht werden.',
 	49 => 'Über...',
 	50 => 'FRA-Flugplan Lizenzen',
-);
+];
 
 ?>

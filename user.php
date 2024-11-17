@@ -114,7 +114,7 @@ function /* char* */ PasswordHint()
 		$sep++;
 	}
 
-	$separators = array();
+	$separators = [];
 
 	if ($sep > 0)
 	{
@@ -184,8 +184,8 @@ class User
 	private $email = null;
 	private $timezone = null;
 	private $lang = null;
-	private $options = array();
-	private $gid = array();
+	private $options = [];
+	private $gid = [];
 
 	public function __construct($id, $name, $email, $tz, $lang, $groups)
 	{
@@ -349,7 +349,7 @@ function /* char *error */ LoginUserSql($db, $byid, $id, /* __in __out */ &$pass
 
 		$st = $db->prepare($query);
 
-		$st->execute(array($id));
+		$st->execute([$id]);
 
 		if ($st->rowCount() != 1)
 		{
@@ -402,7 +402,7 @@ function /* char *error */ LoginUserSql($db, $byid, $id, /* __in __out */ &$pass
 				SQL
 			);
 
-			$st->execute(array($id));
+			$st->execute([$id]);
 
 			if (0 == $st->rowCount())
 			{
@@ -543,7 +543,7 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 
 						$curl->exec($stopforumspam, $unused, 5);
 
-						$suspicion = array();
+						$suspicion = [];
 
 						if ($spamchk->username->appears)
 							$suspicion[0] = $lang['username'];
@@ -557,7 +557,7 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 						/* Join suspicions to string, separated with command and "and" */
 						$last  = array_slice($suspicion, -1);
 						$first = join(', ', array_slice($suspicion, 0, -1));
-						$both  = array_filter(array_merge(array($first), $last), 'strlen');
+						$both  = array_filter(array_merge([$first], $last), 'strlen');
 						$insert = join(" $lang[and] ", $both);
 
 						$plural = $spamchk->username->appears ?
@@ -712,7 +712,7 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 	{
 		$st = $db->prepare("/*[Q4]*/ SELECT `id` FROM `users` WHERE `name`=?");
 
-		$st->execute(array($user));
+		$st->execute([$user]);
 
 		if ($st->rowCount() != 0)
 		{
@@ -722,7 +722,7 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 		{
 			$st = $db->prepare("/*[Q5]*/ SELECT `id` FROM `users` WHERE `email`=?");
 
-			$st->execute(array($email));
+			$st->execute([$email]);
 
 			if ($st->rowCount() != 0)
 				$error = $lang['emailexists'];
@@ -933,7 +933,7 @@ function /* char *error */ ActivateUserSql($db, $user, $token)
 			SQL
 		);
 
-		$st->execute(array($user));
+		$st->execute([$user]);
 
 		if ($st->rowCount() != 1)
 		{
@@ -1328,7 +1328,7 @@ function /* char *error */ ChangePasswordSql($db, $user, $token, $password)
 			SQL
 		);
 
-		$st->execute(array($user));
+		$st->execute([$user]);
 
 		if ($st->rowCount() != 1)
 		{

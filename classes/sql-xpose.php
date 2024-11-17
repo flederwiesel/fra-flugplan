@@ -38,12 +38,12 @@ class PDO
 
 	public function __call($func, $args)
 	{
-		return call_user_func_array(array(&$this->pdo, $func), $args);
+		return call_user_func_array([&$this->pdo, $func], $args);
 	}
 
 	public function prepare($query)
 	{
-		$st = call_user_func_array(array(&$this->pdo, 'prepare'), [ $query ]);
+		$st = call_user_func_array([&$this->pdo, 'prepare'], [ $query ]);
 
 		return new PDOStatement($st, $query);
 	}
@@ -64,12 +64,12 @@ class PDOStatement
 
 	public function __call($func, $args)
 	{
-		return call_user_func_array(array(&$this->st, $func), $args);
+		return call_user_func_array([&$this->st, $func], $args);
 	}
 
 	public function execute($params = null)
 	{
-		$result = call_user_func_array(array(&$this->st, 'execute'), [ $params ]);
+		$result = call_user_func_array([&$this->st, 'execute'], [ $params ]);
 
 		if ($params)
 		{

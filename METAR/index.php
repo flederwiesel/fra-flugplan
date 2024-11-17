@@ -115,7 +115,7 @@
 	function chunk(&$line, &$pos, $regex, &$match)
 	{
 		$found = 0;
-		$match = array();
+		$match = [];
 
 		do
 		{
@@ -147,7 +147,7 @@
 						while (' ' == substr($line, $pos, 1))
 							$pos++;
 
-						$match[$found] = array($m[0][0], $m);
+						$match[$found] = [$m[0][0], $m];
 						$found++;
 					}
 				}
@@ -158,90 +158,90 @@
 		return $found;
 	}
 
-	$weather = array(
-		array('MI', 'shallow'),
-		array('BC', 'patches'),
-		array('PR', 'partial'),
-		array('DR', 'low drifting'),
-		array('BL', 'blowing'),
-		array('SH', 'shower'),
-		array('TS', 'thunderstorm'),
-		array('FZ', 'freezing'),
-		array('DZ', 'drizzle'),
-		array('RA', 'rain'),
-		array('SN', 'snow'),
-		array('SG', 'snow grains'),
-		array('IC', 'ice crystals'),
-		array('PL', 'ice pellets'),
-		array('GR', 'hail'),
-		array('GS', 'small hail/snow pellets'),
-		array('UP', 'unknown precipitation'),
-		array('BR', 'mist'),
-		array('FG', 'fog'),
-		array('FU', 'smoke'),
-		array('VA', 'volcanic ash'),
-		array('DU', 'widespread dust'),
-		array('SA', 'sand'),
-		array('HZ', 'haze'),
-		array('PY', 'spray'),
-		array('PO', 'dust/sand whirls'),
-		array('SQ', 'squalls'),
-		array('FC', 'tornado'),
-		array('SS', 'sandstorm'),
-		array('DS', 'duststorm'),
-	);
+	$weather = [
+		['MI', 'shallow'],
+		['BC', 'patches'],
+		['PR', 'partial'],
+		['DR', 'low drifting'],
+		['BL', 'blowing'],
+		['SH', 'shower'],
+		['TS', 'thunderstorm'],
+		['FZ', 'freezing'],
+		['DZ', 'drizzle'],
+		['RA', 'rain'],
+		['SN', 'snow'],
+		['SG', 'snow grains'],
+		['IC', 'ice crystals'],
+		['PL', 'ice pellets'],
+		['GR', 'hail'],
+		['GS', 'small hail/snow pellets'],
+		['UP', 'unknown precipitation'],
+		['BR', 'mist'],
+		['FG', 'fog'],
+		['FU', 'smoke'],
+		['VA', 'volcanic ash'],
+		['DU', 'widespread dust'],
+		['SA', 'sand'],
+		['HZ', 'haze'],
+		['PY', 'spray'],
+		['PO', 'dust/sand whirls'],
+		['SQ', 'squalls'],
+		['FC', 'tornado'],
+		['SS', 'sandstorm'],
+		['DS', 'duststorm'],
+	];
 
-	$weathers = array(
-		array('BCFG',     'patches of fog'),
-		array('BLDU',     'blowing dust'),
-		array('BLPY',     'spray'),
-		array('BLSA',     'blowing sand'),
-		array('BLSN',     'blowing snow'),
-		array('BR',       'mist'),
-		array('DRSA',     'low drifting sand'),//img?
-		array('DRSN',     'low drifting snow'),//img?
-		array('DZ',       'drizzle'),
-		array('DZRA',     'drizzling rain'),
-		array('FG',       'fog'),
-		array('FU',       'smoke'),
-		array('FZDZ',     'freezing drizzle'),//img?
-		array('FZFG',     'freezing fog'),//img?
-		array('FZRA',     'freezing rain'),//img?
-		array('HZ',       'haze'),
-		array('IC',       'ice crystals'),//img?
-		array('MIFG',     'shallow fog'),//img?
-		array('NSW',      'nil significant weather'),
-		array('PRFG',     'partial fog'),//img?
-		array('RA',       'rain'),
-		array('RADZ',     'drizzling rain'),
-		array('RASN',     'rain and snow'),
-		array('SA',       'sand'),//img?
-		array('SG',       'snow grains'),//img?
-		array('SGSN',     'snow grains /w snow'),//img?
-		array('SH',       'showers'),
-		array('SHPL',     'ice pellet showers'),//img?
-		array('SHRA',     'rain showers'),//img?
-		array('SHSN',     'snow showers'),//img?
-		array('SHSNRA',   'snow showers and rain'),//img?
-		array('SN',       'snow'),//img?
-		array('SNSH',     'snow showers'),//img?
-		array('TS',       'thunderstorm'),//img?
-		array('TSGRRASN', 'thunderstorm /w snow grains and rain'),//img?
-		array('TSRA',     'thunderstorm and rain'),//img?
-		array('TSSHRA',   'thunderstorm and rain showers'),//img?
-		array('UP',       'unknown'),//img?
-	);
+	$weathers = [
+		['BCFG',     'patches of fog'],
+		['BLDU',     'blowing dust'],
+		['BLPY',     'spray'],
+		['BLSA',     'blowing sand'],
+		['BLSN',     'blowing snow'],
+		['BR',       'mist'],
+		['DRSA',     'low drifting sand'],//img?
+		['DRSN',     'low drifting snow'],//img?
+		['DZ',       'drizzle'],
+		['DZRA',     'drizzling rain'],
+		['FG',       'fog'],
+		['FU',       'smoke'],
+		['FZDZ',     'freezing drizzle'],//img?
+		['FZFG',     'freezing fog'],//img?
+		['FZRA',     'freezing rain'],//img?
+		['HZ',       'haze'],
+		['IC',       'ice crystals'],//img?
+		['MIFG',     'shallow fog'],//img?
+		['NSW',      'nil significant weather'],
+		['PRFG',     'partial fog'],//img?
+		['RA',       'rain'],
+		['RADZ',     'drizzling rain'],
+		['RASN',     'rain and snow'],
+		['SA',       'sand'],//img?
+		['SG',       'snow grains'],//img?
+		['SGSN',     'snow grains /w snow'],//img?
+		['SH',       'showers'],
+		['SHPL',     'ice pellet showers'],//img?
+		['SHRA',     'rain showers'],//img?
+		['SHSN',     'snow showers'],//img?
+		['SHSNRA',   'snow showers and rain'],//img?
+		['SN',       'snow'],//img?
+		['SNSH',     'snow showers'],//img?
+		['TS',       'thunderstorm'],//img?
+		['TSGRRASN', 'thunderstorm /w snow grains and rain'],//img?
+		['TSRA',     'thunderstorm and rain'],//img?
+		['TSSHRA',   'thunderstorm and rain showers'],//img?
+		['UP',       'unknown'],//img?
+	];
 
-	$clouds = array(
-		array('CLR', 'clear'),
-		array('NCD', 'no clouds detected'),
-		array('NSC', 'nil significant cloud'),
-		array('FEW', 'few'),
-		array('SCT', 'scattered'),
-		array('BKN', 'broken'),
-		array('OVC', 'overcast'),
-		array('VV',  'vertical visual range'),
-	);
+	$clouds = [
+		['CLR', 'clear'],
+		['NCD', 'no clouds detected'],
+		['NSC', 'nil significant cloud'],
+		['FEW', 'few'],
+		['SCT', 'scattered'],
+		['BKN', 'broken'],
+		['OVC', 'overcast'],
+		['VV',  'vertical visual range'],
+	];
 
 	$lines = 0;
 	$metars = file("metars.txt", FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);

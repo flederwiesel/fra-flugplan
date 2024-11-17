@@ -55,7 +55,7 @@ else
 
 if (!file_exists($ignorelist))
 {
-	$ignore = array();
+	$ignore = [];
 }
 else
 {
@@ -307,8 +307,11 @@ function unify_html($html)
 	{
 		if ('html' == $DEBUG['fmt'])
 		{
-			$html = str_replace(array("\r", "\n", "<br>"),
-								array(" ", " ", "&lt;br&gt;"), htmlspecialchars($html));
+			$html = str_replace(
+				["\r", "\n", "<br>"],
+				[" ", " ", "&lt;br&gt;"],
+				htmlspecialchars($html)
+			);
 
 			$html = preg_replace('/>[ \t]+</', '><', $html);
 		}
@@ -320,8 +323,8 @@ function unify_html($html)
 // Insert hyphen into reg, based on regex
 function patchreg($reg)
 {
-	$regdb = array(
-
+	$regdb =
+	[
 		// https://www.revolvy.com/main/index.php?s=List%20of%20aircraft%20registration%20prefixes
 		// http://arg-intl.com/resources/icao-aircraft-registration-prefixes/
 		// https://www.skytamer.com/5.2.htm
@@ -381,7 +384,7 @@ function patchreg($reg)
 		'/^Y[AEIJKLNRSUV]/', 2,
 		'/^Z[^3AKLPSTU]/', 1,
 		'/^Z[3AKLPSTU]/', 2,
-	);
+	];
 
 	for ($i = 0; $i < count($regdb); $i += 2)
 	{
@@ -488,7 +491,7 @@ class jflight
 	public $stops;		// = [null] 0
 
 	// code share
-	public $cs;			// = [null] array("", "")
+	public $cs;			// = [null] ["", ""]
 
 	// unknown
 	public $s;			// = [null] enum { false, true }
@@ -607,7 +610,7 @@ class flight
 
 // Get JSON error messages
 $constants = get_defined_constants(true);
-$json_errors = array();
+$json_errors = [];
 
 foreach ($constants["json"] as $name => $value)
 {
@@ -702,7 +705,7 @@ function CURL_GetAirport(/* in */ $curl, /* in/out */ &$airport)
 	try
 	{
 		$error = null;
-		$countries = array();
+		$countries = [];
 
 		$st = $db->query(<<<SQL
 			/*[Q21]*/
@@ -714,18 +717,19 @@ function CURL_GetAirport(/* in */ $curl, /* in/out */ &$airport)
 		while ($row = $st->fetchObject())
 			$countries["$row->de"] = (int)$row->id;
 
-		foreach (array( 'USA' => 'Vereinigte Staaten von Amerika',
-						'Korea-Süd' => 'Südkorea',
-						'Großbritannien' => 'Vereinigtes Königreich',
-						'Weißrußland' => 'Weißrussland',
-						'Äquatorial-Guinea' => 'Äquatorialguinea',
-						'Saint Lucia' => 'St. Lucia',
-						'Ver.Arab.Emirate' => 'Vereinigte Arabische Emirate',
-						'Bosnien-Herzegow' => 'Bosnien und Herzegovina',
-						'Dominikan. Rep.' => 'Dominikanische Republik',
-						'Niederländische Antillen' => 'Curaçao',
-						'Bangladesh' => 'Bangladesch',
-						) as $alias => $name)
+		foreach ([
+			'USA' => 'Vereinigte Staaten von Amerika',
+			'Korea-Süd' => 'Südkorea',
+			'Großbritannien' => 'Vereinigtes Königreich',
+			'Weißrußland' => 'Weißrussland',
+			'Äquatorial-Guinea' => 'Äquatorialguinea',
+			'Saint Lucia' => 'St. Lucia',
+			'Ver.Arab.Emirate' => 'Vereinigte Arabische Emirate',
+			'Bosnien-Herzegow' => 'Bosnien und Herzegovina',
+			'Dominikan. Rep.' => 'Dominikanische Republik',
+			'Niederländische Antillen' => 'Curaçao',
+			'Bangladesh' => 'Bangladesch',
+			] as $alias => $name)
 		{
 			if (isset($countries["$name"]))
 				$countries["$alias"] = $countries["$name"];
@@ -2189,18 +2193,18 @@ function SendWatchlistNotification($name, $email, $fmt, $locale, $notifications)
 	if ('de' == $locale)
 	{
 		$locale = setlocale(LC_TIME, 'deu', 'deu_deu');
-		$lang = array(
+		$lang = [
 				'watchlist' => 'Beobachtungsliste',
 				'schedule' => 'Flugplan',
-			);
+		];
 	}
 	else
 	{
 		$locale = setlocale(LC_TIME, 'eng', 'english-uk', 'uk', 'enu', 'english-us', 'us', 'english', 'C');
-		$lang = array(
-				'watchlist' => 'watchlist',
-				'schedule' => 'schedule',
-			);
+		$lang = [
+			'watchlist' => 'watchlist',
+			'schedule' => 'schedule',
+		];
 	}
 
 	$today = mktime_c(gmstrftime('%d.%m.%Y', $now->time_t));
@@ -2349,9 +2353,9 @@ if (!$error)
 	if (!$error)
 	{
 		// Iterate through [pax,cargo] [arrival, departure] tables
-		foreach (array('P', 'C') as $type)
+		foreach (['P', 'C'] as $type)
 		{
-			foreach (array('arrival', 'departure') as $dir)
+			foreach (['arrival', 'departure'] as $dir)
 			{
 				if (isset($DEBUG['any']))
 					printf("%s\n========\n\n", $dir);
@@ -2696,7 +2700,7 @@ if (!$error)
 			$fmt = NULL;
 			$lang = 'en';
 
-			$notifications = array();
+			$notifications = [];
 
 			$row = $st->fetchObject();
 
@@ -2711,7 +2715,7 @@ if (!$error)
 					{
 						/* Flush */
 						SendWatchlistNotification($name, $email, $fmt, $lang, $notifications);
-						$notifications = array();
+						$notifications = [];
 					}
 
 					/* Remember first ID of new email */
@@ -2721,13 +2725,13 @@ if (!$error)
 					$lang = $row->lang;
 				}
 
-				$notifications[] = array(
-						'id'       => (int)$row->id,
-						'expected' => $row->expected,
-						'flight'   => $row->flight,
-						'reg'      => $row->reg,
-						'comment'  => $row->comment,
-					);
+				$notifications[] = [
+					'id'       => (int)$row->id,
+					'expected' => $row->expected,
+					'flight'   => $row->flight,
+					'reg'      => $row->reg,
+					'comment'  => $row->comment,
+				];
 
 				$row = $st->fetchObject();
 			}

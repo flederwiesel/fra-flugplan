@@ -88,14 +88,14 @@ if ($html)
 
 if ($dir && $now && $page > 0)
 {
-	$flights = array();
+	$flights = [];
 
 	/* Look for CVS file in arrival/departure directory */
 	$flightsdir = opendir("flights/$dir");
 
 	if ($flightsdir)
 	{
-		$files = array();
+		$files = [];
 		$file = readdir($flightsdir);
 
 		while (false !== $file)
