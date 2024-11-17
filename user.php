@@ -991,20 +991,6 @@ function /* char *error */ ActivateUserSql($db, $user, $token)
 				$st->execute([$uid]);
 			}
 		}
-
-		if ($error)
-		{
-			if (!isset($token))
-				$token = "";
-
-			$max = strlen(token());
-
-			if (strlen($token) > $max)	/* SHA-256 */
-				$token = substr($token, 0, $max + 1).'...';
-
-			if (strlen($user) > $GLOBALS['USERNAME_MAX'])
-				$user = substr($user, 0, $GLOBALS['USERNAME_MAX'] + 1).'...';
-		}
 	}
 	catch (PDOException $ex)
 	{
@@ -1346,10 +1332,7 @@ function /* char *error */ ChangePasswordSql($db, $user, $token, $password)
 
 		if ($st->rowCount() != 1)
 		{
-			if ('00000' == $st->errorCode())
-				$error = $lang['authfailedpasswdnotch'];
-			else
-				$error = sprintf($lang['dberror'], $st->errorCode());
+			$error = $lang['authfailedpasswdnotch'];
 		}
 		else
 		{
