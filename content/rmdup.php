@@ -40,7 +40,7 @@ if (isset($_POST['table']) &&
 	{
 		$st = $db->prepare(<<<SQL
 			DELETE FROM `$_POST[table]`
-			WHERE `id`=:id
+			WHERE `id` = :id
 			SQL
 		);
 
@@ -71,10 +71,10 @@ if (isset($_POST['key']))
 			SELECT '%' as `table`,
 				`id`, `expected`, `airport`, `aircraft`, `model`
 			FROM `%`
-			WHERE `direction`='$key[direction]'
-				AND `airline`=$key[airline]
-				AND `code`=$key[code]
-				AND `scheduled`='$key[Y]-$key[m]-$key[dHMS]'
+			WHERE `direction` = '$key[direction]'
+				AND `airline` = $key[airline]
+				AND `code` = $key[code]
+				AND `scheduled` = '$key[Y]-$key[m]-$key[dHMS]'
 SQL;
 
 		$query = <<<SQL

@@ -150,11 +150,13 @@ if ('dispinterval' == $item)
 				{
 					$st = $db->prepare(<<<SQL
 						UPDATE `users`
-						SET `tm-`=:tmm,
-							`tm+`=:tmp,
-							`tt-`=:ttm,
-							`tt+`=:ttp
-						WHERE `id`=:uid
+						SET
+							`tm-` = :tmm,
+							`tm+` = :tmp,
+							`tt-` = :ttm,
+							`tt+` = :ttp
+						WHERE
+							`id` = :uid
 						SQL
 					);
 
@@ -293,10 +295,12 @@ if ('notifinterval' == $item)
 					{
 						$st = $db->prepare(<<<SQL
 							UPDATE `users`
-							SET `notification-from`=:from,
-								`notification-until`=:until,
-								`notification-timefmt`=:fmt
-							WHERE `id`=:uid
+							SET
+								`notification-from` = :from,
+								`notification-until` = :until,
+								`notification-timefmt` = :fmt
+							WHERE
+								`id` = :uid
 							SQL
 						);
 
@@ -451,8 +455,8 @@ else if ('photodb' == $item)
 				{
 					$st = $db->prepare(<<<SQL
 						UPDATE `users`
-						SET `photodb`=:photodb
-						WHERE `id`=:uid
+						SET `photodb` = :photodb
+						WHERE `id` = :uid
 						SQL
 					);
 

@@ -709,8 +709,12 @@ function CURL_GetAirport(/* in */ $curl, /* in/out */ &$airport)
 
 		$st = $db->query(<<<SQL
 			/*[Q21]*/
-			SELECT `id`,`de`,`alpha-2`
-			FROM `countries`
+			SELECT
+				`id`,
+				`de`,
+				`alpha-2`
+			FROM
+				`countries`
 			SQL
 		);
 
@@ -1283,7 +1287,7 @@ function SQL_GetAirline(/* in/out */ &$airline)
 			/*[Q22]*/
 			SELECT `id`
 			FROM `airlines`
-			WHERE `code`=:code;
+			WHERE `code` = :code;
 			SQL
 		);
 
@@ -1382,7 +1386,7 @@ function SQL_GetAirport(/* in/out */ &$airport)
 			/*[Q24]*/
 			SELECT DISTINCT `airports`.`id`
 			FROM `airports`
-			WHERE `iata`=:iata;
+			WHERE `iata` = :iata;
 			SQL
 		);
 
@@ -1443,8 +1447,18 @@ function SQL_InsertAirport(/* in/out */ &$airport)
 
 			$st = $db->prepare(<<<SQL
 				/*[Q25]*/
-				INSERT INTO `airports`(`iata`, `icao`, `name`, `country`)
-				VALUES(:iata, :icao, :name, :country);
+				INSERT INTO `airports`(
+					`iata`,
+					`icao`,
+					`name`,
+					`country`
+				)
+				VALUES(
+					:iata,
+					:icao,
+					:name,
+					:country
+				);
 				SQL
 			);
 
@@ -1485,7 +1499,7 @@ function SQL_GetAircraftType(/* in/out*/ &$aircraft)
 			/*[Q26]*/
 			SELECT `id`
 			FROM `models`
-			WHERE `icao`=:icao;
+			WHERE `icao` = :icao;
 			SQL
 		);
 
@@ -1580,7 +1594,7 @@ function SQL_GetAircraft(/* in/out*/ &$aircraft)
 			/*[Q28]*/
 			SELECT `id`
 			FROM `aircrafts`
-			WHERE `reg`=:reg;
+			WHERE `reg` = :reg;
 			SQL
 		);
 
@@ -1639,7 +1653,7 @@ function SQL_InsertAircraft(/* in/out*/ &$aircraft)
 
 			$st = $db->prepare(<<<SQL
 				/*[Q29]*/
-				INSERT INTO `aircrafts`(`reg`,`model`)
+				INSERT INTO `aircrafts`(`reg`, `model`)
 				VALUES(:reg, :model);
 				SQL
 			);
@@ -1677,12 +1691,17 @@ function SQL_GetFlightDetails(/* in */ $dir, /* in */ $f, /* out */ &$id, /* out
 
 		$st = $db->prepare(<<<SQL
 			/*[Q30]*/
-			SELECT `id`, `aircraft`, `last update`
-			FROM `flights`
-			WHERE `direction`=:dir
-				AND `airline`=:airline
-				AND `code`=:code
-				AND `scheduled`=:scheduled
+			SELECT
+				`id`,
+				`aircraft`,
+				`last update`
+			FROM
+				`flights`
+			WHERE
+				`direction` = :dir AND
+				`airline` = :airline AND
+				`code` = :code AND
+				`scheduled` = :scheduled
 			SQL
 		);
 
@@ -1748,11 +1767,12 @@ function SQL_UpdateFlightDetails(/* in */ $id, /* in */ $f)
 			/*[Q31]*/
 			UPDATE `flights`
 			SET
-				`expected`=coalesce(:expected, `expected`),
-				`airport`=coalesce(:airport, `airport`),
-				`aircraft`=:aircraft,
-				`model`=:model
-			WHERE `id`=:id;
+				`expected` = coalesce(:expected, `expected`),
+				`airport` = coalesce(:airport, `airport`),
+				`aircraft` = :aircraft,
+				`model` = :model
+			WHERE
+				`id` = :id;
 			SQL
 		);
 
@@ -1797,13 +1817,29 @@ function SQL_InsertFlight(/*in*/ $type, /* in */ $dir, /* in/out */ &$f)
 			/*[Q32]*/
 			INSERT INTO `flights`
 			(
-				`direction`, `type`, `airline`, `code`, `scheduled`, `expected`,
-				`airport`, `model`, `aircraft`, `last update`
+				`direction`,
+				`type`,
+				`airline`,
+				`code`,
+				`scheduled`,
+				`expected`,
+				`airport`,
+				`model`,
+				`aircraft`,
+				`last update`
 			)
 			VALUES
 			(
-				:dir, :type, :airline, :code, :scheduled, :expected,
-				:airport, :model, :aircraft, :lu
+				:dir,
+				:type,
+				:airline,
+				:code,
+				:scheduled,
+				:expected,
+				:airport,
+				:model,
+				:aircraft,
+				:lu
 			);
 			SQL
 		);
@@ -1855,7 +1891,7 @@ function SQL_DeleteFlight($id)
 				/*[Q33]*/
 				DELETE
 				FROM `flights`
-				WHERE `id`=:id
+				WHERE `id` = :id
 				SQL
 			);
 
@@ -1892,7 +1928,7 @@ function SQL_UpdateVisitsToFra($scheduled, $aircraft, $op)
 			/*[Q34]*/
 			SELECT `num`, `current`, `previous`
 			FROM `visits`
-			WHERE `aircraft`=:aircraft;
+			WHERE `aircraft` = :aircraft;
 			SQL
 		);
 
@@ -1921,8 +1957,18 @@ function SQL_UpdateVisitsToFra($scheduled, $aircraft, $op)
 			{
 				$st = $db->prepare(<<<SQL
 					/*[Q35]*/
-					INSERT INTO `visits`(`aircraft`, `num`, `current`, `previous`)
-					VALUES(:aircraft, 1, :scheduled, NULL);
+					INSERT INTO `visits`(
+						`aircraft`,
+						`num`,
+						`current`,
+						`previous`
+					)
+					VALUES(
+						:aircraft,
+						1,
+						:scheduled,
+						NULL
+					);
 					SQL
 				);
 
@@ -1963,10 +2009,11 @@ function SQL_UpdateVisitsToFra($scheduled, $aircraft, $op)
 						/*[Q36]*/
 						UPDATE `visits`
 						SET
-							`num`=:num,
-							`current`=:scheduled,
-							`previous`=:previous
-						WHERE `aircraft`=:aircraft
+							`num` = :num,
+							`current` = :scheduled,
+							`previous` = :previous
+						WHERE
+							`aircraft` = :aircraft
 						SQL
 					);
 
@@ -1995,7 +2042,7 @@ function SQL_UpdateVisitsToFra($scheduled, $aircraft, $op)
 					$st = $db->prepare(<<<SQL
 						/*[Q37]*/
 						DELETE FROM `visits`
-						WHERE `aircraft`=:aircraft
+						WHERE `aircraft` = :aircraft
 						SQL
 					);
 
@@ -2021,11 +2068,15 @@ function SQL_UpdateVisitsToFra($scheduled, $aircraft, $op)
 							(
 								SELECT `scheduled`
 								FROM `flights`
-								WHERE `direction`='arrival' AND `aircraft` = :aircraft
+								WHERE
+									`direction` = 'arrival' AND
+									`aircraft` = :aircraft
 								UNION ALL
 								SELECT `scheduled`
 								FROM `history`
-								WHERE `direction`='arrival' AND `aircraft` = :aircraft
+								WHERE
+									`direction` = 'arrival' AND
+									`aircraft` = :aircraft
 							) AS `flights`
 							SQL
 						);
@@ -2061,8 +2112,12 @@ function SQL_UpdateVisitsToFra($scheduled, $aircraft, $op)
 						$st = $db->prepare(<<<SQL
 							/*[Q39]*/
 							UPDATE `visits`
-							SET `num`=:num, `current`=:previous, `previous`=NULL
-							WHERE `aircraft`=:aircraft
+							SET
+								`num` = :num,
+								`current` = :previous,
+								`previous` = NULL
+							WHERE
+								`aircraft` = :aircraft
 							SQL
 						);
 
@@ -2116,7 +2171,7 @@ function SQL_DeleteNotifications($id, $all)
 				/*[Q40]*/
 				DELETE
 				FROM `watchlist-notifications`
-				WHERE `flight`=:id{$cond}
+				WHERE `flight` = :id{$cond}
 				SQL
 			);
 
@@ -2154,7 +2209,12 @@ function SQL_FlightsToHistory()
 			INSERT INTO `move flights`
 				SELECT `id`
 				FROM `flights`
-				WHERE (DATEDIFF(NOW(), IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 2)
+				WHERE (
+					DATEDIFF(
+						NOW(),
+						IFNULL(`flights`.`expected`, `flights`.`scheduled`)
+					) > 2
+				)
 				LIMIT 100
 			SQL
 		);
@@ -2283,8 +2343,8 @@ function SendWatchlistNotification($name, $email, $fmt, $locale, $notifications)
 					ON `watchlist`.`id`=`watchlist-notifications`.`watch`
 				INNER JOIN `users`
 					ON `users`.`id`=`watchlist`.`user`
-						AND `users`.`email`=?
-				SET `watchlist-notifications`.`notified`=?
+						AND `users`.`email` = ?
+				SET `watchlist-notifications`.`notified` = ?
 				WHERE `watchlist-notifications`.`id` IN($in)
 				SQL
 			);
@@ -2651,7 +2711,9 @@ if (!$error)
 				/*[Q45]*/
 				SELECT
 					`watchlist-notifications`.`id` AS `id`,
-					UNIX_TIMESTAMP(IFNULL(`flights`.`expected`, `flights`.`scheduled`)) AS `expected`,
+					UNIX_TIMESTAMP(
+						IFNULL(`flights`.`expected`, `flights`.`scheduled`)
+					) AS `expected`,
 					CONCAT(
 						`airlines`.`code`,
 						`flights`.`code`
@@ -2674,11 +2736,11 @@ if (!$error)
 				LEFT JOIN `users`
 					ON `watchlist`.`user` = `users`.`id`
 				WHERE IFNULL(`flights`.`expected`, `flights`.`scheduled`) > :atom
-				AND `notified` IS NULL
-				AND
-					FROM_UNIXTIME(:time_t, '%H:%i:%s')
-					BETWEEN `users`.`notification-from`
-						AND `users`.`notification-until`
+					AND `notified` IS NULL
+					AND
+						FROM_UNIXTIME(:time_t, '%H:%i:%s')
+						BETWEEN `users`.`notification-from`
+							AND `users`.`notification-until`
 				ORDER BY
 					`email` ASC,
 					`expected` ASC
@@ -2755,7 +2817,12 @@ if (!$error)
 				FROM `watchlist-notifications`
 				INNER JOIN `flights`
 					ON `flights`.`id`=`watchlist-notifications`.`flight`
-				WHERE (DATEDIFF(:now, IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 1)
+					WHERE (
+					DATEDIFF(
+						:now,
+						IFNULL(`flights`.`expected`, `flights`.`scheduled`)
+					) > 1
+				)
 				SQL
 			);
 

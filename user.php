@@ -340,7 +340,7 @@ function /* char *error */ LoginUserSql($db, $byid, $id, /* __in __out */ &$pass
 				`notification-from`, `notification-until`, `notification-timefmt`,
 				`photodb`
 			FROM `users`
-			WHERE `%s`=?
+			WHERE `%s` = ?
 			SQL;
 
 		$query = sprintf($query,
@@ -398,7 +398,7 @@ function /* char *error */ LoginUserSql($db, $byid, $id, /* __in __out */ &$pass
 				SELECT `groups`.`name`
 				FROM `membership`
 				INNER JOIN `groups` ON `membership`.`group` = `groups`.`id`
-				WHERE `user`=?
+				WHERE `user` = ?
 				SQL
 			);
 
@@ -436,11 +436,12 @@ function /* char *error */ LoginUserSql($db, $byid, $id, /* __in __out */ &$pass
 							/*[Q3]*/
 							UPDATE `users`
 							SET
-								`last login`=:ll,
-								`token`=NULL,
-								`token_type`='none',
-								`token_expires`=NULL
-							WHERE `id`=:id
+								`last login` = :ll,
+								`token` = NULL,
+								`token_type` = 'none',
+								`token_expires` = NULL
+							WHERE
+								`id` = :id
 							SQL
 						);
 
@@ -710,7 +711,7 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 	// TODO: join name/email queries
 	try
 	{
-		$st = $db->prepare("/*[Q4]*/ SELECT `id` FROM `users` WHERE `name`=?");
+		$st = $db->prepare("/*[Q4]*/ SELECT `id` FROM `users` WHERE `name` = ?");
 
 		$st->execute([$user]);
 
@@ -720,7 +721,7 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 		}
 		else
 		{
-			$st = $db->prepare("/*[Q5]*/ SELECT `id` FROM `users` WHERE `email`=?");
+			$st = $db->prepare("/*[Q5]*/ SELECT `id` FROM `users` WHERE `email` = ?");
 
 			$st->execute([$email]);
 
@@ -737,14 +738,27 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 
 			$st = $db->prepare(<<<SQL
 				/*[Q6]*/
-				INSERT INTO
-				`users`(
-					`name`, `email`, `passwd`, `salt`, `language`,
-					`token`, `token_type`, `token_expires`, `ip`
+				INSERT INTO `users`(
+					`name`,
+					`email`,
+					`passwd`,
+					`salt`,
+					`language`,
+					`token`,
+					`token_type`,
+					`token_expires`,
+					`ip`
 				)
 				VALUES(
-					:user, :email, :password, :salt, :language,
-					:token, 'activation', FROM_UNIXTIME(:expires), :ipaddr
+					:user,
+					:email,
+					:password,
+					:salt,
+					:language,
+					:token,
+					'activation',
+					FROM_UNIXTIME(:expires),
+					:ipaddr
 				);
 				SQL
 			);
@@ -927,9 +941,19 @@ function /* char *error */ ActivateUserSql($db, $user, $token)
 	{
 		$st = $db->prepare(<<<SQL
 			/*[Q9]*/
-			SELECT `id`, `token`, `token_type`, UTC_TIMESTAMP() as `now`,
-				(SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`)) AS `expires`
-			FROM `users` WHERE `name`=?
+			SELECT
+				`id`,
+				`token`,
+				`token_type`,
+				UTC_TIMESTAMP() as `now`,
+				(
+					SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) -
+						UNIX_TIMESTAMP(`token_expires`)
+				) AS `expires`
+			FROM
+				`users`
+			WHERE
+				`name` = ?
 			SQL
 		);
 
@@ -984,7 +1008,8 @@ function /* char *error */ ActivateUserSql($db, $user, $token)
 						`token`=NULL,
 						`token_type`='none',
 						`token_expires`=NULL
-					WHERE `id`=?
+					WHERE
+						`id` = ?
 					SQL
 				);
 
@@ -1061,7 +1086,7 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 		if (0 == strlen($user))
 			$user = null;
 		else
-			$where = "`name`=:user";
+			$where = "`name` = :user";
 	}
 
 	if ($email)
@@ -1073,9 +1098,9 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 		else
 		{
 			if ($where)
-				$where .= " AND `email`=:email";
+				$where .= " AND `email` = :email";
 			else
-				$where = "`email`=:email";
+				$where = "`email` = :email";
 		}
 	}
 
@@ -1090,13 +1115,22 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 			$st = $db->prepare(<<<SQL
 				/*[Q11]*/
 				SELECT
-					`id`, `name`, `email`, `token_type`,
-					IF (ISNULL(`token_expires`),
+					`id`,
+					`name`,
+					`email`,
+					`token_type`,
+					IF (
+						ISNULL(`token_expires`),
 						:lifetime,
-						(SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`))
+						(
+							SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) -
+								UNIX_TIMESTAMP(`token_expires`)
+						)
 					) AS `expires`
-				FROM `users`
-				WHERE $where
+				FROM
+					`users`
+				WHERE
+					$where
 				SQL
 			);
 
@@ -1187,10 +1221,13 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 					/*[Q12]*/
 					UPDATE `users`
 					SET
-						`token`=:token,
+						`token` = :token,
 						`token_type`='password',
-						`token_expires`=FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) + :lifetime)
-					WHERE `id`=:uid
+						`token_expires` = FROM_UNIXTIME(
+							UNIX_TIMESTAMP(UTC_TIMESTAMP()) + :lifetime
+						)
+					WHERE
+						`id` = :uid
 					SQL
 				);
 
@@ -1201,7 +1238,7 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 				]);
 
 				$st = $db->prepare(
-					"/*[Q13]*/ SELECT `token_expires` FROM `users` WHERE `id`=?"
+					"/*[Q13]*/ SELECT `token_expires` FROM `users` WHERE `id` = ?"
 				);
 
 				$st->execute([$uid]);
@@ -1322,9 +1359,16 @@ function /* char *error */ ChangePasswordSql($db, $user, $token, $password)
 	{
 		$st = $db->prepare(<<<SQL
 			/*[Q14]*/
-			SELECT `id`,
-				(SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) - UNIX_TIMESTAMP(`token_expires`)) AS `expires`$column
-			FROM `users` WHERE `name`=?
+			SELECT
+				`id`,
+				(
+					SELECT UNIX_TIMESTAMP(UTC_TIMESTAMP()) -
+						UNIX_TIMESTAMP(`token_expires`)
+				) AS `expires`$column
+			FROM
+				`users`
+			WHERE
+				`name` = ?
 			SQL
 		);
 
@@ -1375,12 +1419,12 @@ function /* char *error */ ChangePasswordSql($db, $user, $token, $password)
 						/*[Q15]*/
 						UPDATE `users`
 						SET
-							`salt`=:salt,
-							`passwd`=:password,
+							`salt` = :salt,
+							`passwd` = :password,
 							`token`=NULL,
 							`token_type`='none',
 							`token_expires`=NULL
-						WHERE `id`=:uid
+						WHERE `id` = :uid
 						SQL
 					);
 

@@ -54,18 +54,19 @@ if (isset($_POST['add']) ||
 						INNER JOIN (
 							SELECT `id`
 							FROM `watchlist`
-							WHERE `user`=:uid
-								AND `reg`=:reg
+							WHERE `user` = :uid
+								AND `reg` = :reg
 						) AS `watchlist`
-							ON `watchlist`.`id`=`watchlist-notifications`.`watch`
+							ON `watchlist`.`id` = `watchlist-notifications`.`watch`
 						SQL
 					);
 
 					$stWatch = $db->prepare(<<<SQL
 						/*[Q17]*/
 						DELETE FROM `watchlist`
-						WHERE `user`=:uid
-							AND `reg`=:reg
+						WHERE
+							`user` = :uid AND
+							`reg` = :reg
 						SQL
 					);
 
@@ -93,10 +94,12 @@ if (isset($_POST['add']) ||
 						/*[Q20]*/
 						UPDATE `watchlist`
 						SET
-							`reg`=:new,
-							`comment`=:comment,
-							`notify`=:notify
-						WHERE `user`=:uid AND `reg`=:reg
+							`reg` = :new,
+							`comment` = :comment,
+							`notify` = :notify
+						WHERE
+							`user` = :uid AND
+							`reg` = :reg
 						SQL
 					);
 
@@ -131,8 +134,18 @@ if (isset($_POST['add']) ||
 				{
 					$st = $db->prepare(<<<SQL
 						/*[Q18]*/
-						INSERT INTO `watchlist`(`user`, `reg`, `comment`, `notify`)
-						VALUES(:uid, :reg, :comment, :notify)
+						INSERT INTO `watchlist`(
+							`user`,
+							`reg`,
+							`comment`,
+							`notify`
+						)
+						VALUES(
+							:uid,
+							:reg,
+							:comment,
+							:notify
+						)
 						ON DUPLICATE KEY UPDATE
 							`user` = :uid,
 							`reg` = :reg,
@@ -292,10 +305,16 @@ if ($user)
 		{
 			$st = $db->prepare(<<<SQL
 				/*[Q19]*/
-				SELECT `reg`, `comment`, `notify`
-				FROM `watchlist`
-				WHERE `user`=?
-				ORDER BY `reg`
+				SELECT
+					`reg`,
+					`comment`,
+					`notify`
+				FROM
+					`watchlist`
+				WHERE
+					`user` = ?
+				ORDER BY
+					`reg`
 				SQL
 			);
 
@@ -531,7 +550,7 @@ $query = <<<EOF
 		LEFT JOIN `aircrafts` ON `flights`.`aircraft` = `aircrafts`.`id`
 		LEFT JOIN `visits` ON `flights`.`aircraft` = `visits`.`aircraft`
 		$join
-	WHERE `flights`.`direction`=:dir
+	WHERE `flights`.`direction` = :dir
 		AND TIMESTAMPDIFF(SECOND, :now, IFNULL(`expected`, `scheduled`)) >= :lookback
 		AND TIMESTAMPDIFF(SECOND, :now, IFNULL(`expected`, `scheduled`)) <= :lookahead
 	ORDER BY `expected` ASC, `airlines`.`code`, `flights`.`code`;
