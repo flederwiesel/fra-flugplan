@@ -16,6 +16,16 @@
 
 # Automatic test script master file
 
+cleanup()
+{
+	rm -f .COOKIES
+
+	# Restore admin message
+	[ -e ../~adminmessage.php ] && mv ../~adminmessage.php ../adminmessage.php
+}
+
+trap cleanup EXIT
+
 ###############################################################################
 
 # parse command line options
@@ -34,12 +44,20 @@ do
 
 			Usage: \033[1;37m$(basename "${BASH_SOURCE[0]}")\033[m
 
+			    --airportcity-stop-before=dd-HHMM
+			        Stop airportcity test before "dd-HHMM".
+
 			    --copy-scripts
 			        Copy css/js into results.
 
 			    --debug
 			        Print what is being done.
 
+			    --getflights-stop-at=dd-HHMM
+			        Stop before getflights test at "dd-HHMM" after preparation.
+
+			    --getflights-stop-before=dd-HHMM
+			        Stop before getflights test "dd-HHMM" without preparation.
 
 			    --help
 			        Show this message.
@@ -47,8 +65,12 @@ do
 			    --verbose
 			        Print current test.
 
-				EOF
+			EOF
 			exit 0
+			;;
+
+		--airportcity-stop-before=*)
+			airportcity_stop_before="${arg#*=}"
 			;;
 
 		--copy-scripts)
@@ -57,6 +79,14 @@ do
 
 		-d|--debug)
 			debug=1
+			;;
+
+		--getflights-stop-at=*)
+			getflights_stop_at="${arg#*=}"
+			;;
+
+		--getflights-stop-before=*)
+			getflights_stop_before="${arg#*=}"
 			;;
 
 		-v|--verbose)
@@ -356,11 +386,5 @@ do
 done
 
 ###############################################################################
-###############################################################################
-
-rm -f .COOKIES
-
-# Restore admin message
-[ -e ../~adminmessage.php ] && mv ../~adminmessage.php ../adminmessage.php
 
 exit $status

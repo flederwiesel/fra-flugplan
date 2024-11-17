@@ -119,11 +119,12 @@ for day in {0..1}
 do
 	for t in {5..23}
 	do
-#[ 1 == $day ] && [ 6 == $t ] && exit 1
 		time=$(printf '%02u:00' $t)
+		ddHHMM=$(printf '%02u' $day)-$(date +'%H%M' --date="$time")
 
-		dHHMM=$(printf '%02u' $day)-$(date +'%H%M' --date="$time")
-#		mkdir -p "sh/results/getflights/$dHHMM"
+		if [ "$getflights_stop_before" = "$ddHHMM" ]; then
+			exit 1
+		fi
 
 		offset=$(date +'%Y-%m-%d' --date="+$day days")
 		now=$(date +'%Y-%m-%dT%H:%M:%S%z' --date="$offset $time")
@@ -171,7 +172,11 @@ SQL
 			;;
 		esac
 
-		fileext=txt check "$dHHMM-getflights" browse "$url/getflights.php?prefix=$prefix\&time=$now\&debug=url,json,jflights,sql\&fmt=txt"\
+		if [ "$getflights_stop_at" = "$ddHHMM" ]; then
+			exit 1
+		fi
+
+		fileext=txt check "$ddHHMM-getflights" browse "$url/getflights.php?prefix=$prefix\&time=$now\&debug=url,json,jflights,sql\&fmt=txt"\
 			"| sed -r '
 			s/Dauer: [0-9]+.[0-9]+s/Dauer: 0.000s/g
 			s/$YYYY_mm_dd_0/0000-00-00/g
@@ -209,7 +214,7 @@ SQL
 			LEFT JOIN `models` ON `models`.`id` = `flights`.`model`'
 		)
 
-		fileext=txt check "$dHHMM-flights" "echo '$flights'"\
+		fileext=txt check "$ddHHMM-flights" "echo '$flights'"\
 			"| sed -r '
 				s/arrival/A/g
 				s/departure/D/g
@@ -219,7 +224,7 @@ SQL
 				s/$YYYY_mm_dd_3/0000-00-03/g
 			'"
 
-		check "$dHHMM-arrival" browse "$url/?arrival\&time=$now"\
+		check "$ddHHMM-arrival" browse "$url/?arrival\&time=$now"\
 			"| sed -r '
 				s/$YYYY_mm_dd_0/0000-00-00/g
 				s/$YYYY_mm_dd_1/0000-00-01/g
@@ -229,7 +234,7 @@ SQL
 		# Note, that RARE A/C will not be marked as such,
 		# since we use different a/c in arrival/departure.csv,
 		# and only arrivals will evaluate visits
-		check "$dHHMM-departure" browse "$url/?departure\&time=$now"\
+		check "$ddHHMM-departure" browse "$url/?departure\&time=$now"\
 			"| sed -r '
 				s/$YYYY_mm_dd_0/0000-00-00/g
 				s/$YYYY_mm_dd_1/0000-00-01/g
@@ -242,7 +247,7 @@ SQL
 			ORDER BY `flight`'
 		)
 
-		fileext=txt check "$dHHMM-notifications" 'echo "$notifications"'\
+		fileext=txt check "$ddHHMM-notifications" 'echo "$notifications"'\
 			"| sed -r '
 				s/$YYYY_mm_dd_0/0000-00-00/g
 				s/$YYYY_mm_dd_1/0000-00-01/g
@@ -260,7 +265,7 @@ SQL
 		'
 		)
 
-		fileext=txt check "$dHHMM-visits" "echo '$visits'"\
+		fileext=txt check "$ddHHMM-visits" "echo '$visits'"\
 			"| sed -r '
 				s/$YYYY_mm_dd_0/0000-00-00/g
 				s/$YYYY_mm_dd_1/0000-00-01/g
@@ -271,13 +276,13 @@ done
 
 for day in {2..3}
 do
-	dHHMM=$(printf '%02u' $day)-0500
+	ddHHMM=$(printf '%02u' $day)-0500
 
 	offset=$(date +'%Y-%m-%d' --date="+$day days")
 	now=$(date +'%Y-%m-%d %H:%M:%S' --date="$offset 05:00")
 	now=$(rawurlencode $now)
 
-	fileext=txt check "$dHHMM-getflights" browse "$url/getflights.php?prefix=$prefix\&time=$now\&debug=url,json,sql\&fmt=txt"\
+	fileext=txt check "$ddHHMM-getflights" browse "$url/getflights.php?prefix=$prefix\&time=$now\&debug=url,json,sql\&fmt=txt"\
 		"| sed -r '
 		s/Dauer: [0-9]+.[0-9]+s/Dauer: 0.000s/g
 		s/$YYYY_mm_dd_2/0000-00-02/g
@@ -295,7 +300,7 @@ do
 		ORDER BY `flight`'
 	)
 
-	fileext=txt check "$dHHMM-notifications" 'echo "$notifications"'\
+	fileext=txt check "$ddHHMM-notifications" 'echo "$notifications"'\
 		"| sed -r '
 			s/$YYYY_mm_dd_0/0000-00-00/g
 			s/$YYYY_mm_dd_1/0000-00-01/g

@@ -24,8 +24,15 @@ items=4
 for day in {0..1}
 do
 
-	for time in {5..23}
+	for t in {5..23}
 	do
+		time=$(printf '%02u:00' $t)
+		ddHHMM=$(printf '%02u' $day)-$(date +'%H%M' --date="$time")
+
+		if [ "$airportcity_stop_before" = "$ddHHMM" ]; then
+			exit 1
+		fi
+
 		YYYYmmdd_0=$(date +%Y-%m-%d)
 		YYYYmmdd_1=$(date +%Y-%m-%d --date="+1 day")
 		YYYYmmdd_2=$(date +%Y-%m-%d --date="+2 days")
@@ -47,7 +54,7 @@ do
 					do
 						request="flighttype=${dir}s&time=$(rawurlencode $YYYYmmddTHHMMSSZ)&items=$items&page=$page"
 						json=$(browse "$url/$airport?$request" | jq '[.data[]|{dir:.dir,sched:.sched,esti:.esti,fnr:.fnr,reg:.reg}]')
-						fileext=json check $(printf "$day-%02u00-$dir-$page" $time) "echo '$json'" \
+						fileext=json check $(printf "$day-%02u00-$dir-$page" $t) "echo '$json'" \
 							"| sed -r '
 								s/$YYYYmmdd_0/0000-00-00/g
 								s/$YYYYmmdd_1/0000-00-01/g
