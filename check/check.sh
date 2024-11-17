@@ -24,34 +24,49 @@ export verbose=0
 
 copy_scsripts=
 
-declare -A argv=()
+argv=()
 
-while [ $# -gt 0 ]
+for arg
 do
-	case "$1" in
-		'--help')
-			echo -e "\033[1;37m${0}\033[m\n"
-			exit 1
+	case "$arg" in
+		--help)
+			sed $'s/\\\\033/\033/g' <<-EOF
+
+			Usage: \033[1;37m$(basename "${BASH_SOURCE[0]}")\033[m
+
+			    --copy-scripts
+			        Copy css/js into results.
+
+			    --debug
+			        Print what is being done.
+
+
+			    --help
+			        Show this message.
+
+			    --verbose
+			        Print current test.
+
+				EOF
+			exit 0
 			;;
-		'--copy-scripts')
+
+		--copy-scripts)
 			copy_scsripts=1
 			;;
-		'-d') ;&
-		'--debug')
+
+		-d|--debug)
 			debug=1
 			;;
-		'-v') ;&
-		'--verbose')
+
+		-v|--verbose)
 			verbose=1
 			;;
-		'--'*'='*)
-			eval "${1##--}"
-			;;
+
 		*)
-			argv[${#argv[@]}]="$1"
+			argv+=("$arg")
 			;;
 	esac
-	shift
 done
 
 set -- "${argv[@]}"
