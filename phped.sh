@@ -156,11 +156,11 @@ do
 		HideFiles=.gitignore;.cvsignore;*.dsk;*.idx;*.ppx;*.ppw
 		IncPath_count=0
 		MappingCount=1
-		MappingLocal0=${webroot}
+		MappingLocal0=${scriptdir}
 		MappingMainIdx=0
 		MappingPublishing0=
 		MappingPublishingRoot=
-		MappingRemote0=${webroot}
+		MappingRemote0=${scriptdir}
 		MappingRemoteDir=${webroot}
 		MappingURL0=http://localhost/${projectpath}
 		ParserProp_AllowSingleAsteriskXDoc=0
