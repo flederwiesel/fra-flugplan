@@ -175,18 +175,18 @@ if (!$error)
 					SELECT `expected`, `scheduled`, `airline`, `code`, `airport`, `model`, `aircraft`
 					FROM `flights`
 					WHERE `direction` = '$direction'
-					AND IFNULL(`expected`, `scheduled`) BETWEEN '$from' AND '$until'
+					AND `expected` BETWEEN '$from' AND '$until'
 					UNION ALL
 					SELECT `expected`, `scheduled`, `airline`, `code`, `airport`, `model`, `aircraft`
 					FROM `history`
 					WHERE `direction` = '$direction'
-					AND IFNULL(`expected`, `scheduled`) BETWEEN '$from' AND '$until'
+					AND `expected` BETWEEN '$from' AND '$until'
 				) AS `flights`
 				LEFT JOIN `airlines` ON `airlines`.`id` = `flights`.`airline`
 				LEFT JOIN `airports` ON `airports`.`id` = `flights`.`airport`
 				LEFT JOIN `models` ON `models`.`id` = `flights`.`model`
 				LEFT JOIN `aircrafts` ON  `aircrafts`.`id` = `flights`.`aircraft`
-				ORDER BY IFNULL(`flights`.`expected`, `flights`.`scheduled`) ASC,
+				ORDER BY `flights`.`expected` ASC,
 					`scheduled` ASC
 SQL;
 

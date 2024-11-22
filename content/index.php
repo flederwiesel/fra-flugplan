@@ -527,9 +527,8 @@ $join = 'LEFT JOIN `countries` ON `airports`.`country` = `countries`.`id`';
 
 /* Fixed: */
 $columns .= <<<EOF
-	IFNULL(`expected`,`scheduled`) AS `expected`,
+	`expected`,
 	CASE
-		WHEN `expected` IS NULL THEN 0
 		WHEN `expected` < `scheduled` THEN -1
 		WHEN `expected` > `scheduled` THEN 1
 		ELSE 0 end AS `timediff`,
@@ -551,8 +550,8 @@ $query = <<<EOF
 		LEFT JOIN `visits` ON `flights`.`aircraft` = `visits`.`aircraft`
 		$join
 	WHERE `flights`.`direction` = :dir
-		AND TIMESTAMPDIFF(SECOND, :now, IFNULL(`expected`, `scheduled`)) >= :lookback
-		AND TIMESTAMPDIFF(SECOND, :now, IFNULL(`expected`, `scheduled`)) <= :lookahead
+		AND TIMESTAMPDIFF(SECOND, :now, `expected`) >= :lookback
+		AND TIMESTAMPDIFF(SECOND, :now, `expected`) <= :lookahead
 	ORDER BY `expected` ASC, `airlines`.`code`, `flights`.`code`;
 	EOF;
 

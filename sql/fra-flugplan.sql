@@ -141,7 +141,8 @@ CREATE TABLE `flights`
 	`airline` integer NOT NULL,
 	`code` varchar(6) NOT NULL,
 	`scheduled` datetime NOT NULL,
-	`expected` timestamp NULL DEFAULT NULL,
+	`estimated` datetime NULL DEFAULT NULL,
+	`expected` datetime AS (IFNULL(`estimated`, `scheduled`)) VIRTUAL,
 	`airport` integer DEFAULT NULL,
 	`model` integer DEFAULT NULL,
 	`aircraft` integer DEFAULT NULL,
@@ -153,6 +154,8 @@ CREATE TABLE `flights`
 	CONSTRAINT `fk:flights(aircraft)=aircrafts(id)` FOREIGN KEY (`aircraft`) REFERENCES `aircrafts`(`id`),
 	UNIQUE KEY `u:flights(direction,airline,code,scheduled)` (`direction`, `airline`, `code`, `scheduled`),
 	INDEX `i:flights(direction)`(`direction`),
+	INDEX `i:flights(direction,expected)`(`direction`, `expected`),
+	INDEX `i:flights(expected)`(`expected`),
 	INDEX `i:flights(scheduled)`(`scheduled`),
 	INDEX `i:flights(code)`(`code`),
 	INDEX `i:flights(aircraft)`(`aircraft`)

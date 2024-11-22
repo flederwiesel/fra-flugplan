@@ -200,7 +200,7 @@ SQL
 			SELECT
 			 `flights`.`direction`,
 			 `flights`.`scheduled`,
-			 `flights`.`expected`,
+			 `flights`.`estimated`,
 			 `airlines`.`code`,
 			 `flights`.`code`,
 			 `airports`.`iata` AS `airport:iata`,

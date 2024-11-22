@@ -185,7 +185,7 @@ SELECT `id` FROM `aircrafts` WHERE `reg` = 'CS-TNP';
 =7
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'arrival' AND `airline` = 113 AND `code` = '576' AND `scheduled` = '0000-00-01T18:25:00+0000'
 =43,7,0000-00-00 19:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(136, `airport`), `aircraft` = 7, `model` = 9 WHERE `id` = 43;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(136, `airport`), `aircraft` = 7, `model` = 9 WHERE `id` = 43;
 =OK
 
 /************************************/
@@ -200,7 +200,7 @@ SELECT `id` FROM `aircrafts` WHERE `reg` = '9V-SWK';
 =9
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'arrival' AND `airline` = 105 AND `code` = '326' AND `scheduled` = '0000-00-01T20:30:00+0000'
 =45,9,0000-00-00 21:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(204, `airport`), `aircraft` = 9, `model` = 68 WHERE `id` = 45;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(204, `airport`), `aircraft` = 9, `model` = 68 WHERE `id` = 45;
 =OK
 
 /************************************/
@@ -213,7 +213,7 @@ SELECT `id` FROM `models` WHERE `icao` = 'A320';
 =9
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'arrival' AND `airline` = 113 AND `code` = '578' AND `scheduled` = '0000-00-01T22:30:00+0000'
 =49,,0000-00-00 23:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(136, `airport`), `aircraft` = NULL, `model` = 9 WHERE `id` = 49;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(136, `airport`), `aircraft` = NULL, `model` = 9 WHERE `id` = 49;
 =OK
 
 /************************************/
@@ -227,7 +227,7 @@ SELECT `id` FROM `models` WHERE `icao` = 'A346';
 =19
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'arrival' AND `airline` = 99 AND `code` = '260' AND `scheduled` = '0000-00-02T06:15:00+0000'
 =50,,0000-00-01 06:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(323, `airport`), `aircraft` = NULL, `model` = 19 WHERE `id` = 50;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(323, `airport`), `aircraft` = NULL, `model` = 19 WHERE `id` = 50;
 =OK
 
 /************************************/
@@ -240,7 +240,7 @@ SELECT `id` FROM `models` WHERE `icao` = 'B77W';
 =68
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'arrival' AND `airline` = 24 AND `code` = '289' AND `scheduled` = '0000-00-02T06:20:00+0000'
 =51,,0000-00-01 07:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(98, `airport`), `aircraft` = NULL, `model` = 68 WHERE `id` = 51;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(98, `airport`), `aircraft` = NULL, `model` = 68 WHERE `id` = 51;
 =OK
 
 /************************************/
@@ -253,7 +253,7 @@ SELECT `id` FROM `models` WHERE `icao` = 'A333';
 =14
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'arrival' AND `airline` = 4 AND `code` = '874' AND `scheduled` = '0000-00-02T07:00:00+0000'
 =53,,0000-00-01 08:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(245, `airport`), `aircraft` = NULL, `model` = 14 WHERE `id` = 53;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(245, `airport`), `aircraft` = NULL, `model` = 14 WHERE `id` = 53;
 =OK
 
 /************************************/
@@ -266,7 +266,7 @@ SELECT `id` FROM `models` WHERE `icao` = 'B744';
 =57
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'arrival' AND `airline` = 120 AND `code` = '903' AND `scheduled` = '0000-00-02T09:45:00+0000'
 =54,,0000-00-01 10:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(201, `airport`), `aircraft` = NULL, `model` = 57 WHERE `id` = 54;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(201, `airport`), `aircraft` = NULL, `model` = 57 WHERE `id` = 54;
 =OK
 
 /************************************/
@@ -279,7 +279,7 @@ SELECT `id` FROM `models` WHERE `icao` = 'A343';
 =17
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'arrival' AND `airline` = 112 AND `code` = '1587' AND `scheduled` = '0000-00-02T10:40:00+0000'
 =55,,0000-00-01 11:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(109, `airport`), `aircraft` = NULL, `model` = 17 WHERE `id` = 55;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(109, `airport`), `aircraft` = NULL, `model` = 17 WHERE `id` = 55;
 =OK
 
 /************************************/
@@ -292,7 +292,7 @@ SELECT `id` FROM `models` WHERE `icao` = 'A333';
 =14
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'arrival' AND `airline` = 4 AND `code` = '844' AND `scheduled` = '0000-00-02T11:15:00+0000'
 =57,,0000-00-01 12:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(247, `airport`), `aircraft` = NULL, `model` = 14 WHERE `id` = 57;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(247, `airport`), `aircraft` = NULL, `model` = 14 WHERE `id` = 57;
 =OK
 
 /************************************/
@@ -305,7 +305,7 @@ SELECT `id` FROM `models` WHERE `icao` = 'A333';
 =14
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'arrival' AND `airline` = 4 AND `code` = '876' AND `scheduled` = '0000-00-02T11:45:00+0000'
 =58,,0000-00-01 12:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(248, `airport`), `aircraft` = NULL, `model` = 14 WHERE `id` = 58;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(248, `airport`), `aircraft` = NULL, `model` = 14 WHERE `id` = 58;
 =OK
 
 /************************************/
@@ -318,7 +318,7 @@ SELECT `id` FROM `models` WHERE `icao` = 'A320';
 =9
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'arrival' AND `airline` = 113 AND `code` = '572' AND `scheduled` = '0000-00-02T12:35:00+0000'
 =60,,0000-00-01 13:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(136, `airport`), `aircraft` = NULL, `model` = 9 WHERE `id` = 60;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(136, `airport`), `aircraft` = NULL, `model` = 9 WHERE `id` = 60;
 =OK
 
 /************************************/
@@ -331,7 +331,7 @@ SELECT `id` FROM `models` WHERE `icao` = 'A306';
 =4
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'arrival' AND `airline` = 63 AND `code` = '171' AND `scheduled` = '0000-00-02T13:20:00+0000'
 =63,,0000-00-01 14:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(123, `airport`), `aircraft` = NULL, `model` = 4 WHERE `id` = 63;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(123, `airport`), `aircraft` = NULL, `model` = 4 WHERE `id` = 63;
 =OK
 
 /************************************/
@@ -543,7 +543,7 @@ SELECT `id` FROM `aircrafts` WHERE `reg` = 'CS-TNP';
 =7
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'departure' AND `airline` = 113 AND `code` = '579' AND `scheduled` = '0000-00-01T19:10:00+0000'
 =44,7,0000-00-00 20:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(136, `airport`), `aircraft` = 7, `model` = 9 WHERE `id` = 44;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(136, `airport`), `aircraft` = 7, `model` = 9 WHERE `id` = 44;
 =OK
 
 /************************************/
@@ -559,7 +559,7 @@ SELECT `id` FROM `aircrafts` WHERE `reg` = 'ZS-SNC';
 =10
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'departure' AND `airline` = 99 AND `code` = '261' AND `scheduled` = '0000-00-01T20:45:00+0000'
 =46,10,0000-00-00 21:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(323, `airport`), `aircraft` = 10, `model` = 19 WHERE `id` = 46;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(323, `airport`), `aircraft` = 10, `model` = 19 WHERE `id` = 46;
 =OK
 
 /************************************/
@@ -574,7 +574,7 @@ SELECT `id` FROM `aircrafts` WHERE `reg` = '9V-SWK';
 =9
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'departure' AND `airline` = 105 AND `code` = '325' AND `scheduled` = '0000-00-01T21:55:00+0000'
 =48,,0000-00-00 22:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(204, `airport`), `aircraft` = 9, `model` = 68 WHERE `id` = 48;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(204, `airport`), `aircraft` = 9, `model` = 68 WHERE `id` = 48;
 =OK
 
 /************************************/
@@ -587,7 +587,7 @@ SELECT `id` FROM `models` WHERE `icao` = 'A320';
 =9
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'departure' AND `airline` = 113 AND `code` = '571' AND `scheduled` = '0000-00-02T06:20:00+0000'
 =52,,0000-00-01 07:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(136, `airport`), `aircraft` = NULL, `model` = 9 WHERE `id` = 52;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(136, `airport`), `aircraft` = NULL, `model` = 9 WHERE `id` = 52;
 =OK
 
 /************************************/
@@ -600,7 +600,7 @@ SELECT `id` FROM `models` WHERE `icao` = 'A333';
 =14
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'departure' AND `airline` = 4 AND `code` = '845' AND `scheduled` = '0000-00-02T10:30:00+0000'
 =56,,0000-00-01 11:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(247, `airport`), `aircraft` = NULL, `model` = 14 WHERE `id` = 56;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(247, `airport`), `aircraft` = NULL, `model` = 14 WHERE `id` = 56;
 =OK
 
 /************************************/
@@ -613,7 +613,7 @@ SELECT `id` FROM `models` WHERE `icao` = 'A343';
 =17
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'departure' AND `airline` = 112 AND `code` = '1588' AND `scheduled` = '0000-00-02T11:45:00+0000'
 =59,,0000-00-01 12:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(109, `airport`), `aircraft` = NULL, `model` = 17 WHERE `id` = 59;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(109, `airport`), `aircraft` = NULL, `model` = 17 WHERE `id` = 59;
 =OK
 
 /************************************/
@@ -626,7 +626,7 @@ SELECT `id` FROM `models` WHERE `icao` = 'B744';
 =57
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'departure' AND `airline` = 120 AND `code` = '902' AND `scheduled` = '0000-00-02T12:15:00+0000'
 =61,,0000-00-01 13:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(201, `airport`), `aircraft` = NULL, `model` = 57 WHERE `id` = 61;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(201, `airport`), `aircraft` = NULL, `model` = 57 WHERE `id` = 61;
 =OK
 
 /************************************/
@@ -639,7 +639,7 @@ SELECT `id` FROM `models` WHERE `icao` = 'B77W';
 =68
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'departure' AND `airline` = 24 AND `code` = '288' AND `scheduled` = '0000-00-02T12:55:00+0000'
 =62,,0000-00-01 13:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(98, `airport`), `aircraft` = NULL, `model` = 68 WHERE `id` = 62;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(98, `airport`), `aircraft` = NULL, `model` = 68 WHERE `id` = 62;
 =OK
 
 /************************************/
@@ -652,7 +652,7 @@ SELECT `id` FROM `models` WHERE `icao` = 'A320';
 =9
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'departure' AND `airline` = 113 AND `code` = '573' AND `scheduled` = '0000-00-02T13:20:00+0000'
 =64,,0000-00-01 14:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(136, `airport`), `aircraft` = NULL, `model` = 9 WHERE `id` = 64;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(136, `airport`), `aircraft` = NULL, `model` = 9 WHERE `id` = 64;
 =OK
 
 /************************************/
@@ -665,7 +665,7 @@ SELECT `id` FROM `models` WHERE `icao` = 'A333';
 =14
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'departure' AND `airline` = 4 AND `code` = '875' AND `scheduled` = '0000-00-02T13:30:00+0000'
 =65,,0000-00-01 14:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(245, `airport`), `aircraft` = NULL, `model` = 14 WHERE `id` = 65;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(245, `airport`), `aircraft` = NULL, `model` = 14 WHERE `id` = 65;
 =OK
 
 /************************************/
@@ -678,7 +678,7 @@ SELECT `id` FROM `models` WHERE `icao` = 'A306';
 =4
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'departure' AND `airline` = 63 AND `code` = '172' AND `scheduled` = '0000-00-02T14:30:00+0000'
 =66,,0000-00-01 15:00:00
-UPDATE `flights` SET `expected` = coalesce(NULL, `expected`), `airport` = coalesce(123, `airport`), `aircraft` = NULL, `model` = 4 WHERE `id` = 66;
+UPDATE `flights` SET `estimated` = coalesce(NULL, `estimated`), `airport` = coalesce(123, `airport`), `aircraft` = NULL, `model` = 4 WHERE `id` = 66;
 =OK
 
 /************************************/
@@ -691,7 +691,7 @@ SELECT `id` FROM `models` WHERE `icao` = 'A333';
 =14
 SELECT `id`, `aircraft`, `last update` FROM `flights` WHERE `direction` = 'departure' AND `airline` = 4 AND `code` = '877' AND `scheduled` = '0000-00-02T17:00:00+0000'
 =<empty>
-INSERT INTO `flights` (`direction`, `type`, `airline`, `code`, `scheduled`, `expected`, `airport`, `model`, `aircraft`, `last update`) VALUES ('departure', 'P', 4, '877', '0000-00-02T17:00:00+0000', NULL, 248, 14, NULL, '0000-00-01T17:00:00+0000');
+INSERT INTO `flights` (`direction`, `type`, `airline`, `code`, `scheduled`, `estimated`, `airport`, `model`, `aircraft`, `last update`) VALUES ('departure', 'P', 4, '877', '0000-00-02T17:00:00+0000', NULL, 248, 14, NULL, '0000-00-01T17:00:00+0000');
 =OK
 
 /************************************/
@@ -733,9 +733,9 @@ https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.flights.cargo.js
 ===========================
 
 
-INSERT INTO `watchlist-notifications`(`flight`, `watch`)  SELECT `flights`.`id`, `watchlist`.`id`  FROM `watchlist`  INNER JOIN `aircrafts` ON `aircrafts`.`reg` LIKE REPLACE(REPLACE(`watchlist`.`reg`, '*', '%'), '?', '_') OR `aircrafts`.`reg` RLIKE REPLACE(`watchlist`.`reg`, '/', '') AND `watchlist`.`reg` LIKE '/_%/'  INNER JOIN `flights` ON  `flights`.`aircraft` = `aircrafts`.`id` AND `flights`.`aircraft` IS NOT NULL  LEFT JOIN `watchlist-notifications` ON  `watchlist-notifications`.`watch` = `watchlist`.`id` AND `watchlist-notifications`.`flight` = flights.id  WHERE `watchlist`.`notify` = TRUE AND `watchlist-notifications`.`flight` IS NULL AND 'arrival' = `flights`.`direction` AND TIMESTAMPDIFF(SECOND, '0000-00-01T17:00:00+0000', IFNULL(flights.expected, flights.scheduled)) > 0  FOR UPDATE
-SELECT `watchlist-notifications`.`id` AS `id`, UNIX_TIMESTAMP(IFNULL(`flights`.`expected`, `flights`.`scheduled`)) AS `expected`, CONCAT(`airlines`.`code`, `flights`.`code`) AS `flight`, `aircrafts`.`reg` AS `reg`, `watchlist`.`comment` AS `comment`, `users`.`name` AS `name`, `users`.`email` AS `email`, `users`.`notification-timefmt` AS `fmt`, `users`.`language` AS `lang` FROM `watchlist-notifications` LEFT JOIN `watchlist` ON `watchlist-notifications`.`watch` = `watchlist`.`id` LEFT JOIN `flights` ON `watchlist-notifications`.`flight` = `flights`.`id` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` LEFT JOIN `aircrafts` ON `flights`.`aircraft` = `aircrafts`.`id` LEFT JOIN `users` ON `watchlist`.`user` = `users`.`id` WHERE IFNULL(`flights`.`expected`, `flights`.`scheduled`) > '0000-00-01T17:00:00+0000' AND `notified` IS NULL AND FROM_UNIXTIME(0, '%H:%i:%s') BETWEEN `users`.`notification-from` AND `users`.`notification-until` ORDER BY `email` ASC, `expected` ASC
-DELETE `watchlist-notifications` FROM `watchlist-notifications` INNER JOIN `flights` ON `flights`.`id`=`watchlist-notifications`.`flight` WHERE (DATEDIFF('0000-00-01T17:00:00+0000', IFNULL(`flights`.`expected`, `flights`.`scheduled`)) > 1)
+INSERT INTO `watchlist-notifications`(`flight`, `watch`)  SELECT `flights`.`id`, `watchlist`.`id`  FROM `watchlist`  INNER JOIN `aircrafts` ON `aircrafts`.`reg` LIKE REPLACE(REPLACE(`watchlist`.`reg`, '*', '%'), '?', '_') OR `aircrafts`.`reg` RLIKE REPLACE(`watchlist`.`reg`, '/', '') AND `watchlist`.`reg` LIKE '/_%/'  INNER JOIN `flights` ON  `flights`.`aircraft` = `aircrafts`.`id` AND `flights`.`aircraft` IS NOT NULL  LEFT JOIN `watchlist-notifications` ON  `watchlist-notifications`.`watch` = `watchlist`.`id` AND `watchlist-notifications`.`flight` = flights.id  WHERE `watchlist`.`notify` = TRUE AND `watchlist-notifications`.`flight` IS NULL AND 'arrival' = `flights`.`direction` AND TIMESTAMPDIFF(SECOND, '0000-00-01T17:00:00+0000', `flights`.`expected`) > 0  FOR UPDATE
+SELECT `watchlist-notifications`.`id` AS `id`, UNIX_TIMESTAMP(`flights`.`expected`) AS `expected`, CONCAT(`airlines`.`code`, `flights`.`code`) AS `flight`, `aircrafts`.`reg` AS `reg`, `watchlist`.`comment` AS `comment`, `users`.`name` AS `name`, `users`.`email` AS `email`, `users`.`notification-timefmt` AS `fmt`, `users`.`language` AS `lang` FROM `watchlist-notifications` LEFT JOIN `watchlist` ON `watchlist-notifications`.`watch` = `watchlist`.`id` LEFT JOIN `flights` ON `watchlist-notifications`.`flight` = `flights`.`id` LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id` LEFT JOIN `aircrafts` ON `flights`.`aircraft` = `aircrafts`.`id` LEFT JOIN `users` ON `watchlist`.`user` = `users`.`id` WHERE `flights`.`expected` > '0000-00-01T17:00:00+0000' AND `notified` IS NULL AND FROM_UNIXTIME(0, '%H:%i:%s') BETWEEN `users`.`notification-from` AND `users`.`notification-until` ORDER BY `email` ASC, `expected` ASC
+DELETE `watchlist-notifications` FROM `watchlist-notifications` INNER JOIN `flights` ON `flights`.`id`=`watchlist-notifications`.`flight` WHERE (DATEDIFF('0000-00-01T17:00:00+0000', `flights`.`expected`) > 1)
 
 
 === fin. ===

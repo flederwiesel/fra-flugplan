@@ -587,7 +587,7 @@ class flight
 	public $airline;	// airline = { id = 0, code = "LH", name = "Lufthansa" }
 	public $fnr;		// fnr = "1013"
 	public $scheduled;	// scheduled = "2015-12-07T05-12-22T16;10;00+0100"
-	public $expected;	// expected = [null] "2015-12-05T16;21;00+0100"
+	public $estimated;	// estimated = [null] "2015-12-05T16;21;00+0100"
 	public $airport;	// airport = { id = 0, iata = "BRU", icao = "EBBR", name = "Brüssel" }
 	public $aircraft;	// ac = { id = 0, reg = "D-AIRY", tid = 0, icao = "A306" }
 	public $status;		// status = enum FlightStatus()
@@ -600,7 +600,7 @@ class flight
 		$this->airline = new airline($al, $alname);
 		$this->fnr = $fnr;
 		$this->scheduled = $sched;
-		$this->expected = $esti;
+		$this->estimated = $esti;
 		$this->airport = new airport($iata);
 		$this->aircraft = new aircraft($reg, $ac);
 		$this->status = $status;
@@ -1750,24 +1750,24 @@ function SQL_UpdateFlightDetails(/* in */ $id, /* in */ $f)
 	global $DEBUG;
 	global $db;
 
-	$expected = null;
+	$estimated = null;
 
 	// Don't update flights which should have been landed > 3 days ago,
 	// the status of these have probably not been updated...
-	if ($f->expected)
-		if (strtotime($f->expected) >= strtotime('-3 days'))
-			$expected = $f->expected;
+	if ($f->estimated)
+		if (strtotime($f->estimated) >= strtotime('-3 days'))
+			$estimated = $f->estimated;
 
 	try
 	{
 		$error = null;
 
-		// Don't overwrite `expected`/`airport` with null!
+		// Don't overwrite `estimated`/`airport` with null!
 		$st = $db->prepare(<<<SQL
 			/*[Q31]*/
 			UPDATE `flights`
 			SET
-				`expected` = coalesce(:expected, `expected`),
+				`estimated` = coalesce(:estimated, `estimated`),
 				`airport` = coalesce(:airport, `airport`),
 				`aircraft` = :aircraft,
 				`model` = :model
@@ -1777,7 +1777,7 @@ function SQL_UpdateFlightDetails(/* in */ $id, /* in */ $f)
 		);
 
 		$st->execute([
-			"expected" => $expected,
+			"estimated" => $estimated,
 			"airport" => $f->airport->id,
 			"aircraft" => $f->aircraft->id,
 			"model" => $f->aircraft->type->id,
@@ -1803,11 +1803,11 @@ function SQL_InsertFlight(/*in*/ $type, /* in */ $dir, /* in/out */ &$f)
 	global $DEBUG;
 	global $db;
 
-	$expected = null;
+	$estimated = null;
 
-	if ($f->expected)
-		if (strtotime($f->expected) >= strtotime('-3 days'))
-			$expected = $f->expected;
+	if ($f->estimated)
+		if (strtotime($f->estimated) >= strtotime('-3 days'))
+			$estimated = $f->estimated;
 
 	try
 	{
@@ -1822,7 +1822,7 @@ function SQL_InsertFlight(/*in*/ $type, /* in */ $dir, /* in/out */ &$f)
 				`airline`,
 				`code`,
 				`scheduled`,
-				`expected`,
+				`estimated`,
 				`airport`,
 				`model`,
 				`aircraft`,
@@ -1835,7 +1835,7 @@ function SQL_InsertFlight(/*in*/ $type, /* in */ $dir, /* in/out */ &$f)
 				:airline,
 				:code,
 				:scheduled,
-				:expected,
+				:estimated,
 				:airport,
 				:model,
 				:aircraft,
@@ -1850,7 +1850,7 @@ function SQL_InsertFlight(/*in*/ $type, /* in */ $dir, /* in/out */ &$f)
 			"airline" => $f->airline->id,
 			"code" => $f->fnr,
 			"scheduled" => $f->scheduled,
-			"expected" => $expected,
+			"estimated" => $estimated,
 			"airport" => $f->airport->id,
 			"model" => $f->aircraft->type->id,
 			"aircraft" => $f->aircraft->id,
@@ -2212,7 +2212,7 @@ function SQL_FlightsToHistory()
 				WHERE (
 					DATEDIFF(
 						NOW(),
-						IFNULL(`flights`.`expected`, `flights`.`scheduled`)
+						`flights`.`expected`
 					) > 2
 				)
 				LIMIT 100
@@ -2688,7 +2688,7 @@ if (!$error)
 					`watchlist`.`notify` = TRUE AND
 					`watchlist-notifications`.`flight` IS NULL AND
 					'arrival' = `flights`.`direction` AND
-					TIMESTAMPDIFF(SECOND, :now, IFNULL(flights.expected, flights.scheduled)) > 0
+					TIMESTAMPDIFF(SECOND, :now, `flights`.`expected`) > 0
 
 				FOR UPDATE
 				SQL
@@ -2711,9 +2711,7 @@ if (!$error)
 				/*[Q45]*/
 				SELECT
 					`watchlist-notifications`.`id` AS `id`,
-					UNIX_TIMESTAMP(
-						IFNULL(`flights`.`expected`, `flights`.`scheduled`)
-					) AS `expected`,
+					UNIX_TIMESTAMP(`flights`.`expected`) AS `expected`,
 					CONCAT(
 						`airlines`.`code`,
 						`flights`.`code`
@@ -2735,7 +2733,7 @@ if (!$error)
 					ON `flights`.`aircraft` = `aircrafts`.`id`
 				LEFT JOIN `users`
 					ON `watchlist`.`user` = `users`.`id`
-				WHERE IFNULL(`flights`.`expected`, `flights`.`scheduled`) > :atom
+				WHERE `flights`.`expected` > :atom
 					AND `notified` IS NULL
 					AND
 						FROM_UNIXTIME(:time_t, '%H:%i:%s')
@@ -2820,7 +2818,7 @@ if (!$error)
 					WHERE (
 					DATEDIFF(
 						:now,
-						IFNULL(`flights`.`expected`, `flights`.`scheduled`)
+						`flights`.`expected`
 					) > 1
 				)
 				SQL
