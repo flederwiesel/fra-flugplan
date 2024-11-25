@@ -2064,20 +2064,10 @@ function SQL_UpdateVisitsToFra($scheduled, $aircraft, $op)
 						$st = $db->prepare(<<<SQL
 							/*[Q38]*/
 							SELECT MAX(`scheduled`) AS `scheduled`
-							FROM
-							(
-								SELECT `scheduled`
-								FROM `flights`
-								WHERE
-									`direction` = 'arrival' AND
-									`aircraft` = :aircraft
-								UNION ALL
-								SELECT `scheduled`
-								FROM `history`
-								WHERE
-									`direction` = 'arrival' AND
-									`aircraft` = :aircraft
-							) AS `flights`
+							FROM `flights`
+							WHERE
+								`direction` = 'arrival' AND
+								`aircraft` = :aircraft
 							SQL
 						);
 
@@ -2187,58 +2177,6 @@ function SQL_DeleteNotifications($id, $all)
 		{
 			$error = sqlErrorInfo($ex, $st);
 		}
-	}
-
-	return $error;
-}
-
-function SQL_FlightsToHistory()
-{
-	global $db;
-
-	try
-	{
-		$error = null;
-
-		$db->beginTransaction();
-
-		$db->exec("CREATE TEMPORARY TABLE `move flights`(`id` integer)");
-
-		$db->exec(<<<SQL
-			/*[Q41]*/
-			INSERT INTO `move flights`
-				SELECT `id`
-				FROM `flights`
-				WHERE (
-					DATEDIFF(
-						NOW(),
-						`flights`.`expected`
-					) > 2
-				)
-				LIMIT 100
-			SQL
-		);
-
-		$db->exec(<<<SQL
-			/*[Q42]*/
-			INSERT INTO `history`
-				SELECT * FROM `flights`
-					INNER JOIN `move flights` USING(`id`)
-			SQL
-		);
-
-		$db->exec(<<<SQL
-			/*[Q43]*/
-			DELETE `flights` FROM `flights`
-			INNER JOIN `move flights` USING(`id`)
-			SQL
-		);
-
-		$db->commit();
-	}
-	catch (PDOException $ex)
-	{
-		$error = sqlErrorInfo($ex);
 	}
 
 	return $error;
@@ -2568,16 +2506,6 @@ if (!$error)
 
 					if (!$error)
 					{
-						/*
-						if (strtotime($f->lu) <= strtotime($lu) ||
-							strtotime($f->lu) < $now->time_t - 86400 && 0 == $lu)
-						{
-							// Not updated since
-							// Updated > 1 day ago and not in `flights` (maybe in `history` - too lazy to check)
-							$f->status = FlightStatus::IGNORE;
-						}
-						*/
-
 						if (FlightStatus::IGNORE == $f->status)
 						{
 							if (isset($DEBUG['sql']))
@@ -2833,10 +2761,6 @@ if (!$error)
 		{
 			$error = sqlErrorInfo($ex, $st);
 		}
-
-		/* Move outdated flights to history table */
-		if (!$error)
-			$error = SQL_FlightsToHistory();
 	}
 
 	/* betriebsrichtung.html */
