@@ -46,7 +46,9 @@ CREATE TABLE `users`
 	`photodb` varchar(24) DEFAULT 'airliners.net',
 	CONSTRAINT `pk:users(id)` PRIMARY KEY (`id`),
 	UNIQUE KEY `u:users(email)`(`email`),
-	UNIQUE KEY `u:users(name)`(`name`)
+	UNIQUE KEY `u:users(name)`(`name`),
+	INDEX `i:users(name,email)`(`name`, `email`),
+	INDEX `i:users(from,until)`(`notification-from`, `notification-until`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `groups`
@@ -87,7 +89,7 @@ CREATE TABLE IF NOT EXISTS `countries` # ISO 3166-1
 	INDEX `i:countries(fr)`(`fr`),
 	INDEX `i:countries(alpha-2)`(`alpha-2`),
 	INDEX `i:countries(alpha-3)`(`alpha-3`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT=	'#https://www.iso.org/obp/ui/#search';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='https://www.iso.org/obp/ui/#search';
 
 CREATE TABLE `airlines`
 (
@@ -116,7 +118,8 @@ CREATE TABLE `aircrafts`
 	`model` integer NOT NULL,
 	CONSTRAINT `pk:aircrafts(id)` PRIMARY KEY (`id`),
 	CONSTRAINT `fk:aircrafts(model)=models(id)` FOREIGN KEY (`model`) REFERENCES `models`(`id`),
-	UNIQUE KEY `u:aircrafts(reg)`(`reg`)
+	UNIQUE KEY `u:aircrafts(reg)`(`reg`),
+	INDEX `i:aircrafts(model)` (`model`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `airports`
@@ -130,7 +133,8 @@ CREATE TABLE `airports`
 	`lon` double DEFAULT NULL,
 	CONSTRAINT `pk:airports(id)` PRIMARY KEY (`id`),
 	CONSTRAINT `fk:airports(country)=countries(id)` FOREIGN KEY (`country`) REFERENCES `countries`(`id`),
-	UNIQUE KEY `u:airports(icao)`(`icao`)
+	UNIQUE KEY `u:airports(icao)`(`icao`),
+	INDEX `i:airports(iata)`(`iata`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `flights`
@@ -155,10 +159,14 @@ CREATE TABLE `flights`
 	UNIQUE KEY `u:flights(direction,airline,code,scheduled)` (`direction`, `airline`, `code`, `scheduled`),
 	INDEX `i:flights(direction)`(`direction`),
 	INDEX `i:flights(direction,expected)`(`direction`, `expected`),
+	INDEX `i:flights(direction,aircraft)`(`direction`, `aircraft`),
 	INDEX `i:flights(expected)`(`expected`),
 	INDEX `i:flights(scheduled)`(`scheduled`),
 	INDEX `i:flights(code)`(`code`),
-	INDEX `i:flights(aircraft)`(`aircraft`)
+	INDEX `i:flights(airline)` (`airline`),
+	INDEX `i:flights(airport)` (`airport`),
+	INDEX `i:flights(aircraft)`(`aircraft`),
+	INDEX `i:flights(model)` (`model`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /* Count visits to FRA */
@@ -185,7 +193,8 @@ CREATE TABLE `watchlist`
 	CONSTRAINT `fk:watchlist(user)=users(id)` FOREIGN KEY (`user`) REFERENCES `users`(`id`),
 	UNIQUE KEY `u:watchlist(user,reg)`(`user`, `reg`),
 	INDEX `i:watchlist(reg)`(`reg`),
-	INDEX `i:watchlist(user)`(`user`)
+	INDEX `i:watchlist(user)`(`user`),
+	INDEX `i:watchlist(notify)`(`notify`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `watchlist-notifications`
@@ -197,7 +206,11 @@ CREATE TABLE `watchlist-notifications`
 	CONSTRAINT `pk:watchlist-notifications(id)` PRIMARY KEY (`id`),
 	CONSTRAINT `fk:watchlist-notifications(watch)=watchlist(id)` FOREIGN KEY (`watch`) REFERENCES `watchlist`(`id`),
 	CONSTRAINT `fk:watchlist-notifications(flight)=flights(id)` FOREIGN KEY (`flight`) REFERENCES `flights`(`id`),
-	UNIQUE KEY `u:watchlist-notifications(watch, flight)`(`watch`, `flight`)
+	UNIQUE KEY `u:watchlist-notifications(watch, flight)`(`watch`, `flight`),
+	INDEX `i:watchlist-notifications(flight)`(`flight`),
+	INDEX `i:watchlist-notifications(flight,id)`(`flight`, `id`),
+	INDEX `i:watchlist-notifications(flight,notified)`(`flight`, `notified`),
+	INDEX `i:watchlist-notifications(notified)`(`notified`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 /******************************************************************************
