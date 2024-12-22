@@ -461,33 +461,6 @@ if ($error)
 		<tbody>
 <?php
 
-if (!$user)
-{
-	$lookback = 0;
-	$lookahead = ($mobile && !$tablet ? 1 : 7 * 24) * 3600;	// +24h
-}
-else
-{
-	if (!$mobile)
-	{
-		$lookback = 0;
-		$lookahead = 7 * 24 * 3600;	// +24h
-	}
-	else
-	{
-		if ($tablet)
-		{
-			$lookback = $user->opt('tt-');
-			$lookahead = $user->opt('tt+');
-		}
-		else
-		{
-			$lookback = $user->opt('tm-');
-			$lookahead = $user->opt('tm+');
-		}
-	}
-}
-
 $watch['wildcards'] = [];
 
 foreach ($watch as $reg => $comment)
@@ -507,9 +480,45 @@ $tz = date_default_timezone_set('Europe/Berlin');
 $now = new StdClass();
 
 if (isset($_GET['time']))
+{
 	$now->iso = $_GET['time'];
+	$now->unix = strtotime($now->iso);
+}
 else
+{
 	$now->iso = date(DATE_ISO8601);
+	$now->unix = time();
+}
+
+if (!$user)
+{
+	$lookback = 0;
+	$lookahead = ($mobile && !$tablet ? 1 : 7 * 24) * 3600;	// +24h
+}
+else
+{
+	if (!$mobile)
+	{
+		$lookback = 0;
+		$lookahead = 7 * 24 * 3600;	// +7d
+	}
+	else
+	{
+		if ($tablet)
+		{
+			$lookback = $user->opt('tt-');
+			$lookahead = $user->opt('tt+');
+		}
+		else
+		{
+			$lookback = $user->opt('tm-');
+			$lookahead = $user->opt('tm+');
+		}
+	}
+}
+
+$from = $now->unix - $lookback;
+$until = $now->unix + $lookahead;
 
 /* This might be configurable in the future... */
 /* Variable: */
@@ -549,10 +558,11 @@ $query = <<<EOF
 		LEFT JOIN `aircrafts` ON `flights`.`aircraft` = `aircrafts`.`id`
 		LEFT JOIN `visits` ON `flights`.`aircraft` = `visits`.`aircraft`
 		$join
-	WHERE `flights`.`direction` = :dir
-		AND TIMESTAMPDIFF(SECOND, :now, `expected`) >= :lookback
-		AND TIMESTAMPDIFF(SECOND, :now, `expected`) <= :lookahead
-	ORDER BY `expected` ASC, `airlines`.`code`, `flights`.`code`;
+	WHERE
+		`flights`.`direction` = :dir AND
+		`expected` BETWEEN FROM_UNIXTIME(:from) AND FROM_UNIXTIME(:until)
+	ORDER BY
+		`expected` ASC, `airlines`.`code`, `flights`.`code`;
 	EOF;
 
 if ($db)
@@ -563,9 +573,8 @@ if ($db)
 
 		$st->execute([
 			"dir" => $dir,
-			"now" => $now->iso,
-			"lookback" => $lookback,
-			"lookahead" => $lookahead,
+			"from" => $from,
+			"until" => $until,
 		]);
 
 		while ($row = $st->fetchObject())
