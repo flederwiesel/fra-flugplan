@@ -271,7 +271,7 @@ function sqlErrorInfo(PDOException $ex, $info = null) : string
 
 	if (isset($info))
 		if (gettype($info) == "object")
-			if (str_contains(get_class($info), "PDOStatement"))
+			if (strstr(get_class($info), "PDOStatement"))
 				$query = $info->queryString;
 
 	$error = "*** {$ex->getMessage()}\n{$ex->getTraceAsString()}\n";
