@@ -168,14 +168,14 @@ class xPDOStatement
 	{
 		$result = call_user_func_array([&$this->orig, $func], $args);
 
-		if ('fetch'       == $func ||
-			'fetchAll'    == $func ||
-			'fetchColumn' == $func ||
-			'fetchObject' == $func)
+		if ($result !== false)
 		{
-			if ($result !== false)
+			if ('fetch'       == $func ||
+				'fetchAll'    == $func ||
+				'fetchColumn' == $func ||
+				'fetchObject' == $func)
 			{
-				explain($this->expl);
+					explain($this->expl);
 				$this->expl = null;
 			}
 		}
