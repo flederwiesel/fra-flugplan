@@ -149,6 +149,7 @@ if ('dispinterval' == $item)
 				try
 				{
 					$st = $db->prepare(<<<SQL
+						/*[Q41]*/
 						UPDATE `users`
 						SET
 							`tm-` = :tmm,
@@ -294,6 +295,7 @@ if ('notifinterval' == $item)
 					try
 					{
 						$st = $db->prepare(<<<SQL
+							/*[Q42]*/
 							UPDATE `users`
 							SET
 								`notification-from` = :from,
@@ -454,6 +456,7 @@ else if ('photodb' == $item)
 				try
 				{
 					$st = $db->prepare(<<<SQL
+						/*[Q43]*/
 						UPDATE `users`
 						SET `photodb` = :photodb
 						WHERE `id` = :uid

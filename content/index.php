@@ -549,7 +549,7 @@ $columns .= <<<EOF
 	EOF;
 
 $query = <<<EOF
-	/*[Q20]*/
+	/*[Q7]*/
 	SELECT $columns
 	FROM `flights`
 		LEFT JOIN `airlines` ON `flights`.`airline` = `airlines`.`id`
