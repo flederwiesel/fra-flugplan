@@ -1717,7 +1717,7 @@ function SQL_GetFlightDetails(/* in */ $dir, /* in */ $f, /* out */ &$id, /* out
 
 		$row = $st->fetchObject();
 
-		if (false == $row)
+		if (false === $row)
 		{
 			if (isset($DEBUG['sql']))
 			{
