@@ -207,6 +207,7 @@ CREATE TABLE `watchlist-notifications`
 	CONSTRAINT `fk:watchlist-notifications(watch)=watchlist(id)` FOREIGN KEY (`watch`) REFERENCES `watchlist`(`id`),
 	CONSTRAINT `fk:watchlist-notifications(flight)=flights(id)` FOREIGN KEY (`flight`) REFERENCES `flights`(`id`),
 	UNIQUE KEY `u:watchlist-notifications(watch, flight)`(`watch`, `flight`),
+	INDEX `i:watchlist-notifications(watch)`(`watch`),
 	INDEX `i:watchlist-notifications(flight)`(`flight`),
 	INDEX `i:watchlist-notifications(flight,id)`(`flight`, `id`),
 	INDEX `i:watchlist-notifications(flight,notified)`(`flight`, `notified`),
