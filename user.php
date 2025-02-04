@@ -497,6 +497,17 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 			{
 				if ($spamchk->success)
 				{
+					if (!isset($spamchk->ip->confidence))
+					{
+						$spamchk->ip->confidence = 0;
+						$spamchk->ip->appears = 0;
+					}
+					else
+					{
+						if ($spamchk->ip->confidence < 98.0)
+							$spamchk->ip->appears = 0;
+					}
+
 					if (!isset($spamchk->username->confidence))
 					{
 						$spamchk->username->appears = 0;
@@ -520,16 +531,6 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 							$spamchk->email->appears = 0;
 							$spamchk->ip->appears = 0;
 						}
-					}
-
-					if (!isset($spamchk->ip->confidence))
-					{
-						$spamchk->ip->appears = 0;
-					}
-					else
-					{
-						if ($spamchk->ip->confidence < 98.0)
-							$spamchk->ip->appears = 0;
 					}
 
 					if ($spamchk->username->appears ||

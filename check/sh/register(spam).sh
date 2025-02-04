@@ -89,3 +89,12 @@ check "7" browse "$url/?req=register\&stopforumspam=$prefix\&ip=46.118.155.73" \
 		--data-urlencode "timezone=UTC+1" \
 		--data-urlencode "lang=en" \
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+
+check "8" browse "$url/?req=register\&stopforumspam=$prefix\&ip=::1" \
+		--data-urlencode "email=notsure@gmail.com" \
+		--data-urlencode "user=nospam" \
+		--data-urlencode "passwd=elvizzz" \
+		--data-urlencode "passwd-confirm=elvizzz" \
+		--data-urlencode "timezone=UTC+1" \
+		--data-urlencode "lang=en" \
+		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"

@@ -42,6 +42,12 @@
 			'nospam@flederwiesel.com' => [
 				'appears' => 0,
 			],
+			'notsure@gmail.com' => [
+				'appears' => 1,
+				'frequency' => 1,
+				'lastseen' => '2015-12-18 20:35:11',
+				'confidence' => 50.0,
+			],
 			'spam@gmail.com' => [
 				'appears' => 1,
 				'frequency' => 536,

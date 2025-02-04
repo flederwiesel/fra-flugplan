@@ -1,0 +1,115 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Live Schedule &ndash; Frankfurt Aviation Friends</title>
+<meta name="language" content="en">
+<link rel="alternate" href="http://www.fra-flugplan.de?lang=de" hreflang="de">
+<link rel="alternate" href="http://www.fra-flugplan.de?lang=en" hreflang="en">
+<link rel="alternate" href="http://www.fra-flugplan.de" hreflang="x-default">
+<meta name="description" content="Spotter schedule for Frankfurt airport (FRA/EDDF) including aircraft registrations">
+<meta name="keywords" content="flederwiesel, fra-flugplan, FRA, EDDF, Frankfurt, flight schedule, flight plan, airport, spotter, spotting, planespotting, aircraft registration, aviation">
+<meta name="robots" content="index, nofollow">
+<meta name="author" content="Tobias Kühne">
+<meta name="generator" content="http://www.ultraedit.com/">
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<!-- IE -->
+<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
+<!-- other browsers -->
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/minified/jquery.ui.core.min.css?rev=$Rev$">
+<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/minified/jquery.ui.theme.min.css?rev=$Rev$">
+<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/minified/jquery.ui.tooltip.min.css?rev=$Rev$">
+<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/minified/jquery.ui.slider.min.css?rev=$Rev$">
+<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/minified/jquery.ui.datepicker.min.css?rev=$Rev$">
+<link rel="stylesheet" type="text/css" media="screen, print" href="css/desktop.css?rev=$Rev$">
+<!--[if IE]>
+<link rel="stylesheet" type="text/css" media="screen, print" href="css/ie/desktop.css?rev=$Rev$">
+<![endif]-->
+<script type="text/javascript" src="script/jquery-ui-1.10.3/jquery-1.10.1.min.js?rev=$Rev$"></script>
+<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/minified/jquery.ui.core.min.js?rev=$Rev$"></script>
+<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/minified/jquery.ui.widget.min.js?rev=$Rev$"></script>
+<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/minified/jquery.ui.mouse.min.js?rev=$Rev$"></script>
+<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/minified/jquery.ui.position.min.js?rev=$Rev$"></script>
+<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/minified/jquery.ui.tooltip.min.js?rev=$Rev$"></script>
+<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/minified/jquery.ui.slider.min.js?rev=$Rev$"></script>
+<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/minified/jquery.ui.datepicker.min.js?rev=$Rev$"></script>
+</head>
+<body>
+	<noscript>
+		<div class="noscript">If you obtain this message, JavaScript is either not supported or disabled in in your browser options.<br>In order to use full functionality of this site we advise you to <a href="http://www.enable-javascript.com">enable Javascript</a>.</div>
+	</noscript>
+	<div id="body">
+		<div class="box left">
+			<div>
+				<div id="head">
+					<h1 class="nobr">Frankfurt Aviation Friends</h1>
+					<h3>
+Live Schedule</h3>
+				</div>
+<nav>
+<ul class="menu left">
+		<li><a href="http://www.frankfurt-aviation-friends.de/">Home</a></li>
+			<li class="sep"><a href="?arrival">Arrival</a></li>
+			<li class="sep"><a href="?departure">Departure</a></li>
+		<li class="sep"><a href="?page=help">Help</a></li>
+</ul>
+<ul class="menu right">
+			<li class="sep"><a href="?req=register">Register</a></li>
+			<li class="sep"><a href="?req=login">Login</a></li>
+		<li style="vertical-align: baseline;">
+			<a href="?req=activate&amp;stopforumspam=...&amp;ip=%3A%3A1&amp;user=nospam&amp;lang=de">
+				<img class="flag" src="img/de.png" alt="German" width="16" height="12">
+			</a>
+		</li>
+		<li style="vertical-align: baseline;">
+			<a href="?req=activate&amp;stopforumspam=...&amp;ip=%3A%3A1&amp;user=nospam&amp;lang=en">
+				<img class="flag" src="img/en.png" alt="English" width="16" height="12">
+			</a>
+		</li>
+</ul>
+</nav>
+			</div>
+			<div id="content">
+<form class="stretched" method="post" action="?req=activate"
+	onsubmit="document.getElementById('submit').disabled=true;">
+	<fieldset>
+		<legend>Activation</legend>
+		<div id="notification" class="success">
+			Registration successful. Please enter activation token.		</div>
+		<div class="explainatory">
+			<p>Please enter the token which you should have received on the e-mail address you provided.</p>
+			<p>If no activation mail arrives on your inbox, please also check your spam folder.</p>
+			<p>Depending on your internet service provider and mail transport agent settings, delivery of e-mails can take longer than the activation token is valid. In this case, don't hesitate to contact us at 				<a href="content/emil.php?subject=FRA-schedule+activation+trouble">
+					<img class="emil" alt="email" src="content/mkpng.php?font=verdana&size=10&bg=white&fg=%2300007f&res=ADMIN_EMAIL">
+				</a>
+			</p>
+		</div>
+		<div class="table">
+			<div class="row">
+				<div class="cell label">User name</div>
+				<div class="cell">
+					<input type="text" id="user" name="user"
+					 value="nospam" autofocus>
+					<div class="hint"></div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell label">Token</div>
+				<div class="cell">
+					<input type="text" id="token" name="token"
+					 value="">
+					<div class="hint">A combination of 64 numbers/letters from your registration e-mail.</div>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+	<div class="center">
+		<input type="submit" id="submit" value="Submit">
+	</div>
+</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
