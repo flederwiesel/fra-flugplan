@@ -111,7 +111,7 @@ if (isset($_GET['time']))
 	$now->time_t = strtotime($now->atom);
 }
 
-$now->atom = date(DATE_ISO8601, $now->time_t);
+$now->atom = date("Y-m-d H:i:s", $now->time_t);
 
 if (isset($_GET['debug']))
 {
@@ -1127,7 +1127,7 @@ function JSON_InterpretFlights(/*in*/ $dir, /*in*/ $json, /*in*/ $defer,
 							if ($departure < $now->time_t)
 							{
 								$departure = $now->time_t + $defer;
-								$jflight->esti = date(DATE_ISO8601, $departure);
+								$jflight->esti = date("Y-m-d H:i:s", $departure);
 							}
 						}
 
@@ -1172,7 +1172,7 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 	{
 		$type = 'C' == $type ? '.cargo' : '';
 		$start = $now->time_t;
-		$time = date(DATE_ISO8601, $start);
+		$time = date("Y-m-d\TH:i:sO", $start);
 		$time = urlencode($time);
 		$current = $start;
 		$page = 1;
@@ -1709,7 +1709,7 @@ function SQL_GetFlightDetails(/* in */ $dir, /* in */ $f, /* out */ &$id, /* out
 			"dir" => $dir,
 			"airline" => $f->airline->id,
 			"code" => $f->fnr,
-			"scheduled" => $f->scheduled,
+			"scheduled" => date("Y-m-d H:i:s", strtotime($f->scheduled)),
 		]);
 
 		if (isset($DEBUG['sql']))
@@ -1777,7 +1777,7 @@ function SQL_UpdateFlightDetails(/* in */ $id, /* in */ $f)
 		);
 
 		$st->execute([
-			"estimated" => $estimated,
+			"estimated" => $estimated ? date("Y-m-d H:i:s", strtotime($estimated)) : null,
 			"airport" => $f->airport->id,
 			"aircraft" => $f->aircraft->id,
 			"model" => $f->aircraft->type->id,
@@ -1849,12 +1849,12 @@ function SQL_InsertFlight(/*in*/ $type, /* in */ $dir, /* in/out */ &$f)
 			"type" => $type,
 			"airline" => $f->airline->id,
 			"code" => $f->fnr,
-			"scheduled" => $f->scheduled,
-			"estimated" => $estimated,
+			"scheduled" => $s = date("Y-m-d H:i:s", strtotime($f->scheduled)),
+			"estimated" => $estimated ? date("Y-m-d H:i:s", strtotime($estimated)) : null,
 			"airport" => $f->airport->id,
 			"model" => $f->aircraft->type->id,
 			"aircraft" => $f->aircraft->id,
-			"lu" => $f->lu,
+			"lu" => date("Y-m-d H:i:s", strtotime($f->lu)),
 		]);
 
 		// Don't bother about id here...
@@ -1974,7 +1974,7 @@ function SQL_UpdateVisitsToFra($scheduled, $aircraft, $op)
 
 				$result = $st->execute([
 					"aircraft" => $aircraft,
-					"scheduled" => $scheduled,
+					"scheduled" => date("Y-m-d H:i:s", strtotime($scheduled)),
 				]);
 
 				if (isset($DEBUG['sql']))
@@ -2019,7 +2019,7 @@ function SQL_UpdateVisitsToFra($scheduled, $aircraft, $op)
 
 					$result = $st->execute([
 						"num" => ++$num,
-						"scheduled" => $scheduled,
+						"scheduled" => date("Y-m-d H:i:s", strtotime($scheduled)),
 						"previous" => $current,
 						"aircraft" => $aircraft,
 					]);
