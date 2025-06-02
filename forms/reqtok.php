@@ -34,7 +34,7 @@
 <form class="stretched" method="post" action="?req=reqtok"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
-		<legend><?php echo $lang['forgotpassword']; ?></legend>
+		<legend><?php echo $STRINGS['forgotpassword']; ?></legend>
 <?php if ($error) { ?>
 		<div id="notification" class="error">
 			<?php echo $error; ?>
@@ -45,12 +45,12 @@
 		</div>
 <?php } else { ?>
 		<div id="notification" class="explain">
-			<?php echo $lang['passwdencrypted']; ?>
+			<?php echo $STRINGS['passwdencrypted']; ?>
 		</div>
 <?php } ?>
 		<div class="table">
 			<div class="row">
-				<div class="cell label"><?php echo ucfirst($lang['username']); ?></div>
+				<div class="cell label"><?php echo ucfirst($STRINGS['username']); ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user"
 					 value="<?php Input_SetValue('user', INP_POST, 'flederwiesel'); ?>" autofocus>
@@ -58,16 +58,16 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?php echo ucfirst($lang['emailaddress']); ?></div>
+				<div class="cell label"><?php echo ucfirst($STRINGS['emailaddress']); ?></div>
 				<div class="cell">
 					<input type="text" id="email" name="email"
 					 value="<?php Input_SetValue('email', INP_POST, 'etc@flederwiesel.com'); ?>">
-					<div class="hint"><?php echo $lang['onefieldmandatory']; ?></div>
+					<div class="hint"><?php echo $STRINGS['onefieldmandatory']; ?></div>
 				</div>
 			</div>
 		</div>
 	</fieldset>
 	<div class="center">
-		<input type="submit" id="submit" value="<?php echo $lang['submit']; ?>">
+		<input type="submit" id="submit" value="<?php echo $STRINGS['submit']; ?>">
 	</div>
 </form>

@@ -128,9 +128,9 @@ else if (0 == strlen($_SESSION['lang']))
 	$_SESSION['lang'] = http_preferred_language(['en', 'de']);
 
 if ('de' == $_SESSION['lang'])
-	$lang = setlocale(LC_TIME, 'deu', 'deu_deu');
+	setlocale(LC_TIME, 'deu', 'deu_deu');
 else
-	$lang = setlocale(LC_TIME, 'eng', 'english-uk', 'uk', 'enu', 'english-us', 'us', 'english', 'C');
+	setlocale(LC_TIME, 'eng', 'english-uk', 'uk', 'enu', 'english-us', 'us', 'english', 'C');
 
 /******************************************************************************
  * detect device type
@@ -202,7 +202,7 @@ $user = null;
 
 if (file_exists("db.disabled"))
 {
-	$message = $lang["db.disabled"];
+	$message = $STRINGS["db.disabled"];
 }
 else
 {
@@ -226,7 +226,7 @@ else
 	}
 	catch (PDOException $ex)
 	{
-		$error = PDOErrorInfo($ex, $lang['dberror']);
+		$error = PDOErrorInfo($ex, $STRINGS['dberror']);
 	}
 
 	if (!$error)
@@ -354,7 +354,7 @@ if ('de' == $_SESSION['lang']) {
 </head>
 <body>
 	<noscript>
-		<div class="noscript"><?php echo $lang['noscript']; ?></div>
+		<div class="noscript"><?php echo $STRINGS['noscript']; ?></div>
 	</noscript>
 <?php if (defined('DEBUG')) { ?>
 	<div id="debug">
@@ -368,19 +368,19 @@ if ('de' == $_SESSION['lang']) {
 					<h1 class="nobr"><?php echo ORGANISATION; ?></h1>
 					<h3>
 <?php
-						echo "$lang[liveschedule]";
+						echo "$STRINGS[liveschedule]";
 
 						if (!$error)
 						{
 							if (isset($_GET['req']))
 							{
 								if ('logout' == $_GET['req'])
-									echo " &ndash; $lang[$dir]";
+									echo " &ndash; $STRINGS[$dir]";
 							}
 							else
 							{
 								if (!isset($_GET['page']))
-									echo " &ndash; $lang[$dir]";
+									echo " &ndash; $STRINGS[$dir]";
 							}
 						}
 ?></h3>
@@ -443,10 +443,10 @@ if ('de' == $_SESSION['lang']) {
 					}
 					else
 					{
-						$error = $lang['unexpected'];
+						$error = $STRINGS['unexpected'];
 ?>
 				<div id="error">
-					<h1><?php echo $lang['fatal']; ?></h1>
+					<h1><?php echo $STRINGS['fatal']; ?></h1>
 					<?php echo $error; ?>
 				</div>
 <?php

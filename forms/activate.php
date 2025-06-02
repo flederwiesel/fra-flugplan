@@ -34,7 +34,7 @@
 <form class="stretched" method="post" action="?req=activate"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
-		<legend><?php echo $lang['activation']; ?></legend>
+		<legend><?php echo $STRINGS['activation']; ?></legend>
 <?php if ($error) { ?>
 		<div id="notification" class="error">
 			<?php echo $error; ?>
@@ -45,17 +45,17 @@
 		</div>
 <?php } ?>
 		<div class="explainatory">
-			<p><?php echo $lang['snailmail_1']; ?></p>
-			<p><?php echo $lang['snailmail_2']; ?></p>
-			<p><?php echo $lang['snailmail_3']; ?>
-				<a href="content/emil.php?subject=<?php echo urlencode($lang["activation-trouble"]); ?>">
+			<p><?php echo $STRINGS['snailmail_1']; ?></p>
+			<p><?php echo $STRINGS['snailmail_2']; ?></p>
+			<p><?php echo $STRINGS['snailmail_3']; ?>
+				<a href="content/emil.php?subject=<?php echo urlencode($STRINGS["activation-trouble"]); ?>">
 					<img class="emil" alt="email" src="content/mkpng.php?font=verdana&size=10&bg=white&fg=%2300007f&res=ADMIN_EMAIL">
 				</a>
 			</p>
 		</div>
 		<div class="table">
 			<div class="row">
-				<div class="cell label"><?php echo ucfirst($lang['username']); ?></div>
+				<div class="cell label"><?php echo ucfirst($STRINGS['username']); ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user"
 					 value="<?php Input_SetValue('user', INP_POST | INP_GET, 'flederwiesel'); ?>" autofocus>
@@ -63,16 +63,16 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?php echo $lang['token']; ?></div>
+				<div class="cell label"><?php echo $STRINGS['token']; ?></div>
 				<div class="cell">
 					<input type="text" id="token" name="token"
 					 value="<?php Input_SetValue('token', INP_GET, ''); ?>">
-					<div class="hint"><?php echo $lang['tokenemail']; ?></div>
+					<div class="hint"><?php echo $STRINGS['tokenemail']; ?></div>
 				</div>
 			</div>
 		</div>
 	</fieldset>
 	<div class="center">
-		<input type="submit" id="submit" value="<?php echo $lang['submit']; ?>">
+		<input type="submit" id="submit" value="<?php echo $STRINGS['submit']; ?>">
 	</div>
 </form>

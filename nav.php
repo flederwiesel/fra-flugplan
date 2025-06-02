@@ -16,16 +16,16 @@
 
 function navitem($item, $href)
 {
-	global $lang;
+	global $STRINGS;
 	global $mobile;
 
 	if ($href)
 		echo '<a href="'.$href.'">';
 
 	if ($mobile)
-		echo '<img src="img/'.$item.'-'.($href ? 'grey' : 'white').'-24x24.png" width="24" height="24" alt="'.$lang[$item].'">';
+		echo '<img src="img/'.$item.'-'.($href ? 'grey' : 'white').'-24x24.png" width="24" height="24" alt="'.$STRINGS[$item].'">';
 	else
-		echo $lang[$item];
+		echo $STRINGS[$item];
 
 	if ($href)
 		echo '</a>';
@@ -38,7 +38,7 @@ function navitem($item, $href)
 	if (!$mobile)
 	{
 ?>
-		<li><a href="http://www.frankfurt-aviation-friends.de/"><?php echo $lang['home']; ?></a></li>
+		<li><a href="http://www.frankfurt-aviation-friends.de/"><?php echo $STRINGS['home']; ?></a></li>
 <?php
 	}
 
@@ -71,7 +71,7 @@ function navitem($item, $href)
 			if ($user && !$mobile)
 			{
 ?>
-				<li class="sep"><a href="?page=addflight"><?php echo $lang['addflight']; ?></a></li>
+				<li class="sep"><a href="?page=addflight"><?php echo $STRINGS['addflight']; ?></a></li>
 <?php
 			}
 		}
@@ -91,12 +91,12 @@ function navitem($item, $href)
 			if ($user && !$mobile)
 			{
 ?>
-				<li class="sep"><a href="javascript:watchlist('show');"><?php echo $lang['watchlist']; ?></a></li>
+				<li class="sep"><a href="javascript:watchlist('show');"><?php echo $STRINGS['watchlist']; ?></a></li>
 <?php
 				if ($user->IsMemberOf('addflights'))
 				{
 ?>
-					<li class="sep"><a href="?page=addflight"><?php echo $lang['addflight']; ?></a></li>
+					<li class="sep"><a href="?page=addflight"><?php echo $STRINGS['addflight']; ?></a></li>
 <?php
 				}
 			}
@@ -151,12 +151,12 @@ function navitem($item, $href)
 ?>
 		<li style="vertical-align: baseline;">
 			<a href="<?php echo get('lang=de'); ?>">
-				<img class="flag" src="img/de.png" alt="<?php echo $lang['de']; ?>" width="16" height="12">
+				<img class="flag" src="img/de.png" alt="<?php echo $STRINGS['de']; ?>" width="16" height="12">
 			</a>
 		</li>
 		<li style="vertical-align: baseline;">
 			<a href="<?php echo get('lang=en'); ?>">
-				<img class="flag" src="img/en.png" alt="<?php echo $lang['en']; ?>" width="16" height="12">
+				<img class="flag" src="img/en.png" alt="<?php echo $STRINGS['en']; ?>" width="16" height="12">
 			</a>
 		</li>
 </ul>

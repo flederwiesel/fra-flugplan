@@ -31,7 +31,7 @@ if (isset($_POST['add']) ||
 {
 	if (!$user)
 	{
-		$error = $lang['unexpected'];
+		$error = $STRINGS['unexpected'];
 	}
 	else
 	{
@@ -186,13 +186,13 @@ if (isset($_POST['add']) ||
 					if ($CheckNotifTimes)
 					{
 						if ($user->opt('notification-from') == $user->opt('notification-until'))
-							$message = $lang['notif-setinterval'];
+							$message = $STRINGS['notif-setinterval'];
 					}
 				}
 			}
 			catch (PDOException $ex)
 			{
-				$error = PDOErrorInfo($ex, $lang['dberror']);
+				$error = PDOErrorInfo($ex, $STRINGS['dberror']);
 			}
 		}
 	}
@@ -248,7 +248,7 @@ else
 <div id="rwy_cont">
 	<div id="rwy_div" style="float: <?php echo 'arrival' == $dir ? 'left' : 'right'; ?> ;">
 		<span id="rwy_l" style="vertical-align: middle;">
-			<img alt="<?php echo $lang['rwydir']; ?>" src="img/<?php echo $dir; ?>-yellow-16x14.png">
+			<img alt="<?php echo $STRINGS['rwydir']; ?>" src="img/<?php echo $dir; ?>-yellow-16x14.png">
 		</span>
 		<span id="rwy_r"><?php
 			$datadir = "$_SERVER[DOCUMENT_ROOT]/var/run/fra-flugplan";
@@ -329,7 +329,7 @@ if ($user)
 		}
 		catch (PDOException $ex)
 		{
-			$error = PDOErrorInfo($ex, $lang['dberror']);
+			$error = PDOErrorInfo($ex, $STRINGS['dberror']);
 		}
 	}
 
@@ -350,8 +350,8 @@ if ($user)
 								<thead>
 									<tr>
 										<th></th>
-										<th><?php echo $lang['reg']; ?></th>
-										<th><?php echo $lang['comment']; ?></th>
+										<th><?php echo $STRINGS['reg']; ?></th>
+										<th><?php echo $STRINGS['comment']; ?></th>
 										<th><a href="javascript:ToggleNotifications()"><img src="img/mail.png" alt="e-mail"></a></th>
 										<th></th>
 										<th></th>
@@ -416,7 +416,7 @@ if ($user)
 								</tbody>
 							</table>
 						</div>
-						<input type="submit" value="<?php echo $lang['refresh']; ?>"
+						<input type="submit" value="<?php echo $STRINGS['refresh']; ?>"
 						 style="margin: 0.5em 0;">
 					</div>
 				</form>
@@ -441,21 +441,21 @@ if ($error)
 	<table class="sortable">
 		<thead>
 			<tr>
-				<th><?php echo $lang['time']; ?>
-				<th class="sep"><?php echo $lang['flight']; ?>
+				<th><?php echo $STRINGS['time']; ?>
+				<th class="sep"><?php echo $STRINGS['flight']; ?>
 <?php
 				if (!$mobile || $tablet)
 				{
 ?>
-				<th class="sep"><?php echo $lang['airline']; ?>
+				<th class="sep"><?php echo $STRINGS['airline']; ?>
 				<th class="sep">IATA
 				<th class="sep">ICAO
-				<th class="sep"><?php echo ucfirst('arrival' == $dir ? $lang['from'] : $lang['to']); ?>
+				<th class="sep"><?php echo ucfirst('arrival' == $dir ? $STRINGS['from'] : $STRINGS['to']); ?>
 <?php
 				}
 ?>
-				<th class="sep sorttable_model"><?php echo $lang['type']; ?>
-				<th class="sep sorttable_reg"><?php echo $lang['reg']; ?>
+				<th class="sep sorttable_model"><?php echo $STRINGS['type']; ?>
+				<th class="sep sorttable_reg"><?php echo $STRINGS['reg']; ?>
 			</tr>
 		</thead>
 		<tbody>
@@ -530,7 +530,7 @@ $columns = <<<EOF
 	`airports`.`name` AS `airport_name`,
 	EOF;
 
-$columns .= sprintf('`countries`.`%s` AS `country`,', 'de');	//$lang['$id']);
+$columns .= sprintf('`countries`.`%s` AS `country`,', 'de');	//$STRINGS['$id']);
 
 $join = 'LEFT JOIN `countries` ON `airports`.`country` = `countries`.`id`';
 
@@ -694,7 +694,7 @@ if ($db)
 						if ($vtf < 10)
 						{
 							$vtf = ordinal($vtf, $_SESSION['lang']);
-							$hilite = sprintf(' class="rare" title="%s"', htmlspecialchars("$vtf$lang[vtf]"));
+							$hilite = sprintf(' class="rare" title="%s"', htmlspecialchars("$vtf$STRINGS[vtf]"));
 						}
 					}
 				}
@@ -732,7 +732,7 @@ if ($db)
 	}
 	catch (PDOException $ex)
 	{
-		$error = PDOErrorInfo($ex, $lang['dberror']);
+		$error = PDOErrorInfo($ex, $STRINGS['dberror']);
 	}
 }
 ?>

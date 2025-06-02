@@ -202,7 +202,7 @@ else
 </head>
 <body>
 	<noscript>
-		<div class="noscript"><?php echo $lang['noscript']; ?></div>
+		<div class="noscript"><?php echo $STRINGS['noscript']; ?></div>
 	</noscript>
 <?php if (defined('DEBUG')) { ?>
 	<div id="debug">
@@ -216,12 +216,12 @@ else
 					<h1 class="nobr"><?php echo ORGANISATION; ?></h1>
 					<h3>
 <?php
-						echo "$lang[liveschedule]";
+						echo "$STRINGS[liveschedule]";
 ?></h3>
 				</div>
 				<div id="nav">
 					<ul class="menu left">
-						<li><a href="/fra-flugplan"><?php echo $lang['home']; ?></a>
+						<li><a href="/fra-flugplan"><?php echo $STRINGS['home']; ?></a>
 <?php if ($referrer) { ?>
 						<li class="sep"><a href="">Back</a></li>
 <?php } ?>

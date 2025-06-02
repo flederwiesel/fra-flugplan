@@ -37,7 +37,7 @@
 <form class="stretched" method="post" action="?req=register"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
-		<legend><?php echo $lang['registration']; ?></legend>
+		<legend><?php echo $STRINGS['registration']; ?></legend>
 <?php if ($error) { ?>
 		<div id="notification" class="error">
 			<?php echo $error; ?>
@@ -49,22 +49,22 @@
 <?php } else { ?>
 		<div id="notification" style="display: none;"></div>
 <?php } ?>
-		<div class="explainatory"><?php echo $lang['registernote']; ?></div>
+		<div class="explainatory"><?php echo $STRINGS['registernote']; ?></div>
 		<div class="table">
 			<div class="row">
-				<div class="cell label"><?php echo ucfirst($lang['emailaddress']); ?></div>
+				<div class="cell label"><?php echo ucfirst($STRINGS['emailaddress']); ?></div>
 				<div class="cell">
 					<input type="text" id="email" name="email"
 					 value="<?php Input_SetValue('email', INP_POST | INP_GET, 'hausmeister@flederwiesel.com'); ?>" autofocus>
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?php echo ucfirst($lang['username']); ?></div>
+				<div class="cell label"><?php echo ucfirst($STRINGS['username']); ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user"
 					 value="<?php Input_SetValue('user', INP_POST | INP_GET, 'flederwiesel'); ?>">
 					<div class="hint">
-						<?php echo sprintf($lang['hintnumchars'], $GLOBALS['USERNAME_MIN'], $GLOBALS['USERNAME_MAX']); ?>
+						<?php echo sprintf($STRINGS['hintnumchars'], $GLOBALS['USERNAME_MIN'], $GLOBALS['USERNAME_MAX']); ?>
 					</div>
 				</div>
 			</div>
@@ -72,14 +72,14 @@
 				<div class="cell">&nbsp;</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?php echo $lang['password']; ?></div>
+				<div class="cell label"><?php echo $STRINGS['password']; ?></div>
 				<div class="cell">
 					<input type="password" id="passwd" name="passwd"
 					 value="<?php Input_SetValue(null, 0, 'elvizzz'); ?>">
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?php echo $lang['confirmpassword']; ?></div>
+				<div class="cell label"><?php echo $STRINGS['confirmpassword']; ?></div>
 				<div class="cell">
 					<input type="password" id="passwd-confirm" name="passwd-confirm"
 					 value="<?php Input_SetValue(null, 0, 'elvizzz'); ?>">
@@ -90,7 +90,7 @@
 				<div class="cell">&nbsp;</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?php echo $lang['timezone']; ?></div>
+				<div class="cell label"><?php echo $STRINGS['timezone']; ?></div>
 				<div class="cell">
 					<select class="stretched" id="timezone" name="timezone">
 						<option value="-43200" >GMT -12 Eniwetok, Kwajalein
@@ -154,14 +154,14 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?php echo $lang['language']; ?></div>
+				<div class="cell label"><?php echo $STRINGS['language']; ?></div>
 				<div class="cell">
 					<select class="stretched" id="lang" name="lang">
 <?php
 						/* Sort languages by local denomination */
 						$language = [
-							'de' => $lang['de'],
-							'en' => $lang['en']
+							'de' => $STRINGS['de'],
+							'en' => $STRINGS['en']
 						];
 
 						asort($language);
@@ -176,6 +176,6 @@
 		</div>
 	</fieldset>
 	<div class="center">
-		<input type="submit" id="submit" value="<?php echo $lang['submit']; ?>">
+		<input type="submit" id="submit" value="<?php echo $STRINGS['submit']; ?>">
 	</div>
 </form>

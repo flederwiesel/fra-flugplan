@@ -79,38 +79,38 @@ function /* char* */ PasswordRegex($min, $letter, $upper, $lower, $digit, $speci
 
 function /* char* */ PasswordHint()
 {
-	global $lang;
+	global $STRINGS;
 
 	$sep = 0;
-	$text = sprintf($lang['passwd-min'], $GLOBALS['PASSWORD_MIN']);
+	$text = sprintf($STRINGS['passwd-min'], $GLOBALS['PASSWORD_MIN']);
 
 	if ($GLOBALS['PASSWORD_REQUIRES_LETTER'])
 	{
-		$text .= sprintf($lang['passwd-letter']);
+		$text .= sprintf($STRINGS['passwd-letter']);
 		$sep++;
 	}
 
 	if ($GLOBALS['PASSWORD_REQUIRES_UPPER'])
 	{
-		$text .= sprintf($lang['passwd-upper']);
+		$text .= sprintf($STRINGS['passwd-upper']);
 		$sep++;
 	}
 
 	if ($GLOBALS['PASSWORD_REQUIRES_LOWER'])
 	{
-		$text .= sprintf($lang['passwd-lower']);
+		$text .= sprintf($STRINGS['passwd-lower']);
 		$sep++;
 	}
 
 	if ($GLOBALS['PASSWORD_REQUIRES_DIGIT'])
 	{
-		$text .= sprintf($lang['passwd-digit']);
+		$text .= sprintf($STRINGS['passwd-digit']);
 		$sep++;
 	}
 
 	if (strlen($GLOBALS['PASSWORD_REQUIRES_SPECIAL']))
 	{
-		$text .= sprintf($lang['passwd-special'], str_replace('%', '%%', $specials));
+		$text .= sprintf($STRINGS['passwd-special'], str_replace('%', '%%', $specials));
 		$sep++;
 	}
 
@@ -119,16 +119,16 @@ function /* char* */ PasswordHint()
 	if ($sep > 0)
 	{
 		if ($sep > 1)
-			$separators[] = $lang['passwd-separator-0'];
+			$separators[] = $STRINGS['passwd-separator-0'];
 
 		for ($i = 1; $i < $sep - 1; $i++)
 			$separators[] = ',';
 
-		$separators[] = ' '.$lang['and'];
+		$separators[] = ' '.$STRINGS['and'];
 	}
 
 	$text = vsprintf($text, $separators);
-	$text .= $sep ? $lang['passwd-postfix-N'] : $lang['passwd-postfix-0'];
+	$text .= $sep ? $STRINGS['passwd-postfix-N'] : $STRINGS['passwd-postfix-0'];
 
 	return $text;
 }
@@ -289,7 +289,7 @@ function /*bool*/ LoginUser($db, /* __out */ &$user)
 	// __out $_POST['user']
 	// __out $_POST['passwd']
 {
-	global $lang;
+	global $STRINGS;
 
 	$error = null;
 
@@ -297,7 +297,7 @@ function /*bool*/ LoginUser($db, /* __out */ &$user)
 	{
 		if (!isset($_POST['passwd']))
 		{
-			$error = $lang['authfailed'];
+			$error = $STRINGS['authfailed'];
 		}
 		else
 		{
@@ -326,7 +326,7 @@ function /*bool*/ LoginUser($db, /* __out */ &$user)
 
 function /* char *error */ LoginUserSql($db, $byid, $id, /* __in __out */ &$password, /* __out */ &$user)
 {
-	global $lang;
+	global $STRINGS;
 
 	$user = null;
 	$error = null;
@@ -353,7 +353,7 @@ function /* char *error */ LoginUserSql($db, $byid, $id, /* __in __out */ &$pass
 
 		if ($st->rowCount() != 1)
 		{
-			$error = $lang['authfailed'];
+			$error = $STRINGS['authfailed'];
 		}
 		else
 		{
@@ -363,7 +363,7 @@ function /* char *error */ LoginUserSql($db, $byid, $id, /* __in __out */ &$pass
 			if (isset($row->token_type))
 			{
 				if ('activation' == $row->token_type)
-					$error = $lang['activationrequired'];
+					$error = $STRINGS['activationrequired'];
 			}
 
 			if (!$error)
@@ -372,7 +372,7 @@ function /* char *error */ LoginUserSql($db, $byid, $id, /* __in __out */ &$pass
 
 				if ($row->passwd != $hash)
 				{
-					$error = $lang['authfailed'];
+					$error = $STRINGS['authfailed'];
 				}
 				else
 				{
@@ -406,7 +406,7 @@ function /* char *error */ LoginUserSql($db, $byid, $id, /* __in __out */ &$pass
 
 			if (0 == $st->rowCount())
 			{
-				$error = $lang['nopermission'];
+				$error = $STRINGS['nopermission'];
 			}
 			else
 			{
@@ -415,7 +415,7 @@ function /* char *error */ LoginUserSql($db, $byid, $id, /* __in __out */ &$pass
 
 				if (!$groups)
 				{
-					$error = $lang['nopermission'];
+					$error = $STRINGS['nopermission'];
 				}
 				else
 				{
@@ -456,7 +456,7 @@ function /* char *error */ LoginUserSql($db, $byid, $id, /* __in __out */ &$pass
 	}
 	catch (PDOException $ex)
 	{
-		$error = PDOErrorInfo($ex, $lang['dberror']);
+		$error = PDOErrorInfo($ex, $STRINGS['dberror']);
 	}
 
 	return $error;
@@ -468,7 +468,7 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 								 /* __in */ $ipaddr /* ['real','fwd'] */,
 								 /* __out */ /* char *error */ &$message)
 {
-	global $lang;
+	global $STRINGS;
 
  	$suspicion = null;
 	$curl = new curl();
@@ -487,7 +487,7 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 
 		if ($error)
 		{
-			$message = $lang['spamcheckfailed'];
+			$message = $STRINGS['spamcheckfailed'];
 		}
 		else
 		{
@@ -548,25 +548,25 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 						$suspicion = [];
 
 						if ($spamchk->username->appears)
-							$suspicion[0] = $lang['username'];
+							$suspicion[0] = $STRINGS['username'];
 
 						if ($spamchk->email->appears)
-							$suspicion[1] = $lang['emailaddress'];
+							$suspicion[1] = $STRINGS['emailaddress'];
 
 						if ($spamchk->ip->appears)
-							$suspicion[2] = $lang['ipaddress'];
+							$suspicion[2] = $STRINGS['ipaddress'];
 
 						/* Join suspicions to string, separated with command and "and" */
 						$last  = array_slice($suspicion, -1);
 						$first = join(', ', array_slice($suspicion, 0, -1));
 						$both  = array_filter(array_merge([$first], $last), 'strlen');
-						$insert = join(" $lang[and] ", $both);
+						$insert = join(" $STRINGS[and] ", $both);
 
 						$plural = $spamchk->username->appears ?
 								 ($spamchk->email->appears || $spamchk->ip->appears) :
 								 ($spamchk->email->appears && $spamchk->ip->appears);
 
-						$message = sprintf($plural ? $lang['spam:plur'] : $lang['spam:sing'], $insert);
+						$message = sprintf($plural ? $STRINGS['spam:plur'] : $STRINGS['spam:sing'], $insert);
 					}
 				}
 			}
@@ -589,7 +589,7 @@ function /* char *error */ RegisterUser($db, /* __out */ &$message)
 	// __out $_GET['req']
 	// __out $_GET['user']
 {
-	global $lang;
+	global $STRINGS;
 
 	$error = null;
 	$message = null;
@@ -623,28 +623,28 @@ function /* char *error */ RegisterUser($db, /* __out */ &$message)
 	{
 		if (strlen($_POST['user']) < $GLOBALS['USERNAME_MIN'])
 		{
-			$error = sprintf($lang['usernamelengthmin'], $GLOBALS['USERNAME_MIN']);
+			$error = sprintf($STRINGS['usernamelengthmin'], $GLOBALS['USERNAME_MIN']);
 		}
 		else if (strlen($_POST['user']) > $GLOBALS['USERNAME_MAX'])
 		{
-			$error = sprintf($lang['usernamelengthmax'], $GLOBALS['USERNAME_MAX']);
+			$error = sprintf($STRINGS['usernamelengthmax'], $GLOBALS['USERNAME_MAX']);
 		}
 		else if (preg_match('/^[ \t\r\n\v]*$/', $_POST['user']))
 		{
-			$error = $lang['usernameinvalid'];
+			$error = $STRINGS['usernameinvalid'];
 			$_POST['user'] = '';
 		}
 		else
 		{
 			if (strlen($_POST['email']) > $GLOBALS['EMAIL_MAX'])
 			{
-				$error = sprintf($lang['emailinvalid']);
+				$error = sprintf($STRINGS['emailinvalid']);
 			}
 			else if (preg_match('/^([A-Z0-9._%+-]+)@'.
 								'([A-Z0-9-]+\.)*([A-Z0-9-]{2,})\.'.
 								'[A-Z]{2,6}$/i', $_POST['email'], $match) != 1)
 			{
-				$error = sprintf($lang['emailinvalid']);
+				$error = sprintf($STRINGS['emailinvalid']);
 
 				if (preg_match('/^[ \t\r\n\v]*$/', $_POST['email']))
 					$_POST['email'] = '';
@@ -655,7 +655,7 @@ function /* char *error */ RegisterUser($db, /* __out */ &$message)
 				{
 					if (strlen($match[$m]) > 1024)
 					{
-						$error = sprintf($lang['emailinvalid']);
+						$error = sprintf($STRINGS['emailinvalid']);
 						break;
 					}
 				}
@@ -668,7 +668,7 @@ function /* char *error */ RegisterUser($db, /* __out */ &$message)
 					}
 					else if (!PasswordsMatch($_POST['passwd'], $_POST['passwd-confirm']))
 					{
-						$error = $lang['passwordsmismatch'];
+						$error = $STRINGS['passwordsmismatch'];
 					}
 					else
 					{
@@ -683,7 +683,7 @@ function /* char *error */ RegisterUser($db, /* __out */ &$message)
 
 								if (!$error)
 								{
-									$message = $lang['regsuccess'];
+									$message = $STRINGS['regsuccess'];
 
 									$_GET['req'] = 'activate';		// Form to be displayed next
 									$_GET['user'] = $_POST['user'];	// Pre-set user name in form
@@ -703,7 +703,7 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 	// __in  $_SERVER['REMOTE_ADDR']
 	// __out $_SESSION['lang']
 {
-	global $lang;
+	global $STRINGS;
 
 	$uid = null;
 	$error = null;
@@ -718,7 +718,7 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 
 		if ($st->rowCount() != 0)
 		{
-			$error = $lang['userexists'];
+			$error = $STRINGS['userexists'];
 		}
 		else
 		{
@@ -727,7 +727,7 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 			$st->execute([$email]);
 
 			if ($st->rowCount() != 0)
-				$error = $lang['emailexists'];
+				$error = $STRINGS['emailexists'];
 		}
 
 		if (!$error)
@@ -792,7 +792,7 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 	}
 	catch (PDOException $ex)
 	{
-		$error = PDOErrorInfo($ex, $lang['dberror']);
+		$error = PDOErrorInfo($ex, $STRINGS['dberror']);
 	}
 
 	$ExpDate = strftime('%Y-%m-%d %H:%M:%S', $expires);
@@ -812,9 +812,9 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 			ADMIN_EMAIL,
 			phpversion());
 
-		$subject = mb_encode_mimeheader($lang['subjactivate'], 'ISO-8859-1', 'Q');
+		$subject = mb_encode_mimeheader($STRINGS['subjactivate'], 'ISO-8859-1', 'Q');
 
-		$body = sprintf($lang['emailactivation'],
+		$body = sprintf($STRINGS['emailactivation'],
 						$ipaddr,
 						$user, ORGANISATION, SITE_URL,
 						$token, php_self(), $user, $token, $ExpDate, ORGANISATION);
@@ -825,7 +825,7 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 		if (!@mail($email, $subject, $body, $header))
 		{
 			$error = error_get_last();
-			$error = $lang['mailfailed'].$error['message'];
+			$error = $STRINGS['mailfailed'].$error['message'];
 		}
 	}
 
@@ -842,7 +842,7 @@ function /* char *error */ ActivateUser($db, /* __out */ &$message)
 	// __out $_GET['req']
 	// __out $_GET['user']
 {
-	global $lang;
+	global $STRINGS;
 
 	$error = null;
 	$message = null;
@@ -867,7 +867,7 @@ function /* char *error */ ActivateUser($db, /* __out */ &$message)
 		}
 		else
 		{
-			$error = sprintf($lang['activationfailed_u']);
+			$error = sprintf($STRINGS['activationfailed_u']);
 		}
 	}
 	else
@@ -877,11 +877,11 @@ function /* char *error */ ActivateUser($db, /* __out */ &$message)
 		{
 			if (!$_POST['user'])
 			{
-				$error = sprintf($lang['activationfailed_u']);
+				$error = sprintf($STRINGS['activationfailed_u']);
 			}
 			else if (!$_POST['token'])
 			{
-				$error = sprintf($lang['activationfailed_t']);
+				$error = sprintf($STRINGS['activationfailed_t']);
 			}
 			else
 			{
@@ -901,7 +901,7 @@ function /* char *error */ ActivateUser($db, /* __out */ &$message)
 			if (!$error)
 			{
 				$token = null;
-				$message = $lang['activationsuccess'];
+				$message = $STRINGS['activationsuccess'];
 
 				$_GET['req'] = 'login';	// Form to be displayed next
 				$_GET['user'] = $user;	// Pre-set user name in form
@@ -932,7 +932,7 @@ function /* char *error */ ActivateUser($db, /* __out */ &$message)
 
 function /* char *error */ ActivateUserSql($db, $user, $token)
 {
-	global $lang;
+	global $STRINGS;
 
 	$uid = null;
 	$now = null;
@@ -962,7 +962,7 @@ function /* char *error */ ActivateUserSql($db, $user, $token)
 
 		if ($st->rowCount() != 1)
 		{
-			$error = sprintf($lang['activationfailed'], __LINE__);
+			$error = sprintf($STRINGS['activationfailed'], __LINE__);
 		}
 		else
 		{
@@ -984,12 +984,12 @@ function /* char *error */ ActivateUserSql($db, $user, $token)
 
 				if ($expires > 0)
 				{
-					$error = $lang['activationexpired'];
+					$error = $STRINGS['activationexpired'];
 				}
 				else
 				{
 					if ($token != $row->token)
-						$error = sprintf($lang['activationfailed'], __LINE__);
+						$error = sprintf($STRINGS['activationfailed'], __LINE__);
 				}
 			}
 		}
@@ -1020,7 +1020,7 @@ function /* char *error */ ActivateUserSql($db, $user, $token)
 	}
 	catch (PDOException $ex)
 	{
-		$error = PDOErrorInfo($ex, $lang['dberror']);
+		$error = PDOErrorInfo($ex, $STRINGS['dberror']);
 	}
 
 	return $error;
@@ -1034,7 +1034,7 @@ function /* char *error */ RequestPasswordToken($db, /* __out */ &$message)
 	// __out $_GET['user']
 	// __out $_GET['user']
 {
-	global $lang;
+	global $STRINGS;
 
 	$error = null;
 	$message = null;
@@ -1048,12 +1048,12 @@ function /* char *error */ RequestPasswordToken($db, /* __out */ &$message)
 		/* Obviously, we have to check for strings containing only of whitespace */
 		if (preg_match('/^[ \t\r\n\v]+$/', $user))
 		{
-			$error = $lang['usernameinvalid'];
+			$error = $STRINGS['usernameinvalid'];
 			$_POST['user'] = '';
 		}
 		else if (preg_match('/^[ \t\r\n\v]+$/', $email))
 		{
-			$error = $lang['emailinvalid'];
+			$error = $STRINGS['emailinvalid'];
 			$_POST['email'] = '';
 		}
 		else
@@ -1063,7 +1063,7 @@ function /* char *error */ RequestPasswordToken($db, /* __out */ &$message)
 
 		if (!$error)
 		{
-			$message = $lang['tokensent'];
+			$message = $STRINGS['tokensent'];
 
 			$_GET['req'] = 'changepw';			// Form to be displayed next
 			$_GET['user'] = $_POST['user'];		// Pre-set user name in form
@@ -1075,7 +1075,7 @@ function /* char *error */ RequestPasswordToken($db, /* __out */ &$message)
 
 function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 {
-	global $lang;
+	global $STRINGS;
 
 	$error = null;
 	$uid = null;
@@ -1107,7 +1107,7 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 
 	if (null == $where)
 	{
-		$error = $lang['nonempty'];
+		$error = $STRINGS['nonempty'];
 	}
 	else
 	{
@@ -1150,16 +1150,16 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 				if ($user)
 				{
 					if ($email)
-						$error = $lang['nosuchuseremail'];
+						$error = $STRINGS['nosuchuseremail'];
 					else
-						$error = $lang['nosuchuser'];
+						$error = $STRINGS['nosuchuser'];
 				}
 				else
 				{
 					if ($email)
-						$error = $lang['nosuchemail'];
+						$error = $STRINGS['nosuchemail'];
 					else
-						$error = $lang['nosuchuseremail'];
+						$error = $STRINGS['nosuchuseremail'];
 				}
 			}
 			else
@@ -1174,7 +1174,7 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 
 				if ('activation' == $type)
 				{
-					$error = sprintf($lang['activatefirst'], $user);
+					$error = sprintf($STRINGS['activatefirst'], $user);
 				}
 				else if ('password' == $type)
 				{
@@ -1208,7 +1208,7 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 							$retry .= "$left s";
 						}
 
-						$error = sprintf($lang['noretrybefore'], $retry);
+						$error = sprintf($STRINGS['noretrybefore'], $retry);
 					}
 				}
 			}
@@ -1259,7 +1259,7 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 		}
 		catch (PDOException $ex)
 		{
-			$error = PDOErrorInfo($ex, $lang['dberror']);
+			$error = PDOErrorInfo($ex, $STRINGS['dberror']);
 		}
 	}
 
@@ -1280,16 +1280,16 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 			ADMIN_EMAIL,
 			phpversion());
 
-		$body = sprintf($lang['emailpasswd'], $client_ip, $user, ORGANISATION, $token,
+		$body = sprintf($STRINGS['emailpasswd'], $client_ip, $user, ORGANISATION, $token,
 						   php_self(), $user, $token, $expires, ORGANISATION);
 
 		/* http://www.outlookfaq.net/index.php?action=artikel&cat=6&id=84&artlang=de */
 		$body = mb_convert_encoding($body, 'ISO-8859-1', 'UTF-8');
 
-		if (!@mail($email, mb_encode_mimeheader($lang['subjpasswdchange'], 'ISO-8859-1', 'Q'), $body, $header))
+		if (!@mail($email, mb_encode_mimeheader($STRINGS['subjpasswdchange'], 'ISO-8859-1', 'Q'), $body, $header))
 		{
 			$error = error_get_last();
-			$error = $lang['mailfailed'].$error['message'];
+			$error = $STRINGS['mailfailed'].$error['message'];
 		}
 	}
 
@@ -1304,7 +1304,7 @@ function /* char *error */ ChangePassword($db, $user, /* __out */ &$message)
 	// __out $_GET['req']
 	// __out $_GET['user']
 {
-	global $lang;
+	global $STRINGS;
 
 	$error = null;
 	$message = null;
@@ -1327,13 +1327,13 @@ function /* char *error */ ChangePassword($db, $user, /* __out */ &$message)
 		{
 			if ($user)
 			{
-				$message = $lang['passwdchanged'];
+				$message = $STRINGS['passwdchanged'];
 
 				$_GET['req'] = 'profile';			// Form to be displayed next
 			}
 			else
 			{
-				$message = $lang['passwdchangedlogin'];
+				$message = $STRINGS['passwdchangedlogin'];
 
 				$_GET['req'] = 'login';				// Form to be displayed next
 				$_GET['user'] = $_POST['user'];		// Pre-set user name in form
@@ -1349,7 +1349,7 @@ function /* char *error */ ChangePasswordSql($db, $user, $token, $password)
 	// __in $_POST['passwd-confirm']
 	// __in $_COOKIE['autologin']
 {
-	global $lang;
+	global $STRINGS;
 
 	$uid = null;
 	$now = null;
@@ -1377,7 +1377,7 @@ function /* char *error */ ChangePasswordSql($db, $user, $token, $password)
 
 		if ($st->rowCount() != 1)
 		{
-			$error = $lang['authfailedpasswdnotch'];
+			$error = $STRINGS['authfailedpasswdnotch'];
 		}
 		else
 		{
@@ -1390,13 +1390,13 @@ function /* char *error */ ChangePasswordSql($db, $user, $token, $password)
 				if (!isset($row->token) /* No token has been requested! */ ||
 					$token != $row->token)
 				{
-					$error = $lang['authfailedpasswdnotch'];
+					$error = $STRINGS['authfailedpasswdnotch'];
 				}
 				else
 				{
 					// check token exiration time
 					if ($expires > 0)
-						$error = $lang['passwdtokenexpired'];
+						$error = $STRINGS['passwdtokenexpired'];
 				}
 			}
 
@@ -1408,7 +1408,7 @@ function /* char *error */ ChangePasswordSql($db, $user, $token, $password)
 				}
 				else if (!PasswordsMatch($_POST['passwd'], $_POST['passwd-confirm']))
 				{
-					$error = $lang['passwordsmismatch'];
+					$error = $STRINGS['passwordsmismatch'];
 				}
 				else
 				{
@@ -1444,7 +1444,7 @@ function /* char *error */ ChangePasswordSql($db, $user, $token, $password)
 	}
 	catch (PDOException $ex)
 	{
-		$error = PDOErrorInfo($ex, $lang['dberror']);
+		$error = PDOErrorInfo($ex, $STRINGS['dberror']);
 	}
 
 	return $error;

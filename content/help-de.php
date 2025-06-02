@@ -14,7 +14,7 @@
  *
  ******************************************************************************/
 
-$lang_help = [
+$HELPSTRINGS = [
 	0 => '[Nach oben]',
 	1 => 'Hilfe - Inhalt',
 	2 => 'Grundlegende Bedienung',

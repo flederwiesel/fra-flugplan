@@ -18,7 +18,7 @@ $notice = null;
 
 if (!$user)
 {
-	$error = $lang['notloggedin'];
+	$error = $STRINGS['notloggedin'];
 
 	session_regenerate_id();
 }
@@ -70,7 +70,7 @@ $(function()
 </script>
 <form method="post" action="content/getfile.php?session=<?php echo session_id(); ?>">
 	<fieldset>
-		<legend><?php echo $lang['dlflights']; ?></legend>
+		<legend><?php echo $STRINGS['dlflights']; ?></legend>
 <?php if (isset($error)) { ?>
 		<div id="notification" class="error"><?php echo $error; ?></div>
 <?php } else if (isset($notice)) { ?>
@@ -83,30 +83,30 @@ $(function()
 			<div class="row">
 				<div class="cell"></div>
 				<div class="cell">
-					<label><input type="radio" name="direction" value="arrival" <?php if (!('departure' == $dir)) echo ' checked="checked" '; ?>/><?php echo $lang['arrival']; ?></label>
-					<label><input type="radio" name="direction" value="departure" <?php if ('departure' == $dir) echo ' checked="checked" '; ?>/><?php echo $lang['departure']; ?></label>
+					<label><input type="radio" name="direction" value="arrival" <?php if (!('departure' == $dir)) echo ' checked="checked" '; ?>/><?php echo $STRINGS['arrival']; ?></label>
+					<label><input type="radio" name="direction" value="departure" <?php if ('departure' == $dir) echo ' checked="checked" '; ?>/><?php echo $STRINGS['departure']; ?></label>
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?php echo $lang['from']; ?></div>
+				<div class="cell label"><?php echo $STRINGS['from']; ?></div>
 				<div class="cell">
 					<input type="text" name="date-from" id="date-from"
 					 value="<?php Input_SetValue('date-from', INP_FORCE, date('d.m.Y', strtotime('-1 day'))); ?>"/>
 				</div>
 				<div style="display: inline;">
 					<input type="text" name="time-from" id="time-from" style="margin-right: 0.5em;"
-						value="<?php Input_SetValue('time-from', INP_FORCE, '00:00'); ?>"/>HH:MM (<?php echo $lang['local']; ?>)
+						value="<?php Input_SetValue('time-from', INP_FORCE, '00:00'); ?>"/>HH:MM (<?php echo $STRINGS['local']; ?>)
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?php echo $lang['until']; ?></div>
+				<div class="cell label"><?php echo $STRINGS['until']; ?></div>
 				<div class="cell">
 					<input type="text" name="date-until" id="date-until"
 					 value="<?php Input_SetValue('date-until', INP_FORCE, date('d.m.Y')); ?>"/>
 				</div>
 				<div style="display: inline;">
 					<input type="text" name="time-until" id="time-until" style="margin-right: 0.5em;"
-						value="<?php Input_SetValue('time-until', INP_FORCE, '00:00'); ?>"/>HH:MM (<?php echo $lang['local']; ?>)
+						value="<?php Input_SetValue('time-until', INP_FORCE, '00:00'); ?>"/>HH:MM (<?php echo $STRINGS['local']; ?>)
 				</div>
 			</div>
 		</div>

@@ -135,7 +135,7 @@ if ('dispinterval' == $item)
 <form method="post" action="?req=profile&amp;dispinterval"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
-		<legend><?php echo $lang['dispinterval']; ?></legend>
+		<legend><?php echo $STRINGS['dispinterval']; ?></legend>
 <?php
 	if (isset($_POST['submit']))
 	{
@@ -174,11 +174,11 @@ if ('dispinterval' == $item)
 					$user->opt('tt-', $_POST['tt-']);
 					$user->opt('tt+', $_POST['tt+']);
 
-					$message = $lang['settingsssaved'];
+					$message = $STRINGS['settingsssaved'];
 				}
 				catch (PDOException $ex)
 				{
-					$error = PDOErrorInfo($ex, $lang['dberror']);
+					$error = PDOErrorInfo($ex, $STRINGS['dberror']);
 				}
 			}
 
@@ -198,10 +198,10 @@ if ('dispinterval' == $item)
 		}
 	}
 ?>
-		<div class="explainatory"><?php echo $lang['dispintervaldesc']; ?></div>
+		<div class="explainatory"><?php echo $STRINGS['dispintervaldesc']; ?></div>
 		<div class="table">
 			<div class="row">
-				<div class="cell label"><?php echo $lang['cellphone']; ?></div>
+				<div class="cell label"><?php echo $STRINGS['cellphone']; ?></div>
 				<div class="cell">
 					<select name="tm-" id="phone-min">
 						<option value="-75"<?php if (-75 == $user->opt('tm-')) echo ' selected'; ?>>-00:15 h</option>
@@ -217,7 +217,7 @@ if ('dispinterval' == $item)
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?php echo $lang['tablet']; ?></div>
+				<div class="cell label"><?php echo $STRINGS['tablet']; ?></div>
 				<div class="cell">
 					<select name="tt-" id="tablet-min">
 						<option value="-75"<?php if (-75 == $user->opt('tt-')) echo ' selected'; ?>>-00:15 h</option>
@@ -236,7 +236,7 @@ if ('dispinterval' == $item)
 	</fieldset>
 	<div class="center">
 		<input type="hidden" name="submit" value="interval">
-		<input type="submit" id="submit" name="submit" value="<?php echo $lang['submit']; ?>">
+		<input type="submit" id="submit" name="submit" value="<?php echo $STRINGS['submit']; ?>">
 	</div>
 </form>
 <?php
@@ -248,7 +248,7 @@ if ('notifinterval' == $item)
 <form method="post" action="?req=profile&amp;notifinterval"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
-		<legend><?php echo $lang['notifinterval']; ?></legend>
+		<legend><?php echo $STRINGS['notifinterval']; ?></legend>
 <?php
 	if (isset($_POST['submit']))
 	{
@@ -288,7 +288,7 @@ if ('notifinterval' == $item)
 
 				if (false === $time)
 				{
-					$error = sprintf($lang['strftime-false'], $_POST_timefmt);
+					$error = sprintf($STRINGS['strftime-false'], $_POST_timefmt);
 				}
 				else
 				{
@@ -317,11 +317,11 @@ if ('notifinterval' == $item)
 						$user->opt('notification-until', $_POST['until']);
 						$user->opt('notification-timefmt', $_POST_timefmt);
 
-						$message = "$lang[settingsssaved] " . sprintf($lang['strftime-true'], $time);
+						$message = "$STRINGS[settingsssaved] " . sprintf($STRINGS['strftime-true'], $time);
 					}
 					catch (PDOException $ex)
 					{
-						$error = PDOErrorInfo($ex, $lang['dberror']);
+						$error = PDOErrorInfo($ex, $STRINGS['dberror']);
 					}
 				}
 			}
@@ -342,10 +342,10 @@ if ('notifinterval' == $item)
 		}
 	}
 ?>
-		<div class="explainatory"><?php echo $lang['notifintervaldesc']; ?></div>
+		<div class="explainatory"><?php echo $STRINGS['notifintervaldesc']; ?></div>
 		<div class="table">
 			<div class="row">
-				<div class="cell label"><?php echo $lang['notif-from-until']; ?></div>
+				<div class="cell label"><?php echo $STRINGS['notif-from-until']; ?></div>
 				<div class="cell">
 					<select name="from" id="notification-from">
 <?php
@@ -382,7 +382,7 @@ if ('notifinterval' == $item)
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?php echo $lang['notification-timefmt']; ?></div>
+				<div class="cell label"><?php echo $STRINGS['notification-timefmt']; ?></div>
 				<div class="cell">
 					<div>
 						<input type="text" name="timefmt" id="timefmt" style="width: 90%;"
@@ -395,34 +395,34 @@ if ('notifinterval' == $item)
 			<div style="font-size: smaller;">
 				<sup>*</sup>
 <?php
-				echo sprintf($lang['notification-strftime_1'],
+				echo sprintf($STRINGS['notification-strftime_1'],
 					'de' == $_SESSION['lang'] ?
 						'<a href="http://php.net/manual/de/function.strftime.php">strftime()</a>' :
 						'<a href="http://php.net/manual/en/function.strftime.php#refsect1-function.strftime-parameters">strftime()</a>');
 ?>
 				<div>
 					<div style="padding-top: 1.3em; text-decoration: underline;">
-						<?php echo $lang['notification-strftime_2']; ?>
+						<?php echo $STRINGS['notification-strftime_2']; ?>
 					</div>
 					<dl class="inline">
-						<dt>%a</dt><dd><?php echo $lang['notification-strftime_a']; ?></dd>
-						<dt>%A</dt><dd><?php echo $lang['notification-strftime_A']; ?></dd>
-						<dt>%b</dt><dd><?php echo $lang['notification-strftime_b']; ?></dd>
-						<dt>%B</dt><dd><?php echo $lang['notification-strftime_B']; ?></dd>
-						<dt>%c</dt><dd><?php echo $lang['notification-strftime_c']; ?></dd>
-						<dt>%d</dt><dd><?php echo $lang['notification-strftime_d']; ?></dd>
-						<dt>%e</dt><dd><?php echo $lang['notification-strftime_e']; ?></dd>
-						<dt>%H</dt><dd><?php echo $lang['notification-strftime_H']; ?></dd>
-						<dt>%I</dt><dd><?php echo $lang['notification-strftime_I']; ?></dd>
-						<dt>%m</dt><dd><?php echo $lang['notification-strftime_m']; ?></dd>
-						<dt>%p</dt><dd><?php echo $lang['notification-strftime_p']; ?></dd>
-						<dt>%S</dt><dd><?php echo $lang['notification-strftime_S']; ?></dd>
+						<dt>%a</dt><dd><?php echo $STRINGS['notification-strftime_a']; ?></dd>
+						<dt>%A</dt><dd><?php echo $STRINGS['notification-strftime_A']; ?></dd>
+						<dt>%b</dt><dd><?php echo $STRINGS['notification-strftime_b']; ?></dd>
+						<dt>%B</dt><dd><?php echo $STRINGS['notification-strftime_B']; ?></dd>
+						<dt>%c</dt><dd><?php echo $STRINGS['notification-strftime_c']; ?></dd>
+						<dt>%d</dt><dd><?php echo $STRINGS['notification-strftime_d']; ?></dd>
+						<dt>%e</dt><dd><?php echo $STRINGS['notification-strftime_e']; ?></dd>
+						<dt>%H</dt><dd><?php echo $STRINGS['notification-strftime_H']; ?></dd>
+						<dt>%I</dt><dd><?php echo $STRINGS['notification-strftime_I']; ?></dd>
+						<dt>%m</dt><dd><?php echo $STRINGS['notification-strftime_m']; ?></dd>
+						<dt>%p</dt><dd><?php echo $STRINGS['notification-strftime_p']; ?></dd>
+						<dt>%S</dt><dd><?php echo $STRINGS['notification-strftime_S']; ?></dd>
 					</dl>
 					<div style="padding-top: 1.3em; text-decoration: underline; clear: both;">
-						<?php echo $lang['notification-strftime_3']; ?>
+						<?php echo $STRINGS['notification-strftime_3']; ?>
 					</div>
 					<dl class="inline">
-						<dt>%+</dt><dd><?php echo $lang['notification-strftime_4']; ?></dd>
+						<dt>%+</dt><dd><?php echo $STRINGS['notification-strftime_4']; ?></dd>
 					</dl>
 				</div>
 			</div>
@@ -434,7 +434,7 @@ if ('notifinterval' == $item)
 	</fieldset>
 	<div class="center">
 		<input type="hidden" name="submit" value="notifications">
-		<input type="submit" id="submit" value="<?php echo $lang['submit']; ?>">
+		<input type="submit" id="submit" value="<?php echo $STRINGS['submit']; ?>">
 	</div>
 </form>
 <?php
@@ -445,7 +445,7 @@ else if ('photodb' == $item)
 <form method="post" action="?req=profile&amp;photodb"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
-		<legend><?php echo $lang['photodb']; ?></legend>
+		<legend><?php echo $STRINGS['photodb']; ?></legend>
 <?php
 	if (isset($_POST['submit']))
 	{
@@ -470,11 +470,11 @@ else if ('photodb' == $item)
 
 					$user->opt('photodb', $_POST['photodb']);
 
-					$message = $lang['settingsssaved'];
+					$message = $STRINGS['settingsssaved'];
 				}
 				catch (PDOException $ex)
 				{
-					$error = PDOErrorInfo($ex, $lang['dberror']);
+					$error = PDOErrorInfo($ex, $STRINGS['dberror']);
 				}
 			}
 
@@ -494,10 +494,10 @@ else if ('photodb' == $item)
 		}
 	}
 ?>
-		<div class="explainatory"><?php echo sprintf($lang['photodbdesc'], "<img src='img/photodb.png' alt='{$user->opt('photodb')}'>"); ?></div>
+		<div class="explainatory"><?php echo sprintf($STRINGS['photodbdesc'], "<img src='img/photodb.png' alt='{$user->opt('photodb')}'>"); ?></div>
 		<div class="table">
 			<div class="row">
-				<div class="cell label"><?php echo $lang['photodbsel']; ?></div>
+				<div class="cell label"><?php echo $STRINGS['photodbsel']; ?></div>
 				<div class="cell">
 					<select name="photodb" id="photodb">
 <?php
@@ -514,7 +514,7 @@ else if ('photodb' == $item)
 	</fieldset>
 	<div class="center">
 		<input type="hidden" name="submit" value="photodb">
-		<input type="submit" id="submit" name="submit" value="<?php echo $lang['submit']; ?>">
+		<input type="submit" id="submit" name="submit" value="<?php echo $STRINGS['submit']; ?>">
 	</div>
 </form>
 <?php

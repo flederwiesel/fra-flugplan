@@ -14,7 +14,7 @@
  *
  ******************************************************************************/
 
-$lang = array
+$STRINGS = array
 (
 	'$id' => 'de',
 	'noscript' => 'JavaScript wird entweder nicht vom Browser unterstützt oder ist abgeschaltet.<br>'.

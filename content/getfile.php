@@ -79,12 +79,12 @@ else
 
 if (!isset($_GET['session']))
 {
-	$error = $lang['invalidsession'];
+	$error = $STRINGS['invalidsession'];
 }
 else
 {
 	if ($_GET['session'] != session_id())
-		$error = $lang['invalidsession'];
+		$error = $STRINGS['invalidsession'];
 }
 
 session_regenerate_id();
@@ -93,30 +93,30 @@ if (!$error)
 {
 	if (!isset($_POST['direction']))
 	{
-		$error = $lang['badrequest'];
+		$error = $STRINGS['badrequest'];
 	}
 	else
 	{
 		if (!isset($_POST['date-from']))
 		{
-			$error = $lang['badrequest'];
+			$error = $STRINGS['badrequest'];
 		}
 		else
 		{
 			if (!isset($_POST['time-from']))
 			{
-				$error = $lang['badrequest'];
+				$error = $STRINGS['badrequest'];
 			}
 			else
 			{
 				if (!isset($_POST['date-until']))
 				{
-					$error = $lang['badrequest'];
+					$error = $STRINGS['badrequest'];
 				}
 				else
 				{
 					if (!isset($_POST['time-until']))
-						$error = $lang['badrequest'];
+						$error = $STRINGS['badrequest'];
 				}
 			}
 		}
@@ -130,7 +130,7 @@ if (!$error)
 
 	if (-1 == $from || -1 == $until)
 	{
-		$error = $lang['badrequest'];
+		$error = $STRINGS['badrequest'];
 	}
 	else
 	{
@@ -152,13 +152,13 @@ if (!$error)
 
 	if (!$hdbc)
 	{
-		$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+		$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
 	}
 	else
 	{
 		if (!mysql_select_db(DB_NAME, $hdbc))
 		{
-			$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+			$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
 		}
 		else
 		{
@@ -188,7 +188,7 @@ SQL;
 
 			if (!$result)
 			{
-				$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+				$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
 			}
 			else
 			{

@@ -51,7 +51,7 @@ function DefaultCheck($name, $value)
 
 function CheckPostVariables(&$notice)
 {
-	global $lang;
+	global $STRINGS;
 
 	$error = null;
 
@@ -64,7 +64,7 @@ function CheckPostVariables(&$notice)
 		  isset($_POST['interval']))
 	{
 		/* Should never be seen in normal op... */
-		$error = $lang['unexpected'];
+		$error = $STRINGS['unexpected'];
 	}
 	else
 	{
@@ -77,7 +77,7 @@ function CheckPostVariables(&$notice)
 			break;
 
 		default:
-			$error = $lang['unexpected'];
+			$error = $STRINGS['unexpected'];
 		}
 
 		if (!$error)
@@ -86,7 +86,7 @@ function CheckPostVariables(&$notice)
 				  'departure' == $_POST['direction']))
 			{
 				/* Should never be seen in normal op... */
-				$error = $lang['unexpected'];
+				$error = $STRINGS['unexpected'];
 			}
 			else
 			{
@@ -95,13 +95,13 @@ function CheckPostVariables(&$notice)
 				{
 					if (!isset($_POST['until']))
 					{
-						$notice = $lang['untilinvalid'];
+						$notice = $STRINGS['untilinvalid'];
 					}
 					else
 					{
 						if ('' == $_POST['until'])
 						{
-							$notice = $lang['untilinvalid'];
+							$notice = $STRINGS['untilinvalid'];
 						}
 						else
 						{
@@ -109,12 +109,12 @@ function CheckPostVariables(&$notice)
 							{
 								if (!isset($_POST['day']))
 								{
-									$notice = $lang['wdays'];
+									$notice = $STRINGS['wdays'];
 								}
 								else
 								{
 									if (0 == count($_POST['day']))
-										$notice = $lang['wdays'];
+										$notice = $STRINGS['wdays'];
 								}
 							}
 						}
@@ -129,7 +129,7 @@ function CheckPostVariables(&$notice)
 
 function GetPostVariables(&$type, &$reg, &$flight, &$dir, &$scheduled, &$until)
 {
-	global $lang;
+	global $STRINGS;
 
 	$error = null;
 
@@ -152,7 +152,7 @@ function GetPostVariables(&$type, &$reg, &$flight, &$dir, &$scheduled, &$until)
 			if (preg_match('/^[a-zA-Z]+-?[a-zA-Z0-9]+$/', $_POST['reg'], $reg))
 				$reg = $reg[0];
 			else
-				$error = $lang['invalidreg'];
+				$error = $STRINGS['invalidreg'];
 		}
 	}
 
@@ -161,7 +161,7 @@ function GetPostVariables(&$type, &$reg, &$flight, &$dir, &$scheduled, &$until)
 		if (!preg_match('/^([0-9][A-Z]|[A-Z][0-9]|[A-Z]{2,3})([0-9]{3,4}[A-Z]?)$/',
 						strtoupper($_POST['flight']), $flight))
 		{
-			$error = $lang['invalidflight'];
+			$error = $STRINGS['invalidflight'];
 		}
 		else
 		{
@@ -171,7 +171,7 @@ function GetPostVariables(&$type, &$reg, &$flight, &$dir, &$scheduled, &$until)
 
 			if (-1 == $scheduled)
 			{
-				$error = $lang['invaliddatetime'];
+				$error = $STRINGS['invaliddatetime'];
 			}
 			else
 			{
@@ -184,7 +184,7 @@ function GetPostVariables(&$type, &$reg, &$flight, &$dir, &$scheduled, &$until)
 					$until = mktime_c($_POST['until'], $_POST['time']);
 
 					if (-1 == $until)
-						$error = $lang['untilinvalid'];
+						$error = $STRINGS['untilinvalid'];
 				}
 			}
 		}
@@ -195,7 +195,7 @@ function GetPostVariables(&$type, &$reg, &$flight, &$dir, &$scheduled, &$until)
 
 function GetRegId(&$reg, &$model)
 {
-	global $lang;
+	global $STRINGS;
 
 	$error = null;
 
@@ -204,7 +204,7 @@ function GetRegId(&$reg, &$model)
 
 	if (!$result)
 	{
-		$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+		$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
 	}
 	else
 	{
@@ -224,7 +224,7 @@ function GetRegId(&$reg, &$model)
 
 function GetPostRegId(&$reg, &$model)
 {
-	global $lang;
+	global $STRINGS;
 	global $user;
 
 	$error = null;
@@ -249,7 +249,7 @@ function GetPostRegId(&$reg, &$model)
 
 			if (!$result)
 			{
-				$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+				$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
 			}
 			else
 			{
@@ -270,7 +270,7 @@ function GetPostRegId(&$reg, &$model)
 
 					if (!mysql_query($query))
 					{
-						$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+						$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
 					}
 					else
 					{
@@ -278,7 +278,7 @@ function GetPostRegId(&$reg, &$model)
 
 						if (!$result1)
 						{
-							$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+							$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
 						}
 						else
 						{
@@ -300,7 +300,7 @@ function GetPostRegId(&$reg, &$model)
 
 function GetAirlineId(&$airline, $flight)
 {
-	global $lang;
+	global $STRINGS;
 
 	$error = null;
 	$airline = null;
@@ -310,7 +310,7 @@ function GetAirlineId(&$airline, $flight)
 
 	if (!$result)
 	{
-		$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+		$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
 	}
 	else
 	{
@@ -327,7 +327,7 @@ function GetAirlineId(&$airline, $flight)
 
 function GetPostAirlineId(&$airline)
 {
-	global $lang;
+	global $STRINGS;
 	global $user;
 
 	$error = null;
@@ -343,7 +343,7 @@ function GetPostAirlineId(&$airline)
 
 			if (!mysql_query($query))
 			{
-				$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+				$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
 			}
 			else
 			{
@@ -351,7 +351,7 @@ function GetPostAirlineId(&$airline)
 
 				if (!$result)
 				{
-					$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+					$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
 				}
 				else
 				{
@@ -375,13 +375,13 @@ if ($_POST)
 {
 	if (!$user)
 	{
-		$error = $lang['notloggedin'];
+		$error = $STRINGS['notloggedin'];
 	}
 	else
 	{
 		if (!$user->IsMemberOf('addflights'))
 		{
-			$error = $lang['nopermission'];
+			$error = $STRINGS['nopermission'];
 		}
 		else
 		{
@@ -408,7 +408,7 @@ if ($_POST)
 								{
 									if (!$model)
 									{
-										$notice = $reg ? $lang['typeunknown'] : $lang['needtype'];
+										$notice = $reg ? $STRINGS['typeunknown'] : $STRINGS['needtype'];
 									}
 									else
 									{
@@ -434,7 +434,7 @@ if ($_POST)
 						{
 							if (!$airline)
 							{
-								$notice = $lang['nosuchairline'];
+								$notice = $STRINGS['nosuchairline'];
 							}
 							else
 							{
@@ -481,7 +481,7 @@ if ($_POST)
 
 								if (!$error)
 								{
-									$message = $lang['addflsuccess'];
+									$message = $STRINGS['addflsuccess'];
 
 									unset($_POST['reg']);
 									unset($_POST['model']);
@@ -592,7 +592,7 @@ $(function()
 </script>
 <form method="post" action="?page=addflight">
 	<fieldset>
-		<legend><?php echo $lang['addflight']; ?></legend>
+		<legend><?php echo $STRINGS['addflight']; ?></legend>
 <?php if (isset($error)) { ?>
 		<div id="notification" class="error"><?php echo $error; ?></div>
 <?php } else if (isset($notice)) { ?>
@@ -602,7 +602,7 @@ $(function()
 <?php } ?>
 		<div class="table">
 			<div class="row">
-				<div class="cell label"><?php echo $lang['reg']; ?></div>
+				<div class="cell label"><?php echo $STRINGS['reg']; ?></div>
 				<div class="cell">
 					<input type="text" name="reg" id="reg"
 					 value="<?php Input_SetValue('reg', INP_POST, 'D-AIRY'); ?>"/>
@@ -610,7 +610,7 @@ $(function()
 			</div>
 <?php if (isset($_POST['flight']) && !$error && !$model) { ?>
 			<div class="row">
-				<div class="cell label"><?php echo $lang['icaomodel']; ?></div>
+				<div class="cell label"><?php echo $STRINGS['icaomodel']; ?></div>
 				<div class="cell">
 					<input type="text" name="model" id="model"
 						value="<?php Input_SetValue('model', INP_POST, 'A321'); ?>"/>
@@ -622,7 +622,7 @@ $(function()
 			</div>
 <?php } ?>
 			<div class="row">
-				<div class="cell label"><?php echo $lang['flight']; ?></div>
+				<div class="cell label"><?php echo $STRINGS['flight']; ?></div>
 				<div class="cell">
 					<input type="text" name="flight" id="flight"
 					 value="<?php Input_SetValue('flight', INP_POST, 'QQ9999'); ?>"/>
@@ -639,15 +639,15 @@ $(function()
 ?>
 						<label>
 							<input type="radio" name="type"
-							 value="pax-regular" checked="checked"><?php echo $lang['pax-regular']; ?>
+							 value="pax-regular" checked="checked"><?php echo $STRINGS['pax-regular']; ?>
 						</label>
 						<label>
 							<input type="radio" name="type"
-							 value="cargo"><?php echo $lang['cargo']; ?>
+							 value="cargo"><?php echo $STRINGS['cargo']; ?>
 						</label>
 						<label>
 							<input type="radio" name="type"
-							 value="ferry"><?php echo $lang['ferry']; ?>
+							 value="ferry"><?php echo $STRINGS['ferry']; ?>
 						</label>
 <?php
 					}
@@ -656,15 +656,15 @@ $(function()
 ?>
 						<label>
 							<input type="radio" name="type"
-							 value="pax-regular" <?php DefaultCheck('type', 'pax-regular'); ?>/><?php echo $lang['pax-regular']; ?>
+							 value="pax-regular" <?php DefaultCheck('type', 'pax-regular'); ?>/><?php echo $STRINGS['pax-regular']; ?>
 						</label>
 						<label>
 							<input type="radio" name="type"
-							 value="cargo" <?php DefaultCheck('type', 'cargo'); ?>/><?php echo $lang['cargo']; ?>
+							 value="cargo" <?php DefaultCheck('type', 'cargo'); ?>/><?php echo $STRINGS['cargo']; ?>
 						</label>
 						<label>
 							<input type="radio" name="type"
-							 value="ferry" <?php DefaultCheck('type', 'ferry'); ?>/><?php echo $lang['ferry']; ?>
+							 value="ferry" <?php DefaultCheck('type', 'ferry'); ?>/><?php echo $STRINGS['ferry']; ?>
 						</label>
 <?php
 					}
@@ -680,7 +680,7 @@ $(function()
 			</div>
 <?php if (isset($_POST['flight']) && !$error && !$airline) { ?>
 			<div class="row">
-				<div class="cell label"><?php echo $lang['airline']; ?></div>
+				<div class="cell label"><?php echo $STRINGS['airline']; ?></div>
 				<div class="cell">
 					<input type="text" name="code" value="<?php Input_SetValue('code', INP_POST, ''); ?>"/>
 					<input type="text" name="airline" value="<?php Input_SetValue('airline', INP_POST, ''); ?>"/>
@@ -695,13 +695,13 @@ $(function()
 			<div class="row">
 				<div class="cell"></div>
 				<div class="cell">
-					<label><input type="radio" name="direction" value="arrival" <?php if (!('departure' == $dir)) echo ' checked="checked" '; ?>/><?php echo $lang['arrival']; ?></label>
-					<label><input type="radio" name="direction" value="departure" <?php if ('departure' == $dir) echo ' checked="checked" '; ?>/><?php echo $lang['departure']; ?></label>
+					<label><input type="radio" name="direction" value="arrival" <?php if (!('departure' == $dir)) echo ' checked="checked" '; ?>/><?php echo $STRINGS['arrival']; ?></label>
+					<label><input type="radio" name="direction" value="departure" <?php if ('departure' == $dir) echo ' checked="checked" '; ?>/><?php echo $STRINGS['departure']; ?></label>
 				</div>
 			</div>
 
 			<div class="row">
-				<div class="cell label"><?php echo ucfirst($lang['from']); ?></div>
+				<div class="cell label"><?php echo ucfirst($STRINGS['from']); ?></div>
 				<div class="cell">
 					<select id="airport-icao" name="airport">
 <?php
@@ -709,7 +709,7 @@ $(function()
 
 						if (!$result)
 						{
-							$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+							$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
 						}
 						else
 						{
@@ -732,34 +732,34 @@ $(function()
 			</div>
 
 			<div class="row">
-				<div class="cell label"><?php echo $lang['date']; ?></div>
+				<div class="cell label"><?php echo $STRINGS['date']; ?></div>
 				<div class="cell">
 					<input type="text" name="from" id="from" value="<?php Input_SetValue('from', INP_POST | INP_FORCE, date('d.m.Y')); ?>"/>
-					<div style="display: inline;"><?php echo 'arrival' == $dir ? $lang['sta'] : $lang['std']; ?>:</div>
+					<div style="display: inline;"><?php echo 'arrival' == $dir ? $STRINGS['sta'] : $STRINGS['std']; ?>:</div>
 					<div style="display: inline;">
 						<input type="text" name="time" id="time" style="margin-right: 0.5em;"
-						 value="<?php Input_SetValue('time', INP_POST | INP_FORCE, date('H:i')); ?>"/>HH:MM (<?php echo $lang['local']; ?>)
+						 value="<?php Input_SetValue('time', INP_POST | INP_FORCE, date('H:i')); ?>"/>HH:MM (<?php echo $STRINGS['local']; ?>)
 					</div>
 					<div class="cell">
 <?php
 					if (!isset($_POST['interval']))
 					{
 ?>
-						<label><input type="radio" name="interval" value="once" id="once" checked="checked" /><?php echo $lang['once']; ?></label><br>
-						<label><input type="radio" name="interval" value="daily" id="daily"/><?php echo $lang['daily']; ?></label><br>
-						<label><input type="radio" name="interval" value="each" id="each"/><?php echo $lang['each']; ?></label>
+						<label><input type="radio" name="interval" value="once" id="once" checked="checked" /><?php echo $STRINGS['once']; ?></label><br>
+						<label><input type="radio" name="interval" value="daily" id="daily"/><?php echo $STRINGS['daily']; ?></label><br>
+						<label><input type="radio" name="interval" value="each" id="each"/><?php echo $STRINGS['each']; ?></label>
 						<div style="margin-left: 1em; display: inline;">
-							<label><input type="checkbox" name="day[1]" id="mon" disabled /><?php echo $lang['mon']; ?></label>
-							<label><input type="checkbox" name="day[2]" id="tue" disabled /><?php echo $lang['tue']; ?></label>
-							<label><input type="checkbox" name="day[3]" id="wed" disabled /><?php echo $lang['wed']; ?></label>
-							<label><input type="checkbox" name="day[4]" id="thu" disabled /><?php echo $lang['thu']; ?></label>
-							<label><input type="checkbox" name="day[5]" id="fri" disabled /><?php echo $lang['fri']; ?></label>
-							<label><input type="checkbox" name="day[6]" id="sat" disabled /><?php echo $lang['sat']; ?></label>
-							<label><input type="checkbox" name="day[7]" id="sun" disabled /><?php echo $lang['sun']; ?></label>
-							<label><input type="checkbox" name="day[0]" id="all" disabled /><b><?php echo $lang['all']; ?></b></label>
+							<label><input type="checkbox" name="day[1]" id="mon" disabled /><?php echo $STRINGS['mon']; ?></label>
+							<label><input type="checkbox" name="day[2]" id="tue" disabled /><?php echo $STRINGS['tue']; ?></label>
+							<label><input type="checkbox" name="day[3]" id="wed" disabled /><?php echo $STRINGS['wed']; ?></label>
+							<label><input type="checkbox" name="day[4]" id="thu" disabled /><?php echo $STRINGS['thu']; ?></label>
+							<label><input type="checkbox" name="day[5]" id="fri" disabled /><?php echo $STRINGS['fri']; ?></label>
+							<label><input type="checkbox" name="day[6]" id="sat" disabled /><?php echo $STRINGS['sat']; ?></label>
+							<label><input type="checkbox" name="day[7]" id="sun" disabled /><?php echo $STRINGS['sun']; ?></label>
+							<label><input type="checkbox" name="day[0]" id="all" disabled /><b><?php echo $STRINGS['all']; ?></b></label>
 						</div>
 						<div class="cell">
-							<div style="display: inline;"><?php echo $lang['until']; ?>:</div>
+							<div style="display: inline;"><?php echo $STRINGS['until']; ?>:</div>
 							<input type="text" name="until" id="until"
 							 value="<?php Input_SetValue('until', INP_POST | INP_FORCE, date('d.m.Y')); ?>" disabled>
 						</div>
@@ -770,21 +770,21 @@ $(function()
 						if ('each' == $_POST['interval'])
 						{
 ?>
-						<label><input type="radio" name="interval" value="once" id="once" <?php DefaultCheck('interval', 'once'); ?>/><?php echo $lang['once']; ?></label><br>
-						<label><input type="radio" name="interval" value="daily" id="daily" <?php DefaultCheck('interval', 'daily'); ?>/><?php echo $lang['daily']; ?></label><br>
-						<label><input type="radio" name="interval" value="each" id="each" <?php DefaultCheck('interval', 'each'); ?>/><?php echo $lang['each']; ?></label>
+						<label><input type="radio" name="interval" value="once" id="once" <?php DefaultCheck('interval', 'once'); ?>/><?php echo $STRINGS['once']; ?></label><br>
+						<label><input type="radio" name="interval" value="daily" id="daily" <?php DefaultCheck('interval', 'daily'); ?>/><?php echo $STRINGS['daily']; ?></label><br>
+						<label><input type="radio" name="interval" value="each" id="each" <?php DefaultCheck('interval', 'each'); ?>/><?php echo $STRINGS['each']; ?></label>
 						<div style="margin-left: 1em; display: inline;">
-							<label><input type="checkbox" name="day[1]" id="mon" <?php DefaultCheck('day', 1); ?>/><?php echo $lang['mon']; ?></label>
-							<label><input type="checkbox" name="day[2]" id="tue" <?php DefaultCheck('day', 2); ?>/><?php echo $lang['tue']; ?></label>
-							<label><input type="checkbox" name="day[3]" id="wed" <?php DefaultCheck('day', 3); ?>/><?php echo $lang['wed']; ?></label>
-							<label><input type="checkbox" name="day[4]" id="thu" <?php DefaultCheck('day', 4); ?>/><?php echo $lang['thu']; ?></label>
-							<label><input type="checkbox" name="day[5]" id="fri" <?php DefaultCheck('day', 5); ?>/><?php echo $lang['fri']; ?></label>
-							<label><input type="checkbox" name="day[6]" id="sat" <?php DefaultCheck('day', 6); ?>/><?php echo $lang['sat']; ?></label>
-							<label><input type="checkbox" name="day[7]" id="sun" <?php DefaultCheck('day', 7); ?>/><?php echo $lang['sun']; ?></label>
-							<label><input type="checkbox" name="day[0]" id="all" <?php DefaultCheck('day', 0); ?>/><b><?php echo $lang['all']; ?></b></label>
+							<label><input type="checkbox" name="day[1]" id="mon" <?php DefaultCheck('day', 1); ?>/><?php echo $STRINGS['mon']; ?></label>
+							<label><input type="checkbox" name="day[2]" id="tue" <?php DefaultCheck('day', 2); ?>/><?php echo $STRINGS['tue']; ?></label>
+							<label><input type="checkbox" name="day[3]" id="wed" <?php DefaultCheck('day', 3); ?>/><?php echo $STRINGS['wed']; ?></label>
+							<label><input type="checkbox" name="day[4]" id="thu" <?php DefaultCheck('day', 4); ?>/><?php echo $STRINGS['thu']; ?></label>
+							<label><input type="checkbox" name="day[5]" id="fri" <?php DefaultCheck('day', 5); ?>/><?php echo $STRINGS['fri']; ?></label>
+							<label><input type="checkbox" name="day[6]" id="sat" <?php DefaultCheck('day', 6); ?>/><?php echo $STRINGS['sat']; ?></label>
+							<label><input type="checkbox" name="day[7]" id="sun" <?php DefaultCheck('day', 7); ?>/><?php echo $STRINGS['sun']; ?></label>
+							<label><input type="checkbox" name="day[0]" id="all" <?php DefaultCheck('day', 0); ?>/><b><?php echo $STRINGS['all']; ?></b></label>
 						</div>
 						<div class="cell">
-							<div style="display: inline;"><?php echo $lang['until']; ?>:</div>
+							<div style="display: inline;"><?php echo $STRINGS['until']; ?>:</div>
 							<input type="text" name="until" id="until"
 							 value="<?php Input_SetValue('until', INP_POST | INP_FORCE, date('d.m.Y')); ?>">
 						</div>
@@ -793,21 +793,21 @@ $(function()
 						else
 						{
 ?>
-						<label><input type="radio" name="interval" value="once" id="once" <?php DefaultCheck('interval', 'once'); ?>/><?php echo $lang['once']; ?></label><br>
-						<label><input type="radio" name="interval" value="daily" id="daily" <?php DefaultCheck('interval', 'daily'); ?>/><?php echo $lang['daily']; ?></label><br>
-						<label><input type="radio" name="interval" value="each" id="each" <?php DefaultCheck('interval', 'each'); ?>/><?php echo $lang['each']; ?></label>
+						<label><input type="radio" name="interval" value="once" id="once" <?php DefaultCheck('interval', 'once'); ?>/><?php echo $STRINGS['once']; ?></label><br>
+						<label><input type="radio" name="interval" value="daily" id="daily" <?php DefaultCheck('interval', 'daily'); ?>/><?php echo $STRINGS['daily']; ?></label><br>
+						<label><input type="radio" name="interval" value="each" id="each" <?php DefaultCheck('interval', 'each'); ?>/><?php echo $STRINGS['each']; ?></label>
 						<div style="margin-left: 1em; display: inline;">
-							<label><input type="checkbox" name="day[1]" id="mon" disabled <?php DefaultCheck('day', 1); ?>/><?php echo $lang['mon']; ?></label>
-							<label><input type="checkbox" name="day[2]" id="tue" disabled <?php DefaultCheck('day', 2); ?>/><?php echo $lang['tue']; ?></label>
-							<label><input type="checkbox" name="day[3]" id="wed" disabled <?php DefaultCheck('day', 3); ?>/><?php echo $lang['wed']; ?></label>
-							<label><input type="checkbox" name="day[4]" id="thu" disabled <?php DefaultCheck('day', 4); ?>/><?php echo $lang['thu']; ?></label>
-							<label><input type="checkbox" name="day[5]" id="fri" disabled <?php DefaultCheck('day', 5); ?>/><?php echo $lang['fri']; ?></label>
-							<label><input type="checkbox" name="day[6]" id="sat" disabled <?php DefaultCheck('day', 6); ?>/><?php echo $lang['sat']; ?></label>
-							<label><input type="checkbox" name="day[7]" id="sun" disabled <?php DefaultCheck('day', 7); ?>/><?php echo $lang['sun']; ?></label>
-							<label><input type="checkbox" name="day[0]" id="all" disabled <?php DefaultCheck('day', 0); ?>/><b><?php echo $lang['all']; ?></b></label>
+							<label><input type="checkbox" name="day[1]" id="mon" disabled <?php DefaultCheck('day', 1); ?>/><?php echo $STRINGS['mon']; ?></label>
+							<label><input type="checkbox" name="day[2]" id="tue" disabled <?php DefaultCheck('day', 2); ?>/><?php echo $STRINGS['tue']; ?></label>
+							<label><input type="checkbox" name="day[3]" id="wed" disabled <?php DefaultCheck('day', 3); ?>/><?php echo $STRINGS['wed']; ?></label>
+							<label><input type="checkbox" name="day[4]" id="thu" disabled <?php DefaultCheck('day', 4); ?>/><?php echo $STRINGS['thu']; ?></label>
+							<label><input type="checkbox" name="day[5]" id="fri" disabled <?php DefaultCheck('day', 5); ?>/><?php echo $STRINGS['fri']; ?></label>
+							<label><input type="checkbox" name="day[6]" id="sat" disabled <?php DefaultCheck('day', 6); ?>/><?php echo $STRINGS['sat']; ?></label>
+							<label><input type="checkbox" name="day[7]" id="sun" disabled <?php DefaultCheck('day', 7); ?>/><?php echo $STRINGS['sun']; ?></label>
+							<label><input type="checkbox" name="day[0]" id="all" disabled <?php DefaultCheck('day', 0); ?>/><b><?php echo $STRINGS['all']; ?></b></label>
 						</div>
 						<div class="cell">
-							<div style="display: inline;"><?php echo $lang['until']; ?>:</div>
+							<div style="display: inline;"><?php echo $STRINGS['until']; ?>:</div>
 							<input type="text" name="until" id="until"
 							 value="<?php Input_SetValue('until', INP_POST | INP_FORCE, date('d.m.Y')); ?>" disabled>
 						</div>

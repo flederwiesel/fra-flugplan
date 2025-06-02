@@ -18,13 +18,13 @@ if ('userdel' == $_GET['admin'])
 {
 	if (!$user)
 	{
-		$error = $lang['notloggedin'];//.': '.htmlget();
+		$error = $STRINGS['notloggedin'];//.': '.htmlget();
 	}
 	else
 	{
 		if (!$user->IsMemberOf('admin'))
 		{
-			$error = $lang['nopermission'];
+			$error = $STRINGS['nopermission'];
 		}
 		else
 		{
@@ -33,7 +33,7 @@ if ('userdel' == $_GET['admin'])
 			if ($result)
 				$message = 'OK';
 			else
-				$error = sprintf($lang['dberror'], __FILE__, __LINE__, mysql_error());
+				$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
 		}
 	}
 }

@@ -14,7 +14,7 @@
  *
  ******************************************************************************/
 
-$lang = array
+$STRINGS = array
 (
 	'$id' => 'en',
 	'noscript' => 'If you obtain this message, JavaScript is either not supported or disabled '.

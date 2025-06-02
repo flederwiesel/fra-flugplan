@@ -2191,7 +2191,7 @@ function SendWatchlistNotification($name, $email, $fmt, $locale, $notifications)
 	if ('de' == $locale)
 	{
 		$locale = setlocale(LC_TIME, 'deu', 'deu_deu');
-		$lang = [
+		$STRINGS = [
 				'watchlist' => 'Beobachtungsliste',
 				'schedule' => 'Flugplan',
 		];
@@ -2199,7 +2199,7 @@ function SendWatchlistNotification($name, $email, $fmt, $locale, $notifications)
 	else
 	{
 		$locale = setlocale(LC_TIME, 'eng', 'english-uk', 'uk', 'enu', 'english-us', 'us', 'english', 'C');
-		$lang = [
+		$STRINGS = [
 			'watchlist' => 'watchlist',
 			'schedule' => 'schedule',
 		];
@@ -2240,7 +2240,7 @@ function SendWatchlistNotification($name, $email, $fmt, $locale, $notifications)
 		echo "$text";
 
 	$to = mb_encode_mimeheader($name, 'ISO-8859-1', 'Q')."<$email>";
-	$subject = mb_encode_mimeheader("$lang[watchlist]", 'ISO-8859-1', 'Q');
+	$subject = mb_encode_mimeheader("$STRINGS[watchlist]", 'ISO-8859-1', 'Q');
 	$header = sprintf(
 		"From: %s <%s>\n".
 		"Reply-To: %s\n".
@@ -2248,7 +2248,7 @@ function SendWatchlistNotification($name, $email, $fmt, $locale, $notifications)
 		"Content-type: text/plain; charset=ISO-8859-1\n".
 		"Content-Transfer-Encoding: 8bit\n".
 		"X-Mailer: PHP/%s\n",
-		"FRA $lang[schedule]",
+		"FRA $STRINGS[schedule]",
 		"watchlist@fra-flugplan.de",
 		ADMIN_EMAIL,
 		phpversion());
