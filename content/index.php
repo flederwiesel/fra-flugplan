@@ -200,8 +200,8 @@ if (isset($_POST['add']) ||
 
 ?>
 <script type="text/javascript">
-	wl_img_open = "img/wl-open-<?php echo $_SESSION['lang']; ?>.png";
-	wl_img_close = "img/wl-close-<?php echo $_SESSION['lang']; ?>.png";
+	wl_img_open = "img/wl-open-<?php echo $lang; ?>.png";
+	wl_img_close = "img/wl-close-<?php echo $lang; ?>.png";
 </script>
 <?php if ($user && (!$mobile || $tablet)) { ?>
 <script type="text/javascript" src="script/watchlist.js<?php rev(); ?>"></script>
@@ -339,7 +339,7 @@ if ($user)
 <div id="wl_cont">
 	<div id="wl_div">
 		<div id="wl_handle" class="cell top">
-			<img id="wl_img" src="img/wl-open-<?php echo $_SESSION['lang']; ?>.png" alt="watchlist">
+			<img id="wl_img" src="img/wl-open-<?php echo $lang; ?>.png" alt="watchlist">
 		</div>
 		<div class="cell top">
 			<div id="expandable" style="width: 0; visibility: hidden;">
@@ -693,7 +693,7 @@ if ($db)
 					{
 						if ($vtf < 10)
 						{
-							$vtf = ordinal($vtf, $_SESSION['lang']);
+							$vtf = ordinal($vtf, $lang);
 							$hilite = sprintf(' class="rare" title="%s"', htmlspecialchars("$vtf$STRINGS[vtf]"));
 						}
 					}

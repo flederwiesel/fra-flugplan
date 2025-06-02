@@ -111,26 +111,31 @@ session_start();
  ******************************************************************************/
 
 /* Set session language from $_POST or $_COOKIE */
-if (isset($_GET['lang']))
+if (isset($_GET["lang"]))
 {
-	if (strlen($_GET['lang']))
-		$_SESSION['lang'] = $_GET['lang'];
+	if ("de" == $_GET["lang"])
+		$lang = "de";
 }
-else if (isset($_POST['lang']))
+else if (isset($_POST["lang"]))
 {
-	if (strlen($_POST['lang']))
-		$_SESSION['lang'] = $_POST['lang'];
+	if ("de" == $_POST["lang"])
+		$lang = "de";
+}
+else if (isset($_SESSION["lang"]))
+{
+	if ("de" == $_SESSION["lang"])
+		$lang = "de";
 }
 
-if (!isset($_SESSION['lang']))
-	$_SESSION['lang'] = http_preferred_language(['en', 'de']);
-else if (0 == strlen($_SESSION['lang']))
-	$_SESSION['lang'] = http_preferred_language(['en', 'de']);
+if (empty($lang))
+	$lang = http_preferred_language(["en", "de"]);
 
-if ('de' == $_SESSION['lang'])
-	setlocale(LC_TIME, 'deu', 'deu_deu');
+if ("de" == $lang)
+	setlocale(LC_TIME, "deu", "deu_deu");
 else
-	setlocale(LC_TIME, 'eng', 'english-uk', 'uk', 'enu', 'english-us', 'us', 'english', 'C');
+	setlocale(LC_TIME, "eng", "english-uk", "uk", "enu", "english-us", "us", "english", "C");
+
+$_SESSION["lang"] = $lang;
 
 /******************************************************************************
  * detect device type
@@ -182,9 +187,9 @@ header('Cache-Control: post-check=0, pre-check=0', false);
 header('Pragma: no-cache');
 
 header('Content-Type: text/html; charset=UTF-8');
-header('Content-Language: '.$_SESSION['lang']);
+header("Content-Language: {$lang}");
 
-$file = 'content/language/'.$_SESSION['lang'].'.php';
+$file = "content/language/{$lang}.php";
 
 if (file_exists($file))
 	include "$file";
@@ -287,9 +292,6 @@ if ($user)
 			setcookie('profile-item', $item, time() + COOKIE_LIFETIME);
 		}
 	}
-
-	if (isset($_GET['lang']))
-		$user->language($_GET['lang']);	//&& -> hdbc
 }
 
 /*<html>*******************************************************************/
@@ -299,12 +301,12 @@ if ($user)
 <head>
 <meta charset="UTF-8">
 <title><?php echo PROJECT; ?> &ndash; <?php echo ORGANISATION; ?></title>
-<meta name="language" content="<?php echo $_SESSION['lang']; ?>">
+<meta name="language" content="<?php echo $lang; ?>">
 <link rel="alternate" href="http://www.fra-flugplan.de?lang=de" hreflang="de">
 <link rel="alternate" href="http://www.fra-flugplan.de?lang=en" hreflang="en">
 <link rel="alternate" href="http://www.fra-flugplan.de" hreflang="x-default">
 <?php
-if ('de' == $_SESSION['lang']) {
+if ('de' == $lang) {
 ?>
 <meta name="description" content="Spotter-Flugplan für Frankfurt (FRA/EDDF) einschließlich Flugzeugkennungen">
 <meta name="keywords" content="fra,eddf,frankfurt,spotter,spotting,planespotting,flederwiesel">
@@ -418,11 +420,11 @@ if ('de' == $_SESSION['lang']) {
 
 					if ($now >= $from &&
 						$now < $until &&
-						isset($adminmessage[$_SESSION['lang']]))
+						isset($adminmessage[$lang]))
 					{
 ?>
 				<div id="admin" class="notice center">
-				<?php echo $adminmessage[$_SESSION['lang']]; ?>
+				<?php echo $adminmessage[$lang]; ?>
 				</div>
 <?php
 					}
