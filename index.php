@@ -289,7 +289,7 @@ if ($user)
 				}
 			}
 
-			setcookie('profile-item', $item, time() + COOKIE_LIFETIME);
+			User::setcookie("profile-item", $item, time() + COOKIE_LIFETIME);
 		}
 	}
 }

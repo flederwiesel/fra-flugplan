@@ -231,6 +231,30 @@ class User
 
 		 return null;
 	}
+
+	// Wrapper to set cookie using "secure", "httponly" and "samesite".
+	// This should do for the whole site.
+	// As we want to phase out cookies set at subdir "/fra-flugplan"
+	// (which will be an internal redirect in the future), this function
+	// comes in quite handy to update cookie paths as well. :)
+	public static function setcookie(string $name, ?string $value = "", int $expires = 0)
+	{
+		// Explicitly set cookie at "/"
+		\setcookie($name, $value, [
+			"path" => "/",
+			"expires" => $expires,
+			"domain" => $_SERVER["SERVER_NAME"],
+			"secure" => true,
+			"httponly" => true,
+			"samesite" => "lax",
+		]);
+
+		// Delete cookie at "/fra-flugplan"
+		\setcookie($name, $value, [
+			"path" => "/fra-flugplan",
+			"expires" => 0
+		]);
+	}
 }
 
 function LogoutUser(/* __out */ &$user)
@@ -246,9 +270,9 @@ function LogoutUser(/* __out */ &$user)
 	unset($_COOKIE['hash']);
 
 	// remove cookies
-	setcookie('userID', 0, 0);
-	setcookie('hash', null, 0);
-	setcookie('autologin', false, 0);
+	User::setcookie("userID",    0,     0);
+	User::setcookie("hash",      null,  0);
+	User::setcookie("autologin", false, 0);
 
 	return null;
 }
@@ -270,15 +294,15 @@ function LoginUserAutomatically($db, /* __out */ &$user)
 
 		if ($error)
 		{
-			setcookie('hash', null, 0);
+			User::setcookie("hash", null, 0);
 		}
 		else
 		{
 			$expires = isset($_COOKIE['autologin']) ? time() + COOKIE_LIFETIME : 0;
 
-			setcookie('userID',    $user->id(),       $expires);
-			setcookie('hash',      $hash,             $expires);
-			setcookie('autologin', true,              $expires);
+			User::setcookie("userID",    $user->id(), $expires);
+			User::setcookie("hash",      $hash,       $expires);
+			User::setcookie("autologin", true,        $expires);
 		}
 	}
 
@@ -306,15 +330,15 @@ function /*bool*/ LoginUser($db, /* __out */ &$user)
 
 			if ($error)
 			{
-				setcookie('hash', null, 0);
+				User::setcookie("hash", null, 0);
 			}
 			else
 			{
 				$expires = isset($_POST['autologin']) ? time() + COOKIE_LIFETIME : 0;
 
-				setcookie('userID',    $user->id(),       $expires);
-				setcookie('hash',      $hash,             $expires);
-				setcookie('autologin', true,              $expires);
+				User::setcookie("userID",    $user->id(), $expires);
+				User::setcookie("hash",      $hash,       $expires);
+				User::setcookie("autologin", true,        $expires);
 
 				unset($_GET['req']);
 			}
@@ -1437,7 +1461,7 @@ function /* char *error */ ChangePasswordSql($db, $user, $token, $password)
 
 					if (isset($_COOKIE['autologin']))
 						if ($_COOKIE['autologin'])
-							setcookie('hash', $password, time() + COOKIE_LIFETIME);
+							User::setcookie("hash", $password, time() + COOKIE_LIFETIME);
 				}
 			}
 		}
