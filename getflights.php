@@ -468,6 +468,7 @@ class jflight
 		{ 'umgeleitet', 'diverted', '航线改道' },
 		{ 'versp\u00e4tet', 'versp\u00e4tet', 'versp\u00e4tet' },
 		{ 'versp\u00e4tet auf ...', 'delayed to' },
+		{ 'verspätet am Vorflughafen' },
 		{ 'Ankunft vom', },
 		{ 'im Anflug', 'approaching', '在飞行中' },
 		{ 'gelandet', 'landed', '已着陆' },
@@ -479,7 +480,7 @@ class jflight
 		{ 'Aufruf', 'ready for Boarding', '准备登机' },
 		{ 'Boarding', 'Boarding', '登机' },
 		{ 'geschlossen', 'closed', '已关闭' },
-		{ 'gestartet', 'started' '已起飞' },
+		{ 'abgeflogen', 'gestartet', 'started' '已起飞' },
 		{ 'Zug', 'train', '火车' },
 	} */
 
@@ -928,6 +929,8 @@ function MapFlightStatus(/*in/out*/ &$status)
 	case '航线改道':
 
 	case 'im Anflug':
+	case 'verspätet':
+	case 'verspätet am Vorflughafen':
 	case 'approaching':
 	case '在飞行中':
 		$status = FlightStatus::APPROACHING;
@@ -972,6 +975,7 @@ function MapFlightStatus(/*in/out*/ &$status)
 		$status = FlightStatus::BOARDING;
 		break;
 
+	case 'abgeflogen':
 	case 'gestartet':
 	case 'started':
 	case 'departed':
@@ -987,7 +991,7 @@ function MapFlightStatus(/*in/out*/ &$status)
 
 	default:
 
-		if ('verspätet' == mb_substr($status, 0, 9))
+		if ('verspätet auf' == mb_substr($status, 0, 13))
 		{
 			$status = FlightStatus::APPROACHING;
 		}
