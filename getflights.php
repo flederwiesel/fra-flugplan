@@ -463,6 +463,7 @@ class jflight
 	public $status; 	// = [null] enum
 	/* {
 		{ 'de', 'en', 'zh' },
+		{ 'geplant', 'scheduled', '计划' },
 		{ 'storniert', 'storniert', 'storniert' },
 		{ 'annulliert', 'cancelled', '取消' },
 		{ 'umgeleitet', 'diverted', '航线改道' },
@@ -480,7 +481,7 @@ class jflight
 		{ 'Aufruf', 'ready for Boarding', '准备登机' },
 		{ 'Boarding', 'Boarding', '登机' },
 		{ 'geschlossen', 'closed', '已关闭' },
-		{ 'abgeflogen', 'gestartet', 'started' '已起飞' },
+		{ 'abgeflogen', 'gestartet', 'started', 'departed', '已起飞' },
 		{ 'Zug', 'train', '火车' },
 	} */
 
@@ -924,6 +925,9 @@ function MapFlightStatus(/*in/out*/ &$status)
 		$status = FlightStatus::CANCELLED;
 		break;
 
+	case 'geplant':
+	case 'scheduled':
+	case '计划':
 	case 'umgeleitet':
 	case 'diverted':
 	case '航线改道':
@@ -962,6 +966,8 @@ function MapFlightStatus(/*in/out*/ &$status)
 	case 'Gate open':
 	case '登机口开放':
 		// fallthrough
+	case 'verspäteter Abflug':
+	case 'delayed departure':
 	case 'Aufruf':
 	case 'ready for Boarding':
 	case '准备登机':
