@@ -89,8 +89,6 @@ function content()
 		return "forms/$_GET[req].php";
 	else if (isset($_GET['page']))
 		return "content/$_GET[page].php";
-	else if (isset($_GET['admin']))
-		return "content/admin.php";
 	else
 		return 'content/index.php';
 }
