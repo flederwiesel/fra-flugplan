@@ -199,25 +199,7 @@ function GetRegId(&$reg, &$model)
 
 	$error = null;
 
-	$query = "SELECT `id`, `model` FROM `aircrafts` WHERE `reg`='$reg'";
-	$result = mysql_query($query);
-
-	if (!$result)
-	{
-		$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
-	}
-	else
-	{
-		$row = mysql_fetch_row($result);
-
-		if ($row)
-		{
-			$reg = $row[0];
-			$model = $row[1];
-		}
-
-		mysql_free_result($result);
-	}
+	// $query = "SELECT `id`, `model` FROM `aircrafts` WHERE `reg`='$reg'";
 
 	return $error;
 }
@@ -230,70 +212,11 @@ function GetPostRegId(&$reg, &$model)
 	$error = null;
 
 	// TODO: curl http://www.airframes.org/ --data reg=D-AIRY | awk
-	if (!isset($_POST['model']))
-	{
-		$reg = null;
-		$model = null;
-	}
-	else
-	{
-		if ('' == $_POST['model'])
-		{
-			$reg = null;
-			$model = null;
-		}
-		else
-		{
-			$query = "SELECT `id` FROM `models` WHERE `icao`='$_POST[model]'";
-			$result = mysql_query($query);
-
-			if (!$result)
-			{
-				$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
-			}
-			else
-			{
-				$row = mysql_fetch_row($result);
-
-				if (!$row)
-				{
-					$model = null;
-
-					$query = "INSERT INTO `models`(`icao`) VALUES('$model')";
-				}
-
-				if (!$error)
-				{
-					$model = $row[0];
-					$query = "INSERT INTO `aircrafts`(`reg`, `model`)".
-							 " VALUES('$reg', $model)";
-
-					if (!mysql_query($query))
-					{
-						$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
-					}
-					else
-					{
-						$result1 = mysql_query("SELECT LAST_INSERT_ID()");
-
-						if (!$result1)
-						{
-							$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
-						}
-						else
-						{
-							$row = mysql_fetch_row($result1);
-							$reg = $row ? $row[0] : null;
-
-							mysql_free_result($result1);
-						}
-					}
-				}
-
-				mysql_free_result($result);
-			}
-		}
-	}
+	// $query = "SELECT `id` FROM `models` WHERE `icao`='$_POST[model]'";
+	// $query = "INSERT INTO `models`(`icao`) VALUES('$model')";
+	// $query = "INSERT INTO `aircrafts`(`reg`, `model`)".
+	// 		 " VALUES('$reg', $model)";
+	// $result1 = mysql_query("SELECT LAST_INSERT_ID()");
 
 	return $error;
 }
@@ -305,22 +228,7 @@ function GetAirlineId(&$airline, $flight)
 	$error = null;
 	$airline = null;
 
-	$query = "SELECT `id` FROM `airlines` WHERE `code`='$flight[0]'";
-	$result = mysql_query($query);
-
-	if (!$result)
-	{
-		$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
-	}
-	else
-	{
-		$row = mysql_fetch_row($result);
-
-		if ($row)
-			$airline = $row[0];
-
-		mysql_free_result($result);
-	}
+	// $query = "SELECT `id` FROM `airlines` WHERE `code`='$flight[0]'";
 
 	return $error;
 }
@@ -332,37 +240,9 @@ function GetPostAirlineId(&$airline)
 
 	$error = null;
 
-	if (isset($_POST['code']) &&
-		isset($_POST['airline']))
-	{
-		if (strlen($_POST['code']) &&
-			strlen($_POST['airline']))
-		{
-			$query = "INSERT INTO `airlines`(`code`, `name`)".
-					 " VALUES('$_POST[code]', '$_POST[airline]')";
-
-			if (!mysql_query($query))
-			{
-				$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
-			}
-			else
-			{
-				$result = mysql_query("SELECT LAST_INSERT_ID()");
-
-				if (!$result)
-				{
-					$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
-				}
-				else
-				{
-					$row = mysql_fetch_row($result);
-					$airline = $row ? $row[0] : null;
-
-					mysql_free_result($result);
-				}
-			}
-		}
-	}
+	// $query = "INSERT INTO `airlines`(`code`, `name`)".
+	// 		 " VALUES('$_POST[code]', '$_POST[airline]')";
+	// $result = mysql_query("SELECT LAST_INSERT_ID()");
 
 	return $error;
 }
@@ -458,6 +338,7 @@ if ($_POST)
 
 									if ($insert)
 									{
+										/*
 										$query = sprintf(
 											"INSERT INTO `flights`".
 											" (`type`, `direction`, `airline`, `code`, ".
@@ -469,9 +350,7 @@ if ($_POST)
 											$_POST['airport'],
 											$model ? $model : 'NULL',
 											$reg ? $reg : 'NULL');
-
-										if (!mysql_query($query))
-											$error = mysql_error();
+										*/
 									}
 
 									if ($until)
@@ -704,29 +583,8 @@ $(function()
 				<div class="cell label"><?php echo ucfirst($STRINGS['from']); ?></div>
 				<div class="cell">
 					<select id="airport-icao" name="airport">
-<?php
-						$result = mysql_query('SELECT `id`,`icao`,`name` FROM `airports` ORDER BY `name`');
-
-						if (!$result)
-						{
-							$error = sprintf($STRINGS['dberror'], __FILE__, __LINE__, mysql_error());
-						}
-						else
-						{
-							while ($row = mysql_fetch_row($result))
-							{
-								echo "<option value=\"$row[0]\"";
-
-								if (isset($_POST['airport']))
-									if ($_POST['airport'] == $row[0])
-										echo " selected=\"selected\"";
-
-								echo ">$row[2] - $row[1]</option>\n";
-							}
-
-							mysql_free_result($result);
-						}
-?>
+						<option value="+" selected="selected">&lt;Add new&gt;</option>
+						<?php // 'SELECT `id`,`icao`,`name` FROM `airports` ORDER BY `name`' ?>
 					</select>
 				</div>
 			</div>
