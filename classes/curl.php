@@ -245,6 +245,23 @@ class curl
 
 		return $this->errno;
 	}
+
+	function get_info(?string $what = null)
+	{
+		$info = curl_getinfo($this->me);
+
+		if ($what == null)
+		{
+			return $info;
+		}
+		else
+		{
+			if (array_key_exists($what, $info))
+				return $info[$what];
+			else
+				return false;
+		}
+	}
 };
 
 ?>

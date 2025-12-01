@@ -1197,8 +1197,8 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 			if (isset($DEBUG['url']))
 				echo "$url\n";
 
-			// Fetch JSON data
 			$retry = 10;
+			$content_type = "unknown";
 
 			while ($retry--)
 			{
@@ -1241,12 +1241,41 @@ function CURL_GetFlights(/*in*/ $curl, /*in*/ $prefix,
 						$retry = 0;
 					}
 				}
+
+				if (!$error)
+				{
+					$content_type = $curl->get_info("content_type");
+
+					if ($content_type === false)
+					{
+						$error = seterrorinfo(__LINE__, "Could not get Content-Type");
+					}
+					else
+					{
+						// Remove options, e.g. "application/json;charset=utf-8"
+						$pos = strrpos($content_type, ";");
+
+						if ($pos > 0)
+							$content_type = substr($content_type, 0, $pos);
+
+						$content_type = trim($content_type);
+
+						if ($content_type !== "application/json")
+							$error = seterrorinfo(
+								__LINE__,
+								"Unexpected Content-Type: $content_type"
+							);
+					}
+				}
 			}
 
 			if ($error)
 			{
-				/* This is certainly a html error document... */
-				if ($json)
+				if ($content_type !== "application/json")
+				{
+					// Already logged above
+				}
+				else if ($json)
 				{
 					$json = unify_html($json);
 					$error = seterrorinfo(__LINE__, sprintf("[%s] %s: `%s`", $error, $url, $json));
