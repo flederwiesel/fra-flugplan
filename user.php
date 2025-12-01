@@ -185,7 +185,7 @@ class User
 	private $timezone = null;
 	private $lang = null;
 	private $options = [];
-	private $gid = [];
+	private $groups = [];
 
 	public function __construct($id, $name, $email, $tz, $lang, $groups)
 	{
@@ -211,10 +211,13 @@ class User
 		else
 			$this->lang = $lang;
 
-		 return null;
+		return null;
 	}
 
-	public function IsMemberOf($group) { return in_array($group, $this->groups); }
+	public function IsMemberOf($group)
+	{
+		return in_array($group, $this->groups);
+	}
 
 	public function opt($name, $value = null)
 	{
@@ -229,7 +232,7 @@ class User
 			return $value;
 		}
 
-		 return null;
+		return null;
 	}
 
 	// Wrapper to set cookie using "secure", "httponly" and "samesite".

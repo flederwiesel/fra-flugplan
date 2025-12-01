@@ -83,14 +83,26 @@ function get($get=null)
 	return $strget;
 }
 
-function content()
+function getForm(string $form)
 {
-	if (isset($_GET['req']))
-		return "forms/$_GET[req].php";
-	else if (isset($_GET['page']))
-		return "content/$_GET[page].php";
-	else
-		return 'content/index.php';
+	if (in_array(
+		$form,
+		[ "activate", "changepw", "login", "profile", "register", "reqtok" ]
+	))
+		return "forms/{$form}.php";
+
+	return null;
+}
+
+function getPage(string $page)
+{
+	if (in_array(
+		$page,
+		[ "download", "help" ]
+	))
+		return "content/{$page}.php";
+
+	return null;
 }
 
 function rev()
@@ -453,39 +465,38 @@ if ('de' == $lang) {
 					}
 				}
 
-				if (isset($_GET['page']))
-				{
-					if ('help' == $_GET['page'])
-						require_once 'content/help.php';
-				}
+				$content = getPage($_GET["page"]);
 			}
 			else
 			{
-				if (!isset($_GET['req']))
+				$content = null;
+
+				if (isset($_GET["page"]))
 				{
-					// TODO: stat $_GET['req'].php !!!
-					require_once content();
+					if ($_GET["page"] == "addflight")
+					{
+						// Special treatment for "addflight" ;)
+						if ($user)
+							if ($user->IsMemberOf("addflights"))
+								$content = "content/addflight.php";
+					}
+					else
+					{
+						$content = getPage($_GET["page"]);
+					}
 				}
 				else
 				{
-					switch ($_GET['req'])
-					{
-					case 'register':
-					case 'activate':
-					case 'login':
-					case 'reqtok':
-					case 'changepw':
-					case 'profile':
-						require_once "forms/$_GET[req].php";
-						break;
-
-					default:
-						require_once content();
-					}
+					if (isset($_GET["req"]))
+						 $content = getForm($_GET["req"]);
 				}
+			}
+			if (!$content)
+				$content = "content/index.php";
+
+			require_once "$content";
 ?>
 			</div>
-<?php		} ?>
 		</div>
 	</div>
 </body>
