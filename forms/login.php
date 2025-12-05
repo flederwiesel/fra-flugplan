@@ -78,6 +78,7 @@
 			</div>
 		</div>
 	</fieldset>
+	<input type="hidden" name="CSRFToken" value="<?php echo CsrfToken::get(); ?>">
 	<div class="center">
 		<input type="submit" id="submit"  tabindex="4" value="<?php echo $STRINGS['submit']; ?>">
 	</div>

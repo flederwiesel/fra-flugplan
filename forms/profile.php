@@ -234,6 +234,7 @@ if ('dispinterval' == $item)
 			</div>
 		</div>
 	</fieldset>
+	<input type="hidden" name="CSRFToken" value="<?php echo CsrfToken::get(); ?>">
 	<div class="center">
 		<input type="hidden" name="submit" value="interval">
 		<input type="submit" id="submit" name="submit" value="<?php echo $STRINGS['submit']; ?>">
@@ -432,6 +433,7 @@ if ('notifinterval' == $item)
 			</div>
 		</div>
 	</fieldset>
+	<input type="hidden" name="CSRFToken" value="<?php echo $_SESSION['CSRFToken']; ?>">
 	<div class="center">
 		<input type="hidden" name="submit" value="notifications">
 		<input type="submit" id="submit" value="<?php echo $STRINGS['submit']; ?>">
@@ -512,6 +514,7 @@ else if ('photodb' == $item)
 			</div>
 		</div>
 	</fieldset>
+	<input type="hidden" name="CSRFToken" value="<?php echo $_SESSION['CSRFToken']; ?>">
 	<div class="center">
 		<input type="hidden" name="submit" value="photodb">
 		<input type="submit" id="submit" name="submit" value="<?php echo $STRINGS['submit']; ?>">

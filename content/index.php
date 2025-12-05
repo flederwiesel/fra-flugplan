@@ -416,6 +416,7 @@ if ($user)
 								</tbody>
 							</table>
 						</div>
+						<input type="hidden" name="CSRFToken" value="<?php echo CsrfToken::get(); ?>">
 						<input type="submit" value="<?php echo $STRINGS['refresh']; ?>"
 						 style="margin: 0.5em 0;">
 					</div>

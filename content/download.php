@@ -111,5 +111,6 @@ $(function()
 			</div>
 		</div>
 	</fieldset>
+	<input type="hidden" name="CSRFToken" value="<?php echo CsrfToken::get(); ?>">
 	<div class="center"><input id="submit" type="submit" name="submit"/></div>
 </form>

@@ -251,7 +251,7 @@ $error = null;
 $airline = null;
 $model = null;
 
-if ($_POST)
+if ($_SERVER['REQUEST_METHOD'] === 'POST')
 {
 	if (!$user)
 	{
@@ -678,5 +678,6 @@ $(function()
 			</div>
 		</div>
 	</fieldset>
+	<input type="hidden" name="CSRFToken" value="<?php echo CsrfToken::get(); ?>">
 	<div class="center"><input id="submit" type="submit" name="submit"/></div>
 </form>

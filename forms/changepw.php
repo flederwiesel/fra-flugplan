@@ -101,6 +101,7 @@
 			</div>
 		</div>
 	</fieldset>
+	<input type="hidden" name="CSRFToken" value="<?php echo CsrfToken::get(); ?>">
 	<div class="center">
 		<input type="hidden" name="submit" value="changepw">
 		<input type="submit" id="submit" value="<?php echo $STRINGS['submit']; ?>">

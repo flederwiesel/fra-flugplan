@@ -110,11 +110,14 @@ function rev()
 	echo '?rev='.preg_replace('/[^0-9]/', '', '$Rev$');
 }
 
-/******************************************************************************
- * Equal goes it loose
- ******************************************************************************/
-
 session_start();
+
+try
+{
+
+require_once "classes/CsrfToken.php";
+
+CsrfToken::validate();
 
 /******************************************************************************
  * detect/set language and initialise strings
@@ -184,6 +187,7 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 
 /******************************************************************************
  * header
+ *
  ******************************************************************************/
 
 // always modified
@@ -501,3 +505,14 @@ if ('de' == $lang) {
 	</div>
 </body>
 </html>
+<?php
+}
+catch (CsrfException $except)
+{
+	http_response_code($except->getCode());
+	header("Content-Type: text/plain; charset=UTF-8");
+	header("Content-Language: en");
+
+	echo "{$except->getCode()}\n";
+}
+?>
