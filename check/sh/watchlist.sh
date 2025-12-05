@@ -102,6 +102,13 @@ SQL
 
 # /preparation ################################################################
 
+check "0" browse -X POST "$url/?req=register"
+
+csrftoken=$(
+	browse "$url/?req=register" |
+	sed -nr '/name="CSRFToken"/ { s/.*value="([^"]+)".*/\1/g; p }'
+)
+
 time=$(rawurlencode "$(date +'%Y-%m-%d %H:%M:%S' --date='0 days 23:59')")
 today="$(date +'%Y-%m-%d' --date='23:55')"
 

@@ -188,9 +188,17 @@ strftime() {
 }
 
 browse() {
+	local data_csrftoken=()
+
+	if [[ ${csrftoken:-} ]]; then
+		data_csrftoken=(--data-urlencode "CSRFToken=$csrftoken")
+	fi
+
 	curl --silent --location --noproxy localhost \
 		--cacert ../etc/ssl/ca-certificates.crt \
-		--cookie .COOKIES --cookie-jar .COOKIES "$@"
+		--cookie .COOKIES --cookie-jar .COOKIES \
+		"${data_csrftoken[@]}" "$@" |
+	sed "s:${csrftoken:-^$}::g"
 }
 
 rawurlencode() {
@@ -321,6 +329,7 @@ do
 				mailtodisk --remove '*'
 
 				export mailfile=$(readlink -m "$results/mail.txt")
+				unset csrftoken
 
 				eval "$(cat sh/$script.sh)"
 

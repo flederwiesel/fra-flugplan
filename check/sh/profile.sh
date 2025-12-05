@@ -24,6 +24,13 @@ mailtodisk --add flederwiesel@fra-flugplan.de "$mailfile" # admin
 
 ###############################################################################
 
+check "0" browse -X POST "$url/?req=register"
+
+csrftoken=$(
+	browse "$url/?req=register" |
+	sed -nr '/name="CSRFToken"/ { s/.*value="([^"]+)".*/\1/g; p }'
+)
+
 check "1" browse "$url/"
 check "2" browse "$url/?req=register\&stopforumspam=$prefix" \
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"

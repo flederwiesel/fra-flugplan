@@ -27,6 +27,13 @@ sed='s/(ip=)[0-9]+(,email=)[0-9]+(,username=)[0-9]+/\1*\2*\3*/g'
 
 ###############################################################################
 
+check "0" browse -X POST "$url/?req=register"
+
+csrftoken=$(
+	browse "$url/?req=register" |
+	sed -nr '/name="CSRFToken"/ { s/.*value="([^"]+)".*/\1/g; p }'
+)
+
 check "1" browse "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "email=nospam@flederwiesel.com" \
 		--data-urlencode "user=spammer" \
