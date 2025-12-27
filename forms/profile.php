@@ -28,14 +28,14 @@ if ('dispinterval' == $item)
 	{
 		var min = $("#" + value + "-min");
 		var max = $("#" + value + "-max");
-		var divider = $("option", min).size();
+		var divider = $("option", min).length;
 		var slider = $("<div id=\"" + value + "-slider\"></div>").insertAfter($(max)).slider({
 			min: 1,
 			max: 7,
 			range: true,
 
 			values: [$(min)[0].selectedIndex + 1,
-					 $(max)[0].selectedIndex + 1 + $("option", min).size()],
+					 $(max)[0].selectedIndex + 1 + $("option", min).length],
 
 			slide: function(event, ui)
 			{
@@ -47,7 +47,7 @@ if ('dispinterval' == $item)
 					return false;
 
 				$(min)[0].selectedIndex = ui.values[0] - 1;
-				$(max)[0].selectedIndex = ui.values[1] - 1 - $("option", min).size();
+				$(max)[0].selectedIndex = ui.values[1] - 1 - $("option", min).length;
 			}
 		});
 	});
@@ -60,7 +60,7 @@ if ('dispinterval' == $item)
 	$("#phone-max").change(function()
 	{
 		$("#phone-slider").slider("values", 1,
-			$("#phone-min option").size() + this.selectedIndex + 1);
+			$("#phone-min option").length + this.selectedIndex + 1);
 	});
 
 	$("#tablet-min").change(function()
@@ -71,7 +71,7 @@ if ('dispinterval' == $item)
 	$("#tablet-max").change(function()
 	{
 		$("#tablet-slider").slider("values", 1,
-			$("#tablet-min option").size() + this.selectedIndex + 1);
+			$("#tablet-min option").length + this.selectedIndex + 1);
 	});
 <?php
 }
@@ -83,7 +83,7 @@ if ('notifinterval' == $item)
 	{
 		var min = $("#" + value + "-from");
 		var max = $("#" + value + "-until");
-		var divider = $("option", min).size();
+		var divider = $("option", min).lentgh;
 		var slider = $("<div id=\"" + value + "-slider\"></div>").insertAfter($(max)).slider({
 			min: 1,
 			max: 25,

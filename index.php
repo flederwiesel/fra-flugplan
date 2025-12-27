@@ -20,19 +20,12 @@ require_once 'classes/sql-xpdo.php';
 
 mb_internal_encoding('UTF-8');
 
-$jqueryui = 'jquery-ui-1.10.3';
-$jquery = 'jquery-1.10.1';
+$jqueryui = 'jquery-ui-1.14.1';
 
 if (defined('DEBUG'))
-{
-	$jquerymin = '';
-	$jqueryminified = '';
-}
+	$minified = '';
 else
-{
-	$jquerymin = '.min';
-	$jqueryminified = 'minified/';
-}
+	$minified = '.min';
 
 function get($get=null)
 {
@@ -345,11 +338,9 @@ if ('de' == $lang) {
 <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 <!-- other browsers -->
 <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link type="text/css" rel="stylesheet" href="script/<?php echo "{$jqueryui}/themes/base/{$jqueryminified}jquery.ui.core{$jquerymin}.css"; rev(); ?>">
-<link type="text/css" rel="stylesheet" href="script/<?php echo "${jqueryui}/themes/base/{$jqueryminified}jquery.ui.theme{$jquerymin}.css"; rev(); ?>">
-<link type="text/css" rel="stylesheet" href="script/<?php echo "${jqueryui}/themes/base/{$jqueryminified}jquery.ui.tooltip{$jquerymin}.css"; rev(); ?>">
-<link type="text/css" rel="stylesheet" href="script/<?php echo "${jqueryui}/themes/base/{$jqueryminified}jquery.ui.slider{$jquerymin}.css"; rev(); ?>">
-<link type="text/css" rel="stylesheet" href="script/<?php echo "${jqueryui}/themes/base/{$jqueryminified}jquery.ui.datepicker{$jquerymin}.css"; rev(); ?>">
+<link rel="stylesheet" type="text/css" href="script/<?php echo "{$jqueryui}/jquery-ui{$minified}.css"; ?>">
+<link rel="stylesheet" type="text/css" href="script/<?php echo "{$jqueryui}/jquery-ui.structure{$minified}.css"; ?>">
+<link rel="stylesheet" type="text/css" href="script/<?php echo "{$jqueryui}/jquery-ui.theme{$minified}.css"; ?>">
 <?php if ($mobile && !$tablet) {
 //https://markjaquith.wordpress.com/2009/05/04/force-css-changes-to-go-live-immediately/ ?>
 <link rel="stylesheet" type="text/css" href="css/mobile.css<?php rev(); ?>">
@@ -359,14 +350,8 @@ if ('de' == $lang) {
 <link rel="stylesheet" type="text/css" media="screen, print" href="css/ie/desktop.css<?php rev(); ?>">
 <![endif]-->
 <?php } ?>
-<script type="text/javascript" src="script/<?php echo "{$jqueryui}/{$jquery}{$jquerymin}.js"; rev(); ?>"></script>
-<script type="text/javascript" src="script/<?php echo "{$jqueryui}/ui/{$jqueryminified}jquery.ui.core{$jquerymin}.js"; rev(); ?>"></script>
-<script type="text/javascript" src="script/<?php echo "{$jqueryui}/ui/{$jqueryminified}jquery.ui.widget{$jquerymin}.js"; rev(); ?>"></script>
-<script type="text/javascript" src="script/<?php echo "{$jqueryui}/ui/{$jqueryminified}jquery.ui.mouse{$jquerymin}.js"; rev(); ?>"></script>
-<script type="text/javascript" src="script/<?php echo "{$jqueryui}/ui/{$jqueryminified}jquery.ui.position{$jquerymin}.js"; rev(); ?>"></script>
-<script type="text/javascript" src="script/<?php echo "{$jqueryui}/ui/{$jqueryminified}jquery.ui.tooltip{$jquerymin}.js"; rev(); ?>"></script>
-<script type="text/javascript" src="script/<?php echo "{$jqueryui}/ui/{$jqueryminified}jquery.ui.slider{$jquerymin}.js"; rev(); ?>"></script>
-<script type="text/javascript" src="script/<?php echo "{$jqueryui}/ui/{$jqueryminified}jquery.ui.datepicker{$jquerymin}.js"; rev(); ?>"></script>
+<script type="text/javascript" src="script/<?php echo "{$jqueryui}/external/jquery/jquery.js"; ?>"></script>
+<script type="text/javascript" src="script/<?php echo "{$jqueryui}/jquery-ui{$minified}.js"; ?>"></script>
 </head>
 <body>
 	<noscript>

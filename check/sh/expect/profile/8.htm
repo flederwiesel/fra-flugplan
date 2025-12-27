@@ -17,23 +17,15 @@
 <link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
 <!-- other browsers -->
 <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/minified/jquery.ui.core.min.css?rev=$Rev$">
-<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/minified/jquery.ui.theme.min.css?rev=$Rev$">
-<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/minified/jquery.ui.tooltip.min.css?rev=$Rev$">
-<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/minified/jquery.ui.slider.min.css?rev=$Rev$">
-<link type="text/css" rel="stylesheet" href="script/jquery-ui-1.10.3/themes/base/minified/jquery.ui.datepicker.min.css?rev=$Rev$">
+<link rel="stylesheet" type="text/css" href="script/jquery-ui-1.14.1/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" href="script/jquery-ui-1.14.1/jquery-ui.structure.min.css">
+<link rel="stylesheet" type="text/css" href="script/jquery-ui-1.14.1/jquery-ui.theme.min.css">
 <link rel="stylesheet" type="text/css" media="screen, print" href="css/desktop.css?rev=$Rev$">
 <!--[if IE]>
 <link rel="stylesheet" type="text/css" media="screen, print" href="css/ie/desktop.css?rev=$Rev$">
 <![endif]-->
-<script type="text/javascript" src="script/jquery-ui-1.10.3/jquery-1.10.1.min.js?rev=$Rev$"></script>
-<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/minified/jquery.ui.core.min.js?rev=$Rev$"></script>
-<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/minified/jquery.ui.widget.min.js?rev=$Rev$"></script>
-<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/minified/jquery.ui.mouse.min.js?rev=$Rev$"></script>
-<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/minified/jquery.ui.position.min.js?rev=$Rev$"></script>
-<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/minified/jquery.ui.tooltip.min.js?rev=$Rev$"></script>
-<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/minified/jquery.ui.slider.min.js?rev=$Rev$"></script>
-<script type="text/javascript" src="script/jquery-ui-1.10.3/ui/minified/jquery.ui.datepicker.min.js?rev=$Rev$"></script>
+<script type="text/javascript" src="script/jquery-ui-1.14.1/external/jquery/jquery.js"></script>
+<script type="text/javascript" src="script/jquery-ui-1.14.1/jquery-ui.min.js"></script>
 </head>
 <body>
 	<noscript>
@@ -79,7 +71,7 @@ $(function()
 	{
 		var min = $("#" + value + "-from");
 		var max = $("#" + value + "-until");
-		var divider = $("option", min).size();
+		var divider = $("option", min).lentgh;
 		var slider = $("<div id=\"" + value + "-slider\"></div>").insertAfter($(max)).slider({
 			min: 1,
 			max: 25,
