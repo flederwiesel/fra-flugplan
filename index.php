@@ -473,36 +473,32 @@ if ('de' == $lang) {
 			}
 			else
 			{
-				if ($_SERVER["SERVER_NAME"] == "fra-flugplan.net" ||
-					$_SERVER["SERVER_NAME"] == "testing.fra-flugplan.de")
+				if (isset($_GET["origin"]))
 				{
-					if (isset($_GET["origin"]))
-					{
-						// Old URL -- Remove leading `/`
-						$requestUri = substr($_GET["origin"], 1);
-					}
-					else
-					{
-						//  Remove leading `/`, compare up to `/`
-						$requestUri = substr($_SERVER["REQUEST_URI"], 1, 13);
+					// Old URL -- Remove leading `/`
+					$requestUri = substr($_GET["origin"], 1);
+				}
+				else
+				{
+					//  Remove leading `/`, compare up to `/`
+					$requestUri = substr($_SERVER["REQUEST_URI"], 1, 13);
 
-						if (!($requestUri == "fra-flugplan/"))
-							$requestUri = null;
-					}
+					if (!($requestUri == "fra-flugplan/"))
+						$requestUri = null;
+				}
 
-					if ($requestUri)
-					{
+				if ($requestUri)
+				{
 ?>
-						<div id="notification" class="notice fs12 b">
-							<div><?= $STRINGS["address-changed"] ?></div>
-							<div><?= $STRINGS["update-bookmarks"] ?></div>
-							<div id="update-bookmarks">
-								<a href="https://fra-flugplan.de/">https://fra-flugplan.de/</a>
-								<span id="requesturi-old" class="strikethrough"><?= $requestUri ?></span>
-							</div>
+					<div id="notification" class="notice fs12 b">
+						<div><?= $STRINGS["address-changed"] ?></div>
+						<div><?= $STRINGS["update-bookmarks"] ?></div>
+						<div id="update-bookmarks">
+							<a href="https://fra-flugplan.de/">https://fra-flugplan.de/</a>
+							<span id="requesturi-old" class="strikethrough"><?= $requestUri ?></span>
 						</div>
+					</div>
 <?php
-					}
 				}
 
 				$content = null;
