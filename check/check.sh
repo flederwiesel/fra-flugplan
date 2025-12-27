@@ -296,6 +296,7 @@ activate(failure)
 login(failure)
 changepasswd(failure)
 # success
+redirect
 register(spam)
 changepasswd
 changepasswd lang=de
