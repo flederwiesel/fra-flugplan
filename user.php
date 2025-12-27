@@ -251,12 +251,6 @@ class User
 			"httponly" => true,
 			"samesite" => "lax",
 		]);
-
-		// Delete cookie at "/fra-flugplan"
-		\setcookie($name, $value, [
-			"path" => "/fra-flugplan",
-			"expires" => 0
-		]);
 	}
 }
 
