@@ -221,6 +221,8 @@ $STRINGS = array
 	'photodb' => 'Fotodatenbank',
 	'photodbdesc' => 'Wo das %s Symbol neben einer Flugzeugkennung erscheint, kann mit einem Klick darauf ein Browserfenster mit der Bildersuche zu diesem Flugzeug in der bevorzugten Fotodatenbank geöffnet werden.',
 	'photodbsel' => 'Öffnet Bildersuche auf',
+	'address-changed' => 'Die Adresse dieser Seite hat sich geändert.',
+	'update-bookmarks' => 'Bitte Lesezeichen aktualisieren auf',
 );
 
 ?>

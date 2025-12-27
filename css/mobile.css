@@ -155,9 +155,11 @@ img.emil
 	vertical-align: middle;
 }
 
+.fs12 { font-size: 12pt; }
 .b { font-weight: bold; }
 .i { font-style: italic; }
 .bi { font-weight: bold; font-style: italic; }
+.strikethrough { text-decoration: line-through; }
 .left { text-align: left; }
 .center { text-align: center; }
 .right { text-align: right; }
@@ -543,4 +545,16 @@ body .ui-tooltip
 	box-shadow: 0 0 2px #AAA;
 	border-radius: 0;
 	font-size: 0.85em;
+}
+
+#update-bookmarks
+{
+	display: flex;
+	justify-content: center;
+}
+
+#requesturi-old
+{
+	font-weight: normal;
+	color: #999;
 }

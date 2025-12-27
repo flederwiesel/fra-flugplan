@@ -221,6 +221,8 @@ $STRINGS = array
 	'photodb' => 'Photo Database',
 	'photodbdesc' => 'Wherever the %s icon is shown alongside aircraft registrations, you may click on it to open a browser window with the search results of the aircraft in the photo database of your choice.',
 	'photodbsel' => 'Open image search on',
+	'address-changed' => 'The address of this page has changed.',
+	'update-bookmarks' => 'Please update your bookmarks to',
 );
 
 ?>
