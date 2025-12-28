@@ -68,7 +68,6 @@ rsync -av \
 --filter="+ index.php" \
 --filter="+ nav.php" \
 --filter="+ photodb.php" \
---filter="+ redirect.php" \
 --filter="+ robots.txt" \
 --filter="+ script/" \
 --filter="+ script/*" \
