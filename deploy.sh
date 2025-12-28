@@ -56,6 +56,7 @@ rsync -av \
 --filter="+ css/" \
 --filter="+ css/*" \
 --filter="+ css/ie/*" \
+--filter="+ error.css" \
 --filter="+ error.php" \
 --filter="+ favicon.*" \
 --filter="+ forms/" \
@@ -64,7 +65,7 @@ rsync -av \
 --filter="+ git-rev" \
 --filter="+ img/" \
 --filter="- img/src" \
---filter="+ img/*" \
+--filter="+ img/**" \
 --filter="+ index.php" \
 --filter="+ nav.php" \
 --filter="+ photodb.php" \
