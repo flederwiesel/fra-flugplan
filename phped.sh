@@ -87,7 +87,7 @@ do
 		errset=E_ERROR,E_WARNING,E_PARSE,E_CORE_ERROR,E_CORE_WARNING,E_COMPILE_ERROR,E_COMPILE_WARNING,E_USER_ERROR,E_USER_WARNING,E_STRICT,E_RECOVERABLE_ERROR
 		excign=
 		excset=Exception
-		host=${FRA_FLUGPLAN_HOST}
+		host=localhost
 		profwithdbg=0
 		readonlyed=0
 		sesstimeout=15
@@ -128,7 +128,7 @@ do
 		localwebroot=${webroot}
 		projectroot=${scriptdir}
 		runmode=2
-		webrooturl=http://fra-flugplan.local/
+		webrooturl=http://localhost/
 
 		[PHPEdProject.JSLibraries]
 		Count=0
@@ -153,7 +153,7 @@ do
 		CvsUser=
 		CvsUseUtf8=0
 		DefaultEncodingCount=1
-		DefaultFile=http://${FRA_FLUGPLAN_HOST}/${projectpath}/${index}
+		DefaultFile=http://localhost/${projectpath}/${index}
 		DontPublishDirs=CVS;.svn;.git
 		DriverID=
 		EncoderEnabled=0
@@ -168,7 +168,7 @@ do
 		MappingPublishingRoot=
 		MappingRemote0=${scriptdir}
 		MappingRemoteDir=${webroot}
-		MappingURL0=http://${FRA_FLUGPLAN_HOST}/${projectpath}
+		MappingURL0=http://localhost/${projectpath}
 		ParserProp_AllowSingleAsteriskXDoc=0
 		ParserProp_CSS_ParsePHP=0
 		ParserProp_CSS_SubLang=2
@@ -187,7 +187,7 @@ do
 		RunMode=2
 		ScriptRunTarget=2
 		SourceControl=0
-		URL=http://fra-flugplan.local/${projectpath}
+		URL=http://localhost/${projectpath}
 		UrlMappingCount=0
 		UsedPHPFrameworkChecked=0
 		UsedPHPFrameworkId=

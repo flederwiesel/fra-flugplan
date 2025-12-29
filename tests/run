@@ -87,10 +87,15 @@ set -- "${argv[@]}"
 ###############################################################################
 
 readonly SCRIPTDIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
-declare -rx FRA_FLUGPLAN_HOST="${FRA_FLUGPLAN_HOST:-fra-flugplan.local}"
-declare -rx url="https://$FRA_FLUGPLAN_HOST"
+readonly PRJDIR=$(git -C "$SCRIPTDIR" rev-parse --show-toplevel)
 
 source "$SCRIPTDIR/functions.inc.sh"
+
+readonly DOCUMENT_ROOT=$(getDocumentRoot "$PRJDIR")
+readonly DATADIR="$DOCUMENT_ROOT/var/run/fra-flugplan"
+readonly ASSETDIR="${PRJDIR//$DOCUMENT_ROOT/}"
+readonly FRA_FLUGPLAN_HOST="${FRA_FLUGPLAN_HOST:-fra-flugplan.local}"
+readonly url="https://$FRA_FLUGPLAN_HOST"
 
 chkdep readlink --version
 chkdep minversion sed        "4.2.1"  "$(sed --version 2>&1 || echo | sed -nr '/^(GNU *)?sed/ { s/^[^0-9]*//g; /^$/d; p }')"
@@ -108,9 +113,6 @@ mailtodisk --check ||
 	echo "mailtodisk is not properly set up." >&2
 	exit 1
 }
-
-declare -rx PRJDIR=$(git -C "$SCRIPTDIR" rev-parse --show-toplevel)
-readonly DATADIR="${PRJDIR%%/htdocs/*}/htdocs/var/run/fra-flugplan"
 
 mkdir -p "$DATADIR"
 
@@ -257,7 +259,8 @@ do
 			"$testcase" > >(
 				sed -r \
 					-e "s#(https://|=)${FRA_FLUGPLAN_HOST}#\1fra-flugplan.de#g" \
-					-e 's/\?rev=[0-9]*/?rev=$Rev$/g' > "$results/${testcase#test_}.${ext}"
+					-e "s:$ASSETDIR/*:${replace_asset_dir_with:-}:g" \
+					> "$results/${testcase#test_}.${ext}"
 			) 2>&1
 
 			if [[ ${mailto:-} ]]; then

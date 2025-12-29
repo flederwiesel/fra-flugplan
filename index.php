@@ -1,6 +1,7 @@
 <?php
 
 require_once '.config';
+require_once 'classes/assets.php';
 require_once 'classes/etc.php';
 require_once 'classes/sql-xpdo.php';
 
@@ -82,11 +83,6 @@ function getPage(string $page)
 		return "content/{$page}.php";
 
 	return null;
-}
-
-function rev()
-{
-	echo '?rev='.preg_replace('/[^0-9]/', '', '$Rev$');
 }
 
 session_start();
@@ -317,19 +313,19 @@ if ('de' == $lang) {
 <?php if ($mobile && !$tablet) { ?>
 <meta name="viewport" content="width=device-width; initial-scale=1.0;"/>
 <?php } ?>
-<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="apple-touch-icon" href="<?= Asset::ref("apple-touch-icon.png") ?>"/>
+<link rel="icon" type="image/x-icon" href="<?= Asset::ref("favicon.ico") ?>">
 <link rel="stylesheet" type="text/css" href="script/<?= "{$jqueryui}/jquery-ui{$minified}.css" ?>">
 <link rel="stylesheet" type="text/css" href="script/<?= "{$jqueryui}/jquery-ui.structure{$minified}.css" ?>">
 <link rel="stylesheet" type="text/css" href="script/<?= "{$jqueryui}/jquery-ui.theme{$minified}.css" ?>">
 <?php if ($mobile && !$tablet) {
 //https://markjaquith.wordpress.com/2009/05/04/force-css-changes-to-go-live-immediately/ ?>
-<link rel="stylesheet" type="text/css" href="css/mobile.css<?= rev(); ?>">
+<link rel="stylesheet" type="text/css" href="<?= Asset::ref("css/mobile.css") ?>">
 <?php } else { ?>
-<link rel="stylesheet" type="text/css" media="screen, print" href="css/desktop.css<?= rev() ?>">
+<link rel="stylesheet" type="text/css" media="screen, print" href="<?= Asset::ref("css/desktop.css") ?>">
 <?php } ?>
-<script type="text/javascript" src="script/<?= "{$jqueryui}/external/jquery/jquery.js" ?>"></script>
-<script type="text/javascript" src="script/<?= "{$jqueryui}/jquery-ui{$minified}.js" ?>"></script>
+<script type="text/javascript" src="<?= "script/{$jqueryui}/external/jquery/jquery.js" ?>"></script>
+<script type="text/javascript" src="<?= "script/{$jqueryui}/jquery-ui{$minified}.js" ?>"></script>
 </head>
 <body>
 	<noscript>

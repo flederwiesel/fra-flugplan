@@ -18,9 +18,14 @@ function navitem($item, $href)
 	}
 
 	if ($mobile)
-		$html .= "<img src=\"img/{$item}-{$colour}-24x24.png\" width=\"24\" height=\"24\" alt=\"{$STRINGS[$item]}\">";
+	{
+		$img = Asset::ref("img/{$item}-{$colour}-24x24.png");
+		$html .= "<img src=\"{$img}\" width=\"24\" height=\"24\" alt=\"{$STRINGS[$item]}\">";
+	}
 	else
+	{
 		$html .= $STRINGS[$item];
+	}
 
 	if ($href)
 		$html .= "</a>";
@@ -148,12 +153,12 @@ function navitem($item, $href)
 ?>
 		<li style="vertical-align: baseline;">
 			<a href="<?= get("lang=de") ?>">
-				<img class="flag" src="img/de.png" alt="<?= $STRINGS["de"] ?>" width="16" height="12">
+				<img class="flag" src="<?= Asset::ref("img/de.png") ?>" alt="<?= $STRINGS["de"] ?>" width="16" height="12">
 			</a>
 		</li>
 		<li style="vertical-align: baseline;">
 			<a href="<?= get("lang=en") ?>">
-				<img class="flag" src="img/en.png" alt="<?= $STRINGS["en"] ?>" width="16" height="12">
+				<img class="flag" src="<?= Asset::ref("img/en.png") ?>" alt="<?= $STRINGS["en"] ?>" width="16" height="12">
 			</a>
 		</li>
 </ul>

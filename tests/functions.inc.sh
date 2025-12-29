@@ -165,3 +165,27 @@ strsubst() {
 	shift
 	sed -r "$re" "$@"
 }
+
+# Get server's DOCUMENT_ROOT be printing it from a temporary file.
+getDocumentRoot() {
+	local prjdir=$1
+	local php=$(mktemp --tmpdir="$prjdir" --suffix=".php")
+
+	# Assuming this is done is a subshell: `root=$(getDocumentRoot)`,
+	# this trap is valid only temporarily.
+	trap "rm -f "$php" >&2" EXIT
+
+	echo '<?= $_SERVER["DOCUMENT_ROOT"] ?>' > "$php"
+
+	# Depending on Windows permissions and whether $CYGWIN is set,
+	# we may have to set permissions explicitly :(
+	[[ $(uname -o) == Cygwin ]] &&
+	chmod 0644 "$php"
+
+	document_root=$(curl -sSL "https://${FRA_FLUGPLAN_HOST}${php//$prjdir/}")
+
+	[[ $(uname -o) == Cygwin ]] &&
+	document_root=$(cygpath "$document_root")
+
+	echo "$document_root"
+}
