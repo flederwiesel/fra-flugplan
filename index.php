@@ -292,8 +292,8 @@ if ($user)
 <html>
 <head>
 <meta charset="UTF-8">
-<title><?php echo PROJECT; ?> &ndash; <?php echo ORGANISATION; ?></title>
-<meta name="language" content="<?php echo $lang; ?>">
+<title><?= PROJECT ?> &ndash; <?= ORGANISATION ?></title>
+<meta name="language" content="<?= $lang ?>">
 <link rel="alternate" href="http://fra-flugplan.de?lang=de" hreflang="de">
 <link rel="alternate" href="http://fra-flugplan.de?lang=en" hreflang="en">
 <link rel="alternate" href="http://fra-flugplan.de" hreflang="x-default">
@@ -319,21 +319,21 @@ if ('de' == $lang) {
 <?php } ?>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
-<link rel="stylesheet" type="text/css" href="script/<?php echo "{$jqueryui}/jquery-ui{$minified}.css"; ?>">
-<link rel="stylesheet" type="text/css" href="script/<?php echo "{$jqueryui}/jquery-ui.structure{$minified}.css"; ?>">
-<link rel="stylesheet" type="text/css" href="script/<?php echo "{$jqueryui}/jquery-ui.theme{$minified}.css"; ?>">
+<link rel="stylesheet" type="text/css" href="script/<?= "{$jqueryui}/jquery-ui{$minified}.css" ?>">
+<link rel="stylesheet" type="text/css" href="script/<?= "{$jqueryui}/jquery-ui.structure{$minified}.css" ?>">
+<link rel="stylesheet" type="text/css" href="script/<?= "{$jqueryui}/jquery-ui.theme{$minified}.css" ?>">
 <?php if ($mobile && !$tablet) {
 //https://markjaquith.wordpress.com/2009/05/04/force-css-changes-to-go-live-immediately/ ?>
-<link rel="stylesheet" type="text/css" href="css/mobile.css<?php rev(); ?>">
+<link rel="stylesheet" type="text/css" href="css/mobile.css<?= rev(); ?>">
 <?php } else { ?>
-<link rel="stylesheet" type="text/css" media="screen, print" href="css/desktop.css<?php rev(); ?>">
+<link rel="stylesheet" type="text/css" media="screen, print" href="css/desktop.css<?= rev() ?>">
 <?php } ?>
-<script type="text/javascript" src="script/<?php echo "{$jqueryui}/external/jquery/jquery.js"; ?>"></script>
-<script type="text/javascript" src="script/<?php echo "{$jqueryui}/jquery-ui{$minified}.js"; ?>"></script>
+<script type="text/javascript" src="script/<?= "{$jqueryui}/external/jquery/jquery.js" ?>"></script>
+<script type="text/javascript" src="script/<?= "{$jqueryui}/jquery-ui{$minified}.js" ?>"></script>
 </head>
 <body>
 	<noscript>
-		<div class="noscript"><?php echo $STRINGS['noscript']; ?></div>
+		<div class="noscript"><?= $STRINGS['noscript'] ?></div>
 	</noscript>
 <?php if (defined('DEBUG')) { ?>
 	<div id="debug">
@@ -344,7 +344,7 @@ if ('de' == $lang) {
 		<div class="box left">
 			<div>
 				<div id="head">
-					<h1 class="nobr"><?php echo ORGANISATION; ?></h1>
+					<h1 class="nobr"><?= ORGANISATION ?></h1>
 					<h3>
 <?php
 						echo "$STRINGS[liveschedule]";
@@ -401,7 +401,7 @@ if ('de' == $lang) {
 					{
 ?>
 				<div id="admin" class="notice center">
-				<?php echo $adminmessage[$lang]; ?>
+				<?= $adminmessage[$lang] ?>
 				</div>
 <?php
 					}
@@ -416,7 +416,7 @@ if ('de' == $lang) {
 					{
 ?>
 						<div id="notification" class="notice nodb">
-							<?php echo $message; ?>
+						<?= $message ?>
 						</div>
 <?php
 					}
@@ -425,8 +425,8 @@ if ('de' == $lang) {
 						$error = $STRINGS['unexpected'];
 ?>
 				<div id="error">
-					<h1><?php echo $STRINGS['fatal']; ?></h1>
-					<?php echo $error; ?>
+					<h1><?= $STRINGS['fatal'] ?></h1>
+					<?= $error ?>
 				</div>
 <?php
 					}

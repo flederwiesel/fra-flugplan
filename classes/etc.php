@@ -141,7 +141,7 @@ define('INP_FORCE', 0x1);
 define('INP_POST', 0x2);
 define('INP_GET',  0x4);
 
-function Input_SetValue($name, $whence, $debug)
+function valueFromRequest($name, $whence, $debug)
 {
 	$value = null;
 
@@ -168,8 +168,7 @@ function Input_SetValue($name, $whence, $debug)
 		if (!$value)
 			$value = $debug;
 
-	if ($value)
-		echo htmlspecialchars($value);
+	return $value ? htmlspecialchars($value) : "";
 }
 
 function PDOErrorInfo(PDOException $ex, ?string $fmt = null) : string

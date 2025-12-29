@@ -23,34 +23,34 @@
 <form class="stretched" method="post" action="?req=register"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
-		<legend><?php echo $STRINGS['registration']; ?></legend>
+		<legend><?= $STRINGS["registration"] ?></legend>
 <?php if ($error) { ?>
 		<div id="notification" class="error">
-			<?php echo $error; ?>
+			<?= $error ?>
 		</div>
 <?php } else if ($message) { ?>
 		<div id="notification" class="success">
-			<?php echo $message; ?>
+			<?= $message ?>
 		</div>
 <?php } else { ?>
 		<div id="notification" style="display: none;"></div>
 <?php } ?>
-		<div class="explainatory"><?php echo $STRINGS['registernote']; ?></div>
+		<div class="explainatory"><?= $STRINGS["registernote"] ?></div>
 		<div class="table">
 			<div class="row">
-				<div class="cell label"><?php echo ucfirst($STRINGS['emailaddress']); ?></div>
+				<div class="cell label"><?= ucfirst($STRINGS["emailaddress"]) ?></div>
 				<div class="cell">
 					<input type="text" id="email" name="email"
-					 value="<?php Input_SetValue('email', INP_POST | INP_GET, 'uid-1@example.com'); ?>" autofocus>
+					 value="<?= valueFromRequest("email", INP_POST | INP_GET, "uid-1@example.com") ?>" autofocus>
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?php echo ucfirst($STRINGS['username']); ?></div>
+				<div class="cell label"><?= ucfirst($STRINGS["username"]) ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user"
-					 value="<?php Input_SetValue('user', INP_POST | INP_GET, 'uid-1'); ?>">
+					 value="<?= valueFromRequest("user", INP_POST | INP_GET, "uid-1") ?>">
 					<div class="hint">
-						<?php echo sprintf($STRINGS['hintnumchars'], $GLOBALS['USERNAME_MIN'], $GLOBALS['USERNAME_MAX']); ?>
+						<?= sprintf($STRINGS["hintnumchars"], $GLOBALS["USERNAME_MIN"], $GLOBALS["USERNAME_MAX"]) ?>
 					</div>
 				</div>
 			</div>
@@ -58,25 +58,25 @@
 				<div class="cell">&nbsp;</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?php echo $STRINGS['password']; ?></div>
+				<div class="cell label"><?= $STRINGS["password"] ?></div>
 				<div class="cell">
 					<input type="password" id="passwd" name="passwd"
-					 value="<?php Input_SetValue(null, 0, 'elvizzz'); ?>">
+					 value="<?= valueFromRequest(null, 0, "elvizzz") ?>">
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?php echo $STRINGS['confirmpassword']; ?></div>
+				<div class="cell label"><?= $STRINGS["confirmpassword"] ?></div>
 				<div class="cell">
 					<input type="password" id="passwd-confirm" name="passwd-confirm"
-					 value="<?php Input_SetValue(null, 0, 'elvizzz'); ?>">
-					<div class="hint"><?php echo PasswordHint(); ?></div>
+					 value="<?= valueFromRequest(null, 0, "elvizzz") ?>">
+					<div class="hint"><?= PasswordHint() ?></div>
 				</div>
 			</div>
 			<div class="row">
 				<div class="cell">&nbsp;</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?php echo $STRINGS['timezone']; ?></div>
+				<div class="cell label"><?= $STRINGS["timezone"] ?></div>
 				<div class="cell">
 					<select class="stretched" id="timezone" name="timezone">
 						<option value="-43200" >GMT -12 Eniwetok, Kwajalein
@@ -140,7 +140,7 @@
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?php echo $STRINGS['language']; ?></div>
+				<div class="cell label"><?= $STRINGS["language"] ?></div>
 				<div class="cell">
 					<select class="stretched" id="lang" name="lang">
 <?php
@@ -161,8 +161,8 @@
 			</div>
 		</div>
 	</fieldset>
-	<input type="hidden" name="CSRFToken" value="<?php echo CsrfToken::get(); ?>">
+	<input type="hidden" name="CSRFToken" value="<?= CsrfToken::get() ?>">
 	<div class="center">
-		<input type="submit" id="submit" value="<?php echo $STRINGS['submit']; ?>">
+		<input type="submit" id="submit" value="<?= $STRINGS["submit"] ?>">
 	</div>
 </form>

@@ -5,16 +5,27 @@ function navitem($item, $href)
 	global $STRINGS;
 	global $mobile;
 
+
 	if ($href)
-		echo '<a href="'.$href.'">';
+	{
+		$colour = "grey";
+		$html = "<a href=\"{$href}\">";
+	}
+	else
+	{
+		$colour = "white";
+		$html = "";
+	}
 
 	if ($mobile)
-		echo '<img src="img/'.$item.'-'.($href ? 'grey' : 'white').'-24x24.png" width="24" height="24" alt="'.$STRINGS[$item].'">';
+		$html .= "<img src=\"img/{$item}-{$colour}-24x24.png\" width=\"24\" height=\"24\" alt=\"{$STRINGS[$item]}\">";
 	else
-		echo $STRINGS[$item];
+		$html .= $STRINGS[$item];
 
 	if ($href)
-		echo '</a>';
+		$html .= "</a>";
+
+	return $html;
 }
 
 ?>
@@ -24,7 +35,7 @@ function navitem($item, $href)
 	if (!$mobile)
 	{
 ?>
-		<li><a href="http://www.frankfurt-aviation-friends.de/"><?php echo $STRINGS['home']; ?></a></li>
+		<li><a href="http://www.frankfurt-aviation-friends.de/"><?= $STRINGS["home"] ?></a></li>
 <?php
 	}
 
@@ -33,8 +44,8 @@ function navitem($item, $href)
 		if (isset($_GET['page']))
 		{
 ?>
-			<li class="sep"><?php navitem('arrival', '?arrival'); ?></li>
-			<li class="sep"><?php navitem('departure', '?departure'); ?></li>
+			<li class="sep"><?= navitem("arrival", "?arrival") ?></li>
+			<li class="sep"><?= navitem("departure", "?departure") ?></li>
 <?php
 
 			if ($user && !$mobile && $_GET['page'] != 'addflight')
@@ -42,7 +53,7 @@ function navitem($item, $href)
 				if ($user->IsMemberOf('addflights'))
 				{
 ?>
-					<li class="sep"><?php navitem('addflight', '?page=addflight'); ?></li>
+					<li class="sep"><?= navitem("addflight", "?page=addflight") ?></li>
 <?php
 				}
 			}
@@ -50,14 +61,14 @@ function navitem($item, $href)
 		else if (isset($_GET['req']))
 		{
 ?>
-			<li class="sep"><?php navitem('arrival', '?arrival'); ?></li>
-			<li class="sep"><?php navitem('departure', '?departure'); ?></li>
+			<li class="sep"><?= navitem("arrival", "?arrival") ?></li>
+			<li class="sep"><?= navitem("departure", "?departure") ?></li>
 <?php
 
 			if ($user && !$mobile)
 			{
 ?>
-				<li class="sep"><a href="?page=addflight"><?php echo $STRINGS['addflight']; ?></a></li>
+				<li class="sep"><a href="?page=addflight"><?= $STRINGS["addflight"] ?></a></li>
 <?php
 			}
 		}
@@ -66,23 +77,23 @@ function navitem($item, $href)
 			if ('arrival' == $dir)
 			{
 ?>
-			<li class="sep"><?php navitem('arrival', null); ?></li>
-			<li class="sep"><?php navitem('departure', '?departure'); ?></li>
+			<li class="sep"><?= navitem("arrival", null) ?></li>
+			<li class="sep"><?= navitem("departure", "?departure") ?></li>
 <?php } else { ?>
-			<li class="sep"><?php navitem('arrival', '?arrival'); ?></li>
-			<li class="sep"><?php navitem('departure', null); ?></li>
+			<li class="sep"><?= navitem("arrival", "?arrival") ?></li>
+			<li class="sep"><?= navitem("departure", null) ?></li>
 <?php
 			}
 
 			if ($user && !$mobile)
 			{
 ?>
-				<li class="sep"><a href="javascript:watchlist('show');"><?php echo $STRINGS['watchlist']; ?></a></li>
+				<li class="sep"><a href="javascript:watchlist('show');"><?= $STRINGS["watchlist"] ?></a></li>
 <?php
 				if ($user->IsMemberOf('addflights'))
 				{
 ?>
-					<li class="sep"><a href="?page=addflight"><?php echo $STRINGS['addflight']; ?></a></li>
+					<li class="sep"><a href="?page=addflight"><?= $STRINGS["addflight"] ?></a></li>
 <?php
 				}
 			}
@@ -92,13 +103,13 @@ function navitem($item, $href)
 	if (isset($_GET['page']))
 	{
 ?>
-			<li class="sep"><?php navitem('help', 'help' == $_GET['page'] ? null : '?page=help'); ?></li>
+			<li class="sep"><?= navitem("help", "help" == $_GET["page"] ? null : "?page=help") ?></li>
 <?php
 	}
 	else
 	{
 ?>
-		<li class="sep"><?php navitem('help', '?page=help'); ?></li>
+		<li class="sep"><?= navitem("help", "?page=help") ?></li>
 <?php
 	}
 ?>
@@ -113,36 +124,36 @@ function navitem($item, $href)
 			if (!isset($_GET['req']))
 			{
 ?>
-			<li class="sep"><?php navitem('profile', '?req=profile'); ?></li>
+			<li class="sep"><?= navitem("profile", "?req=profile") ?></li>
 <?php
 			}
 			else
 			{
 ?>
-			<li class="sep"><?php navitem('profile', 'profile' == $_GET['req'] ? null : '?req=profile'); ?></li>
+			<li class="sep"><?= navitem("profile", "profile" == $_GET["req"] ? null : "?req=profile") ?></li>
 <?php
 			}
 ?>
-			<li class="sep"><?php navitem('logout', '?req=logout'); ?></li>
+			<li class="sep"><?= navitem("logout", "?req=logout") ?></li>
 <?php
 		}
 		else
 		{
 ?>
-			<li class="sep"><?php navitem('register', '?req=register'); ?></li>
-			<li class="sep"><?php navitem('login', '?req=login'); ?></li>
+			<li class="sep"><?= navitem("register", "?req=register") ?></li>
+			<li class="sep"><?= navitem("login", "?req=login") ?></li>
 <?php
 		}
 	}
 ?>
 		<li style="vertical-align: baseline;">
-			<a href="<?php echo get('lang=de'); ?>">
-				<img class="flag" src="img/de.png" alt="<?php echo $STRINGS['de']; ?>" width="16" height="12">
+			<a href="<?= get("lang=de") ?>">
+				<img class="flag" src="img/de.png" alt="<?= $STRINGS["de"] ?>" width="16" height="12">
 			</a>
 		</li>
 		<li style="vertical-align: baseline;">
-			<a href="<?php echo get('lang=en'); ?>">
-				<img class="flag" src="img/en.png" alt="<?php echo $STRINGS['en']; ?>" width="16" height="12">
+			<a href="<?= get("lang=en") ?>">
+				<img class="flag" src="img/en.png" alt="<?= $STRINGS["en"] ?>" width="16" height="12">
 			</a>
 		</li>
 </ul>

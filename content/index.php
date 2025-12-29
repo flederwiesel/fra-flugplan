@@ -186,13 +186,13 @@ if (isset($_POST['add']) ||
 
 ?>
 <script type="text/javascript">
-	wl_img_open = "img/wl-open-<?php echo $lang; ?>.png";
-	wl_img_close = "img/wl-close-<?php echo $lang; ?>.png";
+	wl_img_open = "img/wl-open-<?= $lang ?>.png";
+	wl_img_close = "img/wl-close-<?= $lang ?>.png";
 </script>
 <?php if ($user && (!$mobile || $tablet)) { ?>
-<script type="text/javascript" src="script/watchlist.js<?php rev(); ?>"></script>
+<script type="text/javascript" src="script/watchlist.js<?= rev() ?>"></script>
 <?php } ?>
-<script type="text/javascript" src="script/sorttable.js<?php rev(); ?>"></script>
+<script type="text/javascript" src="script/sorttable.js<?= rev() ?>"></script>
 <script type="text/javascript">
 	$(document).ready(function(){
 	});
@@ -213,7 +213,7 @@ if (isset($_POST['add']) ||
 if ($error)
 {
 ?>
-<div id="notification" class="error"><?php echo $error; ?></div>
+<div id="notification" class="error"><?= $error ?></div>
 <?php
 }
 else
@@ -221,7 +221,7 @@ else
 	if ($message)
 	{
 ?>
-<div id="notification" class="explain"><?php echo $message; ?></div>
+<div id="notification" class="explain"><?= $message ?></div>
 <?php
 	}
 }
@@ -232,9 +232,9 @@ else
 
 ?>
 <div id="rwy_cont">
-	<div id="rwy_div" style="float: <?php echo 'arrival' == $dir ? 'left' : 'right'; ?> ;">
+	<div id="rwy_div" style="float: <?= "arrival" == $dir ? "left" : "right" ?> ;">
 		<span id="rwy_l" style="vertical-align: middle;">
-			<img alt="<?php echo $STRINGS['rwydir']; ?>" src="img/<?php echo $dir; ?>-yellow-16x14.png">
+			<img alt="<?= $STRINGS["rwydir"] ?>" src="img/<?= $dir ?>-yellow-16x14.png">
 		</span>
 		<span id="rwy_r"><?php
 			$datadir = "$_SERVER[DOCUMENT_ROOT]/var/run/fra-flugplan";
@@ -325,7 +325,7 @@ if ($user)
 <div id="wl_cont">
 	<div id="wl_div">
 		<div id="wl_handle" class="cell top">
-			<img id="wl_img" src="img/wl-open-<?php echo $lang; ?>.png" alt="watchlist">
+			<img id="wl_img" src="img/wl-open-<?= $lang ?>.png" alt="watchlist">
 		</div>
 		<div class="cell top">
 			<div id="expandable" style="width: 0; visibility: hidden;">
@@ -336,8 +336,8 @@ if ($user)
 								<thead>
 									<tr>
 										<th></th>
-										<th><?php echo $STRINGS['reg']; ?></th>
-										<th><?php echo $STRINGS['comment']; ?></th>
+										<th><?= $STRINGS["reg"] ?></th>
+										<th><?= $STRINGS["comment"] ?></th>
 										<th><a href="javascript:ToggleNotifications()"><img src="img/mail.png" alt="e-mail"></a></th>
 										<th></th>
 										<th></th>
@@ -350,7 +350,7 @@ if ($user)
 ?>
 									<tr add="true">
 										<!-- inputs do not have names, POST values will be generated upon submit -->
-										<td><img src="img/photodb-ina.png" alt="<?php echo "$photodb"; ?>"></td>
+										<td><img src="img/photodb-ina.png" alt="<?= "$photodb" ?>"></td>
 										<td><input type="text" class="reg" value="" maxlength="31"></td>
 										<td><input type="text" class="comment" value="" maxlength="255"></td>
 										<td><input type="checkbox" class="notify" value=""></td>
@@ -375,20 +375,20 @@ if ($user)
 <?php		if (preg_match('/^\/.*\/$|[*?]/', $reg))
 			{
 ?>
-											<img src="img/photodb-ina.png" alt="<?php echo "$photodb"; ?>">
+											<img src="img/photodb-ina.png" alt="<?= "$photodb" ?>">
 <?php
 			}
 			else
 			{
 ?>
-											<a href="<?php echo str_replace([ '&', '{reg}' ], [ '&amp;', "$reg" ], $URL["$photodb"]); ?>" target="<?php echo "$photodb"; ?>"><img src="img/photodb.png" alt="<?php echo "$photodb"; ?>"></a>
+											<a href="<?= str_replace([ "&", "{reg}" ], [ "&amp;", $reg ], $URL["$photodb"]) ?>" target="<?= "$photodb" ?>"><img src="img/photodb.png" alt="<?= "$photodb" ?>"></a>
 <?php
 			}
 ?>
 										</td>
-										<td><input type="text" class="reg" value="<?php echo $reg; ?>" maxlength="31"></td>
-										<td><input type="text" class="comment" value="<?php echo htmlspecialchars($comment); ?>" maxlength="255"></td>
-										<td><input type="checkbox" class="notify" value=""<?php if ($notify) echo " checked"; ?>></td>
+										<td><input type="text" class="reg" value="<?= $reg ?>" maxlength="31"></td>
+										<td><input type="text" class="comment" value="<?= htmlspecialchars($comment) ?>" maxlength="255"></td>
+										<td><input type="checkbox" class="notify" value=""<?= $notify ? " checked" : "" ?>></td>
 										<td><button type="button" class="del" onclick="RemoveRow(this);">&nbsp;</button></td>
 										<td><button type="button" class="add" onclick="CloneRow(this);">&nbsp;</button></td>
 									</tr>
@@ -402,8 +402,8 @@ if ($user)
 								</tbody>
 							</table>
 						</div>
-						<input type="hidden" name="CSRFToken" value="<?php echo CsrfToken::get(); ?>">
-						<input type="submit" value="<?php echo $STRINGS['refresh']; ?>"
+						<input type="hidden" name="CSRFToken" value="<?= CsrfToken::get() ?>">
+						<input type="submit" value="<?= $STRINGS["refresh"] ?>"
 						 style="margin: 0.5em 0;">
 					</div>
 				</form>
@@ -419,7 +419,7 @@ if ($error)
 {
 ?>
 <div id="notification" class="error">
-	<?php echo $error; ?>
+	<?= $error ?>
 </div>
 <?php
 }
@@ -428,21 +428,21 @@ if ($error)
 	<table class="sortable">
 		<thead>
 			<tr>
-				<th><?php echo $STRINGS['time']; ?>
-				<th class="sep"><?php echo $STRINGS['flight']; ?>
+				<th><?= $STRINGS["time"] ?>
+				<th class="sep"><?= $STRINGS["flight"] ?>
 <?php
 				if (!$mobile || $tablet)
 				{
 ?>
-				<th class="sep"><?php echo $STRINGS['airline']; ?>
+				<th class="sep"><?= $STRINGS["airline"] ?>
 				<th class="sep">IATA
 				<th class="sep">ICAO
-				<th class="sep"><?php echo ucfirst('arrival' == $dir ? $STRINGS['from'] : $STRINGS['to']); ?>
+				<th class="sep"><?= ucfirst("arrival" == $dir ? $STRINGS["from"] : $STRINGS["to"]) ?>
 <?php
 				}
 ?>
-				<th class="sep sorttable_model"><?php echo $STRINGS['type']; ?>
-				<th class="sep sorttable_reg"><?php echo $STRINGS['reg']; ?>
+				<th class="sep sorttable_model"><?= $STRINGS["type"] ?>
+				<th class="sep sorttable_reg"><?= $STRINGS["reg"] ?>
 			</tr>
 		</thead>
 		<tbody>
@@ -703,8 +703,8 @@ if ($db)
 				else
 				{
 ?>
-				<a href="<?php echo str_replace([ '&', '{reg}' ], [ '&amp;', "$reg" ], $URL["$photodb"]); ?>" target="<?php echo "$photodb"; ?>">
-					<img src="img/photodb.png" alt="<?php echo "$photodb"; ?>">
+				<a href="<?= str_replace([ "&", "{reg}" ], [ "&amp;", $reg ], $URL["$photodb"]) ?>" target="<?= "$photodb" ?>">
+					<img src="img/photodb.png" alt="<?= "$photodb" ?>">
 				</a>
 <?php
 				}
@@ -726,4 +726,4 @@ if ($db)
 		</tbody>
 	</table>
 </div>
-<script type="text/javascript" src="script/sortable.js<?php rev(); ?>"></script>
+<script type="text/javascript" src="script/sortable.js<?= rev() ?>"></script>
