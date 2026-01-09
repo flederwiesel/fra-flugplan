@@ -151,10 +151,23 @@ class curl
 			// a custom CA, which we need to make known to curl.
 			// Put any root certificates here (not just the custom ones), otherwise
 			// with a missing ca-certificates.crt file, curl uses its default.
-			$cacerts = "$_SERVER[DOCUMENT_ROOT]/etc/ssl/certs/ca-certificates.crt";
+			$certlocs = [
+				getenv("FRA_FLUGPLAN_CA_CERTS"),
+				$_SERVER["FRA_FLUGPLAN_CA_CERTS"] ?? null,
+				"{$_SERVER['DOCUMENT_ROOT']}/etc/ssl/certs/ca-certificates.crt"
+			];
 
-			if (file_exists($cacerts))
-				curl_setopt($this->me, CURLOPT_CAINFO, $cacerts);
+			foreach ($certlocs as $cacerts)
+			{
+				if ($cacerts)
+				{
+					if (file_exists($cacerts))
+					{
+						curl_setopt($this->me, CURLOPT_CAINFO, $cacerts);
+						break;
+					}
+				}
+			}
 
 			// Now can securely connect with proper verification
 			curl_setopt($this->me, CURLOPT_SSL_VERIFYPEER, true);
