@@ -218,7 +218,7 @@ do
 		--silent \
 		--fail \
 		--write-out '%{http_code}' \
-		--location "http://www.fra-flugplan.de/mysqldump-php$opts" \
+		--location "http://fra-flugplan.de/mysqldump-php$opts" \
 		--output "$filename"
 	)
 

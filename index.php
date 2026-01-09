@@ -309,9 +309,9 @@ if ($user)
 <meta charset="UTF-8">
 <title><?php echo PROJECT; ?> &ndash; <?php echo ORGANISATION; ?></title>
 <meta name="language" content="<?php echo $lang; ?>">
-<link rel="alternate" href="http://www.fra-flugplan.de?lang=de" hreflang="de">
-<link rel="alternate" href="http://www.fra-flugplan.de?lang=en" hreflang="en">
-<link rel="alternate" href="http://www.fra-flugplan.de" hreflang="x-default">
+<link rel="alternate" href="http://fra-flugplan.de?lang=de" hreflang="de">
+<link rel="alternate" href="http://fra-flugplan.de?lang=en" hreflang="en">
+<link rel="alternate" href="http://fra-flugplan.de" hreflang="x-default">
 <?php
 if ('de' == $lang) {
 ?>
