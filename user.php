@@ -838,7 +838,7 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 		$body = sprintf($STRINGS['emailactivation'],
 						$ipaddr,
 						$user, ORGANISATION, SITE_URL,
-						$token, php_self(), $user, $token, $ExpDate, ORGANISATION);
+						$token, SITE_URL, $user, $token, $ExpDate, ORGANISATION);
 
 		/* http://www.outlookfaq.net/index.php?action=artikel&cat=6&id=84&artlang=de */
 		$body = mb_convert_encoding($body, 'ISO-8859-1', 'UTF-8');
@@ -1302,7 +1302,7 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 			phpversion());
 
 		$body = sprintf($STRINGS['emailpasswd'], $client_ip, $user, ORGANISATION, $token,
-						   php_self(), $user, $token, $expires, ORGANISATION);
+						   SITE_URL, $user, $token, $expires, ORGANISATION);
 
 		/* http://www.outlookfaq.net/index.php?action=artikel&cat=6&id=84&artlang=de */
 		$body = mb_convert_encoding($body, 'ISO-8859-1', 'UTF-8');

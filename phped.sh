@@ -1,10 +1,16 @@
 #!/bin/bash
 
+set -euo pipefail
+
+: "${FRA_FLUGPLAN_HOST:=fra-flugplan.local}"
+
+echo "Using FRA_FLUGPLAN_HOST=${FRA_FLUGPLAN_HOST}"
+
 urlencode() {
 	local string="${1}"
 	local strlen=${#string}
 	local encoded=""
-	local retain="${2}"
+	local retain="${2:-}"
 
 	for (( pos=0 ; pos<strlen ; pos++ ))
 	do
@@ -26,10 +32,10 @@ urlencode() {
 projects=(
 	# name:query_string
 	"index:index.php?arrival\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
-	"index-spam:index.php?req=register\&stopforumspam=localhost/\${projectpath}\&user=spam\&email=spam@gmail.com"
+	"index-spam:index.php?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}/\${projectpath}\&user=spam\&email=spam@gmail.com"
 	"betriebsrichtung:sslapps.fraport.de/betriebsrichtung/betriebsrichtungsvg.js?rwy=25"
 	"getflights:getflights.php?debug=url,json,sql\&fmt=html"
-	"getflights-local:getflights.php?debug=url,json,sql\&fmt=html\&prefix=localhost/\${projectpath}/\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
+	"getflights-local:getflights.php?debug=url,json,sql\&fmt=html\&prefix=${FRA_FLUGPLAN_HOST}/\${projectpath}/\&time=$(urlencode $(date +'%Y-%m-%dT05:00:00%z'))"
 	"download:index.php?page=download"
 	"specials:index.php?page=specials"
 	"stopforumspam:api.stopforumspam.org/index.php?username=spam\&email=spam@gmail.com\&ip=46.118.155.73"
@@ -81,7 +87,7 @@ do
 		errset=E_ERROR,E_WARNING,E_PARSE,E_CORE_ERROR,E_CORE_WARNING,E_COMPILE_ERROR,E_COMPILE_WARNING,E_USER_ERROR,E_USER_WARNING,E_STRICT,E_RECOVERABLE_ERROR
 		excign=
 		excset=Exception
-		host=localhost
+		host=${FRA_FLUGPLAN_HOST}
 		profwithdbg=0
 		readonlyed=0
 		sesstimeout=15
@@ -122,7 +128,7 @@ do
 		localwebroot=${webroot}
 		projectroot=${scriptdir}
 		runmode=2
-		webrooturl=http://localhost/
+		webrooturl=http://fra-flugplan.local/
 
 		[PHPEdProject.JSLibraries]
 		Count=0
@@ -147,7 +153,7 @@ do
 		CvsUser=
 		CvsUseUtf8=0
 		DefaultEncodingCount=1
-		DefaultFile=http://localhost/${projectpath}/${index}
+		DefaultFile=http://${FRA_FLUGPLAN_HOST}/${projectpath}/${index}
 		DontPublishDirs=CVS;.svn;.git
 		DriverID=
 		EncoderEnabled=0
@@ -162,7 +168,7 @@ do
 		MappingPublishingRoot=
 		MappingRemote0=${scriptdir}
 		MappingRemoteDir=${webroot}
-		MappingURL0=http://localhost/${projectpath}
+		MappingURL0=http://${FRA_FLUGPLAN_HOST}/${projectpath}
 		ParserProp_AllowSingleAsteriskXDoc=0
 		ParserProp_CSS_ParsePHP=0
 		ParserProp_CSS_SubLang=2
@@ -181,7 +187,7 @@ do
 		RunMode=2
 		ScriptRunTarget=2
 		SourceControl=0
-		URL=http://localhost/${projectpath}
+		URL=http://fra-flugplan.local/${projectpath}
 		UrlMappingCount=0
 		UsedPHPFrameworkChecked=0
 		UsedPHPFrameworkId=
@@ -194,10 +200,10 @@ do
 EOF
 
 	# workspace entries
-	Projects="${Projects}
+	Projects="${Projects:-}
 Project${i}=${scriptdir}\.phped\\${project}.ppj
 Unloaded${i}=0"
-	((i++))
+	((i++)) || true
 done
 
 # WORKSPACE
@@ -206,5 +212,5 @@ cat > "${scriptdir}/${workspace}.ppw" <<EOF
 [PHPEdWorkspace]
 ProjectCount=${i}
 ${Projects}
-ActiveProject=${scriptdir}\.phped\${projects[0]%%:*}.ppj
+ActiveProject=${scriptdir}\\.phped\\${projects[0]%%:*}.ppj
 EOF

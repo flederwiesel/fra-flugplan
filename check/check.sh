@@ -165,8 +165,10 @@ check() {
 	shift
 	[ 1 == $debug -o 1 == $verbose ] && echo -e "$name" >&2
 	[ 1 == $debug ] && echo -e "\033[33m$@\033[m" >&2
-	eval "$@" 2>&1 | sed 's/?rev=[0-9]*/?rev=$Rev$/g' > "$results/$name.${fileext:-htm}" |
-		sed -r $'s~^.+$~\033[1;31mERROR: &\033[m~g'
+	eval "$@" 2>&1 |
+	sed -e "s|https://${FRA_FLUGPLAN_HOST}/|https://fra-flugplan.de/|g" \
+		-e 's/?rev=[0-9]*/?rev=$Rev$/g' > "$results/$name.${fileext:-htm}" |
+	sed -r $'s~^.+$~\033[1;31mERROR: &\033[m~g'
 }
 
 initdb() {
@@ -239,13 +241,15 @@ export -f rawurlencode
 set -o pipefail
 
 export PATH=$(dirname "$0")/../bin:$PATH
+declare -rx FRA_FLUGPLAN_HOST="${FRA_FLUGPLAN_HOST:-fra-flugplan.local}"
+declare -rx url="https://$FRA_FLUGPLAN_HOST"
 
 chkdep readlink --version
 chkdep minversion sed        "4.2.1"  "$(sed --version 2>&1 || echo | sed -nr '/^(GNU *)?sed/ { s/^[^0-9]*//g; /^$/d; p }')"
 chkdep minversion awk        "4.1.1"  "$(awk --version 2>&1)" "||" \
        minversion mawk       "1.3.3"  "$(awk -W version 2>&1 || echo | sed -nr '/mawk/ { s/^[^0-9]*([^ ]+).*/\1/g; p }')"
 chkdep minversion curl       "7.26.0" "$(curl --version 2>&1 || echo | sed -nr '/^curl/ { s/^[^0-9]*([^ ]+).*/\1/g; p }')"
-chkdep minversion php        "5.4"    "$(browse --head http://localhost | sed -n '/PHP\//{s#.*PHP/##g; s# .*$##g; p}')"
+chkdep minversion php        "5.4"    "$(browse --head "https://$FRA_FLUGPLAN_HOST/" | sed -n '/PHP\//{s#.*PHP/##g; s# .*$##g; p}')"
 chkdep minversion mysql      "14.14"  "$(mysql --version 2>&1 || echo | sed -r 's/^[^0-9]*([^ ]+).*/\1/g')"
 chkdep minversion jq         "1.5"    "$(jq --version 2>&1 || echo | sed 's/^[^0-9]*//g')"
 chkdep minversion python     "2.7.3"  "$(python --version 2>&1 | sed 's/^[^0-9]*//g')"
@@ -260,7 +264,6 @@ mailtodisk --check ||
 IFS=$'\n'
 
 export prj="$(readlink -f ..)"
-export url=https://localhost/$(rawurlencode "${prj##*htdocs/}" "/")
 
 mkdir -p sh/results
 
@@ -345,7 +348,7 @@ do
 						s#::1#<localhost>#g
 						s#127.0.0.1#<localhost>#g
 						s#(X-Mailer: PHP/).*\$#\1*#g
-						s#(https?://[^/]+/).*/([^/?]+\?.*)#\1.../\2#g
+						s#(https?://[^/]+/).*/([^/?]+\?.*)#\1/\2#g
 						s#((Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day), [0-9]+/[0-9]+/[0-9]+#Day, 00/00/00#g
 						s/((Mon|Diens|Donners|Frei|Sams|Sonn)tag|Mittwoch), [0-9]+\. (Januar|Februar|März|April|Mai|Ju[nl]i|August|(Sept|Nov|Dez)ember|Oktober) [0-9]+/Tag, 00. Monat 0000/g
 						s/^(Date:[ \t]+).+\$/\1Day, 0 Month 0000 00:00:00 +0000/g

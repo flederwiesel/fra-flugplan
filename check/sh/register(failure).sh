@@ -17,8 +17,6 @@
 # drop/re-create database
 initdb && rm -f .COOKIES
 
-prefix=$(rawurlencode $(sed -r 's|https?://||g' <<<"$url"))
-
 mailtodisk --add hausmeister@flederwiesel.com "$mailfile" # user
 mailtodisk --add flederwiesel@fra-flugplan.de "$mailfile" # admin
 
@@ -31,7 +29,7 @@ csrftoken=$(
 	sed -nr '/name="CSRFToken"/ { s/.*value="([^"]+)".*/\1/g; p }'
 )
 
-check "1" browse "$url/?req=register\&stopforumspam=$prefix" \
+check "1" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		--data-urlencode "email=" \
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
@@ -130,7 +128,7 @@ check "13" browse "$url/?req=register" \
 		--data-urlencode "lang=en"
 
 # multiple registration
-check "14" browse "$url/?req=register\&stopforumspam=$prefix" \
+check "14" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \
@@ -139,7 +137,7 @@ check "14" browse "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "lang=en" "|" \
 		"sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
-check "15" browse "$url/?req=register\&stopforumspam=$prefix" \
+check "15" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \

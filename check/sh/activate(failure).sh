@@ -17,8 +17,6 @@
 # drop/re-create database
 initdb && rm -f .COOKIES
 
-prefix=$(rawurlencode $(sed -r 's|https?://||g' <<<"$url"))
-
 mailtodisk --add hausmeister@flederwiesel.com "$mailfile" # user
 mailtodisk --add flederwiesel@fra-flugplan.de "$mailfile" # admin
 
@@ -31,7 +29,7 @@ csrftoken=$(
 	sed -nr '/name="CSRFToken"/ { s/.*value="([^"]+)".*/\1/g; p }'
 )
 
-check "1" browse "$url/?req=register\&stopforumspam=$prefix" \
+check "1" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		--data-urlencode "email=hausmeister@flederwiesel.com" \
 		--data-urlencode "user=flederwiesel" \
 		--data-urlencode "passwd=elvizzz" \

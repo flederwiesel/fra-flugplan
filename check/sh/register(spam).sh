@@ -17,8 +17,6 @@
 # drop/re-create database
 initdb && rm -f .COOKIES
 
-prefix=$(rawurlencode $(sed -r 's|https?://||g' <<<"$url"))
-
 mailtodisk --add flederwiesel@fra-flugplan.de "$mailfile" # admin
 mailtodisk --add nospam@flederwiesel.com "$mailfile"
 mailtodisk --add spam@gmail.com "$mailfile"
@@ -34,7 +32,7 @@ csrftoken=$(
 	sed -nr '/name="CSRFToken"/ { s/.*value="([^"]+)".*/\1/g; p }'
 )
 
-check "1" browse "$url/?req=register\&stopforumspam=$prefix" \
+check "1" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		--data-urlencode "email=nospam@flederwiesel.com" \
 		--data-urlencode "user=spammer" \
 		--data-urlencode "passwd=elvizzz" \
@@ -43,7 +41,7 @@ check "1" browse "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "lang=en" \
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
-check "2" browse "$url/?req=register\&stopforumspam=$prefix" \
+check "2" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		--data-urlencode "email=spam@gmail.com" \
 		--data-urlencode "user=nospam" \
 		--data-urlencode "passwd=elvizzz" \
@@ -52,7 +50,7 @@ check "2" browse "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "lang=en" \
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
-check "3" browse "$url/?req=register\&stopforumspam=$prefix" \
+check "3" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		--data-urlencode "email=spam@gmail.com" \
 		--data-urlencode "user=spammer" \
 		--data-urlencode "passwd=elvizzz" \
@@ -61,7 +59,7 @@ check "3" browse "$url/?req=register\&stopforumspam=$prefix" \
 		--data-urlencode "lang=en" \
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
-check "4" browse "$url/?req=register\&stopforumspam=$prefix\&ip=46.118.155.73" \
+check "4" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}\&ip=46.118.155.73" \
 		--data-urlencode "email=nospam@flederwiesel.com" \
 		--data-urlencode "user=spammer" \
 		--data-urlencode "passwd=elvizzz" \
@@ -70,7 +68,7 @@ check "4" browse "$url/?req=register\&stopforumspam=$prefix\&ip=46.118.155.73" \
 		--data-urlencode "lang=en" \
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
-check "5" browse "$url/?req=register\&stopforumspam=$prefix\&ip=46.118.155.73" \
+check "5" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}\&ip=46.118.155.73" \
 		--data-urlencode "email=spam@gmail.com" \
 		--data-urlencode "user=nospam" \
 		--data-urlencode "passwd=elvizzz" \
@@ -79,7 +77,7 @@ check "5" browse "$url/?req=register\&stopforumspam=$prefix\&ip=46.118.155.73" \
 		--data-urlencode "lang=en" \
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
-check "6" browse "$url/?req=register\&stopforumspam=$prefix\&ip=46.118.155.73" \
+check "6" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}\&ip=46.118.155.73" \
 		--data-urlencode "email=spam@gmail.com" \
 		--data-urlencode "user=spammer" \
 		--data-urlencode "passwd=elvizzz" \
@@ -88,7 +86,7 @@ check "6" browse "$url/?req=register\&stopforumspam=$prefix\&ip=46.118.155.73" \
 		--data-urlencode "lang=en" \
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
-check "7" browse "$url/?req=register\&stopforumspam=$prefix\&ip=46.118.155.73" \
+check "7" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}\&ip=46.118.155.73" \
 		--data-urlencode "email=nospam@flederwiesel.com" \
 		--data-urlencode "user=nospam" \
 		--data-urlencode "passwd=elvizzz" \
@@ -97,7 +95,7 @@ check "7" browse "$url/?req=register\&stopforumspam=$prefix\&ip=46.118.155.73" \
 		--data-urlencode "lang=en" \
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
-check "8" browse "$url/?req=register\&stopforumspam=$prefix\&ip=::1" \
+check "8" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}\&ip=::1" \
 		--data-urlencode "email=notsure@gmail.com" \
 		--data-urlencode "user=nospam" \
 		--data-urlencode "passwd=elvizzz" \

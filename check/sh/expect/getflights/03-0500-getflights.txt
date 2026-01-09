@@ -1,7 +1,7 @@
 arrival
 ========
 
-https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.flights.json/filter?flighttype=arrivals&lang=de&time=0000-00-03T05%3A00%3A00%2B0000&perpage=3&page=1
+https://fra-flugplan.de/www.frankfurt-airport.com/de/_jcr_content.flights.json/filter?flighttype=arrivals&lang=de&time=0000-00-03T05%3A00%3A00%2B0000&perpage=3&page=1
 {"type":"arrival","luops":"0000-00-03T05:00:00+0000","lusaison":"0000-00-03T05:00:00+0000","results":0,"entriesperpage":0,"maxpage":0,"page":0}
 
 /************************************/
@@ -16,7 +16,7 @@ https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.flights.json/fil
 departure
 ========
 
-https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.flights.json/filter?flighttype=departures&lang=de&time=0000-00-03T05%3A00%3A00%2B0000&perpage=3&page=1
+https://fra-flugplan.de/www.frankfurt-airport.com/de/_jcr_content.flights.json/filter?flighttype=departures&lang=de&time=0000-00-03T05%3A00%3A00%2B0000&perpage=3&page=1
 {"type":"departure","luops":"0000-00-03T05:00:00+0000","lusaison":"0000-00-03T05:00:00+0000","results":0,"entriesperpage":0,"maxpage":0,"page":0}
 
 /************************************/
@@ -31,7 +31,7 @@ https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.flights.json/fil
 arrival
 ========
 
-https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.flights.cargo.json/filter?flighttype=arrivals&lang=de&time=0000-00-03T05%3A00%3A00%2B0000&perpage=3&page=1
+https://fra-flugplan.de/www.frankfurt-airport.com/de/_jcr_content.flights.cargo.json/filter?flighttype=arrivals&lang=de&time=0000-00-03T05%3A00%3A00%2B0000&perpage=3&page=1
 {"type":"arrival","luops":"0000-00-00T00:00:00+0000","lusaison":"0000-00-00T00:00:00+0000","results":0,"entriesperpage":0,"maxpage":0,"page":0}
 
 /************************************/
@@ -46,7 +46,7 @@ https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.flights.cargo.js
 departure
 ========
 
-https://localhost/.../www.frankfurt-airport.com/de/_jcr_content.flights.cargo.json/filter?flighttype=departures&lang=de&time=0000-00-03T05%3A00%3A00%2B0000&perpage=3&page=1
+https://fra-flugplan.de/www.frankfurt-airport.com/de/_jcr_content.flights.cargo.json/filter?flighttype=departures&lang=de&time=0000-00-03T05%3A00%3A00%2B0000&perpage=3&page=1
 {"type":"arrival","luops":"0000-00-00T00:00:00+0000","lusaison":"0000-00-00T00:00:00+0000","results":0,"entriesperpage":0,"maxpage":0,"page":0}
 
 /************************************/

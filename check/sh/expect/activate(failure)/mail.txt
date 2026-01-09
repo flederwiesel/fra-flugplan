@@ -10,13 +10,13 @@ X-Mailer: PHP/*
 
 Hello,
 
-this e-mail has been sent to you because you (or someone else at IP address <localhost>) requested user registration as 'flederwiesel' at Frankfurt Aviation Friends (www.frankfurt-aviation-friends.de).
+this e-mail has been sent to you because you (or someone else at IP address <localhost>) requested user registration as 'flederwiesel' at Frankfurt Aviation Friends (https://fra-flugplan.de/).
 
 Activation token is:
 ***
 
 You can also use this link to process your request:
-https://localhost/.../index.php?req=activate&user=flederwiesel&token=***
+https://fra-flugplan.de/?req=activate&user=flederwiesel&token=***
 This token will expire on 0000-00-00 00:00:00 GMT.
 
 Please ignore this e-mail if you did not request a registration. Our apologies for any inconvenience.

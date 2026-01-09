@@ -17,8 +17,6 @@
 # drop/re-create database
 initdb && rm -f .COOKIES
 
-prefix=$(rawurlencode $(sed -r 's|https?://||g' <<<"$url"))
-
 mailtodisk --add flederwiesel@fra-flugplan.de "$mailfile" # admin
 mailtodisk --add flederwiesel@fra-flugplan.de "$mailfile" # root
 mailtodisk --add hausmeister@flederwiesel.com "$mailfile" # user
@@ -176,7 +174,7 @@ SQL
 			exit 1
 		fi
 
-		fileext=txt check "$ddHHMM-getflights" browse "$url/getflights.php?prefix=$prefix\&time=$now\&debug=url,json,jflights,sql\&fmt=txt"\
+		fileext=txt check "$ddHHMM-getflights" browse "$url/getflights.php?prefix=${FRA_FLUGPLAN_HOST}\&time=$now\&debug=url,json,jflights,sql\&fmt=txt"\
 			"| sed -r '
 			s/Dauer: [0-9]+.[0-9]+s/Dauer: 0.000s/g
 			s/$YYYY_mm_dd_0/0000-00-00/g
@@ -282,7 +280,7 @@ do
 	now=$(date +'%Y-%m-%d %H:%M:%S' --date="$offset 05:00")
 	now=$(rawurlencode $now)
 
-	fileext=txt check "$ddHHMM-getflights" browse "$url/getflights.php?prefix=$prefix\&time=$now\&debug=url,json,sql\&fmt=txt"\
+	fileext=txt check "$ddHHMM-getflights" browse "$url/getflights.php?prefix=${FRA_FLUGPLAN_HOST}\&time=$now\&debug=url,json,sql\&fmt=txt"\
 		"| sed -r '
 		s/Dauer: [0-9]+.[0-9]+s/Dauer: 0.000s/g
 		s/$YYYY_mm_dd_2/0000-00-02/g

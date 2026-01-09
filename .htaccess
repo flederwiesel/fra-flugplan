@@ -64,7 +64,7 @@ RewriteCond %{HTTPS} !=on
 RewriteRule .* https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
 
 # For testing and debugging of getflights script, redirect to www.frankfurt-airport.com mock
-RewriteCond %{HTTP_HOST} localhost
+RewriteCond %{HTTP_HOST} !fra-flugplan.de [NC]
 RewriteRule sslapps.fraport.de/(.*) www.frankfurt-airport.com/$1
 
 # For testing and debugging, fake originator ip address via query string
