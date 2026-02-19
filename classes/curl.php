@@ -1,19 +1,5 @@
 <?php
 
-/******************************************************************************
- *
- * Copyright © Tobias Kühne
- *
- * You may use and distribute this software free of charge for non-commercial
- * purposes. The software must be distributed in its entirety, i.e. containing
- * ALL binary and source files without modification.
- * Publication of modified versions of the source code provided herein,
- * is permitted only with the author's written consent. In this case the
- * copyright notice must not be removed or altered, all modifications to the
- * source code must be clearly marked as such.
- *
- ******************************************************************************/
-
 // https://php.net/manual/en/curl.constants.php
 // https://github.com/php/php-src/blob/PHP-7.4.16/ext/curl/interface.c
 
