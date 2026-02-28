@@ -173,10 +173,9 @@ function RemoveRow(input)
 
 	inp = next.getElementsByTagName("input");
 	inp[0].focus();
-
 }
 
-$(function()	// PreparePostData()
+$(function()
 {
 	$("#watch").on("focusin", "input.reg", function()
 	{
@@ -235,19 +234,16 @@ $(function()	// PreparePostData()
 				}
 				else
 				{
-					if ($(this).attr("upd") == "true")
-					{
-						// "$reg\t$NewReg\t$comment\t$notify\n..."
-						upd = upd ? upd + "\n" : "";
-						upd += ($(reg).data("reg") ? $(reg).data("reg") : "") + "\t" +
-							$(reg).val() + "\t" +
-							$(comment).val() + "\t" +
-							($(notify).is(":checked") ? 1 : 0);
-					}
+					// assume `$(this).attr("upd") == "true"`
+					// "$reg\t$NewReg\t$comment\t$notify\n..."
+					upd = upd ? upd + "\n" : "";
+					upd += ($(reg).data("reg") ? $(reg).data("reg") : "") + "\t" +
+						$(reg).val() + "\t" +
+						$(comment).val() + "\t" +
+						($(notify).is(":checked") ? 1 : 0);
 				}
 			}
 		});
-
 
 		if (add)
 			$("#watch").append($("<input>").attr("type", "hidden").attr("name", "add").val(add));

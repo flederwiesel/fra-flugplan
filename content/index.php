@@ -348,7 +348,7 @@ if ($user)
 		if (0 == count($watch))
 		{
 ?>
-									<tr>
+									<tr add="true">
 										<!-- inputs do not have names, POST values will be generated upon submit -->
 										<td><img src="img/photodb-ina.png" alt="<?php echo "$photodb"; ?>"></td>
 										<td><input type="text" class="reg" value="" maxlength="31"></td>
@@ -364,8 +364,8 @@ if ($user)
 	foreach ($watch as $reg => $entry)
 	{
 		$comment = $entry['comment'];
-	 	$notify = $entry['notify'];
-	 	$watch[$reg] = $comment;
+		$notify = $entry['notify'];
+		$watch[$reg] = $comment;
 
 		if (!$mobile || $tablet)
 		{
