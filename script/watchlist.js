@@ -5,8 +5,6 @@ document.onmousedown = function(e)
 
 	if (e.target)
 		target = e.target;
-	else if (e.srcElement)
-		target = e.srcElement;
 	else
 		target = NULL;
 
