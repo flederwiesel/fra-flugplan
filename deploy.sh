@@ -68,6 +68,10 @@ rsync -av \
 --filter="- *" \
 "$SCRIPTDIR/" fra-flugplan.de:"$root/$tag"
 
-ssh fra-flugplan.de "echo $tag > $root/target; echo '$rev' > $root/$tag/git-rev"
+ssh fra-flugplan.de <<EOF
+echo "$tag" > "$root/target"
+echo "$rev" > "$root/$tag/git-rev"
+cp "\$HOME/.config/fra-flugplan/.config" "$root/$tag/.config"
+EOF
 
 echo -e "\033[32mSUCCESS.\033[m"
