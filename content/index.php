@@ -480,14 +480,14 @@ else
 if (!$user)
 {
 	$lookback = 0;
-	$lookahead = ($mobile && !$tablet ? 1 : 7 * 24) * 3600;	// +24h
+	$lookahead = 7 * 24 * 3600;	// +7d
 }
 else
 {
-	if (!$mobile)
+	if ($mobile)
 	{
-		$lookback = 0;
-		$lookahead = 7 * 24 * 3600;	// +7d
+		$lookback = $user->opt('tm-');
+		$lookahead = $user->opt('tm+');
 	}
 	else
 	{
@@ -498,8 +498,8 @@ else
 		}
 		else
 		{
-			$lookback = $user->opt('tm-');
-			$lookahead = $user->opt('tm+');
+			$lookback = 0;
+			$lookahead = 7 * 24 * 3600;	// +7d
 		}
 	}
 }
