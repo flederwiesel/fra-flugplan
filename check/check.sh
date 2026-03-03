@@ -291,6 +291,7 @@ changepasswd
 changepasswd lang=de
 profile
 profile lang=de
+schedule
 watchlist
 airportcity
 getflights
