@@ -15,9 +15,10 @@ if ('dispinterval' == $item)
 		var min = $("#" + value + "-min");
 		var max = $("#" + value + "-max");
 		var divider = $("option", min).length;
+		var ticks = $("option", min).length + $("option", max).length;
 		var slider = $("<div id=\"" + value + "-slider\"></div>").insertAfter($(max)).slider({
 			min: 1,
-			max: 7,
+			max: ticks,
 			range: true,
 
 			values: [$(min)[0].selectedIndex + 1,
@@ -208,9 +209,9 @@ if ('dispinterval' == $item)
 				<div class="cell label"><?php echo $STRINGS['tablet']; ?></div>
 				<div class="cell">
 					<select name="tt-" id="tablet-min">
-						<option value="-3600"<?php if (-900 == $user->opt('tt-')) echo ' selected'; ?>>-01:00 h</option>
+						<option value="-3600"<?php if (-3600 == $user->opt('tt-')) echo ' selected'; ?>>-01:00 h</option>
 						<option value="-900"<?php if (-900 == $user->opt('tt-')) echo ' selected'; ?>>-00:15 h</option>
-						<option value="-300"<?php if (-900 == $user->opt('tt-')) echo ' selected'; ?>>-00:05 h</option>
+						<option value="-300"<?php if (-300 == $user->opt('tt-')) echo ' selected'; ?>>-00:05 h</option>
 						<option value="0"<?php if (0 == $user->opt('tt-')) echo ' selected'; ?>>00:00 h</option>
 					</select>
 					<select name="tt+" id="tablet-max">

@@ -72,9 +72,10 @@ $(function()
 		var min = $("#" + value + "-min");
 		var max = $("#" + value + "-max");
 		var divider = $("option", min).length;
+		var ticks = $("option", min).length + $("option", max).length;
 		var slider = $("<div id=\"" + value + "-slider\"></div>").insertAfter($(max)).slider({
 			min: 1,
-			max: 7,
+			max: ticks,
 			range: true,
 
 			values: [$(min)[0].selectedIndex + 1,
