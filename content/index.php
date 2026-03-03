@@ -504,7 +504,7 @@ else
 	}
 }
 
-$from = $now->unix - $lookback;
+$from = $now->unix + $lookback;
 $until = $now->unix + $lookahead;
 
 /* This might be configurable in the future... */
