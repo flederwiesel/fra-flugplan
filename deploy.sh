@@ -53,6 +53,11 @@ rsync -av \
 --filter="- img/src" \
 --filter="+ img/**" \
 --filter="+ index.php" \
+--filter="+ lib/" \
+--filter="+ lib/Mobile-Detect/" \
+--filter="+ lib/Mobile-Detect/src/" \
+--filter="+ lib/Mobile-Detect/src/MobileDetect.php" \
+--filter="- lib/*" \
 --filter="+ nav.php" \
 --filter="+ photodb.php" \
 --filter="+ robots.txt" \
