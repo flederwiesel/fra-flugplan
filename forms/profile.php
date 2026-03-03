@@ -190,7 +190,7 @@ if ('dispinterval' == $item)
 				<div class="cell label"><?php echo $STRINGS['cellphone']; ?></div>
 				<div class="cell">
 					<select name="tm-" id="phone-min">
-						<option value="-75"<?php if (-75 == $user->opt('tm-')) echo ' selected'; ?>>-00:15 h</option>
+						<option value="-900"<?php if (-900 == $user->opt('tm-')) echo ' selected'; ?>>-00:15 h</option>
 						<option value="0"<?php if (0 == $user->opt('tm-')) echo ' selected'; ?>>00:00 h</option>
 					</select>
 					<select name="tm+" id="phone-max">
@@ -206,7 +206,7 @@ if ('dispinterval' == $item)
 				<div class="cell label"><?php echo $STRINGS['tablet']; ?></div>
 				<div class="cell">
 					<select name="tt-" id="tablet-min">
-						<option value="-75"<?php if (-75 == $user->opt('tt-')) echo ' selected'; ?>>-00:15 h</option>
+						<option value="-900"<?php if (-900 == $user->opt('tt-')) echo ' selected'; ?>>-00:15 h</option>
 						<option value="0"<?php if (0 == $user->opt('tt-')) echo ' selected'; ?>>00:00 h</option>
 					</select>
 					<select name="tt+" id="tablet-max">
