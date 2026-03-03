@@ -133,9 +133,9 @@ $_SESSION["lang"] = $lang;
  * detect device type
  ******************************************************************************/
 
-require_once 'classes/Mobile_Detect.php';
+require_once 'lib/Mobile-Detect/src/MobileDetect.php';
 
-$device = new Mobile_Detect();
+$device = new Detection\MobileDetect();
 
 if (!$device)
 {
