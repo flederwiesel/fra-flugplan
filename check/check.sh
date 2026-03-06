@@ -297,16 +297,16 @@ fi
 status=0
 
 echo "$tests" |
-while read testcase
+while read testsuite
 do
-	if [ -n "$testcase" ]; then
-		if echo "$testcase" | grep -vq '^[[:space:]]*#'; then
-			echo -e "\033[36m$testcase\033[m"
+	if [ -n "$testsuite" ]; then
+		if echo "$testsuite" | grep -vq '^[[:space:]]*#'; then
+			echo -e "\033[36m$testsuite\033[m"
 
-			export expect="sh/expect/$testcase"
-			export results="sh/results/$testcase"
+			export expect="sh/expect/$testsuite"
+			export results="sh/results/$testsuite"
 
-			script="test_$testcase"
+			script="test_$testsuite"
 
 			rm -rf "$results"
 			mkdir -p "$results"
