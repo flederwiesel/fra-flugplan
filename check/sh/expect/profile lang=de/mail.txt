@@ -1,8 +1,8 @@
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: hausmeister@flederwiesel.com
+To: uid-1@example.com
 Subject: Aktivierung
-From: Frankfurt Aviation Friends <flederwiesel@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
+From: Frankfurt Aviation Friends <noreply@fra-flugplan.de>
+Reply-To: flugplan-admin@example.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -10,13 +10,13 @@ X-Mailer: PHP/*
 
 Hallo,
 
-Du erhälst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse <localhost>) eine Anfrage zur Registrierung als Benutzer 'flederwiesel' auf Frankfurt Aviation Friends (https://fra-flugplan.de/) gesendet hast.
+Du erhälst diese E-Mail, weil Du (oder jemand anders mit IP-Addresse <localhost>) eine Anfrage zur Registrierung als Benutzer 'uid-1' auf Frankfurt Aviation Friends (https://fra-flugplan.de/) gesendet hast.
 
 Das Aktivierungs-Token ist:
 ***
 
 Benutze diesen Link, um fortzufahren:
-https://fra-flugplan.de/?req=activate&user=flederwiesel&token=***
+https://fra-flugplan.de/?req=activate&user=uid-1&token=***
 Dieses Token läuft um 0000-00-00 00:00:00 GMT ab.
 
 Falls Du keine Registrierung veranlaßt hast, ignoriere diese Mail einfach.

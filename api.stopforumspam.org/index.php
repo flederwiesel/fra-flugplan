@@ -39,7 +39,7 @@
 			],
 		],
 		'email' => [
-			'nospam@flederwiesel.com' => [
+			'nospam@example.com' => [
 				'appears' => 0,
 			],
 			'notsure@gmail.com' => [

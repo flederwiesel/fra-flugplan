@@ -41,14 +41,14 @@
 				<div class="cell label"><?php echo ucfirst($STRINGS['emailaddress']); ?></div>
 				<div class="cell">
 					<input type="text" id="email" name="email"
-					 value="<?php Input_SetValue('email', INP_POST | INP_GET, 'hausmeister@flederwiesel.com'); ?>" autofocus>
+					 value="<?php Input_SetValue('email', INP_POST | INP_GET, 'uid-1@example.com'); ?>" autofocus>
 				</div>
 			</div>
 			<div class="row">
 				<div class="cell label"><?php echo ucfirst($STRINGS['username']); ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user"
-					 value="<?php Input_SetValue('user', INP_POST | INP_GET, 'flederwiesel'); ?>">
+					 value="<?php Input_SetValue('user', INP_POST | INP_GET, 'uid-1'); ?>">
 					<div class="hint">
 						<?php echo sprintf($STRINGS['hintnumchars'], $GLOBALS['USERNAME_MIN'], $GLOBALS['USERNAME_MAX']); ?>
 					</div>

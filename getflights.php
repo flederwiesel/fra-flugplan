@@ -2264,7 +2264,7 @@ function SendWatchlistNotification($name, $email, $fmt, $locale, $notifications)
 	if (isset($DEBUG['any']))
 		echo "$text";
 
-	$to = mb_encode_mimeheader($name, 'ISO-8859-1', 'Q')."<$email>";
+	$to = mb_encode_mimeheader($name, 'ISO-8859-1', 'Q')." <$email>";
 	$subject = mb_encode_mimeheader("$STRINGS[watchlist]", 'ISO-8859-1', 'Q');
 	$header = sprintf(
 		"From: %s <%s>\n".
@@ -2851,7 +2851,7 @@ if ($errorinfo)
 	if (isset($DEBUG['any']))
 		echo $errorinfo;
 
-	mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').'<'.ADMIN_EMAIL.'>',
+	mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').' <'.ADMIN_EMAIL.'>',
 		 "getflights.php: error",
 		 "$errorinfo",
 		 "From: FRA-Flugplan");
@@ -2862,7 +2862,7 @@ if ($warning)
 	if (isset($DEBUG['any']))
 		echo $warning;
 
-	mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').'<'.ADMIN_EMAIL.'>',
+	mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').' <'.ADMIN_EMAIL.'>',
 		 "getflights.php: warning",
 		 "$warning",
 		 "From: FRA-Flugplan");
@@ -2873,7 +2873,7 @@ if ($info)
 	if (isset($DEBUG['any']))
 		echo $info;
 
-	mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').'<'.ADMIN_EMAIL.'>',
+	mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').' <'.ADMIN_EMAIL.'>',
 		 "getflights.php: info",
 		 "$info",
 		 "From: FRA-Flugplan");

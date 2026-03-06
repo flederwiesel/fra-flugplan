@@ -3,9 +3,9 @@
 # drop/re-create database
 initdb && rm -f .COOKIES
 
-mailtodisk --add flederwiesel@fra-flugplan.de "$mailfile" # admin
-mailtodisk --add flederwiesel@fra-flugplan.de "$mailfile" # root
-mailtodisk --add hausmeister@flederwiesel.com "$mailfile" # user
+mailtodisk --add uid-1@example.com "$mailfile"
+mailtodisk --add uid-2@example.com "$mailfile"
+mailtodisk --add flugplan-admin@example.com "$mailfile"
 
 ###############################################################################
 
@@ -26,40 +26,40 @@ query <<-"SQL"
 	INSERT INTO `users`(`name`, `email`, `salt`, `passwd`, `language`, `ip`)
 	VALUES
 	(
-		'root',
-		'flederwiesel@fra-flugplan.de',
+		'uid-1',
+		'uid-1@example.com',
 		'cf78aafd5c5410b7b12c2794a52cda1bccd01316f30df57aa29c5609ba979c15',
 		'c4ae99aa0209ce5bea9687cf0548d8ebc942ba14e166c45957a876bcec194fed',
 		'en',
 		'::1'
 	),
 	(
-		'flederwiesel',
-		'hausmeister@flederwiesel.com',
+		'uid-2',
+		'uid-2@example.com',
 		'cf78aafd5c5410b7b12c2794a52cda1bccd01316f30df57aa29c5609ba979c15',
 		'c4ae99aa0209ce5bea9687cf0548d8ebc942ba14e166c45957a876bcec194fed',
 		'en',
 		'::1'
 	);
 
-	SELECT `id` INTO @root
+	SELECT `id` INTO @uid1
 	FROM `users`
-	WHERE `name`='root';
+	WHERE `name`='uid-1';
 
-	SELECT `id` INTO @flederwiesel
+	SELECT `id` INTO @uid2
 	FROM `users`
-	WHERE `name`='flederwiesel';
+	WHERE `name`='uid-2';
 
 	INSERT INTO `membership`(`user`, `group`)
 	(
-		SELECT @root AS `user`, `id` AS `group`
+		SELECT @uid1 AS `user`, `id` AS `group`
 		FROM `groups`
 		WHERE `name` IN ('admin', 'addflights', 'specials', 'users')
 	);
 
 	INSERT INTO `membership`(`user`, `group`)
 	(
-		SELECT @flederwiesel AS `user`, `id` AS `group`
+		SELECT @uid2 AS `user`, `id` AS `group`
 		FROM `groups`
 		WHERE `name` IN ('admin', 'addflights', 'specials', 'users')
 	);
@@ -68,25 +68,25 @@ query <<-"SQL"
 	UPDATE `users`
 	SET `notification-from` = '05:00',
 		`notification-until` = '23:00'
-	WHERE `id`=@root;
+	WHERE `id`=@uid1;
 
 	UPDATE `users`
 	SET `notification-from` = '08:00',
 		`notification-until` = '22:00'
-	WHERE `id`=@flederwiesel;
+	WHERE `id`=@uid2;
 
 	# watchlist
 	INSERT INTO `watchlist`(`id`, `user`, `notify`, `reg`, `comment`)
 	VALUES
-	(1, @root, TRUE, 'ZS-SNC', 'South African Airways - Star Alliance'),
-	(6, @root, TRUE, 'N116UA', 'United'),
-	(2, @flederwiesel, TRUE, 'C-GFAH', 'Air Canada - 932'),
-	(3, @flederwiesel, TRUE, 'C-GHKW', 'Air Canada - 936'),
-	(4, @flederwiesel, TRUE, 'C-GHLM', 'Air Canada - 938'),
-	(5, @flederwiesel, TRUE, 'CS-TNP', 'TAP - Star Alliance'),
-	(7, @flederwiesel, FALSE, 'ZS-SNB', 'South African Airways'),
-	(8, @flederwiesel, TRUE, 'B-KPF', 'Cathay Pacific - Asias world city GRÜN'),
-	(9, @flederwiesel, TRUE, '/9K-GB[AB]/', 'State of Kuwait - A345');
+	(1, @uid1, TRUE, 'ZS-SNC', 'South African Airways - Star Alliance'),
+	(6, @uid1, TRUE, 'N116UA', 'United'),
+	(2, @uid2, TRUE, 'C-GFAH', 'Air Canada - 932'),
+	(3, @uid2, TRUE, 'C-GHKW', 'Air Canada - 936'),
+	(4, @uid2, TRUE, 'C-GHLM', 'Air Canada - 938'),
+	(5, @uid2, TRUE, 'CS-TNP', 'TAP - Star Alliance'),
+	(7, @uid2, FALSE, 'ZS-SNB', 'South African Airways'),
+	(8, @uid2, TRUE, 'B-KPF', 'Cathay Pacific - Asias world city GRÜN'),
+	(9, @uid2, TRUE, '/9K-GB[AB]/', 'State of Kuwait - A345');
 SQL
 
 YYYYmmdd_0=$(date +'%Y%m%d')
@@ -122,7 +122,7 @@ do
 
 				UPDATE `users`
 				SET `notification-timefmt`='%A, %c'
-				WHERE `name`='flederwiesel'
+				WHERE `name`='uid-2'
 SQL
 			;;
 
@@ -151,7 +151,7 @@ SQL
 				UPDATE `users`
 				SET `notification-timefmt`='%A, %d. %B %Y %H:%M',
 					`language`='de'
-				WHERE `name`='flederwiesel'
+				WHERE `name`='uid-2'
 SQL
 			;;
 		esac

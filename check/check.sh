@@ -253,9 +253,6 @@ export prj="$(readlink -f ..)"
 
 mkdir -p sh/results
 
-# Test in release mode
-sed "s/^[[:space:]]*define('DEBUG'.*$/\/\/&/" --in-place ../.config
-
 # No maintenance...
 [ -e ../adminmessage.php ] && mv ../adminmessage.php ../~adminmessage.php
 

@@ -1,8 +1,8 @@
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: hausmeister@flederwiesel.com
+To: uid-1@example.com
 Subject: Account activation
-From: Frankfurt Aviation Friends <flederwiesel@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
+From: Frankfurt Aviation Friends <noreply@fra-flugplan.de>
+Reply-To: flugplan-admin@example.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -10,13 +10,13 @@ X-Mailer: PHP/*
 
 Hello,
 
-this e-mail has been sent to you because you (or someone else at IP address <localhost>) requested user registration as 'flederwiesel' at Frankfurt Aviation Friends (https://fra-flugplan.de/).
+this e-mail has been sent to you because you (or someone else at IP address <localhost>) requested user registration as 'uid-1' at Frankfurt Aviation Friends (https://fra-flugplan.de/).
 
 Activation token is:
 ***
 
 You can also use this link to process your request:
-https://fra-flugplan.de/?req=activate&user=flederwiesel&token=***
+https://fra-flugplan.de/?req=activate&user=uid-1&token=***
 This token will expire on 0000-00-00 00:00:00 GMT.
 
 Please ignore this e-mail if you did not request a registration. Our apologies for any inconvenience.
@@ -25,10 +25,10 @@ Please ignore this e-mail if you did not request a registration. Our apologies f
 The Frankfurt Aviation Friends Team
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: hausmeister@flederwiesel.com
+To: uid-1@example.com
 Subject: Change Password
-From: Frankfurt Aviation Friends <flederwiesel@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
+From: Frankfurt Aviation Friends <noreply@fra-flugplan.de>
+Reply-To: flugplan-admin@example.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -36,13 +36,13 @@ X-Mailer: PHP/*
 
 Hello,
 
-this e-mail has been sent to you because you (or someone else at IP address <localhost>) requested a password change for user 'flederwiesel' at Frankfurt Aviation Friends
+this e-mail has been sent to you because you (or someone else at IP address <localhost>) requested a password change for user 'uid-1' at Frankfurt Aviation Friends
 
 Password token is:
 ***
 
 You can also use this link to process your request:
-https://fra-flugplan.de/?req=changepw&user=flederwiesel&token=***
+https://fra-flugplan.de/?req=changepw&user=uid-1&token=***
 This token will expire on 0000-00-00 00:00:00 GMT.
 
 Please ignore this e-mail if you didn't request a change of password. Our apologies for any inconvenience.

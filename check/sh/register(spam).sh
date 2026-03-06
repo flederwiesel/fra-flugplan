@@ -3,10 +3,6 @@
 # drop/re-create database
 initdb && rm -f .COOKIES
 
-mailtodisk --add flederwiesel@fra-flugplan.de "$mailfile" # admin
-mailtodisk --add nospam@flederwiesel.com "$mailfile"
-mailtodisk --add spam@gmail.com "$mailfile"
-
 sed='s/(ip=)[0-9]+(,email=)[0-9]+(,username=)[0-9]+/\1*\2*\3*/g'
 
 ###############################################################################
@@ -19,7 +15,7 @@ csrftoken=$(
 )
 
 check "1" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
-		--data-urlencode "email=nospam@flederwiesel.com" \
+		--data-urlencode "email=nospam@example.com" \
 		--data-urlencode "user=spammer" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
@@ -46,7 +42,7 @@ check "3" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
 check "4" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}\&ip=46.118.155.73" \
-		--data-urlencode "email=nospam@flederwiesel.com" \
+		--data-urlencode "email=nospam@example.com" \
 		--data-urlencode "user=spammer" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
@@ -73,7 +69,7 @@ check "6" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}\&ip=46.
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
 check "7" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}\&ip=46.118.155.73" \
-		--data-urlencode "email=nospam@flederwiesel.com" \
+		--data-urlencode "email=nospam@example.com" \
 		--data-urlencode "user=nospam" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \

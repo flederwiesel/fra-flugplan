@@ -1,8 +1,8 @@
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: root<flederwiesel@fra-flugplan.de>
+To: uid-1 <uid-1@example.com>
 Subject: watchlist
 From: FRA schedule <watchlist@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
+Reply-To: flugplan-admin@example.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -12,10 +12,10 @@ X-Mailer: PHP/*
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: flederwiesel<hausmeister@flederwiesel.com>
+To: uid-2 <uid-2@example.com>
 Subject: watchlist
 From: FRA schedule <watchlist@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
+Reply-To: flugplan-admin@example.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -26,7 +26,7 @@ X-Mailer: PHP/*
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: Tobias =?ISO-8859-1?Q?K=FChne?=<flederwiesel@fra-flugplan.de>
+To: Admin <flugplan-admin@example.com>
 Subject: getflights.php: info
 From: FRA-Flugplan
 
@@ -34,10 +34,10 @@ Inserted aircraft A20N as "Airbus A-320neo" (arrival TP578 "0000-00-00T00:00:00+
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: flederwiesel<hausmeister@flederwiesel.com>
+To: uid-2 <uid-2@example.com>
 Subject: watchlist
 From: FRA schedule <watchlist@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
+Reply-To: flugplan-admin@example.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -47,10 +47,10 @@ X-Mailer: PHP/*
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: flederwiesel<hausmeister@flederwiesel.com>
+To: uid-2 <uid-2@example.com>
 Subject: watchlist
 From: FRA schedule <watchlist@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
+Reply-To: flugplan-admin@example.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -60,10 +60,10 @@ X-Mailer: PHP/*
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: root<flederwiesel@fra-flugplan.de>
+To: uid-1 <uid-1@example.com>
 Subject: watchlist
 From: FRA schedule <watchlist@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
+Reply-To: flugplan-admin@example.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -74,10 +74,10 @@ X-Mailer: PHP/*
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: flederwiesel<hausmeister@flederwiesel.com>
+To: uid-2 <uid-2@example.com>
 Subject: watchlist
 From: FRA schedule <watchlist@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
+Reply-To: flugplan-admin@example.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -87,7 +87,7 @@ X-Mailer: PHP/*
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: Tobias =?ISO-8859-1?Q?K=FChne?=<flederwiesel@fra-flugplan.de>
+To: Admin <flugplan-admin@example.com>
 Subject: getflights.php: warning
 From: FRA-Flugplan
 
@@ -95,7 +95,7 @@ Inserted airport !?? as #!?? "" (arrival TK1587 "0000-00-00T00:00:00+0000"), how
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: Tobias =?ISO-8859-1?Q?K=FChne?=<flederwiesel@fra-flugplan.de>
+To: Admin <flugplan-admin@example.com>
 Subject: getflights.php: warning
 From: FRA-Flugplan
 
@@ -103,7 +103,7 @@ Inserted airport !!? as ?!!? "name" (arrival TK1587 "0000-00-00T00:00:00+0000"),
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: Tobias =?ISO-8859-1?Q?K=FChne?=<flederwiesel@fra-flugplan.de>
+To: Admin <flugplan-admin@example.com>
 Subject: getflights.php: info
 From: FRA-Flugplan
 
@@ -111,10 +111,10 @@ Inserted airport !!! as !!!! "name" (arrival TK1587 "0000-00-00T00:00:00+0000") 
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: flederwiesel<hausmeister@flederwiesel.com>
+To: uid-2 <uid-2@example.com>
 Subject: watchlist
 From: FRA schedule <watchlist@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
+Reply-To: flugplan-admin@example.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -125,7 +125,7 @@ X-Mailer: PHP/*
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: Tobias =?ISO-8859-1?Q?K=FChne?=<flederwiesel@fra-flugplan.de>
+To: Admin <flugplan-admin@example.com>
 Subject: getflights.php: info
 From: FRA-Flugplan
 
@@ -133,10 +133,10 @@ Inserted airline GO as "ULS Airlines Cargo" for TC-LER  (arrival GO6403 "0000-00
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: flederwiesel<hausmeister@flederwiesel.com>
+To: uid-2 <uid-2@example.com>
 Subject: watchlist
 From: FRA schedule <watchlist@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
+Reply-To: flugplan-admin@example.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -146,10 +146,10 @@ Day, 00/00/00 11:15:00	C-GFAH	"Air Canada - 932"
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: flederwiesel<hausmeister@flederwiesel.com>
+To: uid-2 <uid-2@example.com>
 Subject: watchlist
 From: FRA schedule <watchlist@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
+Reply-To: flugplan-admin@example.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -159,10 +159,10 @@ Day, 00/00/00 12:35:00	CS-TNP	"TAP - Star Alliance"
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: flederwiesel<hausmeister@flederwiesel.com>
+To: uid-2 <uid-2@example.com>
 Subject: Beobachtungsliste
 From: FRA Flugplan <watchlist@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
+Reply-To: flugplan-admin@example.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -172,10 +172,10 @@ Tag, 00. Monat 0000 18:25	CS-TNP	"TAP - Star Alliance"
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: root<flederwiesel@fra-flugplan.de>
+To: uid-1 <uid-1@example.com>
 Subject: watchlist
 From: FRA schedule <watchlist@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
+Reply-To: flugplan-admin@example.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit
@@ -185,10 +185,10 @@ X-Mailer: PHP/*
 
 ======================================================
 Date: Day, 0 Month 0000 00:00:00 +0000
-To: flederwiesel<hausmeister@flederwiesel.com>
+To: uid-2 <uid-2@example.com>
 Subject: Beobachtungsliste
 From: FRA Flugplan <watchlist@fra-flugplan.de>
-Reply-To: flederwiesel@fra-flugplan.de
+Reply-To: flugplan-admin@example.com
 Mime-Version: 1.0
 Content-type: text/plain; charset=ISO-8859-1
 Content-Transfer-Encoding: 8bit

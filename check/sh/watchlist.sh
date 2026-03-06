@@ -74,7 +74,7 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
 	)
 	VALUES
 	(
-		2, 'flederwiesel', 'hausmeister@flederwiesel.com',
+		2, 'uid-1', 'uid-1@example.com',
 		'cf78aafd5c5410b7b12c2794a52cda1bccd01316f30df57aa29c5609ba979c15',
 		'c4ae99aa0209ce5bea9687cf0548d8ebc942ba14e166c45957a876bcec194fed', # elvizzz
 		'en', -75, 86400, -75, 86400
@@ -82,7 +82,7 @@ sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
 
 	# grant user permissions
 	INSERT INTO `membership`(`user`, `group`)
-				 VALUES((SELECT `id` FROM `users`  WHERE `name`='flederwiesel'),
+				 VALUES((SELECT `id` FROM `users`  WHERE `name`='uid-1'),
 						(SELECT `id` FROM `groups` WHERE `name`='addflights'));
 SQL
 
@@ -99,7 +99,7 @@ time=$(rawurlencode "$(date +'%Y-%m-%d %H:%M:%S' --date='0 days 23:59')")
 today="$(date +'%Y-%m-%d' --date='23:55')"
 
 check "1" browse "$url/?req=login\&time=$time" \
-		--data-urlencode "user=flederwiesel" \
+		--data-urlencode "user=uid-1" \
 		--data-urlencode "passwd=elvizzz" \
 	"| sed -r '
 		s/time=$today/time=0000-00-00/g
@@ -134,7 +134,7 @@ check "4" browse "$url/?arrival\&time=$time" \
 sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
 	USE fra-flugplan;
 
-	SELECT `id` INTO @uid FROM `users` WHERE `name`='flederwiesel';
+	SELECT `id` INTO @uid FROM `users` WHERE `name`='uid-1';
 
 	INSERT INTO `watchlist-notifications`(`watch`, `flight`)
 

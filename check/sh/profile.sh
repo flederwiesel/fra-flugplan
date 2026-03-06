@@ -3,8 +3,7 @@
 # drop/re-create database
 initdb && rm -f .COOKIES
 
-mailtodisk --add hausmeister@flederwiesel.com "$mailfile" # user
-mailtodisk --add flederwiesel@fra-flugplan.de "$mailfile" # admin
+mailtodisk --add uid-1@example.com "$mailfile"
 
 ###############################################################################
 
@@ -20,31 +19,31 @@ check "2" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
 
 check "3" browse "$url/?req=register" \
-		--data-urlencode "email=hausmeister@flederwiesel.com" \
-		--data-urlencode "user=flederwiesel" \
+		--data-urlencode "email=uid-1@example.com" \
+		--data-urlencode "user=uid-1" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1"
 
 token=$(query --execute="USE fra-flugplan;
-	SELECT token FROM users WHERE name='flederwiesel'" | sed s/'[ \r\n]'//g)
+	SELECT token FROM users WHERE name='uid-1'" | sed s/'[ \r\n]'//g)
 
 # $_POST from <form>
 check "4" browse "$url/?req=activate" \
-		--data-urlencode "user=flederwiesel" \
+		--data-urlencode "user=uid-1" \
 		--data-urlencode "token=' $token '"
 
 query --execute="USE fra-flugplan;
-	UPDATE users SET token='$token' WHERE name='flederwiesel'"
+	UPDATE users SET token='$token' WHERE name='uid-1'"
 
 # $_GET from mail
-check "4-1" browse "$url/?req=activate\&user=flederwiesel\&token=$token"
+check "4-1" browse "$url/?req=activate\&user=uid-1\&token=$token"
 
 # Silently ignore re-activation
-check "4-2" browse "$url/?req=activate\&user=flederwiesel\&token=$token"
+check "4-2" browse "$url/?req=activate\&user=uid-1\&token=$token"
 
 check "5" browse "$url/?req=login" \
-		--data-urlencode "user=flederwiesel" \
+		--data-urlencode "user=uid-1" \
 		--data-urlencode "passwd=elvizzz"
 
 check "6" browse "$url/?req=profile"
@@ -81,14 +80,14 @@ check "11" browse "$url/?req=profile" \
 sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
 	USE fra-flugplan;
 
-	SELECT `id` INTO @flederwiesel
+	SELECT `id` INTO @uid2
 	FROM `users`
-	WHERE `name`='flederwiesel';
+	WHERE `name`='uid-1';
 
 	# watchlist
 	INSERT INTO `watchlist`(`id`, `user`, `notify`, `reg`, `comment`)
 	VALUES
-	(2, @flederwiesel, TRUE, 'C-GFAH', 'Air Canada - 932');
+	(2, @uid2, TRUE, 'C-GFAH', 'Air Canada - 932');
 
 	INSERT INTO `models`(`icao`)
 	VALUES ('B77W'), ('A333'), ('A346'), ('A310');
