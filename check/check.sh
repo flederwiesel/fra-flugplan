@@ -272,22 +272,21 @@ EOF
 ###############################################################################
 
 if [ $# -gt 0 ]; then
-	scripts="$@"
+	tests="$@"
 else
-	scripts='
+	tests='
 betriebsrichtung
 # failures
-register(failure)
-activate(failure)
-login(failure)
-changepasswd(failure)
+register_failure
+activate_failure
+login_failure
+changepasswd_failure
 # success
-redirect
-register(spam)
+register_spam
 changepasswd
-changepasswd lang=de
+changepasswd_lang_de
 profile
-profile lang=de
+profile_lang_de
 schedule
 watchlist
 airportcity
@@ -297,17 +296,17 @@ fi
 
 status=0
 
-echo "$scripts" |
-while read script
+echo "$tests" |
+while read testcase
 do
-	if [ -n "$script" ]; then
-		echo "$script" | grep -vq '^[[:space:]]*#'
+	if [ -n "$testcase" ]; then
+		if echo "$testcase" | grep -vq '^[[:space:]]*#'; then
+			echo -e "\033[36m$testcase\033[m"
 
-		if [ 0 == $? ]; then
-			echo -e "\033[36m$script\033[m"
+			export expect="sh/expect/$testcase"
+			export results="sh/results/$testcase"
 
-			export expect="sh/expect/$script"
-			export results="sh/results/$script"
+			script="test_$testcase"
 
 			rm -rf "$results"
 			mkdir -p "$results"
