@@ -173,7 +173,6 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 header('Last-Modified: '.gmdate('D, d M Y H:i:s').' GMT');
 
 // HTTP/1.1
-header('Cache-control: private'); // IE 6 FIX
 header('Cache-Control: no-store, no-cache, must-revalidate');
 header('Cache-Control: post-check=0, pre-check=0', false);
 // HTTP/1.0
@@ -315,14 +314,10 @@ if ('de' == $lang) {
 ?>
 <meta name="robots" content="index, nofollow">
 <meta name="author" content="Tobias Kühne">
-<meta name="generator" content="http://www.ultraedit.com/">
 <?php if ($mobile && !$tablet) { ?>
 <meta name="viewport" content="width=device-width; initial-scale=1.0;"/>
 <?php } ?>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
-<!-- IE -->
-<link rel="shortcut icon" type="image/x-icon" href="favicon.ico">
-<!-- other browsers -->
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="stylesheet" type="text/css" href="script/<?php echo "{$jqueryui}/jquery-ui{$minified}.css"; ?>">
 <link rel="stylesheet" type="text/css" href="script/<?php echo "{$jqueryui}/jquery-ui.structure{$minified}.css"; ?>">
@@ -332,9 +327,6 @@ if ('de' == $lang) {
 <link rel="stylesheet" type="text/css" href="css/mobile.css<?php rev(); ?>">
 <?php } else { ?>
 <link rel="stylesheet" type="text/css" media="screen, print" href="css/desktop.css<?php rev(); ?>">
-<!--[if IE]>
-<link rel="stylesheet" type="text/css" media="screen, print" href="css/ie/desktop.css<?php rev(); ?>">
-<![endif]-->
 <?php } ?>
 <script type="text/javascript" src="script/<?php echo "{$jqueryui}/external/jquery/jquery.js"; ?>"></script>
 <script type="text/javascript" src="script/<?php echo "{$jqueryui}/jquery-ui{$minified}.js"; ?>"></script>
