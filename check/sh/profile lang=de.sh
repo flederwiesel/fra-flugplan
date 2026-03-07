@@ -39,9 +39,9 @@ check "5" browse "$url/?req=login" \
 check "6" browse "$url/?req=profile"
 
 check "7" browse "$url/?req=profile\&dispinterval" \
-	--data-urlencode "tm-=-75" \
+	--data-urlencode "tm-=-900" \
 	--data-urlencode "tm%2b=7200" \
-	--data-urlencode "tt-=-75" \
+	--data-urlencode "tt-=-900" \
 	--data-urlencode "tt%2b=28800" \
 	--data-urlencode "submit=interval"
 

@@ -105,7 +105,6 @@ sed "
 
 	SELECT `id` into @users FROM `groups` WHERE `name` = 'users';
 
-
 	INSERT INTO `membership`(`user`, `group`)
 	VALUES(1, @users);
 SQL
