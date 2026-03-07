@@ -20,8 +20,8 @@ CREATE TABLE `users`
 	`timezone` smallint DEFAULT 3600,
 	`language` varchar(2) NOT NULL DEFAULT 'en',
 	`ip` varchar(16) NOT NULL,	/* at the time of registration */
-	`tm-` integer NOT NULL DEFAULT 0,
-	`tm+` integer NOT NULL DEFAULT 3600,
+	`tm-` integer NOT NULL DEFAULT -900,
+	`tm+` integer NOT NULL DEFAULT 86400,
 	`tt-` integer NOT NULL DEFAULT 0,
 	`tt+` integer NOT NULL DEFAULT 86400,
 	`notification-from` time NOT NULL DEFAULT '00:00:00',
