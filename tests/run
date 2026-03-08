@@ -322,6 +322,9 @@ do
 
 				rm -f "$COOKIES"
 
+				# drop/re-create database
+				initdb
+
 				eval "$(cat $script.sh)"
 
 				# wait only to suppress `check.sh: Zeile NNN:

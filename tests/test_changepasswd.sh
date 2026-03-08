@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# drop/re-create database
-initdb
-
 prefix=$(rawurlencode $(sed -r 's|https?://||g' <<<"$url"))
 
 mailtodisk --add uid-1@example.com "$mailfile"

@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# drop/re-create database
-initdb
-
 ###############################################################################
 
 check "0" browse -X POST "$url/?req=register"

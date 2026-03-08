@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# drop/re-create database
-initdb
-
 # preparation #################################################################
 
 sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
