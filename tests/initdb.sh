@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # drop/re-create database
-initdb && rm -f .COOKIES
+initdb
 
 query < <(
 	echo 'USE `fra-flugplan`;'

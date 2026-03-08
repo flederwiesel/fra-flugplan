@@ -1,5 +1,4 @@
 *.dsk
 *.ppw
-.COOKIES
 .phped/
 tests/results

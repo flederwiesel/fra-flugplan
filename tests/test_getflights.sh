@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # drop/re-create database
-initdb && rm -f .COOKIES
+initdb
 
 mailtodisk --add uid-1@example.com "$mailfile"
 mailtodisk --add uid-2@example.com "$mailfile"

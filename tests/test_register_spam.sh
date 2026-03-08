@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # drop/re-create database
-initdb && rm -f .COOKIES
+initdb
 
 sed='s/(ip=)[0-9]+(,email=)[0-9]+(,username=)[0-9]+/\1*\2*\3*/g'
 

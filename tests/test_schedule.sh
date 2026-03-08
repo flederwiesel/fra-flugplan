@@ -10,7 +10,7 @@ readonly TABLET="'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.
 readonly PHONE="'Mozilla/5.0 (iphone 7Plus; CPU iphone OS 10_3_2 like Mac IS X) AppleWebKit/603.24 (KHTML, like Gecko) Version/10.0 Mobile/14F89 Safari/8536.25'"
 
 # drop/re-create database
-initdb && rm -f .COOKIES
+initdb
 
 function querytime() {
 	rawurlencode "$(date +'%Y-%m-%dT%H:%M:%S%z' --date="$1")"
