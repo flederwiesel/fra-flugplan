@@ -1,0 +1,231 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Live Schedule &ndash; Frankfurt Aviation Friends</title>
+<meta name="language" content="en">
+<link rel="alternate" href="http://fra-flugplan.de?lang=de" hreflang="de">
+<link rel="alternate" href="http://fra-flugplan.de?lang=en" hreflang="en">
+<link rel="alternate" href="http://fra-flugplan.de" hreflang="x-default">
+<meta name="description" content="Spotter schedule for Frankfurt airport (FRA/EDDF) including aircraft registrations">
+<meta name="keywords" content="flederwiesel, fra-flugplan, FRA, EDDF, Frankfurt, flight schedule, flight plan, airport, spotter, spotting, planespotting, aircraft registration, aviation">
+<meta name="robots" content="index, nofollow">
+<meta name="author" content="Tobias Kühne">
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="stylesheet" type="text/css" href="script/jquery-ui-1.14.1/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" href="script/jquery-ui-1.14.1/jquery-ui.structure.min.css">
+<link rel="stylesheet" type="text/css" href="script/jquery-ui-1.14.1/jquery-ui.theme.min.css">
+<link rel="stylesheet" type="text/css" media="screen, print" href="css/desktop.css?rev=$Rev$">
+<script type="text/javascript" src="script/jquery-ui-1.14.1/external/jquery/jquery.js"></script>
+<script type="text/javascript" src="script/jquery-ui-1.14.1/jquery-ui.min.js"></script>
+</head>
+<body>
+	<noscript>
+		<div class="noscript">If you obtain this message, JavaScript is either not supported or disabled in in your browser options.<br>In order to use full functionality of this site we advise you to <a href="http://www.enable-javascript.com">enable Javascript</a>.</div>
+	</noscript>
+	<div id="body">
+		<div class="box left">
+			<div>
+				<div id="head">
+					<h1 class="nobr">Frankfurt Aviation Friends</h1>
+					<h3>
+Live Schedule</h3>
+				</div>
+<nav>
+<ul class="menu left">
+		<li><a href="http://www.frankfurt-aviation-friends.de/">Home</a></li>
+			<li class="sep"><a href="?arrival">Arrival</a></li>
+			<li class="sep"><a href="?departure">Departure</a></li>
+				<li class="sep"><a href="?page=addflight">Add flight</a></li>
+		<li class="sep"><a href="?page=help">Help</a></li>
+</ul>
+<ul class="menu right">
+			<li class="sep">User profile</li>
+			<li class="sep"><a href="?req=logout">Logout</a></li>
+		<li style="vertical-align: baseline;">
+			<a href="?req=profile&amp;notifinterval&amp;lang=de">
+				<img class="flag" src="img/de.png" alt="German" width="16" height="12">
+			</a>
+		</li>
+		<li style="vertical-align: baseline;">
+			<a href="?req=profile&amp;notifinterval&amp;lang=en">
+				<img class="flag" src="img/en.png" alt="English" width="16" height="12">
+			</a>
+		</li>
+</ul>
+</nav>
+			</div>
+			<div id="content">
+<script type="text/javascript">
+$(function()
+{
+	$.each(["notification"], function(index, value)
+	{
+		var min = $("#" + value + "-from");
+		var max = $("#" + value + "-until");
+		var divider = $("option", min).lentgh;
+		var slider = $("<div id=\"" + value + "-slider\"></div>").insertAfter($(max)).slider({
+			min: 1,
+			max: 25,
+			range: true,
+
+			values: [$(min)[0].selectedIndex + 1,
+					 $(max)[0].selectedIndex + 1],
+
+			slide: function(event, ui)
+			{
+				$(min)[0].selectedIndex = ui.values[0] - 1;
+				$(max)[0].selectedIndex = ui.values[1] - 1;
+			}
+		});
+	});
+
+	$("#notification-from").change(function()
+	{
+		if ($("#notification-until").prop("selectedIndex") <= this.selectedIndex)
+			this.selectedIndex = $("#notification-until").prop("selectedIndex");
+
+		$("#notification-slider").slider("values", 0, this.selectedIndex + 1);
+	});
+
+	$("#notification-until").change(function()
+	{
+		if ($("#notification-from").prop("selectedIndex") >= this.selectedIndex)
+			this.selectedIndex = $("#notification-from").prop("selectedIndex");
+
+		$("#notification-slider").slider("values", 1, this.selectedIndex + 1);
+	});
+});
+</script>
+<ul class="menu left">
+	<li><a href="?req=profile&amp;dispinterval">Display Interval</a></li>
+	<li class="sep">Notifications</li>
+	<li class="sep"><a href="?req=profile&amp;photodb">Photo Database</a></li>
+	<li class="sep"><a href="?req=profile&amp;changepw">Change password</a></li>
+</ul>
+<div style="clear: both;">
+<form method="post" action="?req=profile&amp;notifinterval"
+	onsubmit="document.getElementById('submit').disabled=true;">
+	<fieldset>
+		<legend>Notifications</legend>
+		<div id="notification" class="success">Settings have been saved. Times will be shown according to the following scheme: '+0 00:00'</div>
+		<div class="explainatory">If any of the registrations of your watchlist appears in the schedule,
+		a notification will be sent to your e-mail address.<br>
+		Please select the times between notifications will should be sent.<br><br>
+		If you do not wish to be notified, set both to "00:00".</div>
+		<div class="table">
+			<div class="row">
+				<div class="cell label">Notify me between: </div>
+				<div class="cell">
+					<select name="from" id="notification-from">
+<option value="00:00">00:00</option>
+<option value="01:00">01:00</option>
+<option value="02:00">02:00</option>
+<option value="03:00">03:00</option>
+<option value="04:00">04:00</option>
+<option value="05:00">05:00</option>
+<option selected value="06:00">06:00</option>
+<option value="07:00">07:00</option>
+<option value="08:00">08:00</option>
+<option value="09:00">09:00</option>
+<option value="10:00">10:00</option>
+<option value="11:00">11:00</option>
+<option value="12:00">12:00</option>
+<option value="13:00">13:00</option>
+<option value="14:00">14:00</option>
+<option value="15:00">15:00</option>
+<option value="16:00">16:00</option>
+<option value="17:00">17:00</option>
+<option value="18:00">18:00</option>
+<option value="19:00">19:00</option>
+<option value="20:00">20:00</option>
+<option value="21:00">21:00</option>
+<option value="22:00">22:00</option>
+<option value="23:00">23:00</option>
+<option value="24:00">24:00</option>
+					</select>
+					<select name="until" id="notification-until">
+<option value="00:00">00:00</option>
+<option value="01:00">01:00</option>
+<option value="02:00">02:00</option>
+<option value="03:00">03:00</option>
+<option value="04:00">04:00</option>
+<option value="05:00">05:00</option>
+<option value="06:00">06:00</option>
+<option value="07:00">07:00</option>
+<option value="08:00">08:00</option>
+<option value="09:00">09:00</option>
+<option value="10:00">10:00</option>
+<option value="11:00">11:00</option>
+<option value="12:00">12:00</option>
+<option value="13:00">13:00</option>
+<option value="14:00">14:00</option>
+<option value="15:00">15:00</option>
+<option value="16:00">16:00</option>
+<option value="17:00">17:00</option>
+<option value="18:00">18:00</option>
+<option value="19:00">19:00</option>
+<option value="20:00">20:00</option>
+<option value="21:00">21:00</option>
+<option selected value="22:00">22:00</option>
+<option value="23:00">23:00</option>
+<option value="24:00">24:00</option>
+					</select>
+				</div>
+			</div>
+			<div class="row">
+				<div class="cell label">Time format:</div>
+				<div class="cell">
+					<div>
+						<input type="text" name="timefmt" id="timefmt" style="width: 90%;"
+						 value="%+ %H:%M"
+						 maxlength="31">
+						<sup>*</sup>
+					</div>
+					<div>
+		<div class="explainatory">
+			<div style="font-size: smaller;">
+				<sup>*</sup>
+For experts: Format string according to PHP-function <a href="http://php.net/manual/en/function.strftime.php#refsect1-function.strftime-parameters">strftime()</a>.<br>If in doubt, leave empty.				<div>
+					<div style="padding-top: 1.3em; text-decoration: underline;">
+						Some strftime() specifiers (may be combined):					</div>
+					<dl class="inline">
+						<dt>%a</dt><dd>Abbreviation of weekday</dd>
+						<dt>%A</dt><dd>Weekday</dd>
+						<dt>%b</dt><dd>Abbreviation of month</dd>
+						<dt>%B</dt><dd>Month</dd>
+						<dt>%c</dt><dd>Date and time</dd>
+						<dt>%d</dt><dd>Day of month as 2-digit number</dd>
+						<dt>%e</dt><dd>Day of month with leading space for single digits</dd>
+						<dt>%H</dt><dd>Hour in 24-hour format</dd>
+						<dt>%I</dt><dd>Hour in 12-hour format</dd>
+						<dt>%m</dt><dd>Month as number</dd>
+						<dt>%p</dt><dd>"AM" or "PM"</dd>
+						<dt>%S</dt><dd>Second as 2-digit number</dd>
+					</dl>
+					<div style="padding-top: 1.3em; text-decoration: underline; clear: both;">
+						Additional specifiers:					</div>
+					<dl class="inline">
+						<dt>%+</dt><dd>Day "Arrival" as offset from today.</dd>
+					</dl>
+				</div>
+			</div>
+		</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+	<input type="hidden" name="CSRFToken" value="">
+	<div class="center">
+		<input type="hidden" name="submit" value="notifications">
+		<input type="submit" id="submit" value="Submit">
+	</div>
+</form>
+</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

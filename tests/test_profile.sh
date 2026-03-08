@@ -2,8 +2,6 @@ mailtodisk --add uid-1@example.com "$mailfile"
 
 ###############################################################################
 
-check "0" browse -X POST "$url/?req=register"
-
 csrftoken=$(
 	browse "$url/?req=register" |
 	sed -nr '/name="CSRFToken"/ { s/.*value="([^"]+)".*/\1/g; p }'

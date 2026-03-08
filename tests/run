@@ -283,6 +283,7 @@ register_failure
 activate_failure
 login_failure
 changepasswd_failure
+csrf_token
 # success
 register_spam
 changepasswd
