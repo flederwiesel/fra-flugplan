@@ -251,7 +251,7 @@ IFS=$'\n'
 
 export prj="$(readlink -f ..)"
 
-mkdir -p sh/results
+mkdir -p results
 
 # No maintenance...
 [ -e ../adminmessage.php ] && mv ../adminmessage.php ../~adminmessage.php
@@ -303,8 +303,8 @@ do
 		if echo "$testsuite" | grep -vq '^[[:space:]]*#'; then
 			echo -e "\033[36m$testsuite\033[m"
 
-			export expect="sh/expect/$testsuite"
-			export results="sh/results/$testsuite"
+			export expect="expect/$testsuite"
+			export results="results/$testsuite"
 
 			script="test_$testsuite"
 
@@ -318,7 +318,7 @@ do
 				export mailfile=$(readlink -m "$results/mail.txt")
 				unset csrftoken
 
-				eval "$(cat sh/$script.sh)"
+				eval "$(cat $script.sh)"
 
 				# wait only to suppress `check.sh: Zeile NNN:
 				#   NNNN Terminated /tmp/mailer.py "$results/mail.txt"`

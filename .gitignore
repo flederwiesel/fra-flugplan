@@ -1,5 +1,5 @@
-.COOKIES
-.phped/
-check/sh/results
 *.dsk
 *.ppw
+.COOKIES
+.phped/
+tests/results

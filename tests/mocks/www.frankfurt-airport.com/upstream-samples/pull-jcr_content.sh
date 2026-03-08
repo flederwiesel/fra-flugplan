@@ -29,5 +29,3 @@ do
 	curl -fsSL "$baseurl/_jcr_content.flights.cargo.json/filter?flighttype=arrivals$params" | jq > "arrivals.cargo.$lang.json"
 	curl -fsSL "$baseurl/_jcr_content.flights.cargo.json/filter?flighttype=departures$params" | jq > "departures.cargo.$lang.json"
 done
-
-sed -r -i "s:json/[0-9.]+/:json/$version/:g" "$scriptdir/../.htaccess"
