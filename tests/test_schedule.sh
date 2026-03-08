@@ -1,5 +1,3 @@
-#!/bin/bash
-
 # Check whether schedule is displayed correctly whether user is (not)
 # logged in and device type dependent lookback/lookahead.
 

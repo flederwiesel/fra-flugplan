@@ -1,5 +1,3 @@
-#!/bin/bash
-
 items=4
 
 for day in {0..1}
