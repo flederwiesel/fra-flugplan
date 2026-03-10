@@ -6,10 +6,10 @@ mailtodisk --add flugplan-admin@example.com "$mailfile"
 
 query < <(
 	echo 'USE `fra-flugplan`;'
-	cat ../sql/data/countries.sql \
-		../sql/data/airlines.sql \
-		../sql/data/airports.sql \
-		../sql/data/models.sql
+	cat "$PRJDIR/sql/data/countries.sql" \
+		"$PRJDIR/sql/data/airlines.sql" \
+		"$PRJDIR/sql/data/airports.sql" \
+		"$PRJDIR/sql/data/models.sql"
 )
 
 query <<-"SQL"

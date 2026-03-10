@@ -156,7 +156,7 @@ check() {
 
 initdb() {
 
-	unless $LINENO query < ../sql/fra-flugplan.sql > /dev/null
+	unless $LINENO query < "$PRJDIR/sql/fra-flugplan.sql" > /dev/null
 }
 
 query() {
@@ -178,7 +178,7 @@ browse() {
 	fi
 
 	curl --silent --location --noproxy localhost \
-		--cacert ../etc/ssl/ca-certificates.crt \
+		--cacert "$SCRIPTDIR/../etc/ssl/ca-certificates.crt" \
 		--cookie "$COOKIES" --cookie-jar "$COOKIES" \
 		"${data_csrftoken[@]}" "$@" |
 	sed "s:${csrftoken:-^$}::g"
@@ -221,6 +221,7 @@ export -f rawurlencode
 
 set -o pipefail
 
+readonly SCRIPTDIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
 declare -rx FRA_FLUGPLAN_HOST="${FRA_FLUGPLAN_HOST:-fra-flugplan.local}"
 declare -rx url="https://$FRA_FLUGPLAN_HOST"
 
@@ -241,28 +242,24 @@ mailtodisk --check ||
 	exit 1
 }
 
-IFS=$'\n'
+declare -rx PRJDIR=$(git -C "$SCRIPTDIR" rev-parse --show-toplevel)
+readonly DATADIR="${PRJDIR%%/htdocs/*}/htdocs/var/run/fra-flugplan"
 
-export prj="$(readlink -f ..)"
+mkdir -p "$SCRIPTDIR/results" "$DATADIR"
 
-mkdir -p results
-
-COOKIES=$(mktemp --suffix=.cookies)
-
-###############################################################################
-
-datadir="${prj%%/htdocs/*}/htdocs/var/run/fra-flugplan"
-
-mkdir -p "$datadir"
 # Runways 18,99 in use
-cat <<EOF > "$datadir/betriebsrichtung.ini"
+cat <<EOF > "$DATADIR/betriebsrichtung.ini"
 18 = active
 99 = active
 EOF
 
+COOKIES=$(mktemp --suffix=.cookies)
+
 ###############################################################################
 # </preparation>
 ###############################################################################
+
+IFS=$'\n'
 
 if [ $# -gt 0 ]; then
 	tests="$@"
@@ -297,8 +294,8 @@ do
 		if echo "$testsuite" | grep -vq '^[[:space:]]*#'; then
 			echo -e "\033[36m$testsuite\033[m"
 
-			export expect="expect/$testsuite"
-			export results="results/$testsuite"
+			export expect="$SCRIPTDIR/expect/$testsuite"
+			export results="$SCRIPTDIR/results/$testsuite"
 
 			script="test_$testsuite"
 
@@ -317,7 +314,7 @@ do
 				# drop/re-create database
 				initdb
 
-				eval "$(cat $script.sh)"
+				eval "$(cat "$SCRIPTDIR/$script.sh")"
 
 				# wait only to suppress `check.sh: Zeile NNN:
 				#   NNNN Terminated /tmp/mailer.py "$results/mail.txt"`
@@ -348,7 +345,7 @@ do
 
 				if [[ $copy_scsripts ]]; then
 					# Copy referenced scripts to properly view results
-					cp -al ../css ../img ../script "$results"
+					cp -al "$PRJDIR/css" "$PRJDIR/img" "$PRJDIR/script" "$results"
 				fi
 
 				diff=$(diff "$expect" "$results" \
