@@ -5,9 +5,6 @@
 cleanup()
 {
 	[ -z "$COOKIES" ] || rm -f "$COOKIES"
-
-	# Restore admin message
-	[ -e ../~adminmessage.php ] && mv ../~adminmessage.php ../adminmessage.php
 }
 
 trap cleanup EXIT
@@ -252,9 +249,6 @@ IFS=$'\n'
 export prj="$(readlink -f ..)"
 
 mkdir -p results
-
-# No maintenance...
-[ -e ../adminmessage.php ] && mv ../adminmessage.php ../~adminmessage.php
 
 COOKIES=$(mktemp --suffix=.cookies)
 
