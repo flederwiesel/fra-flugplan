@@ -8,7 +8,7 @@ do
 		time=$(printf '%02u:00' $t)
 		ddHHMM=$(printf '%02u' $day)-$(date +'%H%M' --date="$time")
 
-		if [ "$airportcity_stop_before" = "$ddHHMM" ]; then
+		if [ "${airportcity_stop_before:-}" = "$ddHHMM" ]; then
 			exit 1
 		fi
 
@@ -40,9 +40,9 @@ do
 								s/$YYYYmmdd_2/0000-00-02/g
 								s/$YYYYmmdd_3/0000-00-03/g
 								s/(T[0-9]{2}:[0-9]{2}:00\+0)[12](00)/\10\2/g
-							'$filter"
+							'${filter:-}"
 
-						 ((page++))
+						((page++))
 					done
 				fi
 			fi

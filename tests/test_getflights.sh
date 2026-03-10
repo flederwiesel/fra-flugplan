@@ -101,7 +101,7 @@ do
 		time=$(printf '%02u:00' $t)
 		ddHHMM=$(printf '%02u' $day)-$(date +'%H%M' --date="$time")
 
-		if [ "$getflights_stop_before" = "$ddHHMM" ]; then
+		if [ "${getflights_stop_before:-}" = "$ddHHMM" ]; then
 			exit 1
 		fi
 
@@ -151,7 +151,7 @@ SQL
 			;;
 		esac
 
-		if [ "$getflights_stop_at" = "$ddHHMM" ]; then
+		if [ "${getflights_stop_at:-}" = "$ddHHMM" ]; then
 			exit 1
 		fi
 
