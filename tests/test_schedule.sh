@@ -135,7 +135,7 @@ do
 		done
 	done
 
-	if [ -z "$user" ]; then
+	if [ -z "${user:-}" ]; then
 		browse "$url/?req=login" \
 			--data-urlencode "user=uid-1" \
 			--data-urlencode "passwd=elvizzz" > /dev/null
