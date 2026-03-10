@@ -163,9 +163,7 @@ query() {
 
 	[ 1 == $debug ] && echo -e "\033[1;33m$@\033[m" >&2
 
-	mysql --silent --protocol=TCP --host=localhost \
-		--user=flugplan --password=$(getpass machine=mysql://localhost login=flugplan) \
-		--default-character-set=utf8 --skip-column-names "$@"
+	mysql --silent --default-character-set=utf8 --skip-column-names "$@"
 }
 
 strftime() {
@@ -223,7 +221,6 @@ export -f rawurlencode
 
 set -o pipefail
 
-export PATH=$(dirname "$0")/../bin:$PATH
 declare -rx FRA_FLUGPLAN_HOST="${FRA_FLUGPLAN_HOST:-fra-flugplan.local}"
 declare -rx url="https://$FRA_FLUGPLAN_HOST"
 
