@@ -107,7 +107,7 @@ do
 
 		offset=$(date +'%Y-%m-%d' --date="+$day days")
 		now=$(date +'%Y-%m-%dT%H:%M:%S%z' --date="$offset $time")
-		now=$(rawurlencode $now)
+		now=$(rawurlencode "$now")
 
 		# Check notification time format string
 		case "$day $time" in
@@ -259,7 +259,7 @@ do
 
 	offset=$(date +'%Y-%m-%d' --date="+$day days")
 	now=$(date +'%Y-%m-%d %H:%M:%S' --date="$offset 05:00")
-	now=$(rawurlencode $now)
+	now=$(rawurlencode "$now")
 
 	fileext=txt check "$ddHHMM-getflights" browse "$url/getflights.php?prefix=${FRA_FLUGPLAN_HOST}\&time=$now\&debug=url,json,sql\&fmt=txt"\
 		"| sed -r '

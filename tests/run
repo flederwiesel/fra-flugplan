@@ -126,8 +126,6 @@ COOKIES=$(mktemp --suffix=.cookies)
 # </preparation>
 ###############################################################################
 
-IFS=$'\n'
-
 if [ $# -gt 0 ]; then
 	tests="$@"
 else
