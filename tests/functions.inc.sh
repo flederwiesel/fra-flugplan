@@ -59,8 +59,9 @@ check() {
 	[ 1 == $debug -o 1 == $verbose ] && echo -e "$name" >&2
 	[ 1 == $debug ] && echo -e "\033[33m$@\033[m" >&2
 	eval "$@" 2>&1 |
-	sed -e "s|https://${FRA_FLUGPLAN_HOST}/|https://fra-flugplan.de/|g" \
-		-e 's/?rev=[0-9]*/?rev=$Rev$/g' > "$results/$name.${fileext:-htm}" |
+	sed -r \
+		-e "s#(https://|=)${FRA_FLUGPLAN_HOST}#\1fra-flugplan.de#g" \
+		-e 's/\?rev=[0-9]*/?rev=$Rev$/g' > "$results/$name.${fileext:-htm}" |
 	sed -r $'s~^.+$~\033[1;31mERROR: &\033[m~g'
 }
 
