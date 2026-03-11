@@ -283,7 +283,6 @@ fi
 
 status=0
 
-echo "$tests" |
 while read testsuite
 do
 	if [ -n "$testsuite" ]; then
@@ -342,28 +341,17 @@ do
 			if ! diff=$(
 				diff "$expect" "$results" \
 					--brief \
-					--recursive --ignore-file-name-case \
+					--recursive \
 					--exclude=css \
 					--exclude=img \
-					--exclude=script \
-					--suppress-blank-empty \
-					--ignore-tab-expansion \
-					--ignore-space-change \
-					--ignore-all-space \
-					--ignore-blank-lines
+					--exclude=script
 				)
 			then
-				[ $status -eq 0 ] && status=$result
-			fi
-
-			if [ -n "$diff" ]; then
-				grep -v '^diff' <<<"$diff" | \
-				sed -r $'s~^-(.*)$~\033[32m< \\1\033[m~g;
-							s~^\+(.*)$~\033[35m> \\1\033[m~g;
-							s~^@@.*@@$~\033[1;33m&\033[m~g'
+				echo -e "\033[31m└──> FAILED\033[m"
+				status=1
 			fi
 		fi
 	fi
-done
+done <<< "$tests"
 
 exit $status
