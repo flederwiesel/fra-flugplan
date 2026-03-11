@@ -61,8 +61,7 @@ check() {
 	eval "$@" 2>&1 |
 	sed -r \
 		-e "s#(https://|=)${FRA_FLUGPLAN_HOST}#\1fra-flugplan.de#g" \
-		-e 's/\?rev=[0-9]*/?rev=$Rev$/g' > "$results/$name.${fileext:-htm}" |
-	sed -r $'s~^.+$~\033[1;31mERROR: &\033[m~g'
+		-e 's/\?rev=[0-9]*/?rev=$Rev$/g' > "$results/$name.${fileext:-htm}"
 }
 
 initdb() {
