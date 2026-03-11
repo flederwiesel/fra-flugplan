@@ -13,8 +13,7 @@ check "1" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en" \
-		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+		--data-urlencode "lang=en"
 
 check "2" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		--data-urlencode "email=spam@gmail.com" \
@@ -22,8 +21,7 @@ check "2" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en" \
-		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+		--data-urlencode "lang=en"
 
 check "3" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		--data-urlencode "email=spam@gmail.com" \
@@ -31,8 +29,7 @@ check "3" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en" \
-		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+		--data-urlencode "lang=en"
 
 check "4" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}\&ip=46.118.155.73" \
 		--data-urlencode "email=nospam@example.com" \
@@ -40,8 +37,7 @@ check "4" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}\&ip=46.
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en" \
-		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+		--data-urlencode "lang=en"
 
 check "5" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}\&ip=46.118.155.73" \
 		--data-urlencode "email=spam@gmail.com" \
@@ -49,8 +45,7 @@ check "5" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}\&ip=46.
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en" \
-		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+		--data-urlencode "lang=en"
 
 check "6" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}\&ip=46.118.155.73" \
 		--data-urlencode "email=spam@gmail.com" \
@@ -58,8 +53,7 @@ check "6" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}\&ip=46.
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en" \
-		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+		--data-urlencode "lang=en"
 
 check "7" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}\&ip=46.118.155.73" \
 		--data-urlencode "email=nospam@example.com" \
@@ -67,8 +61,7 @@ check "7" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}\&ip=46.
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en" \
-		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+		--data-urlencode "lang=en"
 
 check "8" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}\&ip=::1" \
 		--data-urlencode "email=notsure@gmail.com" \
@@ -76,5 +69,4 @@ check "8" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}\&ip=::1
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en" \
-		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+		--data-urlencode "lang=en"

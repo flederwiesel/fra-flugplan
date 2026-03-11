@@ -8,8 +8,7 @@ csrftoken=$(
 )
 
 check "1" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
-		--data-urlencode "email=" \
-		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+		--data-urlencode "email="
 
 check "2" browse "$url/?req=register" --data-urlencode "user="
 check "3" browse "$url/?req=register" --data-urlencode "passwd="
@@ -112,8 +111,7 @@ check "14" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en" "|" \
-		"sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+		--data-urlencode "lang=en"
 
 check "15" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		--data-urlencode "email=uid-1@example.com" \
@@ -121,8 +119,7 @@ check "15" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en" "|" \
-		"sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+		--data-urlencode "lang=en"
 
 check "16" browse "$url/?req=register" \
 		--data-urlencode "email=uid-1@example.com" \

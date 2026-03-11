@@ -8,8 +8,7 @@ csrftoken=$(
 )
 
 check "1" browse "$url/?lang=de"
-check "2" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
-		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+check "2" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}"
 
 check "3" browse "$url/?req=register" \
 		--data-urlencode "email=uid-1@example.com" \

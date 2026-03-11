@@ -13,8 +13,7 @@ check "1" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en" \
-		" | sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+		--data-urlencode "lang=en"
 
 ###############################################################################
 

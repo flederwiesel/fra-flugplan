@@ -1,5 +1,3 @@
-prefix=$(rawurlencode $(sed -r 's|https?://||g' <<<"$url"))
-
 mailtodisk --add uid-1@example.com "$mailfile"
 
 ###############################################################################
@@ -12,14 +10,13 @@ csrftoken=$(
 check "1" browse "$url/"
 check "2" browse "$url/?req=register"
 
-check "3" browse "$url/?req=register\&stopforumspam=$prefix" \
+check "3" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		--data-urlencode "email=uid-1@example.com" \
 		--data-urlencode "user=uid-1" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en" "|" \
-		"sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+		--data-urlencode "lang=en"
 
 token=$(query --execute="USE fra-flugplan;
 	SELECT token FROM users WHERE name='uid-1'" | sed s/'[ \r\n]'//g)

@@ -16,8 +16,7 @@ check "3" browse "$url/?req=register\&stopforumspam=${FRA_FLUGPLAN_HOST}" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en" "|" \
-		"sed -r 's:(stopforumspam=)[^\&\"]+:\1...:g'"
+		--data-urlencode "lang=en"
 
 token=$(query --execute="USE fra-flugplan;
 	SELECT token FROM users WHERE name='uid-1'" | sed s/'[ \r\n]'//g)
