@@ -1,3 +1,22 @@
+# Regexes to be replaced in email files
+readonly RE_EMAIL="
+	/(Activation|Password) token is:/ { N; s/\n.+\$/\n***/g }
+	/Das (Aktivierungs-)?Token( dafür)? ist:/ { N; s/\n.+\$/\n***/g }
+	s/((Mon|Diens|Donners|Frei|Sams|Sonn)tag|Mittwoch), [0-9]+\. (Januar|Februar|März|April|Mai|Ju[nl]i|August|(Sept|Nov|Dez)ember|Oktober) [0-9]+/Tag, 00. Monat 0000/g
+	s/[0-9]{4}-[0-9]{2}-[0-9]{2}([ T])[0-9]{2}:[0-9]{2}:[0-9]{2}/0000-00-00\100:00:00/g
+	s/\(code [0-9]+\)/(code ***)/g
+	s/^.*\.php\([0-9]+\): *//g
+	s/^(Date:[ \t]+).+\$/\1Day, 0 Month 0000 00:00:00 +0000/g
+	s/00\+[0-9]{4}/00+0000/g
+	s/token='[0-9a-f.]+'/token='***'/g
+	s/token=[0-9a-f]+/token=***/g
+	s#::1#<localhost>#g
+	s#((Mon|Tues|Wednes|Thurs|Fri|Satur|Sun)day), [0-9]+/[0-9]+/[0-9]+#Day, 00/00/00#g
+	s#(https?://[^/]+/).*/([^/?]+\?.*)#\1/\2#g
+	s#(X-Mailer: PHP/).*\$#\1*#g
+	s#127.0.0.1#<localhost>#g
+"
+
 minversion() {
 	# <comment> <expect> <result>
 	awk 'BEGIN {
@@ -76,10 +95,6 @@ query() {
 	mysql --silent --default-character-set=utf8 --skip-column-names "$@"
 }
 
-# strftime() {
-# 	awk "BEGIN { print strftime(\"$1\", $2); }"
-# }
-
 browse() {
 	local data_csrftoken=()
 
@@ -117,10 +132,17 @@ rawurlencode() {
 	REPLY="${encoded}"   #+or echo the result (EASIER)... or both... :p
 }
 
+# Wrapper for `sed -r` using a variable name, pointing  to
+# a string variable containing the actual script.
+strsubst() {
+	local re=${!1?}
+	shift
+	sed -r "$re" "$@"
+}
+
 export -f check
 export -f unless
 export -f initdb
-# export -f strftime
 export -f query
 export -f browse
 export -f rawurlencode
