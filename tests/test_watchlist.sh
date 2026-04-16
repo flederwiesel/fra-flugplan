@@ -90,113 +90,132 @@ csrftoken=$(
 time=$(rawurlencode "$(date +'%Y-%m-%d %H:%M:%S' --date='0 days 23:59')")
 today="$(date +'%Y-%m-%d' --date='23:55')"
 
-check "1" browse "$url/?req=login\&time=$time" \
+test_1() {
+	browse "$url/?req=login&time=$time" \
 		--data-urlencode "user=uid-1" \
-		--data-urlencode "passwd=elvizzz" \
-	"| sed -r '
-		s/time=$today/time=0000-00-00/g
-	'"
+		--data-urlencode "passwd=elvizzz" |
+	sed -r "s/time=$today/time=0000-00-00/g"
+}
 
-check "2" browse "$url/?arrival\&time=$time" \
-	"| sed -r '
-		s/time=$today/time=0000-00-00/g
-	'"
+test_2() {
+	browse "$url/?arrival&time=$time" |
+	sed -r "s/time=$today/time=0000-00-00/g"
+}
 
-# DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
-check "3" browse "$url/?arrival\&time=$time" \
-		--data-urlencode "add='$(cat <<-EOF
+test_3() {
+	add=$(
+		# DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
+		cat <<-EOF
 			ZS-SNC	South African Airways - Star Alliance	1
 			C-????	Air Canada ?	0
 			C-FDAT	Air Transat - A310	1
 			/C-G(TSTS[FHWY]|[FLPS]AT)/	Air Transat - A310	1
-EOF
-			)'" \
-	"| sed -r '
-		s/time=$today/time=0000-00-00/g
-	'"
+		EOF
+	)
 
-# DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
-check "4" browse "$url/?arrival\&time=$time" \
-		--data-urlencode "add='C-*	Air Canada *	0'" \
-		--data-urlencode "del='C-????'" \
-	"| sed -r '
-		s/time=$today/time=0000-00-00/g
-	'"
+	browse "$url/?arrival&time=$time" \
+		--data-urlencode "add=$add" |
+	sed -r "s/time=$today/time=0000-00-00/g"
+}
 
-sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
-	USE fra-flugplan;
-
-	SELECT `id` INTO @uid FROM `users` WHERE `name`='uid-1';
-
-	INSERT INTO `watchlist-notifications`(`watch`, `flight`)
-
-	SELECT `flights`.`id`, `watchlist`.`id`
-	FROM `flights` AS `flights`
-	LEFT JOIN `aircrafts`
-	       ON `aircrafts`.`id`=`flights`.`aircraft`
-	LEFT JOIN (
-					SELECT `watchlist`.`id`, `watchlist`.`reg`
-					FROM `watchlist` AS `watchlist`
-					WHERE `reg`='ZS-SNC') AS `watchlist`
-	       ON `watchlist`.`reg`=`aircrafts`.`reg`
-	WHERE `aircraft`=
-		(SELECT `id` FROM `aircrafts` AS `aircraft` WHERE `reg`='ZS-SNC');
-
-	UPDATE `users`
-	SET
-		`notification-from`='00:00',
-		`notification-until`='24:00'
-	WHERE
-		`id`=@uid;
-SQL
+test_4() {
+	browse "$url/?arrival&time=$time" \
+		--data-urlencode "add=C-*	Air Canada *	0" \
+		--data-urlencode "del=C-????" |
+	sed -r "s/time=$today/time=0000-00-00/g"
+}
 
 ### add existing reg
 
-check "4-0" browse "$url/?arrival\&time=$time" \
-			--data-urlencode "add='ZS-SNC	SAA - Star Alliance	1'" \
-	"| sed -r '
-		s/time=$today/time=0000-00-00/g
-	'"
+test_4_0() {
+	sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
+		USE fra-flugplan;
+
+		SELECT `id` INTO @uid FROM `users` WHERE `name`='uid-1';
+
+		INSERT INTO `watchlist-notifications`(`watch`, `flight`)
+
+		SELECT `flights`.`id`, `watchlist`.`id`
+		FROM `flights` AS `flights`
+		LEFT JOIN `aircrafts`
+			ON `aircrafts`.`id`=`flights`.`aircraft`
+		LEFT JOIN (
+						SELECT `watchlist`.`id`, `watchlist`.`reg`
+						FROM `watchlist` AS `watchlist`
+						WHERE `reg`='ZS-SNC') AS `watchlist`
+			ON `watchlist`.`reg`=`aircrafts`.`reg`
+		WHERE `aircraft`=
+			(SELECT `id` FROM `aircrafts` AS `aircraft` WHERE `reg`='ZS-SNC');
+
+		UPDATE `users`
+		SET
+			`notification-from`='00:00',
+			`notification-until`='24:00'
+		WHERE
+			`id`=@uid;
+	SQL
+
+	browse "$url/?arrival&time=$time" \
+		--data-urlencode "add=ZS-SNC	SAA - Star Alliance	1" |
+	sed -r "s/time=$today/time=0000-00-00/g"
+}
 
 # del+add same reg
 
-check "4-1" browse "$url/?arrival\&time=$time" \
-		--data-urlencode "del='ZS-SNC'" \
-		--data-urlencode "add='ZS-SNC	SAA - Star Alliance	1'" \
-	"| sed -r '
-		s/time=$today/time=0000-00-00/g
-	'"
+test_4_1() {
+	browse "$url/?arrival&time=$time" \
+		--data-urlencode "del=ZS-SNC" \
+		--data-urlencode "add=ZS-SNC	SAA - Star Alliance	1" |
+	sed -r "s/time=$today/time=0000-00-00/g"
+}
 
 ### upd+add same reg
 
-check "4-2" browse "$url/?arrival\&time=$time" \
-		--data-urlencode "upd='ZS-SNC	ZS-SNC	ZS-SNC	African Airways - Star Alliance	0'" \
-		--data-urlencode "add='ZS-SNC	South African Airways - Star Alliance	1
-ZS-SNC	South African Airways - Star Alliance	1'" \
-	"| sed -r '
-		s/time=$today/time=0000-00-00/g
-	'"
+test_4_2() {
+	add=$(
+		# DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
+		cat <<-"EOF"
+			ZS-SNC	South African Airways - Star Alliance	1
+			ZS-SNC	South African Airways - Star Alliance	1
+		EOF
+	)
+
+	browse "$url/?arrival&time=$time" \
+		--data-urlencode "upd=ZS-SNC	ZS-SNC	ZS-SNC	African Airways - Star Alliance	0" \
+		--data-urlencode "add=$add" |
+	sed -r "s/time=$today/time=0000-00-00/g"
+}
 
 ### add+upd same reg
 
-check "4-3" browse "$url/?arrival\&time=$time" \
-		--data-urlencode "add='C-FDAT	Air Transat - A310	1'" \
-		--data-urlencode "upd='C-FDAT	C-FDAT	Air Transat - A310	0'" \
-	"| sed -r '
-		s/time=$today/time=0000-00-00/g
-	'"
+test_4_3() {
+	browse "$url/?arrival&time=$time" \
+		--data-urlencode "add=C-FDAT	Air Transat - A310	1" \
+		--data-urlencode "upd=C-FDAT	C-FDAT	Air Transat - A310	0" |
+	sed -r "s/time=$today/time=0000-00-00/g"
+}
 
 ## del reg
 
-# DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
-check "5" browse "$url/?arrival\&time=$time" \
-		--data-urlencode "del='ZS-SNC'" \
-	"| sed -r '
-		s/time=$today/time=0000-00-00/g
-	'"
+test_5() {
+	browse "$url/?arrival&time=$time" \
+		--data-urlencode "del=ZS-SNC" |
+	sed -r "s/time=$today/time=0000-00-00/g"
+}
 
-check "6" browse "$url/?arrival\&time=$time" \
-	--user-agent "'Opera/9.80 (Android 2.3.7; Linux; Opera Mobi/46154) Presto/2.11.355 Version/12.10'" \
-	"| sed -r '
-		s/time=$today/time=0000-00-00/g
-	'"
+test_6() {
+	browse "$url/?arrival&time=$time" \
+		--user-agent "Opera/9.80 (Android 2.3.7; Linux; Opera Mobi/46154) Presto/2.11.355 Version/12.10" |
+	sed -r "s/time=$today/time=0000-00-00/g"
+}
+
+check "1" test_1
+check "2" test_2
+check "3" test_3
+check "4" test_4
+check "4-0" test_4_0
+check "4-1" test_4_1
+check "4-2" test_4_2
+check "4-3" test_4_3
+check "5" test_5
+check "6" test_6

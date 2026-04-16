@@ -1,4 +1,17 @@
 items=4
+path="www.frankfurt-airport.com/_jcr_content.flights.json/filter"
+
+test_json() {
+	browse "$url/$path?$request" |
+	jq '[.data[]|{dir:.dir,sched:.sched,esti:.esti,fnr:.fnr,reg:.reg}]' |
+	sed -r "
+		s/$YYYYmmdd_0/0000-00-00/g
+		s/$YYYYmmdd_1/0000-00-01/g
+		s/$YYYYmmdd_2/0000-00-02/g
+		s/$YYYYmmdd_3/0000-00-03/g
+		s/(T[0-9]{2}:[0-9]{2}:00\+0)[12](00)/\10\2/g
+	"
+}
 
 for day in {0..1}
 do
@@ -21,9 +34,8 @@ do
 		for dir in arrival departure
 		do
 			# get number of pages
-			airport="www.frankfurt-airport.com/_jcr_content.flights.json/filter"
 			request="flighttype=${dir}s&time=$(rawurlencode $YYYYmmddTHHMMSSZ)&items=$items&page=1"
-			pages=$(browse "$url/$airport?$request" | jq .maxpage)
+			pages=$(browse "$url/$path?$request" | jq .maxpage)
 
 			if [ $? -eq 0 ]; then
 				if [ -n "$pages" ]; then
@@ -32,15 +44,9 @@ do
 					while [ $page -le $pages ]
 					do
 						request="flighttype=${dir}s&time=$(rawurlencode $YYYYmmddTHHMMSSZ)&items=$items&page=$page"
-						json=$(browse "$url/$airport?$request" | jq '[.data[]|{dir:.dir,sched:.sched,esti:.esti,fnr:.fnr,reg:.reg}]')
-						fileext=json check $(printf "$day-%02u00-$dir-$page" $t) "echo '$json'" \
-							"| sed -r '
-								s/$YYYYmmdd_0/0000-00-00/g
-								s/$YYYYmmdd_1/0000-00-01/g
-								s/$YYYYmmdd_2/0000-00-02/g
-								s/$YYYYmmdd_3/0000-00-03/g
-								s/(T[0-9]{2}:[0-9]{2}:00\+0)[12](00)/\10\2/g
-							'${filter:-}"
+						d_HH00_d_p=$(printf "$day-%02u00-$dir-$page" $t)
+
+						fileext=json check "$d_HH00_d_p" test_json
 
 						((page++))
 					done

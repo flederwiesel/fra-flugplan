@@ -62,7 +62,7 @@ unless() {
 
 	[ 1 == $debug ] && echo "$@"
 
-	if ! eval "$@"; then
+	if ! "$@"; then
 		echo -e "\033[1;31mTest seriously failed in line $line:"
 		echo -e "$@\033[m\n" >&2
 		echo -e "\033[1;31mCannot continue.\033[m" >&2
@@ -72,15 +72,17 @@ unless() {
 }
 
 check() {
-
 	name=$1
 	shift
+
 	[ 1 == $debug -o 1 == $verbose ] && echo -e "$name" >&2
 	[ 1 == $debug ] && echo -e "\033[33m$@\033[m" >&2
-	eval "$@" 2>&1 |
-	sed -r \
-		-e "s#(https://|=)${FRA_FLUGPLAN_HOST}#\1fra-flugplan.de#g" \
-		-e 's/\?rev=[0-9]*/?rev=$Rev$/g' > "$results/$name.${fileext:-htm}"
+
+	"$@" > >(
+		sed -r \
+			-e "s#(https://|=)${FRA_FLUGPLAN_HOST}#\1fra-flugplan.de#g" \
+			-e 's/\?rev=[0-9]*/?rev=$Rev$/g' > "$results/$name.${fileext:-htm}"
+	) 2>&1
 }
 
 initdb() {

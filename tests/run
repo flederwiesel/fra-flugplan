@@ -6,7 +6,7 @@ set -euo pipefail
 
 cleanup()
 {
-	[ -z "$COOKIES" ] || rm -f "$COOKIES"
+	[ -z "${COOKIES:-}" ] || rm -f "$COOKIES"
 }
 
 trap cleanup EXIT
@@ -120,7 +120,7 @@ cat <<EOF > "$DATADIR/betriebsrichtung.ini"
 99 = active
 EOF
 
-COOKIES=$(mktemp --suffix=.cookies)
+export COOKIES=$(mktemp --suffix=.cookies)
 
 ###############################################################################
 # </preparation>
@@ -177,32 +177,35 @@ do
 	# drop/re-create database
 	initdb
 
-	eval "$(cat "$PRJDIR/tests/test_$testsuite.sh")"
-
-	if [ -e "$results/mail.txt" ]; then
-		# See user.php:
-		#     http://www.outlookfaq.net/index.php?action=artikel&cat=6&id=84&artlang=de
-		iconv -f iso-8859-1 -t utf-8 "$results/mail.txt" |
-		strsubst RE_EMAIL > "$results/mail-utf-8.txt" &&
-		mv "$results/mail-utf-8.txt" "$results/mail.txt"
-	fi
-
-	if [[ ${copy_scripts:-} ]]; then
-		# Copy referenced scripts to properly view results
-		cp -al "$PRJDIR/css" "$PRJDIR/img" "$PRJDIR/script" "$results"
-	fi
-
-	if ! diff=$(
-		diff "$expect" "$results" \
-			--brief \
-			--recursive \
-			--exclude=css \
-			--exclude=img \
-			--exclude=script
-		)
-	then
-		echo -e "\033[31m└──> FAILED\033[m"
+	if ! (bash "$PRJDIR/tests/test_$testsuite.sh"); then
+		echo -e "\033[31m└──> FAILED\033[m" >&2
 		status=1
+	else
+		if [ -e "$results/mail.txt" ]; then
+			# See user.php:
+			#     http://www.outlookfaq.net/index.php?action=artikel&cat=6&id=84&artlang=de
+			iconv -f iso-8859-1 -t utf-8 "$results/mail.txt" |
+			strsubst RE_EMAIL > "$results/mail-utf-8.txt" &&
+			mv "$results/mail-utf-8.txt" "$results/mail.txt"
+		fi
+
+		if [[ ${copy_scripts:-} ]]; then
+			# Copy referenced scripts to properly view results
+			cp -al "$PRJDIR/css" "$PRJDIR/img" "$PRJDIR/script" "$results"
+		fi
+
+		if ! diff=$(
+			diff "$expect" "$results" \
+				--brief \
+				--recursive \
+				--exclude=css \
+				--exclude=img \
+				--exclude=script
+			)
+		then
+			echo -e "\033[31m└──> FAILED\033[m" >&2
+			status=1
+		fi
 	fi
 done
 

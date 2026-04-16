@@ -3,9 +3,9 @@
 
 # User agent strings for testing lookback and lookahead:
 # * Mobile Safari 12@iPad
-readonly TABLET="'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1 Mobile/15E148 Safari/604.1'"
+readonly TABLET="Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1 Mobile/15E148 Safari/604.1"
 # * iOS 10@iPhone 7 Plus
-readonly PHONE="'Mozilla/5.0 (iphone 7Plus; CPU iphone OS 10_3_2 like Mac IS X) AppleWebKit/603.24 (KHTML, like Gecko) Version/10.0 Mobile/14F89 Safari/8536.25'"
+readonly PHONE="Mozilla/5.0 (iphone 7Plus; CPU iphone OS 10_3_2 like Mac IS X) AppleWebKit/603.24 (KHTML, like Gecko) Version/10.0 Mobile/14F89 Safari/8536.25"
 
 function querytime() {
 	rawurlencode "$(date +'%Y-%m-%dT%H:%M:%S%z' --date="$1")"
@@ -113,9 +113,17 @@ csrftoken=$(
 
 declare -Ar user_agents=(
 	[desktop]=
-	[phone]="'Mozilla/5.0 (iphone 7Plus; CPU iphone OS 10_3_2 like Mac IS X) AppleWebKit/603.24 (KHTML, like Gecko) Version/10.0 Mobile/14F89 Safari/8536.25'"
-	[tablet]="'Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1 Mobile/15E148 Safari/604.1'"
+	[phone]="Mozilla/5.0 (iphone 7Plus; CPU iphone OS 10_3_2 like Mac IS X) AppleWebKit/603.24 (KHTML, like Gecko) Version/10.0 Mobile/14F89 Safari/8536.25"
+	[tablet]="Mozilla/5.0 (iPad; CPU OS 12_2 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1 Mobile/15E148 Safari/604.1"
 )
+
+test_schedule() {
+	browse ${ua:+--user-agent "$ua"} "$url/?arrival&time=$(querytime $t)" |
+	sed -r "
+		s/time=$today/time=0000-00-00/g
+		s/(%2B|-)[0-9]{4}/%2B0000/g
+	"
+}
 
 for u in "" user
 do
@@ -124,14 +132,7 @@ do
 		for d in desktop phone tablet
 		do
 			ua="${user_agents[$d]}"
-
-			check "${t//:/}_${d:0:1}${u:+_u}" \
-			browse "$url/?arrival\&time=$(querytime $t)" \
-				${ua:+--user-agent "$ua"} \
-				"| sed -r '
-					s/time=$today/time=0000-00-00/g
-					s/(%2B|-)[0-9]{4}/%2B0000/g
-				'"
+			check "${t//:/}_${d:0:1}${u:+_u}" test_schedule
 		done
 	done
 
