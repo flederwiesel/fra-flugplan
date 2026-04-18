@@ -1,84 +1,84 @@
 # preparation #################################################################
 
-sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
-	USE fra-flugplan;
+query fra-flugplan < <(
+	sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL"
+		INSERT INTO `models`(`icao`)
+		VALUES ('B77W'), ('A333'), ('A346'), ('A310');
 
-	INSERT INTO `models`(`icao`)
-	VALUES ('B77W'), ('A333'), ('A346'), ('A310');
+		INSERT INTO `aircrafts`(`model`, `reg`)
+		VALUES
+		((SELECT `id` FROM `models` WHERE `icao` = 'B77W'), 'B-KPE'),
+		((SELECT `id` FROM `models` WHERE `icao` = 'A333'), 'C-GFAH'),
+		((SELECT `id` FROM `models` WHERE `icao` = 'A346'), 'ZS-SNC'),
+		((SELECT `id` FROM `models` WHERE `icao` = 'A310'), 'C-GSAT');
 
-	INSERT INTO `aircrafts`(`model`, `reg`)
-	VALUES
-	((SELECT `id` FROM `models` WHERE `icao` = 'B77W'), 'B-KPE'),
-	((SELECT `id` FROM `models` WHERE `icao` = 'A333'), 'C-GFAH'),
-	((SELECT `id` FROM `models` WHERE `icao` = 'A346'), 'ZS-SNC'),
-	((SELECT `id` FROM `models` WHERE `icao` = 'A310'), 'C-GSAT');
+		INSERT INTO `airlines`(`code`)
+		VALUES ('SA'), ('CX'), ('AC'), ('TS');
 
-	INSERT INTO `airlines`(`code`)
-	VALUES ('SA'), ('CX'), ('AC'), ('TS');
+		INSERT INTO `airports`(`iata`, `icao`, `name`)
+		VALUES
+		('JNB', 'FAOR', ''),
+		('HKG', 'VHHH', ''),
+		('YUL', 'CYUL', ''),
+		('YVR', 'CYVR', '');
 
-	INSERT INTO `airports`(`iata`, `icao`, `name`)
-	VALUES
-	('JNB', 'FAOR', ''),
-	('HKG', 'VHHH', ''),
-	('YUL', 'CYUL', ''),
-	('YVR', 'CYVR', '');
+		INSERT INTO `flights`
+		(
+			`type`, `direction`, `airline`, `code`,
+			`scheduled`, `expected`, `airport`, `model`, `aircraft`
+		)
+		VALUES
+		(
+			'P', 'arrival',
+			(SELECT `id` FROM `airlines` WHERE `code`='SA'), '260',
+			'%{date} 06:15', NULL,
+			(SELECT `id` FROM `airports` WHERE `icao`='FAOR'),
+			(SELECT `id` FROM `models` WHERE `icao`='A346'),
+			(SELECT `id` FROM `aircrafts` WHERE `reg`='ZS-SNC')
+		),
+		(
+			'P', 'arrival',
+			(SELECT `id` FROM `airlines` WHERE `code`='CX'), '289',
+			'%{date} 06:20', NULL,
+			(SELECT `id` FROM `airports` WHERE `icao`='VHHH'),
+			(SELECT `id` FROM `models` WHERE `icao`='B77W'),
+			(SELECT `id` FROM `aircrafts` WHERE `reg`='B-KPE')
+		),
+		(
+			'P', 'arrival',
+			(SELECT `id` FROM `airlines` WHERE `code`='AC'), '874',
+			'%{date} 07:00', NULL,
+			(SELECT `id` FROM `airports` WHERE `icao`='CYUL'),
+			(SELECT `id` FROM `models` WHERE `icao`='A333'),
+			(SELECT `id` FROM `aircrafts` WHERE `reg`='C-GFAH')
+		),
+		(
+			'P', 'arrival',
+			(SELECT `id` FROM `airlines` WHERE `code`='TS'), 'XXX',
+			'%{date} 07:00', NULL,
+			(SELECT `id` FROM `airports` WHERE `icao`='CYVR'),
+			(SELECT `id` FROM `models` WHERE `icao`='A310'),
+			(SELECT `id` FROM `aircrafts` WHERE `reg`='C-GSAT')
+		);
 
-	INSERT INTO `flights`
-	(
-		`type`, `direction`, `airline`, `code`,
-		`scheduled`, `expected`, `airport`, `model`, `aircraft`
-	)
-	VALUES
-	(
-		'P', 'arrival',
-		(SELECT `id` FROM `airlines` WHERE `code`='SA'), '260',
-		'%{date} 06:15', NULL,
-		(SELECT `id` FROM `airports` WHERE `icao`='FAOR'),
-		(SELECT `id` FROM `models` WHERE `icao`='A346'),
-		(SELECT `id` FROM `aircrafts` WHERE `reg`='ZS-SNC')
-	),
-	(
-		'P', 'arrival',
-		(SELECT `id` FROM `airlines` WHERE `code`='CX'), '289',
-		'%{date} 06:20', NULL,
-		(SELECT `id` FROM `airports` WHERE `icao`='VHHH'),
-		(SELECT `id` FROM `models` WHERE `icao`='B77W'),
-		(SELECT `id` FROM `aircrafts` WHERE `reg`='B-KPE')
-	),
-	(
-		'P', 'arrival',
-		(SELECT `id` FROM `airlines` WHERE `code`='AC'), '874',
-		'%{date} 07:00', NULL,
-		(SELECT `id` FROM `airports` WHERE `icao`='CYUL'),
-		(SELECT `id` FROM `models` WHERE `icao`='A333'),
-		(SELECT `id` FROM `aircrafts` WHERE `reg`='C-GFAH')
-	),
-	(
-		'P', 'arrival',
-		(SELECT `id` FROM `airlines` WHERE `code`='TS'), 'XXX',
-		'%{date} 07:00', NULL,
-		(SELECT `id` FROM `airports` WHERE `icao`='CYVR'),
-		(SELECT `id` FROM `models` WHERE `icao`='A310'),
-		(SELECT `id` FROM `aircrafts` WHERE `reg`='C-GSAT')
-	);
+		INSERT INTO `users`
+		(
+			`id`, `name`, `email`, `salt`, `passwd`, `language`
+		)
+		VALUES
+		(
+			1, 'uid-1', 'uid-1@example.com',
+			'cf78aafd5c5410b7b12c2794a52cda1bccd01316f30df57aa29c5609ba979c15',
+			'c4ae99aa0209ce5bea9687cf0548d8ebc942ba14e166c45957a876bcec194fed', # elvizzz
+			'en'
+		);
 
-	INSERT INTO `users`
-	(
-		`id`, `name`, `email`, `salt`, `passwd`, `language`
-	)
-	VALUES
-	(
-		1, 'uid-1', 'uid-1@example.com',
-		'cf78aafd5c5410b7b12c2794a52cda1bccd01316f30df57aa29c5609ba979c15',
-		'c4ae99aa0209ce5bea9687cf0548d8ebc942ba14e166c45957a876bcec194fed', # elvizzz
-		'en'
-	);
-
-	# grant user permissions
-	INSERT INTO `membership`(`user`, `group`)
-				 VALUES((SELECT `id` FROM `users`  WHERE `name`='uid-1'),
-						(SELECT `id` FROM `groups` WHERE `name`='addflights'));
-SQL
+		# grant user permissions
+		INSERT INTO `membership`(`user`, `group`)
+					VALUES((SELECT `id` FROM `users`  WHERE `name`='uid-1'),
+							(SELECT `id` FROM `groups` WHERE `name`='addflights'));
+	SQL
+)
 
 # /preparation ################################################################
 
@@ -105,7 +105,7 @@ test_2() {
 test_3() {
 	add=$(
 		# DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
-		cat <<-EOF
+		cat <<-"EOF"
 			ZS-SNC	South African Airways - Star Alliance	1
 			C-????	Air Canada ?	0
 			C-FDAT	Air Transat - A310	1
@@ -127,33 +127,37 @@ test_4() {
 
 ### add existing reg
 
+sqlInsertWatchlistNotifications() {
+	query fra-flugplan < <(
+		sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL"
+			SELECT `id` INTO @uid FROM `users` WHERE `name`='uid-1';
+
+			INSERT INTO `watchlist-notifications`(`watch`, `flight`)
+
+			SELECT `flights`.`id`, `watchlist`.`id`
+			FROM `flights` AS `flights`
+			LEFT JOIN `aircrafts`
+				ON `aircrafts`.`id`=`flights`.`aircraft`
+			LEFT JOIN (
+							SELECT `watchlist`.`id`, `watchlist`.`reg`
+							FROM `watchlist` AS `watchlist`
+							WHERE `reg`='ZS-SNC') AS `watchlist`
+				ON `watchlist`.`reg`=`aircrafts`.`reg`
+			WHERE `aircraft`=
+				(SELECT `id` FROM `aircrafts` AS `aircraft` WHERE `reg`='ZS-SNC');
+
+			UPDATE `users`
+			SET
+				`notification-from`='00:00',
+				`notification-until`='24:00'
+			WHERE
+				`id`=@uid;
+		SQL
+	)
+}
+
 test_4_0() {
-	sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL" | query
-		USE fra-flugplan;
-
-		SELECT `id` INTO @uid FROM `users` WHERE `name`='uid-1';
-
-		INSERT INTO `watchlist-notifications`(`watch`, `flight`)
-
-		SELECT `flights`.`id`, `watchlist`.`id`
-		FROM `flights` AS `flights`
-		LEFT JOIN `aircrafts`
-			ON `aircrafts`.`id`=`flights`.`aircraft`
-		LEFT JOIN (
-						SELECT `watchlist`.`id`, `watchlist`.`reg`
-						FROM `watchlist` AS `watchlist`
-						WHERE `reg`='ZS-SNC') AS `watchlist`
-			ON `watchlist`.`reg`=`aircrafts`.`reg`
-		WHERE `aircraft`=
-			(SELECT `id` FROM `aircrafts` AS `aircraft` WHERE `reg`='ZS-SNC');
-
-		UPDATE `users`
-		SET
-			`notification-from`='00:00',
-			`notification-until`='24:00'
-		WHERE
-			`id`=@uid;
-	SQL
+	sqlInsertWatchlistNotifications
 
 	browse "$url/?arrival&time=$time" \
 		--data-urlencode "add=ZS-SNC	SAA - Star Alliance	1" |

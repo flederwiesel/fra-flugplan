@@ -26,8 +26,7 @@ test_3() {
 }
 
 test_4() {
-	token=$(query --execute="USE fra-flugplan;
-		SELECT token FROM users WHERE name='uid-1'" | sed s/'[ \r\n]'//g)
+	token=$(query fra-flugplan <<< "SELECT token FROM users WHERE name='uid-1'")
 
 	browse "$url/?req=activate" \
 		--data-urlencode "user=uid-1" \
@@ -48,8 +47,7 @@ test_6() {
 }
 
 test_7() {
-	token=$(query --execute="USE fra-flugplan;
-		SELECT token FROM users WHERE name='uid-1'" | sed s/'[ \r\n]'//g)
+	token=$(query fra-flugplan <<< "SELECT token FROM users WHERE name='uid-1'")
 
 	browse "$url/?req=changepw" \
 		--data-urlencode "user=uid-1" \

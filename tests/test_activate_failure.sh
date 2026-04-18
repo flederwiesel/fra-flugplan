@@ -57,13 +57,13 @@ test_9() {
 
 test_9_1() {
 	# Token has expired...
-	query --execute="USE fra-flugplan;
+	query fra-flugplan <<-"SQL"
 		UPDATE users SET token_expires=
 		FROM_UNIXTIME(UNIX_TIMESTAMP(UTC_TIMESTAMP()) - 3600)
-		WHERE name='uid-1'"
+		WHERE name='uid-1'
+	SQL
 
-	token=$(query --execute="USE fra-flugplan;
-		SELECT token FROM users WHERE name='uid-1'" | sed s/'[ \r\n]'//g)
+	token=$(query fra-flugplan <<< "SELECT token FROM users WHERE name='uid-1'")
 
 	browse "$url/?req=activate" --data-urlencode "user=uid-1" --data-urlencode "token=$token"
 }

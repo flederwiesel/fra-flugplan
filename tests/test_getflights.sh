@@ -4,17 +4,14 @@ mailtodisk --add flugplan-admin@example.com "$mailfile"
 
 ###############################################################################
 
-query < <(
-	echo 'USE `fra-flugplan`;'
+query fra-flugplan < <(
 	cat "$PRJDIR/sql/data/countries.sql" \
 		"$PRJDIR/sql/data/airlines.sql" \
 		"$PRJDIR/sql/data/airports.sql" \
 		"$PRJDIR/sql/data/models.sql"
 )
 
-query <<-"SQL"
-	USE `fra-flugplan`;
-
+query fra-flugplan <<-"SQL"
 	# Get predictive values...
 	ALTER TABLE `airports` AUTO_INCREMENT=2147483642;
 
@@ -82,7 +79,7 @@ query <<-"SQL"
 	(7, @uid2, FALSE, 'ZS-SNB', 'South African Airways'),
 	(8, @uid2, TRUE, 'B-KPF', 'Cathay Pacific - Asias world city GRÜN'),
 	(9, @uid2, TRUE, '/9K-GB[AB]/', 'State of Kuwait - A345');
-	SQL
+SQL
 
 YYYYmmdd_0=$(date +'%Y%m%d')
 YYYYmmdd_1=$(date +'%Y%m%d' --date="+1 days")
@@ -117,17 +114,15 @@ test_getflights() {
 }
 
 test_flights() {
-	local replace="
-		s/arrival/A/g
-		s/departure/D/g
-		s/$YYYY_mm_dd_0/0000-00-00/g
-		s/$YYYY_mm_dd_1/0000-00-01/g
-		s/$YYYY_mm_dd_2/0000-00-02/g
-		s/$YYYY_mm_dd_3/0000-00-03/g
-	"
-
 	query fra-flugplan <<-"SQL" > >(
-		sed -r "$replace"
+		sed -r "
+			s/arrival/A/g
+			s/departure/D/g
+			s/$YYYY_mm_dd_0/0000-00-00/g
+			s/$YYYY_mm_dd_1/0000-00-01/g
+			s/$YYYY_mm_dd_2/0000-00-02/g
+			s/$YYYY_mm_dd_3/0000-00-03/g
+		"
 	)
 		SELECT
 			`flights`.`direction`,
@@ -215,9 +210,7 @@ do
 		# Check notification time format string
 		case "$day $time" in
 		"1 05:00")
-			query <<-"SQL"
-				USE fra-flugplan;
-
+			query fra-flugplan <<-"SQL"
 				UPDATE `users`
 				SET `notification-timefmt`='%A, %c'
 				WHERE `name`='uid-2'
@@ -229,9 +222,7 @@ do
 			# even for `num` > 1, where normally this would be NOT NULL.
 			# Need to check for this also...
 			# '0000-00-00 22:30:00' -> NULL
-			query <<-"SQL"
-				USE `fra-flugplan`;
-
+			query fra-flugplan <<-"SQL"
 				UPDATE `visits`
 				SET `previous` = NULL
 				WHERE `aircraft` = (
@@ -243,9 +234,7 @@ do
 			;;
 
 		"1 12:00")
-			query <<-"SQL"
-				USE fra-flugplan;
-
+			query fra-flugplan <<-"SQL"
 				UPDATE `users`
 				SET `notification-timefmt`='%A, %d. %B %Y %H:%M',
 					`language`='de'

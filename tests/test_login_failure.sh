@@ -14,8 +14,7 @@ test_1() {
 }
 
 test_2() {
-	token=$(query --execute="USE fra-flugplan;
-		SELECT token FROM users WHERE name='uid-1'" | sed s/'[ \r\n]'//g)
+	token=$(query fra-flugplan <<< "SELECT token FROM users WHERE name='uid-1'")
 
 	browse "$url/?req=activate" --data-urlencode "user=uid-1" --data-urlencode "token=$token"
 }
