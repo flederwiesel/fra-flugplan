@@ -82,19 +82,14 @@ query fra-flugplan < <(
 
 # /preparation ################################################################
 
-csrftoken=$(
-	browse "$url/?req=register" |
-	sed -nr '/name="CSRFToken"/ { s/.*value="([^"]+)".*/\1/g; p }'
-)
-
 time=$(rawurlencode "$(date +'%Y-%m-%d %H:%M:%S' --date='0 days 23:59')")
 today="$(date +'%Y-%m-%d' --date='23:55')"
 
 test_1() {
-	browse "$url/?req=login&time=$time" \
+	browse --store-csrf-token \
 		--data-urlencode "user=uid-1" \
-		--data-urlencode "passwd=elvizzz" |
-	sed -r "s/time=$today/time=0000-00-00/g"
+		--data-urlencode "passwd=elvizzz" \
+		"$url/?req=login&time=$time" > >(sed -r "s/time=$today/time=0000-00-00/g")
 }
 
 test_2() {
@@ -113,15 +108,17 @@ test_3() {
 		EOF
 	)
 
-	browse "$url/?arrival&time=$time" \
-		--data-urlencode "add=$add" |
+	browse --with-csrf-token \
+		--data-urlencode "add=$add" \
+		"$url/?arrival&time=$time" |
 	sed -r "s/time=$today/time=0000-00-00/g"
 }
 
 test_4() {
-	browse "$url/?arrival&time=$time" \
+	browse --with-csrf-token \
 		--data-urlencode "add=C-*	Air Canada *	0" \
-		--data-urlencode "del=C-????" |
+		--data-urlencode "del=C-????" \
+		"$url/?arrival&time=$time" |
 	sed -r "s/time=$today/time=0000-00-00/g"
 }
 
@@ -159,17 +156,19 @@ sqlInsertWatchlistNotifications() {
 test_4_0() {
 	sqlInsertWatchlistNotifications
 
-	browse "$url/?arrival&time=$time" \
-		--data-urlencode "add=ZS-SNC	SAA - Star Alliance	1" |
+	browse --with-csrf-token \
+		--data-urlencode "add=ZS-SNC	SAA - Star Alliance	1" \
+		"$url/?arrival&time=$time" |
 	sed -r "s/time=$today/time=0000-00-00/g"
 }
 
 # del+add same reg
 
 test_4_1() {
-	browse "$url/?arrival&time=$time" \
+	browse --with-csrf-token \
 		--data-urlencode "del=ZS-SNC" \
-		--data-urlencode "add=ZS-SNC	SAA - Star Alliance	1" |
+		--data-urlencode "add=ZS-SNC	SAA - Star Alliance	1" \
+		"$url/?arrival&time=$time" |
 	sed -r "s/time=$today/time=0000-00-00/g"
 }
 
@@ -184,32 +183,36 @@ test_4_2() {
 		EOF
 	)
 
-	browse "$url/?arrival&time=$time" \
+	browse --with-csrf-token \
 		--data-urlencode "upd=ZS-SNC	ZS-SNC	ZS-SNC	African Airways - Star Alliance	0" \
-		--data-urlencode "add=$add" |
+		--data-urlencode "add=$add" \
+		"$url/?arrival&time=$time" |
 	sed -r "s/time=$today/time=0000-00-00/g"
 }
 
 ### add+upd same reg
 
 test_4_3() {
-	browse "$url/?arrival&time=$time" \
+	browse --with-csrf-token \
 		--data-urlencode "add=C-FDAT	Air Transat - A310	1" \
-		--data-urlencode "upd=C-FDAT	C-FDAT	Air Transat - A310	0" |
+		--data-urlencode "upd=C-FDAT	C-FDAT	Air Transat - A310	0" \
+		"$url/?arrival&time=$time" |
 	sed -r "s/time=$today/time=0000-00-00/g"
 }
 
 ## del reg
 
 test_5() {
-	browse "$url/?arrival&time=$time" \
-		--data-urlencode "del=ZS-SNC" |
+	browse --with-csrf-token \
+		--data-urlencode "del=ZS-SNC" \
+		"$url/?arrival&time=$time" |
 	sed -r "s/time=$today/time=0000-00-00/g"
 }
 
 test_6() {
-	browse "$url/?arrival&time=$time" \
-		--user-agent "Opera/9.80 (Android 2.3.7; Linux; Opera Mobi/46154) Presto/2.11.355 Version/12.10" |
+	browse \
+		--user-agent "Opera/9.80 (Android 2.3.7; Linux; Opera Mobi/46154) Presto/2.11.355 Version/12.10" \
+		"$url/?arrival&time=$time" |
 	sed -r "s/time=$today/time=0000-00-00/g"
 }
 

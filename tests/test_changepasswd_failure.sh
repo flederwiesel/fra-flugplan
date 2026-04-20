@@ -2,35 +2,32 @@ mailtodisk --add uid-1@example.com "$mailfile"
 
 ###############################################################################
 
-csrftoken=$(
-	browse "$url/?req=register" |
-	sed -nr '/name="CSRFToken"/ { s/.*value="([^"]+)".*/\1/g; p }'
-)
-
 test_1() {
 	browse "$url/"
 }
 
 test_2() {
-	browse "$url/?req=register"
+	browse --store-csrf-token "$url/?req=register"
 }
 
 test_3() {
-	browse "$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}" \
+	browse --with-csrf-token \
 		--data-urlencode "email=uid-1@example.com" \
 		--data-urlencode "user=uid-1" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en"
+		--data-urlencode "lang=en" \
+		"$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}"
 }
 
 test_4() {
 	token=$(query fra-flugplan <<< "SELECT token FROM users WHERE name='uid-1'")
 
-	browse "$url/?req=activate" \
+	browse --with-csrf-token \
 		--data-urlencode "user=uid-1" \
-		--data-urlencode "token=$token"
+		--data-urlencode "token=$token" \
+		"$url/?req=activate"
 }
 
 ###############################################################################
@@ -42,78 +39,89 @@ test_5() {
 }
 
 test_5_1() {
-	browse "$url/?req=reqtok" \
+	browse --with-csrf-token \
 		--data-urlencode "user=uid-1" \
-		--data-urlencode "email=uid-2@example.com"
+		--data-urlencode "email=uid-2@example.com" \
+		"$url/?req=reqtok"
 }
 
 test_5_2() {
-	browse "$url/?req=reqtok" \
-		--data-urlencode "user=unkown"
+	browse --with-csrf-token \
+		--data-urlencode "user=unkown" \
+		"$url/?req=reqtok"
 }
 
 test_5_3() {
-	browse "$url/?req=reqtok" \
-		--data-urlencode "email=unknown@example.com"
+	browse --with-csrf-token \
+		--data-urlencode "email=unknown@example.com" \
+		"$url/?req=reqtok"
 }
 
 test_5_4() {
-	browse "$url/?req=reqtok" \
-		--data-urlencode "user= "
+	browse --with-csrf-token \
+		--data-urlencode "user= " \
+		"$url/?req=reqtok"
 }
 
 test_5_5() {
-	browse "$url/?req=reqtok" \
-		--data-urlencode "email= "
+	browse --with-csrf-token \
+		--data-urlencode "email= " \
+		"$url/?req=reqtok"
 }
 
 test_5_6() {
-	browse "$url/?req=reqtok" \
+	browse --with-csrf-token \
 		--data-urlencode "user= " \
-		--data-urlencode "email= "
+		--data-urlencode "email= " \
+		"$url/?req=reqtok"
 }
 
 test_6() {
-	browse "$url/?req=reqtok" \
-		--data-urlencode "user=uid-1"
+	browse --with-csrf-token \
+		--data-urlencode "user=uid-1" \
+		"$url/?req=reqtok"
 }
 
 test_7() {
 	token=$(query fra-flugplan <<< "SELECT token FROM users WHERE name='uid-1'")
 
-	browse "$url/?req=changepw" \
+	browse --with-csrf-token \
 		--data-urlencode "user=erwin" \
 		--data-urlencode "token=$token" \
 		--data-urlencode "passwd=zwiebel" \
 		--data-urlencode "passwd-confirm=zwiebel" \
-		--data-urlencode "submit=changepw"
+		--data-urlencode "submit=changepw" \
+		"$url/?req=changepw"
 }
 
 test_8() {
-	browse "$url/?req=changepw" \
+	browse --with-csrf-token \
 		--data-urlencode "user=uid-1" \
 		--data-urlencode "token=" \
 		--data-urlencode "passwd=zwiebel" \
 		--data-urlencode "passwd-confirm=zwiebel" \
-		--data-urlencode "submit=changepw"
+		--data-urlencode "submit=changepw" \
+		"$url/?req=changepw"
 }
 
 test_9() {
-	browse "$url/?req=changepw" \
+	browse --with-csrf-token \
 		--data-urlencode "user=uid-1" \
 		--data-urlencode "token=$token" \
 		--data-urlencode "passwd=" \
 		--data-urlencode "passwd-confirm=zwiebel" \
-		--data-urlencode "submit=changepw"
+		--data-urlencode "submit=changepw" \
+		"$url/?req=changepw"
 }
 
 test_10() {
-	browse "$url/?req=changepw" \
+	browse --with-csrf-token \
 		--data-urlencode "user=uid-1" \
 		--data-urlencode "token=$token" \
 		--data-urlencode "passwd=zwiebl" \
 		--data-urlencode "passwd-confirm=zwiebel" \
-		--data-urlencode "submit=changepw"
+		--data-urlencode "submit=changepw" \
+		"$url/?req=changepw"
 }
 
 test_11() {
@@ -123,12 +131,13 @@ test_11() {
 		WHERE name='uid-1'
 	SQL
 
-	browse "$url/?req=changepw" \
+	browse --with-csrf-token \
 		--data-urlencode "user=uid-1" \
 		--data-urlencode "token=$token" \
 		--data-urlencode "passwd=zwiebel" \
 		--data-urlencode "passwd-confirm=zwiebel" \
-		--data-urlencode "submit=changepw"
+		--data-urlencode "submit=changepw" \
+		"$url/?req=changepw"
 }
 
 ###############################################################################
@@ -136,9 +145,10 @@ test_11() {
 ###############################################################################
 
 test_12() {
-	browse "$url/?req=login" \
+	browse --with-csrf-token \
 		--data-urlencode "user=uid-1" \
-		--data-urlencode "passwd=elvizzz"
+		--data-urlencode "passwd=elvizzz" \
+		"$url/?req=login"
 }
 
 check "1" test_1

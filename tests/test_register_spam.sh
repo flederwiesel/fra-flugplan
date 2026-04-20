@@ -2,89 +2,92 @@ sed='s/(ip=)[0-9]+(,email=)[0-9]+(,username=)[0-9]+/\1*\2*\3*/g'
 
 ###############################################################################
 
-csrftoken=$(
-	browse "$url/?req=register" |
-	sed -nr '/name="CSRFToken"/ { s/.*value="([^"]+)".*/\1/g; p }'
-)
-
 test_1() {
-	browse "$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}" \
+	browse --store-csrf-token \
 		--data-urlencode "email=nospam@example.com" \
 		--data-urlencode "user=spammer" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en"
+		--data-urlencode "lang=en" \
+		"$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}"
 }
 
 test_2() {
-	browse "$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}" \
+	browse --with-csrf-token \
 		--data-urlencode "email=spam@gmail.com" \
 		--data-urlencode "user=nospam" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en"
+		--data-urlencode "lang=en" \
+		"$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}"
 }
 
 test_3() {
-	browse "$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}" \
+	browse --with-csrf-token \
 		--data-urlencode "email=spam@gmail.com" \
 		--data-urlencode "user=spammer" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en"
+		--data-urlencode "lang=en" \
+		"$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}"
 }
 
 test_4() {
-	browse "$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}&ip=46.118.155.73" \
+	browse --with-csrf-token \
 		--data-urlencode "email=nospam@example.com" \
 		--data-urlencode "user=spammer" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en"
+		--data-urlencode "lang=en" \
+		"$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}&ip=46.118.155.73"
 }
 
 test_5() {
-	browse "$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}&ip=46.118.155.73" \
+	browse --with-csrf-token \
 		--data-urlencode "email=spam@gmail.com" \
 		--data-urlencode "user=nospam" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en"
+		--data-urlencode "lang=en" \
+		"$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}&ip=46.118.155.73"
 }
 
 test_6() {
-	browse "$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}&ip=46.118.155.73" \
+	browse --with-csrf-token \
 		--data-urlencode "email=spam@gmail.com" \
 		--data-urlencode "user=spammer" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en"
+		--data-urlencode "lang=en" \
+		"$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}&ip=46.118.155.73"
 }
 
 test_7() {
-	browse "$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}&ip=46.118.155.73" \
+	browse --with-csrf-token \
 		--data-urlencode "email=nospam@example.com" \
 		--data-urlencode "user=nospam" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en"
+		--data-urlencode "lang=en" \
+		"$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}&ip=46.118.155.73"
 }
 
 test_8() {
-	browse "$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}&ip=::1" \
+	browse --with-csrf-token \
 		--data-urlencode "email=notsure@gmail.com" \
 		--data-urlencode "user=nospam" \
 		--data-urlencode "passwd=elvizzz" \
 		--data-urlencode "passwd-confirm=elvizzz" \
 		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en"
+		--data-urlencode "lang=en" \
+		"$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}&ip=::1"
 }
 
 check "1" test_1

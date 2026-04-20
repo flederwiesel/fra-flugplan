@@ -103,11 +103,6 @@ query fra-flugplan < <(
 	SQL
 )
 
-csrftoken=$(
-	browse "$url/?req=register" |
-	sed -nr '/name="CSRFToken"/ { s/.*value="([^"]+)".*/\1/g; p }'
-)
-
 # /preparation ################################################################
 
 declare -Ar user_agents=(
@@ -136,8 +131,9 @@ do
 	done
 
 	if [ -z "${user:-}" ]; then
-		browse "$url/?req=login" \
+		browse --store-csrf-token \
 			--data-urlencode "user=uid-1" \
-			--data-urlencode "passwd=elvizzz" > /dev/null
+			--data-urlencode "passwd=elvizzz" \
+			"$url/?req=login" > /dev/null
 	fi
 done

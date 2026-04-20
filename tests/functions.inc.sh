@@ -97,18 +97,72 @@ query() {
 	mysql --silent --default-character-set=utf8 --skip-column-names "$@"
 }
 
+# cURL wrpapper using cookies and ca-cert bundle
+#
+# --clear-csrf-token
+#     Unset CSRF token before request
+# --nullify-csrf-token
+#     Replace (unknown/unset) token in reponse with empty string --
+#     response format must be 'name="CSRFToken" value=""...'
+# --store-csrf-token
+#     Prepend a GET request storing the form's CSRF token - implies `--with-csrf-token`
+# --with-csrf-token
+#     Send a CSRFToken=... with the request.
 browse() {
-	local data_csrftoken=()
+	local arg=
+	local args=()
+	local store=
+	local request_uri=
+	# Always replace CSRF token with empty string
+	local nullify='s/(name="CSRFToken" value)="[^"]+"/\1=""/g'
 
-	if [[ ${csrftoken:-} ]]; then
-		data_csrftoken=(--data-urlencode "CSRFToken=$csrftoken")
+	for arg
+	do
+		case "$arg" in
+		--clear-csrf-token)
+			unset csrftoken
+			;;
+		--store-csrf-token)
+			store=csrf-token
+			;;
+		--with-csrf-token)
+			args+=(--data-urlencode "CSRFToken=$csrftoken")
+			;;
+		https://*)
+			request_uri="$arg"
+			;&
+		*)
+			args+=("$arg")
+			;;
+		esac
+	done
+
+	if [[ $store == csrf-token ]]; then
+		if [[ ! ${csrftoken:-} ]]; then
+			csrftoken=$(
+				curl --silent --location --noproxy localhost \
+					--cacert "$PRJDIR/etc/ssl/ca-certificates.crt" \
+					--cookie "$COOKIES" \
+					--cookie-jar "$COOKIES" \
+					"$request_uri" |
+				sed -nr '/name="CSRFToken"/ { s/.*value="([^"]+)".*/\1/g; p }'
+			)
+		fi
+
+		args+=(--data-urlencode "CSRFToken=$csrftoken")
+	fi
+
+	if [[ $csrftoken ]]; then
+		# Escape "+" for `sed -r`
+		nullify="${csrftoken+s:${csrftoken//+/\\+}::g;}"
 	fi
 
 	curl --silent --location --noproxy localhost \
 		--cacert "$PRJDIR/etc/ssl/ca-certificates.crt" \
-		--cookie "$COOKIES" --cookie-jar "$COOKIES" \
-		"${data_csrftoken[@]}" "$@" |
-	sed "s:${csrftoken:-^$}::g"
+		--cookie "$COOKIES" \
+		--cookie-jar "$COOKIES" \
+		"${data_csrftoken[@]}" "${args[@]}" |
+	sed -r "$nullify"
 }
 
 rawurlencode() {

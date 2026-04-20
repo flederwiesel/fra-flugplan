@@ -2,21 +2,16 @@ mailtodisk --add uid-1@example.com "$mailfile"
 
 ###############################################################################
 
-csrftoken=$(
-	browse "$url/?req=register" |
-	sed -nr '/name="CSRFToken"/ { s/.*value="([^"]+)".*/\1/g; p }'
-)
-
 test_1() {
 	browse "$url/?lang=de"
 }
 
 test_2() {
-	browse "$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}"
+	browse --store-csrf-token "$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}"
 }
 
 test_3() {
-	browse "$url/?req=register" \
+	browse --with-csrf-token "$url/?req=register" \
 		--data-urlencode "email=uid-1@example.com" \
 		--data-urlencode "user=uid-1" \
 		--data-urlencode "passwd=elvizzz" \
@@ -27,15 +22,17 @@ test_3() {
 test_4() {
 	token=$(query fra-flugplan <<< "SELECT token FROM users WHERE name='uid-1'")
 
-	browse "$url/?req=activate" \
+	browse --with-csrf-token \
 		--data-urlencode "user=uid-1" \
-		--data-urlencode "token=$token"
+		--data-urlencode "token=$token" \
+		"$url/?req=activate"
 }
 
 test_5() {
-	browse "$url/?req=login" \
+	browse --with-csrf-token \
 		--data-urlencode "user=uid-1" \
-		--data-urlencode "passwd=elvizzz"
+		--data-urlencode "passwd=elvizzz" \
+		"$url/?req=login"
 }
 
 test_6() {
@@ -43,12 +40,13 @@ test_6() {
 }
 
 test_7() {
-	browse "$url/?req=profile&dispinterval" \
+	browse --with-csrf-token \
 		--data-urlencode "tm-=-900" \
 		--data-urlencode "tm%2b=7200" \
 		--data-urlencode "tt-=-900" \
 		--data-urlencode "tt%2b=28800" \
-		--data-urlencode "submit=interval"
+		--data-urlencode "submit=interval" \
+		"$url/?req=profile&dispinterval"
 }
 
 test_8() {
@@ -56,28 +54,31 @@ test_8() {
 }
 
 test_9() {
-	browse "$url/?req=profile" \
+	browse --with-csrf-token \
 		--data-urlencode "from=00:00" \
 		--data-urlencode "until=24:00" \
 		--data-urlencode "timefmt=%c" \
-		--data-urlencode "submit=notifications" |
+		--data-urlencode "submit=notifications" \
+		"$url/?req=profile" |
 	sed -r "s/[0-9]{2}\.[0-9]{2}\.[0-9]{4} [0-9]{2}:[0-9]{2}:[0-9]{2}/00.00.0000 00:00:00/g"
 }
 
 test_10() {
-	browse "$url/?req=profile" \
+	browse --with-csrf-token \
 		--data-urlencode "from=08:00" \
 		--data-urlencode "until=22:00" \
 		--data-urlencode "timefmt=" \
-		--data-urlencode "submit=notifications" |
+		--data-urlencode "submit=notifications" \
+		"$url/?req=profile" |
 	sed -r "s/\+0 [0-9]{2}:[0-9]{2}/+0 00:00/g"
 }
 
 test_11() {
-	browse "$url/?req=profile" \
+	browse --with-csrf-token \
 		--data-urlencode "from=08:00" \
 		--data-urlencode "until=22:00" \
-		--data-urlencode "submit=notifications" |
+		--data-urlencode "submit=notifications" \
+		"$url/?req=profile" |
 	sed -r "s/\+0 [0-9]{2}:[0-9]{2}/+0 00:00/g"
 }
 
@@ -171,9 +172,10 @@ test_13() {
 }
 
 test_14() {
-	browse "$url/?req=profile&photodb" \
+	browse --with-csrf-token \
 		--data-urlencode "submit=photodb" \
-		--data-urlencode "photodb=jetphotos.com"
+		--data-urlencode "photodb=jetphotos.com" \
+		"$url/?req=profile&photodb"
 }
 
 test_15() {
