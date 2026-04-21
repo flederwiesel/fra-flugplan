@@ -179,24 +179,24 @@ test_11_1() {
 		"$url/?req=changepw"
 }
 
-check "1-0" test_1_0
-check "1-1" test_1_1
-check "2-0" test_2_0
-check "2-1" test_2_1
-check "3-0" test_3_0
-check "3-1" test_3_1
-check "4-0" test_4_0
-check "4-1" test_4_1
-check "5-0" test_5_0
-check "5-1" test_5_1
-check "6-0" test_6_0
-check "6-1" test_6_1
-check "7-0" test_7_0
-check "7-1" test_7_1
-check "8-0" test_8_0
-check "8-1" test_8_1
-check "9-0" test_9_0
-check "9-1" test_9_1
+check "1_0" test_1_0
+check "1_1" test_1_1
+check "2_0" test_2_0
+check "2_1" test_2_1
+check "3_0" test_3_0
+check "3_1" test_3_1
+check "4_0" test_4_0
+check "4_1" test_4_1
+check "5_0" test_5_0
+check "5_1" test_5_1
+check "6_0" test_6_0
+check "6_1" test_6_1
+check "7_0" test_7_0
+check "7_1" test_7_1
+check "8_0" test_8_0
+check "8_1" test_8_1
+check "9_0" test_9_0
+check "9_1" test_9_1
 check "10" test_10
-check "11-0" test_11_0
-check "11-1" test_11_1
+check "11_0" test_11_0
+check "11_1" test_11_1

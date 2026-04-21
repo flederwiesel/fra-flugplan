@@ -203,11 +203,11 @@ check "6" test_6
 check "7" test_7
 check "8" test_8
 check "9" test_9
-check "9-1" test_9_1
-check "9-2" test_9_2
-check "9-3" test_9_3
+check "9_1" test_9_1
+check "9_2" test_9_2
+check "9_3" test_9_3
 check "10" test_10
-check "10-1" test_10_1
+check "10_1" test_10_1
 check "11" test_11
 check "12" test_12
 check "13" test_13

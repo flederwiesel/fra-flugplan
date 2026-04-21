@@ -199,8 +199,8 @@ check "1" test_1
 check "2" test_2
 check "3" test_3
 check "4" test_4
-check "4-1" test_4_1
-check "4-2" test_4_2
+check "4_1" test_4_1
+check "4_2" test_4_2
 check "5" test_5
 check "6" test_6
 check "7" test_7

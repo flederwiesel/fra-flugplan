@@ -44,7 +44,7 @@ do
 					while [ $page -le $pages ]
 					do
 						request="flighttype=${dir}s&time=$(rawurlencode $YYYYmmddTHHMMSSZ)&items=$items&page=$page"
-						d_HH00_d_p=$(printf "$day-%02u00-$dir-$page" $t)
+						d_HH00_d_p=$(printf "%d_%02u00_%s_%d" "$day" "$t" "$dir" "$page")
 
 						fileext=json check "$d_HH00_d_p" test_json
 

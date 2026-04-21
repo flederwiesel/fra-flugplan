@@ -192,23 +192,25 @@ test_visits() {
 	SQL
 }
 
-for day in {0..1}
+for d in {0..1}
 do
 	for t in {5..23}
 	do
-		time=$(printf '%02u:00' $t)
-		ddHHMM=$(printf '%02u' $day)-$(date +'%H%M' --date="$time")
+		# Zero-pad $t
+		t="0$t"
+		t="${t: -2}:00"
+		ddHHMM="${d}_$(date +'%H%M' --date="$t")"
 
 		if [ "${getflights_stop_before:-}" = "$ddHHMM" ]; then
 			exit 1
 		fi
 
-		offset=$(date +'%Y-%m-%d' --date="+$day days")
-		now=$(date +'%Y-%m-%dT%H:%M:%S%z' --date="$offset $time")
+		offset=$(date +'%Y-%m-%d' --date="+$d days")
+		now=$(date +'%Y-%m-%dT%H:%M:%S%z' --date="$offset $t")
 		now=$(rawurlencode "$now")
 
 		# Check notification time format string
-		case "$day $time" in
+		case "$d $t" in
 		"1 05:00")
 			query fra-flugplan <<-"SQL"
 				UPDATE `users`
@@ -247,29 +249,29 @@ do
 			exit 1
 		fi
 
-		fileext=txt check "$ddHHMM-getflights" test_getflights
-		fileext=txt check "$ddHHMM-flights" test_flights
-		check "$ddHHMM-arrival" test_arrival
+		fileext=txt check "${ddHHMM}_getflights" test_getflights
+		fileext=txt check "${ddHHMM}_flights" test_flights
+		check "${ddHHMM}_arrival" test_arrival
 		# Note, that RARE A/C will not be marked as such,
 		# since we use different a/c in arrival/departure.csv,
 		# and only arrivals will evaluate visits
-		check "$ddHHMM-departure" test_departure
+		check "${ddHHMM}_departure" test_departure
 
-		fileext=txt check "$ddHHMM-notifications" test_notifications
-		fileext=txt check "$ddHHMM-visits" test_visits
+		fileext=txt check "${ddHHMM}_notifications" test_notifications
+		fileext=txt check "${ddHHMM}_visits" test_visits
 	done
 done
 
-for day in {2..3}
+for d in {2..3}
 do
-	ddHHMM=$(printf '%02u' $day)-0500
+	ddHHMM="${d}_0500"
 
-	offset=$(date +'%Y-%m-%d' --date="+$day days")
+	offset=$(date +'%Y-%m-%d' --date="+$d days")
 	now=$(date +'%Y-%m-%d %H:%M:%S' --date="$offset 05:00")
 	now=$(rawurlencode "$now")
 
-	fileext=txt check "$ddHHMM-getflights" test_getflights
-	fileext=txt check "$ddHHMM-notifications" test_notifications
+	fileext=txt check "${ddHHMM}_getflights" test_getflights
+	fileext=txt check "${ddHHMM}_notifications" test_notifications
 done
 
 fileext=txt check "visits" test_visits
