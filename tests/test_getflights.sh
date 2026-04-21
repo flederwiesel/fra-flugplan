@@ -1,9 +1,12 @@
+# DO NOT CHANGE THIS FILE. This file is generated automatically.
+# If you want to edit this file, change and execute its counterpart in
+# "$SCRIPTDIR/generators" instead, redirecting the output here.
+
 mailtodisk --add uid-1@example.com "$mailfile"
 mailtodisk --add uid-2@example.com "$mailfile"
 mailtodisk --add flugplan-admin@example.com "$mailfile"
 
-###############################################################################
-
+# Insert some default airlines/aicrafts, as well as users and watched regs
 query fra-flugplan < <(
 	cat "$PRJDIR/sql/data/countries.sql" \
 		"$PRJDIR/sql/data/airlines.sql" \
@@ -81,17 +84,31 @@ query fra-flugplan <<-"SQL"
 	(9, @uid2, TRUE, '/9K-GB[AB]/', 'State of Kuwait - A345');
 SQL
 
-YYYYmmdd_0=$(date +'%Y%m%d')
-YYYYmmdd_1=$(date +'%Y%m%d' --date="+1 days")
-YYYYmmdd_2=$(date +'%Y%m%d' --date="+2 days")
-YYYY_mm_dd_0=$(date +'%Y-%m-%d')
-YYYY_mm_dd_1=$(date +'%Y-%m-%d' --date="+1 days")
-YYYY_mm_dd_2=$(date +'%Y-%m-%d' --date="+2 days")
-YYYY_mm_dd_3=$(date +'%Y-%m-%d' --date="+3 days")
+readonly YYYYmmdd_0=$(date +'%Y%m%d')
+readonly YYYYmmdd_1=$(date +'%Y%m%d' --date="+1 days")
+readonly YYYYmmdd_2=$(date +'%Y%m%d' --date="+2 days")
+readonly YYYY_mm_dd_0=$(date +'%Y-%m-%d')
+readonly YYYY_mm_dd_1=$(date +'%Y-%m-%d' --date="+1 days")
+readonly YYYY_mm_dd_2=$(date +'%Y-%m-%d' --date="+2 days")
+readonly YYYY_mm_dd_3=$(date +'%Y-%m-%d' --date="+3 days")
 
-###############################################################################
+readonly RE_SCHEDULE="
+	s/$YYYY_mm_dd_0/0000-00-00/g
+	s/$YYYY_mm_dd_1/0000-00-01/g
+	s/(T[0-9]{2}%3A[0-9]{2}%3A00%2B0)[12](00)/\10\2/g
+"
 
-test_getflights() {
+isotime() {
+	local t=${1?}
+
+	# Format as ISO8601 and urlencode ":", "+"
+	date --date="$t" +"%Y-%m-%dT%H:%M:%S%z" |
+	sed "s/:/%3a/g; s/+/%2b/g"
+}
+
+getflights() {
+	local now=$1
+
 	browse "$url/getflights.php?prefix=${FRA_FLUGPLAN_HOST}&time=$now&debug=url,json,jflights,sql&fmt=txt" |
 	sed -r "
 		s/Dauer: [0-9]+.[0-9]+s/Dauer: 0.000s/g
@@ -113,7 +130,7 @@ test_getflights() {
 	"
 }
 
-test_flights() {
+query_flights() {
 	query fra-flugplan <<-"SQL" > >(
 		sed -r "
 			s/arrival/A/g
@@ -142,25 +159,7 @@ test_flights() {
 	SQL
 }
 
-test_arrival() {
-	browse "$url/?arrival&time=$now" |
-	sed -r "
-		s/$YYYY_mm_dd_0/0000-00-00/g
-		s/$YYYY_mm_dd_1/0000-00-01/g
-		s/(T[0-9]{2}%3A[0-9]{2}%3A00%2B0)[12](00)/\10\2/g
-	"
-}
-
-test_departure() {
-	browse "$url/?departure&time=$now" |
-	sed -r "
-		s/$YYYY_mm_dd_0/0000-00-00/g
-		s/$YYYY_mm_dd_1/0000-00-01/g
-		s/(T[0-9]{2}%3A[0-9]{2}%3A00%2B0)[12](00)/\10\2/g
-	"
-}
-
-test_notifications() {
+query_notifications() {
 	query fra-flugplan <<-"SQL" > >(
 		sed -r "
 			s/$YYYY_mm_dd_0/0000-00-00/g
@@ -173,7 +172,7 @@ test_notifications() {
 	SQL
 }
 
-test_visits() {
+query_visits() {
 	query fra-flugplan <<-"SQL" > >(
 		sed -r "
 			s/$YYYY_mm_dd_0/0000-00-00/g
@@ -191,87 +190,958 @@ test_visits() {
 		ORDER BY `reg`
 	SQL
 }
+testcase_fileext[test_0_0500_getflights]=txt
+test_0_0500_getflights() {
+	getflights "$(isotime '+0 days 05:00')"
+}
+testcase_fileext[test_0_0500_flights]=txt
+test_0_0500_flights() {
+	query_flights
+}
+testcase_fileext[test_0_0500_notifications]=txt
+test_0_0500_notifications() {
+	query_notifications
+}
+testcase_fileext[test_0_0500_visits]=txt
+test_0_0500_visits() {
+	query_visits
+}
+test_0_0500_arrival() {
+	browse "$url/?arrival&time=$(isotime '+0 days 05:00')" |
+	strsubst RE_SCHEDULE
+}
+test_0_0500_departure() {
+	browse "$url/?departure&time=$(isotime '+0 days 05:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_0_0600_getflights]=txt
+test_0_0600_getflights() {
+	getflights "$(isotime '+0 days 06:00')"
+}
+testcase_fileext[test_0_0600_flights]=txt
+test_0_0600_flights() {
+	query_flights
+}
+testcase_fileext[test_0_0600_notifications]=txt
+test_0_0600_notifications() {
+	query_notifications
+}
+testcase_fileext[test_0_0600_visits]=txt
+test_0_0600_visits() {
+	query_visits
+}
+test_0_0600_arrival() {
+	browse "$url/?arrival&time=$(isotime '+0 days 06:00')" |
+	strsubst RE_SCHEDULE
+}
+test_0_0600_departure() {
+	browse "$url/?departure&time=$(isotime '+0 days 06:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_0_0700_getflights]=txt
+test_0_0700_getflights() {
+	getflights "$(isotime '+0 days 07:00')"
+}
+testcase_fileext[test_0_0700_flights]=txt
+test_0_0700_flights() {
+	query_flights
+}
+testcase_fileext[test_0_0700_notifications]=txt
+test_0_0700_notifications() {
+	query_notifications
+}
+testcase_fileext[test_0_0700_visits]=txt
+test_0_0700_visits() {
+	query_visits
+}
+test_0_0700_arrival() {
+	browse "$url/?arrival&time=$(isotime '+0 days 07:00')" |
+	strsubst RE_SCHEDULE
+}
+test_0_0700_departure() {
+	browse "$url/?departure&time=$(isotime '+0 days 07:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_0_0800_getflights]=txt
+test_0_0800_getflights() {
+	getflights "$(isotime '+0 days 08:00')"
+}
+testcase_fileext[test_0_0800_flights]=txt
+test_0_0800_flights() {
+	query_flights
+}
+testcase_fileext[test_0_0800_notifications]=txt
+test_0_0800_notifications() {
+	query_notifications
+}
+testcase_fileext[test_0_0800_visits]=txt
+test_0_0800_visits() {
+	query_visits
+}
+test_0_0800_arrival() {
+	browse "$url/?arrival&time=$(isotime '+0 days 08:00')" |
+	strsubst RE_SCHEDULE
+}
+test_0_0800_departure() {
+	browse "$url/?departure&time=$(isotime '+0 days 08:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_0_0900_getflights]=txt
+test_0_0900_getflights() {
+	getflights "$(isotime '+0 days 09:00')"
+}
+testcase_fileext[test_0_0900_flights]=txt
+test_0_0900_flights() {
+	query_flights
+}
+testcase_fileext[test_0_0900_notifications]=txt
+test_0_0900_notifications() {
+	query_notifications
+}
+testcase_fileext[test_0_0900_visits]=txt
+test_0_0900_visits() {
+	query_visits
+}
+test_0_0900_arrival() {
+	browse "$url/?arrival&time=$(isotime '+0 days 09:00')" |
+	strsubst RE_SCHEDULE
+}
+test_0_0900_departure() {
+	browse "$url/?departure&time=$(isotime '+0 days 09:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_0_1000_getflights]=txt
+test_0_1000_getflights() {
+	getflights "$(isotime '+0 days 10:00')"
+}
+testcase_fileext[test_0_1000_flights]=txt
+test_0_1000_flights() {
+	query_flights
+}
+testcase_fileext[test_0_1000_notifications]=txt
+test_0_1000_notifications() {
+	query_notifications
+}
+testcase_fileext[test_0_1000_visits]=txt
+test_0_1000_visits() {
+	query_visits
+}
+test_0_1000_arrival() {
+	browse "$url/?arrival&time=$(isotime '+0 days 10:00')" |
+	strsubst RE_SCHEDULE
+}
+test_0_1000_departure() {
+	browse "$url/?departure&time=$(isotime '+0 days 10:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_0_1100_getflights]=txt
+test_0_1100_getflights() {
+	getflights "$(isotime '+0 days 11:00')"
+}
+testcase_fileext[test_0_1100_flights]=txt
+test_0_1100_flights() {
+	query_flights
+}
+testcase_fileext[test_0_1100_notifications]=txt
+test_0_1100_notifications() {
+	query_notifications
+}
+testcase_fileext[test_0_1100_visits]=txt
+test_0_1100_visits() {
+	query_visits
+}
+test_0_1100_arrival() {
+	browse "$url/?arrival&time=$(isotime '+0 days 11:00')" |
+	strsubst RE_SCHEDULE
+}
+test_0_1100_departure() {
+	browse "$url/?departure&time=$(isotime '+0 days 11:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_0_1200_getflights]=txt
+test_0_1200_getflights() {
+	getflights "$(isotime '+0 days 12:00')"
+}
+testcase_fileext[test_0_1200_flights]=txt
+test_0_1200_flights() {
+	query_flights
+}
+testcase_fileext[test_0_1200_notifications]=txt
+test_0_1200_notifications() {
+	query_notifications
+}
+testcase_fileext[test_0_1200_visits]=txt
+test_0_1200_visits() {
+	query_visits
+}
+test_0_1200_arrival() {
+	browse "$url/?arrival&time=$(isotime '+0 days 12:00')" |
+	strsubst RE_SCHEDULE
+}
+test_0_1200_departure() {
+	browse "$url/?departure&time=$(isotime '+0 days 12:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_0_1300_getflights]=txt
+test_0_1300_getflights() {
+	getflights "$(isotime '+0 days 13:00')"
+}
+testcase_fileext[test_0_1300_flights]=txt
+test_0_1300_flights() {
+	query_flights
+}
+testcase_fileext[test_0_1300_notifications]=txt
+test_0_1300_notifications() {
+	query_notifications
+}
+testcase_fileext[test_0_1300_visits]=txt
+test_0_1300_visits() {
+	query_visits
+}
+test_0_1300_arrival() {
+	browse "$url/?arrival&time=$(isotime '+0 days 13:00')" |
+	strsubst RE_SCHEDULE
+}
+test_0_1300_departure() {
+	browse "$url/?departure&time=$(isotime '+0 days 13:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_0_1400_getflights]=txt
+test_0_1400_getflights() {
+	getflights "$(isotime '+0 days 14:00')"
+}
+testcase_fileext[test_0_1400_flights]=txt
+test_0_1400_flights() {
+	query_flights
+}
+testcase_fileext[test_0_1400_notifications]=txt
+test_0_1400_notifications() {
+	query_notifications
+}
+testcase_fileext[test_0_1400_visits]=txt
+test_0_1400_visits() {
+	query_visits
+}
+test_0_1400_arrival() {
+	browse "$url/?arrival&time=$(isotime '+0 days 14:00')" |
+	strsubst RE_SCHEDULE
+}
+test_0_1400_departure() {
+	browse "$url/?departure&time=$(isotime '+0 days 14:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_0_1500_getflights]=txt
+test_0_1500_getflights() {
+	getflights "$(isotime '+0 days 15:00')"
+}
+testcase_fileext[test_0_1500_flights]=txt
+test_0_1500_flights() {
+	query_flights
+}
+testcase_fileext[test_0_1500_notifications]=txt
+test_0_1500_notifications() {
+	query_notifications
+}
+testcase_fileext[test_0_1500_visits]=txt
+test_0_1500_visits() {
+	query_visits
+}
+test_0_1500_arrival() {
+	browse "$url/?arrival&time=$(isotime '+0 days 15:00')" |
+	strsubst RE_SCHEDULE
+}
+test_0_1500_departure() {
+	browse "$url/?departure&time=$(isotime '+0 days 15:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_0_1600_getflights]=txt
+test_0_1600_getflights() {
+	getflights "$(isotime '+0 days 16:00')"
+}
+testcase_fileext[test_0_1600_flights]=txt
+test_0_1600_flights() {
+	query_flights
+}
+testcase_fileext[test_0_1600_notifications]=txt
+test_0_1600_notifications() {
+	query_notifications
+}
+testcase_fileext[test_0_1600_visits]=txt
+test_0_1600_visits() {
+	query_visits
+}
+test_0_1600_arrival() {
+	browse "$url/?arrival&time=$(isotime '+0 days 16:00')" |
+	strsubst RE_SCHEDULE
+}
+test_0_1600_departure() {
+	browse "$url/?departure&time=$(isotime '+0 days 16:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_0_1700_getflights]=txt
+test_0_1700_getflights() {
+	getflights "$(isotime '+0 days 17:00')"
+}
+testcase_fileext[test_0_1700_flights]=txt
+test_0_1700_flights() {
+	query_flights
+}
+testcase_fileext[test_0_1700_notifications]=txt
+test_0_1700_notifications() {
+	query_notifications
+}
+testcase_fileext[test_0_1700_visits]=txt
+test_0_1700_visits() {
+	query_visits
+}
+test_0_1700_arrival() {
+	browse "$url/?arrival&time=$(isotime '+0 days 17:00')" |
+	strsubst RE_SCHEDULE
+}
+test_0_1700_departure() {
+	browse "$url/?departure&time=$(isotime '+0 days 17:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_0_1800_getflights]=txt
+test_0_1800_getflights() {
+	getflights "$(isotime '+0 days 18:00')"
+}
+testcase_fileext[test_0_1800_flights]=txt
+test_0_1800_flights() {
+	query_flights
+}
+testcase_fileext[test_0_1800_notifications]=txt
+test_0_1800_notifications() {
+	query_notifications
+}
+testcase_fileext[test_0_1800_visits]=txt
+test_0_1800_visits() {
+	query_visits
+}
+test_0_1800_arrival() {
+	browse "$url/?arrival&time=$(isotime '+0 days 18:00')" |
+	strsubst RE_SCHEDULE
+}
+test_0_1800_departure() {
+	browse "$url/?departure&time=$(isotime '+0 days 18:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_0_1900_getflights]=txt
+test_0_1900_getflights() {
+	getflights "$(isotime '+0 days 19:00')"
+}
+testcase_fileext[test_0_1900_flights]=txt
+test_0_1900_flights() {
+	query_flights
+}
+testcase_fileext[test_0_1900_notifications]=txt
+test_0_1900_notifications() {
+	query_notifications
+}
+testcase_fileext[test_0_1900_visits]=txt
+test_0_1900_visits() {
+	query_visits
+}
+test_0_1900_arrival() {
+	browse "$url/?arrival&time=$(isotime '+0 days 19:00')" |
+	strsubst RE_SCHEDULE
+}
+test_0_1900_departure() {
+	browse "$url/?departure&time=$(isotime '+0 days 19:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_0_2000_getflights]=txt
+test_0_2000_getflights() {
+	getflights "$(isotime '+0 days 20:00')"
+}
+testcase_fileext[test_0_2000_flights]=txt
+test_0_2000_flights() {
+	query_flights
+}
+testcase_fileext[test_0_2000_notifications]=txt
+test_0_2000_notifications() {
+	query_notifications
+}
+testcase_fileext[test_0_2000_visits]=txt
+test_0_2000_visits() {
+	query_visits
+}
+test_0_2000_arrival() {
+	browse "$url/?arrival&time=$(isotime '+0 days 20:00')" |
+	strsubst RE_SCHEDULE
+}
+test_0_2000_departure() {
+	browse "$url/?departure&time=$(isotime '+0 days 20:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_0_2100_getflights]=txt
+test_0_2100_getflights() {
+	getflights "$(isotime '+0 days 21:00')"
+}
+testcase_fileext[test_0_2100_flights]=txt
+test_0_2100_flights() {
+	query_flights
+}
+testcase_fileext[test_0_2100_notifications]=txt
+test_0_2100_notifications() {
+	query_notifications
+}
+testcase_fileext[test_0_2100_visits]=txt
+test_0_2100_visits() {
+	query_visits
+}
+test_0_2100_arrival() {
+	browse "$url/?arrival&time=$(isotime '+0 days 21:00')" |
+	strsubst RE_SCHEDULE
+}
+test_0_2100_departure() {
+	browse "$url/?departure&time=$(isotime '+0 days 21:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_0_2200_getflights]=txt
+test_0_2200_getflights() {
+	getflights "$(isotime '+0 days 22:00')"
+}
+testcase_fileext[test_0_2200_flights]=txt
+test_0_2200_flights() {
+	query_flights
+}
+testcase_fileext[test_0_2200_notifications]=txt
+test_0_2200_notifications() {
+	query_notifications
+}
+testcase_fileext[test_0_2200_visits]=txt
+test_0_2200_visits() {
+	query_visits
+}
+test_0_2200_arrival() {
+	browse "$url/?arrival&time=$(isotime '+0 days 22:00')" |
+	strsubst RE_SCHEDULE
+}
+test_0_2200_departure() {
+	browse "$url/?departure&time=$(isotime '+0 days 22:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_0_2300_getflights]=txt
+test_0_2300_getflights() {
+	getflights "$(isotime '+0 days 23:00')"
+}
+testcase_fileext[test_0_2300_flights]=txt
+test_0_2300_flights() {
+	query_flights
+}
+testcase_fileext[test_0_2300_notifications]=txt
+test_0_2300_notifications() {
+	query_notifications
+}
+testcase_fileext[test_0_2300_visits]=txt
+test_0_2300_visits() {
+	query_visits
+}
+test_0_2300_arrival() {
+	browse "$url/?arrival&time=$(isotime '+0 days 23:00')" |
+	strsubst RE_SCHEDULE
+}
+test_0_2300_departure() {
+	browse "$url/?departure&time=$(isotime '+0 days 23:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_1_0500_getflights]=txt
+test_1_0500_getflights() {
+    query fra-flugplan <<-'SQL'
+UPDATE `users`
+SET `notification-timefmt`='%A, %c'
+WHERE `name`='uid-2'
+SQL
 
-for d in {0..1}
-do
-	for t in {5..23}
-	do
-		# Zero-pad $t
-		t="0$t"
-		t="${t: -2}:00"
-		ddHHMM="${d}_$(date +'%H%M' --date="$t")"
+	getflights "$(isotime '+1 days 05:00')"
+}
+testcase_fileext[test_1_0500_flights]=txt
+test_1_0500_flights() {
+	query_flights
+}
+testcase_fileext[test_1_0500_notifications]=txt
+test_1_0500_notifications() {
+	query_notifications
+}
+testcase_fileext[test_1_0500_visits]=txt
+test_1_0500_visits() {
+	query_visits
+}
+test_1_0500_arrival() {
+	browse "$url/?arrival&time=$(isotime '+1 days 05:00')" |
+	strsubst RE_SCHEDULE
+}
+test_1_0500_departure() {
+	browse "$url/?departure&time=$(isotime '+1 days 05:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_1_0600_getflights]=txt
+test_1_0600_getflights() {
+	getflights "$(isotime '+1 days 06:00')"
+}
+testcase_fileext[test_1_0600_flights]=txt
+test_1_0600_flights() {
+	query_flights
+}
+testcase_fileext[test_1_0600_notifications]=txt
+test_1_0600_notifications() {
+	query_notifications
+}
+testcase_fileext[test_1_0600_visits]=txt
+test_1_0600_visits() {
+	query_visits
+}
+test_1_0600_arrival() {
+	browse "$url/?arrival&time=$(isotime '+1 days 06:00')" |
+	strsubst RE_SCHEDULE
+}
+test_1_0600_departure() {
+	browse "$url/?departure&time=$(isotime '+1 days 06:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_1_0700_getflights]=txt
+test_1_0700_getflights() {
+	getflights "$(isotime '+1 days 07:00')"
+}
+testcase_fileext[test_1_0700_flights]=txt
+test_1_0700_flights() {
+	query_flights
+}
+testcase_fileext[test_1_0700_notifications]=txt
+test_1_0700_notifications() {
+	query_notifications
+}
+testcase_fileext[test_1_0700_visits]=txt
+test_1_0700_visits() {
+	query_visits
+}
+test_1_0700_arrival() {
+	browse "$url/?arrival&time=$(isotime '+1 days 07:00')" |
+	strsubst RE_SCHEDULE
+}
+test_1_0700_departure() {
+	browse "$url/?departure&time=$(isotime '+1 days 07:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_1_0800_getflights]=txt
+test_1_0800_getflights() {
+	getflights "$(isotime '+1 days 08:00')"
+}
+testcase_fileext[test_1_0800_flights]=txt
+test_1_0800_flights() {
+	query_flights
+}
+testcase_fileext[test_1_0800_notifications]=txt
+test_1_0800_notifications() {
+	query_notifications
+}
+testcase_fileext[test_1_0800_visits]=txt
+test_1_0800_visits() {
+	query_visits
+}
+test_1_0800_arrival() {
+	browse "$url/?arrival&time=$(isotime '+1 days 08:00')" |
+	strsubst RE_SCHEDULE
+}
+test_1_0800_departure() {
+	browse "$url/?departure&time=$(isotime '+1 days 08:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_1_0900_getflights]=txt
+test_1_0900_getflights() {
+	getflights "$(isotime '+1 days 09:00')"
+}
+testcase_fileext[test_1_0900_flights]=txt
+test_1_0900_flights() {
+	query_flights
+}
+testcase_fileext[test_1_0900_notifications]=txt
+test_1_0900_notifications() {
+	query_notifications
+}
+testcase_fileext[test_1_0900_visits]=txt
+test_1_0900_visits() {
+	query_visits
+}
+test_1_0900_arrival() {
+	browse "$url/?arrival&time=$(isotime '+1 days 09:00')" |
+	strsubst RE_SCHEDULE
+}
+test_1_0900_departure() {
+	browse "$url/?departure&time=$(isotime '+1 days 09:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_1_1000_getflights]=txt
+test_1_1000_getflights() {
+    query fra-flugplan <<-'SQL'
+UPDATE `visits`
+SET `previous` = NULL
+WHERE `aircraft` = (
+SELECT `id`
+FROM `aircrafts`
+WHERE `reg` = 'CS-TNP'
+)
+SQL
 
-		if [ "${getflights_stop_before:-}" = "$ddHHMM" ]; then
-			exit 1
-		fi
+	getflights "$(isotime '+1 days 10:00')"
+}
+testcase_fileext[test_1_1000_flights]=txt
+test_1_1000_flights() {
+	query_flights
+}
+testcase_fileext[test_1_1000_notifications]=txt
+test_1_1000_notifications() {
+	query_notifications
+}
+testcase_fileext[test_1_1000_visits]=txt
+test_1_1000_visits() {
+	query_visits
+}
+test_1_1000_arrival() {
+	browse "$url/?arrival&time=$(isotime '+1 days 10:00')" |
+	strsubst RE_SCHEDULE
+}
+test_1_1000_departure() {
+	browse "$url/?departure&time=$(isotime '+1 days 10:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_1_1100_getflights]=txt
+test_1_1100_getflights() {
+	getflights "$(isotime '+1 days 11:00')"
+}
+testcase_fileext[test_1_1100_flights]=txt
+test_1_1100_flights() {
+	query_flights
+}
+testcase_fileext[test_1_1100_notifications]=txt
+test_1_1100_notifications() {
+	query_notifications
+}
+testcase_fileext[test_1_1100_visits]=txt
+test_1_1100_visits() {
+	query_visits
+}
+test_1_1100_arrival() {
+	browse "$url/?arrival&time=$(isotime '+1 days 11:00')" |
+	strsubst RE_SCHEDULE
+}
+test_1_1100_departure() {
+	browse "$url/?departure&time=$(isotime '+1 days 11:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_1_1200_getflights]=txt
+test_1_1200_getflights() {
+    query fra-flugplan <<-'SQL'
+UPDATE `users`
+SET `notification-timefmt`='%A, %d. %B %Y %H:%M',
+`language`='de'
+WHERE `name`='uid-2'
+SQL
 
-		offset=$(date +'%Y-%m-%d' --date="+$d days")
-		now=$(date +'%Y-%m-%dT%H:%M:%S%z' --date="$offset $t")
-		now=$(rawurlencode "$now")
-
-		# Check notification time format string
-		case "$d $t" in
-		"1 05:00")
-			query fra-flugplan <<-"SQL"
-				UPDATE `users`
-				SET `notification-timefmt`='%A, %c'
-				WHERE `name`='uid-2'
-			SQL
-			;;
-
-		"1 10:00")
-			# From bulk INSERT in "fra-flugplan.sql" we do not get `previous`
-			# even for `num` > 1, where normally this would be NOT NULL.
-			# Need to check for this also...
-			# '0000-00-00 22:30:00' -> NULL
-			query fra-flugplan <<-"SQL"
-				UPDATE `visits`
-				SET `previous` = NULL
-				WHERE `aircraft` = (
-					SELECT `id`
-					FROM `aircrafts`
-					WHERE `reg` = 'CS-TNP'
-				)
-			SQL
-			;;
-
-		"1 12:00")
-			query fra-flugplan <<-"SQL"
-				UPDATE `users`
-				SET `notification-timefmt`='%A, %d. %B %Y %H:%M',
-					`language`='de'
-				WHERE `name`='uid-2'
-			SQL
-			;;
-		esac
-
-		if [ "${getflights_stop_at:-}" = "$ddHHMM" ]; then
-			exit 1
-		fi
-
-		fileext=txt check "${ddHHMM}_getflights" test_getflights
-		fileext=txt check "${ddHHMM}_flights" test_flights
-		check "${ddHHMM}_arrival" test_arrival
-		# Note, that RARE A/C will not be marked as such,
-		# since we use different a/c in arrival/departure.csv,
-		# and only arrivals will evaluate visits
-		check "${ddHHMM}_departure" test_departure
-
-		fileext=txt check "${ddHHMM}_notifications" test_notifications
-		fileext=txt check "${ddHHMM}_visits" test_visits
-	done
-done
-
-for d in {2..3}
-do
-	ddHHMM="${d}_0500"
-
-	offset=$(date +'%Y-%m-%d' --date="+$d days")
-	now=$(date +'%Y-%m-%d %H:%M:%S' --date="$offset 05:00")
-	now=$(rawurlencode "$now")
-
-	fileext=txt check "${ddHHMM}_getflights" test_getflights
-	fileext=txt check "${ddHHMM}_notifications" test_notifications
-done
-
-fileext=txt check "visits" test_visits
+	getflights "$(isotime '+1 days 12:00')"
+}
+testcase_fileext[test_1_1200_flights]=txt
+test_1_1200_flights() {
+	query_flights
+}
+testcase_fileext[test_1_1200_notifications]=txt
+test_1_1200_notifications() {
+	query_notifications
+}
+testcase_fileext[test_1_1200_visits]=txt
+test_1_1200_visits() {
+	query_visits
+}
+test_1_1200_arrival() {
+	browse "$url/?arrival&time=$(isotime '+1 days 12:00')" |
+	strsubst RE_SCHEDULE
+}
+test_1_1200_departure() {
+	browse "$url/?departure&time=$(isotime '+1 days 12:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_1_1300_getflights]=txt
+test_1_1300_getflights() {
+	getflights "$(isotime '+1 days 13:00')"
+}
+testcase_fileext[test_1_1300_flights]=txt
+test_1_1300_flights() {
+	query_flights
+}
+testcase_fileext[test_1_1300_notifications]=txt
+test_1_1300_notifications() {
+	query_notifications
+}
+testcase_fileext[test_1_1300_visits]=txt
+test_1_1300_visits() {
+	query_visits
+}
+test_1_1300_arrival() {
+	browse "$url/?arrival&time=$(isotime '+1 days 13:00')" |
+	strsubst RE_SCHEDULE
+}
+test_1_1300_departure() {
+	browse "$url/?departure&time=$(isotime '+1 days 13:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_1_1400_getflights]=txt
+test_1_1400_getflights() {
+	getflights "$(isotime '+1 days 14:00')"
+}
+testcase_fileext[test_1_1400_flights]=txt
+test_1_1400_flights() {
+	query_flights
+}
+testcase_fileext[test_1_1400_notifications]=txt
+test_1_1400_notifications() {
+	query_notifications
+}
+testcase_fileext[test_1_1400_visits]=txt
+test_1_1400_visits() {
+	query_visits
+}
+test_1_1400_arrival() {
+	browse "$url/?arrival&time=$(isotime '+1 days 14:00')" |
+	strsubst RE_SCHEDULE
+}
+test_1_1400_departure() {
+	browse "$url/?departure&time=$(isotime '+1 days 14:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_1_1500_getflights]=txt
+test_1_1500_getflights() {
+	getflights "$(isotime '+1 days 15:00')"
+}
+testcase_fileext[test_1_1500_flights]=txt
+test_1_1500_flights() {
+	query_flights
+}
+testcase_fileext[test_1_1500_notifications]=txt
+test_1_1500_notifications() {
+	query_notifications
+}
+testcase_fileext[test_1_1500_visits]=txt
+test_1_1500_visits() {
+	query_visits
+}
+test_1_1500_arrival() {
+	browse "$url/?arrival&time=$(isotime '+1 days 15:00')" |
+	strsubst RE_SCHEDULE
+}
+test_1_1500_departure() {
+	browse "$url/?departure&time=$(isotime '+1 days 15:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_1_1600_getflights]=txt
+test_1_1600_getflights() {
+	getflights "$(isotime '+1 days 16:00')"
+}
+testcase_fileext[test_1_1600_flights]=txt
+test_1_1600_flights() {
+	query_flights
+}
+testcase_fileext[test_1_1600_notifications]=txt
+test_1_1600_notifications() {
+	query_notifications
+}
+testcase_fileext[test_1_1600_visits]=txt
+test_1_1600_visits() {
+	query_visits
+}
+test_1_1600_arrival() {
+	browse "$url/?arrival&time=$(isotime '+1 days 16:00')" |
+	strsubst RE_SCHEDULE
+}
+test_1_1600_departure() {
+	browse "$url/?departure&time=$(isotime '+1 days 16:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_1_1700_getflights]=txt
+test_1_1700_getflights() {
+	getflights "$(isotime '+1 days 17:00')"
+}
+testcase_fileext[test_1_1700_flights]=txt
+test_1_1700_flights() {
+	query_flights
+}
+testcase_fileext[test_1_1700_notifications]=txt
+test_1_1700_notifications() {
+	query_notifications
+}
+testcase_fileext[test_1_1700_visits]=txt
+test_1_1700_visits() {
+	query_visits
+}
+test_1_1700_arrival() {
+	browse "$url/?arrival&time=$(isotime '+1 days 17:00')" |
+	strsubst RE_SCHEDULE
+}
+test_1_1700_departure() {
+	browse "$url/?departure&time=$(isotime '+1 days 17:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_1_1800_getflights]=txt
+test_1_1800_getflights() {
+	getflights "$(isotime '+1 days 18:00')"
+}
+testcase_fileext[test_1_1800_flights]=txt
+test_1_1800_flights() {
+	query_flights
+}
+testcase_fileext[test_1_1800_notifications]=txt
+test_1_1800_notifications() {
+	query_notifications
+}
+testcase_fileext[test_1_1800_visits]=txt
+test_1_1800_visits() {
+	query_visits
+}
+test_1_1800_arrival() {
+	browse "$url/?arrival&time=$(isotime '+1 days 18:00')" |
+	strsubst RE_SCHEDULE
+}
+test_1_1800_departure() {
+	browse "$url/?departure&time=$(isotime '+1 days 18:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_1_1900_getflights]=txt
+test_1_1900_getflights() {
+	getflights "$(isotime '+1 days 19:00')"
+}
+testcase_fileext[test_1_1900_flights]=txt
+test_1_1900_flights() {
+	query_flights
+}
+testcase_fileext[test_1_1900_notifications]=txt
+test_1_1900_notifications() {
+	query_notifications
+}
+testcase_fileext[test_1_1900_visits]=txt
+test_1_1900_visits() {
+	query_visits
+}
+test_1_1900_arrival() {
+	browse "$url/?arrival&time=$(isotime '+1 days 19:00')" |
+	strsubst RE_SCHEDULE
+}
+test_1_1900_departure() {
+	browse "$url/?departure&time=$(isotime '+1 days 19:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_1_2000_getflights]=txt
+test_1_2000_getflights() {
+	getflights "$(isotime '+1 days 20:00')"
+}
+testcase_fileext[test_1_2000_flights]=txt
+test_1_2000_flights() {
+	query_flights
+}
+testcase_fileext[test_1_2000_notifications]=txt
+test_1_2000_notifications() {
+	query_notifications
+}
+testcase_fileext[test_1_2000_visits]=txt
+test_1_2000_visits() {
+	query_visits
+}
+test_1_2000_arrival() {
+	browse "$url/?arrival&time=$(isotime '+1 days 20:00')" |
+	strsubst RE_SCHEDULE
+}
+test_1_2000_departure() {
+	browse "$url/?departure&time=$(isotime '+1 days 20:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_1_2100_getflights]=txt
+test_1_2100_getflights() {
+	getflights "$(isotime '+1 days 21:00')"
+}
+testcase_fileext[test_1_2100_flights]=txt
+test_1_2100_flights() {
+	query_flights
+}
+testcase_fileext[test_1_2100_notifications]=txt
+test_1_2100_notifications() {
+	query_notifications
+}
+testcase_fileext[test_1_2100_visits]=txt
+test_1_2100_visits() {
+	query_visits
+}
+test_1_2100_arrival() {
+	browse "$url/?arrival&time=$(isotime '+1 days 21:00')" |
+	strsubst RE_SCHEDULE
+}
+test_1_2100_departure() {
+	browse "$url/?departure&time=$(isotime '+1 days 21:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_1_2200_getflights]=txt
+test_1_2200_getflights() {
+	getflights "$(isotime '+1 days 22:00')"
+}
+testcase_fileext[test_1_2200_flights]=txt
+test_1_2200_flights() {
+	query_flights
+}
+testcase_fileext[test_1_2200_notifications]=txt
+test_1_2200_notifications() {
+	query_notifications
+}
+testcase_fileext[test_1_2200_visits]=txt
+test_1_2200_visits() {
+	query_visits
+}
+test_1_2200_arrival() {
+	browse "$url/?arrival&time=$(isotime '+1 days 22:00')" |
+	strsubst RE_SCHEDULE
+}
+test_1_2200_departure() {
+	browse "$url/?departure&time=$(isotime '+1 days 22:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_1_2300_getflights]=txt
+test_1_2300_getflights() {
+	getflights "$(isotime '+1 days 23:00')"
+}
+testcase_fileext[test_1_2300_flights]=txt
+test_1_2300_flights() {
+	query_flights
+}
+testcase_fileext[test_1_2300_notifications]=txt
+test_1_2300_notifications() {
+	query_notifications
+}
+testcase_fileext[test_1_2300_visits]=txt
+test_1_2300_visits() {
+	query_visits
+}
+test_1_2300_arrival() {
+	browse "$url/?arrival&time=$(isotime '+1 days 23:00')" |
+	strsubst RE_SCHEDULE
+}
+test_1_2300_departure() {
+	browse "$url/?departure&time=$(isotime '+1 days 23:00')" |
+	strsubst RE_SCHEDULE
+}
+testcase_fileext[test_2_0500_getflights]=txt
+test_2_0500_getflights() {
+	getflights "$(isotime '+2 days 05:00')"
+}
+testcase_fileext[test_2_0500_notifications]=txt
+test_2_0500_notifications() {
+	query_notifications
+}
+testcase_fileext[test_3_0500_getflights]=txt
+test_3_0500_getflights() {
+	getflights "$(isotime '+3 days 05:00')"
+}
+testcase_fileext[test_3_0500_notifications]=txt
+test_3_0500_notifications() {
+	query_notifications
+}
+testcase_fileext[test_visits]=txt
+test_visits() {
+	query_visits
+}

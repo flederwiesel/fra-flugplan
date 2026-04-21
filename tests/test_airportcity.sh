@@ -1,8 +1,31 @@
+# DO NOT CHANGE THIS FILE. This file is generated automatically.
+# If you want to edit this file, change and execute its counterpart in
+# "$SCRIPTDIR/generators" instead, redirecting the output here.
+
+fileext=json
 items=4
 path="www.frankfurt-airport.com/_jcr_content.flights.json/filter"
 
-test_json() {
-	browse "$url/$path?$request" |
+YYYYmmdd_0=$(date +%Y-%m-%d)
+YYYYmmdd_1=$(date +%Y-%m-%d --date="+1 day")
+YYYYmmdd_2=$(date +%Y-%m-%d --date="+2 day")
+YYYYmmdd_3=$(date +%Y-%m-%d --date="+3 day")
+
+isotime() {
+	local t=${1?}
+
+	# Format as ISO8601 and urlencode ":", "+"
+	date --date="$t" +"%Y-%m-%dT%H:%M:%S%z" |
+	sed "s/:/%3a/g; s/+/%2b/g"
+}
+
+getflights() {
+	local d=${1?}
+	local t=${2?}
+	local dir=${3?}
+	local page=${4?}
+
+	browse "$url/$path?flighttype=${dir}s&time=$(isotime "$d days $t:00")&items=$items&page=$page" |
 	jq '[.data[]|{dir:.dir,sched:.sched,esti:.esti,fnr:.fnr,reg:.reg}]' |
 	sed -r "
 		s/$YYYYmmdd_0/0000-00-00/g
@@ -12,46 +35,397 @@ test_json() {
 		s/(T[0-9]{2}:[0-9]{2}:00\+0)[12](00)/\10\2/g
 	"
 }
-
-for day in {0..1}
-do
-
-	for t in {5..23}
-	do
-		time=$(printf '%02u:00' $t)
-		ddHHMM=$(printf '%02u' $day)-$(date +'%H%M' --date="$time")
-
-		if [ "${airportcity_stop_before:-}" = "$ddHHMM" ]; then
-			exit 1
-		fi
-
-		YYYYmmdd_0=$(date +%Y-%m-%d)
-		YYYYmmdd_1=$(date +%Y-%m-%d --date="+1 day")
-		YYYYmmdd_2=$(date +%Y-%m-%d --date="+2 days")
-		YYYYmmdd_3=$(date +%Y-%m-%d --date="+3 days")
-		YYYYmmddTHHMMSSZ=$(date +'%Y-%m-%dT%H:%M:%S%z' --date="$day day $time:00")
-
-		for dir in arrival departure
-		do
-			# get number of pages
-			request="flighttype=${dir}s&time=$(rawurlencode $YYYYmmddTHHMMSSZ)&items=$items&page=1"
-			pages=$(browse "$url/$path?$request" | jq .maxpage)
-
-			if [ $? -eq 0 ]; then
-				if [ -n "$pages" ]; then
-					page=1
-
-					while [ $page -le $pages ]
-					do
-						request="flighttype=${dir}s&time=$(rawurlencode $YYYYmmddTHHMMSSZ)&items=$items&page=$page"
-						d_HH00_d_p=$(printf "%d_%02u00_%s_%d" "$day" "$t" "$dir" "$page")
-
-						fileext=json check "$d_HH00_d_p" test_json
-
-						((page++))
-					done
-				fi
-			fi
-		done
-	done
-done
+test_0_0500_arrival_1() { getflights 0 05 arrival 1; }
+test_0_0500_arrival_2() { getflights 0 05 arrival 2; }
+test_0_0500_arrival_3() { getflights 0 05 arrival 3; }
+test_0_0500_arrival_4() { getflights 0 05 arrival 4; }
+test_0_0500_arrival_5() { getflights 0 05 arrival 5; }
+test_0_0500_departure_1() { getflights 0 05 departure 1; }
+test_0_0500_departure_2() { getflights 0 05 departure 2; }
+test_0_0500_departure_3() { getflights 0 05 departure 3; }
+test_0_0500_departure_4() { getflights 0 05 departure 4; }
+test_0_0500_departure_5() { getflights 0 05 departure 5; }
+test_0_0600_arrival_1() { getflights 0 06 arrival 1; }
+test_0_0600_arrival_2() { getflights 0 06 arrival 2; }
+test_0_0600_arrival_3() { getflights 0 06 arrival 3; }
+test_0_0600_arrival_4() { getflights 0 06 arrival 4; }
+test_0_0600_arrival_5() { getflights 0 06 arrival 5; }
+test_0_0600_departure_1() { getflights 0 06 departure 1; }
+test_0_0600_departure_2() { getflights 0 06 departure 2; }
+test_0_0600_departure_3() { getflights 0 06 departure 3; }
+test_0_0600_departure_4() { getflights 0 06 departure 4; }
+test_0_0600_departure_5() { getflights 0 06 departure 5; }
+test_0_0700_arrival_1() { getflights 0 07 arrival 1; }
+test_0_0700_arrival_2() { getflights 0 07 arrival 2; }
+test_0_0700_arrival_3() { getflights 0 07 arrival 3; }
+test_0_0700_arrival_4() { getflights 0 07 arrival 4; }
+test_0_0700_arrival_5() { getflights 0 07 arrival 5; }
+test_0_0700_departure_1() { getflights 0 07 departure 1; }
+test_0_0700_departure_2() { getflights 0 07 departure 2; }
+test_0_0700_departure_3() { getflights 0 07 departure 3; }
+test_0_0700_departure_4() { getflights 0 07 departure 4; }
+test_0_0700_departure_5() { getflights 0 07 departure 5; }
+test_0_0800_arrival_1() { getflights 0 08 arrival 1; }
+test_0_0800_arrival_2() { getflights 0 08 arrival 2; }
+test_0_0800_arrival_3() { getflights 0 08 arrival 3; }
+test_0_0800_arrival_4() { getflights 0 08 arrival 4; }
+test_0_0800_arrival_5() { getflights 0 08 arrival 5; }
+test_0_0800_arrival_6() { getflights 0 08 arrival 6; }
+test_0_0800_departure_1() { getflights 0 08 departure 1; }
+test_0_0800_departure_2() { getflights 0 08 departure 2; }
+test_0_0800_departure_3() { getflights 0 08 departure 3; }
+test_0_0800_departure_4() { getflights 0 08 departure 4; }
+test_0_0800_departure_5() { getflights 0 08 departure 5; }
+test_0_0900_arrival_1() { getflights 0 09 arrival 1; }
+test_0_0900_arrival_2() { getflights 0 09 arrival 2; }
+test_0_0900_arrival_3() { getflights 0 09 arrival 3; }
+test_0_0900_arrival_4() { getflights 0 09 arrival 4; }
+test_0_0900_arrival_5() { getflights 0 09 arrival 5; }
+test_0_0900_departure_1() { getflights 0 09 departure 1; }
+test_0_0900_departure_2() { getflights 0 09 departure 2; }
+test_0_0900_departure_3() { getflights 0 09 departure 3; }
+test_0_0900_departure_4() { getflights 0 09 departure 4; }
+test_0_0900_departure_5() { getflights 0 09 departure 5; }
+test_0_1000_arrival_1() { getflights 0 10 arrival 1; }
+test_0_1000_arrival_2() { getflights 0 10 arrival 2; }
+test_0_1000_arrival_3() { getflights 0 10 arrival 3; }
+test_0_1000_arrival_4() { getflights 0 10 arrival 4; }
+test_0_1000_arrival_5() { getflights 0 10 arrival 5; }
+test_0_1000_departure_1() { getflights 0 10 departure 1; }
+test_0_1000_departure_2() { getflights 0 10 departure 2; }
+test_0_1000_departure_3() { getflights 0 10 departure 3; }
+test_0_1000_departure_4() { getflights 0 10 departure 4; }
+test_0_1000_departure_5() { getflights 0 10 departure 5; }
+test_0_1100_arrival_1() { getflights 0 11 arrival 1; }
+test_0_1100_arrival_2() { getflights 0 11 arrival 2; }
+test_0_1100_arrival_3() { getflights 0 11 arrival 3; }
+test_0_1100_arrival_4() { getflights 0 11 arrival 4; }
+test_0_1100_arrival_5() { getflights 0 11 arrival 5; }
+test_0_1100_departure_1() { getflights 0 11 departure 1; }
+test_0_1100_departure_2() { getflights 0 11 departure 2; }
+test_0_1100_departure_3() { getflights 0 11 departure 3; }
+test_0_1100_departure_4() { getflights 0 11 departure 4; }
+test_0_1100_departure_5() { getflights 0 11 departure 5; }
+test_0_1200_arrival_1() { getflights 0 12 arrival 1; }
+test_0_1200_arrival_2() { getflights 0 12 arrival 2; }
+test_0_1200_arrival_3() { getflights 0 12 arrival 3; }
+test_0_1200_arrival_4() { getflights 0 12 arrival 4; }
+test_0_1200_arrival_5() { getflights 0 12 arrival 5; }
+test_0_1200_arrival_6() { getflights 0 12 arrival 6; }
+test_0_1200_departure_1() { getflights 0 12 departure 1; }
+test_0_1200_departure_2() { getflights 0 12 departure 2; }
+test_0_1200_departure_3() { getflights 0 12 departure 3; }
+test_0_1200_departure_4() { getflights 0 12 departure 4; }
+test_0_1200_departure_5() { getflights 0 12 departure 5; }
+test_0_1300_arrival_1() { getflights 0 13 arrival 1; }
+test_0_1300_arrival_2() { getflights 0 13 arrival 2; }
+test_0_1300_arrival_3() { getflights 0 13 arrival 3; }
+test_0_1300_arrival_4() { getflights 0 13 arrival 4; }
+test_0_1300_arrival_5() { getflights 0 13 arrival 5; }
+test_0_1300_arrival_6() { getflights 0 13 arrival 6; }
+test_0_1300_departure_1() { getflights 0 13 departure 1; }
+test_0_1300_departure_2() { getflights 0 13 departure 2; }
+test_0_1300_departure_3() { getflights 0 13 departure 3; }
+test_0_1300_departure_4() { getflights 0 13 departure 4; }
+test_0_1300_departure_5() { getflights 0 13 departure 5; }
+test_0_1300_departure_6() { getflights 0 13 departure 6; }
+test_0_1400_arrival_1() { getflights 0 14 arrival 1; }
+test_0_1400_arrival_2() { getflights 0 14 arrival 2; }
+test_0_1400_arrival_3() { getflights 0 14 arrival 3; }
+test_0_1400_arrival_4() { getflights 0 14 arrival 4; }
+test_0_1400_arrival_5() { getflights 0 14 arrival 5; }
+test_0_1400_arrival_6() { getflights 0 14 arrival 6; }
+test_0_1400_departure_1() { getflights 0 14 departure 1; }
+test_0_1400_departure_2() { getflights 0 14 departure 2; }
+test_0_1400_departure_3() { getflights 0 14 departure 3; }
+test_0_1400_departure_4() { getflights 0 14 departure 4; }
+test_0_1400_departure_5() { getflights 0 14 departure 5; }
+test_0_1400_departure_6() { getflights 0 14 departure 6; }
+test_0_1500_arrival_1() { getflights 0 15 arrival 1; }
+test_0_1500_arrival_2() { getflights 0 15 arrival 2; }
+test_0_1500_arrival_3() { getflights 0 15 arrival 3; }
+test_0_1500_arrival_4() { getflights 0 15 arrival 4; }
+test_0_1500_arrival_5() { getflights 0 15 arrival 5; }
+test_0_1500_departure_1() { getflights 0 15 departure 1; }
+test_0_1500_departure_2() { getflights 0 15 departure 2; }
+test_0_1500_departure_3() { getflights 0 15 departure 3; }
+test_0_1500_departure_4() { getflights 0 15 departure 4; }
+test_0_1500_departure_5() { getflights 0 15 departure 5; }
+test_0_1600_arrival_1() { getflights 0 16 arrival 1; }
+test_0_1600_arrival_2() { getflights 0 16 arrival 2; }
+test_0_1600_arrival_3() { getflights 0 16 arrival 3; }
+test_0_1600_arrival_4() { getflights 0 16 arrival 4; }
+test_0_1600_arrival_5() { getflights 0 16 arrival 5; }
+test_0_1600_departure_1() { getflights 0 16 departure 1; }
+test_0_1600_departure_2() { getflights 0 16 departure 2; }
+test_0_1600_departure_3() { getflights 0 16 departure 3; }
+test_0_1600_departure_4() { getflights 0 16 departure 4; }
+test_0_1600_departure_5() { getflights 0 16 departure 5; }
+test_0_1700_arrival_1() { getflights 0 17 arrival 1; }
+test_0_1700_arrival_2() { getflights 0 17 arrival 2; }
+test_0_1700_arrival_3() { getflights 0 17 arrival 3; }
+test_0_1700_arrival_4() { getflights 0 17 arrival 4; }
+test_0_1700_arrival_5() { getflights 0 17 arrival 5; }
+test_0_1700_departure_1() { getflights 0 17 departure 1; }
+test_0_1700_departure_2() { getflights 0 17 departure 2; }
+test_0_1700_departure_3() { getflights 0 17 departure 3; }
+test_0_1700_departure_4() { getflights 0 17 departure 4; }
+test_0_1700_departure_5() { getflights 0 17 departure 5; }
+test_0_1800_arrival_1() { getflights 0 18 arrival 1; }
+test_0_1800_arrival_2() { getflights 0 18 arrival 2; }
+test_0_1800_arrival_3() { getflights 0 18 arrival 3; }
+test_0_1800_arrival_4() { getflights 0 18 arrival 4; }
+test_0_1800_arrival_5() { getflights 0 18 arrival 5; }
+test_0_1800_departure_1() { getflights 0 18 departure 1; }
+test_0_1800_departure_2() { getflights 0 18 departure 2; }
+test_0_1800_departure_3() { getflights 0 18 departure 3; }
+test_0_1800_departure_4() { getflights 0 18 departure 4; }
+test_0_1800_departure_5() { getflights 0 18 departure 5; }
+test_0_1900_arrival_1() { getflights 0 19 arrival 1; }
+test_0_1900_arrival_2() { getflights 0 19 arrival 2; }
+test_0_1900_arrival_3() { getflights 0 19 arrival 3; }
+test_0_1900_arrival_4() { getflights 0 19 arrival 4; }
+test_0_1900_arrival_5() { getflights 0 19 arrival 5; }
+test_0_1900_departure_1() { getflights 0 19 departure 1; }
+test_0_1900_departure_2() { getflights 0 19 departure 2; }
+test_0_1900_departure_3() { getflights 0 19 departure 3; }
+test_0_1900_departure_4() { getflights 0 19 departure 4; }
+test_0_1900_departure_5() { getflights 0 19 departure 5; }
+test_0_2000_arrival_1() { getflights 0 20 arrival 1; }
+test_0_2000_arrival_2() { getflights 0 20 arrival 2; }
+test_0_2000_arrival_3() { getflights 0 20 arrival 3; }
+test_0_2000_arrival_4() { getflights 0 20 arrival 4; }
+test_0_2000_arrival_5() { getflights 0 20 arrival 5; }
+test_0_2000_departure_1() { getflights 0 20 departure 1; }
+test_0_2000_departure_2() { getflights 0 20 departure 2; }
+test_0_2000_departure_3() { getflights 0 20 departure 3; }
+test_0_2000_departure_4() { getflights 0 20 departure 4; }
+test_0_2000_departure_5() { getflights 0 20 departure 5; }
+test_0_2100_arrival_1() { getflights 0 21 arrival 1; }
+test_0_2100_arrival_2() { getflights 0 21 arrival 2; }
+test_0_2100_arrival_3() { getflights 0 21 arrival 3; }
+test_0_2100_arrival_4() { getflights 0 21 arrival 4; }
+test_0_2100_arrival_5() { getflights 0 21 arrival 5; }
+test_0_2100_departure_1() { getflights 0 21 departure 1; }
+test_0_2100_departure_2() { getflights 0 21 departure 2; }
+test_0_2100_departure_3() { getflights 0 21 departure 3; }
+test_0_2100_departure_4() { getflights 0 21 departure 4; }
+test_0_2100_departure_5() { getflights 0 21 departure 5; }
+test_0_2200_arrival_1() { getflights 0 22 arrival 1; }
+test_0_2200_arrival_2() { getflights 0 22 arrival 2; }
+test_0_2200_arrival_3() { getflights 0 22 arrival 3; }
+test_0_2200_arrival_4() { getflights 0 22 arrival 4; }
+test_0_2200_arrival_5() { getflights 0 22 arrival 5; }
+test_0_2200_departure_1() { getflights 0 22 departure 1; }
+test_0_2200_departure_2() { getflights 0 22 departure 2; }
+test_0_2200_departure_3() { getflights 0 22 departure 3; }
+test_0_2200_departure_4() { getflights 0 22 departure 4; }
+test_0_2200_departure_5() { getflights 0 22 departure 5; }
+test_0_2300_arrival_1() { getflights 0 23 arrival 1; }
+test_0_2300_arrival_2() { getflights 0 23 arrival 2; }
+test_0_2300_arrival_3() { getflights 0 23 arrival 3; }
+test_0_2300_arrival_4() { getflights 0 23 arrival 4; }
+test_0_2300_arrival_5() { getflights 0 23 arrival 5; }
+test_0_2300_arrival_6() { getflights 0 23 arrival 6; }
+test_0_2300_departure_1() { getflights 0 23 departure 1; }
+test_0_2300_departure_2() { getflights 0 23 departure 2; }
+test_0_2300_departure_3() { getflights 0 23 departure 3; }
+test_0_2300_departure_4() { getflights 0 23 departure 4; }
+test_0_2300_departure_5() { getflights 0 23 departure 5; }
+test_1_0500_arrival_1() { getflights 1 05 arrival 1; }
+test_1_0500_arrival_2() { getflights 1 05 arrival 2; }
+test_1_0500_arrival_3() { getflights 1 05 arrival 3; }
+test_1_0500_arrival_4() { getflights 1 05 arrival 4; }
+test_1_0500_arrival_5() { getflights 1 05 arrival 5; }
+test_1_0500_departure_1() { getflights 1 05 departure 1; }
+test_1_0500_departure_2() { getflights 1 05 departure 2; }
+test_1_0500_departure_3() { getflights 1 05 departure 3; }
+test_1_0500_departure_4() { getflights 1 05 departure 4; }
+test_1_0500_departure_5() { getflights 1 05 departure 5; }
+test_1_0600_arrival_1() { getflights 1 06 arrival 1; }
+test_1_0600_arrival_2() { getflights 1 06 arrival 2; }
+test_1_0600_arrival_3() { getflights 1 06 arrival 3; }
+test_1_0600_arrival_4() { getflights 1 06 arrival 4; }
+test_1_0600_arrival_5() { getflights 1 06 arrival 5; }
+test_1_0600_departure_1() { getflights 1 06 departure 1; }
+test_1_0600_departure_2() { getflights 1 06 departure 2; }
+test_1_0600_departure_3() { getflights 1 06 departure 3; }
+test_1_0600_departure_4() { getflights 1 06 departure 4; }
+test_1_0600_departure_5() { getflights 1 06 departure 5; }
+test_1_0700_arrival_1() { getflights 1 07 arrival 1; }
+test_1_0700_arrival_2() { getflights 1 07 arrival 2; }
+test_1_0700_arrival_3() { getflights 1 07 arrival 3; }
+test_1_0700_arrival_4() { getflights 1 07 arrival 4; }
+test_1_0700_arrival_5() { getflights 1 07 arrival 5; }
+test_1_0700_departure_1() { getflights 1 07 departure 1; }
+test_1_0700_departure_2() { getflights 1 07 departure 2; }
+test_1_0700_departure_3() { getflights 1 07 departure 3; }
+test_1_0700_departure_4() { getflights 1 07 departure 4; }
+test_1_0700_departure_5() { getflights 1 07 departure 5; }
+test_1_0800_arrival_1() { getflights 1 08 arrival 1; }
+test_1_0800_arrival_2() { getflights 1 08 arrival 2; }
+test_1_0800_arrival_3() { getflights 1 08 arrival 3; }
+test_1_0800_arrival_4() { getflights 1 08 arrival 4; }
+test_1_0800_arrival_5() { getflights 1 08 arrival 5; }
+test_1_0800_arrival_6() { getflights 1 08 arrival 6; }
+test_1_0800_departure_1() { getflights 1 08 departure 1; }
+test_1_0800_departure_2() { getflights 1 08 departure 2; }
+test_1_0800_departure_3() { getflights 1 08 departure 3; }
+test_1_0800_departure_4() { getflights 1 08 departure 4; }
+test_1_0800_departure_5() { getflights 1 08 departure 5; }
+test_1_0900_arrival_1() { getflights 1 09 arrival 1; }
+test_1_0900_arrival_2() { getflights 1 09 arrival 2; }
+test_1_0900_arrival_3() { getflights 1 09 arrival 3; }
+test_1_0900_arrival_4() { getflights 1 09 arrival 4; }
+test_1_0900_arrival_5() { getflights 1 09 arrival 5; }
+test_1_0900_departure_1() { getflights 1 09 departure 1; }
+test_1_0900_departure_2() { getflights 1 09 departure 2; }
+test_1_0900_departure_3() { getflights 1 09 departure 3; }
+test_1_0900_departure_4() { getflights 1 09 departure 4; }
+test_1_0900_departure_5() { getflights 1 09 departure 5; }
+test_1_1000_arrival_1() { getflights 1 10 arrival 1; }
+test_1_1000_arrival_2() { getflights 1 10 arrival 2; }
+test_1_1000_arrival_3() { getflights 1 10 arrival 3; }
+test_1_1000_arrival_4() { getflights 1 10 arrival 4; }
+test_1_1000_arrival_5() { getflights 1 10 arrival 5; }
+test_1_1000_departure_1() { getflights 1 10 departure 1; }
+test_1_1000_departure_2() { getflights 1 10 departure 2; }
+test_1_1000_departure_3() { getflights 1 10 departure 3; }
+test_1_1000_departure_4() { getflights 1 10 departure 4; }
+test_1_1000_departure_5() { getflights 1 10 departure 5; }
+test_1_1100_arrival_1() { getflights 1 11 arrival 1; }
+test_1_1100_arrival_2() { getflights 1 11 arrival 2; }
+test_1_1100_arrival_3() { getflights 1 11 arrival 3; }
+test_1_1100_arrival_4() { getflights 1 11 arrival 4; }
+test_1_1100_arrival_5() { getflights 1 11 arrival 5; }
+test_1_1100_departure_1() { getflights 1 11 departure 1; }
+test_1_1100_departure_2() { getflights 1 11 departure 2; }
+test_1_1100_departure_3() { getflights 1 11 departure 3; }
+test_1_1100_departure_4() { getflights 1 11 departure 4; }
+test_1_1100_departure_5() { getflights 1 11 departure 5; }
+test_1_1200_arrival_1() { getflights 1 12 arrival 1; }
+test_1_1200_arrival_2() { getflights 1 12 arrival 2; }
+test_1_1200_arrival_3() { getflights 1 12 arrival 3; }
+test_1_1200_arrival_4() { getflights 1 12 arrival 4; }
+test_1_1200_arrival_5() { getflights 1 12 arrival 5; }
+test_1_1200_arrival_6() { getflights 1 12 arrival 6; }
+test_1_1200_departure_1() { getflights 1 12 departure 1; }
+test_1_1200_departure_2() { getflights 1 12 departure 2; }
+test_1_1200_departure_3() { getflights 1 12 departure 3; }
+test_1_1200_departure_4() { getflights 1 12 departure 4; }
+test_1_1200_departure_5() { getflights 1 12 departure 5; }
+test_1_1300_arrival_1() { getflights 1 13 arrival 1; }
+test_1_1300_arrival_2() { getflights 1 13 arrival 2; }
+test_1_1300_arrival_3() { getflights 1 13 arrival 3; }
+test_1_1300_arrival_4() { getflights 1 13 arrival 4; }
+test_1_1300_arrival_5() { getflights 1 13 arrival 5; }
+test_1_1300_arrival_6() { getflights 1 13 arrival 6; }
+test_1_1300_departure_1() { getflights 1 13 departure 1; }
+test_1_1300_departure_2() { getflights 1 13 departure 2; }
+test_1_1300_departure_3() { getflights 1 13 departure 3; }
+test_1_1300_departure_4() { getflights 1 13 departure 4; }
+test_1_1300_departure_5() { getflights 1 13 departure 5; }
+test_1_1300_departure_6() { getflights 1 13 departure 6; }
+test_1_1400_arrival_1() { getflights 1 14 arrival 1; }
+test_1_1400_arrival_2() { getflights 1 14 arrival 2; }
+test_1_1400_arrival_3() { getflights 1 14 arrival 3; }
+test_1_1400_arrival_4() { getflights 1 14 arrival 4; }
+test_1_1400_arrival_5() { getflights 1 14 arrival 5; }
+test_1_1400_arrival_6() { getflights 1 14 arrival 6; }
+test_1_1400_departure_1() { getflights 1 14 departure 1; }
+test_1_1400_departure_2() { getflights 1 14 departure 2; }
+test_1_1400_departure_3() { getflights 1 14 departure 3; }
+test_1_1400_departure_4() { getflights 1 14 departure 4; }
+test_1_1400_departure_5() { getflights 1 14 departure 5; }
+test_1_1400_departure_6() { getflights 1 14 departure 6; }
+test_1_1500_arrival_1() { getflights 1 15 arrival 1; }
+test_1_1500_arrival_2() { getflights 1 15 arrival 2; }
+test_1_1500_arrival_3() { getflights 1 15 arrival 3; }
+test_1_1500_arrival_4() { getflights 1 15 arrival 4; }
+test_1_1500_arrival_5() { getflights 1 15 arrival 5; }
+test_1_1500_departure_1() { getflights 1 15 departure 1; }
+test_1_1500_departure_2() { getflights 1 15 departure 2; }
+test_1_1500_departure_3() { getflights 1 15 departure 3; }
+test_1_1500_departure_4() { getflights 1 15 departure 4; }
+test_1_1500_departure_5() { getflights 1 15 departure 5; }
+test_1_1600_arrival_1() { getflights 1 16 arrival 1; }
+test_1_1600_arrival_2() { getflights 1 16 arrival 2; }
+test_1_1600_arrival_3() { getflights 1 16 arrival 3; }
+test_1_1600_arrival_4() { getflights 1 16 arrival 4; }
+test_1_1600_arrival_5() { getflights 1 16 arrival 5; }
+test_1_1600_departure_1() { getflights 1 16 departure 1; }
+test_1_1600_departure_2() { getflights 1 16 departure 2; }
+test_1_1600_departure_3() { getflights 1 16 departure 3; }
+test_1_1600_departure_4() { getflights 1 16 departure 4; }
+test_1_1600_departure_5() { getflights 1 16 departure 5; }
+test_1_1700_arrival_1() { getflights 1 17 arrival 1; }
+test_1_1700_arrival_2() { getflights 1 17 arrival 2; }
+test_1_1700_arrival_3() { getflights 1 17 arrival 3; }
+test_1_1700_arrival_4() { getflights 1 17 arrival 4; }
+test_1_1700_arrival_5() { getflights 1 17 arrival 5; }
+test_1_1700_departure_1() { getflights 1 17 departure 1; }
+test_1_1700_departure_2() { getflights 1 17 departure 2; }
+test_1_1700_departure_3() { getflights 1 17 departure 3; }
+test_1_1700_departure_4() { getflights 1 17 departure 4; }
+test_1_1700_departure_5() { getflights 1 17 departure 5; }
+test_1_1800_arrival_1() { getflights 1 18 arrival 1; }
+test_1_1800_arrival_2() { getflights 1 18 arrival 2; }
+test_1_1800_arrival_3() { getflights 1 18 arrival 3; }
+test_1_1800_arrival_4() { getflights 1 18 arrival 4; }
+test_1_1800_arrival_5() { getflights 1 18 arrival 5; }
+test_1_1800_departure_1() { getflights 1 18 departure 1; }
+test_1_1800_departure_2() { getflights 1 18 departure 2; }
+test_1_1800_departure_3() { getflights 1 18 departure 3; }
+test_1_1800_departure_4() { getflights 1 18 departure 4; }
+test_1_1800_departure_5() { getflights 1 18 departure 5; }
+test_1_1900_arrival_1() { getflights 1 19 arrival 1; }
+test_1_1900_arrival_2() { getflights 1 19 arrival 2; }
+test_1_1900_arrival_3() { getflights 1 19 arrival 3; }
+test_1_1900_arrival_4() { getflights 1 19 arrival 4; }
+test_1_1900_arrival_5() { getflights 1 19 arrival 5; }
+test_1_1900_departure_1() { getflights 1 19 departure 1; }
+test_1_1900_departure_2() { getflights 1 19 departure 2; }
+test_1_1900_departure_3() { getflights 1 19 departure 3; }
+test_1_1900_departure_4() { getflights 1 19 departure 4; }
+test_1_1900_departure_5() { getflights 1 19 departure 5; }
+test_1_2000_arrival_1() { getflights 1 20 arrival 1; }
+test_1_2000_arrival_2() { getflights 1 20 arrival 2; }
+test_1_2000_arrival_3() { getflights 1 20 arrival 3; }
+test_1_2000_arrival_4() { getflights 1 20 arrival 4; }
+test_1_2000_arrival_5() { getflights 1 20 arrival 5; }
+test_1_2000_departure_1() { getflights 1 20 departure 1; }
+test_1_2000_departure_2() { getflights 1 20 departure 2; }
+test_1_2000_departure_3() { getflights 1 20 departure 3; }
+test_1_2000_departure_4() { getflights 1 20 departure 4; }
+test_1_2000_departure_5() { getflights 1 20 departure 5; }
+test_1_2100_arrival_1() { getflights 1 21 arrival 1; }
+test_1_2100_arrival_2() { getflights 1 21 arrival 2; }
+test_1_2100_arrival_3() { getflights 1 21 arrival 3; }
+test_1_2100_arrival_4() { getflights 1 21 arrival 4; }
+test_1_2100_arrival_5() { getflights 1 21 arrival 5; }
+test_1_2100_departure_1() { getflights 1 21 departure 1; }
+test_1_2100_departure_2() { getflights 1 21 departure 2; }
+test_1_2100_departure_3() { getflights 1 21 departure 3; }
+test_1_2100_departure_4() { getflights 1 21 departure 4; }
+test_1_2100_departure_5() { getflights 1 21 departure 5; }
+test_1_2200_arrival_1() { getflights 1 22 arrival 1; }
+test_1_2200_arrival_2() { getflights 1 22 arrival 2; }
+test_1_2200_arrival_3() { getflights 1 22 arrival 3; }
+test_1_2200_arrival_4() { getflights 1 22 arrival 4; }
+test_1_2200_arrival_5() { getflights 1 22 arrival 5; }
+test_1_2200_departure_1() { getflights 1 22 departure 1; }
+test_1_2200_departure_2() { getflights 1 22 departure 2; }
+test_1_2200_departure_3() { getflights 1 22 departure 3; }
+test_1_2200_departure_4() { getflights 1 22 departure 4; }
+test_1_2200_departure_5() { getflights 1 22 departure 5; }
+test_1_2300_arrival_1() { getflights 1 23 arrival 1; }
+test_1_2300_arrival_2() { getflights 1 23 arrival 2; }
+test_1_2300_arrival_3() { getflights 1 23 arrival 3; }
+test_1_2300_arrival_4() { getflights 1 23 arrival 4; }
+test_1_2300_arrival_5() { getflights 1 23 arrival 5; }
+test_1_2300_arrival_6() { getflights 1 23 arrival 6; }
+test_1_2300_departure_1() { getflights 1 23 departure 1; }
+test_1_2300_departure_2() { getflights 1 23 departure 2; }
+test_1_2300_departure_3() { getflights 1 23 departure 3; }
+test_1_2300_departure_4() { getflights 1 23 departure 4; }
+test_1_2300_departure_5() { getflights 1 23 departure 5; }

@@ -56,38 +56,8 @@ chkdep() {
 	fi
 }
 
-unless() {
-
-	line=$1; shift
-
-	[ 1 == $debug ] && echo "$@"
-
-	if ! "$@"; then
-		echo -e "\033[1;31mTest seriously failed in line $line:"
-		echo -e "$@\033[m\n" >&2
-		echo -e "\033[1;31mCannot continue.\033[m" >&2
-
-		exit 1
-	fi
-}
-
-check() {
-	name=$1
-	shift
-
-	[ 1 == $debug -o 1 == $verbose ] && echo -e "$name" >&2
-	[ 1 == $debug ] && echo -e "\033[33m$@\033[m" >&2
-
-	"$@" > >(
-		sed -r \
-			-e "s#(https://|=)${FRA_FLUGPLAN_HOST}#\1fra-flugplan.de#g" \
-			-e 's/\?rev=[0-9]*/?rev=$Rev$/g' > "$results/$name.${fileext:-htm}"
-	) 2>&1
-}
-
 initdb() {
-
-	unless $LINENO query < "$PRJDIR/sql/fra-flugplan.sql" > /dev/null
+	query < "$PRJDIR/sql/fra-flugplan.sql" > /dev/null
 }
 
 query() {
@@ -152,7 +122,7 @@ browse() {
 		args+=(--data-urlencode "CSRFToken=$csrftoken")
 	fi
 
-	if [[ $csrftoken ]]; then
+	if [[ ${csrftoken:-} ]]; then
 		# Escape "+" for `sed -r`
 		nullify="${csrftoken+s:${csrftoken//+/\\+}::g;}"
 	fi
@@ -196,8 +166,6 @@ strsubst() {
 	sed -r "$re" "$@"
 }
 
-export -f check
-export -f unless
 export -f initdb
 export -f query
 export -f browse

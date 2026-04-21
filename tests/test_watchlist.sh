@@ -215,14 +215,3 @@ test_6() {
 		"$url/?arrival&time=$time" |
 	sed -r "s/time=$today/time=0000-00-00/g"
 }
-
-check "1" test_1
-check "2" test_2
-check "3" test_3
-check "4" test_4
-check "4_0" test_4_0
-check "4_1" test_4_1
-check "4_2" test_4_2
-check "4_3" test_4_3
-check "5" test_5
-check "6" test_6

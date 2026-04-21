@@ -89,12 +89,3 @@ test_8() {
 		--data-urlencode "lang=en" \
 		"$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}&ip=::1"
 }
-
-check "1" test_1
-check "2" test_2
-check "3" test_3
-check "4" test_4
-check "5" test_5
-check "6" test_6
-check "7" test_7
-check "8" test_8

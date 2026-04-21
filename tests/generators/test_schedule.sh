@@ -1,3 +1,53 @@
+#!/bin/bash
+
+# Generate test suite `test_airportcity.sh` by copying test setup and helpers
+# from `exit`..EOF, then generate test cases and write both to output file.
+
+set -euo pipefail
+
+readonly SCRIPTDIR=$(dirname "${BASH_SOURCE[0]}")
+readonly BASENAME=$(basename "${BASH_SOURCE[0]}")
+readonly PRJDIR=$(git -C "$SCRIPTDIR" rev-parse --show-toplevel)
+
+{
+sed '1,/^exit # testsuite:/d' "${BASH_SOURCE[0]}"
+
+querytime() {
+	sed "s/:/%3a/g; s/+/%2b/g" <<< "$(date +'%H:%M:%S%z' --date="$1")"
+}
+
+for u in "" user
+do
+	if [[ ${u:-} == user ]]; then
+		login=true
+	fi
+
+	for t in 06:15 06:30 06:45 07:00
+	do
+		for d in desktop phone tablet
+		do
+			# Delete empty lines resuting from $(), indent function body
+			sed -r "
+				# Insert "login" before "browse", if \$login is set
+				${login+/browse/ i \\\\tlogin}
+				s/test_/test_${t//:/}_${d:0:1}${u:+_u}/g
+				s/%t/$(querytime "$t")/g
+				s/%d/$d/g
+				# Indent within function body
+				/\{\$|^}/!s/^/\t&/g
+			" <<-"TESTCASE"
+				test_() {
+					browse_schedule "${today}T%t" "${USER_AGENTS[%d]}"
+				}
+			TESTCASE
+
+			unset login
+		done
+	done
+done
+} > "$PRJDIR/tests/$BASENAME"
+
+exit # testsuite: ==============================================================
 # DO NOT CHANGE THIS FILE. This file is generated automatically.
 # If you want to edit this file, change and execute its counterpart in
 # "$SCRIPTDIR/generators" instead, redirecting the output here.
@@ -116,76 +166,3 @@ query fra-flugplan < <(
 		VALUES(1, @users);
 	SQL
 )
-test_0615_d() {
-	browse_schedule "${today}T06%3a15%3a00%2b0200" "${USER_AGENTS[desktop]}"
-}
-test_0615_p() {
-	browse_schedule "${today}T06%3a15%3a00%2b0200" "${USER_AGENTS[phone]}"
-}
-test_0615_t() {
-	browse_schedule "${today}T06%3a15%3a00%2b0200" "${USER_AGENTS[tablet]}"
-}
-test_0630_d() {
-	browse_schedule "${today}T06%3a30%3a00%2b0200" "${USER_AGENTS[desktop]}"
-}
-test_0630_p() {
-	browse_schedule "${today}T06%3a30%3a00%2b0200" "${USER_AGENTS[phone]}"
-}
-test_0630_t() {
-	browse_schedule "${today}T06%3a30%3a00%2b0200" "${USER_AGENTS[tablet]}"
-}
-test_0645_d() {
-	browse_schedule "${today}T06%3a45%3a00%2b0200" "${USER_AGENTS[desktop]}"
-}
-test_0645_p() {
-	browse_schedule "${today}T06%3a45%3a00%2b0200" "${USER_AGENTS[phone]}"
-}
-test_0645_t() {
-	browse_schedule "${today}T06%3a45%3a00%2b0200" "${USER_AGENTS[tablet]}"
-}
-test_0700_d() {
-	browse_schedule "${today}T07%3a00%3a00%2b0200" "${USER_AGENTS[desktop]}"
-}
-test_0700_p() {
-	browse_schedule "${today}T07%3a00%3a00%2b0200" "${USER_AGENTS[phone]}"
-}
-test_0700_t() {
-	browse_schedule "${today}T07%3a00%3a00%2b0200" "${USER_AGENTS[tablet]}"
-}
-test_0615_d_u() {
-	login
-	browse_schedule "${today}T06%3a15%3a00%2b0200" "${USER_AGENTS[desktop]}"
-}
-test_0615_p_u() {
-	browse_schedule "${today}T06%3a15%3a00%2b0200" "${USER_AGENTS[phone]}"
-}
-test_0615_t_u() {
-	browse_schedule "${today}T06%3a15%3a00%2b0200" "${USER_AGENTS[tablet]}"
-}
-test_0630_d_u() {
-	browse_schedule "${today}T06%3a30%3a00%2b0200" "${USER_AGENTS[desktop]}"
-}
-test_0630_p_u() {
-	browse_schedule "${today}T06%3a30%3a00%2b0200" "${USER_AGENTS[phone]}"
-}
-test_0630_t_u() {
-	browse_schedule "${today}T06%3a30%3a00%2b0200" "${USER_AGENTS[tablet]}"
-}
-test_0645_d_u() {
-	browse_schedule "${today}T06%3a45%3a00%2b0200" "${USER_AGENTS[desktop]}"
-}
-test_0645_p_u() {
-	browse_schedule "${today}T06%3a45%3a00%2b0200" "${USER_AGENTS[phone]}"
-}
-test_0645_t_u() {
-	browse_schedule "${today}T06%3a45%3a00%2b0200" "${USER_AGENTS[tablet]}"
-}
-test_0700_d_u() {
-	browse_schedule "${today}T07%3a00%3a00%2b0200" "${USER_AGENTS[desktop]}"
-}
-test_0700_p_u() {
-	browse_schedule "${today}T07%3a00%3a00%2b0200" "${USER_AGENTS[phone]}"
-}
-test_0700_t_u() {
-	browse_schedule "${today}T07%3a00%3a00%2b0200" "${USER_AGENTS[tablet]}"
-}

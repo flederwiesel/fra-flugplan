@@ -181,19 +181,3 @@ test_14() {
 test_15() {
 	browse "$url"
 }
-
-check "1" test_1
-check "2" test_2
-check "3" test_3
-check "4" test_4
-check "5" test_5
-check "6" test_6
-check "7" test_7
-check "8" test_8
-check "9" test_9
-check "10" test_10
-check "11" test_11
-check "12" test_12
-check "13" test_13
-check "14" test_14
-check "15" test_15

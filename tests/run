@@ -159,10 +159,22 @@ status=0
 
 for testsuite in "${testsuites[@]}"
 do
-	echo -e "\033[36m$testsuite\033[m"
+	echo -en "\033[36m$testsuite\033[m " >&2
 
-	export expect="$SCRIPTDIR/expect/$testsuite"
-	export results="$SCRIPTDIR/results/$testsuite"
+	script="$SCRIPTDIR/test_$testsuite.sh"
+
+	readarray -t testcases < <(
+		sed -nr '/^test_/ { s/^([a-z0-9_]+).*$/\1/g; p }' "$script"
+	)
+
+	if [[ ${#testcases[@]} -eq 0 ]]; then
+		echo -e "\033[31mTest suite '$testsuite'\033[m" >&2
+		echo -e "\033[31mdoes not seem to contain any test cases.\033[m" >&2
+		exit 1
+	fi
+
+	expect="$SCRIPTDIR/expect/$testsuite"
+	results="$SCRIPTDIR/results/$testsuite"
 
 	rm -rf "$results"
 	mkdir -p "$results"
@@ -177,8 +189,28 @@ do
 	# drop/re-create database
 	initdb
 
-	if ! (bash "$PRJDIR/tests/test_$testsuite.sh"); then
-		echo -e "\033[31m└──> FAILED\033[m" >&2
+	if ! (
+		declare -A testcase_fileext=()
+
+		source "$script"
+
+		for testcase in "${testcases[@]}"
+		do
+			echo -n . >&2
+
+			ext="${testcase_fileext[$testcase]:-${fileext:-htm}}"
+
+			"$testcase" > >(
+				sed -r \
+					-e "s#(https://|=)${FRA_FLUGPLAN_HOST}#\1fra-flugplan.de#g" \
+					-e 's/\?rev=[0-9]*/?rev=$Rev$/g' > "$results/${testcase#test_}.${ext}"
+			) 2>&1
+		done
+
+		echo
+	)
+	then
+		echo -e "\033[31m ──> FAILED\033[m" >&2
 		status=1
 	else
 		if [ -e "$results/mail.txt" ]; then

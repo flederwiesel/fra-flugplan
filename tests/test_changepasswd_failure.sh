@@ -150,22 +150,3 @@ test_12() {
 		--data-urlencode "passwd=elvizzz" \
 		"$url/?req=login"
 }
-
-check "1" test_1
-check "2" test_2
-check "3" test_3
-check "4" test_4
-check "5" test_5
-check "5_1" test_5_1
-check "5_2" test_5_2
-check "5_3" test_5_3
-check "5_4" test_5_4
-check "5_5" test_5_5
-check "5_6" test_5_6
-check "6" test_6
-check "7" test_7
-check "8" test_8
-check "9" test_9
-check "10" test_10
-check "11" test_11
-check "12" test_12
