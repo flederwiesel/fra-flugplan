@@ -48,7 +48,6 @@ exit # testsuite: ==============================================================
 # If you want to edit this file, change and execute its counterpart in
 # "$SCRIPTDIR/generators" instead, redirecting the output here.
 
-fileext=json
 items=4
 path="www.frankfurt-airport.com/_jcr_content.flights.json/filter"
 
@@ -81,3 +80,5 @@ getflights() {
 		s/(T[0-9]{2}:[0-9]{2}:00\+0)[12](00)/\10\2/g
 	"
 }
+
+# @@fileext=json

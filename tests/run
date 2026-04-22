@@ -173,6 +173,44 @@ do
 		exit 1
 	fi
 
+	declare -A testcase_fileext=()
+
+	readarray -t decorators < <(
+		awk 'BEGIN {
+			o = 0
+		}
+
+		/^#\s*@@([a-z0-9_]+)=/ {
+			opt = gensub(/^#\s*@@([^ \t\r\n]+)/, "\\1", "g", $0)
+			eq = index(opt, "=")
+			key = substr(opt, 0, eq - 1)
+			value = substr(opt, eq)
+			# print "fileext[ALL]=txt"
+			print key "[ALL]" value
+		}
+
+		/^#\s*@([a-z0-9_]+)=/ {
+			opts[o++] = gensub(/^#\s*@([^ \t\r\n]+)/, "\\1", "g", $0)
+		}
+
+		/^test_/ {
+			for (i = 0; i < o; i++) {
+				testcase = gensub(/^(test_[a-z0-9_]+).*$/, "\\1", "g", $0)
+				eq = index(opts[i], "=")
+				key = substr(opts[i], 0, eq - 1)
+				value = substr(opts[i], eq)
+				print key "[" testcase "]" value
+			}
+
+			o = 0
+		}' "$script"
+	)
+
+	for decorator in "${decorators[@]}"
+	do
+		printf -v "testcase_${decorator%%=*}" "${decorator#*=}"
+	done
+
 	expect="$SCRIPTDIR/expect/$testsuite"
 	results="$SCRIPTDIR/results/$testsuite"
 
@@ -189,16 +227,16 @@ do
 	# drop/re-create database
 	initdb
 
-	if ! (
-		declare -A testcase_fileext=()
+	defext="${testcase_fileext[ALL]:-htm}"
 
+	if ! (
 		source "$script"
 
 		for testcase in "${testcases[@]}"
 		do
 			echo -n . >&2
 
-			ext="${testcase_fileext[$testcase]:-${fileext:-htm}}"
+			ext="${testcase_fileext[$testcase]:-${defext}}"
 
 			"$testcase" > >(
 				sed -r \

@@ -190,19 +190,19 @@ query_visits() {
 		ORDER BY `reg`
 	SQL
 }
-testcase_fileext[test_0_0500_getflights]=txt
+# @fileext=txt
 test_0_0500_getflights() {
 	getflights "$(isotime '+0 days 05:00')"
 }
-testcase_fileext[test_0_0500_flights]=txt
+# @fileext=txt
 test_0_0500_flights() {
 	query_flights
 }
-testcase_fileext[test_0_0500_notifications]=txt
+# @fileext=txt
 test_0_0500_notifications() {
 	query_notifications
 }
-testcase_fileext[test_0_0500_visits]=txt
+# @fileext=txt
 test_0_0500_visits() {
 	query_visits
 }
@@ -214,19 +214,19 @@ test_0_0500_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 05:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_0_0600_getflights]=txt
+# @fileext=txt
 test_0_0600_getflights() {
 	getflights "$(isotime '+0 days 06:00')"
 }
-testcase_fileext[test_0_0600_flights]=txt
+# @fileext=txt
 test_0_0600_flights() {
 	query_flights
 }
-testcase_fileext[test_0_0600_notifications]=txt
+# @fileext=txt
 test_0_0600_notifications() {
 	query_notifications
 }
-testcase_fileext[test_0_0600_visits]=txt
+# @fileext=txt
 test_0_0600_visits() {
 	query_visits
 }
@@ -238,19 +238,19 @@ test_0_0600_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 06:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_0_0700_getflights]=txt
+# @fileext=txt
 test_0_0700_getflights() {
 	getflights "$(isotime '+0 days 07:00')"
 }
-testcase_fileext[test_0_0700_flights]=txt
+# @fileext=txt
 test_0_0700_flights() {
 	query_flights
 }
-testcase_fileext[test_0_0700_notifications]=txt
+# @fileext=txt
 test_0_0700_notifications() {
 	query_notifications
 }
-testcase_fileext[test_0_0700_visits]=txt
+# @fileext=txt
 test_0_0700_visits() {
 	query_visits
 }
@@ -262,19 +262,19 @@ test_0_0700_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 07:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_0_0800_getflights]=txt
+# @fileext=txt
 test_0_0800_getflights() {
 	getflights "$(isotime '+0 days 08:00')"
 }
-testcase_fileext[test_0_0800_flights]=txt
+# @fileext=txt
 test_0_0800_flights() {
 	query_flights
 }
-testcase_fileext[test_0_0800_notifications]=txt
+# @fileext=txt
 test_0_0800_notifications() {
 	query_notifications
 }
-testcase_fileext[test_0_0800_visits]=txt
+# @fileext=txt
 test_0_0800_visits() {
 	query_visits
 }
@@ -286,19 +286,19 @@ test_0_0800_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 08:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_0_0900_getflights]=txt
+# @fileext=txt
 test_0_0900_getflights() {
 	getflights "$(isotime '+0 days 09:00')"
 }
-testcase_fileext[test_0_0900_flights]=txt
+# @fileext=txt
 test_0_0900_flights() {
 	query_flights
 }
-testcase_fileext[test_0_0900_notifications]=txt
+# @fileext=txt
 test_0_0900_notifications() {
 	query_notifications
 }
-testcase_fileext[test_0_0900_visits]=txt
+# @fileext=txt
 test_0_0900_visits() {
 	query_visits
 }
@@ -310,19 +310,19 @@ test_0_0900_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 09:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_0_1000_getflights]=txt
+# @fileext=txt
 test_0_1000_getflights() {
 	getflights "$(isotime '+0 days 10:00')"
 }
-testcase_fileext[test_0_1000_flights]=txt
+# @fileext=txt
 test_0_1000_flights() {
 	query_flights
 }
-testcase_fileext[test_0_1000_notifications]=txt
+# @fileext=txt
 test_0_1000_notifications() {
 	query_notifications
 }
-testcase_fileext[test_0_1000_visits]=txt
+# @fileext=txt
 test_0_1000_visits() {
 	query_visits
 }
@@ -334,19 +334,19 @@ test_0_1000_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 10:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_0_1100_getflights]=txt
+# @fileext=txt
 test_0_1100_getflights() {
 	getflights "$(isotime '+0 days 11:00')"
 }
-testcase_fileext[test_0_1100_flights]=txt
+# @fileext=txt
 test_0_1100_flights() {
 	query_flights
 }
-testcase_fileext[test_0_1100_notifications]=txt
+# @fileext=txt
 test_0_1100_notifications() {
 	query_notifications
 }
-testcase_fileext[test_0_1100_visits]=txt
+# @fileext=txt
 test_0_1100_visits() {
 	query_visits
 }
@@ -358,19 +358,19 @@ test_0_1100_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 11:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_0_1200_getflights]=txt
+# @fileext=txt
 test_0_1200_getflights() {
 	getflights "$(isotime '+0 days 12:00')"
 }
-testcase_fileext[test_0_1200_flights]=txt
+# @fileext=txt
 test_0_1200_flights() {
 	query_flights
 }
-testcase_fileext[test_0_1200_notifications]=txt
+# @fileext=txt
 test_0_1200_notifications() {
 	query_notifications
 }
-testcase_fileext[test_0_1200_visits]=txt
+# @fileext=txt
 test_0_1200_visits() {
 	query_visits
 }
@@ -382,19 +382,19 @@ test_0_1200_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 12:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_0_1300_getflights]=txt
+# @fileext=txt
 test_0_1300_getflights() {
 	getflights "$(isotime '+0 days 13:00')"
 }
-testcase_fileext[test_0_1300_flights]=txt
+# @fileext=txt
 test_0_1300_flights() {
 	query_flights
 }
-testcase_fileext[test_0_1300_notifications]=txt
+# @fileext=txt
 test_0_1300_notifications() {
 	query_notifications
 }
-testcase_fileext[test_0_1300_visits]=txt
+# @fileext=txt
 test_0_1300_visits() {
 	query_visits
 }
@@ -406,19 +406,19 @@ test_0_1300_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 13:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_0_1400_getflights]=txt
+# @fileext=txt
 test_0_1400_getflights() {
 	getflights "$(isotime '+0 days 14:00')"
 }
-testcase_fileext[test_0_1400_flights]=txt
+# @fileext=txt
 test_0_1400_flights() {
 	query_flights
 }
-testcase_fileext[test_0_1400_notifications]=txt
+# @fileext=txt
 test_0_1400_notifications() {
 	query_notifications
 }
-testcase_fileext[test_0_1400_visits]=txt
+# @fileext=txt
 test_0_1400_visits() {
 	query_visits
 }
@@ -430,19 +430,19 @@ test_0_1400_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 14:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_0_1500_getflights]=txt
+# @fileext=txt
 test_0_1500_getflights() {
 	getflights "$(isotime '+0 days 15:00')"
 }
-testcase_fileext[test_0_1500_flights]=txt
+# @fileext=txt
 test_0_1500_flights() {
 	query_flights
 }
-testcase_fileext[test_0_1500_notifications]=txt
+# @fileext=txt
 test_0_1500_notifications() {
 	query_notifications
 }
-testcase_fileext[test_0_1500_visits]=txt
+# @fileext=txt
 test_0_1500_visits() {
 	query_visits
 }
@@ -454,19 +454,19 @@ test_0_1500_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 15:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_0_1600_getflights]=txt
+# @fileext=txt
 test_0_1600_getflights() {
 	getflights "$(isotime '+0 days 16:00')"
 }
-testcase_fileext[test_0_1600_flights]=txt
+# @fileext=txt
 test_0_1600_flights() {
 	query_flights
 }
-testcase_fileext[test_0_1600_notifications]=txt
+# @fileext=txt
 test_0_1600_notifications() {
 	query_notifications
 }
-testcase_fileext[test_0_1600_visits]=txt
+# @fileext=txt
 test_0_1600_visits() {
 	query_visits
 }
@@ -478,19 +478,19 @@ test_0_1600_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 16:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_0_1700_getflights]=txt
+# @fileext=txt
 test_0_1700_getflights() {
 	getflights "$(isotime '+0 days 17:00')"
 }
-testcase_fileext[test_0_1700_flights]=txt
+# @fileext=txt
 test_0_1700_flights() {
 	query_flights
 }
-testcase_fileext[test_0_1700_notifications]=txt
+# @fileext=txt
 test_0_1700_notifications() {
 	query_notifications
 }
-testcase_fileext[test_0_1700_visits]=txt
+# @fileext=txt
 test_0_1700_visits() {
 	query_visits
 }
@@ -502,19 +502,19 @@ test_0_1700_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 17:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_0_1800_getflights]=txt
+# @fileext=txt
 test_0_1800_getflights() {
 	getflights "$(isotime '+0 days 18:00')"
 }
-testcase_fileext[test_0_1800_flights]=txt
+# @fileext=txt
 test_0_1800_flights() {
 	query_flights
 }
-testcase_fileext[test_0_1800_notifications]=txt
+# @fileext=txt
 test_0_1800_notifications() {
 	query_notifications
 }
-testcase_fileext[test_0_1800_visits]=txt
+# @fileext=txt
 test_0_1800_visits() {
 	query_visits
 }
@@ -526,19 +526,19 @@ test_0_1800_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 18:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_0_1900_getflights]=txt
+# @fileext=txt
 test_0_1900_getflights() {
 	getflights "$(isotime '+0 days 19:00')"
 }
-testcase_fileext[test_0_1900_flights]=txt
+# @fileext=txt
 test_0_1900_flights() {
 	query_flights
 }
-testcase_fileext[test_0_1900_notifications]=txt
+# @fileext=txt
 test_0_1900_notifications() {
 	query_notifications
 }
-testcase_fileext[test_0_1900_visits]=txt
+# @fileext=txt
 test_0_1900_visits() {
 	query_visits
 }
@@ -550,19 +550,19 @@ test_0_1900_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 19:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_0_2000_getflights]=txt
+# @fileext=txt
 test_0_2000_getflights() {
 	getflights "$(isotime '+0 days 20:00')"
 }
-testcase_fileext[test_0_2000_flights]=txt
+# @fileext=txt
 test_0_2000_flights() {
 	query_flights
 }
-testcase_fileext[test_0_2000_notifications]=txt
+# @fileext=txt
 test_0_2000_notifications() {
 	query_notifications
 }
-testcase_fileext[test_0_2000_visits]=txt
+# @fileext=txt
 test_0_2000_visits() {
 	query_visits
 }
@@ -574,19 +574,19 @@ test_0_2000_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 20:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_0_2100_getflights]=txt
+# @fileext=txt
 test_0_2100_getflights() {
 	getflights "$(isotime '+0 days 21:00')"
 }
-testcase_fileext[test_0_2100_flights]=txt
+# @fileext=txt
 test_0_2100_flights() {
 	query_flights
 }
-testcase_fileext[test_0_2100_notifications]=txt
+# @fileext=txt
 test_0_2100_notifications() {
 	query_notifications
 }
-testcase_fileext[test_0_2100_visits]=txt
+# @fileext=txt
 test_0_2100_visits() {
 	query_visits
 }
@@ -598,19 +598,19 @@ test_0_2100_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 21:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_0_2200_getflights]=txt
+# @fileext=txt
 test_0_2200_getflights() {
 	getflights "$(isotime '+0 days 22:00')"
 }
-testcase_fileext[test_0_2200_flights]=txt
+# @fileext=txt
 test_0_2200_flights() {
 	query_flights
 }
-testcase_fileext[test_0_2200_notifications]=txt
+# @fileext=txt
 test_0_2200_notifications() {
 	query_notifications
 }
-testcase_fileext[test_0_2200_visits]=txt
+# @fileext=txt
 test_0_2200_visits() {
 	query_visits
 }
@@ -622,19 +622,19 @@ test_0_2200_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 22:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_0_2300_getflights]=txt
+# @fileext=txt
 test_0_2300_getflights() {
 	getflights "$(isotime '+0 days 23:00')"
 }
-testcase_fileext[test_0_2300_flights]=txt
+# @fileext=txt
 test_0_2300_flights() {
 	query_flights
 }
-testcase_fileext[test_0_2300_notifications]=txt
+# @fileext=txt
 test_0_2300_notifications() {
 	query_notifications
 }
-testcase_fileext[test_0_2300_visits]=txt
+# @fileext=txt
 test_0_2300_visits() {
 	query_visits
 }
@@ -646,7 +646,7 @@ test_0_2300_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 23:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_1_0500_getflights]=txt
+# @fileext=txt
 test_1_0500_getflights() {
     query fra-flugplan <<-'SQL'
 UPDATE `users`
@@ -656,15 +656,15 @@ SQL
 
 	getflights "$(isotime '+1 days 05:00')"
 }
-testcase_fileext[test_1_0500_flights]=txt
+# @fileext=txt
 test_1_0500_flights() {
 	query_flights
 }
-testcase_fileext[test_1_0500_notifications]=txt
+# @fileext=txt
 test_1_0500_notifications() {
 	query_notifications
 }
-testcase_fileext[test_1_0500_visits]=txt
+# @fileext=txt
 test_1_0500_visits() {
 	query_visits
 }
@@ -676,19 +676,19 @@ test_1_0500_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 05:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_1_0600_getflights]=txt
+# @fileext=txt
 test_1_0600_getflights() {
 	getflights "$(isotime '+1 days 06:00')"
 }
-testcase_fileext[test_1_0600_flights]=txt
+# @fileext=txt
 test_1_0600_flights() {
 	query_flights
 }
-testcase_fileext[test_1_0600_notifications]=txt
+# @fileext=txt
 test_1_0600_notifications() {
 	query_notifications
 }
-testcase_fileext[test_1_0600_visits]=txt
+# @fileext=txt
 test_1_0600_visits() {
 	query_visits
 }
@@ -700,19 +700,19 @@ test_1_0600_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 06:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_1_0700_getflights]=txt
+# @fileext=txt
 test_1_0700_getflights() {
 	getflights "$(isotime '+1 days 07:00')"
 }
-testcase_fileext[test_1_0700_flights]=txt
+# @fileext=txt
 test_1_0700_flights() {
 	query_flights
 }
-testcase_fileext[test_1_0700_notifications]=txt
+# @fileext=txt
 test_1_0700_notifications() {
 	query_notifications
 }
-testcase_fileext[test_1_0700_visits]=txt
+# @fileext=txt
 test_1_0700_visits() {
 	query_visits
 }
@@ -724,19 +724,19 @@ test_1_0700_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 07:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_1_0800_getflights]=txt
+# @fileext=txt
 test_1_0800_getflights() {
 	getflights "$(isotime '+1 days 08:00')"
 }
-testcase_fileext[test_1_0800_flights]=txt
+# @fileext=txt
 test_1_0800_flights() {
 	query_flights
 }
-testcase_fileext[test_1_0800_notifications]=txt
+# @fileext=txt
 test_1_0800_notifications() {
 	query_notifications
 }
-testcase_fileext[test_1_0800_visits]=txt
+# @fileext=txt
 test_1_0800_visits() {
 	query_visits
 }
@@ -748,19 +748,19 @@ test_1_0800_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 08:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_1_0900_getflights]=txt
+# @fileext=txt
 test_1_0900_getflights() {
 	getflights "$(isotime '+1 days 09:00')"
 }
-testcase_fileext[test_1_0900_flights]=txt
+# @fileext=txt
 test_1_0900_flights() {
 	query_flights
 }
-testcase_fileext[test_1_0900_notifications]=txt
+# @fileext=txt
 test_1_0900_notifications() {
 	query_notifications
 }
-testcase_fileext[test_1_0900_visits]=txt
+# @fileext=txt
 test_1_0900_visits() {
 	query_visits
 }
@@ -772,7 +772,7 @@ test_1_0900_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 09:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_1_1000_getflights]=txt
+# @fileext=txt
 test_1_1000_getflights() {
     query fra-flugplan <<-'SQL'
 UPDATE `visits`
@@ -786,15 +786,15 @@ SQL
 
 	getflights "$(isotime '+1 days 10:00')"
 }
-testcase_fileext[test_1_1000_flights]=txt
+# @fileext=txt
 test_1_1000_flights() {
 	query_flights
 }
-testcase_fileext[test_1_1000_notifications]=txt
+# @fileext=txt
 test_1_1000_notifications() {
 	query_notifications
 }
-testcase_fileext[test_1_1000_visits]=txt
+# @fileext=txt
 test_1_1000_visits() {
 	query_visits
 }
@@ -806,19 +806,19 @@ test_1_1000_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 10:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_1_1100_getflights]=txt
+# @fileext=txt
 test_1_1100_getflights() {
 	getflights "$(isotime '+1 days 11:00')"
 }
-testcase_fileext[test_1_1100_flights]=txt
+# @fileext=txt
 test_1_1100_flights() {
 	query_flights
 }
-testcase_fileext[test_1_1100_notifications]=txt
+# @fileext=txt
 test_1_1100_notifications() {
 	query_notifications
 }
-testcase_fileext[test_1_1100_visits]=txt
+# @fileext=txt
 test_1_1100_visits() {
 	query_visits
 }
@@ -830,7 +830,7 @@ test_1_1100_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 11:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_1_1200_getflights]=txt
+# @fileext=txt
 test_1_1200_getflights() {
     query fra-flugplan <<-'SQL'
 UPDATE `users`
@@ -841,15 +841,15 @@ SQL
 
 	getflights "$(isotime '+1 days 12:00')"
 }
-testcase_fileext[test_1_1200_flights]=txt
+# @fileext=txt
 test_1_1200_flights() {
 	query_flights
 }
-testcase_fileext[test_1_1200_notifications]=txt
+# @fileext=txt
 test_1_1200_notifications() {
 	query_notifications
 }
-testcase_fileext[test_1_1200_visits]=txt
+# @fileext=txt
 test_1_1200_visits() {
 	query_visits
 }
@@ -861,19 +861,19 @@ test_1_1200_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 12:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_1_1300_getflights]=txt
+# @fileext=txt
 test_1_1300_getflights() {
 	getflights "$(isotime '+1 days 13:00')"
 }
-testcase_fileext[test_1_1300_flights]=txt
+# @fileext=txt
 test_1_1300_flights() {
 	query_flights
 }
-testcase_fileext[test_1_1300_notifications]=txt
+# @fileext=txt
 test_1_1300_notifications() {
 	query_notifications
 }
-testcase_fileext[test_1_1300_visits]=txt
+# @fileext=txt
 test_1_1300_visits() {
 	query_visits
 }
@@ -885,19 +885,19 @@ test_1_1300_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 13:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_1_1400_getflights]=txt
+# @fileext=txt
 test_1_1400_getflights() {
 	getflights "$(isotime '+1 days 14:00')"
 }
-testcase_fileext[test_1_1400_flights]=txt
+# @fileext=txt
 test_1_1400_flights() {
 	query_flights
 }
-testcase_fileext[test_1_1400_notifications]=txt
+# @fileext=txt
 test_1_1400_notifications() {
 	query_notifications
 }
-testcase_fileext[test_1_1400_visits]=txt
+# @fileext=txt
 test_1_1400_visits() {
 	query_visits
 }
@@ -909,19 +909,19 @@ test_1_1400_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 14:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_1_1500_getflights]=txt
+# @fileext=txt
 test_1_1500_getflights() {
 	getflights "$(isotime '+1 days 15:00')"
 }
-testcase_fileext[test_1_1500_flights]=txt
+# @fileext=txt
 test_1_1500_flights() {
 	query_flights
 }
-testcase_fileext[test_1_1500_notifications]=txt
+# @fileext=txt
 test_1_1500_notifications() {
 	query_notifications
 }
-testcase_fileext[test_1_1500_visits]=txt
+# @fileext=txt
 test_1_1500_visits() {
 	query_visits
 }
@@ -933,19 +933,19 @@ test_1_1500_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 15:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_1_1600_getflights]=txt
+# @fileext=txt
 test_1_1600_getflights() {
 	getflights "$(isotime '+1 days 16:00')"
 }
-testcase_fileext[test_1_1600_flights]=txt
+# @fileext=txt
 test_1_1600_flights() {
 	query_flights
 }
-testcase_fileext[test_1_1600_notifications]=txt
+# @fileext=txt
 test_1_1600_notifications() {
 	query_notifications
 }
-testcase_fileext[test_1_1600_visits]=txt
+# @fileext=txt
 test_1_1600_visits() {
 	query_visits
 }
@@ -957,19 +957,19 @@ test_1_1600_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 16:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_1_1700_getflights]=txt
+# @fileext=txt
 test_1_1700_getflights() {
 	getflights "$(isotime '+1 days 17:00')"
 }
-testcase_fileext[test_1_1700_flights]=txt
+# @fileext=txt
 test_1_1700_flights() {
 	query_flights
 }
-testcase_fileext[test_1_1700_notifications]=txt
+# @fileext=txt
 test_1_1700_notifications() {
 	query_notifications
 }
-testcase_fileext[test_1_1700_visits]=txt
+# @fileext=txt
 test_1_1700_visits() {
 	query_visits
 }
@@ -981,19 +981,19 @@ test_1_1700_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 17:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_1_1800_getflights]=txt
+# @fileext=txt
 test_1_1800_getflights() {
 	getflights "$(isotime '+1 days 18:00')"
 }
-testcase_fileext[test_1_1800_flights]=txt
+# @fileext=txt
 test_1_1800_flights() {
 	query_flights
 }
-testcase_fileext[test_1_1800_notifications]=txt
+# @fileext=txt
 test_1_1800_notifications() {
 	query_notifications
 }
-testcase_fileext[test_1_1800_visits]=txt
+# @fileext=txt
 test_1_1800_visits() {
 	query_visits
 }
@@ -1005,19 +1005,19 @@ test_1_1800_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 18:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_1_1900_getflights]=txt
+# @fileext=txt
 test_1_1900_getflights() {
 	getflights "$(isotime '+1 days 19:00')"
 }
-testcase_fileext[test_1_1900_flights]=txt
+# @fileext=txt
 test_1_1900_flights() {
 	query_flights
 }
-testcase_fileext[test_1_1900_notifications]=txt
+# @fileext=txt
 test_1_1900_notifications() {
 	query_notifications
 }
-testcase_fileext[test_1_1900_visits]=txt
+# @fileext=txt
 test_1_1900_visits() {
 	query_visits
 }
@@ -1029,19 +1029,19 @@ test_1_1900_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 19:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_1_2000_getflights]=txt
+# @fileext=txt
 test_1_2000_getflights() {
 	getflights "$(isotime '+1 days 20:00')"
 }
-testcase_fileext[test_1_2000_flights]=txt
+# @fileext=txt
 test_1_2000_flights() {
 	query_flights
 }
-testcase_fileext[test_1_2000_notifications]=txt
+# @fileext=txt
 test_1_2000_notifications() {
 	query_notifications
 }
-testcase_fileext[test_1_2000_visits]=txt
+# @fileext=txt
 test_1_2000_visits() {
 	query_visits
 }
@@ -1053,19 +1053,19 @@ test_1_2000_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 20:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_1_2100_getflights]=txt
+# @fileext=txt
 test_1_2100_getflights() {
 	getflights "$(isotime '+1 days 21:00')"
 }
-testcase_fileext[test_1_2100_flights]=txt
+# @fileext=txt
 test_1_2100_flights() {
 	query_flights
 }
-testcase_fileext[test_1_2100_notifications]=txt
+# @fileext=txt
 test_1_2100_notifications() {
 	query_notifications
 }
-testcase_fileext[test_1_2100_visits]=txt
+# @fileext=txt
 test_1_2100_visits() {
 	query_visits
 }
@@ -1077,19 +1077,19 @@ test_1_2100_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 21:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_1_2200_getflights]=txt
+# @fileext=txt
 test_1_2200_getflights() {
 	getflights "$(isotime '+1 days 22:00')"
 }
-testcase_fileext[test_1_2200_flights]=txt
+# @fileext=txt
 test_1_2200_flights() {
 	query_flights
 }
-testcase_fileext[test_1_2200_notifications]=txt
+# @fileext=txt
 test_1_2200_notifications() {
 	query_notifications
 }
-testcase_fileext[test_1_2200_visits]=txt
+# @fileext=txt
 test_1_2200_visits() {
 	query_visits
 }
@@ -1101,19 +1101,19 @@ test_1_2200_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 22:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_1_2300_getflights]=txt
+# @fileext=txt
 test_1_2300_getflights() {
 	getflights "$(isotime '+1 days 23:00')"
 }
-testcase_fileext[test_1_2300_flights]=txt
+# @fileext=txt
 test_1_2300_flights() {
 	query_flights
 }
-testcase_fileext[test_1_2300_notifications]=txt
+# @fileext=txt
 test_1_2300_notifications() {
 	query_notifications
 }
-testcase_fileext[test_1_2300_visits]=txt
+# @fileext=txt
 test_1_2300_visits() {
 	query_visits
 }
@@ -1125,23 +1125,23 @@ test_1_2300_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 23:00')" |
 	strsubst RE_SCHEDULE
 }
-testcase_fileext[test_2_0500_getflights]=txt
+# @fileext=txt
 test_2_0500_getflights() {
 	getflights "$(isotime '+2 days 05:00')"
 }
-testcase_fileext[test_2_0500_notifications]=txt
+# @fileext=txt
 test_2_0500_notifications() {
 	query_notifications
 }
-testcase_fileext[test_3_0500_getflights]=txt
+# @fileext=txt
 test_3_0500_getflights() {
 	getflights "$(isotime '+3 days 05:00')"
 }
-testcase_fileext[test_3_0500_notifications]=txt
+# @fileext=txt
 test_3_0500_notifications() {
 	query_notifications
 }
-testcase_fileext[test_visits]=txt
+# @fileext=txt
 test_visits() {
 	query_visits
 }

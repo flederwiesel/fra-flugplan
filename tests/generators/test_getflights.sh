@@ -59,7 +59,7 @@ for d in {0..1}; do
 			arrival|departure)
 				;;
 			*)
-				echo "testcase_fileext[$testcase]=txt"
+				echo "# @fileext=txt"
 				;;
 			esac
 
@@ -101,7 +101,7 @@ do
 		timespec="+$d days $t:00"
 
 		cat <<-TEST
-			testcase_fileext[$testcase]=txt
+			# @fileext=txt
 			$testcase() {
 			$(
 				if [ "$name" = getflights ]; then
@@ -116,7 +116,7 @@ do
 done
 
 cat <<"TEST"
-testcase_fileext[test_visits]=txt
+# @fileext=txt
 test_visits() {
 	query_visits
 }
