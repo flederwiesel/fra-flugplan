@@ -1,6 +1,4 @@
-mailtodisk --add uid-1@example.com "$mailfile"
-
-###############################################################################
+# @@mailto=uid-1@example.com
 
 test_1() {
 	browse "$url/"

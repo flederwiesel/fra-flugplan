@@ -2,10 +2,6 @@
 # If you want to edit this file, change and execute its counterpart in
 # "$SCRIPTDIR/generators" instead, redirecting the output here.
 
-mailtodisk --add uid-1@example.com "$mailfile"
-mailtodisk --add uid-2@example.com "$mailfile"
-mailtodisk --add flugplan-admin@example.com "$mailfile"
-
 # Insert some default airlines/aicrafts, as well as users and watched regs
 query fra-flugplan < <(
 	cat "$PRJDIR/sql/data/countries.sql" \
@@ -190,6 +186,7 @@ query_visits() {
 		ORDER BY `reg`
 	SQL
 }
+# @mailto=uid-1@example.com
 # @fileext=txt
 test_0_0500_getflights() {
 	getflights "$(isotime '+0 days 05:00')"
@@ -262,6 +259,7 @@ test_0_0700_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 07:00')" |
 	strsubst RE_SCHEDULE
 }
+# @mailto=uid-2@example.com
 # @fileext=txt
 test_0_0800_getflights() {
 	getflights "$(isotime '+0 days 08:00')"
@@ -286,6 +284,7 @@ test_0_0800_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 08:00')" |
 	strsubst RE_SCHEDULE
 }
+# @mailto=flugplan-admin@example.com
 # @fileext=txt
 test_0_0900_getflights() {
 	getflights "$(isotime '+0 days 09:00')"
@@ -334,6 +333,7 @@ test_0_1000_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 10:00')" |
 	strsubst RE_SCHEDULE
 }
+# @mailto=uid-2@example.com
 # @fileext=txt
 test_0_1100_getflights() {
 	getflights "$(isotime '+0 days 11:00')"
@@ -454,6 +454,7 @@ test_0_1500_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 15:00')" |
 	strsubst RE_SCHEDULE
 }
+# @mailto=uid-2@example.com
 # @fileext=txt
 test_0_1600_getflights() {
 	getflights "$(isotime '+0 days 16:00')"
@@ -502,6 +503,7 @@ test_0_1700_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 17:00')" |
 	strsubst RE_SCHEDULE
 }
+# @mailto=flugplan-admin@example.com,uid-1@example.com,uid-2@example.com
 # @fileext=txt
 test_0_1800_getflights() {
 	getflights "$(isotime '+0 days 18:00')"
@@ -526,6 +528,7 @@ test_0_1800_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 18:00')" |
 	strsubst RE_SCHEDULE
 }
+# @mailto=flugplan-admin@example.com
 # @fileext=txt
 test_0_1900_getflights() {
 	getflights "$(isotime '+0 days 19:00')"
@@ -550,6 +553,7 @@ test_0_1900_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 19:00')" |
 	strsubst RE_SCHEDULE
 }
+# @mailto=flugplan-admin@example.com
 # @fileext=txt
 test_0_2000_getflights() {
 	getflights "$(isotime '+0 days 20:00')"
@@ -574,6 +578,7 @@ test_0_2000_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 20:00')" |
 	strsubst RE_SCHEDULE
 }
+# @mailto=uid-2@example.com
 # @fileext=txt
 test_0_2100_getflights() {
 	getflights "$(isotime '+0 days 21:00')"
@@ -598,6 +603,7 @@ test_0_2100_departure() {
 	browse "$url/?departure&time=$(isotime '+0 days 21:00')" |
 	strsubst RE_SCHEDULE
 }
+# @mailto=flugplan-admin@example.com
 # @fileext=txt
 test_0_2200_getflights() {
 	getflights "$(isotime '+0 days 22:00')"
@@ -724,6 +730,7 @@ test_1_0700_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 07:00')" |
 	strsubst RE_SCHEDULE
 }
+# @mailto=uid-2@example.com
 # @fileext=txt
 test_1_0800_getflights() {
 	getflights "$(isotime '+1 days 08:00')"
@@ -748,6 +755,7 @@ test_1_0800_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 08:00')" |
 	strsubst RE_SCHEDULE
 }
+# @mailto=uid-2@example.com
 # @fileext=txt
 test_1_0900_getflights() {
 	getflights "$(isotime '+1 days 09:00')"
@@ -933,6 +941,7 @@ test_1_1500_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 15:00')" |
 	strsubst RE_SCHEDULE
 }
+# @mailto=uid-2@example.com
 # @fileext=txt
 test_1_1600_getflights() {
 	getflights "$(isotime '+1 days 16:00')"
@@ -981,6 +990,7 @@ test_1_1700_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 17:00')" |
 	strsubst RE_SCHEDULE
 }
+# @mailto=flugplan-admin@example.com,uid-1@example.com
 # @fileext=txt
 test_1_1800_getflights() {
 	getflights "$(isotime '+1 days 18:00')"
@@ -1053,6 +1063,7 @@ test_1_2000_departure() {
 	browse "$url/?departure&time=$(isotime '+1 days 20:00')" |
 	strsubst RE_SCHEDULE
 }
+# @mailto=uid-2@example.com
 # @fileext=txt
 test_1_2100_getflights() {
 	getflights "$(isotime '+1 days 21:00')"

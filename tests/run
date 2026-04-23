@@ -161,6 +161,17 @@ for testsuite in "${testsuites[@]}"
 do
 	echo -en "\033[36m$testsuite\033[m " >&2
 
+	# cleanup {
+
+	expect="$SCRIPTDIR/expect/$testsuite"
+	results="$SCRIPTDIR/results/$testsuite"
+
+	rm -rf "$results" "$COOKIES"
+
+	mailtodisk --remove '*'
+
+	# }
+
 	script="$SCRIPTDIR/test_$testsuite.sh"
 
 	readarray -t testcases < <(
@@ -174,6 +185,7 @@ do
 	fi
 
 	declare -A testcase_fileext=()
+	declare -A testcase_mailto=()
 
 	readarray -t decorators < <(
 		awk 'BEGIN {
@@ -211,18 +223,19 @@ do
 		printf -v "testcase_${decorator%%=*}" "${decorator#*=}"
 	done
 
-	expect="$SCRIPTDIR/expect/$testsuite"
-	results="$SCRIPTDIR/results/$testsuite"
+	if [[ ${testcase_mailto[@]:-} ]]; then
+		for mailto in "${testcase_mailto[@]}"
+		do
+			readarray -t -d, recipients < <(echo -n "$mailto")
 
-	rm -rf "$results"
+			for recipient in "${recipients[@]}"
+			do
+				mailtodisk --add "$recipient" "$results/mail.txt"
+			done
+		done
+	fi
+
 	mkdir -p "$results"
-
-	mailtodisk --remove '*'
-
-	export mailfile=$(readlink -m "$results/mail.txt")
-	unset csrftoken
-
-	rm -f "$COOKIES"
 
 	# drop/re-create database
 	initdb

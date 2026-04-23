@@ -47,6 +47,27 @@ exec_1_1200_getflights() {
 	SQL
 }
 
+# Add function decorator where watchlist/admin emails will be expected to be sent
+declare -A mailto=()
+
+# All mails go into the same file; separate multiple recipients with comma
+mailto[test_0_0500_getflights]=uid-1@example.com
+mailto[test_0_0800_getflights]=uid-2@example.com
+mailto[test_0_0900_getflights]=flugplan-admin@example.com
+mailto[test_0_1100_getflights]=uid-2@example.com
+mailto[test_0_1600_getflights]=uid-2@example.com
+mailto[test_0_1800_getflights]=flugplan-admin@example.com,uid-1@example.com,uid-2@example.com
+mailto[test_0_1900_getflights]=flugplan-admin@example.com
+mailto[test_0_2000_getflights]=flugplan-admin@example.com
+mailto[test_0_2100_getflights]=uid-2@example.com
+mailto[test_0_2200_getflights]=flugplan-admin@example.com
+mailto[test_1_0800_getflights]=uid-2@example.com
+mailto[test_1_0900_getflights]=uid-2@example.com
+mailto[test_1_1600_getflights]=uid-2@example.com
+mailto[test_1_1800_getflights]=uid-1@example.com
+mailto[test_1_1800_getflights]=flugplan-admin@example.com,uid-1@example.com
+mailto[test_1_2100_getflights]=uid-2@example.com
+
 for d in {0..1}; do
 	for t in {05..23}; do
 		# Query string for arrival, departure, getflights
@@ -55,9 +76,15 @@ for d in {0..1}; do
 		for name in getflights flights notifications visits arrival departure; do
 			testcase="test_${d}_${t}00_${name}"
 
+			# Add decorators
 			case $name in
 			arrival|departure)
 				;;
+			getflights)
+				if [[ ${mailto[$testcase]:-} ]]; then
+					echo "# @mailto=${mailto[$testcase]}"
+				fi
+				;&
 			*)
 				echo "# @fileext=txt"
 				;;
@@ -127,10 +154,6 @@ exit # testsuite: ==============================================================
 # DO NOT CHANGE THIS FILE. This file is generated automatically.
 # If you want to edit this file, change and execute its counterpart in
 # "$SCRIPTDIR/generators" instead, redirecting the output here.
-
-mailtodisk --add uid-1@example.com "$mailfile"
-mailtodisk --add uid-2@example.com "$mailfile"
-mailtodisk --add flugplan-admin@example.com "$mailfile"
 
 # Insert some default airlines/aicrafts, as well as users and watched regs
 query fra-flugplan < <(
