@@ -79,6 +79,7 @@ test_7() {
 		"$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}&ip=46.118.155.73"
 }
 
+# @mailto=notsure@gmail.com
 test_8() {
 	browse --with-csrf-token \
 		--data-urlencode "email=notsure@gmail.com" \

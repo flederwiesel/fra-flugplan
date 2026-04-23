@@ -1,5 +1,3 @@
-# @@mailto=uid-1@example.com
-
 test_1() {
 	browse "$url/"
 }
@@ -8,6 +6,7 @@ test_2() {
 	browse --store-csrf-token "$url/?req=register"
 }
 
+# @mailto=uid-1@example.com
 test_3() {
 	browse --with-csrf-token \
 		--data-urlencode "email=uid-1@example.com" \
@@ -36,6 +35,7 @@ test_5() {
 	browse "$url/?req=reqtok"
 }
 
+# @mailto=uid-1@example.com
 test_6() {
 	browse --with-csrf-token \
 		--data-urlencode "user=uid-1" \

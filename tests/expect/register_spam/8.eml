@@ -1,0 +1,26 @@
+Date: Day, 0 Month 0000 00:00:00 +0000
+To: notsure@gmail.com
+Subject: Account activation
+From: Frankfurt Aviation Friends <noreply@fra-flugplan.de>
+Reply-To: flugplan-admin@example.com
+Mime-Version: 1.0
+Content-type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: 8bit
+X-Mailer: PHP/*
+
+Hello,
+
+this e-mail has been sent to you because you (or someone else at IP address <localhost>) requested user registration as 'nospam' at Frankfurt Aviation Friends (https://fra-flugplan.de/).
+
+Activation token is:
+***
+
+You can also use this link to process your request:
+https://fra-flugplan.de/?req=activate&user=nospam&token=***
+This token will expire on 0000-00-00 00:00:00 GMT.
+
+Please ignore this e-mail if you did not request a registration. Our apologies for any inconvenience.
+
+
+The Frankfurt Aviation Friends Team
+======================================================

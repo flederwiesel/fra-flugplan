@@ -148,6 +148,7 @@ test_13() {
 }
 
 # multiple registration
+# @mailto=uid-1@example.com
 test_14() {
 	browse --with-csrf-token \
 		--data-urlencode "email=uid-1@example.com" \
