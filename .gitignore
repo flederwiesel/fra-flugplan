@@ -1,4 +1,4 @@
 *.dsk
 *.ppw
 .phped/
-tests/results
+tests/.results

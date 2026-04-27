@@ -112,7 +112,7 @@ mailtodisk --check ||
 declare -rx PRJDIR=$(git -C "$SCRIPTDIR" rev-parse --show-toplevel)
 readonly DATADIR="${PRJDIR%%/htdocs/*}/htdocs/var/run/fra-flugplan"
 
-mkdir -p "$SCRIPTDIR/results" "$DATADIR"
+mkdir -p "$DATADIR"
 
 # Runways 18,99 in use
 cat <<EOF > "$DATADIR/betriebsrichtung.ini"
@@ -164,7 +164,7 @@ do
 	# cleanup {
 
 	expect="$SCRIPTDIR/expect/$testsuite"
-	results="$SCRIPTDIR/results/$testsuite"
+	results="$SCRIPTDIR/.results/$testsuite"
 
 	rm -rf "$results" "$COOKIES"
 
