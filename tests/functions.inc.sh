@@ -165,8 +165,3 @@ strsubst() {
 	shift
 	sed -r "$re" "$@"
 }
-
-export -f initdb
-export -f query
-export -f browse
-export -f rawurlencode
