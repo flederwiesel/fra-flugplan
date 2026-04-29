@@ -187,6 +187,7 @@ do
 	fi
 
 	declare -A testcase_fileext=()
+	declare -A testcase_assets=()
 	declare -A testcase_mailto=()
 
 	readarray -t decorators < <(
@@ -231,6 +232,7 @@ do
 	initdb
 
 	defext="${testcase_fileext[ALL]:-htm}"
+	replace_asset_dir_with="${testcase_assets[ALL]:-}"
 
 	if ! (
 		source "$script"
