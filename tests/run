@@ -15,6 +15,9 @@ trap cleanup EXIT
 export debug=
 
 argv=()
+copy_scripts=
+stop_before=
+stop_after=
 
 for arg
 do
@@ -24,30 +27,23 @@ do
 
 			Usage: \033[1;37m$(basename "${BASH_SOURCE[0]}")\033[m
 
-			    --airportcity-stop-before=dd-HHMM
-			        Stop airportcity test before "dd-HHMM".
-
 			    --copy-scripts
-			        Copy css/js into results.
+			        Copy css/js into ".results" dir.
 
 			    --debug
 			        Print what is being done for `browse` and `query`.
 
-			    --getflights-stop-at=dd-HHMM
-			        Stop before getflights test at "dd-HHMM" after preparation.
+			    --stop-after=<testcase>
+			        Stop after testcase.
 
-			    --getflights-stop-before=dd-HHMM
-			        Stop before getflights test "dd-HHMM" without preparation.
+			    --stop-before=<testcase>
+			        Stop before testcase.
 
 			    --help
 			        Show this message.
 
 			EOF
 			exit 0
-			;;
-
-		--airportcity-stop-before=*)
-			airportcity_stop_before="${arg#*=}"
 			;;
 
 		--copy-scripts)
@@ -58,12 +54,12 @@ do
 			debug=1
 			;;
 
-		--getflights-stop-at=*)
-			getflights_stop_at="${arg#*=}"
+		--stop-after=*)
+			stop_after="${arg#*=}"
 			;;
 
-		--getflights-stop-before=*)
-			getflights_stop_before="${arg#*=}"
+		--stop-before=*)
+			stop_before="${arg#*=}"
 			;;
 
 		*)
@@ -256,8 +252,15 @@ do
 				done
 			fi
 
+			if [ "$testcase" = "$stop_before" ]; then
+				echo
+				exit 0
+			fi
+
 			ext="${testcase_fileext[$testcase]:-${defext}}"
 
+			# Cannot use pipe here, as this would prevent $testcase from
+			# setting variables for other test cases within the test suite
 			"$testcase" > >(
 				sed -r \
 					-e "s#(https://|=)${FRA_FLUGPLAN_HOST}#\1fra-flugplan.de#g" \
@@ -273,6 +276,11 @@ do
 					mv "$mailbox.tmp" "$mailbox"
 				fi
 			fi
+
+			if [ "$testcase" = "$stop_after" ]; then
+				echo
+				exit 0
+			fi
 		done
 
 		echo
@@ -281,7 +289,7 @@ do
 		echo -e "\033[31m ──> FAILED\033[m" >&2
 		status=1
 	else
-		if [[ ${copy_scripts:-} ]]; then
+		if [[ $copy_scripts ]]; then
 			# Copy referenced scripts to properly view results
 			cp -al "$PRJDIR/css" "$PRJDIR/img" "$PRJDIR/script" "$results"
 		fi
