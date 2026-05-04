@@ -14,6 +14,7 @@ trap cleanup EXIT
 # parse command line options
 export debug=
 
+exclude=()
 argv=()
 copy_scripts=
 stop_before=
@@ -32,6 +33,9 @@ do
 
 			    --debug
 			        Print what is being done for `browse` and `query`.
+
+			    --exclude=<testsuite[,testsuite,...]>
+			        Comma separated list of test suites to skip.
 
 			    --stop-after=<testcase>
 			        Stop after testcase.
@@ -52,6 +56,10 @@ do
 
 		-d|--debug)
 			debug=1
+			;;
+
+		--exclude=*)
+			readarray -d, exclude < <(echo -n "${arg#*=}")
 			;;
 
 		--stop-after=*)
@@ -153,6 +161,10 @@ status=0
 
 for testsuite in "${testsuites[@]}"
 do
+	if inArray exclude "$testsuite"; then
+		continue
+	fi
+
 	echo -en "\033[36m$testsuite\033[m " >&2
 
 	# cleanup {

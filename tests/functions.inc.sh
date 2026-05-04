@@ -171,3 +171,14 @@ strsubst() {
 	shift
 	sed -r "$re" "$@"
 }
+
+# $1 name of array, not working for "@"
+# $2 value to be checked
+inArray()
+{
+    local IFS="${separator:-,}"
+    local __array="$1[*]"
+    local __value=$2
+
+    [[ "${IFS}${!__array:-}${IFS}" =~ "${IFS}${__value}${IFS}" ]]
+}
