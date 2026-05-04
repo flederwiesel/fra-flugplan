@@ -168,8 +168,6 @@ do
 
 	rm -rf "$results" "$COOKIES"
 
-	mailtodisk --remove '*'
-
 	# }
 
 	script="$SCRIPTDIR/test_$testsuite.sh"
@@ -237,13 +235,17 @@ do
 		do
 			echo -n . >&2
 
-			# Setup mails from function decorator
+			# Setup mails from function decorators
 			mailtodisk --remove '*'
 
-			mailto="${testcase_mailto[$testcase]:-}"
-			mailbox="$results/${testcase#test_}.eml"
+			mailto=(
+				${testcase_mailto[$testcase]:-}
+				${testcase_mailto[ALL]:-}
+			)
 
 			if [[ ${mailto:-} ]]; then
+				mailbox="$results/${testcase#test_}.eml"
+
 				readarray -t -d, recipients < <(echo -n "$mailto")
 
 				for recipient in "${recipients[@]}"
@@ -260,7 +262,7 @@ do
 					-e 's/\?rev=[0-9]*/?rev=$Rev$/g' > "$results/${testcase#test_}.${ext}"
 			) 2>&1
 
-			if [[ ${mailto:-} ]]; then
+			if [[ ${mailto[*]} ]]; then
 				if [ -e "$mailbox" ]; then
 					# See user.php:
 					#     http://www.outlookfaq.net/index.php?action=artikel&cat=6&id=84&artlang=de

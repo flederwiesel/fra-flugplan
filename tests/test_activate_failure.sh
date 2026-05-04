@@ -1,5 +1,3 @@
-# @@mailto=uid-1@example.com
-
 test_1() {
 	browse --store-csrf-token \
 		--data-urlencode "email=uid-1@example.com" \

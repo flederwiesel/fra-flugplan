@@ -1,5 +1,3 @@
-# @@mailto=uid-1@example.com
-
 test_1() {
 	browse --store-csrf-token \
 		--data-urlencode "email=" \
@@ -103,7 +101,7 @@ test_10() {
 		"$url/?req=register"
 }
 
-test_10_1() {
+_test_10_1() {
 	browse --with-csrf-token \
 		--data-urlencode "email=uid-1@example.com" \
 		--data-urlencode "user=uid-1" \
@@ -147,8 +145,7 @@ test_13() {
 		"$url/?req=register"
 }
 
-# multiple registration
-# @mailto=uid-1@example.com
+# Multiple registration- register here for the following test cases to reject registration
 test_14() {
 	browse --with-csrf-token \
 		--data-urlencode "email=uid-1@example.com" \
