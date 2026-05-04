@@ -61,10 +61,13 @@ initdb() {
 }
 
 query() {
+	# Cature stdin, we we can print it for debugging
+	stdin=$(</dev/stdin)
 
-	[ 1 == $debug ] && echo -e "\033[1;33m$@\033[m" >&2
+	# Unconditionally write to debug fd (/dev/null, if --debug is not set)
+	echo -e "\033[37m$FUNCNAME $@ <<-SQL $(sed 's/^/\t/g' <<< "$stdin")\n\tSQL\033[m" >&3
 
-	mysql --silent --default-character-set=utf8 --skip-column-names "$@"
+	mysql --silent --default-character-set=utf8 --skip-column-names "$@" <<< "$stdin"
 }
 
 # cURL wrpapper using cookies and ca-cert bundle
@@ -79,6 +82,9 @@ query() {
 # --with-csrf-token
 #     Send a CSRFToken=... with the request.
 browse() {
+	# Unconditionally write to debug fd (/dev/null, if --debug is not set)
+	echo -e "\033[37m$FUNCNAME $@\033[m" >&3
+
 	local arg=
 	local args=()
 	local store=

@@ -12,8 +12,7 @@ cleanup()
 trap cleanup EXIT
 
 # parse command line options
-export debug=0
-export verbose=0
+export debug=
 
 argv=()
 
@@ -32,7 +31,7 @@ do
 			        Copy css/js into results.
 
 			    --debug
-			        Print what is being done.
+			        Print what is being done for `browse` and `query`.
 
 			    --getflights-stop-at=dd-HHMM
 			        Stop before getflights test at "dd-HHMM" after preparation.
@@ -42,9 +41,6 @@ do
 
 			    --help
 			        Show this message.
-
-			    --verbose
-			        Print current test.
 
 			EOF
 			exit 0
@@ -68,10 +64,6 @@ do
 
 		--getflights-stop-before=*)
 			getflights_stop_before="${arg#*=}"
-			;;
-
-		-v|--verbose)
-			verbose=1
 			;;
 
 		*)
@@ -155,6 +147,12 @@ if [[ ${#testsuites[@]} -eq 0 ]]; then
 	exit 1
 fi
 
+if [[ $debug ]]; then
+	exec 3>&2
+else
+	exec 3>/dev/null
+fi
+
 status=0
 
 for testsuite in "${testsuites[@]}"
@@ -233,7 +231,11 @@ do
 
 		for testcase in "${testcases[@]}"
 		do
-			echo -n . >&2
+			if [[ ${debug:-} ]]; then
+				echo -ne "\033[35m$testcase:\033[m "
+			else
+				echo -n . >&2
+			fi
 
 			# Setup mails from function decorators
 			mailtodisk --remove '*'
