@@ -2,3 +2,4 @@
 *.ppw
 .phped/
 tests/.results
+tests/mocks/www.frankfurt-airport.com/flights/flights.csv*
