@@ -402,12 +402,12 @@ form div.explainatory
 
 #wl_div button.add
 {
-	background-image: url(../img/add.gif);
+	background-image: url("../img/add.gif");
 }
 
 #wl_div button.del
 {
-	background-image: url(../img/del.gif);
+	background-image: url("../img/del.gif");
 }
 
 #list
