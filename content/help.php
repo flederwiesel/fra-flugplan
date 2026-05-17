@@ -154,9 +154,9 @@ include "help-$_SESSION[lang].php";
 			<?php echo $HELPSTRINGS[28]; ?>:
 			<div>
 				<ul class="help">
-					<li><a href="http://jqueryui.com/">jQuery UI Library</a></li>
-					<li><a href="http://www.kryogenix.org/code/browser/sorttable/">SortTable <?php echo $HELPSTRINGS[29]; ?> Stuart Langridge</a></li>
-					<li><a href="http://mobiledetect.net">Serban Ghita / Mobile_Detect PHP class</a></li>
+					<li><a href="https://jqueryui.com/">jQuery UI Library</a></li>
+					<li><a href="https://www.kryogenix.org/code/browser/sorttable/">SortTable <?php echo $HELPSTRINGS[29]; ?> Stuart Langridge</a></li>
+					<li><a href="https://mobiledetect.net">Serban Ghita / Mobile_Detect PHP class</a></li>
 				</ul>
 			</div>
 			<?php echo $HELPSTRINGS[30]; ?>

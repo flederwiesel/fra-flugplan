@@ -5,7 +5,7 @@ $STRINGS = array
 	'$id' => 'de',
 	'noscript' => 'JavaScript wird entweder nicht vom Browser unterstützt oder ist abgeschaltet.<br>'.
 		'Um diese in vollem Umfang nutzen zu können, bitte '.
-		'<a href="http://www.enable-javascript.com/de/">Javascript aktivieren</a>.',
+		'<a href="https://www.enable-javascript.com/de/">Javascript aktivieren</a>.',
 	'cookies' => 'Cookies müssen aktiviert sein, um diese Seite benutzen zu können!',
 	'liveschedule' => 'Live Flugplan',
 	'schedule' => 'Flugplan',

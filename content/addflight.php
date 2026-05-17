@@ -197,7 +197,7 @@ function GetPostRegId(&$reg, &$model)
 
 	$error = null;
 
-	// TODO: curl http://www.airframes.org/ --data reg=D-AIRY | awk
+	// TODO: curl https://www.airframes.org/ --data reg=D-AIRY | awk
 	// $query = "SELECT `id` FROM `models` WHERE `icao`='$_POST[model]'";
 	// $query = "INSERT INTO `models`(`icao`) VALUES('$model')";
 	// $query = "INSERT INTO `aircrafts`(`reg`, `model`)".
@@ -486,8 +486,7 @@ $(function()
 					<input type="text" name="model" id="model"
 						value="<?php Input_SetValue('model', INP_POST, 'A321'); ?>"/>
 						<span>
-							<a href="http://www.airlinecodes.co.uk/arctypes.asp">[?]</a>
-							<a href="http://www.airframes.org/">[?]</a>
+							<a href="https://www.airframes.org/">[?]</a>
 						</span>
 				</div>
 			</div>
@@ -555,11 +554,7 @@ $(function()
 				<div class="cell">
 					<input type="text" name="code" value="<?php Input_SetValue('code', INP_POST, ''); ?>"/>
 					<input type="text" name="airline" value="<?php Input_SetValue('airline', INP_POST, ''); ?>"/>
-						<span>
-						<!--
-							Show tooltip leading to
-							http://www.frankfurt-airport.de/content/frankfurt_airport/de/check-in_gepaeck/check-in/airlines_a-z.suffix.html/letter=A.html
-						 -->[Code] | [Name]</span>
+						<span>[Code] | [Name]</span>
 				</div>
 			</div>
 <?php } ?>

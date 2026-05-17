@@ -281,8 +281,9 @@ do
 
 			if [[ ${mailto[*]} ]]; then
 				if [ -e "$mailbox" ]; then
-					# See user.php:
-					#     http://www.outlookfaq.net/index.php?action=artikel&cat=6&id=84&artlang=de
+					# Old Outlook versions were unable to display UTF-8 subjects properly.
+					# This is why user.php uses iso-8859-1.
+					# Convert to UTF-8, which we use troughout the repo.
 					iconv -f iso-8859-1 -t utf-8 "$mailbox" |
 					strsubst RE_EMAIL > "$mailbox.tmp" &&
 					mv "$mailbox.tmp" "$mailbox"

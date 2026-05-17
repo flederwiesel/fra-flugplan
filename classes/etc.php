@@ -34,9 +34,9 @@ function http_preferred_language($available_languages)
 	$http_accept_language = isset($_SERVER['HTTP_ACCEPT_LANGUAGE']) ?
 			$_SERVER['HTTP_ACCEPT_LANGUAGE'] : '';
 
-	// standard  for HTTP_ACCEPT_LANGUAGE is defined under
-	// http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.4
-	// pattern to find is therefore something like this:
+	// For definition of Accept-Language header, see:
+	// https://www.rfc-editor.org/rfc/rfc9110.html#name-accept-language
+	// Pattern to find is therefore something like this:
 	//    1#( language-range [ ";" "q" "=" qvalue ] )
 	// where:
 	//    language-range  = ( ( 1*8ALPHA *( "-" 1*8ALPHA ) ) | "*" )

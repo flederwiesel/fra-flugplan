@@ -389,8 +389,8 @@ if ('notifinterval' == $item)
 <?php
 				echo sprintf($STRINGS['notification-strftime_1'],
 					'de' == $_SESSION['lang'] ?
-						'<a href="http://php.net/manual/de/function.strftime.php">strftime()</a>' :
-						'<a href="http://php.net/manual/en/function.strftime.php#refsect1-function.strftime-parameters">strftime()</a>');
+						'<a href="https://php.net/manual/de/function.strftime.php#refsect1-function.strftime-parameters">strftime()</a>' :
+						'<a href="https://php.net/manual/en/function.strftime.php#refsect1-function.strftime-parameters">strftime()</a>');
 ?>
 				<div>
 					<div style="padding-top: 1.3em; text-decoration: underline;">

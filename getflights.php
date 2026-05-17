@@ -312,11 +312,9 @@ function patchreg($reg)
 	$regdb =
 	[
 		// https://www.revolvy.com/main/index.php?s=List%20of%20aircraft%20registration%20prefixes
-		// http://arg-intl.com/resources/icao-aircraft-registration-prefixes/
 		// https://www.skytamer.com/5.2.htm
 		// https://en.wikipedia.org/wiki/List_of_aircraft_registration_prefixes
 		// https://www.airlineupdate.com/content_public/codes/misc_codes/nat_reg.htm
-		// http://www.airlinecodes.co.uk/regprefixcur.asp
 		// https://aircraft-registration-country-codes.blogspot.de/
 		// https://www.aviatorjoe.net/go/icao-registration-prefixes/
 		'/^2[A-Z]+/', 1,

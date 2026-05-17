@@ -95,7 +95,7 @@ CREATE TABLE `models`
 	`name` varchar(96) NOT NULL,
 	CONSTRAINT `pk:models(id)` PRIMARY KEY (`id`),
 	UNIQUE KEY `u:models(icao)`(`icao`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='http://www.airlinecodes.co.uk';
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `aircrafts`
 (

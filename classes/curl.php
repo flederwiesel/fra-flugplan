@@ -117,7 +117,7 @@ class curl
 			$this->me = curl_init();
 
 			// Now set some options (most are optional)
-			// http://en.php.net/curl_setopt
+			// https://www.php.net/curl_setopt
 
 			// Set a referer
 			curl_setopt($this->me, CURLOPT_REFERER, "https://fra-flugplan.de");

@@ -158,6 +158,8 @@ function AdminMail($subject, $text)
 		ADMIN_EMAIL,
 		phpversion());
 
+	// Old Outlook versions were unable to display UTF-8 subjects properly.
+	// This is why we are using iso-8859-1 as opposed to UTF-8.
 	return @mail(mb_encode_mimeheader(ADMIN_NAME, 'ISO-8859-1', 'Q').' <'.ADMIN_EMAIL.'>',
 				 mb_encode_mimeheader("user $subject", 'ISO-8859-1', 'Q'),
 				 mb_convert_encoding($text, 'ISO-8859-1', 'UTF-8'), $header);
@@ -826,7 +828,8 @@ function /* char *error */ RegisterUserSql($db, $user, $email, $password, $ipadd
 						$user, ORGANISATION, SITE_URL,
 						$token, SITE_URL, $user, $token, $ExpDate, ORGANISATION);
 
-		/* http://www.outlookfaq.net/index.php?action=artikel&cat=6&id=84&artlang=de */
+		// Old Outlook versions were unable to display UTF-8 subjects properly.
+		// This is why we are using iso-8859-1 as opposed to UTF-8.
 		$body = mb_convert_encoding($body, 'ISO-8859-1', 'UTF-8');
 
 		if (!@mail($email, $subject, $body, $header))
@@ -1290,7 +1293,8 @@ function /* char *error */ RequestPasswordTokenSql($db, $user, $email)
 		$body = sprintf($STRINGS['emailpasswd'], $client_ip, $user, ORGANISATION, $token,
 						   SITE_URL, $user, $token, $expires, ORGANISATION);
 
-		/* http://www.outlookfaq.net/index.php?action=artikel&cat=6&id=84&artlang=de */
+		// Old Outlook versions were unable to display UTF-8 subjects properly.
+		// This is why we are using iso-8859-1 as opposed to UTF-8.
 		$body = mb_convert_encoding($body, 'ISO-8859-1', 'UTF-8');
 
 		if (!@mail($email, mb_encode_mimeheader($STRINGS['subjpasswdchange'], 'ISO-8859-1', 'Q'), $body, $header))

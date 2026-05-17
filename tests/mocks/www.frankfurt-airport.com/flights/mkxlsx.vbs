@@ -1,8 +1,6 @@
-'http://stackoverflow.com/questions/2050505/way-to-run-excel-macros-from-command-line-or-batch-file
-'http://support.microsoft.com/kb/219151
-'http://support.microsoft.com/kb/291308
-'http://www.cerrotorre.de/faq-script/faq-script-excel.htm
-'http://www.datapigtechnologies.com/downloads/Excel_Enumerations.txt
+'https://stackoverflow.com/questions/2050505/way-to-run-excel-macros-from-command-line-or-batch-file
+'https://support.microsoft.com/kb/219151
+'https://support.microsoft.com/kb/291308
 
 Option Explicit
 

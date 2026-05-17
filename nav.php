@@ -24,7 +24,7 @@ function navitem($item, $href)
 	if (!$mobile)
 	{
 ?>
-		<li><a href="http://www.frankfurt-aviation-friends.de/"><?php echo $STRINGS['home']; ?></a></li>
+		<li><a href="https://www.frankfurt-aviation-friends.de/"><?php echo $STRINGS['home']; ?></a></li>
 <?php
 	}
 

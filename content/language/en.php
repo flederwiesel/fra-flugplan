@@ -5,7 +5,7 @@ $STRINGS = array
 	'$id' => 'en',
 	'noscript' => 'If you obtain this message, JavaScript is either not supported or disabled '.
 		'in in your browser options.<br>In order to use full functionality of this site we advise you '.
-		'to <a href="http://www.enable-javascript.com">enable Javascript</a>.',
+		'to <a href="https://www.enable-javascript.com">enable Javascript</a>.',
 	'cookies' => 'Cookies must be enabled in order to use this site!',
 	'liveschedule' => 'Live Schedule',
 	'schedule' => 'Schedule',
