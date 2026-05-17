@@ -109,16 +109,16 @@ header("X-Error-Served-By: {$_SERVER['SERVER_SOFTWARE']}");
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="author" content="flederwiesel / Tobias Kühne">
-	<meta name="language" content="<?= $lang; ?>">
-	<title><?= "{$status} {$message}"; ?> &mdash; FRA Flugplan</title>
+	<meta name="language" content="<?= $lang ?>">
+	<title><?= "{$status} {$message}" ?> &mdash; FRA Flugplan</title>
 	<link rel="stylesheet" type="text/css" media="screen, print" href="error.css">
 </head>
 <body>
 	<div class="container" id="container">
 		<h1 id="title">FRA Flugplan</h1>
-		<h2 id="subtitle"><?php echo $subtitle; ?></h2>
-		<img src="img/errors/<?php echo $status ?>.gif" alt="<?php echo $status; ?>">
-		<div id="message"><?php echo "$message" ?></div>
+		<h2 id="subtitle"><?= $subtitle ?></h2>
+		<img src="img/errors/<?= $status ?>.gif" alt="<?= $status ?>">
+		<div id="message"><?= "$message" ?></div>
 	</div>
 </body>
 </html>

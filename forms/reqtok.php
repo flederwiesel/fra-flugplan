@@ -20,41 +20,41 @@
 <form class="stretched" method="post" action="?req=reqtok"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
-		<legend><?php echo $STRINGS['forgotpassword']; ?></legend>
+		<legend><?= $STRINGS['forgotpassword'] ?></legend>
 <?php if ($error) { ?>
 		<div id="notification" class="error">
-			<?php echo $error; ?>
+			<?= $error ?>
 		</div>
 <?php } else if ($message) { ?>
 		<div id="notification" class="success">
-			<?php echo $message; ?>
+			<?= $message ?>
 		</div>
 <?php } else { ?>
 		<div id="notification" class="explain">
-			<?php echo $STRINGS['passwdencrypted']; ?>
+			<?= $STRINGS['passwdencrypted'] ?>
 		</div>
 <?php } ?>
 		<div class="table">
 			<div class="row">
-				<div class="cell label"><?php echo ucfirst($STRINGS['username']); ?></div>
+				<div class="cell label"><?= ucfirst($STRINGS['username']) ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user"
-					 value="<?php Input_SetValue('user', INP_POST, 'uid-1'); ?>" autofocus>
+					 value="<?= Input_SetValue('user', INP_POST, 'uid-1') ?>" autofocus>
 					<div class="hint"></div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?php echo ucfirst($STRINGS['emailaddress']); ?></div>
+				<div class="cell label"><?= ucfirst($STRINGS['emailaddress']) ?></div>
 				<div class="cell">
 					<input type="text" id="email" name="email"
-					 value="<?php Input_SetValue('email', INP_POST, 'etc@example.com'); ?>">
-					<div class="hint"><?php echo $STRINGS['onefieldmandatory']; ?></div>
+					 value="<?= Input_SetValue('email', INP_POST, 'etc@example.com') ?>">
+					<div class="hint"><?= $STRINGS['onefieldmandatory'] ?></div>
 				</div>
 			</div>
 		</div>
 	</fieldset>
-	<input type="hidden" name="CSRFToken" value="<?php echo CsrfToken::get(); ?>">
+	<input type="hidden" name="CSRFToken" value="<?= CsrfToken::get() ?>">
 	<div class="center">
-		<input type="submit" id="submit" value="<?php echo $STRINGS['submit']; ?>">
+		<input type="submit" id="submit" value="<?= $STRINGS['submit'] ?>">
 	</div>
 </form>

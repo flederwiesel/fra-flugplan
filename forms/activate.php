@@ -20,46 +20,46 @@
 <form class="stretched" method="post" action="?req=activate"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
-		<legend><?php echo $STRINGS['activation']; ?></legend>
+		<legend><?= $STRINGS['activation'] ?></legend>
 <?php if ($error) { ?>
 		<div id="notification" class="error">
-			<?php echo $error; ?>
+			<?= $error ?>
 		</div>
 <?php } else if ($message) { ?>
 		<div id="notification" class="success">
-			<?php echo $message; ?>
+			<?= $message ?>
 		</div>
 <?php } ?>
 		<div class="explainatory">
-			<p><?php echo $STRINGS['snailmail_1']; ?></p>
-			<p><?php echo $STRINGS['snailmail_2']; ?></p>
-			<p><?php echo $STRINGS['snailmail_3']; ?>
-				<a href="content/emil.php?subject=<?php echo urlencode($STRINGS["activation-trouble"]); ?>">
+			<p><?= $STRINGS['snailmail_1'] ?></p>
+			<p><?= $STRINGS['snailmail_2'] ?></p>
+			<p><?= $STRINGS['snailmail_3'] ?>
+				<a href="content/emil.php?subject=<?= urlencode($STRINGS["activation-trouble"]) ?>">
 					<img class="emil" alt="email" src="content/mkpng.php?font=verdana&size=10&bg=white&fg=%2300007f&res=ADMIN_EMAIL">
 				</a>
 			</p>
 		</div>
 		<div class="table">
 			<div class="row">
-				<div class="cell label"><?php echo ucfirst($STRINGS['username']); ?></div>
+				<div class="cell label"><?= ucfirst($STRINGS['username']) ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user"
-					 value="<?php Input_SetValue('user', INP_POST | INP_GET, 'uid-1'); ?>" autofocus>
+					 value="<?= Input_SetValue('user', INP_POST | INP_GET, 'uid-1') ?>" autofocus>
 					<div class="hint"></div>
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?php echo $STRINGS['token']; ?></div>
+				<div class="cell label"><?= $STRINGS['token'] ?></div>
 				<div class="cell">
 					<input type="text" id="token" name="token"
-					 value="<?php Input_SetValue('token', INP_GET, ''); ?>">
-					<div class="hint"><?php echo $STRINGS['tokenemail']; ?></div>
+					 value="<?= Input_SetValue('token', INP_GET, '') ?>">
+					<div class="hint"><?= $STRINGS['tokenemail'] ?></div>
 				</div>
 			</div>
 		</div>
 	</fieldset>
-	<input type="hidden" name="CSRFToken" value="<?php echo CsrfToken::get(); ?>">
+	<input type="hidden" name="CSRFToken" value="<?= CsrfToken::get() ?>">
 	<div class="center">
-		<input type="submit" id="submit" value="<?php echo $STRINGS['submit']; ?>">
+		<input type="submit" id="submit" value="<?= $STRINGS['submit'] ?>">
 	</div>
 </form>
