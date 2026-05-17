@@ -128,7 +128,7 @@ do
 		localwebroot=${webroot}
 		projectroot=${scriptdir}
 		runmode=2
-		webrooturl=http://fra-flugplan.local/
+		webrooturl=http://${FRA_FLUGPLAN_HOST}/
 
 		[PHPEdProject.JSLibraries]
 		Count=0
@@ -187,7 +187,7 @@ do
 		RunMode=2
 		ScriptRunTarget=2
 		SourceControl=0
-		URL=http://fra-flugplan.local/${projectpath}
+		URL=http://${FRA_FLUGPLAN_HOST}/${projectpath}
 		UrlMappingCount=0
 		UsedPHPFrameworkChecked=0
 		UsedPHPFrameworkId=
