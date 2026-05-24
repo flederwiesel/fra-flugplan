@@ -77,22 +77,22 @@ $(function()
 				<div class="cell label"><?= $STRINGS['from'] ?></div>
 				<div class="cell">
 					<input type="text" name="date-from" id="date-from"
-					 value="<?= Input_SetValue('date-from', INP_FORCE, date('d.m.Y', strtotime('-1 day'))) ?>"/>
+					 value=""/>
 				</div>
 				<div style="display: inline;">
 					<input type="text" name="time-from" id="time-from" style="margin-right: 0.5em;"
-						value="<?= Input_SetValue('time-from', INP_FORCE, '00:00') ?>"/>HH:MM (<?= $STRINGS['local'] ?>)
+						value=""/>HH:MM (<?= $STRINGS['local'] ?>)
 				</div>
 			</div>
 			<div class="row">
 				<div class="cell label"><?= $STRINGS['until'] ?></div>
 				<div class="cell">
 					<input type="text" name="date-until" id="date-until"
-					 value="<?= Input_SetValue('date-until', INP_FORCE, date('d.m.Y')) ?>"/>
+					 value=""/>
 				</div>
 				<div style="display: inline;">
 					<input type="text" name="time-until" id="time-until" style="margin-right: 0.5em;"
-						value="<?= Input_SetValue('time-until', INP_FORCE, '00:00') ?>"/>HH:MM (<?= $STRINGS['local'] ?>)
+						value=""/>HH:MM (<?= $STRINGS['local'] ?>)
 				</div>
 			</div>
 		</div>

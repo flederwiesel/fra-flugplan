@@ -137,11 +137,10 @@ function ordinal($number, $lang)
 	return $ordinal;
 }
 
-define('INP_FORCE', 0x1);
 define('INP_POST', 0x2);
 define('INP_GET',  0x4);
 
-function Input_SetValue($name, $whence, $debug)
+function valueFromRequest($name, $whence)
 {
 	$value = null;
 
@@ -157,16 +156,6 @@ function Input_SetValue($name, $whence, $debug)
  			if (isset($_GET[$name]))
  				$value = $_GET[$name];
 	}
-
-	if (null == $value)
-	{
-		if (INP_FORCE & $whence)
-			$value = $debug;
-	}
-
-	if (defined('DEBUG'))
-		if (!$value)
-			$value = $debug;
 
 	if ($value)
 		echo htmlspecialchars($value);

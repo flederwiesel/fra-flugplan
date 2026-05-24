@@ -39,7 +39,7 @@
 				<div class="cell label"><?= ucfirst($STRINGS['username']) ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user"
-					 value="<?= Input_SetValue('user', INP_POST, 'uid-1') ?>" autofocus>
+					 value="<?= valueFromRequest('user', INP_POST) ?>" autofocus>
 					<div class="hint"></div>
 				</div>
 			</div>
@@ -47,7 +47,7 @@
 				<div class="cell label"><?= ucfirst($STRINGS['emailaddress']) ?></div>
 				<div class="cell">
 					<input type="text" id="email" name="email"
-					 value="<?= Input_SetValue('email', INP_POST, 'etc@example.com') ?>">
+					 value="<?= valueFromRequest('email', INP_POST) ?>">
 					<div class="hint"><?= $STRINGS['onefieldmandatory'] ?></div>
 				</div>
 			</div>

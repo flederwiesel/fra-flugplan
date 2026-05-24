@@ -57,7 +57,7 @@
 				<div class="cell label"><?= ucfirst($STRINGS['username']) ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user"
-					 value="<?= Input_SetValue('user', INP_POST | INP_GET, 'uid-1') ?>" autofocus>
+					 value="<?= valueFromRequest('user', INP_POST | INP_GET) ?>" autofocus>
 					<div class="hint"></div>
 				</div>
 			</div>
@@ -65,7 +65,7 @@
 				<div class="cell label"><?= $STRINGS['token'] ?></div>
 				<div class="cell">
 					<input type="text" id="token" name="token"
-					 value="<?= Input_SetValue('token', INP_GET, '') ?>">
+					 value="<?= valueFromRequest('token', INP_GET) ?>">
 					<div class="hint"><?= $STRINGS['tokenemail'] ?></div>
 				</div>
 			</div>
@@ -74,14 +74,14 @@
 				<div class="cell label"><?= $STRINGS['newpassword'] ?></div>
 				<div class="cell">
 					<input type="password" id="passwd" name="passwd"
-					 value="<?= Input_SetValue('passwd', 0, 'elvizzz') ?>">
+					 value="">
 				</div>
 			</div>
 			<div class="row">
 				<div class="cell label"><?= $STRINGS['confirmpassword'] ?></div>
 				<div class="cell">
 					<input type="password" id="passwd-confirm" name="passwd-confirm"
-					 value="<?= Input_SetValue('passwd-confirm', 0, 'elvizzz') ?>">
+					 value="">
 					<div class="hint"><?= PasswordHint() ?></div>
 				</div>
 			</div>

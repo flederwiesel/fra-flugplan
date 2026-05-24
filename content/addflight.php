@@ -476,7 +476,7 @@ $(function()
 				<div class="cell label"><?= $STRINGS['reg'] ?></div>
 				<div class="cell">
 					<input type="text" name="reg" id="reg"
-					 value="<?= Input_SetValue('reg', INP_POST, 'D-AIRY') ?>"/>
+					 value="<?= valueFromRequest('reg', INP_POST) ?>"/>
 				</div>
 			</div>
 <?php if (isset($_POST['flight']) && !$error && !$model) { ?>
@@ -484,7 +484,7 @@ $(function()
 				<div class="cell label"><?= $STRINGS['icaomodel'] ?></div>
 				<div class="cell">
 					<input type="text" name="model" id="model"
-						value="<?= Input_SetValue('model', INP_POST, 'A321') ?>"/>
+						value="<?= valueFromRequest('model', INP_POST) ?>"/>
 						<span>
 							<a href="https://www.airframes.org/">[?]</a>
 						</span>
@@ -495,7 +495,7 @@ $(function()
 				<div class="cell label"><?= $STRINGS['flight'] ?></div>
 				<div class="cell">
 					<input type="text" name="flight" id="flight"
-					 value="<?= Input_SetValue('flight', INP_POST, 'QQ9999') ?>"/>
+					 value="<?= valueFromRequest('flight', INP_POST) ?>"/>
 <?php
 					if ($mobile)
 					{
@@ -552,8 +552,8 @@ $(function()
 			<div class="row">
 				<div class="cell label"><?= $STRINGS['airline'] ?></div>
 				<div class="cell">
-					<input type="text" name="code" value="<?= Input_SetValue('code', INP_POST, '') ?>"/>
-					<input type="text" name="airline" value="<?= Input_SetValue('airline', INP_POST, '') ?>"/>
+					<input type="text" name="code" value="<?= valueFromRequest('code', INP_POST) ?>"/>
+					<input type="text" name="airline" value="<?= valueFromRequest('airline', INP_POST) ?>"/>
 						<span>[Code] | [Name]</span>
 				</div>
 			</div>
@@ -579,11 +579,11 @@ $(function()
 			<div class="row">
 				<div class="cell label"><?= $STRINGS['date'] ?></div>
 				<div class="cell">
-					<input type="text" name="from" id="from" value="<?= Input_SetValue('from', INP_POST | INP_FORCE, date('d.m.Y')) ?>"/>
+					<input type="text" name="from" id="from" value="<?= valueFromRequest('from', INP_POST) ?>"/>
 					<div style="display: inline;"><?= 'arrival' == $dir ? $STRINGS['sta'] : $STRINGS['std'] ?>:</div>
 					<div style="display: inline;">
 						<input type="text" name="time" id="time" style="margin-right: 0.5em;"
-						 value="<?= Input_SetValue('time', INP_POST | INP_FORCE, date('H:i')) ?>"/>HH:MM (<?= $STRINGS['local'] ?>)
+						 value="<?= valueFromRequest('time', INP_POST) ?>"/>HH:MM (<?= $STRINGS['local'] ?>)
 					</div>
 					<div class="cell">
 <?php
@@ -606,7 +606,7 @@ $(function()
 						<div class="cell">
 							<div style="display: inline;"><?= $STRINGS['until'] ?>:</div>
 							<input type="text" name="until" id="until"
-							 value="<?= Input_SetValue('until', INP_POST | INP_FORCE, date('d.m.Y')) ?>" disabled>
+							 value="<?= valueFromRequest('until', INP_POST) ?>" disabled>
 						</div>
 <?php
 					}
@@ -631,7 +631,7 @@ $(function()
 						<div class="cell">
 							<div style="display: inline;"><?= $STRINGS['until'] ?>:</div>
 							<input type="text" name="until" id="until"
-							 value="<?= Input_SetValue('until', INP_POST | INP_FORCE, date('d.m.Y')) ?>">
+							 value="<?= valueFromRequest('until', INP_POST) ?>">
 						</div>
 <?php
 						}
@@ -654,7 +654,7 @@ $(function()
 						<div class="cell">
 							<div style="display: inline;"><?= $STRINGS['until'] ?>:</div>
 							<input type="text" name="until" id="until"
-							 value="<?= Input_SetValue('until', INP_POST | INP_FORCE, date('d.m.Y')) ?>" disabled>
+							 value="<?= valueFromRequest('until', INP_POST) ?>" disabled>
 						</div>
 <?php
 						}

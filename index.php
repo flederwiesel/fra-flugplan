@@ -7,11 +7,7 @@ require_once 'classes/sql-xpdo.php';
 mb_internal_encoding('UTF-8');
 
 $jqueryui = 'jquery-ui-1.14.1';
-
-if (defined('DEBUG'))
-	$minified = '';
-else
-	$minified = '.min';
+$minified = '.min';
 
 function get($get=null)
 {
@@ -335,11 +331,6 @@ if ('de' == $lang) {
 	<noscript>
 		<div class="noscript"><?= $STRINGS['noscript'] ?></div>
 	</noscript>
-<?php if (defined('DEBUG')) { ?>
-	<div id="debug">
-		<h1>Debug version.</h1>
-	</div>
-<?php } ?>
 	<div id="body">
 		<div class="box left">
 			<div>

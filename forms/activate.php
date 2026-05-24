@@ -44,7 +44,7 @@
 				<div class="cell label"><?= ucfirst($STRINGS['username']) ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user"
-					 value="<?= Input_SetValue('user', INP_POST | INP_GET, 'uid-1') ?>" autofocus>
+					 value="<?= valueFromRequest('user', INP_POST | INP_GET) ?>" autofocus>
 					<div class="hint"></div>
 				</div>
 			</div>
@@ -52,7 +52,7 @@
 				<div class="cell label"><?= $STRINGS['token'] ?></div>
 				<div class="cell">
 					<input type="text" id="token" name="token"
-					 value="<?= Input_SetValue('token', INP_GET, '') ?>">
+					 value="">
 					<div class="hint"><?= $STRINGS['tokenemail'] ?></div>
 				</div>
 			</div>

@@ -37,7 +37,7 @@
 				<div class="cell label"><?= ucfirst($STRINGS['username']) ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user" tabindex="1"
-					 value="<?= Input_SetValue('user', INP_POST | INP_GET, 'uid-1') ?>" autofocus>
+					 value="<?= valueFromRequest('user', INP_POST | INP_GET) ?>" autofocus>
 					<div class="hint">
 						<a href="?req=register"  tabindex="5"><?= $STRINGS['notamember'] ?></a>
 					</div>
@@ -47,7 +47,7 @@
 				<div class="cell label"><?= $STRINGS['password'] ?></div>
 				<div class="cell">
 					<input type="password" id="passwd" name="passwd" tabindex="2"
-					 value="<?= Input_SetValue('passwd', 0, 'elvizzz') ?>">
+					 value="">
 					<div class="hint">
 						<a href="?req=reqtok"  tabindex="6"><?= $STRINGS['forgotpassword'] ?></a>
 					</div>

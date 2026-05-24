@@ -41,14 +41,14 @@
 				<div class="cell label"><?= ucfirst($STRINGS['emailaddress']) ?></div>
 				<div class="cell">
 					<input type="text" id="email" name="email"
-					 value="<?= Input_SetValue('email', INP_POST | INP_GET, 'uid-1@example.com') ?>" autofocus>
+					 value="<?= valueFromRequest('email', INP_POST | INP_GET) ?>" autofocus>
 				</div>
 			</div>
 			<div class="row">
 				<div class="cell label"><?= ucfirst($STRINGS['username']) ?></div>
 				<div class="cell">
 					<input type="text" id="user" name="user"
-					 value="<?= Input_SetValue('user', INP_POST | INP_GET, 'uid-1') ?>">
+					 value="<?= valueFromRequest('user', INP_POST | INP_GET) ?>">
 					<div class="hint">
 						<?= sprintf($STRINGS['hintnumchars'], $GLOBALS['USERNAME_MIN'], $GLOBALS['USERNAME_MAX']) ?>
 					</div>
@@ -61,14 +61,14 @@
 				<div class="cell label"><?= $STRINGS['password'] ?></div>
 				<div class="cell">
 					<input type="password" id="passwd" name="passwd"
-					 value="<?= Input_SetValue(null, 0, 'elvizzz') ?>">
+					 value="">
 				</div>
 			</div>
 			<div class="row">
 				<div class="cell label"><?= $STRINGS['confirmpassword'] ?></div>
 				<div class="cell">
 					<input type="password" id="passwd-confirm" name="passwd-confirm"
-					 value="<?= Input_SetValue(null, 0, 'elvizzz') ?>">
+					 value="">
 					<div class="hint"><?= PasswordHint() ?></div>
 				</div>
 			</div>
