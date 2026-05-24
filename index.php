@@ -6,7 +6,7 @@ require_once 'classes/sql-xpdo.php';
 
 mb_internal_encoding('UTF-8');
 
-$jqueryui = 'jquery-ui-1.14.1';
+$jqueryui = 'jquery-ui-1.14.2';
 $minified = '.min';
 
 function get($get=null)

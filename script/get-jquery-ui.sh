@@ -4,7 +4,7 @@
 
 set -euo pipefail
 
-readonly VERSION=1.14.1
+readonly VERSION=1.14.2
 readonly zThemeParams_json=jquery-ui-ThemeParams.json
 
 readonly SCRIPTDIR=$(dirname "${BASH_SOURCE[0]}")

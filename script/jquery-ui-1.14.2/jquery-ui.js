@@ -1,4 +1,4 @@
-/*! jQuery UI - v1.14.1 - 2025-12-27
+/*! jQuery UI - v1.14.2 - 2026-05-17
 * https://jqueryui.com
 * Includes: widget.js, position.js, form-reset-mixin.js, jquery-patch.js, keycode.js, unique-id.js, widgets/datepicker.js, widgets/mouse.js, widgets/slider.js, widgets/tooltip.js
 * Copyright OpenJS Foundation and other contributors; Licensed MIT */
@@ -20,11 +20,11 @@
 
 $.ui = $.ui || {};
 
-var version = $.ui.version = "1.14.1";
+var version = $.ui.version = "1.14.2";
 
 
 /*!
- * jQuery UI Widget 1.14.1
+ * jQuery UI Widget 1.14.2
  * https://jqueryui.com
  *
  * Copyright OpenJS Foundation and other contributors
@@ -769,7 +769,7 @@ var widget = $.widget;
 
 
 /*!
- * jQuery UI Position 1.14.1
+ * jQuery UI Position 1.14.2
  * https://jqueryui.com
  *
  * Copyright OpenJS Foundation and other contributors
@@ -1266,7 +1266,7 @@ var position = $.ui.position;
 
 
 /*!
- * jQuery UI Form Reset Mixin 1.14.1
+ * jQuery UI Form Reset Mixin 1.14.2
  * https://jqueryui.com
  *
  * Copyright OpenJS Foundation and other contributors
@@ -1328,7 +1328,7 @@ var formResetMixin = $.ui.formResetMixin = {
 
 
 /*!
- * jQuery UI Legacy jQuery Core patches 1.14.1
+ * jQuery UI Legacy jQuery Core patches 1.14.2
  * https://jqueryui.com
  *
  * Copyright OpenJS Foundation and other contributors
@@ -1370,7 +1370,7 @@ if ( !$.fn.even || !$.fn.odd ) {
 
 ;
 /*!
- * jQuery UI Keycode 1.14.1
+ * jQuery UI Keycode 1.14.2
  * https://jqueryui.com
  *
  * Copyright OpenJS Foundation and other contributors
@@ -1405,7 +1405,7 @@ var keycode = $.ui.keyCode = {
 
 
 /*!
- * jQuery UI Unique ID 1.14.1
+ * jQuery UI Unique ID 1.14.2
  * https://jqueryui.com
  *
  * Copyright OpenJS Foundation and other contributors
@@ -1442,9 +1442,9 @@ var uniqueId = $.fn.extend( {
 } );
 
 
-/* eslint-disable max-len, camelcase */
+/* eslint-disable max-len */
 /*!
- * jQuery UI Datepicker 1.14.1
+ * jQuery UI Datepicker 1.14.2
  * https://jqueryui.com
  *
  * Copyright OpenJS Foundation and other contributors
@@ -1462,7 +1462,7 @@ var uniqueId = $.fn.extend( {
 //>>css.theme: ../../themes/base/theme.css
 
 
-$.extend( $.ui, { datepicker: { version: "1.14.1" } } );
+$.extend( $.ui, { datepicker: { version: "1.14.2" } } );
 
 var datepicker_instActive;
 
@@ -1961,7 +1961,7 @@ $.extend( Datepicker.prototype, {
 	_getInst: function( target ) {
 		try {
 			return $.data( target, "datepicker" );
-		} catch ( err ) {
+		} catch ( _err ) {
 			throw "Missing instance data for this datepicker";
 		}
 	},
@@ -2194,7 +2194,7 @@ $.extend( Datepicker.prototype, {
 					$.datepicker._updateAlternate( inst );
 					$.datepicker._updateDatepicker( inst );
 				}
-			} catch ( err ) {
+			} catch ( _err ) {
 			}
 		}
 		return true;
@@ -2966,7 +2966,7 @@ $.extend( Datepicker.prototype, {
 
 		try {
 			date = this.parseDate( dateFormat, dates, settings ) || defaultDate;
-		} catch ( event ) {
+		} catch ( _err ) {
 			dates = ( noDefault ? "" : dates );
 		}
 		inst.selectedDay = date.getDate();
@@ -2995,7 +2995,7 @@ $.extend( Datepicker.prototype, {
 				try {
 					return $.datepicker.parseDate( $.datepicker._get( inst, "dateFormat" ),
 						offset, $.datepicker._getFormatConfig( inst ) );
-				} catch ( e ) {
+				} catch ( _e ) {
 
 					// Ignore
 				}
@@ -3656,13 +3656,13 @@ $.fn.datepicker = function( options ) {
 $.datepicker = new Datepicker(); // singleton instance
 $.datepicker.initialized = false;
 $.datepicker.uuid = new Date().getTime();
-$.datepicker.version = "1.14.1";
+$.datepicker.version = "1.14.2";
 
 var widgetsDatepicker = $.datepicker;
 
 
 /*!
- * jQuery UI Mouse 1.14.1
+ * jQuery UI Mouse 1.14.2
  * https://jqueryui.com
  *
  * Copyright OpenJS Foundation and other contributors
@@ -3682,7 +3682,7 @@ $( document ).on( "mouseup", function() {
 } );
 
 var widgetsMouse = $.widget( "ui.mouse", {
-	version: "1.14.1",
+	version: "1.14.2",
 	options: {
 		cancel: "input, textarea, button, select, option",
 		distance: 1,
@@ -3867,7 +3867,7 @@ var widgetsMouse = $.widget( "ui.mouse", {
 
 
 /*!
- * jQuery UI Slider 1.14.1
+ * jQuery UI Slider 1.14.2
  * https://jqueryui.com
  *
  * Copyright OpenJS Foundation and other contributors
@@ -3886,7 +3886,7 @@ var widgetsMouse = $.widget( "ui.mouse", {
 
 
 var widgetsSlider = $.widget( "ui.slider", $.ui.mouse, {
-	version: "1.14.1",
+	version: "1.14.2",
 	widgetEventPrefix: "slide",
 
 	options: {
@@ -4602,7 +4602,7 @@ var widgetsSlider = $.widget( "ui.slider", $.ui.mouse, {
 
 
 /*!
- * jQuery UI Tooltip 1.14.1
+ * jQuery UI Tooltip 1.14.2
  * https://jqueryui.com
  *
  * Copyright OpenJS Foundation and other contributors
@@ -4621,7 +4621,7 @@ var widgetsSlider = $.widget( "ui.slider", $.ui.mouse, {
 
 
 $.widget( "ui.tooltip", {
-	version: "1.14.1",
+	version: "1.14.2",
 	options: {
 		classes: {
 			"ui-tooltip": "ui-corner-all ui-widget-shadow"
