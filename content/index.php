@@ -194,9 +194,6 @@ if (isset($_POST['add']) ||
 <?php } ?>
 <script type="text/javascript" src="script/sorttable.js<?= rev() ?>"></script>
 <script type="text/javascript">
-	$(document).ready(function(){
-	});
-
 	$(function()
 	{
 		$(document).tooltip( { position: { my: "left top", at: "right top", collision: "flipfit" } } );
