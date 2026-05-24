@@ -62,6 +62,8 @@ rsync -av \
 --filter="+ photodb.php" \
 --filter="+ robots.txt" \
 --filter="+ script/" \
+--filter="- script/get-jquery-ui.sh" \
+--filter="- script/jquery-ui-ThemeParams.json" \
 --filter="+ script/*" \
 --filter="+ script/jquery*/***" \
 --filter="+ user.php" \
