@@ -14,25 +14,27 @@
 	mon,tue,wed,thu,fri,sat,sun
 */
 
-function DefaultCheck($name, $value)
+function checkedIfInPost($name, $value, $type = 'checkbox')
 {
+	$state = null;
+
 	if (isset($_POST[$name]))
 	{
-		if (is_array($_POST[$name]))
+		if ($type == 'checkbox')
 		{
-			/* Checkboxes "day[1] .. day[7], day[0]" */
 			$a = $_POST[$name];
 
 			if (isset($a[$value]))
-				echo ' checked ';
+				$state = ' checked ';
 		}
 		else
 		{
-			/* Everything else */
 			if ($value == $_POST[$name])
-				echo ' checked="checked" ';
+				$state = ' checked="checked" ';
 		}
 	}
+
+	return $state ?? "";
 }
 
 function CheckPostVariables(&$notice)
@@ -526,15 +528,15 @@ $(function()
 ?>
 						<label>
 							<input type="radio" name="type"
-							 value="pax-regular" <?= DefaultCheck('type', 'pax-regular') ?>/><?= $STRINGS['pax-regular'] ?>
+							 value="pax-regular" <?= checkedIfInPost('type', 'pax-regular', 'radio') ?>/><?= $STRINGS['pax-regular'] ?>
 						</label>
 						<label>
 							<input type="radio" name="type"
-							 value="cargo" <?= DefaultCheck('type', 'cargo') ?>/><?= $STRINGS['cargo'] ?>
+							 value="cargo" <?= checkedIfInPost('type', 'cargo', 'radio') ?>/><?= $STRINGS['cargo'] ?>
 						</label>
 						<label>
 							<input type="radio" name="type"
-							 value="ferry" <?= DefaultCheck('type', 'ferry') ?>/><?= $STRINGS['ferry'] ?>
+							 value="ferry" <?= checkedIfInPost('type', 'ferry', 'radio') ?>/><?= $STRINGS['ferry'] ?>
 						</label>
 <?php
 					}
@@ -615,18 +617,18 @@ $(function()
 						if ('each' == $_POST['interval'])
 						{
 ?>
-						<label><input type="radio" name="interval" value="once" id="once" <?= DefaultCheck('interval', 'once') ?>/><?= $STRINGS['once'] ?></label><br>
-						<label><input type="radio" name="interval" value="daily" id="daily" <?= DefaultCheck('interval', 'daily') ?>/><?= $STRINGS['daily'] ?></label><br>
-						<label><input type="radio" name="interval" value="each" id="each" <?= DefaultCheck('interval', 'each') ?>/><?= $STRINGS['each'] ?></label>
+						<label><input type="radio" name="interval" value="once" id="once" <?= checkedIfInPost('interval', 'once', 'radio') ?>/><?= $STRINGS['once'] ?></label><br>
+						<label><input type="radio" name="interval" value="daily" id="daily" <?= checkedIfInPost('interval', 'daily', 'radio') ?>/><?= $STRINGS['daily'] ?></label><br>
+						<label><input type="radio" name="interval" value="each" id="each" <?= checkedIfInPost('interval', 'each', 'radio') ?>/><?= $STRINGS['each'] ?></label>
 						<div style="margin-left: 1em; display: inline;">
-							<label><input type="checkbox" name="day[1]" id="mon" <?= DefaultCheck('day', 1) ?>/><?= $STRINGS['mon'] ?></label>
-							<label><input type="checkbox" name="day[2]" id="tue" <?= DefaultCheck('day', 2) ?>/><?= $STRINGS['tue'] ?></label>
-							<label><input type="checkbox" name="day[3]" id="wed" <?= DefaultCheck('day', 3) ?>/><?= $STRINGS['wed'] ?></label>
-							<label><input type="checkbox" name="day[4]" id="thu" <?= DefaultCheck('day', 4) ?>/><?= $STRINGS['thu'] ?></label>
-							<label><input type="checkbox" name="day[5]" id="fri" <?= DefaultCheck('day', 5) ?>/><?= $STRINGS['fri'] ?></label>
-							<label><input type="checkbox" name="day[6]" id="sat" <?= DefaultCheck('day', 6) ?>/><?= $STRINGS['sat'] ?></label>
-							<label><input type="checkbox" name="day[7]" id="sun" <?= DefaultCheck('day', 7) ?>/><?= $STRINGS['sun'] ?></label>
-							<label><input type="checkbox" name="day[0]" id="all" <?= DefaultCheck('day', 0) ?>/><b><?= $STRINGS['all'] ?></b></label>
+							<label><input type="checkbox" name="day[1]" id="mon" <?= checkedIfInPost('day', 1) ?>/><?= $STRINGS['mon'] ?></label>
+							<label><input type="checkbox" name="day[2]" id="tue" <?= checkedIfInPost('day', 2) ?>/><?= $STRINGS['tue'] ?></label>
+							<label><input type="checkbox" name="day[3]" id="wed" <?= checkedIfInPost('day', 3) ?>/><?= $STRINGS['wed'] ?></label>
+							<label><input type="checkbox" name="day[4]" id="thu" <?= checkedIfInPost('day', 4) ?>/><?= $STRINGS['thu'] ?></label>
+							<label><input type="checkbox" name="day[5]" id="fri" <?= checkedIfInPost('day', 5) ?>/><?= $STRINGS['fri'] ?></label>
+							<label><input type="checkbox" name="day[6]" id="sat" <?= checkedIfInPost('day', 6) ?>/><?= $STRINGS['sat'] ?></label>
+							<label><input type="checkbox" name="day[7]" id="sun" <?= checkedIfInPost('day', 7) ?>/><?= $STRINGS['sun'] ?></label>
+							<label><input type="checkbox" name="day[0]" id="all" <?= checkedIfInPost('day', 0) ?>/><b><?= $STRINGS['all'] ?></b></label>
 						</div>
 						<div class="cell">
 							<div style="display: inline;"><?= $STRINGS['until'] ?>:</div>
@@ -638,18 +640,18 @@ $(function()
 						else
 						{
 ?>
-						<label><input type="radio" name="interval" value="once" id="once" <?= DefaultCheck('interval', 'once') ?>/><?= $STRINGS['once'] ?></label><br>
-						<label><input type="radio" name="interval" value="daily" id="daily" <?= DefaultCheck('interval', 'daily') ?>/><?= $STRINGS['daily'] ?></label><br>
-						<label><input type="radio" name="interval" value="each" id="each" <?= DefaultCheck('interval', 'each') ?>/><?= $STRINGS['each'] ?></label>
+						<label><input type="radio" name="interval" value="once" id="once" <?= checkedIfInPost('interval', 'once', 'radio') ?>/><?= $STRINGS['once'] ?></label><br>
+						<label><input type="radio" name="interval" value="daily" id="daily" <?= checkedIfInPost('interval', 'daily', 'radio') ?>/><?= $STRINGS['daily'] ?></label><br>
+						<label><input type="radio" name="interval" value="each" id="each" <?= checkedIfInPost('interval', 'each', 'radio') ?>/><?= $STRINGS['each'] ?></label>
 						<div style="margin-left: 1em; display: inline;">
-							<label><input type="checkbox" name="day[1]" id="mon" disabled <?= DefaultCheck('day', 1) ?>/><?= $STRINGS['mon'] ?></label>
-							<label><input type="checkbox" name="day[2]" id="tue" disabled <?= DefaultCheck('day', 2) ?>/><?= $STRINGS['tue'] ?></label>
-							<label><input type="checkbox" name="day[3]" id="wed" disabled <?= DefaultCheck('day', 3) ?>/><?= $STRINGS['wed'] ?></label>
-							<label><input type="checkbox" name="day[4]" id="thu" disabled <?= DefaultCheck('day', 4) ?>/><?= $STRINGS['thu'] ?></label>
-							<label><input type="checkbox" name="day[5]" id="fri" disabled <?= DefaultCheck('day', 5) ?>/><?= $STRINGS['fri'] ?></label>
-							<label><input type="checkbox" name="day[6]" id="sat" disabled <?= DefaultCheck('day', 6) ?>/><?= $STRINGS['sat'] ?></label>
-							<label><input type="checkbox" name="day[7]" id="sun" disabled <?= DefaultCheck('day', 7) ?>/><?= $STRINGS['sun'] ?></label>
-							<label><input type="checkbox" name="day[0]" id="all" disabled <?= DefaultCheck('day', 0) ?>/><b><?= $STRINGS['all'] ?></b></label>
+							<label><input type="checkbox" name="day[1]" id="mon" disabled <?= checkedIfInPost('day', 1) ?>/><?= $STRINGS['mon'] ?></label>
+							<label><input type="checkbox" name="day[2]" id="tue" disabled <?= checkedIfInPost('day', 2) ?>/><?= $STRINGS['tue'] ?></label>
+							<label><input type="checkbox" name="day[3]" id="wed" disabled <?= checkedIfInPost('day', 3) ?>/><?= $STRINGS['wed'] ?></label>
+							<label><input type="checkbox" name="day[4]" id="thu" disabled <?= checkedIfInPost('day', 4) ?>/><?= $STRINGS['thu'] ?></label>
+							<label><input type="checkbox" name="day[5]" id="fri" disabled <?= checkedIfInPost('day', 5) ?>/><?= $STRINGS['fri'] ?></label>
+							<label><input type="checkbox" name="day[6]" id="sat" disabled <?= checkedIfInPost('day', 6) ?>/><?= $STRINGS['sat'] ?></label>
+							<label><input type="checkbox" name="day[7]" id="sun" disabled <?= checkedIfInPost('day', 7) ?>/><?= $STRINGS['sun'] ?></label>
+							<label><input type="checkbox" name="day[0]" id="all" disabled <?= checkedIfInPost('day', 0) ?>/><b><?= $STRINGS['all'] ?></b></label>
 						</div>
 						<div class="cell">
 							<div style="display: inline;"><?= $STRINGS['until'] ?>:</div>
