@@ -1,24 +1,5 @@
 <?php
 
-function htmlget()
-{
-	$get = '';
-
-	if (isset($_GET))
-	{
-		foreach ($_GET as $key => $value)
-		{
-			$get .= 0 == strlen($get) ? '?' : '&amp;';
-			$get .= urlencode($key);
-
-			if (strlen($value) > 0)
-				$get .= '='.urlencode($value);
-		}
-	}
-
-	return $get;
-}
-
 /******************************************************************************
  * determine which language out of an available set the user prefers most
  *
