@@ -101,17 +101,6 @@ test_10() {
 		"$url/?req=register"
 }
 
-_test_10_1() {
-	browse --with-csrf-token \
-		--data-urlencode "email=uid-1@example.com" \
-		--data-urlencode "user=uid-1" \
-		--data-urlencode "passwd=123" \
-		--data-urlencode "passwd-confirm=123" \
-		--data-urlencode "timezone=UTC+1" \
-		--data-urlencode "lang=en" \
-		"$url/?req=register"
-}
-
 test_11() {
 	browse --with-csrf-token \
 		--data-urlencode "email=uid-1@example.com" \
