@@ -1,5 +1,33 @@
 <?php
 
+// Insert hyperlink to change language.
+// Consider current page and tab, encoded in $_GET.
+function insertLanguageHref($lang='en')
+{
+	if (isset($_GET['req']))
+	{
+		$querystring = "?req={$_GET['req']}";
+
+		// Handle tabs on profile page
+		if ($_GET['req'] == 'profile')
+			foreach (['changepw', 'dispinterval', 'notifinterval', 'photodb'] as $tab)
+				if (isset($_GET[$tab]))
+					$querystring .= "&amp;{$tab}";
+
+		$querystring .= "&amp;lang={$lang}";
+	}
+	else  if (isset($_GET['page']))
+	{
+		$querystring = "?page={$_GET['page']}&amp;lang={$lang}";
+	}
+	else
+	{
+		$querystring = "?lang={$lang}";
+	}
+
+	return $querystring;
+}
+
 function navitem($item, $href)
 {
 	global $STRINGS;
@@ -144,12 +172,12 @@ function navitem($item, $href)
 	}
 ?>
 		<li style="vertical-align: baseline;">
-			<a href="<?= get('lang=de') ?>">
+			<a href="<?= insertLanguageHref('de') ?>">
 				<img class="flag" src="img/de.png" alt="<?= $STRINGS['de'] ?>" width="16" height="12">
 			</a>
 		</li>
 		<li style="vertical-align: baseline;">
-			<a href="<?= get('lang=en') ?>">
+			<a href="<?= insertLanguageHref('en') ?>">
 				<img class="flag" src="img/en.png" alt="<?= $STRINGS['en'] ?>" width="16" height="12">
 			</a>
 		</li>

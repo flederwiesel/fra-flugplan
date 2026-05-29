@@ -9,55 +9,6 @@ mb_internal_encoding('UTF-8');
 $jqueryui = 'jquery-ui-1.14.2';
 $minified = '.min';
 
-function get($get=null)
-{
-	if (!$_GET)
-	{
-		$strget = '?'.$get;
-	}
-	else
-	{
-		if ($get)
-			parse_str($get, $values);
-
-		$strget = '';
-
-		foreach ($_GET as $key => $value)
-		{
-			$strget .= 0 == strlen($strget) ? '?' : '&amp;';
-
-			if (isset($values[$key]))
-			{
-				$strget .= urlencode($key);
-
-				if (strlen($values[$key]) > 0)
-					$strget .= '='.urlencode($values[$key]);
-
-				unset($values[$key]);
-			}
-			else
-			{
-				$strget .= urlencode($key);
-
-				if (strlen($value) > 0)
-					$strget .= '='.urlencode($value);
-			}
-		}
-
-		foreach ($values as $key => $value)
-		{
-			$strget .= 0 == strlen($strget) ? '?' : '&amp;';
-
-			$strget .= urlencode($key);
-
-			if (strlen($value) > 0)
-				$strget .= '='.urlencode($value);
-		}
-	}
-
-	return $strget;
-}
-
 function getForm(string $form)
 {
 	if (in_array(
