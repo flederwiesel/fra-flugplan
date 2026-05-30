@@ -2,11 +2,8 @@
 
 mb_internal_encoding("UTF-8");
 
-if (is_file("classes/etc.php"))
-	require_once "classes/etc.php";
-
-if (is_file("fra-flugplan/classes/etc.php"))
-	require_once "fra-flugplan/classes/etc.php";
+require_once "classes/assets.php";
+require_once "classes/etc.php";
 
 // Set session language from $_SESSION or $_COOKIE
 session_start();
@@ -111,13 +108,13 @@ header("X-Error-Served-By: {$_SERVER['SERVER_SOFTWARE']}");
 	<meta name="author" content="flederwiesel / Tobias Kühne">
 	<meta name="language" content="<?= $lang ?>">
 	<title><?= "{$status} {$message}" ?> &mdash; FRA Flugplan</title>
-	<link rel="stylesheet" type="text/css" media="screen, print" href="<?= Asset::src('error.css') ?>">
+	<link rel="stylesheet" type="text/css" media="screen, print" href="<?= Asset::src('/error.css') ?>">
 </head>
 <body>
 	<div class="container" id="container">
 		<h1 id="title">FRA Flugplan</h1>
 		<h2 id="subtitle"><?= $subtitle ?></h2>
-		<img src="<?= Asset::src("img/errors/{$status}.gif") ?>" alt="<?= $status ?>">
+		<img src="<?= Asset::src("/img/errors/{$status}.gif") ?>" alt="<?= $status ?>">
 		<div id="message"><?= $message ?></div>
 	</div>
 </body>
