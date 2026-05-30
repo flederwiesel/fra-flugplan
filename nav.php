@@ -40,7 +40,7 @@ function navitem($item, $href)
 
 	if ($mobile) {
 		$color = $href ? "grey" : "white";
-		?><img src="<?= "img/{$item}-{$color}-24x24.png" ?>" width="24" height="24" alt="<?= $STRINGS[$item] ?>"><?php
+		?><img src="<?= Asset::src("img/{$item}-{$color}-24x24.png") ?>" width="24" height="24" alt="<?= $STRINGS[$item] ?>"><?php
 	}
 	else
 	{
@@ -173,12 +173,12 @@ function navitem($item, $href)
 ?>
 		<li style="vertical-align: baseline;">
 			<a href="<?= insertLanguageHref('de') ?>">
-				<img class="flag" src="img/de.png" alt="<?= $STRINGS['de'] ?>" width="16" height="12">
+				<img class="flag" src="<?= Asset::src('img/de.png') ?>" alt="<?= $STRINGS['de'] ?>" width="16" height="12">
 			</a>
 		</li>
 		<li style="vertical-align: baseline;">
 			<a href="<?= insertLanguageHref('en') ?>">
-				<img class="flag" src="img/en.png" alt="<?= $STRINGS['en'] ?>" width="16" height="12">
+				<img class="flag" src="<?= Asset::src('img/en.png') ?>" alt="<?= $STRINGS['en'] ?>" width="16" height="12">
 			</a>
 		</li>
 </ul>

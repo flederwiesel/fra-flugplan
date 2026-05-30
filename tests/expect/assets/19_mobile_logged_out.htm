@@ -1,0 +1,99 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Live Schedule &ndash; Frankfurt Aviation Friends</title>
+<meta name="language" content="en">
+<link rel="alternate" href="https://fra-flugplan.de?lang=de" hreflang="de">
+<link rel="alternate" href="https://fra-flugplan.de?lang=en" hreflang="en">
+<link rel="alternate" href="https://fra-flugplan.de" hreflang="x-default">
+<meta name="description" content="Spotter schedule for Frankfurt airport (FRA/EDDF) including aircraft registrations">
+<meta name="keywords" content="flederwiesel, fra-flugplan, FRA, EDDF, Frankfurt, flight schedule, flight plan, airport, spotter, spotting, planespotting, aircraft registration, aviation">
+<meta name="robots" content="index, nofollow">
+<meta name="author" content="Tobias Kühne">
+<meta name="viewport" content="width=device-width; initial-scale=1.0;"/>
+<link rel="apple-touch-icon" href="$ASSETDIR/apple-touch-icon.png"/>
+<link rel="icon" type="image/x-icon" href="$ASSETDIR/favicon.ico">
+<link rel="stylesheet" type="text/css" href="script/jquery-ui-1.14.2/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" href="script/jquery-ui-1.14.2/jquery-ui.structure.min.css">
+<link rel="stylesheet" type="text/css" href="script/jquery-ui-1.14.2/jquery-ui.theme.min.css">
+<link rel="stylesheet" type="text/css" href="$ASSETDIR/css/mobile.css">
+<script type="text/javascript" src="script/jquery-ui-1.14.2/external/jquery/jquery.js"></script>
+<script type="text/javascript" src="script/jquery-ui-1.14.2/jquery-ui.min.js"></script>
+</head>
+<body>
+	<noscript>
+		<div class="noscript">If you obtain this message, JavaScript is either not supported or disabled in in your browser options.<br>In order to use full functionality of this site we advise you to <a href="https://www.enable-javascript.com">enable Javascript</a>.</div>
+	</noscript>
+	<div id="body">
+		<div class="box left">
+			<div>
+				<div id="head">
+					<h1 class="nobr">Frankfurt Aviation Friends</h1>
+					<h3>
+Live Schedule &ndash; Departure</h3>
+				</div>
+<nav>
+<ul class="menu left">
+			<li class="sep"><a href="?arrival"><img src="$ASSETDIR/img/arrival-grey-24x24.png" width="24" height="24" alt="Arrival"></a></li>
+			<li class="sep"><img src="$ASSETDIR/img/departure-white-24x24.png" width="24" height="24" alt="Departure"></li>
+		<li class="sep"><a href="?page=help"><img src="$ASSETDIR/img/help-grey-24x24.png" width="24" height="24" alt="Help"></a></li>
+</ul>
+<ul class="menu right">
+			<li class="sep"><a href="?req=register"><img src="$ASSETDIR/img/register-grey-24x24.png" width="24" height="24" alt="Register"></a></li>
+			<li class="sep"><a href="?req=login"><img src="$ASSETDIR/img/login-grey-24x24.png" width="24" height="24" alt="Login"></a></li>
+		<li style="vertical-align: baseline;">
+			<a href="?lang=de">
+				<img class="flag" src="$ASSETDIR/img/de.png" alt="German" width="16" height="12">
+			</a>
+		</li>
+		<li style="vertical-align: baseline;">
+			<a href="?lang=en">
+				<img class="flag" src="$ASSETDIR/img/en.png" alt="English" width="16" height="12">
+			</a>
+		</li>
+</ul>
+</nav>
+			</div>
+			<div id="content">
+<script type="text/javascript">
+	wl_img_open = "$ASSETDIR/img/wl-open-en.png";
+	wl_img_close = "$ASSETDIR/img/wl-close-en.png";
+</script>
+<script type="text/javascript" src="$ASSETDIR/script/sorttable.js"></script>
+<script type="text/javascript">
+	$(function()
+	{
+		$(document).tooltip( { position: { my: "left top", at: "right top", collision: "flipfit" } } );
+	});
+
+	$(document).keydown(function(event)
+	{
+		if (27 == event.keyCode)
+			watchlist("hide");
+	});
+</script>
+<div id="rwy_cont">
+	<div id="rwy_div" style="float: right ;">
+		<span id="rwy_l" style="vertical-align: middle;">
+			<img alt="active runway" src="$ASSETDIR/img/departure-yellow-16x14.png">
+		</span>
+		<span id="rwy_r">18 | 99</span>
+	</div>
+</div>
+<div id="schedule">
+	<table class="sortable">
+		<thead>
+			<tr>
+				<th>Time				<th class="sep">Flight				<th class="sep sorttable_model">Type				<th class="sep sorttable_reg">Reg			</tr>
+		</thead>
+		<tbody>
+		</tbody>
+	</table>
+</div>
+<script type="text/javascript" src="$ASSETDIR/script/sortable.js"></script>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

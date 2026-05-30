@@ -36,7 +36,7 @@ include "help-$_SESSION[lang].php";
 			<li><?= $HELPSTRINGS[32] ?>.
 			<li><?= $HELPSTRINGS[16] ?>.
 			<li class="img">
-				<img class="screen" src="content/img/<?= $_SESSION['lang'] ?>/1-basic.png">
+				<img class="screen" src="<?= Asset::src("content/img/{$_SESSION['lang']}/1-basic.png") ?>">
 				<a class="back" href="#"><?= $HELPSTRINGS[0] ?></a>
 			</li>
 		</ul>
@@ -47,7 +47,7 @@ include "help-$_SESSION[lang].php";
 			<li><?= $HELPSTRINGS[18] ?>.
 			<li><?= $HELPSTRINGS[19] ?>
 			<li class="img">
-				<img class="screen" src="content/img/<?= $_SESSION['lang'] ?>/2-watchlist.png">
+				<img class="screen" src="<?= Asset::src("content/img/{$_SESSION['lang']}/2-watchlist.png") ?>">
 				<a class="back" href="#"><?= $HELPSTRINGS[0] ?></a>
 			</li>
 		</ul>
@@ -59,7 +59,7 @@ include "help-$_SESSION[lang].php";
 			<li><?= $HELPSTRINGS[22] ?>.
 			<li><?= $HELPSTRINGS[23] ?>.
 			<li class="img">
-				<img class="screen" src="content/img/<?= $_SESSION['lang'] ?>/3-watchlist-def.png">
+				<img class="screen" src="<?= Asset::src("content/img/{$_SESSION['lang']}/3-watchlist-def.png") ?>">
 				<a class="back" href="#"><?= $HELPSTRINGS[0] ?></a>
 			</li>
 		</ul>
@@ -68,7 +68,7 @@ include "help-$_SESSION[lang].php";
 		<ul class="naked help">
 			<li><?= $HELPSTRINGS[24] ?>.
 			<li class="img">
-				<img class="screen" src="content/img/<?= $_SESSION['lang'] ?>/4-sorting.png">
+				<img class="screen" src="<?= Asset::src("content/img/{$_SESSION['lang']}/4-sorting.png") ?>">
 				<a class="back" href="#"><?= $HELPSTRINGS[0] ?></a>
 			</li>
 		</ul>
@@ -77,7 +77,7 @@ include "help-$_SESSION[lang].php";
 		<ul class="naked help">
 			<li><?= $HELPSTRINGS[25] ?>.
 			<li class="img">
-				<img class="screen" src="content/img/<?= $_SESSION['lang'] ?>/5-sorting-reg.png">
+				<img class="screen" src="<?= Asset::src("content/img/{$_SESSION['lang']}/5-sorting-reg.png") ?>">
 				<a class="back" href="#"><?= $HELPSTRINGS[0] ?></a>
 			</li>
 		</ul>
@@ -88,17 +88,17 @@ include "help-$_SESSION[lang].php";
 				<div><?= $HELPSTRINGS[31] ?>:
 					<div id="mobile">
 						<ul class="help">
-							<li><img src="img/arrival-grey-24x24.png"><?= $STRINGS['arrival'] ?></li>
-							<li><img src="img/departure-grey-24x24.png"><?= $STRINGS['departure'] ?></li>
-							<li><img src="img/help-grey-24x24.png"><?= $STRINGS['help'] ?></li>
-							<li><img src="img/register-grey-24x24.png"><?= $STRINGS['register'] ?></li>
-							<li><img src="img/login-grey-24x24.png"><?= $STRINGS['login'] ?></li>
-							<li><img src="img/logout-grey-24x24.png"><?= $STRINGS['logout'] ?></li>
-							<li><img src="img/profile-grey-24x24.png"><?= $STRINGS['profile'] ?></li>
+							<li><img src="<?= Asset::src('img/arrival-grey-24x24.png') ?>"><?= $STRINGS['arrival'] ?></li>
+							<li><img src="<?= Asset::src('img/departure-grey-24x24.png') ?>"><?= $STRINGS['departure'] ?></li>
+							<li><img src="<?= Asset::src('img/help-grey-24x24.png') ?>"><?= $STRINGS['help'] ?></li>
+							<li><img src="<?= Asset::src('img/register-grey-24x24.png') ?>"><?= $STRINGS['register'] ?></li>
+							<li><img src="<?= Asset::src('img/login-grey-24x24.png') ?>"><?= $STRINGS['login'] ?></li>
+							<li><img src="<?= Asset::src('img/logout-grey-24x24.png') ?>"><?= $STRINGS['logout'] ?></li>
+							<li><img src="<?= Asset::src('img/profile-grey-24x24.png') ?>"><?= $STRINGS['profile'] ?></li>
 							<li>&nbsp;</li>
-							<li><img src="img/dispinterval-grey-24x24.png"><?= $STRINGS['dispinterval'] ?></li>
-							<li><img src="img/notifinterval-grey-24x24.png"><?= $STRINGS['notifinterval'] ?></li>
-							<li><img src="img/changepw-grey-24x24.png"><?= $STRINGS['changepw'] ?></li>
+							<li><img src="<?= Asset::src('img/dispinterval-grey-24x24.png') ?>"><?= $STRINGS['dispinterval'] ?></li>
+							<li><img src="<?= Asset::src('img/notifinterval-grey-24x24.png') ?>"><?= $STRINGS['notifinterval'] ?></li>
+							<li><img src="<?= Asset::src('img/changepw-grey-24x24.png') ?>"><?= $STRINGS['changepw'] ?></li>
 						</ul>
 					</div>
 				</div>

@@ -375,7 +375,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 if ($lang == "de")
 {
 ?>
-<script type="text/javascript" src="script/<?= "{$jqueryui}/i18n/datepicker-de.js" ?>"></script>
+<script type="text/javascript" src="<?= "script/{$jqueryui}/i18n/datepicker-de.js" ?>"></script>
 <?php
 }
 ?>

@@ -7,6 +7,10 @@ set -euo pipefail
 cleanup()
 {
 	[ -z "${COOKIES:-}" ] || rm -f "$COOKIES"
+
+	if [[ ${rm[*]:-} ]]; then
+		rm -rf "${rm[@]}"
+	fi
 }
 
 trap cleanup EXIT
@@ -16,7 +20,9 @@ export debug=
 
 exclude=()
 argv=()
-copy_scripts=
+rm=()
+asset_dir=
+copy_assets=
 stop_before=
 stop_after=
 
@@ -28,8 +34,8 @@ do
 
 			Usage: \033[1;37m$(basename "${BASH_SOURCE[0]}")\033[m
 
-			    --copy-scripts
-			        Copy css/js into ".results" dir.
+			    --copy-assets
+			        Copy css/img/js into ".results" dir.
 
 			    --debug
 			        Print what is being done for `browse` and `query`.
@@ -50,8 +56,8 @@ do
 			exit 0
 			;;
 
-		--copy-scripts)
-			copy_scripts=1
+		--copy-assets)
+			copy_assets=1
 			;;
 
 		-d|--debug)
@@ -115,6 +121,9 @@ cat <<EOF > "$DATADIR/betriebsrichtung.ini"
 18 = active
 99 = active
 EOF
+
+path="${SCRIPTDIR#$PRJDIR}"
+readonly ASSETDIR=$(curl -sSL "https://${FRA_FLUGPLAN_HOST}${path}/assetdir.php")
 
 export COOKIES=$(mktemp --suffix=.cookies)
 
@@ -190,13 +199,14 @@ do
 
 	declare -A testcase_fileext=()
 	declare -A testcase_mailto=()
+	declare -A testcase_assetdir=()
 
 	readarray -t decorators < <(
 		awk 'BEGIN {
 			o = 0
 		}
 
-		/^#\s*@@([a-z0-9_]+)=/ {
+		/^#\s*@@([a-zA-Z0-9_]+)=/ {
 			opt = gensub(/^#\s*@@([^ \t\r\n]+)/, "\\1", "g", $0)
 			eq = index(opt, "=")
 			key = substr(opt, 0, eq - 1)
@@ -205,7 +215,7 @@ do
 			print key "[ALL]" value
 		}
 
-		/^#\s*@([a-z0-9_]+)=/ {
+		/^#\s*@([a-zA-Z0-9_]+)=/ {
 			opts[o++] = gensub(/^#\s*@([^ \t\r\n]+)/, "\\1", "g", $0)
 		}
 
@@ -271,12 +281,27 @@ do
 
 			ext="${testcase_fileext[$testcase]:-${defext}}"
 
+			if [[ ${testcase_assetdir[$testcase]:-} ]]; then
+				replace_assetdir="${testcase_assetdir[$testcase]}"
+			elif [[ ${testcase_assetdir[ALL]:-} ]]; then
+				replace_assetdir="${testcase_assetdir[ALL]}"
+			else
+				replace_assetdir=
+			fi
+
+			# Append "/" to $replace_assetdir if $ASSETDIR has one...
+			if [[ $replace_assetdir ]]; then
+				if [[ $ASSETDIR == ${ASSETDIR%/} ]]; then
+					replace_assetdir="$replace_assetdir/"
+				fi
+			fi
+
 			# Cannot use pipe here, as this would prevent $testcase from
 			# setting variables for other test cases within the test suite
 			"$testcase" > >(
 				sed -r \
 					-e "s#(https://|=)${FRA_FLUGPLAN_HOST}#\1fra-flugplan.de#g" \
-					-e 's/\?rev=[0-9]*/?rev=$Rev$/g' > "$results/${testcase#test_}.${ext}"
+					-e "s:$ASSETDIR/*:$replace_assetdir:g" > "$results/${testcase#test_}.${ext}"
 			) 2>&1
 
 			if [[ ${mailto[*]} ]]; then
@@ -302,7 +327,7 @@ do
 		echo -e "\033[31m ──> FAILED\033[m" >&2
 		status=1
 	else
-		if [[ $copy_scripts ]]; then
+		if [[ $copy_assets ]]; then
 			# Copy referenced scripts to properly view results
 			cp -al "$PRJDIR/css" "$PRJDIR/img" "$PRJDIR/script" "$results"
 		fi

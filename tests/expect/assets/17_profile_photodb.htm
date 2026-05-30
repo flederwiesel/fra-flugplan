@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Live Schedule &ndash; Frankfurt Aviation Friends</title>
+<meta name="language" content="en">
+<link rel="alternate" href="https://fra-flugplan.de?lang=de" hreflang="de">
+<link rel="alternate" href="https://fra-flugplan.de?lang=en" hreflang="en">
+<link rel="alternate" href="https://fra-flugplan.de" hreflang="x-default">
+<meta name="description" content="Spotter schedule for Frankfurt airport (FRA/EDDF) including aircraft registrations">
+<meta name="keywords" content="flederwiesel, fra-flugplan, FRA, EDDF, Frankfurt, flight schedule, flight plan, airport, spotter, spotting, planespotting, aircraft registration, aviation">
+<meta name="robots" content="index, nofollow">
+<meta name="author" content="Tobias Kühne">
+<meta name="viewport" content="width=device-width; initial-scale=1.0;"/>
+<link rel="apple-touch-icon" href="$ASSETDIR/apple-touch-icon.png"/>
+<link rel="icon" type="image/x-icon" href="$ASSETDIR/favicon.ico">
+<link rel="stylesheet" type="text/css" href="script/jquery-ui-1.14.2/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" href="script/jquery-ui-1.14.2/jquery-ui.structure.min.css">
+<link rel="stylesheet" type="text/css" href="script/jquery-ui-1.14.2/jquery-ui.theme.min.css">
+<link rel="stylesheet" type="text/css" href="$ASSETDIR/css/mobile.css">
+<script type="text/javascript" src="script/jquery-ui-1.14.2/external/jquery/jquery.js"></script>
+<script type="text/javascript" src="script/jquery-ui-1.14.2/jquery-ui.min.js"></script>
+</head>
+<body>
+	<noscript>
+		<div class="noscript">If you obtain this message, JavaScript is either not supported or disabled in in your browser options.<br>In order to use full functionality of this site we advise you to <a href="https://www.enable-javascript.com">enable Javascript</a>.</div>
+	</noscript>
+	<div id="body">
+		<div class="box left">
+			<div>
+				<div id="head">
+					<h1 class="nobr">Frankfurt Aviation Friends</h1>
+					<h3>
+Live Schedule</h3>
+				</div>
+<nav>
+<ul class="menu left">
+			<li class="sep"><a href="?arrival"><img src="$ASSETDIR/img/arrival-grey-24x24.png" width="24" height="24" alt="Arrival"></a></li>
+			<li class="sep"><a href="?departure"><img src="$ASSETDIR/img/departure-grey-24x24.png" width="24" height="24" alt="Departure"></a></li>
+		<li class="sep"><a href="?page=help"><img src="$ASSETDIR/img/help-grey-24x24.png" width="24" height="24" alt="Help"></a></li>
+</ul>
+<ul class="menu right">
+			<li class="sep"><img src="$ASSETDIR/img/profile-white-24x24.png" width="24" height="24" alt="User profile"></li>
+			<li class="sep"><a href="?req=logout"><img src="$ASSETDIR/img/logout-grey-24x24.png" width="24" height="24" alt="Logout"></a></li>
+		<li style="vertical-align: baseline;">
+			<a href="?req=profile&amp;photodb&amp;lang=de">
+				<img class="flag" src="$ASSETDIR/img/de.png" alt="German" width="16" height="12">
+			</a>
+		</li>
+		<li style="vertical-align: baseline;">
+			<a href="?req=profile&amp;photodb&amp;lang=en">
+				<img class="flag" src="$ASSETDIR/img/en.png" alt="English" width="16" height="12">
+			</a>
+		</li>
+</ul>
+</nav>
+			</div>
+			<div id="content">
+<script type="text/javascript">
+$(function()
+{
+});
+</script>
+<ul class="menu left">
+	<li><a href="?req=profile&amp;dispinterval"><img src="$ASSETDIR/img/dispinterval-grey-24x24.png" width="24" height="24" alt="Display Interval"></a></li>
+	<li class="sep"><a href="?req=profile&amp;notifinterval"><img src="$ASSETDIR/img/notifinterval-grey-24x24.png" width="24" height="24" alt="Notifications"></a></li>
+	<li class="sep"><img src="$ASSETDIR/img/photodb-white-24x24.png" width="24" height="24" alt="Photo Database"></li>
+	<li class="sep"><a href="?req=profile&amp;changepw"><img src="$ASSETDIR/img/changepw-grey-24x24.png" width="24" height="24" alt="Change password"></a></li>
+</ul>
+<div style="clear: both;">
+<form method="post" action="?req=profile&amp;photodb"
+	onsubmit="document.getElementById('submit').disabled=true;">
+	<fieldset>
+		<legend>Photo Database</legend>
+		<div class="explainatory">Wherever the <img src='img/photodb.png' alt='airliners.net'> icon is shown alongside aircraft registrations, you may click on it to open a browser window with the search results of the aircraft in the photo database of your choice.</div>
+		<div class="table">
+			<div class="row">
+				<div class="cell label">Open image search on</div>
+				<div class="cell">
+					<select name="photodb" id="photodb">
+<option value='airfleets.net'>airfleets.net</option>
+<option value='airliners.net' selected>airliners.net</option>
+<option value='flugzeugbilder.de'>flugzeugbilder.de</option>
+<option value='jetphotos.com'>jetphotos.com</option>
+<option value='netairspace.cc'>netairspace.cc</option>
+<option value='planespotters.net'>planespotters.net</option>
+					</select>
+				</div>
+			</div>
+		</div>
+	</fieldset>
+	<input type="hidden" name="CSRFToken" value="">
+	<div class="center">
+		<input type="hidden" name="submit" value="photodb">
+		<input type="submit" id="submit" name="submit" value="Submit">
+	</div>
+</form>
+</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
