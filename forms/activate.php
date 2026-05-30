@@ -34,8 +34,8 @@
 			<p><?= $STRINGS['snailmail_1'] ?></p>
 			<p><?= $STRINGS['snailmail_2'] ?></p>
 			<p><?= $STRINGS['snailmail_3'] ?>
-				<a href="content/emil.php?subject=<?= urlencode($STRINGS["activation-trouble"]) ?>">
-					<img class="emil" alt="email" src="content/mkpng.php?font=verdana&size=10&bg=white&fg=%2300007f&res=ADMIN_EMAIL">
+				<a href="content/email.php?subject=<?= urlencode($STRINGS["activation-trouble"]) ?>">
+					<img class="email" alt="email" src="content/mkpng.php?font=verdana&size=10&bg=white&fg=%2300007f&res=ADMIN_EMAIL">
 				</a>
 			</p>
 		</div>
