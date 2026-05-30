@@ -97,7 +97,6 @@ http_response_code($status);
 
 header("Content-Type: text/html; charset=UTF-8");
 header("Content-Language: {$lang}");
-header("X-Error-Served-By: {$_SERVER['SERVER_SOFTWARE']}");
 ?>
 <!DOCTYPE html>
 <html>
