@@ -329,7 +329,7 @@ do
 	else
 		if [[ $copy_assets ]]; then
 			# Copy referenced scripts to properly view results
-			cp -al "$PRJDIR/css" "$PRJDIR/img" "$PRJDIR/script" "$results"
+			cp -al error.css "$PRJDIR/css" "$PRJDIR/img" "$PRJDIR/script" "$results"
 		fi
 
 		if ! diff=$(
