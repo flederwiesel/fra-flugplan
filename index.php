@@ -258,7 +258,7 @@ if ('de' == $lang) {
 <meta name="robots" content="index, nofollow">
 <meta name="author" content="Tobias Kühne">
 <?php if ($mobile && !$tablet) { ?>
-<meta name="viewport" content="width=device-width; initial-scale=1.0;"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <?php } ?>
 <link rel="apple-touch-icon" href="<?= Asset::src('apple-touch-icon.png') ?>"/>
 <link rel="icon" type="image/x-icon" href="<?= Asset::src('favicon.ico') ?>">
