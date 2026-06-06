@@ -229,8 +229,8 @@ else
 
 ?>
 <div id="rwy_cont">
-	<div id="rwy_div" style="float: <?= $dir == 'arrival' ? 'left' : 'right' ?> ;">
-		<span id="rwy_l" style="vertical-align: middle;">
+	<div id="rwy_div">
+		<span id="rwy_l">
 			<img alt="<?= $STRINGS['rwydir'] ?>" src="<?= Asset::src("img/{$dir}-yellow-16x14.png") ?>">
 		</span>
 		<span id="rwy_r"><?php
@@ -325,9 +325,9 @@ if ($user)
 			<img id="wl_img" src="<?= Asset::src("img/wl-open-{$lang}.png") ?>" alt="watchlist">
 		</div>
 		<div class="cell top">
-			<div id="expandable" style="width: 0; visibility: hidden;">
+			<div id="expandable">
 				<form id="watch" method="post" action="?">
-					<div class="center" style="padding: 6px 6px 6px 0;">
+					<div class="center">
 						<div id="list">
 							<table>
 								<thead>
@@ -400,8 +400,7 @@ if ($user)
 							</table>
 						</div>
 						<input type="hidden" name="CSRFToken" value="<?= CsrfToken::get() ?>">
-						<input type="submit" value="<?= $STRINGS['refresh'] ?>"
-						 style="margin: 0.5em 0;">
+						<input type="submit" value="<?= $STRINGS['refresh'] ?>">
 					</div>
 				</form>
 			</div>

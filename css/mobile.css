@@ -41,6 +41,17 @@ ul.menu li a
 	color: #A3AAB7;
 }
 
+ul.menu li.lang
+{
+	vertical-align: baseline;
+}
+
+ul.menu + div
+{
+	clear: both;
+	margin-top: 3em;
+}
+
 nav img.flag
 {
 	color: #000000;
@@ -99,7 +110,7 @@ td, th
 	white-space: nowrap;
 }
 
-dl.inline dt, dl.inline dd
+dl.inline dt
 {
 	float: left;
 	margin: 0 1.2em 0 0;
@@ -126,11 +137,6 @@ ul.help > li
 	list-style: none;
 }
 
-ul.help img.screen
-{
-	padding: 1em 0em;
-}
-
 ul.help div
 {
 	margin: 1em;
@@ -140,7 +146,9 @@ ul.help img.screen
 {
 	margin: 0.1em;
 	margin-right: 1em;
+	padding: 1em 0em;
 	vertical-align: middle;
+	max-width: 90%;
 }
 
 #mobile ul.help img
@@ -150,15 +158,12 @@ ul.help img.screen
 	vertical-align: middle;
 }
 
-img.email
-{
-	vertical-align: middle;
-}
-
 .fs12 { font-size: 12pt; }
+.smaller { font-size: smaller; }
 .b { font-weight: bold; }
 .i { font-style: italic; }
 .bi { font-weight: bold; font-style: italic; }
+.underline { text-decoration: underline; }
 .strikethrough { text-decoration: line-through; }
 .left { text-align: left; }
 .center { text-align: center; }
@@ -185,6 +190,7 @@ img.email
 	display: inline-block;
 	margin: auto;
 	padding: 4px;
+	box-sizing: border-box;
 	background: #ffffff;
 	box-shadow: 0 0 3px #666666;
 }
@@ -213,7 +219,7 @@ img.email
 
 #head
 {
-	background-image: url(../img/header.jpg);
+	background-image: url("../img/header.jpg");
 	background-color: #51555C;
 	background-attachment: scroll;
 	background-repeat: no-repeat;
@@ -266,6 +272,11 @@ form.stretched select
 	margin: 0.2em 0;
 }
 
+#timefmt /* input:has(+ sup) */
+{
+	width: 90%;
+}
+
 form div.explainatory
 {
 	margin: 0.8em 0.8em 1.0em 0.8em;
@@ -309,6 +320,7 @@ form div.explainatory
 {
 	display: table-cell;
 	padding: 0 4px;
+	vertical-align: middle;
 	background: black;
 	color: yellow;
 }
@@ -348,6 +360,17 @@ form div.explainatory
 {
 	margin: 6px 2px 2px 2px;
 	vertical-align: top;
+}
+
+#expandable
+{
+	width: 0;
+	visibility: hidden;
+}
+
+#expandable > form > div
+{
+	padding: 6px 6px 6px 0;
 }
 
 #wl_div table,
@@ -408,6 +431,11 @@ form div.explainatory
 #wl_div button.del
 {
 	background-image: url("../img/del.gif");
+}
+
+#watch input[type=submit]
+{
+	margin: 0.5em 0;
 }
 
 #list
@@ -491,22 +519,6 @@ form div.explainatory
 	font-weight: bold;
 }
 
-#addflight
-{
-	margin: auto;
-	padding: 1.5em;
-}
-
-#addflight .table
-{
-	margin: auto;
-}
-
-#addflight .cell
-{
-	padding: 0.4em;
-}
-
 #debug
 {
 	z-index: 2147483647;
@@ -519,7 +531,7 @@ form div.explainatory
 	width: 100%;
 	background: red;
 	color: white;
-	opacity:0.6;
+	opacity: 0.6;
 	filter:alpha(opacity=40);
 	text-align: center;
 }
@@ -557,4 +569,15 @@ body .ui-tooltip
 {
 	font-weight: normal;
 	color: #999;
+}
+
+/* ?page=download */
+#download .row
+{
+	margin: 1em 0;
+}
+
+#download .cell
+{
+	margin: .5em 0;
 }

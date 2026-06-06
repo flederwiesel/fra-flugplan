@@ -54,7 +54,7 @@ $(function()
 	});
 });
 </script>
-<form method="post" action="content/getfile.php?session=<?= session_id() ?>">
+<form id="download" method="post" action="content/getfile.php?session=<?= session_id() ?>">
 	<fieldset>
 		<legend><?= $STRINGS['dlflights'] ?></legend>
 <?php if (isset($error)) { ?>
@@ -67,31 +67,31 @@ $(function()
 
 		<div class="table">
 			<div class="row">
-				<div class="cell"></div>
+				<div></div>
 				<div class="cell">
 					<label><input type="radio" name="direction" value="arrival" <?= $dir == 'arrival' ? ' checked="checked" ' : '' ?>/><?= $STRINGS['arrival'] ?></label>
 					<label><input type="radio" name="direction" value="departure" <?= $dir == 'departure' ? ' checked="checked" ' : '' ?>/><?= $STRINGS['departure'] ?></label>
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?= $STRINGS['from'] ?></div>
+				<div class="label"><?= $STRINGS['from'] ?></div>
 				<div class="cell">
 					<input type="text" name="date-from" id="date-from"
 					 value=""/>
 				</div>
-				<div style="display: inline;">
-					<input type="text" name="time-from" id="time-from" style="margin-right: 0.5em;"
+				<div>
+					<input type="text" name="time-from" id="time-from"
 						value=""/>HH:MM (<?= $STRINGS['local'] ?>)
 				</div>
 			</div>
 			<div class="row">
-				<div class="cell label"><?= $STRINGS['until'] ?></div>
+				<div class="label"><?= $STRINGS['until'] ?></div>
 				<div class="cell">
 					<input type="text" name="date-until" id="date-until"
 					 value=""/>
 				</div>
-				<div style="display: inline;">
-					<input type="text" name="time-until" id="time-until" style="margin-right: 0.5em;"
+				<div>
+					<input type="text" name="time-until" id="time-until"
 						value=""/>HH:MM (<?= $STRINGS['local'] ?>)
 				</div>
 			</div>

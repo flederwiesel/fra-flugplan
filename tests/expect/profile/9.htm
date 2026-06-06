@@ -43,12 +43,12 @@ Live Schedule</h3>
 <ul class="menu right">
 			<li class="sep">User profile</li>
 			<li class="sep"><a href="?req=logout">Logout</a></li>
-		<li style="vertical-align: baseline;">
+		<li class="lang">
 			<a href="?req=profile&amp;lang=de">
 				<img class="flag" src="img/de.png" alt="German" width="16" height="12">
 			</a>
 		</li>
-		<li style="vertical-align: baseline;">
+		<li class="lang">
 			<a href="?req=profile&amp;lang=en">
 				<img class="flag" src="img/en.png" alt="English" width="16" height="12">
 			</a>
@@ -104,7 +104,7 @@ $(function()
 	<li class="sep"><a href="?req=profile&amp;photodb">Photo Database</a></li>
 	<li class="sep"><a href="?req=profile&amp;changepw">Change password</a></li>
 </ul>
-<div style="clear: both;">
+<div>
 <form method="post" action="?req=profile&amp;notifinterval"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
@@ -178,18 +178,18 @@ $(function()
 				<div class="cell label">Time format:</div>
 				<div class="cell">
 					<div>
-						<input type="text" name="timefmt" id="timefmt" style="width: 90%;"
+						<input type="text" name="timefmt" id="timefmt"
 						 value="%c"
 						 maxlength="31">
 						<sup>*</sup>
 					</div>
 					<div>
 		<div class="explainatory">
-			<div style="font-size: smaller;">
+			<div class="smaller">
 				<sup>*</sup>
 For experts: Format string according to PHP-function <a href="https://php.net/manual/en/function.strftime.php#refsect1-function.strftime-parameters">strftime()</a>.<br>If in doubt, leave empty.				<div>
-					<div style="padding-top: 1.3em; text-decoration: underline;">
-						Some strftime() specifiers (may be combined):					</div>
+					<h4>
+						Some strftime() specifiers (may be combined):					</h4>
 					<dl class="inline">
 						<dt>%a</dt><dd>Abbreviation of weekday</dd>
 						<dt>%A</dt><dd>Weekday</dd>
@@ -204,8 +204,8 @@ For experts: Format string according to PHP-function <a href="https://php.net/ma
 						<dt>%p</dt><dd>"AM" or "PM"</dd>
 						<dt>%S</dt><dd>Second as 2-digit number</dd>
 					</dl>
-					<div style="padding-top: 1.3em; text-decoration: underline; clear: both;">
-						Additional specifiers:					</div>
+					<h4>
+						Additional specifiers:					</h4>
 					<dl class="inline">
 						<dt>%+</dt><dd>Day "Arrival" as offset from today.</dd>
 					</dl>

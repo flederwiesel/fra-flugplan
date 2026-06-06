@@ -114,7 +114,7 @@ if ('notifinterval' == $item)
 	<li class="sep"><?= navitem('photodb', 'photodb' == $item ? null : '?req=profile&amp;photodb') ?></li>
 	<li class="sep"><?= navitem('changepw', 'changepw' == $item ? null : '?req=profile&amp;changepw') ?></li>
 </ul>
-<div style="clear: both;">
+<div>
 <?php
 if ('dispinterval' == $item)
 {
@@ -377,14 +377,14 @@ if ('notifinterval' == $item)
 				<div class="cell label"><?= $STRINGS['notification-timefmt'] ?></div>
 				<div class="cell">
 					<div>
-						<input type="text" name="timefmt" id="timefmt" style="width: 90%;"
+						<input type="text" name="timefmt" id="timefmt"
 						 value="<?= isset($_POST['timefmt']) ? $_POST['timefmt'] : $user->opt('notification-timefmt') ?>"
 						 maxlength="31">
 						<sup>*</sup>
 					</div>
 					<div>
 		<div class="explainatory">
-			<div style="font-size: smaller;">
+			<div class="smaller">
 				<sup>*</sup>
 <?php
 				echo sprintf($STRINGS['notification-strftime_1'],
@@ -393,9 +393,9 @@ if ('notifinterval' == $item)
 						'<a href="https://php.net/manual/en/function.strftime.php#refsect1-function.strftime-parameters">strftime()</a>');
 ?>
 				<div>
-					<div style="padding-top: 1.3em; text-decoration: underline;">
+					<h4>
 						<?= $STRINGS['notification-strftime_2'] ?>
-					</div>
+					</h4>
 					<dl class="inline">
 						<dt>%a</dt><dd><?= $STRINGS['notification-strftime_a'] ?></dd>
 						<dt>%A</dt><dd><?= $STRINGS['notification-strftime_A'] ?></dd>
@@ -410,9 +410,9 @@ if ('notifinterval' == $item)
 						<dt>%p</dt><dd><?= $STRINGS['notification-strftime_p'] ?></dd>
 						<dt>%S</dt><dd><?= $STRINGS['notification-strftime_S'] ?></dd>
 					</dl>
-					<div style="padding-top: 1.3em; text-decoration: underline; clear: both;">
+					<h4>
 						<?= $STRINGS['notification-strftime_3'] ?>
-					</div>
+					</h4>
 					<dl class="inline">
 						<dt>%+</dt><dd><?= $STRINGS['notification-strftime_4'] ?></dd>
 					</dl>

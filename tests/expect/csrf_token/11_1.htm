@@ -43,12 +43,12 @@ Live Schedule</h3>
 <ul class="menu right">
 			<li class="sep">User profile</li>
 			<li class="sep"><a href="?req=logout">Logout</a></li>
-		<li style="vertical-align: baseline;">
+		<li class="lang">
 			<a href="?req=profile&amp;lang=de">
 				<img class="flag" src="img/de.png" alt="German" width="16" height="12">
 			</a>
 		</li>
-		<li style="vertical-align: baseline;">
+		<li class="lang">
 			<a href="?req=profile&amp;lang=en">
 				<img class="flag" src="img/en.png" alt="English" width="16" height="12">
 			</a>
@@ -68,7 +68,7 @@ $(function()
 	<li class="sep"><a href="?req=profile&amp;photodb">Photo Database</a></li>
 	<li class="sep">Change password</li>
 </ul>
-<div style="clear: both;">
+<div>
 <form class="stretched" method="post" action="?req=changepw"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>

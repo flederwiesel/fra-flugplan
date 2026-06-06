@@ -57,6 +57,16 @@ ul.menu li > a:hover
 	color: #ffffff;
 }
 
+ul.menu li.lang
+{
+	vertical-align: baseline;
+}
+
+ul.menu + div
+{
+	clear: both;
+}
+
 nav img.flag
 {
 	color: #000000;
@@ -139,7 +149,7 @@ td, th
 	white-space: nowrap;
 }
 
-dl.inline dt, dl.inline dd
+dl.inline dt
 {
 	float: left;
 	margin: 0 1.2em 0 0;
@@ -173,11 +183,6 @@ ul.help > li
 	list-style: none;
 }
 
-ul.help img.screen
-{
-	padding: 1em 0em;
-}
-
 ul.help div
 {
 	margin: 1em;
@@ -187,6 +192,7 @@ ul.help img.screen
 {
 	margin: 0.1em;
 	margin-right: 1em;
+	padding: 1em 0em;
 	vertical-align: middle;
 }
 
@@ -197,15 +203,12 @@ ul.help img.screen
 	vertical-align: middle;
 }
 
-img.email
-{
-	vertical-align: middle;
-}
-
 .fs12 { font-size: 12pt; }
+.smaller { font-size: smaller; }
 .b { font-weight: bold; }
 .i { font-style: italic; }
 .bi { font-weight: bold; font-style: italic; }
+.underline { text-decoration: underline; }
 .strikethrough { text-decoration: line-through; }
 .left { text-align: left; }
 .center { text-align: center; }
@@ -260,7 +263,7 @@ img.email
 
 #head
 {
-	background-image: url(../img/header.jpg);
+	background-image: url("../img/header.jpg");
 	background-color: #51555C;
 	background-attachment: scroll;
 	background-repeat: no-repeat;
@@ -314,6 +317,12 @@ form.stretched select
 	margin: 0;
 }
 
+
+#timefmt /* input:has(+ sup) */
+{
+	width: 90%;
+}
+
 form div.explainatory
 {
 	margin: 1em 1em 1.5em 1em;
@@ -357,6 +366,7 @@ form div.explainatory
 {
 	display: table-cell;
 	padding: 0 4px;
+	vertical-align: middle;
 	background: black;
 	color: yellow;
 }
@@ -396,6 +406,17 @@ form div.explainatory
 {
 	margin: 6px 2px 2px 2px;
 	vertical-align: top;
+}
+
+#expandable
+{
+	width: 0;
+	visibility: hidden;
+}
+
+#expandable > form > div
+{
+	padding: 6px 6px 6px 0;
 }
 
 #wl_div table,
@@ -450,12 +471,17 @@ form div.explainatory
 
 #wl_div button.add
 {
-	background-image: url(../img/add.gif);
+	background-image: url("../img/add.gif");
 }
 
 #wl_div button.del
 {
-	background-image: url(../img/del.gif);
+	background-image: url("../img/del.gif");
+}
+
+#watch input[type=submit]
+{
+	margin: 0.5em 0;
 }
 
 #list
@@ -546,22 +572,6 @@ form div.explainatory
 {
 	margin: 3.6em auto 0.8em auto;
 	padding: 0;
-}
-
-#addflight
-{
-	margin: auto;
-	padding: 1.5em;
-}
-
-#addflight .table
-{
-	margin: auto;
-}
-
-#addflight .cell
-{
-	padding: 0.4em;
 }
 
 #debug

@@ -45,12 +45,12 @@ Live Flugplan</h3>
 <ul class="menu right">
 			<li class="sep">Benutzerprofil</li>
 			<li class="sep"><a href="?req=logout">Abmelden</a></li>
-		<li style="vertical-align: baseline;">
+		<li class="lang">
 			<a href="?req=profile&amp;notifinterval&amp;lang=de">
 				<img class="flag" src="img/de.png" alt="Deutsch" width="16" height="12">
 			</a>
 		</li>
-		<li style="vertical-align: baseline;">
+		<li class="lang">
 			<a href="?req=profile&amp;notifinterval&amp;lang=en">
 				<img class="flag" src="img/en.png" alt="Englisch" width="16" height="12">
 			</a>
@@ -106,7 +106,7 @@ $(function()
 	<li class="sep"><a href="?req=profile&amp;photodb">Fotodatenbank</a></li>
 	<li class="sep"><a href="?req=profile&amp;changepw">Passwort ändern</a></li>
 </ul>
-<div style="clear: both;">
+<div>
 <form method="post" action="?req=profile&amp;notifinterval"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>
@@ -179,18 +179,18 @@ $(function()
 				<div class="cell label">Formatierung Zeitangabe:</div>
 				<div class="cell">
 					<div>
-						<input type="text" name="timefmt" id="timefmt" style="width: 90%;"
+						<input type="text" name="timefmt" id="timefmt"
 						 value=""
 						 maxlength="31">
 						<sup>*</sup>
 					</div>
 					<div>
 		<div class="explainatory">
-			<div style="font-size: smaller;">
+			<div class="smaller">
 				<sup>*</sup>
 Für Experten: Formatangabe gemäß der PHP-Funktion <a href="https://php.net/manual/de/function.strftime.php#refsect1-function.strftime-parameters">strftime()</a>.<br>Im Zweifelsfall leer lassen.				<div>
-					<div style="padding-top: 1.3em; text-decoration: underline;">
-						Einige strftime()-Formatangaben (können kombiniert werden):					</div>
+					<h4>
+						Einige strftime()-Formatangaben (können kombiniert werden):					</h4>
 					<dl class="inline">
 						<dt>%a</dt><dd>Abgekürzter Wochentag</dd>
 						<dt>%A</dt><dd>Wochentag</dd>
@@ -205,8 +205,8 @@ Für Experten: Formatangabe gemäß der PHP-Funktion <a href="https://php.net/ma
 						<dt>%p</dt><dd>"AM" or "PM"</dd>
 						<dt>%S</dt><dd>Sekunde als 2-stellige Zahl</dd>
 					</dl>
-					<div style="padding-top: 1.3em; text-decoration: underline; clear: both;">
-						Zusätzliche Formatangaben:					</div>
+					<h4>
+						Zusätzliche Formatangaben:					</h4>
 					<dl class="inline">
 						<dt>%+</dt><dd>Tag "Ankunftszeit" als Differenz zu heute.</dd>
 					</dl>

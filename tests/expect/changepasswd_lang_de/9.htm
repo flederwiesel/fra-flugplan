@@ -45,12 +45,12 @@ Live Flugplan</h3>
 <ul class="menu right">
 			<li class="sep">Benutzerprofil</li>
 			<li class="sep"><a href="?req=logout">Abmelden</a></li>
-		<li style="vertical-align: baseline;">
+		<li class="lang">
 			<a href="?req=profile&amp;changepw&amp;lang=de">
 				<img class="flag" src="img/de.png" alt="Deutsch" width="16" height="12">
 			</a>
 		</li>
-		<li style="vertical-align: baseline;">
+		<li class="lang">
 			<a href="?req=profile&amp;changepw&amp;lang=en">
 				<img class="flag" src="img/en.png" alt="Englisch" width="16" height="12">
 			</a>
@@ -70,7 +70,7 @@ $(function()
 	<li class="sep"><a href="?req=profile&amp;photodb">Fotodatenbank</a></li>
 	<li class="sep">Passwort ändern</li>
 </ul>
-<div style="clear: both;">
+<div>
 <form class="stretched" method="post" action="?req=changepw"
 	onsubmit="document.getElementById('submit').disabled=true;">
 	<fieldset>

@@ -44,12 +44,12 @@ Live Schedule &ndash; Arrival</h3>
 <ul class="menu right">
 			<li class="sep"><a href="?req=profile">User profile</a></li>
 			<li class="sep"><a href="?req=logout">Logout</a></li>
-		<li style="vertical-align: baseline;">
+		<li class="lang">
 			<a href="?lang=de">
 				<img class="flag" src="img/de.png" alt="German" width="16" height="12">
 			</a>
 		</li>
-		<li style="vertical-align: baseline;">
+		<li class="lang">
 			<a href="?lang=en">
 				<img class="flag" src="img/en.png" alt="English" width="16" height="12">
 			</a>
@@ -80,8 +80,8 @@ Live Schedule &ndash; Arrival</h3>
 		To receive notifications, choose a time interval in your
 		<a href="?req=profile&amp;notifinterval">user profile</a></div>
 <div id="rwy_cont">
-	<div id="rwy_div" style="float: left ;">
-		<span id="rwy_l" style="vertical-align: middle;">
+	<div id="rwy_div">
+		<span id="rwy_l">
 			<img alt="active runway" src="img/arrival-yellow-16x14.png">
 		</span>
 		<span id="rwy_r">99</span>
@@ -93,9 +93,9 @@ Live Schedule &ndash; Arrival</h3>
 			<img id="wl_img" src="img/wl-open-en.png" alt="watchlist">
 		</div>
 		<div class="cell top">
-			<div id="expandable" style="width: 0; visibility: hidden;">
+			<div id="expandable">
 				<form id="watch" method="post" action="?">
-					<div class="center" style="padding: 6px 6px 6px 0;">
+					<div class="center">
 						<div id="list">
 							<table>
 								<thead>
@@ -153,8 +153,7 @@ Live Schedule &ndash; Arrival</h3>
 							</table>
 						</div>
 						<input type="hidden" name="CSRFToken" value="">
-						<input type="submit" value="Refresh"
-						 style="margin: 0.5em 0;">
+						<input type="submit" value="Refresh">
 					</div>
 				</form>
 			</div>
