@@ -265,8 +265,7 @@ if ('de' == $lang) {
 <link rel="stylesheet" type="text/css" href="<?= "script/{$jqueryui}/jquery-ui{$minified}.css" ?>">
 <link rel="stylesheet" type="text/css" href="<?= "script/{$jqueryui}/jquery-ui.structure{$minified}.css" ?>">
 <link rel="stylesheet" type="text/css" href="<?= "script/{$jqueryui}/jquery-ui.theme{$minified}.css" ?>">
-<?php if ($mobile && !$tablet) {
-//https://markjaquith.wordpress.com/2009/05/04/force-css-changes-to-go-live-immediately/ ?>
+<?php if ($mobile && !$tablet) { ?>
 <link rel="stylesheet" type="text/css" href="<?= Asset::src('css/mobile.css') ?>">
 <?php } else { ?>
 <link rel="stylesheet" type="text/css" media="screen, print" href="<?= Asset::src('css/desktop.css') ?>">

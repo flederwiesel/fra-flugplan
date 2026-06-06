@@ -4,7 +4,7 @@ include "help-$_SESSION[lang].php";
 
 ?>
 
-<div style="max-width: 792px;">
+<div>
 	<h3><a id="top"></a><?= $HELPSTRINGS[1] ?></h3>
 	<ul>
 		<li><a href="#basic"><?= $HELPSTRINGS[2] ?></a></li>

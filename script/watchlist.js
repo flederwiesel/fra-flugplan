@@ -33,7 +33,23 @@ document.onmousedown = function(e)
 	return true;
 }
 
-var initial = 0;
+var initial = null;
+
+$(function()
+{
+	expandable = document.getElementById("expandable");
+
+	console.debug(`expandable.width=${expandable.width}`);
+	console.debug(`expandable.offsetWidth=${expandable.offsetWidth}`);
+	console.debug(`expandable.cientWidth=${expandable.cientWidth}`);
+	rect = expandable.getBoundingClientRect();
+	console.debug(`getBoundingClientRect.width=${rect.width}`);
+
+	console.debug(`expandable.style.width=${expandable.style.width}`);
+
+	console.debug(`expandable=`);
+	console.debug(expandable);
+});
 
 function watchlist(action)
 {
@@ -43,10 +59,13 @@ function watchlist(action)
 	div = document.getElementById("expandable");
 	img = document.getElementById("wl_img");
 
-	if (0 == initial)
-		initial = div.style.width;
+	width = expandable.getBoundingClientRect().width;
 
-	if ("toggle" == action && initial == div.style.width ||
+	if (initial === null) {
+		initial = width;
+	}
+
+	if ("toggle" == action && initial == width ||
 		"show"   == action)
 	{
 		div.style.visibility = "visible";

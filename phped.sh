@@ -63,7 +63,7 @@ mkdir -p "$scriptdir/.phped"
 
 i=0
 
-for p in ${projects[@]}
+for p in "${projects[@]}"
 do
 	if grep -q '?' <<<"${p}"; then
 		fin='&'

@@ -32,8 +32,6 @@
 		<div id="notification" class="success">
 			<?= $message ?>
 		</div>
-<?php } else { ?>
-		<div id="notification" style="display: none;"></div>
 <?php } ?>
 		<div class="explainatory"><?= $STRINGS['registernote'] ?></div>
 		<div class="table">

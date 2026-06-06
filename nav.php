@@ -171,12 +171,12 @@ function navitem($item, $href)
 		}
 	}
 ?>
-		<li style="vertical-align: baseline;">
+		<li class="lang">
 			<a href="<?= insertLanguageHref('de') ?>">
 				<img class="flag" src="<?= Asset::src('img/de.png') ?>" alt="<?= $STRINGS['de'] ?>" width="16" height="12">
 			</a>
 		</li>
-		<li style="vertical-align: baseline;">
+		<li class="lang">
 			<a href="<?= insertLanguageHref('en') ?>">
 				<img class="flag" src="<?= Asset::src('img/en.png') ?>" alt="<?= $STRINGS['en'] ?>" width="16" height="12">
 			</a>
