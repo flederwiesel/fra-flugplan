@@ -581,3 +581,39 @@ body .ui-tooltip
 {
 	margin: .5em 0;
 }
+
+#addflight .row
+{
+	padding: .2em 0;
+}
+
+#flighttype
+{
+	margin-top: 1em;
+}
+
+#time
+{
+	margin-right: 0.5em;
+}
+
+#freq
+{
+	margin-top: 0.5em;
+}
+
+#each div
+{
+	margin: 0.5em 0 0 0.5em;
+}
+
+#addflight_interval
+{
+	display: grid;
+	margin-top: 0.5em;
+}
+
+fieldset .label
+{
+	min-width: 4em !important;
+}
