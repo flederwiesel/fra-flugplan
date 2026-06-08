@@ -625,3 +625,34 @@ body .ui-tooltip
 	font-weight: normal;
 	color: #999;
 }
+
+#flighttype
+{
+	margin-top: 1em;
+}
+
+#freq
+{
+	margin-top: 0.5em;
+}
+
+#each div
+{
+	margin: 0.5em 0 0 2em;
+}
+
+.shrink
+{
+	min-width: auto !important;
+}
+
+#addflight_interval
+{
+	display: grid;
+	margin-top: 0.5em;
+}
+
+fieldset .label
+{
+	min-width: 4em !important;
+}

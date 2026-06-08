@@ -74,25 +74,25 @@ $(function()
 				</div>
 			</div>
 			<div class="row">
-				<div class="label"><?= $STRINGS['from'] ?></div>
+				<div class="label"><?= ucFirst($STRINGS['from']) ?></div>
 				<div class="cell">
 					<input type="text" name="date-from" id="date-from"
-					 value=""/>
+						placeholder="dd.mm.YYYY"/>
 				</div>
 				<div>
 					<input type="text" name="time-from" id="time-from"
-						value=""/>HH:MM (<?= $STRINGS['local'] ?>)
+						placeholder="HH:MM"/>(<?= $STRINGS['local'] ?>)
 				</div>
 			</div>
 			<div class="row">
-				<div class="label"><?= $STRINGS['until'] ?></div>
+				<div class="label"><?= ucFirst($STRINGS['until']) ?></div>
 				<div class="cell">
 					<input type="text" name="date-until" id="date-until"
-					 value=""/>
+						placeholder="dd.mm.YYYY"/>
 				</div>
 				<div>
 					<input type="text" name="time-until" id="time-until"
-						value=""/>HH:MM (<?= $STRINGS['local'] ?>)
+						placeholder="HH:MM"/>(<?= $STRINGS['local'] ?>)
 				</div>
 			</div>
 		</div>

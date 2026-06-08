@@ -209,6 +209,9 @@ $STRINGS = array
 	'photodbsel' => 'Öffnet Bildersuche auf',
 	'address-changed' => 'Die Adresse dieser Seite hat sich geändert.',
 	'update-bookmarks' => 'Bitte Lesezeichen aktualisieren auf',
+	'scheduled' => 'geplant',
+	'country' => 'Land',
+	'aircraft' => 'Flugzeug',
 );
 
 ?>

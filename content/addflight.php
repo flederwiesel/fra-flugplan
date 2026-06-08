@@ -463,7 +463,7 @@ $(function()
 	}
 });
 </script>
-<form method="post" action="?page=addflight">
+<form id="addflight" method="post" action="?page=addflight">
 	<fieldset>
 		<legend><?= $STRINGS['addflight'] ?></legend>
 <?php if (isset($error)) { ?>
@@ -475,91 +475,28 @@ $(function()
 <?php } ?>
 		<div class="table">
 			<div class="row">
-				<div class="cell label"><?= $STRINGS['reg'] ?></div>
-				<div class="cell">
-					<input type="text" name="reg" id="reg"
-					 value="<?= valueFromRequest('reg', INP_POST) ?>"/>
-				</div>
-			</div>
-<?php if (isset($_POST['flight']) && !$error && !$model) { ?>
-			<div class="row">
-				<div class="cell label"><?= $STRINGS['icaomodel'] ?></div>
-				<div class="cell">
-					<input type="text" name="model" id="model"
-						value="<?= valueFromRequest('model', INP_POST) ?>"/>
-						<span>
-							<a href="https://www.airframes.org/">[?]</a>
-						</span>
-				</div>
-			</div>
-<?php } ?>
-			<div class="row">
 				<div class="cell label"><?= $STRINGS['flight'] ?></div>
 				<div class="cell">
 					<input type="text" name="flight" id="flight"
-					 value="<?= valueFromRequest('flight', INP_POST) ?>"/>
-<?php
-					if ($mobile)
-					{
-?>
-						<div>
-<?php
-					}
-
-					if (!isset($_POST['type']))
-					{
-?>
+						placeholder="XX 0000"
+						value="<?= valueFromRequest('flight', INP_POST) ?>"/>
+					<div id="flighttype">
 						<label>
 							<input type="radio" name="type"
-							 value="pax-regular" checked="checked"><?= $STRINGS['pax-regular'] ?>
+								value="pax-regular" checked="checked"><?= $STRINGS['pax-regular'] ?>
 						</label>
 						<label>
 							<input type="radio" name="type"
-							 value="cargo"><?= $STRINGS['cargo'] ?>
+								value="cargo"><?= $STRINGS['cargo'] ?>
 						</label>
 						<label>
 							<input type="radio" name="type"
-							 value="ferry"><?= $STRINGS['ferry'] ?>
+								value="ferry"><?= $STRINGS['ferry'] ?>
 						</label>
-<?php
-					}
-					else
-					{
-?>
-						<label>
-							<input type="radio" name="type"
-							 value="pax-regular" <?= checkedIfInPost('type', 'pax-regular', 'radio') ?>/><?= $STRINGS['pax-regular'] ?>
-						</label>
-						<label>
-							<input type="radio" name="type"
-							 value="cargo" <?= checkedIfInPost('type', 'cargo', 'radio') ?>/><?= $STRINGS['cargo'] ?>
-						</label>
-						<label>
-							<input type="radio" name="type"
-							 value="ferry" <?= checkedIfInPost('type', 'ferry', 'radio') ?>/><?= $STRINGS['ferry'] ?>
-						</label>
-<?php
-					}
-
-					if ($mobile)
-					{
-?>
 					</div>
-<?php
-					}
-?>
 				</div>
 			</div>
-<?php if (isset($_POST['flight']) && !$error && !$airline) { ?>
-			<div class="row">
-				<div class="cell label"><?= $STRINGS['airline'] ?></div>
-				<div class="cell">
-					<input type="text" name="code" value="<?= valueFromRequest('code', INP_POST) ?>"/>
-					<input type="text" name="airline" value="<?= valueFromRequest('airline', INP_POST) ?>"/>
-						<span>[Code] | [Name]</span>
-				</div>
-			</div>
-<?php } ?>
+
 			<div class="row">
 				<div class="cell"></div>
 				<div class="cell">
@@ -569,101 +506,168 @@ $(function()
 			</div>
 
 			<div class="row">
-				<div class="cell label"><?= ucfirst($STRINGS['from']) ?></div>
-				<div class="cell">
-					<select id="airport-icao" name="airport">
-						<option value="+" selected="selected">&lt;Add new&gt;</option>
-						<?php // 'SELECT `id`,`icao`,`name` FROM `airports` ORDER BY `name`' ?>
-					</select>
-				</div>
+				<div class="cell label"><?= ucFirst($STRINGS['scheduled']) ?></div>
+				<fieldset>
+					<div class="row">
+						<div class="cell label"><?= $STRINGS['date'] ?></div>
+						<div class="cell">
+							<input type="text" name="from" id="from"
+								placeholder="dd.mm.YYYY"
+								value="<?= valueFromRequest('from', INP_POST) ?>"/>
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="cell label"><?= $STRINGS['time'] ?></div>
+						<div class="cell">
+							<input type="text" name="time" id="time"
+								placeholder="HH:MM"
+								value="<?= valueFromRequest('time', INP_POST) ?>"/>(<?= $STRINGS['local'] ?>)
+							<div id="addflight_interval">
+								<label><input type="radio" name="interval" value="once" id="once" checked="checked" /><?= $STRINGS['once'] ?></label>
+								<label><input type="radio" name="interval" value="daily" id="daily"/><?= $STRINGS['daily'] ?></label>
+								<label><input type="radio" name="interval" value="each" id="each"/><?= $STRINGS['each'] ?></label>
+
+								<div id="each" class="row">
+									<div class="cell">
+										<div>
+											<label><input type="checkbox" name="day[1]" id="mon" disabled /><?= $STRINGS['mon'] ?></label>
+											<label><input type="checkbox" name="day[2]" id="tue" disabled /><?= $STRINGS['tue'] ?></label>
+											<label><input type="checkbox" name="day[3]" id="wed" disabled /><?= $STRINGS['wed'] ?></label>
+											<label><input type="checkbox" name="day[4]" id="thu" disabled /><?= $STRINGS['thu'] ?></label>
+											<label><input type="checkbox" name="day[5]" id="fri" disabled /><?= $STRINGS['fri'] ?></label>
+											<label><input type="checkbox" name="day[6]" id="sat" disabled /><?= $STRINGS['sat'] ?></label>
+											<label><input type="checkbox" name="day[7]" id="sun" disabled /><?= $STRINGS['sun'] ?></label>
+										</div>
+										<div>
+											<label><input type="checkbox" name="day[0]" id="all" disabled /><b><?= $STRINGS['all'] ?></b></label>
+										</div>
+									</div>
+								</div>
+							</div>
+
+							<div id="each" class="row">
+								<div>
+									<div class="cell shrink"><?= $STRINGS['until'] ?></div>
+									<div class="cell">
+										<input type="text" name="until" id="until"
+											placeholder="dd.mm.YYYY"
+											value="<?= valueFromRequest('until', INP_POST) ?>" disabled>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</fieldset>
 			</div>
 
 			<div class="row">
-				<div class="cell label"><?= $STRINGS['date'] ?></div>
-				<div class="cell">
-					<input type="text" name="from" id="from" value="<?= valueFromRequest('from', INP_POST) ?>"/>
-					<div style="display: inline;"><?= 'arrival' == $dir ? $STRINGS['sta'] : $STRINGS['std'] ?>:</div>
-					<div style="display: inline;">
-						<input type="text" name="time" id="time" style="margin-right: 0.5em;"
-						 value="<?= valueFromRequest('time', INP_POST) ?>"/>HH:MM (<?= $STRINGS['local'] ?>)
+				<div class="cell label"><?= $STRINGS['airline'] ?></div>
+				<fieldset>
+					<div class="row">
+						<div class="cell label"></div>
+						<div class="cell">
+							<select id="airport-icao" name="airport">
+								<option value="" selected="selected">&lt;Add new&gt;</option>
+								<option value="67">LH | DLH | Lufthansa</option>
+							</select>
+						</div>
 					</div>
-					<div class="cell">
-<?php
-					if (!isset($_POST['interval']))
-					{
-?>
-						<label><input type="radio" name="interval" value="once" id="once" checked="checked" /><?= $STRINGS['once'] ?></label><br>
-						<label><input type="radio" name="interval" value="daily" id="daily"/><?= $STRINGS['daily'] ?></label><br>
-						<label><input type="radio" name="interval" value="each" id="each"/><?= $STRINGS['each'] ?></label>
-						<div style="margin-left: 1em; display: inline;">
-							<label><input type="checkbox" name="day[1]" id="mon" disabled /><?= $STRINGS['mon'] ?></label>
-							<label><input type="checkbox" name="day[2]" id="tue" disabled /><?= $STRINGS['tue'] ?></label>
-							<label><input type="checkbox" name="day[3]" id="wed" disabled /><?= $STRINGS['wed'] ?></label>
-							<label><input type="checkbox" name="day[4]" id="thu" disabled /><?= $STRINGS['thu'] ?></label>
-							<label><input type="checkbox" name="day[5]" id="fri" disabled /><?= $STRINGS['fri'] ?></label>
-							<label><input type="checkbox" name="day[6]" id="sat" disabled /><?= $STRINGS['sat'] ?></label>
-							<label><input type="checkbox" name="day[7]" id="sun" disabled /><?= $STRINGS['sun'] ?></label>
-							<label><input type="checkbox" name="day[0]" id="all" disabled /><b><?= $STRINGS['all'] ?></b></label>
-						</div>
+					<div class="row">
+						<div class="cell label">IATA</div>
 						<div class="cell">
-							<div style="display: inline;"><?= $STRINGS['until'] ?>:</div>
-							<input type="text" name="until" id="until"
-							 value="<?= valueFromRequest('until', INP_POST) ?>" disabled>
+							<input type="text" name="airline_iata" placeholder="AA" value=""/>
 						</div>
-<?php
-					}
-					else
-					{
-						if ('each' == $_POST['interval'])
-						{
-?>
-						<label><input type="radio" name="interval" value="once" id="once" <?= checkedIfInPost('interval', 'once', 'radio') ?>/><?= $STRINGS['once'] ?></label><br>
-						<label><input type="radio" name="interval" value="daily" id="daily" <?= checkedIfInPost('interval', 'daily', 'radio') ?>/><?= $STRINGS['daily'] ?></label><br>
-						<label><input type="radio" name="interval" value="each" id="each" <?= checkedIfInPost('interval', 'each', 'radio') ?>/><?= $STRINGS['each'] ?></label>
-						<div style="margin-left: 1em; display: inline;">
-							<label><input type="checkbox" name="day[1]" id="mon" <?= checkedIfInPost('day', 1) ?>/><?= $STRINGS['mon'] ?></label>
-							<label><input type="checkbox" name="day[2]" id="tue" <?= checkedIfInPost('day', 2) ?>/><?= $STRINGS['tue'] ?></label>
-							<label><input type="checkbox" name="day[3]" id="wed" <?= checkedIfInPost('day', 3) ?>/><?= $STRINGS['wed'] ?></label>
-							<label><input type="checkbox" name="day[4]" id="thu" <?= checkedIfInPost('day', 4) ?>/><?= $STRINGS['thu'] ?></label>
-							<label><input type="checkbox" name="day[5]" id="fri" <?= checkedIfInPost('day', 5) ?>/><?= $STRINGS['fri'] ?></label>
-							<label><input type="checkbox" name="day[6]" id="sat" <?= checkedIfInPost('day', 6) ?>/><?= $STRINGS['sat'] ?></label>
-							<label><input type="checkbox" name="day[7]" id="sun" <?= checkedIfInPost('day', 7) ?>/><?= $STRINGS['sun'] ?></label>
-							<label><input type="checkbox" name="day[0]" id="all" <?= checkedIfInPost('day', 0) ?>/><b><?= $STRINGS['all'] ?></b></label>
-						</div>
-						<div class="cell">
-							<div style="display: inline;"><?= $STRINGS['until'] ?>:</div>
-							<input type="text" name="until" id="until"
-							 value="<?= valueFromRequest('until', INP_POST) ?>">
-						</div>
-<?php
-						}
-						else
-						{
-?>
-						<label><input type="radio" name="interval" value="once" id="once" <?= checkedIfInPost('interval', 'once', 'radio') ?>/><?= $STRINGS['once'] ?></label><br>
-						<label><input type="radio" name="interval" value="daily" id="daily" <?= checkedIfInPost('interval', 'daily', 'radio') ?>/><?= $STRINGS['daily'] ?></label><br>
-						<label><input type="radio" name="interval" value="each" id="each" <?= checkedIfInPost('interval', 'each', 'radio') ?>/><?= $STRINGS['each'] ?></label>
-						<div style="margin-left: 1em; display: inline;">
-							<label><input type="checkbox" name="day[1]" id="mon" disabled <?= checkedIfInPost('day', 1) ?>/><?= $STRINGS['mon'] ?></label>
-							<label><input type="checkbox" name="day[2]" id="tue" disabled <?= checkedIfInPost('day', 2) ?>/><?= $STRINGS['tue'] ?></label>
-							<label><input type="checkbox" name="day[3]" id="wed" disabled <?= checkedIfInPost('day', 3) ?>/><?= $STRINGS['wed'] ?></label>
-							<label><input type="checkbox" name="day[4]" id="thu" disabled <?= checkedIfInPost('day', 4) ?>/><?= $STRINGS['thu'] ?></label>
-							<label><input type="checkbox" name="day[5]" id="fri" disabled <?= checkedIfInPost('day', 5) ?>/><?= $STRINGS['fri'] ?></label>
-							<label><input type="checkbox" name="day[6]" id="sat" disabled <?= checkedIfInPost('day', 6) ?>/><?= $STRINGS['sat'] ?></label>
-							<label><input type="checkbox" name="day[7]" id="sun" disabled <?= checkedIfInPost('day', 7) ?>/><?= $STRINGS['sun'] ?></label>
-							<label><input type="checkbox" name="day[0]" id="all" disabled <?= checkedIfInPost('day', 0) ?>/><b><?= $STRINGS['all'] ?></b></label>
-						</div>
-						<div class="cell">
-							<div style="display: inline;"><?= $STRINGS['until'] ?>:</div>
-							<input type="text" name="until" id="until"
-							 value="<?= valueFromRequest('until', INP_POST) ?>" disabled>
-						</div>
-<?php
-						}
-					}
-?>
 					</div>
-				</div>
+					<div class="row">
+						<div class="cell label">ICAO</div>
+						<div class="cell">
+							<input type="text" name="airline_icao" placeholder="AAA" value=""/>
+						</div>
+					</div>
+					<div class="row">
+						<div class="cell label">Name</div>
+						<div class="cell">
+							<input type="text" name="airline_name" value=""/>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+
+			<div class="row">
+				<div class="cell label"><?= ucfirst($STRINGS['airport']) ?></div>
+				<fieldset>
+					<div class="row">
+						<div class="cell label"></div>
+						<div class="cell">
+							<select id="airport" name="airport">
+								<option value="" selected="selected">&lt;Add new&gt;</option>
+								<option value="0">FRA | EDDF | Frankfurt</option>
+							</select>
+						</div>
+					</div>
+					<div class="row">
+						<div class="cell label">IATA</div>
+						<div class="cell">
+							<input name="airport-iata" placeholder="AAA">
+						</div>
+					</div>
+					<div class="row">
+						<div class="cell label">ICAO</div>
+						<div class="cell">
+						<input name="airport-icao" placeholder="AAAA">
+						</div>
+					</div>
+					<div class="row">
+						<div class="cell label">Name</div>
+						<div class="cell">
+						<input name="airport-name">
+						</div>
+					</div>
+					<div class="row">
+						<div class="cell label">Geo</div>
+						<div class="cell">
+							<input name="airport-gps" placeholder="0.0000000 0.0000000">
+						</div>
+					</div>
+					<div class="row">
+						<div class="cell label"><?= ucfirst($STRINGS['country']) ?></div>
+						<div class="cell">
+							<select name="airport-country">
+								<option selected="selected">🇺🇳 | XX</option>
+							</select>
+						</div>
+					</div>
+				</fieldset>
+			</div>
+
+			<div class="row">
+				<div class="cell label"><?= ucfirst($STRINGS['aircraft']) ?></div>
+				<fieldset>
+					<div class="row">
+						<div class="cell label"><?= $STRINGS['reg'] ?></div>
+						<div class="cell">
+							<input name="reg"/>
+						</div>
+					</div>
+					<div class="row">
+						<div class="cell label"><?= $STRINGS['icaomodel'] ?></div>
+						<div class="cell">
+							<input type="text" name="model" id="model"
+								placeholder="AAAA"
+								value="<?= valueFromRequest('model', INP_POST) ?>"/>
+								<span>
+									<a href="https://www.airframes.org/" target="airframes.org">[?]</a>
+								</span>
+						</div>
+					</div>
+					<div class="row">
+						<div class="cell label">Name</div>
+						<div class="cell">
+							<input type="text" name="aircraft_name" value=""/>
+						</div>
+					</div>
+				</fieldset>
 			</div>
 		</div>
 	</fieldset>
