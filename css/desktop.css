@@ -1,10 +1,25 @@
+/*  Initialise variables: We are using different images on the
+	watchlist "handle", depending on state *and* language */
+body {
+	--img-watchlist-open: url("../img/wl-open-en.png");
+	--img-watchlist-close: url("../img/wl-close-en.png");
+}
+
+body[data-lang="de"] {
+	--img-watchlist-open: url("../img/wl-open-de.png");
+	--img-watchlist-close: url("../img/wl-close-de.png");
+}
+
 body
 {
-	overflow-y: scroll;	/* force a scrollbar, otherwise centered fixed-width content will 'jump' */
+	height: 100vh;
+	padding: 0;
 	border: none;
+	overflow-y: scroll;	/* force a scrollbar, otherwise centered fixed-width content will 'jump' */
 	background: #f8f8f8;
 	font-family: "Verdana", "Arial", "Helvetica", "Sans Serif";
 	font-size: 0.8em;
+	text-align: center;
 }
 
 pre
@@ -171,13 +186,6 @@ dl.inline dt
 	font-weight: bold
 }
 
-#schedule a img
-{
-	margin-top: 1px;
-	margin-left: 1px;
-	margin-right: 2px;
-}
-
 ul.help > li
 {
 	list-style: none;
@@ -237,12 +245,6 @@ ul.help img.screen
 	padding: 10px;
 	background: #ffffff;
 	box-shadow: 0 0 3px #666666;
-}
-
-#body
-{
-	padding: 0;
-	text-align: center;
 }
 
 #head h1,
@@ -317,7 +319,6 @@ form.stretched select
 	margin: 0;
 }
 
-
 #timefmt /* input:has(+ sup) */
 {
 	width: 90%;
@@ -378,17 +379,20 @@ form div.explainatory
 	color: white;
 }
 
-#wl_cont
-{
-	z-index: 2;
-	float: right;
-	margin-right: 12px;
+#watchlist-container {
+	position: fixed;
+	height: 0;	/* We only need the with for the floating child div */
+	width: inherit;
 }
 
-#wl_div
-{
-	position: fixed;
-	margin-right: 24px;
+#watchlist-container > div {
+	float: right;
+	margin-right: -10px;
+}
+
+#watchlist {
+	display: flex;
+	height: 50vh;
 	background-color: white;
 	border-left: 1px solid;
 	border-top: 1px solid;
@@ -396,57 +400,62 @@ form div.explainatory
 	box-shadow: 5px 5px 10px #ccc;
 }
 
-#wl_handle
-{
+#watchlist-handle {
+	padding: 0.5em 2px 0 2px;
 	cursor: pointer;
+	-webkit-user-select: none;  /* Chrome all / Safari all */
+	-moz-user-select: none;     /* Firefox all */
+	-ms-user-select: none;      /* IE 10+ */
+	user-select: none;
 }
 
-#wl_img
-{
-	margin: 6px 2px 2px 2px;
-	vertical-align: top;
+#watchlist-handle div {
+	width: 16px;
 }
 
-#expandable
-{
-	width: 0;
-	visibility: hidden;
+#watchlist:not(.expanded)
+#watchlist-handle + div {
+	display: none;
 }
 
-#expandable > form > div
-{
-	padding: 6px 6px 6px 0;
+#watchlist:not(.expanded)
+#watchlist-handle div::before {
+	content: var(--img-watchlist-open);
 }
 
-#wl_div table,
-#wl_div tr,
-#wl_div td
-{
-	font-size: 8pt;
-	padding: 0 2px;
+#watchlist.expanded
+#watchlist-handle div::before {
+	content: var(--img-watchlist-close);
 }
 
-#wl_div td
-{
-	margin-right: 10px;
+#watchlist-handle + div {
+	display: flex;
+	align-items: stretch;
+	padding: 1em;
 }
 
-#wl_div input[type=text]
-{
-	border: 1px solid grey;
+#watchlist-handle + div > div {
+	padding: 1.5em 1em;
+	align-items: stretch;
 }
 
-#wl_div .reg input[type=text]
-{
-	width: 6em;
+#watchlist form {
+	height: 100%;
+	margin: 0;
+	padding: 0;
 }
 
-#wl_div .comment input[type=text]
-{
-	width: 20em;
+#watchlist form > div {
+	height: 100%;
 }
 
-#wl_div button
+#watchlist form > div > div {
+	padding: 0 1em 0 0;
+	height: 90%;
+	overflow-y: scroll;
+}
+
+#watchlist form button
 {
 	text-align: center;
 	background-color: transparent;
@@ -460,7 +469,7 @@ form div.explainatory
 	border-right:  solid 1px #404040;
 }
 
-#wl_div button:active
+#watchlist form button:active
 {
 	border-top:    solid 1px #A0A0A0;
 	border-left:   solid 1px #A0A0A0;
@@ -468,33 +477,60 @@ form div.explainatory
 	border-right:  solid 1px #E0E0E0;
 }
 
-#wl_div button.add
+#watchlist form button.add
 {
 	background-image: url("../img/add.gif");
 }
 
-#wl_div button.del
+#watchlist form button.del
 {
 	background-image: url("../img/del.gif");
 }
 
-#watch input[type=submit]
+#watchlist form input[type=submit]
 {
-	margin: 0.5em 0;
+	margin: 1em 0 0 0;
 }
 
-#list
+#watchlist form table,
+#watchlist form tr,
+#watchlist form td
 {
-	min-height: 200px;
-	max-height: 400px;
-	overflow-x: hidden;
-	overflow-y: scroll;
+	font-size: 8pt;
+	padding: 0 2px;
+}
+
+#watchlist form td
+{
+	margin-right: 10px;
+}
+
+#watchlist form input[type=text]
+{
+	border: 1px solid grey;
+}
+
+#watchlist form .comment input[type=text]
+{
+	width: 20em;
+}
+
+#watchlist form .reg input[type=text]
+{
+	width: 6em;
 }
 
 #schedule
 {
 	margin-right: 24px;
 	width: auto;
+}
+
+#schedule a img
+{
+	margin-top: 1px;
+	margin-left: 1px;
+	margin-right: 2px;
 }
 
 #schedule table
@@ -565,12 +601,6 @@ form div.explainatory
 {
 	color: #000000;
 	font-weight: bold;
-}
-
-#counter
-{
-	margin: 3.6em auto 0.8em auto;
-	padding: 0;
 }
 
 #debug

@@ -1,11 +1,14 @@
 body
 {
+	height: 100vh;
+	padding: 0;
 	border: none;
 	margin: 6px;
 	overflow-x: hidden;
 	background: #f8f8f8;
 	font-family: "Verdana", "Arial", "Helvetica", "Sans Serif";
 	font-size: 0.8em;
+	text-align: center;
 }
 
 pre
@@ -24,7 +27,7 @@ ul.menu
 
 ul.menu.left
 {
-	float:left;
+	float: left;
 	margin-right: 2.5em;
 	text-align: left;
 }
@@ -195,12 +198,6 @@ ul.help img.screen
 	box-shadow: 0 0 3px #666666;
 }
 
-#body
-{
-	padding: 0;
-	text-align: center;
-}
-
 #head h1,
 #head h3
 {
@@ -332,16 +329,20 @@ form div.explainatory
 	color: white;
 }
 
-#wl_cont
-{
-	z-index: 2;
+#watchlist-container {
+	position: fixed;
+	height: 0;	/* We only need the with for the floating child div */
+	width: inherit;
+}
+
+#watchlist-container > .float-right {
 	float: right;
 	margin-right: 12px;
 }
 
-#wl_div
-{
-	position: fixed;
+#watchlist {
+	display: flex;
+	height: 50vh;
 	margin-right: 24px;
 	background-color: white;
 	border-left: 1px solid;
@@ -350,57 +351,15 @@ form div.explainatory
 	box-shadow: 5px 5px 10px #ccc;
 }
 
-#wl_handle
-{
+#watchlist-handle {
 	cursor: pointer;
+	-webkit-user-select: none;  /* Chrome all / Safari all */
+	-moz-user-select: none;     /* Firefox all */
+	-ms-user-select: none;      /* IE 10+ */
+	user-select: none;
 }
 
-#wl_img
-{
-	margin: 6px 2px 2px 2px;
-	vertical-align: top;
-}
-
-#expandable
-{
-	width: 0;
-	visibility: hidden;
-}
-
-#expandable > form > div
-{
-	padding: 6px 6px 6px 0;
-}
-
-#wl_div table,
-#wl_div tr,
-#wl_div td
-{
-	font-size: 8pt;
-	padding: 0 2px;
-}
-
-#wl_div td
-{
-	margin-right: 10px;
-}
-
-#wl_div input[type=text]
-{
-	border: 1px solid grey;
-}
-
-#wl_div .reg input[type=text]
-{
-	width: 6em;
-}
-
-#wl_div .comment input[type=text]
-{
-	width: 20em;
-}
-
-#wl_div button
+#watchlist form button
 {
 	text-align: center;
 	background-color: transparent;
@@ -414,7 +373,7 @@ form div.explainatory
 	border-right:  solid 1px #404040;
 }
 
-#wl_div button:active
+#watchlist form button:active
 {
 	border-top:    solid 1px #A0A0A0;
 	border-left:   solid 1px #A0A0A0;
@@ -422,27 +381,47 @@ form div.explainatory
 	border-right:  solid 1px #E0E0E0;
 }
 
-#wl_div button.add
+#watchlist form button.add
 {
 	background-image: url("../img/add.gif");
 }
 
-#wl_div button.del
+#watchlist form button.del
 {
 	background-image: url("../img/del.gif");
 }
 
-#watch input[type=submit]
+#watchlist form input[type=submit]
 {
-	margin: 0.5em 0;
+	margin: 1em 0;
 }
 
-#list
+#watchlist form table,
+#watchlist form tr,
+#watchlist form td
 {
-	min-height: 200px;
-	max-height: 240px;
-	overflow-x: hidden;
-	overflow-y: scroll;
+	font-size: 8pt;
+	padding: 0 2px;
+}
+
+#watchlist form td
+{
+	margin-right: 10px;
+}
+
+#watchlist form input[type=text]
+{
+	border: 1px solid grey;
+}
+
+#watchlist form .comment input[type=text]
+{
+	width: 20em;
+}
+
+#watchlist form .reg input[type=text]
+{
+	width: 6em;
 }
 
 #schedule

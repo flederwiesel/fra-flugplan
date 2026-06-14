@@ -22,11 +22,11 @@
 <script type="text/javascript" src="script/jquery-ui-1.14.2/external/jquery/jquery.js"></script>
 <script type="text/javascript" src="script/jquery-ui-1.14.2/jquery-ui.min.js"></script>
 </head>
-<body>
+<body data-lang="de">
 	<noscript>
 		<div class="noscript">JavaScript wird entweder nicht vom Browser unterstützt oder ist abgeschaltet.<br>Um diese in vollem Umfang nutzen zu können, bitte <a href="https://www.enable-javascript.com/de/">Javascript aktivieren</a>.</div>
 	</noscript>
-	<div id="body">
+	<div>
 		<div class="box left">
 			<div>
 				<div id="head">
@@ -58,21 +58,11 @@ Live Flugplan &ndash; Ankunft</h3>
 </nav>
 			</div>
 			<div id="content">
-<script type="text/javascript">
-	wl_img_open = "img/wl-open-de.png";
-	wl_img_close = "img/wl-close-de.png";
-</script>
 <script type="text/javascript" src="script/sorttable.js"></script>
 <script type="text/javascript">
 	$(function()
 	{
 		$(document).tooltip( { position: { my: "left top", at: "right top", collision: "flipfit" } } );
-	});
-
-	$(document).keydown(function(event)
-	{
-		if (27 == event.keyCode)
-			watchlist("hide");
 	});
 </script>
 <div id="rwy_cont">
