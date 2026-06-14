@@ -20,11 +20,11 @@
 <script type="text/javascript" src="script/jquery-ui-1.14.2/external/jquery/jquery.js"></script>
 <script type="text/javascript" src="script/jquery-ui-1.14.2/jquery-ui.min.js"></script>
 </head>
-<body>
+<body data-lang="en">
 	<noscript>
 		<div class="noscript">If you obtain this message, JavaScript is either not supported or disabled in in your browser options.<br>In order to use full functionality of this site we advise you to <a href="https://www.enable-javascript.com">enable Javascript</a>.</div>
 	</noscript>
-	<div id="body">
+	<div>
 		<div class="box left">
 			<div>
 				<div id="head">
@@ -58,22 +58,12 @@ Live Schedule &ndash; Arrival</h3>
 </nav>
 			</div>
 			<div id="content">
-<script type="text/javascript">
-	wl_img_open = "img/wl-open-en.png";
-	wl_img_close = "img/wl-close-en.png";
-</script>
 <script type="text/javascript" src="script/watchlist.js"></script>
 <script type="text/javascript" src="script/sorttable.js"></script>
 <script type="text/javascript">
 	$(function()
 	{
 		$(document).tooltip( { position: { my: "left top", at: "right top", collision: "flipfit" } } );
-	});
-
-	$(document).keydown(function(event)
-	{
-		if (27 == event.keyCode)
-			watchlist("hide");
 	});
 </script>
 <div id="rwy_cont">
@@ -84,16 +74,16 @@ Live Schedule &ndash; Arrival</h3>
 		<div id="rwy_r">99</div>
 	</div>
 </div>
-<div id="wl_cont">
-	<div id="wl_div">
-		<div id="wl_handle" class="cell top">
-			<img id="wl_img" src="img/wl-open-en.png" alt="watchlist">
-		</div>
-		<div class="cell top">
-			<div id="expandable">
-				<form id="watch" method="post" action="?">
-					<div class="center">
-						<div id="list">
+<div id="watchlist-container">
+	<div>
+		<div id="watchlist">
+			<div id="watchlist-handle">
+				<div></div>
+			</div>
+			<div>
+				<form method="post" action="?" class="center">
+					<div>
+						<div>
 							<table>
 								<thead>
 									<tr>
@@ -113,8 +103,8 @@ Live Schedule &ndash; Arrival</h3>
 										<td><input type="text" class="reg" value="/C-G(TSTS[FHWY]|[FLPS]AT)/" maxlength="31"></td>
 										<td><input type="text" class="comment" value="Air Transat - A310" maxlength="255"></td>
 										<td><input type="checkbox" class="notify" value="" checked></td>
-										<td><button type="button" class="del" onclick="RemoveRow(this);">&nbsp;</button></td>
-										<td><button type="button" class="add" onclick="CloneRow(this);">&nbsp;</button></td>
+										<td><button type="button" class="del"></button></td>
+										<td><button type="button" class="add"></button></td>
 									</tr>
 									<tr>
 										<td>
@@ -123,8 +113,8 @@ Live Schedule &ndash; Arrival</h3>
 										<td><input type="text" class="reg" value="C-*" maxlength="31"></td>
 										<td><input type="text" class="comment" value="Air Canada *" maxlength="255"></td>
 										<td><input type="checkbox" class="notify" value=""></td>
-										<td><button type="button" class="del" onclick="RemoveRow(this);">&nbsp;</button></td>
-										<td><button type="button" class="add" onclick="CloneRow(this);">&nbsp;</button></td>
+										<td><button type="button" class="del"></button></td>
+										<td><button type="button" class="add"></button></td>
 									</tr>
 									<tr>
 										<td>
@@ -133,8 +123,8 @@ Live Schedule &ndash; Arrival</h3>
 										<td><input type="text" class="reg" value="C-FDAT" maxlength="31"></td>
 										<td><input type="text" class="comment" value="Air Transat - A310" maxlength="255"></td>
 										<td><input type="checkbox" class="notify" value="" checked></td>
-										<td><button type="button" class="del" onclick="RemoveRow(this);">&nbsp;</button></td>
-										<td><button type="button" class="add" onclick="CloneRow(this);">&nbsp;</button></td>
+										<td><button type="button" class="del"></button></td>
+										<td><button type="button" class="add"></button></td>
 									</tr>
 									<tr>
 										<td>
@@ -143,8 +133,8 @@ Live Schedule &ndash; Arrival</h3>
 										<td><input type="text" class="reg" value="ZS-SNC" maxlength="31"></td>
 										<td><input type="text" class="comment" value="South African Airways - Star Alliance" maxlength="255"></td>
 										<td><input type="checkbox" class="notify" value="" checked></td>
-										<td><button type="button" class="del" onclick="RemoveRow(this);">&nbsp;</button></td>
-										<td><button type="button" class="add" onclick="CloneRow(this);">&nbsp;</button></td>
+										<td><button type="button" class="del"></button></td>
+										<td><button type="button" class="add"></button></td>
 									</tr>
 								</tbody>
 							</table>

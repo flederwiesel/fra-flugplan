@@ -21,11 +21,11 @@
 <script type="text/javascript" src="script/jquery-ui-1.14.2/external/jquery/jquery.js"></script>
 <script type="text/javascript" src="script/jquery-ui-1.14.2/jquery-ui.min.js"></script>
 </head>
-<body>
+<body data-lang="en">
 	<noscript>
 		<div class="noscript">If you obtain this message, JavaScript is either not supported or disabled in in your browser options.<br>In order to use full functionality of this site we advise you to <a href="https://www.enable-javascript.com">enable Javascript</a>.</div>
 	</noscript>
-	<div id="body">
+	<div>
 		<div class="box left">
 			<div>
 				<div id="head">
@@ -56,21 +56,11 @@ Live Schedule &ndash; Arrival</h3>
 </nav>
 			</div>
 			<div id="content">
-<script type="text/javascript">
-	wl_img_open = "$ASSETDIR/img/wl-open-en.png";
-	wl_img_close = "$ASSETDIR/img/wl-close-en.png";
-</script>
 <script type="text/javascript" src="$ASSETDIR/script/sorttable.js"></script>
 <script type="text/javascript">
 	$(function()
 	{
 		$(document).tooltip( { position: { my: "left top", at: "right top", collision: "flipfit" } } );
-	});
-
-	$(document).keydown(function(event)
-	{
-		if (27 == event.keyCode)
-			watchlist("hide");
 	});
 </script>
 <div id="rwy_cont">

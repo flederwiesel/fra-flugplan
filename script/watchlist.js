@@ -1,91 +1,3 @@
-document.onmousedown = function(e)
-{
-	if (!e)
-		e = window.event;
-
-	if (e.target)
-		target = e.target;
-	else
-		target = NULL;
-
-	if (target)
-	{
-		do
-		{
-			if ("wl_handle" == target.id)
-			{
-				watchlist("toggle");
-				break;
-			}
-			if ("wl_cont" == target.id)
-			{
-				break;
-			}
-
-			target = target.parentNode;
-		}
-		while (target);
-
-		if (!target)
-			watchlist("hide");
-	}
-
-	return true;
-}
-
-var initial = null;
-
-$(function()
-{
-	expandable = document.getElementById("expandable");
-
-	console.debug(`expandable.width=${expandable.width}`);
-	console.debug(`expandable.offsetWidth=${expandable.offsetWidth}`);
-	console.debug(`expandable.cientWidth=${expandable.cientWidth}`);
-	rect = expandable.getBoundingClientRect();
-	console.debug(`getBoundingClientRect.width=${rect.width}`);
-
-	console.debug(`expandable.style.width=${expandable.style.width}`);
-
-	console.debug(`expandable=`);
-	console.debug(expandable);
-});
-
-function watchlist(action)
-{
-	wlc = document.getElementById("wl_cont");
-	wl  = document.getElementById("wl_div");
-	wlh = document.getElementById("wl_handle");
-	div = document.getElementById("expandable");
-	img = document.getElementById("wl_img");
-
-	width = expandable.getBoundingClientRect().width;
-
-	if (initial === null) {
-		initial = width;
-	}
-
-	if ("toggle" == action && initial == width ||
-		"show"   == action)
-	{
-		div.style.visibility = "visible";
-		div.style.width = "auto";
-		img.src = wl_img_close;	// defined in main html
-
-		wlc.style.margin = "0 " + (wl.clientWidth - (wlh.clientWidth - 12)) + "px 0 0";
-	}
-	else
-	{
-		div.style.visibility = "hidden";
-		div.style.width = initial;
-		img.src = wl_img_open;	// defined in main html
-
-		wlc.style.marginRight = "12px";
-	}
-
-	document.getElementById("list").style.height = "auto";
-}
-
 function GetElementsByTag(parent, name, class_name)
 {
 	var elements = parent.getElementsByTagName(name);
@@ -111,58 +23,61 @@ function GetElementsByTag(parent, name, class_name)
 	return a;
 }
 
-function CloneRow(input)
+function CloneRow(event)
 {
-	var tr = input.parentNode.parentNode;
+	var tr = event.target.parentNode.parentNode;
+	var td;
 	var row;
-	var inp;
-	var a;
-	var img;
 
 	/* Create new row to be inserted before this one, containing copies of col[0..n] */
 	row = tr.cloneNode(true);
 	row.setAttribute("add", "true");
-	tr.parentNode.insertBefore(row, tr.nextSibling);
 
-	inp = row.getElementsByTagName("input");
+	td = row.getElementsByTagName("td");
 
-	for (var i = 0; i < inp.length; i++)
-	{
-		inp[i].name = "";
-		inp[i].value = "";
+	if (td.length) {
+		var div = td[0].getElementsByTagName("div");
 
-		a = row.getElementsByTagName("a");
-
-		if (a[0])
-		{
-			img = a[0].getElementsByTagName("img");
-
-			img[0].src = "img/photodb-ina.png";
-
-			if (a[0])
-			{
-				a[0].parentNode.appendChild(img[0]);
-				a[0].parentNode.removeChild(a[0]);
-			}
+		if (div.length) {
+			div[0].remove();
+			td[0].insertAdjacentElement(
+				'afterbegin', document.createElement("div")
+			);
 		}
 	}
 
-	inp[0].focus();
+	// Clear inputs
+	var inp = row.getElementsByTagName("input");
+
+	if (inp.length) {
+		for (let i = 0; i < inp.length; i++)
+			inp[i].value = "";
+	}
+
+	setWatchlistButtonEvents(row);
+
+	tr.parentNode.insertBefore(row, tr.nextSibling);
+
+	// Set focus to the first input of the cloned row
+	if (inp.length) {
+		inp[0].focus();
+	}
 
 	return row;
 }
 
-function RemoveRow(input)
+function RemoveRow(event)
 {
-	var tr = input.parentNode.parentNode;
+	var tr = event.target.parentNode.parentNode;
 	var rows = GetElementsByTag(/*<tbody>*/tr.parentNode, "tr", "");
 	var next;
 	var inp;
 
 	if (1 == rows.length)
 	{
-		next = CloneRow(input);
+		next = CloneRow(event);
 
+		// Don't remove, as its values are still required for submit
 		tr.style.display = "none";
 		tr.setAttribute("del", "true");
 	}
@@ -174,6 +89,7 @@ function RemoveRow(input)
 			{
 				if (rows[i] == tr)
 				{
+					// Don't remove, as its values are still required for submit
 					tr.style.display = "none";
 					tr.setAttribute("del", "true");
 
@@ -192,9 +108,22 @@ function RemoveRow(input)
 	inp[0].focus();
 }
 
+function setWatchlistButtonEvents(parent) {
+	buttons = parent.getElementsByTagName("button");
+
+	for (let i = 0; i < buttons.length; i++) {
+		if (buttons[i].classList.contains("add")) {
+			buttons[i].onclick = CloneRow;
+		}
+		else if (buttons[i].classList.contains("del")) {
+			buttons[i].onclick = RemoveRow;
+		}
+}
+}
+
 $(function()
 {
-	$("#watch").on("focusin", "input.reg", function()
+	$("#watchlist form").on("focusin", "input.reg", function()
 	{
 		// For a newly added row, we don't need to remember reg
 		// When updating a reg, remember original value for
@@ -206,7 +135,7 @@ $(function()
 		}
 	});
 
-	$("#watch").on("change", "input", function()
+	$("#watchlist form").on("change", "input", function()
 	{
 		// Whenever an input values changes, mark row as changed
 		// ...unless it is a newly added row
@@ -214,7 +143,7 @@ $(function()
 			$($(this).parents("tr")[0]).attr("upd", "true");
 	});
 
-	$("#watch").submit(function(event) {
+	$("#watchlist form").submit(function(event) {
 
 		var add = null;
 		var del = null;
@@ -226,7 +155,7 @@ $(function()
 		// updated or deleted and build up three strings, being separated with
 		// newline from each other.
 		// Within these lines, multiple input values are separated using tabs.
-		$("#watch tbody tr").each(function()
+		$("#watchlist form tbody tr").each(function()
 		{
 			reg = $("input.reg", $(this))[0];
 
@@ -263,13 +192,13 @@ $(function()
 		});
 
 		if (add)
-			$("#watch").append($("<input>").attr("type", "hidden").attr("name", "add").val(add));
+			$("#watchlist form").append($("<input>").attr("type", "hidden").attr("name", "add").val(add));
 
 		if (del)
-			$("#watch").append($("<input>").attr("type", "hidden").attr("name", "del").val(del));
+			$("#watchlist form").append($("<input>").attr("type", "hidden").attr("name", "del").val(del));
 
 		if (upd)
-			$("#watch").append($("<input>").attr("type", "hidden").attr("name", "upd").val(upd));
+			$("#watchlist form").append($("<input>").attr("type", "hidden").attr("name", "upd").val(upd));
 
 		event.preventDefault();
 		this.submit();
@@ -278,8 +207,8 @@ $(function()
 
 function ToggleNotifications()
 {
-	var form = document.getElementById("watch");
-	var inp = form.getElementsByTagName("input");
+	var watchlist = document.getElementById("watchlist");
+	var inp = watchlist.getElementsByTagName("input");
 	var value = true;
 
 	for (i = 0; i < inp.length; i++)
@@ -299,3 +228,39 @@ function ToggleNotifications()
 		}
 	}
 }
+
+$(function() {
+	var watchlist = document.getElementById("watchlist");
+	var handle = document.getElementById("watchlist-handle");
+
+	handle.onclick = function(e) {
+		if (watchlist.classList.contains("expanded")) {
+			watchlist.classList.remove("expanded");
+		}
+		else {
+			watchlist.classList.add("expanded");
+		}
+
+		e.stopPropagation();
+	}
+
+	var form = watchlist.getElementsByTagName("form")[0];
+
+	form.onclick = function(e) {
+		e.stopPropagation();
+	}
+
+	var body = document.getElementsByTagName("body")[0];
+
+	body.onclick = function(e) {
+		watchlist.classList.remove("expanded");
+	}
+
+	body.onkeydown = function(e) {
+		if (e.key === "Escape") {
+			watchlist.classList.remove("expanded");
+		}
+	};
+
+	setWatchlistButtonEvents(watchlist);
+});

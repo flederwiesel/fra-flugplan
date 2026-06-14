@@ -273,11 +273,11 @@ if ('de' == $lang) {
 <script type="text/javascript" src="<?= "script/{$jqueryui}/external/jquery/jquery.js" ?>"></script>
 <script type="text/javascript" src="<?= "script/{$jqueryui}/jquery-ui{$minified}.js" ?>"></script>
 </head>
-<body>
+<body data-lang="<?= $lang ?>">
 	<noscript>
 		<div class="noscript"><?= $STRINGS['noscript'] ?></div>
 	</noscript>
-	<div id="body">
+	<div>
 		<div class="box left">
 			<div>
 				<div id="head">

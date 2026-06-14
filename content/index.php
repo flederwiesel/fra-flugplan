@@ -184,12 +184,7 @@ if (isset($_POST['add']) ||
 	}
 }
 
-?>
-<script type="text/javascript">
-	wl_img_open = "<?= Asset::src("img/wl-open-{$lang}.png") ?>";
-	wl_img_close = "<?= Asset::src("img/wl-close-{$lang}.png") ?>";
-</script>
-<?php if ($user && (!$mobile || $tablet)) { ?>
+if ($user && (!$mobile || $tablet)) { ?>
 <script type="text/javascript" src="<?= Asset::src('script/watchlist.js') ?>"></script>
 <?php } ?>
 <script type="text/javascript" src="<?= Asset::src('script/sorttable.js') ?>"></script>
@@ -197,12 +192,6 @@ if (isset($_POST['add']) ||
 	$(function()
 	{
 		$(document).tooltip( { position: { my: "left top", at: "right top", collision: "flipfit" } } );
-	});
-
-	$(document).keydown(function(event)
-	{
-		if (27 == event.keyCode)
-			watchlist("hide");
 	});
 </script>
 <?php
@@ -312,16 +301,16 @@ if ($user)
 	if (!$mobile || $tablet)
 	{
 ?>
-<div id="wl_cont">
-	<div id="wl_div">
-		<div id="wl_handle" class="cell top">
-			<img id="wl_img" src="<?= Asset::src("img/wl-open-{$lang}.png") ?>" alt="watchlist">
-		</div>
-		<div class="cell top">
-			<div id="expandable">
-				<form id="watch" method="post" action="?">
-					<div class="center">
-						<div id="list">
+<div id="watchlist-container">
+	<div>
+		<div id="watchlist">
+			<div id="watchlist-handle">
+				<div></div>
+			</div>
+			<div>
+				<form method="post" action="?" class="center">
+					<div>
+						<div>
 							<table>
 								<thead>
 									<tr>
@@ -335,8 +324,8 @@ if ($user)
 								</thead>
 								<tbody>
 <?php
-		if (0 == count($watch))
-		{
+	if (0 == count($watch))
+	{
 ?>
 									<tr>
 										<!-- inputs do not have names, POST values will be generated upon submit -->
@@ -344,50 +333,50 @@ if ($user)
 										<td><input type="text" class="reg" value="" maxlength="31"></td>
 										<td><input type="text" class="comment" value="" maxlength="255"></td>
 										<td><input type="checkbox" class="notify" value=""></td>
-										<td><button type="button" class="del" onclick="RemoveRow(this);">&nbsp;</button></td>
-										<td><button type="button" class="add" onclick="CloneRow(this);">&nbsp;</button></td>
+										<td><button type="button" class="del"></button></td>
+										<td><button type="button" class="add"></button></td>
 									</tr>
 <?php
-		}
 	}
+}
 
-	foreach ($watch as $reg => $entry)
+foreach ($watch as $reg => $entry)
+{
+	$comment = $entry['comment'];
+	$notify = $entry['notify'];
+	$watch[$reg] = $comment;
+
+	if (!$mobile || $tablet)
 	{
-		$comment = $entry['comment'];
-		$notify = $entry['notify'];
-		$watch[$reg] = $comment;
-
-		if (!$mobile || $tablet)
-		{
 ?>
 									<tr>
 										<td>
 <?php		if (preg_match('/^\/.*\/$|[*?]/', $reg))
-			{
+		{
 ?>
 											<img src="<?= Asset::src('img/photodb-ina.png') ?>" alt="<?= $photodb ?>">
 <?php
-			}
-			else
-			{
+		}
+		else
+		{
 ?>
 											<a href="<?= str_replace([ '&', '{reg}' ], [ '&amp;', $reg ], $URL[$photodb]) ?>" target="<?= $photodb ?>"><img src="<?= Asset::src('img/photodb.png') ?>" alt="<?= $photodb ?>"></a>
 <?php
-			}
+		}
 ?>
 										</td>
 										<td><input type="text" class="reg" value="<?= $reg ?>" maxlength="31"></td>
 										<td><input type="text" class="comment" value="<?= htmlspecialchars($comment) ?>" maxlength="255"></td>
 										<td><input type="checkbox" class="notify" value=""<?= $notify ? " checked" : "" ?>></td>
-										<td><button type="button" class="del" onclick="RemoveRow(this);">&nbsp;</button></td>
-										<td><button type="button" class="add" onclick="CloneRow(this);">&nbsp;</button></td>
+										<td><button type="button" class="del"></button></td>
+										<td><button type="button" class="add"></button></td>
 									</tr>
 <?php
-		}
 	}
+}
 
-	if (!$mobile || $tablet)
-	{
+if (!$mobile || $tablet)
+{
 ?>
 								</tbody>
 							</table>
