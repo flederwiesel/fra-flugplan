@@ -227,53 +227,46 @@ else
  * Runway direction
  ******************************************************************************/
 
+$datadir = "$_SERVER[DOCUMENT_ROOT]/var/run/fra-flugplan";
+
+$rwy = @parse_ini_file("$datadir/betriebsrichtung.ini");
+
+$activerwy = [];
+
+if (isset($rwy['07']))
+	if ($rwy['07'] == 'active')
+		$activerwy[] = '07';
+
+if (isset($rwy['25']))
+	if ($rwy['25'] == 'active')
+		$activerwy[] = '25';
+
+/* Used for testing... */
+if (isset($rwy['99']))
+	if ($rwy['99'] == 'active')
+		$activerwy[] = '99';
+
+if ($dir == 'departure')
+{
+	if (isset($rwy['18']))
+		if ($rwy['18'] == 'active')
+			$activerwy[] = '18';
+}
+
+asort($activerwy);
+$activerwy = implode(" | ", $activerwy);
+
 ?>
 <div id="rwy_cont">
 	<div id="rwy_div">
-		<span id="rwy_l">
-			<img alt="<?= $STRINGS['rwydir'] ?>" src="<?= Asset::src("img/{$dir}-yellow-16x14.png") ?>">
-		</span>
-		<span id="rwy_r"><?php
-			$datadir = "$_SERVER[DOCUMENT_ROOT]/var/run/fra-flugplan";
-
-			$rwy = @parse_ini_file("$datadir/betriebsrichtung.ini");
-
-			if (isset($rwy['07']))
-				echo "07";
-
-			if ('departure' == $dir)
-			{
-				if (isset($rwy['18']))
-				{
-					if (isset($rwy['07']))
-						echo " | ";
-
-					echo "18";
-				}
-			}
-
-			if (isset($rwy['25']))
-			{
-				if ('departure' == $dir)
-					if (isset($rwy['18']))
-						echo " | ";
-
-				echo "25";
-			}
-
-			/* used whilst testing... */
-			if (isset($rwy['99']))
-			{
-				if ('departure' == $dir)
-					if (isset($rwy['18']))
-						echo " | ";
-
-				echo "99";
-			}
-		?></span>
+		<div id="rwy_l">
+			<img alt="<?= $STRINGS['rwydir'] ?>" width="16" height="14" src="<?= Asset::src("img/{$dir}-yellow-16x14.png") ?>">
+		</div>
+		<div id="rwy_r"><?= $activerwy ?></div>
 	</div>
 </div>
 <?php
+
 /******************************************************************************
  * Watchlist
  ******************************************************************************/

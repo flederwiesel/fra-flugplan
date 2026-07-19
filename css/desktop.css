@@ -352,28 +352,27 @@ form div.explainatory
 
 #rwy_cont
 {
-	display: table;
+	display: inline-grid;
 	margin: 0 0 6px 0;
 	border: 1px solid grey;
 }
 
 #rwy_div
 {
-	display: table-row;
+	display: inline-flex;
 }
 
 #rwy_l
 {
-	display: table-cell;
-	padding: 0 4px;
-	vertical-align: middle;
+	display: flex;
+	align-items: center;
+	padding: 0 2px;
 	background: black;
 	color: yellow;
 }
 
 #rwy_r
 {
-	display: table-cell;
 	padding: 0 4px;
 	background: red;
 	color: white;
