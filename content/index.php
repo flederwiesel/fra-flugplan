@@ -314,7 +314,6 @@ if ($user)
 							<table>
 								<thead>
 									<tr>
-										<th></th>
 										<th><?= $STRINGS['reg'] ?></th>
 										<th><?= $STRINGS['comment'] ?></th>
 										<th><a href="javascript:ToggleNotifications()"><img src="<?= Asset::src('img/mail.png') ?>" alt="e-mail"></a></th>
@@ -329,7 +328,6 @@ if ($user)
 ?>
 									<tr>
 										<!-- inputs do not have names, POST values will be generated upon submit -->
-										<td><img src="<?= Asset::src('img/photodb-ina.png') ?>" alt="<?= $photodb ?>"></td>
 										<td><input type="text" class="reg" value="" maxlength="31"></td>
 										<td><input type="text" class="comment" value="" maxlength="255"></td>
 										<td><input type="checkbox" class="notify" value=""></td>
@@ -351,21 +349,31 @@ foreach ($watch as $reg => $entry)
 ?>
 									<tr>
 										<td>
-<?php		if (preg_match('/^\/.*\/$|[*?]/', $reg))
+<?php
+		if (preg_match('/^\/.*\/$|[*?]/', $reg))
 		{
 ?>
-											<img src="<?= Asset::src('img/photodb-ina.png') ?>" alt="<?= $photodb ?>">
+											<div></div>
 <?php
 		}
 		else
 		{
 ?>
-											<a href="<?= str_replace([ '&', '{reg}' ], [ '&amp;', $reg ], $URL[$photodb]) ?>" target="<?= $photodb ?>"><img src="<?= Asset::src('img/photodb.png') ?>" alt="<?= $photodb ?>"></a>
+											<div>
+												<a href="<?=
+													str_replace(
+														[ '&', '{reg}' ],
+														[ '&amp;', $reg ],
+														$URL[$photodb]
+													) ?>" target="<?= $photodb ?>">
+													<div></div>
+												</a>
+											</div>
 <?php
 		}
 ?>
+											<input type="text" class="reg" value="<?= $reg ?>" maxlength="31">
 										</td>
-										<td><input type="text" class="reg" value="<?= $reg ?>" maxlength="31"></td>
 										<td><input type="text" class="comment" value="<?= htmlspecialchars($comment) ?>" maxlength="255"></td>
 										<td><input type="checkbox" class="notify" value=""<?= $notify ? " checked" : "" ?>></td>
 										<td><button type="button" class="del"></button></td>
