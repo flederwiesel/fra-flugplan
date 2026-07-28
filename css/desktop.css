@@ -414,11 +414,6 @@ form div.explainatory
 }
 
 #watchlist:not(.expanded)
-#watchlist-handle + div {
-	display: none;
-}
-
-#watchlist:not(.expanded)
 #watchlist-handle div::before {
 	content: var(--img-watchlist-open);
 }
@@ -426,6 +421,11 @@ form div.explainatory
 #watchlist.expanded
 #watchlist-handle div::before {
 	content: var(--img-watchlist-close);
+}
+
+#watchlist:not(.expanded)
+#watchlist-handle + div {
+	display: none;
 }
 
 #watchlist-handle + div {
@@ -502,7 +502,33 @@ form div.explainatory
 
 #watchlist form td
 {
+	align-items: center;
+	justify-content: center;
 	margin-right: 10px;
+}
+
+#watchlist form td:first-child {
+	display: flex;
+}
+
+#watchlist form tr > td > div {
+	margin-right: 0.5em;
+}
+
+#watchlist form tr > td div {
+	/* Extend to the dimensions of the photodb image */
+	width: 13px;
+	height: 12px;
+}
+
+#watchlist form tr > td a div {
+	background-image: url("../img/photodb.png");
+}
+
+#watchlist form tr > td > div:empty {
+	background-image: url("../img/photodb-ina.png");
+	background-repeat: no-repeat;
+	background-position: center;
 }
 
 #watchlist form input[type=text]
