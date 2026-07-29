@@ -592,13 +592,14 @@ form div.explainatory
 	white-space: nowrap;
 }
 
-#schedule td div
+#schedule td:nth-child(3),
+#schedule td:nth-child(6)
 {
 	overflow: hidden;			/* required for text-overflow */
 	-o-text-overflow: ellipsis;	/* for Opera since 9.0 */
 	-ms-text-overflow: ellipsis;
 	text-overflow: ellipsis;	/* for IE and WebKit (Safari, Chrome) */
-	max-width: 15em; /*!IE*/
+	max-width: 15em;
 }
 
 #schedule td.early
@@ -615,6 +616,23 @@ form div.explainatory
 {
 	background: url("../img/ld3-9.png") no-repeat left center;
 	font-weight: bold;
+}
+
+#schedule th.reg,
+#schedule td.reg {
+	display: flex;
+	align-items: center; /* Vertically centers the pseudo-element */
+}
+
+#schedule th.reg div,
+#schedule td.reg a div {
+	width: 13px;
+	height: 12px;
+	margin-right: 0.2em;
+}
+
+#schedule td.reg a div {
+	background-image: url("../img/photodb.png");
 }
 
 #schedule td.watch

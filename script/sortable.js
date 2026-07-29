@@ -54,37 +54,35 @@ function sort_model(tr1, tr2)	/* [0]=td.value [1]=tr */
 	return l < r ? -1 : (l > r ? 1 : 0);
 }
 
-function sort_reg(tr1, tr2)	/* [0]=td.value [1]=tr */
+function sort_reg(rowL, rowR)	// row[0]=td.value row[1]=tr
 {
-	/* Prio in descending order:
-	 * - watchlist
-	 * - rare
-	 * - normal
-	 * - empty
-	 */
-	l = "watch" == tr1[1].cells[idxof_reg].className ? 0 :
-		("rare" == tr1[1].cells[idxof_reg].className ? 1 : 2);
+	// Prio in descending order
+	const state = {
+		WATCHED: 0,
+		RARE: 1,
+		DEFAULT: 2,
+		NONE: 3,
+	};
 
-	r = "watch" == tr2[1].cells[idxof_reg].className ? 0 :
-		("rare" == tr2[1].cells[idxof_reg].className ? 1 : 2);
+	let classes = rowL[1].cells[idxof_reg].className.split(" ");
 
-	if (l == r)
-	{
-		/* Always sort empty string towards bottom */
-		if (0 == tr1[0].length)
-		{
-			if (tr2[0].length > 0)
-				return 1;
-		}
-		else
-		{
-			if (0 == tr2[0].length)
-				return -1;
-		}
+	prioL = rowL[0].length == 0 ? state.NONE : (
+		classes.indexOf("watch") >= 0 ? state.WATCHED : (
+			classes.indexOf("rare") >= 0 ? state.RARE : state.DEFAULT
+		)
+	);
 
-		l = tr1[0];
-		r = tr2[0];
-	}
+	classes = rowR[1].cells[idxof_reg].className.split(" ");
 
-	return l < r ? -1 : (l > r ? 1 : 0);
+	prioR = rowR[0].length == 0 ? state.NONE : (
+		classes.indexOf("watch") >= 0 ? state.WATCHED : (
+			classes.indexOf("rare") >= 0 ? state.RARE : state.DEFAULT
+		)
+	);
+
+	return prioL < prioR  ? -1 : (
+		prioL   > prioR   ?  1 : (
+		rowL[0] < rowR[0] ? -1 : (
+		rowL[0] > rowR[0] ?  1 : 0
+	)));
 }
