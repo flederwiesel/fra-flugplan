@@ -414,21 +414,21 @@ if ($error)
 	<table class="sortable">
 		<thead>
 			<tr>
-				<th><?= $STRINGS['time'] ?>
-				<th class="sep"><?= $STRINGS['flight'] ?>
+				<th><?= $STRINGS['time'] ?></th>
+				<th class="sep"><?= $STRINGS['flight'] ?></th>
 <?php
 				if (!$mobile || $tablet)
 				{
 ?>
-				<th class="sep"><?= $STRINGS['airline'] ?>
-				<th class="sep">IATA
-				<th class="sep">ICAO
-				<th class="sep"><?= ucfirst($dir == 'arrival'  ? $STRINGS['from'] : $STRINGS['to']) ?>
+				<th class="sep"><?= $STRINGS['airline'] ?></th>
+				<th class="sep">IATA</th>
+				<th class="sep">ICAO</th>
+				<th class="sep"><?= ucfirst($dir == 'arrival'  ? $STRINGS['from'] : $STRINGS['to']) ?></th>
 <?php
 				}
 ?>
-				<th class="sep sorttable_model"><?= $STRINGS['type'] ?>
-				<th class="sep sorttable_reg"><?= $STRINGS['reg'] ?>
+				<th class="sep sorttable_model"><?= $STRINGS['type'] ?></th>
+				<th class="sep sorttable_reg reg"><div></div><?= $STRINGS['reg'] ?></th>
 			</tr>
 		</thead>
 		<tbody>
@@ -493,8 +493,9 @@ else
 $from = $now->unix + $lookback;
 $until = $now->unix + $lookahead;
 
-/* This might be configurable in the future... */
-/* Variable: */
+// This might be configurable in the future...
+// In this case, see CSS `#schedule td:nth-child(...)`
+// Variable:
 $columns = <<<EOF
 	`type`,
 	`airlines`.`name` AS `airline`,
@@ -582,58 +583,42 @@ if ($db)
 
 			$early = $row->timediff < 0 ? ' class="early"' : '';
 			$hhmm = substr($row->expected, 11, 5);
-
-			/* <td> inherits 'class="left"' from div.box */
-			echo "<td$early>$day $hhmm</td>";
-			echo "<td>{$row->fl_airl}{$row->fl_code}</td>";
-
-			if (!$mobile)
-			{
-				echo "<td><div>{$row->airline}</div></td>";
-				echo "<td>{$row->airport_iata}</td>";
-				echo "<td>{$row->airport_icao}</td>";
-
-				if (0 == strlen($row->airport_name))
-				{
-					echo "<td><div>&nbsp;</div></td>";
-				}
-				else
-				{
-					if (0 == strlen($row->country))
-						echo "<td><div>{$row->airport_name}</div></td>";
-					else
-						echo "<td><div>{$row->airport_name}, {$row->country}</div></td>";
-				}
-			}
+			$dhhmm = "{$day} {$hhmm}";
+			$code = "{$row->fl_airl}{$row->fl_code}";
+			$airport = $row->airport_name ?
+			(
+				$row->country ?
+				"{$row->airport_name}, {$row->country}" :
+				$row->airport_name
+			) : "";
 
 			switch ($row->type)
 			{
 			case 'C':
-				echo "<td class=\"model cargo\">{$row->model}</td>";
+				$cargo = ' cargo';
 				break;
 
 			case 'F':
-				echo "<td class=\"model\">{$row->model}</td>";
+				$cargo = '';
 				break;
 
 			default:
-				echo "<td class=\"model\">{$row->model}</td>";
+				$cargo = '';
 			}
 
-			$reg = $row->reg;
-			$vtf = $row->vtf ? $row->vtf : '9999';
-			$hilite = null;
+			$reg = $row->reg ?? '';
+			$title = "";
+			$href = null;
+			$classes = ["reg"];
 
-			if (0 == strlen($reg))
+			if ($reg)
 			{
-			}
-			else
-			{
-				$hhmm = substr(str_replace([' ', '.', ':', '-'], '', $row->expected), 8, 4);
+				$vtf = $row->vtf ?? 9999;
 
 				if (isset($watch[$reg]))
 				{
-					$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($watch[$reg]));
+					$classes[] = "watch";
+					$title = htmlspecialchars($watch[$reg]);
 				}
 				else
 				{
@@ -646,7 +631,8 @@ if ($db)
 								/* Regex */
 								if (preg_match($key, $reg))
 								{
-									$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($comment));
+									$classes[] = "watch";
+									$title = htmlspecialchars($comment);
 									break;
 								}
 							}
@@ -655,53 +641,56 @@ if ($db)
 								if (fnmatch($key, $reg))
 								{
 									/* Wildcard */
-									$hilite = sprintf(' class="watch" title="%s"', htmlspecialchars($comment));
+									$classes[] = "watch";
+									$title = htmlspecialchars($comment);
 									break;
 								}
 							}
 						}
 					}
 
-					if (!$hilite)
+					if (count($classes) == 1)	// ["reg"]
 					{
 						if ($vtf < 10)
 						{
+							$classes[] = "rare";
 							$vtf = ordinal($vtf, $lang);
-							$hilite = sprintf(' class="rare" title="%s"', htmlspecialchars("$vtf$STRINGS[vtf]"));
+							$title = htmlspecialchars("$vtf$STRINGS[vtf]");
 						}
 					}
 				}
+
+				if ($title)
+					$title = " title=\"{$title}\"";
+
+				if (!$mobile)
+					$href = str_replace(['&', '{reg}' ], [ '&amp;', $reg ], $URL[$photodb]);
 			}
 
-			$href = null;
+			/* <td> inherits 'class="left"' from div.box */
+			?><td<?= $early ?>><?= $dhhmm ?></td><?php
+			?><td><?= $code ?></td><?php
 
-			if (!$reg)
+			if (!$mobile)
 			{
-				echo "<td>";
+				?><td><?= $row->airline ?></td><?php
+				?><td><?= $row->airport_iata ?></td><?php
+				?><td><?= $row->airport_icao ?></td><?php
+				?><td><?= $airport ?></td><?php
 			}
-			else
-			{
-				echo "<td$hilite>";
 
-				if ($mobile)
-				{
-				}
-				else
-				{
-?>
-				<a href="<?= str_replace( ['&', '{reg}' ], [ '&amp;', $reg ], $URL[$photodb]) ?>" target="<?= $photodb ?>">
-					<img src="<?= Asset::src('img/photodb.png') ?>" alt="<?= $photodb ?>">
-				</a>
+			?><td class="model<?= $cargo ?>"><?= $row->model ?></td><?php
+			?><td class="<?= implode(" ", $classes) ?>"<?= $title ?>><?php
+
+			if ($href)
+			{
+				?><a href="<?= $href ?>" target="<?= $photodb ?>"><div></div></a><?php
+			}
+
+			?><?= $reg ?? '' ?></td><?php
+			?></tr>
 <?php
-				}
-
-				echo "$reg";
-			}
-
-			echo "</td></tr>\n";
 		}
-?>
-<?php
 	}
 	catch (PDOException $ex)
 	{
