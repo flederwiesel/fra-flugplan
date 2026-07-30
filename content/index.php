@@ -661,8 +661,7 @@ if ($db)
 				if ($title)
 					$title = " title=\"{$title}\"";
 
-				if (!$mobile)
-					$href = str_replace(['&', '{reg}' ], [ '&amp;', $reg ], $URL[$photodb]);
+				$href = str_replace(['&', '{reg}' ], [ '&amp;', $reg ], $URL[$photodb]);
 			}
 
 			/* <td> inherits 'class="left"' from div.box */
