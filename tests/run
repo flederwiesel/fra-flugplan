@@ -338,7 +338,8 @@ do
 				--recursive \
 				--exclude=css \
 				--exclude=img \
-				--exclude=script
+				--exclude=script \
+				--exclude=error.css
 			)
 		then
 			echo -e "\033[31m└──> FAILED\033[m" >&2
