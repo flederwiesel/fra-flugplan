@@ -157,6 +157,7 @@ include "help-$_SESSION[lang].php";
 					<li><a href="https://jqueryui.com/">jQuery UI Library</a></li>
 					<li><a href="https://www.kryogenix.org/code/browser/sorttable/">SortTable <?= $HELPSTRINGS[29] ?> Stuart Langridge</a></li>
 					<li><a href="https://mobiledetect.net">Serban Ghita / Mobile_Detect PHP class</a></li>
+					<li><a href="https://github.com/lipis/flag-icons">lipis/flag-icons</a></li>
 				</ul>
 			</div>
 			<?= $HELPSTRINGS[30] ?>

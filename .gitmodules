@@ -1,3 +1,6 @@
 [submodule "lib/Mobile-Detect"]
 	path = lib/Mobile-Detect
 	url = https://github.com/serbanghita/Mobile-Detect.git
+[submodule "lib/flag-icons"]
+	path = lib/flag-icons
+	url = https://github.com/lipis/flag-icons.git

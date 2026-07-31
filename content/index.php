@@ -500,11 +500,8 @@ $columns = <<<EOF
 	`airports`.`iata` AS `airport_iata`,
 	`airports`.`icao` AS `airport_icao`,
 	`airports`.`name` AS `airport_name`,
+	lower(`countries`.`alpha-2`) AS `country`,
 	EOF;
-
-$columns .= sprintf('`countries`.`%s` AS `country`,', 'de');	//$STRINGS['$id']);
-
-$join = 'LEFT JOIN `countries` ON `airports`.`country` = `countries`.`id`';
 
 /* Fixed: */
 $columns .= <<<EOF
@@ -529,7 +526,7 @@ $query = <<<EOF
 		LEFT JOIN `models` ON `flights`.`model` = `models`.`id`
 		LEFT JOIN `aircrafts` ON `flights`.`aircraft` = `aircrafts`.`id`
 		LEFT JOIN `visits` ON `flights`.`aircraft` = `visits`.`aircraft`
-		$join
+		LEFT JOIN `countries` ON `airports`.`country` = `countries`.`id`
 	WHERE
 		`flights`.`direction` = :dir AND
 		`expected` BETWEEN FROM_UNIXTIME(:from) AND FROM_UNIXTIME(:until)
@@ -583,12 +580,7 @@ if ($db)
 			$hhmm = substr($row->expected, 11, 5);
 			$dhhmm = "{$day} {$hhmm}";
 			$code = "{$row->fl_airl}{$row->fl_code}";
-			$airport = $row->airport_name ?
-			(
-				$row->country ?
-				"{$row->airport_name}, {$row->country}" :
-				$row->airport_name
-			) : "";
+			$airport = $row->airport_name ?? "???";
 
 			switch ($row->type)
 			{
@@ -673,7 +665,7 @@ if ($db)
 				?><td><?= $row->airline ?></td><?php
 				?><td><?= $row->airport_iata ?></td><?php
 				?><td><?= $row->airport_icao ?></td><?php
-				?><td><?= $airport ?></td><?php
+				?><td><div class="fi<?= $row->country ? " fi-{$row->country}" : "" ?>"></div><?= $airport ?></td><?php
 			}
 
 			?><td class="model<?= $cargo ?>"><?= $row->model ?></td><?php
