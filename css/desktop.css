@@ -523,11 +523,11 @@ form div.explainatory
 }
 
 #watchlist form tr > td a div {
-	background-image: url("../img/photodb.png");
+	background-image: url("../img/camera.png");
 }
 
 #watchlist form tr > td > div:empty {
-	background-image: url("../img/photodb-ina.png");
+	background-image: url("../img/camera-disabled.png");
 	background-repeat: no-repeat;
 	background-position: center;
 }
@@ -633,7 +633,7 @@ form div.explainatory
 }
 
 #schedule td.reg a div {
-	background-image: url("../img/photodb.png");
+	background-image: url("../img/camera.png");
 }
 
 #schedule td.watch
