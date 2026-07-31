@@ -59,56 +59,16 @@ Live Flugplan</h3>
 </nav>
 			</div>
 			<div id="content">
-<script type="text/javascript">
-$(function()
-{
-	$.each(["notification"], function(index, value)
-	{
-		var min = $("#" + value + "-from");
-		var max = $("#" + value + "-until");
-		var divider = $("option", min).lentgh;
-		var slider = $("<div id=\"" + value + "-slider\"></div>").insertAfter($(max)).slider({
-			min: 1,
-			max: 25,
-			range: true,
-
-			values: [$(min)[0].selectedIndex + 1,
-					 $(max)[0].selectedIndex + 1],
-
-			slide: function(event, ui)
-			{
-				$(min)[0].selectedIndex = ui.values[0] - 1;
-				$(max)[0].selectedIndex = ui.values[1] - 1;
-			}
-		});
-	});
-
-	$("#notification-from").change(function()
-	{
-		if ($("#notification-until").prop("selectedIndex") <= this.selectedIndex)
-			this.selectedIndex = $("#notification-until").prop("selectedIndex");
-
-		$("#notification-slider").slider("values", 0, this.selectedIndex + 1);
-	});
-
-	$("#notification-until").change(function()
-	{
-		if ($("#notification-from").prop("selectedIndex") >= this.selectedIndex)
-			this.selectedIndex = $("#notification-from").prop("selectedIndex");
-
-		$("#notification-slider").slider("values", 1, this.selectedIndex + 1);
-	});
-});
-</script>
-<ul class="menu left">
+<script type="text/javascript" src="script/main.js" defer></script>
+<script type="text/javascript" src="script/profile.js" defer></script>
+<ul class="menu left" id="profile-tab" data-active="notifinterval">
 	<li><a href="?req=profile&amp;dispinterval">Anzeigeintervall</a></li>
 	<li class="sep">Benachrichtigungen</li>
 	<li class="sep"><a href="?req=profile&amp;photodb">Fotodatenbank</a></li>
 	<li class="sep"><a href="?req=profile&amp;changepw">Passwort ändern</a></li>
 </ul>
 <div>
-<form method="post" action="?req=profile&amp;notifinterval"
-	onsubmit="document.getElementById('submit').disabled=true;">
+<form method="post" action="?req=profile&amp;notifinterval">
 	<fieldset>
 		<legend>Benachrichtigungen</legend>
 		<div class="explainatory">Sobald eine der in der Beobachtungsliste festgelegten Kennungen im Flugplan auftaucht,

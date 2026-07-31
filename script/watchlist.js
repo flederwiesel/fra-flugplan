@@ -109,7 +109,7 @@ function RemoveRow(event)
 }
 
 function setWatchlistButtonEvents(parent) {
-	buttons = parent.getElementsByTagName("button");
+	let buttons = parent.getElementsByTagName("button");
 
 	for (let i = 0; i < buttons.length; i++) {
 		if (buttons[i].classList.contains("add")) {
@@ -118,7 +118,52 @@ function setWatchlistButtonEvents(parent) {
 		else if (buttons[i].classList.contains("del")) {
 			buttons[i].onclick = RemoveRow;
 		}
+	}
+
+	let toggle = document.getElementById("toggle-notifications");
+
+	toggle.addEventListener("click", (event) => {
+		ToggleNotifications();
+	});
 }
+
+function ToggleNotifications()
+{
+	var watchlist = document.getElementById("watchlist");
+	var inp = watchlist.getElementsByTagName("input");
+	var value = true;
+
+	for (i = 0; i < inp.length; i++)
+	{
+		if ("checkbox" == inp[i].type)
+		{
+			value = inp[i].checked;
+			break;
+		}
+	}
+
+	for (i = 0; i < inp.length; i++)
+	{
+		if ("checkbox" == inp[i].type)
+		{
+			inp[i].checked = !value;
+		}
+	}
+}
+
+function toggleWatchlist(wl = null)
+{
+	let watchlist = wl;
+
+	if (!watchlist)
+		watchlist = document.getElementById("watchlist");
+
+	if (watchlist.classList.contains("expanded")) {
+		watchlist.classList.remove("expanded");
+	}
+	else {
+		watchlist.classList.add("expanded");
+	}
 }
 
 $(function()
@@ -203,44 +248,12 @@ $(function()
 		event.preventDefault();
 		this.submit();
 	});
-});
 
-function ToggleNotifications()
-{
-	var watchlist = document.getElementById("watchlist");
-	var inp = watchlist.getElementsByTagName("input");
-	var value = true;
-
-	for (i = 0; i < inp.length; i++)
-	{
-		if ("checkbox" == inp[i].type)
-		{
-			value = inp[i].checked;
-			break;
-		}
-	}
-
-	for (i = 0; i < inp.length; i++)
-	{
-		if ("checkbox" == inp[i].type)
-		{
-			inp[i].checked = !value;
-		}
-	}
-}
-
-$(function() {
-	var watchlist = document.getElementById("watchlist");
-	var handle = document.getElementById("watchlist-handle");
+	let watchlist = document.getElementById("watchlist");
+	let handle = document.getElementById("watchlist-handle");
 
 	handle.onclick = function(e) {
-		if (watchlist.classList.contains("expanded")) {
-			watchlist.classList.remove("expanded");
-		}
-		else {
-			watchlist.classList.add("expanded");
-		}
-
+		toggleWatchlist(watchlist);
 		e.stopPropagation();
 	}
 

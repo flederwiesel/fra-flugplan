@@ -19,8 +19,7 @@
  ******************************************************************************/
 
 ?>
-<form class="stretched" method="post" action="?req=changepw"
-	onsubmit="document.getElementById('submit').disabled=true;">
+<form class="stretched" method="post" action="?req=changepw">
 	<fieldset>
 		<legend><?= $STRINGS['changepasswd'] ?></legend>
 <?php

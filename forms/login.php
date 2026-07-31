@@ -19,8 +19,7 @@
  ******************************************************************************/
 
 ?>
-<form class="stretched" method="post" action="?req=login"
-	onsubmit="document.getElementById('submit').disabled=true;">
+<form class="stretched" method="post" action="?req=login">
 	<fieldset>
 		<legend><?= $STRINGS['authentication'] ?></legend>
 <?php if ($error) { ?>

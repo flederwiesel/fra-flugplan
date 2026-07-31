@@ -17,8 +17,7 @@
  ******************************************************************************/
 
 ?>
-<form class="stretched" method="post" action="?req=activate"
-	onsubmit="document.getElementById('submit').disabled=true;">
+<form class="stretched" method="post" action="?req=activate">
 	<fieldset>
 		<legend><?= $STRINGS['activation'] ?></legend>
 <?php if ($error) { ?>

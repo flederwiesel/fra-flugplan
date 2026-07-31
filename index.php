@@ -304,6 +304,7 @@ if ('de' == $lang) {
 <?php require_once 'nav.php'; ?>
 			</div>
 			<div id="content">
+<script type="text/javascript" src="<?= Asset::src('script/main.js') ?>" defer></script>
 <?php
 			if (file_exists('adminmessage.php'))
 			{

@@ -57,20 +57,16 @@ Live Schedule</h3>
 </nav>
 			</div>
 			<div id="content">
-<script type="text/javascript">
-$(function()
-{
-});
-</script>
-<ul class="menu left">
+<script type="text/javascript" src="script/main.js" defer></script>
+<script type="text/javascript" src="script/profile.js" defer></script>
+<ul class="menu left" id="profile-tab" data-active="photodb">
 	<li><a href="?req=profile&amp;dispinterval">Display Interval</a></li>
 	<li class="sep"><a href="?req=profile&amp;notifinterval">Notifications</a></li>
 	<li class="sep">Photo Database</li>
 	<li class="sep"><a href="?req=profile&amp;changepw">Change password</a></li>
 </ul>
 <div>
-<form method="post" action="?req=profile&amp;photodb"
-	onsubmit="document.getElementById('submit').disabled=true;">
+<form method="post" action="?req=profile&amp;photodb">
 	<fieldset>
 		<legend>Photo Database</legend>
 		<div class="explainatory">Wherever the <img src='img/photodb.png' alt='airliners.net'> icon is shown alongside aircraft registrations, you may click on it to open a browser window with the search results of the aircraft in the photo database of your choice.</div>

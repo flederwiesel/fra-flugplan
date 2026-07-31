@@ -1,3 +1,13 @@
+<script type="text/javascript" src="<?= Asset::src('script/sortable.js') ?>" defer></script>
+<script type="text/javascript" src="<?= Asset::src('script/sorttable.js') ?>" defer></script>
+<?php
+if ($user && (!$mobile || $tablet))
+{
+?>
+<script type="text/javascript" src="<?= Asset::src('script/watchlist.js') ?>" defer></script>
+<?php
+}
+?>
 <?php
 
 $error = null;
@@ -184,18 +194,6 @@ if (isset($_POST['add']) ||
 	}
 }
 
-if ($user && (!$mobile || $tablet)) { ?>
-<script type="text/javascript" src="<?= Asset::src('script/watchlist.js') ?>"></script>
-<?php } ?>
-<script type="text/javascript" src="<?= Asset::src('script/sorttable.js') ?>"></script>
-<script type="text/javascript">
-	$(function()
-	{
-		$(document).tooltip( { position: { my: "left top", at: "right top", collision: "flipfit" } } );
-	});
-</script>
-<?php
-
 if ($error)
 {
 ?>
@@ -316,7 +314,7 @@ if ($user)
 									<tr>
 										<th><?= $STRINGS['reg'] ?></th>
 										<th><?= $STRINGS['comment'] ?></th>
-										<th><a href="javascript:ToggleNotifications()"><img src="<?= Asset::src('img/mail.png') ?>" alt="e-mail"></a></th>
+										<th><a href="#" id="toggle-notifications"><img src="<?= Asset::src('img/mail.png') ?>" alt="e-mail"></a></th>
 										<th></th>
 										<th></th>
 									</tr>
@@ -701,4 +699,3 @@ if ($db)
 		</tbody>
 	</table>
 </div>
-<script type="text/javascript" src="<?= Asset::src('script/sortable.js') ?>"></script>

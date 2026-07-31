@@ -56,56 +56,16 @@ Live Schedule</h3>
 </nav>
 			</div>
 			<div id="content">
-<script type="text/javascript">
-$(function()
-{
-	$.each(["notification"], function(index, value)
-	{
-		var min = $("#" + value + "-from");
-		var max = $("#" + value + "-until");
-		var divider = $("option", min).lentgh;
-		var slider = $("<div id=\"" + value + "-slider\"></div>").insertAfter($(max)).slider({
-			min: 1,
-			max: 25,
-			range: true,
-
-			values: [$(min)[0].selectedIndex + 1,
-					 $(max)[0].selectedIndex + 1],
-
-			slide: function(event, ui)
-			{
-				$(min)[0].selectedIndex = ui.values[0] - 1;
-				$(max)[0].selectedIndex = ui.values[1] - 1;
-			}
-		});
-	});
-
-	$("#notification-from").change(function()
-	{
-		if ($("#notification-until").prop("selectedIndex") <= this.selectedIndex)
-			this.selectedIndex = $("#notification-until").prop("selectedIndex");
-
-		$("#notification-slider").slider("values", 0, this.selectedIndex + 1);
-	});
-
-	$("#notification-until").change(function()
-	{
-		if ($("#notification-from").prop("selectedIndex") >= this.selectedIndex)
-			this.selectedIndex = $("#notification-from").prop("selectedIndex");
-
-		$("#notification-slider").slider("values", 1, this.selectedIndex + 1);
-	});
-});
-</script>
-<ul class="menu left">
+<script type="text/javascript" src="$ASSETDIR/script/main.js" defer></script>
+<script type="text/javascript" src="$ASSETDIR/script/profile.js" defer></script>
+<ul class="menu left" id="profile-tab" data-active="notifinterval">
 	<li><a href="?req=profile&amp;dispinterval"><img src="$ASSETDIR/img/dispinterval-grey-24x24.png" width="24" height="24" alt="Display Interval"></a></li>
 	<li class="sep"><img src="$ASSETDIR/img/notifinterval-white-24x24.png" width="24" height="24" alt="Notifications"></li>
 	<li class="sep"><a href="?req=profile&amp;photodb"><img src="$ASSETDIR/img/photodb-grey-24x24.png" width="24" height="24" alt="Photo Database"></a></li>
 	<li class="sep"><a href="?req=profile&amp;changepw"><img src="$ASSETDIR/img/changepw-grey-24x24.png" width="24" height="24" alt="Change password"></a></li>
 </ul>
 <div>
-<form method="post" action="?req=profile&amp;notifinterval"
-	onsubmit="document.getElementById('submit').disabled=true;">
+<form method="post" action="?req=profile&amp;notifinterval">
 	<fieldset>
 		<legend>Notifications</legend>
 		<div class="explainatory">If any of the registrations of your watchlist appears in the schedule,

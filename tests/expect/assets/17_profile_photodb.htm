@@ -56,20 +56,16 @@ Live Schedule</h3>
 </nav>
 			</div>
 			<div id="content">
-<script type="text/javascript">
-$(function()
-{
-});
-</script>
-<ul class="menu left">
+<script type="text/javascript" src="$ASSETDIR/script/main.js" defer></script>
+<script type="text/javascript" src="$ASSETDIR/script/profile.js" defer></script>
+<ul class="menu left" id="profile-tab" data-active="photodb">
 	<li><a href="?req=profile&amp;dispinterval"><img src="$ASSETDIR/img/dispinterval-grey-24x24.png" width="24" height="24" alt="Display Interval"></a></li>
 	<li class="sep"><a href="?req=profile&amp;notifinterval"><img src="$ASSETDIR/img/notifinterval-grey-24x24.png" width="24" height="24" alt="Notifications"></a></li>
 	<li class="sep"><img src="$ASSETDIR/img/photodb-white-24x24.png" width="24" height="24" alt="Photo Database"></li>
 	<li class="sep"><a href="?req=profile&amp;changepw"><img src="$ASSETDIR/img/changepw-grey-24x24.png" width="24" height="24" alt="Change password"></a></li>
 </ul>
 <div>
-<form method="post" action="?req=profile&amp;photodb"
-	onsubmit="document.getElementById('submit').disabled=true;">
+<form method="post" action="?req=profile&amp;photodb">
 	<fieldset>
 		<legend>Photo Database</legend>
 		<div class="explainatory">Wherever the <img src='img/photodb.png' alt='airliners.net'> icon is shown alongside aircraft registrations, you may click on it to open a browser window with the search results of the aircraft in the photo database of your choice.</div>
