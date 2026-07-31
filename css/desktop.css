@@ -647,23 +647,6 @@ form div.explainatory
 	font-weight: bold;
 }
 
-#debug
-{
-	z-index: 2147483647;
-	position: fixed;
-	float: top;
-	left: 0;
-	top: 0;
-	margin: 0;
-	padding: 0;
-	width: 100%;
-	background: red;
-	color: white;
-	opacity: 0.6;
-	filter: alpha(opacity=40); /* For IE8 and earlier */
-	text-align: center;
-}
-
 #phone-slider,
 #tablet-slider,
 #notification-slider
