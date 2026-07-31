@@ -156,6 +156,7 @@ div.label
 input[type=submit],
 input[type=reset]
 {
+	min-width: 5em;
 	background-color: white;
 }
 
