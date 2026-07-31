@@ -59,20 +59,16 @@ Live Flugplan</h3>
 </nav>
 			</div>
 			<div id="content">
-<script type="text/javascript">
-$(function()
-{
-});
-</script>
-<ul class="menu left">
+<script type="text/javascript" src="script/main.js" defer></script>
+<script type="text/javascript" src="script/profile.js" defer></script>
+<ul class="menu left" id="profile-tab" data-active="photodb">
 	<li><a href="?req=profile&amp;dispinterval">Anzeigeintervall</a></li>
 	<li class="sep"><a href="?req=profile&amp;notifinterval">Benachrichtigungen</a></li>
 	<li class="sep">Fotodatenbank</li>
 	<li class="sep"><a href="?req=profile&amp;changepw">Passwort ändern</a></li>
 </ul>
 <div>
-<form method="post" action="?req=profile&amp;photodb"
-	onsubmit="document.getElementById('submit').disabled=true;">
+<form method="post" action="?req=profile&amp;photodb">
 	<fieldset>
 		<legend>Fotodatenbank</legend>
 		<div class="explainatory">Wo das <img src='img/photodb.png' alt='airliners.net'> Symbol neben einer Flugzeugkennung erscheint, kann mit einem Klick darauf ein Browserfenster mit der Bildersuche zu diesem Flugzeug in der bevorzugten Fotodatenbank geöffnet werden.</div>

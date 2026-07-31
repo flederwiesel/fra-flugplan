@@ -20,8 +20,7 @@
  ******************************************************************************/
 
 ?>
-<form class="stretched" method="post" action="?req=register"
-	onsubmit="document.getElementById('submit').disabled=true;">
+<form class="stretched" method="post" action="?req=register">
 	<fieldset>
 		<legend><?= $STRINGS['registration'] ?></legend>
 <?php if ($error) { ?>

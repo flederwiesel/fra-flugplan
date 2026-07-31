@@ -113,7 +113,7 @@ function navitem($item, $href)
 			if ($user && !$mobile)
 			{
 ?>
-				<li class="sep"><a href="javascript:watchlist('show');"><?= $STRINGS['watchlist'] ?></a></li>
+				<li class="sep" id="toggle-watchlist"><a href="#"><?= $STRINGS['watchlist'] ?></a></li>
 <?php
 				if ($user->IsMemberOf('addflights'))
 				{

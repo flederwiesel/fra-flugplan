@@ -37,7 +37,7 @@ Live Schedule &ndash; Arrival</h3>
 		<li><a href="https://www.frankfurt-aviation-friends.de/">Home</a></li>
 			<li class="sep">Arrival</li>
 			<li class="sep"><a href="?departure">Departure</a></li>
-				<li class="sep"><a href="javascript:watchlist('show');">Watchlist</a></li>
+				<li class="sep" id="toggle-watchlist"><a href="#">Watchlist</a></li>
 					<li class="sep"><a href="?page=addflight">Add flight</a></li>
 		<li class="sep"><a href="?page=help">Help</a></li>
 </ul>
@@ -58,14 +58,10 @@ Live Schedule &ndash; Arrival</h3>
 </nav>
 			</div>
 			<div id="content">
-<script type="text/javascript" src="$ASSETDIR/script/watchlist.js"></script>
-<script type="text/javascript" src="$ASSETDIR/script/sorttable.js"></script>
-<script type="text/javascript">
-	$(function()
-	{
-		$(document).tooltip( { position: { my: "left top", at: "right top", collision: "flipfit" } } );
-	});
-</script>
+<script type="text/javascript" src="$ASSETDIR/script/main.js" defer></script>
+<script type="text/javascript" src="$ASSETDIR/script/sortable.js" defer></script>
+<script type="text/javascript" src="$ASSETDIR/script/sorttable.js" defer></script>
+<script type="text/javascript" src="$ASSETDIR/script/watchlist.js" defer></script>
 <div id="rwy_cont">
 	<div id="rwy_div">
 		<div id="rwy_l">
@@ -89,7 +85,7 @@ Live Schedule &ndash; Arrival</h3>
 									<tr>
 										<th>Reg</th>
 										<th>Comment</th>
-										<th><a href="javascript:ToggleNotifications()"><img src="$ASSETDIR/img/mail.png" alt="e-mail"></a></th>
+										<th><a href="#" id="toggle-notifications"><img src="$ASSETDIR/img/mail.png" alt="e-mail"></a></th>
 										<th></th>
 										<th></th>
 									</tr>
@@ -140,7 +136,6 @@ Live Schedule &ndash; Arrival</h3>
 		</tbody>
 	</table>
 </div>
-<script type="text/javascript" src="$ASSETDIR/script/sortable.js"></script>
 			</div>
 		</div>
 	</div>

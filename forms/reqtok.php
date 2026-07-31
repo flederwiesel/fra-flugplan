@@ -17,8 +17,7 @@
  ******************************************************************************/
 
 ?>
-<form class="stretched" method="post" action="?req=reqtok"
-	onsubmit="document.getElementById('submit').disabled=true;">
+<form class="stretched" method="post" action="?req=reqtok">
 	<fieldset>
 		<legend><?= $STRINGS['forgotpassword'] ?></legend>
 <?php if ($error) { ?>

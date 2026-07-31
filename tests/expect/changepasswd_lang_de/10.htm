@@ -59,20 +59,16 @@ Live Flugplan</h3>
 </nav>
 			</div>
 			<div id="content">
-<script type="text/javascript">
-$(function()
-{
-});
-</script>
-<ul class="menu left">
+<script type="text/javascript" src="script/main.js" defer></script>
+<script type="text/javascript" src="script/profile.js" defer></script>
+<ul class="menu left" id="profile-tab" data-active="changepw">
 	<li><a href="?req=profile&amp;dispinterval">Anzeigeintervall</a></li>
 	<li class="sep"><a href="?req=profile&amp;notifinterval">Benachrichtigungen</a></li>
 	<li class="sep"><a href="?req=profile&amp;photodb">Fotodatenbank</a></li>
 	<li class="sep">Passwort ändern</li>
 </ul>
 <div>
-<form class="stretched" method="post" action="?req=changepw"
-	onsubmit="document.getElementById('submit').disabled=true;">
+<form class="stretched" method="post" action="?req=changepw">
 	<fieldset>
 		<legend>Passwort ändern</legend>
 		<div id="notification" class="success">

@@ -57,20 +57,16 @@ Live Schedule</h3>
 </nav>
 			</div>
 			<div id="content">
-<script type="text/javascript">
-$(function()
-{
-});
-</script>
-<ul class="menu left">
+<script type="text/javascript" src="script/main.js" defer></script>
+<script type="text/javascript" src="script/profile.js" defer></script>
+<ul class="menu left" id="profile-tab" data-active="changepw">
 	<li><a href="?req=profile&amp;dispinterval">Display Interval</a></li>
 	<li class="sep"><a href="?req=profile&amp;notifinterval">Notifications</a></li>
 	<li class="sep"><a href="?req=profile&amp;photodb">Photo Database</a></li>
 	<li class="sep">Change password</li>
 </ul>
 <div>
-<form class="stretched" method="post" action="?req=changepw"
-	onsubmit="document.getElementById('submit').disabled=true;">
+<form class="stretched" method="post" action="?req=changepw">
 	<fieldset>
 		<legend>Change password</legend>
 		<div id="notification" class="success">

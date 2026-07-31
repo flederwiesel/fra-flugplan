@@ -1,114 +1,9 @@
-<?php
-
-?>
-<script type="text/javascript">
-$(function()
-{
+<script type="text/javascript" src="<?= Asset::src('script/profile.js') ?>" defer></script>
 <?php
 include 'photodb.php';
-
-if ('dispinterval' == $item)
-{
-?>
-	$.each(["phone", "tablet"], function(index, value)
-	{
-		var min = $("#" + value + "-min");
-		var max = $("#" + value + "-max");
-		var divider = $("option", min).length;
-		var ticks = $("option", min).length + $("option", max).length;
-		var slider = $("<div id=\"" + value + "-slider\"></div>").insertAfter($(max)).slider({
-			min: 1,
-			max: ticks,
-			range: true,
-
-			values: [$(min)[0].selectedIndex + 1,
-					 $(max)[0].selectedIndex + 1 + $("option", min).length],
-
-			slide: function(event, ui)
-			{
-				/* Don't let min and max overlap! */
-				if (ui.values[0] > divider)
-					return false;
-
-				if (ui.values[1] < divider + 1)
-					return false;
-
-				$(min)[0].selectedIndex = ui.values[0] - 1;
-				$(max)[0].selectedIndex = ui.values[1] - 1 - $("option", min).length;
-			}
-		});
-	});
-
-	$("#phone-min").change(function()
-	{
-		$("#phone-slider").slider("values", 0, this.selectedIndex + 1);
-	});
-
-	$("#phone-max").change(function()
-	{
-		$("#phone-slider").slider("values", 1,
-			$("#phone-min option").length + this.selectedIndex + 1);
-	});
-
-	$("#tablet-min").change(function()
-	{
-		$("#tablet-slider").slider("values", 0, this.selectedIndex + 1);
-	});
-
-	$("#tablet-max").change(function()
-	{
-		$("#tablet-slider").slider("values", 1,
-			$("#tablet-min option").length + this.selectedIndex + 1);
-	});
-<?php
-}
-
-if ('notifinterval' == $item)
-{
-?>
-	$.each(["notification"], function(index, value)
-	{
-		var min = $("#" + value + "-from");
-		var max = $("#" + value + "-until");
-		var divider = $("option", min).lentgh;
-		var slider = $("<div id=\"" + value + "-slider\"></div>").insertAfter($(max)).slider({
-			min: 1,
-			max: 25,
-			range: true,
-
-			values: [$(min)[0].selectedIndex + 1,
-					 $(max)[0].selectedIndex + 1],
-
-			slide: function(event, ui)
-			{
-				$(min)[0].selectedIndex = ui.values[0] - 1;
-				$(max)[0].selectedIndex = ui.values[1] - 1;
-			}
-		});
-	});
-
-	$("#notification-from").change(function()
-	{
-		if ($("#notification-until").prop("selectedIndex") <= this.selectedIndex)
-			this.selectedIndex = $("#notification-until").prop("selectedIndex");
-
-		$("#notification-slider").slider("values", 0, this.selectedIndex + 1);
-	});
-
-	$("#notification-until").change(function()
-	{
-		if ($("#notification-from").prop("selectedIndex") >= this.selectedIndex)
-			this.selectedIndex = $("#notification-from").prop("selectedIndex");
-
-		$("#notification-slider").slider("values", 1, this.selectedIndex + 1);
-	});
-<?php
-}
 /* At this point `user` is always set */
 ?>
-});
-</script>
-<ul class="menu left">
+<ul class="menu left" id="profile-tab" data-active="<?= $item ?>">
 	<li><?= navitem('dispinterval', 'dispinterval' == $item ? null : '?req=profile&amp;dispinterval') ?></li>
 	<li class="sep"><?= navitem('notifinterval', 'notifinterval' == $item ? null : '?req=profile&amp;notifinterval') ?></li>
 	<li class="sep"><?= navitem('photodb', 'photodb' == $item ? null : '?req=profile&amp;photodb') ?></li>
@@ -119,8 +14,7 @@ if ('notifinterval' == $item)
 if ('dispinterval' == $item)
 {
 ?>
-<form method="post" action="?req=profile&amp;dispinterval"
-	onsubmit="document.getElementById('submit').disabled=true;">
+<form method="post" action="?req=profile&amp;dispinterval">
 	<fieldset>
 		<legend><?= $STRINGS['dispinterval'] ?></legend>
 <?php
@@ -237,8 +131,7 @@ else
 if ('notifinterval' == $item)
 {
 ?>
-<form method="post" action="?req=profile&amp;notifinterval"
-	onsubmit="document.getElementById('submit').disabled=true;">
+<form method="post" action="?req=profile&amp;notifinterval">
 	<fieldset>
 		<legend><?= $STRINGS['notifinterval'] ?></legend>
 <?php
@@ -435,8 +328,7 @@ if ('notifinterval' == $item)
 else if ('photodb' == $item)
 {
 ?>
-<form method="post" action="?req=profile&amp;photodb"
-	onsubmit="document.getElementById('submit').disabled=true;">
+<form method="post" action="?req=profile&amp;photodb">
 	<fieldset>
 		<legend><?= $STRINGS['photodb'] ?></legend>
 <?php

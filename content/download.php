@@ -27,33 +27,7 @@ else
 
 ?>
 <!--meta http-equiv="refresh" content="0; url=getfile.php"-->
-<script type="text/javascript">
-$(function()
-{
-	$('#date-from').datepicker({
-		dateFormat: 'dd.mm.yy',
-		firstDay: 1,
-		minDate: new Date(2012, 6 - 1, 6),
-		maxDate: 0,
-		changeMonth: true,
-		changeYear: true
-	});
-
-	$('#date-until').datepicker({
-		dateFormat: 'dd.mm.yy',
-		firstDay: 1,
-		minDate: new Date(2012, 6 - 1, 6),
-		maxDate: '0',
-		changeMonth: true,
-		changeYear: true,
-		onSelect: function(selectedDate) { $('#from').datepicker('option', 'maxDate', selectedDate);  }
-	});
-
-	$('#form').submit(function() {
-		$('#submit').attr('disabled', 'disabled');
-	});
-});
-</script>
+<script type="text/javascript" src="<?= Asset::src('script/download.js') ?>" defer></script>
 <form id="download" method="post" action="content/getfile.php?session=<?= session_id() ?>">
 	<fieldset>
 		<legend><?= $STRINGS['dlflights'] ?></legend>

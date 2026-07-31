@@ -59,70 +59,16 @@ Live Flugplan</h3>
 </nav>
 			</div>
 			<div id="content">
-<script type="text/javascript">
-$(function()
-{
-	$.each(["phone", "tablet"], function(index, value)
-	{
-		var min = $("#" + value + "-min");
-		var max = $("#" + value + "-max");
-		var divider = $("option", min).length;
-		var ticks = $("option", min).length + $("option", max).length;
-		var slider = $("<div id=\"" + value + "-slider\"></div>").insertAfter($(max)).slider({
-			min: 1,
-			max: ticks,
-			range: true,
-
-			values: [$(min)[0].selectedIndex + 1,
-					 $(max)[0].selectedIndex + 1 + $("option", min).length],
-
-			slide: function(event, ui)
-			{
-				/* Don't let min and max overlap! */
-				if (ui.values[0] > divider)
-					return false;
-
-				if (ui.values[1] < divider + 1)
-					return false;
-
-				$(min)[0].selectedIndex = ui.values[0] - 1;
-				$(max)[0].selectedIndex = ui.values[1] - 1 - $("option", min).length;
-			}
-		});
-	});
-
-	$("#phone-min").change(function()
-	{
-		$("#phone-slider").slider("values", 0, this.selectedIndex + 1);
-	});
-
-	$("#phone-max").change(function()
-	{
-		$("#phone-slider").slider("values", 1,
-			$("#phone-min option").length + this.selectedIndex + 1);
-	});
-
-	$("#tablet-min").change(function()
-	{
-		$("#tablet-slider").slider("values", 0, this.selectedIndex + 1);
-	});
-
-	$("#tablet-max").change(function()
-	{
-		$("#tablet-slider").slider("values", 1,
-			$("#tablet-min option").length + this.selectedIndex + 1);
-	});
-});
-</script>
-<ul class="menu left">
+<script type="text/javascript" src="script/main.js" defer></script>
+<script type="text/javascript" src="script/profile.js" defer></script>
+<ul class="menu left" id="profile-tab" data-active="dispinterval">
 	<li>Anzeigeintervall</li>
 	<li class="sep"><a href="?req=profile&amp;notifinterval">Benachrichtigungen</a></li>
 	<li class="sep"><a href="?req=profile&amp;photodb">Fotodatenbank</a></li>
 	<li class="sep"><a href="?req=profile&amp;changepw">Passwort ändern</a></li>
 </ul>
 <div>
-<form method="post" action="?req=profile&amp;dispinterval"
-	onsubmit="document.getElementById('submit').disabled=true;">
+<form method="post" action="?req=profile&amp;dispinterval">
 	<fieldset>
 		<legend>Anzeigeintervall</legend>
 		<div id="notification" class="success">Einstellungen wurden gespeichert.</div>
