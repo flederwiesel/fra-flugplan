@@ -92,7 +92,13 @@ rsync -av \
 --filter="+ lib/Mobile-Detect/" \
 --filter="+ lib/Mobile-Detect/src/" \
 --filter="+ lib/Mobile-Detect/src/MobileDetect.php" \
---filter="- lib/*" \
+--filter="+ lib/flag-icons/" \
+--filter="+ lib/flag-icons/css/" \
+--filter="+ lib/flag-icons/css/*.min.css" \
+--filter="+ lib/flag-icons/flags/" \
+--filter="+ lib/flag-icons/flags/4x3/" \
+--filter="+ lib/flag-icons/flags/4x3/*" \
+--filter="- lib/***" \
 --filter="+ nav.php" \
 --filter="+ photodb.php" \
 --filter="+ robots.txt" \
