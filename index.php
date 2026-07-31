@@ -270,8 +270,8 @@ if ('de' == $lang) {
 <?php } else { ?>
 <link rel="stylesheet" type="text/css" media="screen, print" href="<?= Asset::src('css/desktop.css') ?>">
 <?php } ?>
-<script type="text/javascript" src="<?= "script/{$jqueryui}/external/jquery/jquery.js" ?>"></script>
-<script type="text/javascript" src="<?= "script/{$jqueryui}/jquery-ui{$minified}.js" ?>"></script>
+<script type="text/javascript" src="<?= "script/{$jqueryui}/external/jquery/jquery.js" ?>" defer></script>
+<script type="text/javascript" src="<?= "script/{$jqueryui}/jquery-ui{$minified}.js" ?>" defer></script>
 </head>
 <body data-lang="<?= $lang ?>">
 	<noscript>
