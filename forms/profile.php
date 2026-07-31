@@ -379,7 +379,7 @@ else if ('photodb' == $item)
 		}
 	}
 ?>
-		<div class="explainatory"><?= sprintf($STRINGS['photodbdesc'], "<img src='img/photodb.png' alt='{$user->opt('photodb')}'>") ?></div>
+		<div class="explainatory"><?= sprintf($STRINGS['photodbdesc'], "<img src='img/camera.png' alt='{$user->opt('photodb')}'>") ?></div>
 		<div class="table">
 			<div class="row">
 				<div class="cell label"><?= $STRINGS['photodbsel'] ?></div>
