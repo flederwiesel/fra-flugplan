@@ -589,5 +589,5 @@ if ($lang == "de")
 		</div>
 	</fieldset>
 	<input type="hidden" name="CSRFToken" value="<?= CsrfToken::get() ?>">
-	<div class="center"><input id="submit" type="submit" name="submit"/></div>
+	<div class="center"><input id="submit" type="submit" name="submit" value="<?= $STRINGS["add"] ?>"/></div>
 </form>

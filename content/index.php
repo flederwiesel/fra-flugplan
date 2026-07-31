@@ -388,7 +388,7 @@ if (!$mobile || $tablet)
 							</table>
 						</div>
 						<input type="hidden" name="CSRFToken" value="<?= CsrfToken::get() ?>">
-						<input type="submit" value="<?= $STRINGS['refresh'] ?>">
+						<input type="submit" value="<?= $STRINGS['save'] ?>">
 					</div>
 				</form>
 			</div>
