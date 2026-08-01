@@ -32,7 +32,9 @@ ul.menu
 	margin: 0;
 	padding: 2px;
 	background: #000000;
-	color: #ffffff;
+	color: #6E727A;
+	color: #A3AAB7;
+	color: #C5CDDB;
 	font-size: 1em;
 }
 
@@ -62,9 +64,11 @@ ul.menu.right > li.sep
 	padding-right: 0.5em;
 }
 
-ul.menu li a
+ul.menu li > a
 {
 	color: #A3AAB7;
+	color: #6E727A;
+	font-weight: bold;
 }
 
 ul.menu li > a:hover
@@ -537,12 +541,12 @@ form div.explainatory
 	border: 1px solid grey;
 }
 
-#watchlist form .comment input[type=text]
+#watchlist form input[type=text].comment
 {
 	width: 20em;
 }
 
-#watchlist form .reg input[type=text]
+#watchlist form input[type=text].reg
 {
 	width: 6em;
 }
