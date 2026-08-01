@@ -36,23 +36,25 @@ Live Schedule &ndash; Arrival</h3>
 				</div>
 <nav>
 <ul class="menu left">
-			<li class="sep"><img src="$ASSETDIR/img/arrival-white-24x24.png" width="24" height="24" alt="Arrival"></li>
-			<li class="sep"><a href="?departure"><img src="$ASSETDIR/img/departure-grey-24x24.png" width="24" height="24" alt="Departure"></a></li>
-		<li class="sep"><a href="?page=help"><img src="$ASSETDIR/img/help-grey-24x24.png" width="24" height="24" alt="Help"></a></li>
+	<li class="sep"><img src="$ASSETDIR/img/arrival-white-24x24.png" width="24" height="24" alt="Arrival"></li>
+	<li class="sep"><a href="?departure"><img src="$ASSETDIR/img/departure-grey-24x24.png" width="24" height="24" alt="Departure"></a></li>
+	<li class="sep" id="toggle-watchlist"><a href="#"><img src="$ASSETDIR/img/watchlist-grey-24x24.png" width="24" height="24" alt="Watchlist"></a></li>
+	<li class="sep"><a href="?page=addflight"><img src="$ASSETDIR/img/addflight-grey-24x24.png" width="24" height="24" alt="Add flight"></a></li>
+	<li class="sep"><a href="?page=help"><img src="$ASSETDIR/img/help-grey-24x24.png" width="24" height="24" alt="Help"></a></li>
 </ul>
 <ul class="menu right">
-			<li class="sep"><a href="?req=profile"><img src="$ASSETDIR/img/profile-grey-24x24.png" width="24" height="24" alt="User profile"></a></li>
-			<li class="sep"><a href="?req=logout"><img src="$ASSETDIR/img/logout-grey-24x24.png" width="24" height="24" alt="Logout"></a></li>
-		<li class="lang">
-			<a href="?lang=de">
-				<img class="flag" src="$ASSETDIR/img/de.png" alt="German" width="16" height="12">
-			</a>
-		</li>
-		<li class="lang">
-			<a href="?lang=en">
-				<img class="flag" src="$ASSETDIR/img/en.png" alt="English" width="16" height="12">
-			</a>
-		</li>
+	<li class="sep"><a href="?req=profile"><img src="$ASSETDIR/img/profile-grey-24x24.png" width="24" height="24" alt="User profile"></a></li>
+	<li class="sep"><a href="?req=logout"><img src="$ASSETDIR/img/logout-grey-24x24.png" width="24" height="24" alt="Logout"></a></li>
+	<li class="lang">
+		<a href="?lang=de">
+			<img class="flag" src="$ASSETDIR/img/de.png" alt="German" width="16" height="12">
+		</a>
+	</li>
+	<li class="lang">
+		<a href="?lang=en">
+			<img class="flag" src="$ASSETDIR/img/en.png" alt="English" width="16" height="12">
+		</a>
+	</li>
 </ul>
 </nav>
 			</div>
@@ -60,12 +62,59 @@ Live Schedule &ndash; Arrival</h3>
 <script type="text/javascript" src="$ASSETDIR/script/main.js" defer></script>
 <script type="text/javascript" src="$ASSETDIR/script/sortable.js" defer></script>
 <script type="text/javascript" src="$ASSETDIR/script/sorttable.js" defer></script>
+<script type="text/javascript" src="$ASSETDIR/script/watchlist.js" defer></script>
 <div id="rwy_cont">
 	<div id="rwy_div">
 		<div id="rwy_l">
 			<img alt="active runway" width="16" height="14" src="$ASSETDIR/img/arrival-yellow-16x14.png">
 		</div>
 		<div id="rwy_r">99</div>
+	</div>
+</div>
+<div id="watchlist-container">
+	<div>
+		<div id="watchlist" class="">
+			<div id="watchlist-handle">
+				<div></div>
+			</div>
+			<div>
+				<form method="post" action="?" class="center">
+					<div>
+						<div>
+							<table>
+								<thead>
+									<tr>
+										<th>Reg</th>
+										<th>Comment</th>
+										<th><a href="#" id="toggle-notifications"><img src="$ASSETDIR/img/mail.png" alt="e-mail"></a></th>
+										<th></th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>
+											<div>
+												<a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=D-AIRY" target="airliners.net">
+													<div></div>
+												</a>
+											</div>
+											<input type="text" class="reg" value="D-AIRY" maxlength="31">
+										</td>
+										<td><input type="text" class="comment" value="Die Maus" maxlength="255"></td>
+										<td><input type="checkbox" class="notify" value=""></td>
+										<td><button type="button" class="del"></button></td>
+										<td><button type="button" class="add"></button></td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+						<input type="hidden" name="CSRFToken" value="">
+						<input type="submit" value="Save">
+					</div>
+				</form>
+			</div>
+		</div>
 	</div>
 </div>
 <div id="schedule">

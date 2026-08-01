@@ -330,6 +330,154 @@ form div.explainatory
 	color: white;
 }
 
+#watchlist-container {
+}
+
+#watchlist-container > div {
+}
+
+#watchlist {
+	display: flex;
+	background-color: white;
+	text-align: center;
+	margin: 0 auto;
+}
+
+#watchlist:not(.expanded) {
+	display: none;
+}
+
+#watchlist-handle {
+	display: none;
+}
+
+#watchlist-handle div {
+}
+
+#watchlist:not(.expanded)
+#watchlist-handle div::before {
+}
+
+#watchlist.expanded
+#watchlist-handle div::before {
+}
+
+#watchlist:not(.expanded)
+#watchlist-handle + div {
+}
+
+#watchlist-handle + div {
+	display: flex;
+	align-items: stretch;
+	margin: 0 auto;
+	padding: 0 .2em 1em .2em;
+}
+
+#watchlist-handle + div > div {
+}
+
+#watchlist form {
+	margin: 0;
+	padding: 0;
+}
+
+#watchlist form > div {
+}
+
+#watchlist form > div > div {
+	overflow-y: scroll;
+}
+
+#watchlist form button
+{
+	text-align: center;
+	background-color: transparent;
+	background-position: 0px 0px;
+	background-repeat: no-repeat;
+	width: 16px;
+	height: 16px;
+	border-top:    solid 1px #E0E0E0;
+	border-left:   solid 1px #E0E0E0;
+	border-bottom: solid 1px #404040;
+	border-right:  solid 1px #404040;
+}
+
+#watchlist form button:active
+{
+	border-top:    solid 1px #A0A0A0;
+	border-left:   solid 1px #A0A0A0;
+	border-bottom: solid 1px #E0E0E0;
+	border-right:  solid 1px #E0E0E0;
+}
+
+#watchlist form button.add
+{
+	background-image: url("../img/add.gif");
+}
+
+#watchlist form button.del
+{
+	background-image: url("../img/del.gif");
+}
+
+#watchlist form input[type=submit]
+{
+	margin: 1em 0 0 0;
+}
+
+#watchlist form table,
+#watchlist form tr,
+#watchlist form td
+{
+	font-size: 8pt;
+	padding: 0 2px;
+}
+
+#watchlist form td
+{
+	align-items: center;
+	justify-content: center;
+}
+
+#watchlist form td:first-child {
+	display: flex;
+}
+
+#watchlist form tr > td > div {
+	margin-right: 0.5em;
+}
+
+#watchlist form tr > td div {
+	/* Extend to the dimensions of the photodb image */
+	width: 13px;
+	height: 12px;
+}
+
+#watchlist form tr > td a div {
+	background-image: url("../img/camera.png");
+}
+
+#watchlist form tr > td > div:empty {
+	background-image: url("../img/camera-disabled.png");
+	background-repeat: no-repeat;
+	background-position: center;
+}
+
+#watchlist form input[type=text]
+{
+	border: 1px solid grey;
+}
+
+#watchlist form input[type=text].comment
+{
+	width: 10em;
+}
+
+#watchlist form input[type=text].reg
+{
+	width: 5em;
+}
+
 #schedule
 {
 	width: auto;

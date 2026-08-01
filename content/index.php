@@ -1,7 +1,7 @@
 <script type="text/javascript" src="<?= Asset::src('script/sortable.js') ?>" defer></script>
 <script type="text/javascript" src="<?= Asset::src('script/sorttable.js') ?>" defer></script>
 <?php
-if ($user && (!$mobile || $tablet))
+if ($user)
 {
 ?>
 <script type="text/javascript" src="<?= Asset::src('script/watchlist.js') ?>" defer></script>
@@ -295,13 +295,10 @@ if ($user)
 			$error = PDOErrorInfo($ex, $STRINGS['dberror']);
 		}
 	}
-
-	if (!$mobile || $tablet)
-	{
 ?>
 <div id="watchlist-container">
 	<div>
-		<div id="watchlist">
+		<div id="watchlist" class="<?= $_GET['watchlist'] ?? '' == 'expanded' ? 'expanded' : '' ?>">
 			<div id="watchlist-handle">
 				<div></div>
 			</div>
@@ -321,8 +318,8 @@ if ($user)
 								</thead>
 								<tbody>
 <?php
-	if (0 == count($watch))
-	{
+if (0 == count($watch))
+{
 ?>
 									<tr>
 										<!-- inputs do not have names, POST values will be generated upon submit -->
@@ -333,7 +330,6 @@ if ($user)
 										<td><button type="button" class="add"></button></td>
 									</tr>
 <?php
-	}
 }
 
 foreach ($watch as $reg => $entry)
@@ -341,21 +337,18 @@ foreach ($watch as $reg => $entry)
 	$comment = $entry['comment'];
 	$notify = $entry['notify'];
 	$watch[$reg] = $comment;
-
-	if (!$mobile || $tablet)
-	{
 ?>
 									<tr>
 										<td>
 <?php
-		if (preg_match('/^\/.*\/$|[*?]/', $reg))
-		{
+	if (preg_match('/^\/.*\/$|[*?]/', $reg))
+	{
 ?>
 											<div></div>
 <?php
-		}
-		else
-		{
+	}
+	else
+	{
 ?>
 											<div>
 												<a href="<?=
@@ -368,7 +361,7 @@ foreach ($watch as $reg => $entry)
 												</a>
 											</div>
 <?php
-		}
+	}
 ?>
 											<input type="text" class="reg" value="<?= $reg ?>" maxlength="31">
 										</td>
@@ -379,10 +372,6 @@ foreach ($watch as $reg => $entry)
 									</tr>
 <?php
 	}
-}
-
-if (!$mobile || $tablet)
-{
 ?>
 								</tbody>
 							</table>
@@ -396,7 +385,6 @@ if (!$mobile || $tablet)
 	</div>
 </div>
 <?php
-	}
 }
 
 if ($error)
