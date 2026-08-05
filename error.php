@@ -4,6 +4,7 @@ mb_internal_encoding("UTF-8");
 
 require_once "classes/assets.php";
 require_once "classes/etc.php";
+require_once "classes/Csp.php";
 
 // Set session language from $_SESSION or $_COOKIE
 session_start();
@@ -97,6 +98,13 @@ http_response_code($status);
 
 header("Content-Type: text/html; charset=UTF-8");
 header("Content-Language: {$lang}");
+
+$csp = new Csp(Csp::BLOCK, [
+	'style-src' => "'self' fonts.googleapis.com",
+	'font-src' => "'self' fonts.gstatic.com",
+]);
+
+$csp->headers();
 ?>
 <!DOCTYPE html>
 <html>

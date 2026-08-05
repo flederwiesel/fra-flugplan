@@ -37,6 +37,7 @@ session_start();
 try
 {
 
+require_once "classes/Csp.php";
 require_once "classes/CsrfToken.php";
 
 CsrfToken::validate();
@@ -109,7 +110,6 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 
 /******************************************************************************
  * header
- *
  ******************************************************************************/
 
 // always modified
@@ -124,16 +124,23 @@ header('Pragma: no-cache');
 header('Content-Type: text/html; charset=UTF-8');
 header("Content-Language: {$lang}");
 
+// Use this nonce to deviate from default rules. e.g.:
+// <div nonce="&lt;?= CspNonce::get() ?&gt;" style="">
+
+// Content Security Policy: Restrict all resource origins to ourselves.
+$csp = new Csp(Csp::BLOCK);
+$csp->headers();
+
+/******************************************************************************
+ * initialise variables
+ ******************************************************************************/
+
 $file = "content/language/{$lang}.php";
 
 if (file_exists($file))
 	include "$file";
 else
 	include "content/language/en.php";
-
-/******************************************************************************
- * initialise variables
- ******************************************************************************/
 
 $db = null;
 $error = null;

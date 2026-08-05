@@ -138,7 +138,7 @@ browse() {
 		--cookie "$COOKIES" \
 		--cookie-jar "$COOKIES" \
 		"${data_csrftoken[@]}" "${args[@]}" |
-	sed -r "$nullify"
+	sed -r -e "$nullify" -e 's/nonce="[^"]+"/nonce=""/g'
 }
 
 rawurlencode() {
