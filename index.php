@@ -37,6 +37,7 @@ session_start();
 try
 {
 
+require_once "classes/CspNonce.php";
 require_once "classes/CsrfToken.php";
 
 CsrfToken::validate();
@@ -109,7 +110,6 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 
 /******************************************************************************
  * header
- *
  ******************************************************************************/
 
 // always modified
@@ -123,6 +123,37 @@ header('Pragma: no-cache');
 
 header('Content-Type: text/html; charset=UTF-8');
 header("Content-Language: {$lang}");
+
+// https://content-security-policy.com/#source_list
+// https://web.dev/articles/strict-csp
+// https://csp-evaluator.withgoogle.com/
+
+$nonce  = CspNonce::get();
+
+header(
+	str_replace("\n", "",
+		preg_replace("/\s*\/\/.*$/m", "", <<<CSP
+Content-Security-Policy:
+ default-src 'self';
+ base-uri 'self';
+ script-src 'self' 'nonce-{$nonce}';
+ style-src 'self';
+ font-src 'self';
+ img-src 'self' data:;
+ media-src 'none';
+ manifest-src 'none';
+ object-src 'none';
+ worker-src 'none';
+ connect-src 'none';
+ form-action 'self';
+ frame-ancestors 'none';
+ child-src 'self';
+ upgrade-insecure-requests;
+ block-all-mixed-content;
+CSP
+		)
+	)
+);
 
 $file = "content/language/{$lang}.php";
 
@@ -271,8 +302,8 @@ if ('de' == $lang) {
 <link rel="stylesheet" type="text/css" media="screen, print" href="<?= Asset::src('css/desktop.css') ?>">
 <?php } ?>
 <link rel="stylesheet" href="<?= Asset::src('lib/flag-icons/css/flag-icons.min.css') ?>"/>
-<script type="text/javascript" src="<?= "script/{$jqueryui}/external/jquery/jquery.js" ?>" defer></script>
-<script type="text/javascript" src="<?= "script/{$jqueryui}/jquery-ui{$minified}.js" ?>" defer></script>
+<script type="text/javascript" nonce="<?= $nonce; ?>" src="<?= "script/{$jqueryui}/external/jquery/jquery.js" ?>" defer></script>
+<script type="text/javascript" nonce="<?= $nonce; ?>" src="<?= "script/{$jqueryui}/jquery-ui{$minified}.js" ?>" defer></script>
 </head>
 <body data-lang="<?= $lang ?>">
 	<noscript>
@@ -305,7 +336,7 @@ if ('de' == $lang) {
 <?php require_once 'nav.php'; ?>
 			</div>
 			<div id="content">
-<script type="text/javascript" src="<?= Asset::src('script/main.js') ?>" defer></script>
+<script type="text/javascript" nonce="<?= $nonce; ?>" src="<?= Asset::src('script/main.js') ?>" defer></script>
 <?php
 			if (file_exists('adminmessage.php'))
 			{

@@ -1,4 +1,4 @@
-<script type="text/javascript" src="<?= Asset::src('script/profile.js') ?>" defer></script>
+<script type="text/javascript" nonce="<?= $nonce; ?>" src="<?= Asset::src('script/profile.js') ?>" defer></script>
 <?php
 include 'photodb.php';
 /* At this point `user` is always set */

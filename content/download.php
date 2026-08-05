@@ -27,7 +27,7 @@ else
 
 ?>
 <!--meta http-equiv="refresh" content="0; url=getfile.php"-->
-<script type="text/javascript" src="<?= Asset::src('script/download.js') ?>" defer></script>
+<script type="text/javascript" nonce="<?= $nonce; ?>" src="<?= Asset::src('script/download.js') ?>" defer></script>
 <form id="download" method="post" action="content/getfile.php?session=<?= session_id() ?>">
 	<fieldset>
 		<legend><?= $STRINGS['dlflights'] ?></legend>

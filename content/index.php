@@ -1,10 +1,10 @@
-<script type="text/javascript" src="<?= Asset::src('script/sortable.js') ?>" defer></script>
-<script type="text/javascript" src="<?= Asset::src('script/sorttable.js') ?>" defer></script>
+<script type="text/javascript" nonce="<?= $nonce; ?>" src="<?= Asset::src('script/sortable.js') ?>" defer></script>
+<script type="text/javascript" nonce="<?= $nonce; ?>" src="<?= Asset::src('script/sorttable.js') ?>" defer></script>
 <?php
 if ($user)
 {
 ?>
-<script type="text/javascript" src="<?= Asset::src('script/watchlist.js') ?>" defer></script>
+<script type="text/javascript" nonce="<?= $nonce; ?>" src="<?= Asset::src('script/watchlist.js') ?>" defer></script>
 <?php
 }
 ?>

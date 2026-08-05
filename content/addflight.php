@@ -375,11 +375,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST')
 if ($lang == "de")
 {
 ?>
-<script type="text/javascript" src="<?= "script/{$jqueryui}/i18n/datepicker-de.js" ?>"></script>
+<script type="text/javascript" nonce="<?= $nonce; ?>" src="<?= "script/{$jqueryui}/i18n/datepicker-de.js" ?>"></script>
 <?php
 }
 ?>
-<script type="text/javascript" src="<?= Asset::src('script/addflight.js') ?>" defer></script>
+<script type="text/javascript" nonce="<?= $nonce; ?>" src="<?= Asset::src('script/addflight.js') ?>" defer></script>
 <form id="addflight" method="post" action="?page=addflight">
 	<fieldset>
 		<legend><?= $STRINGS['addflight'] ?></legend>
