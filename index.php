@@ -37,6 +37,7 @@ session_start();
 try
 {
 
+require_once "classes/CspNonce.php";
 require_once "classes/CsrfToken.php";
 
 CsrfToken::validate();
@@ -109,7 +110,6 @@ $rev = 'arrival' == $dir ? 'departure' : 'arrival';
 
 /******************************************************************************
  * header
- *
  ******************************************************************************/
 
 // always modified
@@ -124,16 +124,55 @@ header('Pragma: no-cache');
 header('Content-Type: text/html; charset=UTF-8');
 header("Content-Language: {$lang}");
 
+// Content Security Policy
+
+// https://content-security-policy.com/#source_list
+// https://web.dev/articles/strict-csp
+// https://csp-evaluator.withgoogle.com/
+
+// Use this nonce to deviate from default rules. e.g.:
+// <div nonce="&lt;?= CspNonce::get() ?&gt;" style="">
+
+$nonce = CspNonce::get();
+
+// Restrict all resource origins to ourselves,
+// For readabiliy write it out one rule per line, you may use "//" for comments.
+
+$cspRules = str_replace("\n", "",
+	preg_replace("/\s*\/\/.*$/m", "", <<<CSP
+ default-src 'self';
+ base-uri 'self';
+ script-src 'self';
+ style-src 'self';
+ style-src-attr;
+ font-src 'self';
+ img-src 'self' data:;
+ media-src 'none';
+ manifest-src 'none';
+ object-src 'none';
+ worker-src 'none';
+ connect-src 'none';
+ form-action 'self';
+ frame-ancestors 'none';
+ child-src 'self';
+ upgrade-insecure-requests;
+ block-all-mixed-content;
+CSP
+	)
+);
+
+header("Content-Security-Policy: {$cspRules}");
+
+/******************************************************************************
+ * initialise variables
+ ******************************************************************************/
+
 $file = "content/language/{$lang}.php";
 
 if (file_exists($file))
 	include "$file";
 else
 	include "content/language/en.php";
-
-/******************************************************************************
- * initialise variables
- ******************************************************************************/
 
 $db = null;
 $error = null;
