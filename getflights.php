@@ -453,20 +453,20 @@ class jflight
 		{ 'umgeleitet', 'diverted', '航线改道' },
 		{ 'versp\u00e4tet', 'versp\u00e4tet', 'versp\u00e4tet' },
 		{ 'versp\u00e4tet auf ...', 'delayed to' },
-		{ 'verspätet am Vorflughafen' },
-		{ 'Ankunft vom', },
-		{ 'im Anflug', 'approaching', '在飞行中' },
+		{ 'verspätet am vorflughafen' },
+		{ 'ankunft vom', },
+		{ 'im anflug', 'approaching', '在飞行中' },
 		{ 'gelandet', 'landed', '已着陆' },
-		{ 'auf Position', 'on position', '至机位', },
-		{ 'Gep\u00e4ckausgabe', 'baggage delivery', '托运行李领取' },
-		{ 'Gep\u00e4ckausgabe beendet', 'baggage delivery finished', '托运行李领取已结束' },
-		{ 'Neues Gate', 'Neues Gate', 'Neues Gate' },
-		{ 'Gate offen', 'Gate open', '登机口开放' },
-		{ 'Aufruf', 'ready for Boarding', '准备登机' },
-		{ 'Boarding', 'Boarding', '登机' },
+		{ 'auf position', 'on position', '至机位', },
+		{ 'gep\u00e4ckausgabe', 'baggage delivery', '托运行李领取' },
+		{ 'gep\u00e4ckausgabe beendet', 'baggage delivery finished', '托运行李领取已结束' },
+		{ 'neues gate', 'neues gate', 'neues gate' },
+		{ 'gate offen', 'gate open', '登机口开放' },
+		{ 'aufruf', 'ready for boarding', '准备登机' },
+		{ 'boarding', 'boarding', '登机' },
 		{ 'geschlossen', 'closed', '已关闭' },
 		{ 'abgeflogen', 'gestartet', 'started', 'departed', '已起飞' },
-		{ 'Zug', 'train', '火车' },
+		{ 'zug', 'train', '火车' },
 	} */
 
 	public $terminal;	// = [null] enum { 1, 2 }
@@ -891,6 +891,8 @@ function CURL_GetAircraftType(/* in */ $curl, /* in/out */ &$aircraft)
 /* Map string to class FlightStatus */
 function MapFlightStatus(/*in/out*/ &$status)
 {
+	$status = mb_strtolower($status);
+
 	if (!isset($status))
 	{
 		$status = FlightStatus::UNDEFINED;
@@ -916,15 +918,15 @@ function MapFlightStatus(/*in/out*/ &$status)
 	case 'diverted':
 	case '航线改道':
 
-	case 'im Anflug':
+	case 'im anflug':
 	case 'verspätet':
-	case 'verspätet am Vorflughafen':
+	case 'verspätet am vorflughafen':
 	case 'approaching':
 	case '在飞行中':
 		$status = FlightStatus::APPROACHING;
 		break;
 
-	case 'auf Position':
+	case 'auf position':
 	case 'on position':
 	case '至机位':
 		// fallthrough
@@ -934,29 +936,29 @@ function MapFlightStatus(/*in/out*/ &$status)
 		$status = FlightStatus::ARRIVED;
 		break;
 
-	case 'Gepäckausgabe':
+	case 'gepäckausgabe':
 	case 'baggage delivery':
 	case '托运行李领取':
 		// fallthrough
-	case 'Gepäckausgabe beendet':
+	case 'gepäckausgabe beendet':
 	case 'baggage delivery finished':
 	case '托运行李领取已结束':
 		$status = FlightStatus::IGNORE;
 		break;
 
-	case 'Neues Gate':
-	case 'new Gate':
-	case 'Gate offen':
-	case 'Gate open':
+	case 'neues gate':
+	case 'new gate':
+	case 'gate offen':
+	case 'gate open':
 	case '登机口开放':
 		// fallthrough
-	case 'verspäteter Abflug':
+	case 'verspäteter abflug':
 	case 'delayed departure':
-	case 'Aufruf':
-	case 'ready for Boarding':
+	case 'aufruf':
+	case 'ready for boarding':
 	case '准备登机':
 		// fallthrough
-	case 'Boarding':
+	case 'boarding':
 	case '登机':
 		// fallthrough
 	case 'geschlossen':
@@ -973,7 +975,7 @@ function MapFlightStatus(/*in/out*/ &$status)
 		$status = FlightStatus::DEPARTED;
 		break;
 
-	case 'Zug':
+	case 'zug':
 	case 'train':
 	case '火车':
 		$status = FlightStatus::IGNORE;
@@ -985,7 +987,7 @@ function MapFlightStatus(/*in/out*/ &$status)
 		{
 			$status = FlightStatus::APPROACHING;
 		}
-		else if ('Ankunft vom' == mb_substr($status, 0, 11))
+		else if ('ankunft vom' == mb_substr($status, 0, 11))
 		{
 			$status = FlightStatus::APPROACHING;
 		}
