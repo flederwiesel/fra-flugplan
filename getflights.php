@@ -465,6 +465,7 @@ class jflight
 		{ 'aufruf', 'ready for boarding', '准备登机' },
 		{ 'boarding', 'boarding', '登机' },
 		{ 'geschlossen', 'closed', '已关闭' },
+		{ 'position verlassen', case 'off block', '离开停机位' },
 		{ 'abgeflogen', 'gestartet', 'started', 'departed', '已起飞' },
 		{ 'zug', 'train', '火车' },
 	} */
@@ -964,6 +965,10 @@ function MapFlightStatus(/*in/out*/ &$status)
 	case 'geschlossen':
 	case 'closed':
 	case '已关闭':
+		// fallthrough
+	case 'position verlassen':
+	case 'off block':
+	case '离开停机位':
 		$status = FlightStatus::BOARDING;
 		break;
 
