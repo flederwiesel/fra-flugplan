@@ -213,6 +213,7 @@ $STRINGS = array
 	'scheduled' => 'scheduled',
 	'country' => 'country',
 	'aircraft' => 'aircraft',
+	'invalidrequest' => 'Invalid request.',
 );
 
 ?>

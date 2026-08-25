@@ -213,6 +213,7 @@ $STRINGS = array
 	'scheduled' => 'geplant',
 	'country' => 'Land',
 	'aircraft' => 'Flugzeug',
+	'invalidrequest' => 'Fehlerhafte Anfrage.',
 );
 
 ?>

@@ -16,9 +16,7 @@ $message = null;
 include 'photodb.php';
 
 /* Update watchlist from posted values */
-if (isset($_POST['add']) ||
-	isset($_POST['upd']) ||
-	isset($_POST['del']))
+if (isset($_POST['watchlist']))
 {
 	if (!$user)
 	{
@@ -36,149 +34,172 @@ if (isset($_POST['add']) ||
 				// warn if notification times need to be set
 				$CheckNotifTimes = false;
 
-				if (isset($_POST['del']))
+				try
 				{
-					$stNotif = $db->prepare(<<<SQL
-						/*[Q16]*/
-						DELETE `watchlist-notifications`
-						FROM `watchlist-notifications`
-						INNER JOIN (
-							SELECT `id`
-							FROM `watchlist`
-							WHERE `user` = :uid
-								AND `reg` = :reg
-						) AS `watchlist`
-							ON `watchlist`.`id` = `watchlist-notifications`.`watch`
-						SQL
+					$watchlist = json_decode(
+						$_POST['watchlist'], false, 5, JSON_THROW_ON_ERROR
 					);
 
-					$stWatch = $db->prepare(<<<SQL
-						/*[Q17]*/
-						DELETE FROM `watchlist`
-						WHERE
-							`user` = :uid AND
-							`reg` = :reg
-						SQL
-					);
+					// Make sure all properties exist, even if not contained in the $_POST
+					$watchlist->del = property_exists($watchlist, 'del') ? $watchlist->del : [];
+					$watchlist->upd = property_exists($watchlist, 'upd') ? $watchlist->upd : [];
+					$watchlist->add = property_exists($watchlist, 'add') ? $watchlist->add : [];
 
-					$del = explode("\n", $_POST['del']);
-
-					foreach ($del as $reg)
+					if (count($watchlist->del) > 0)
 					{
-						$reg = strtoupper(trim($reg));
+						$stNotif = $db->prepare(<<<SQL
+							/*[Q16]*/
+							DELETE `watchlist-notifications`
+							FROM `watchlist-notifications`
+							INNER JOIN (
+								SELECT `id`
+								FROM `watchlist`
+								WHERE `user` = :uid
+									AND `reg` = :reg
+							) AS `watchlist`
+								ON `watchlist`.`id` = `watchlist-notifications`.`watch`
+							SQL
+						);
 
-						$stNotif->execute([
-							"uid" => $uid,
-							"reg" => $reg,
-						]);
+						$stWatch = $db->prepare(<<<SQL
+							/*[Q17]*/
+							DELETE FROM `watchlist`
+							WHERE
+								`user` = :uid AND
+								`reg` = :reg
+							SQL
+						);
 
-						$stWatch->execute([
-							"uid" => $uid,
-							"reg" => $reg,
-						]);
-					}
-				}
-
-				if (isset($_POST['upd']))
-				{
-					$st = $db->prepare(<<<SQL
-						/*[Q20]*/
-						UPDATE `watchlist`
-						SET
-							`reg` = :new,
-							`comment` = :comment,
-							`notify` = :notify
-						WHERE
-							`user` = :uid AND
-							`reg` = :reg
-						SQL
-					);
-
-					$upd = explode("\n", $_POST['upd']);
-
-					foreach ($upd as $line)
-					{
-						list($reg, $new, $comment, $notify) = explode("\t", $line);
-
-						$reg = strtoupper(trim($reg));
-						$new = strtoupper(trim($new));
-
-						if (!$reg)
-							$reg = $new;
-
-						$notify = trim($notify);
-
-						if ($notify)
-							$CheckNotifTimes = true;
-
-						$st->execute([
-							"uid" => $uid,
-							"reg" => $reg,
-							"new" => $new,
-							"comment" => $comment,
-							"notify" => $notify,
-						]);
-					}
-				}
-
-				if (isset($_POST['add']))
-				{
-					$st = $db->prepare(<<<SQL
-						/*[Q18]*/
-						INSERT INTO `watchlist`(
-							`user`,
-							`reg`,
-							`comment`,
-							`notify`
-						)
-						VALUES(
-							:uid,
-							:reg,
-							:comment,
-							:notify
-						)
-						ON DUPLICATE KEY UPDATE
-							`user` = :uid,
-							`reg` = :reg,
-							`comment` = :comment,
-							`notify` = :notify
-
-						SQL
-					);
-
-					$add = explode("\n", $_POST['add']);
-
-					foreach ($add as $line)
-					{
-						list($reg, $comment, $notify) = explode("\t", $line);
-
-						$reg = strtoupper(trim($reg));
-
-						if ($reg)
+						foreach ($watchlist->del as $reg)
 						{
-							$notify = trim($notify);
+							$reg = strtoupper(trim($reg));
 
-							if ($notify)
-								$CheckNotifTimes = true;
+							$stNotif->execute([
+								"uid" => $uid,
+								"reg" => $reg,
+							]);
+
+							$stWatch->execute([
+								"uid" => $uid,
+								"reg" => $reg,
+							]);
+						}
+					}
+
+					if (count($watchlist->upd) > 0)
+					{
+						$st = $db->prepare(<<<SQL
+							/*[Q20]*/
+							UPDATE `watchlist`
+							SET
+								`reg` = :reg,
+								`comment` = :comment,
+								`notify` = :notify
+							WHERE
+								`user` = :uid AND
+								`reg` = :prev
+							SQL
+						);
+
+						foreach ($watchlist->upd as $entry)
+						{
+							$entry = (object)$entry;
+							$prev = strtoupper(trim($entry->prev));
+							$reg = strtoupper(trim($entry->reg));
+
+							if (!$reg)
+								$reg = $prev;
+
+							$comment = trim($entry->comment);
+							$notify = trim($entry->notify);
 
 							$st->execute([
 								"uid" => $uid,
+								"prev" => $prev,
 								"reg" => $reg,
 								"comment" => $comment,
-								"notify" => $notify,
+								"notify" => $notify ? 1 : 0,
 							]);
+						}
+					}
+
+					if (count($watchlist->add) > 0)
+					{
+						$st = $db->prepare(<<<SQL
+							/*[Q18]*/
+							INSERT INTO `watchlist`(
+								`user`,
+								`reg`,
+								`comment`,
+								`notify`
+							)
+							VALUES(
+								:uid,
+								:reg,
+								:comment,
+								:notify
+							)
+							ON DUPLICATE KEY UPDATE
+								`user` = :uid,
+								`reg` = :reg,
+								`comment` = :comment,
+								`notify` = :notify
+
+							SQL
+						);
+
+						foreach ($watchlist->add as $entry)
+						{
+							$entry = (object)$entry;
+
+							if ($entry->reg)
+							{
+								$reg = strtoupper(trim($entry->reg));
+								$comment = trim($entry->comment);
+								$notify = trim($entry->notify);
+
+								$st->execute([
+									"uid" => $uid,
+									"reg" => $reg,
+									"comment" => $comment,
+									"notify" => $notify ? 1 : 0,
+								]);
+							}
+						}
+					}
+				}
+				catch (JsonException | ValueError $e)
+				{
+					$error = $STRINGS['invalidrequest'];
+				}
+
+				// If any added/updated entry sets notifications, check whether
+				// the notification times in the user profile are meaninful.
+				foreach ($watchlist->add as $entry)
+				{
+					if ($entry->notify)
+					{
+						$CheckNotifTimes = true;
+						break;
+					}
+				}
+
+				if (!$CheckNotifTimes)
+				{
+					foreach ($watchlist->upd as $entry)
+					{
+						if ($entry->notify)
+						{
+							$CheckNotifTimes = true;
+							break;
 						}
 					}
 				}
 
-				if (isset($_POST['add']) ||
-					isset($_POST['upd']))
+				if ($CheckNotifTimes)
 				{
-					if ($CheckNotifTimes)
-					{
-						if ($user->opt('notification-from') == $user->opt('notification-until'))
-							$message = $STRINGS['notif-setinterval'];
-					}
+					if ($user->opt('notification-from') == $user->opt('notification-until'))
+						$message = $STRINGS['notif-setinterval'];
 				}
 			}
 			catch (PDOException $ex)
@@ -304,9 +325,9 @@ if ($user)
 							<table>
 								<thead>
 									<tr>
-										<th><?= $STRINGS['reg'] ?></th>
-										<th><?= $STRINGS['comment'] ?></th>
-										<th><a href="#" id="toggle-notifications"><img src="<?= Asset::src('img/mail.png') ?>" alt="e-mail"></a></th>
+										<th data-key="reg"><?= $STRINGS['reg'] ?></th>
+										<th data-key="comment"><?= $STRINGS['comment'] ?></th>
+										<th data-key="notify"><a href="#" id="toggle-notifications"><img src="<?= Asset::src('img/mail.png') ?>" alt="e-mail"></a></th>
 										<th></th>
 										<th></th>
 									</tr>

@@ -178,91 +178,95 @@ function toggleWatchlist(wl = null)
 	}
 }
 
-$(function()
-{
-	let form = document.querySelector("#watchlist form");
-	let inputs = form.querySelectorAll("input[type='text']");
-
-	// Whenever an input values changes, mark row as changed
-	inputs.forEach(function(elem) {
-		elem.addEventListener("change", (event) => {
-			// ...unless it is a newly added row
-			var tr = getParentElementByTagName(event.target, "tr");
-
-			if (tr) {
-				if (tr.dataset["submit"] != "add")
-						tr.dataset["submit"] = "upd";
-			}
-		});
-	});
-
-	$("#watchlist form").submit(function(event) {
-
-		var add = null;
-		var del = null;
-		var upd = null;
-
-		$("input:submit", $(this)).attr("disabled", "disabled");
-
-		// Loop through table rows, check whether they are marked as to be added,
-		// updated or deleted and build up three strings, being separated with
-		// newline from each other.
-		// Within these lines, multiple input values are separated using tabs.
-		$("#watchlist form tbody tr").each(function()
-		{
-			reg = $("input.reg", $(this))[0];
-
-			if ($(this)[0].dataset["submit"] == "del")
-			{
-				// "$reg\n$reg"
-				del = del ? del + "\n" : "";
-				del += $(reg).val();
-			}
-			else
-			{
-				comment = $("input.comment", $(this))[0];
-				notify  = $("input.notify",  $(this))[0];
-
-				if ($(this)[0].dataset["submit"] == "add")
-				{
-					// "$reg\t$comment\t$notify\n..."
-					add = add ? add + "\n" : "";
-					add += $(reg).val() + "\t" +
-						$(comment).val() + "\t" +
-						($(notify).is(":checked") ? 1 : 0);
-				}
-				else if ($(this)[0].dataset["submit"] == "upd")
-				{
-					// "$reg\t$NewReg\t$comment\t$notify\n..."
-					upd = upd ? upd + "\n" : "";
-					upd += ($(reg).prop("defaultValue") ? $(reg).prop("defaultValue") : "") + "\t" +
-						$(reg).val() + "\t" +
-						$(comment).val() + "\t" +
-						($(notify).is(":checked") ? 1 : 0);
-				}
-			}
-		});
-
-		if (add)
-			$("#watchlist form").append($("<input>").attr("type", "hidden").attr("name", "add").val(add));
-
-		if (del)
-			$("#watchlist form").append($("<input>").attr("type", "hidden").attr("name", "del").val(del));
-
-		if (upd)
-			$("#watchlist form").append($("<input>").attr("type", "hidden").attr("name", "upd").val(upd));
-
-		event.preventDefault();
-		this.submit();
-	});
-
-	let watchlist = document.getElementById("watchlist");
-	let handle = document.getElementById("watchlist-handle");
+document.addEventListener("DOMContentLoaded", () => {
+	var watchlist = document.getElementById("watchlist");
+	var handle = document.getElementById("watchlist-handle");
 
 	handle.onclick = function(e) {
 		toggleWatchlist(watchlist);
 		e.stopPropagation();
 	}
+
+	var form = watchlist.querySelectorAll("form")[0];
+	var inputs = form.querySelectorAll("input[type=text]");
+
+	inputs.forEach(function(elem) {
+		elem.addEventListener("change", (event) => {
+			// ...unless it is a newly added row
+			var tr = event.target.parentNode.parentNode;
+
+			if (tr.dataset["submit"] != "add")
+				tr.dataset["submit"] = "upd";
+		});
+	});
+
+	form.addEventListener("formdata", (event) => {
+		var form = event.target;
+		var keys = [];
+		var submit = {
+			"add": [],
+			"del": [],
+			"upd": []
+		};
+
+		form.querySelectorAll(`thead tr th`).forEach(col => {
+			keys.push(col.dataset["key"]);
+		});
+
+		// For each private/shared div, loop through table rows,
+		// check whether they are marked as to be added, updated or deleted
+		// and build up a according arrays.
+		form.querySelectorAll(`tbody tr`).forEach(row => {
+			var action = row.dataset["submit"];
+
+			if (action)
+			{
+				var prev;
+				var reg;
+				var comment;
+				var notify;
+
+				row.querySelectorAll("input").forEach((input, idx) => {
+					switch (keys[idx]) {
+						case "reg":
+							prev = input.defaultValue;
+							reg = input.value;
+							break;
+						case "comment":
+							comment = input.value;
+							break;
+						case "notify":
+							notify = input.checked;
+							break;
+					}
+				});
+
+				if (reg.length > 0)
+				{
+					if (action === "del") {
+						submit.del.push(reg);
+					}
+					else {
+						entry = {
+							"reg": reg,
+							"comment": comment,
+							"notify": notify ?? false,
+						};
+
+						if (action === "add") {
+							submit.add.push(entry);
+						}
+						else if (action === "upd") {
+							entry.prev = prev
+							submit.upd.push(entry);
+						}
+					}
+				}
+			}
+		});
+
+		event.formData.set("watchlist", JSON.stringify(submit));
+	});
 
 	form.onclick = function(e) {
 		e.stopPropagation();
