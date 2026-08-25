@@ -505,6 +505,10 @@ form div.explainatory
 	padding: 0 2px;
 }
 
+#watchlist form tr[data-submit="del"] {
+	display: none;
+}
+
 #watchlist form td
 {
 	align-items: center;

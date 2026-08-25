@@ -23,15 +23,28 @@ function GetElementsByTag(parent, name, class_name)
 	return a;
 }
 
+function getParentElementByTagName(elem, tag) {
+	tag = tag.toLowerCase();
+
+	while (elem.parentNode) {
+		elem = elem.parentNode;
+
+		if (elem.tagName.toLowerCase() === tag)
+			return elem;
+	}
+
+	return null;
+}
+
 function CloneRow(event)
 {
-	var tr = event.target.parentNode.parentNode;
+	var tr = getParentElementByTagName(event.target, "tr");
 	var td;
 	var row;
 
 	/* Create new row to be inserted before this one, containing copies of col[0..n] */
 	row = tr.cloneNode(true);
-	row.setAttribute("add", "true");
+	row.dataset["submit"] = "add";
 
 	td = row.getElementsByTagName("td");
 
@@ -41,7 +54,7 @@ function CloneRow(event)
 		if (div.length) {
 			div[0].remove();
 			td[0].insertAdjacentElement(
-				'afterbegin', document.createElement("div")
+				"afterbegin", document.createElement("div")
 			);
 		}
 	}
@@ -68,44 +81,43 @@ function CloneRow(event)
 
 function RemoveRow(event)
 {
-	var tr = event.target.parentNode.parentNode;
-	var rows = GetElementsByTag(/*<tbody>*/tr.parentNode, "tr", "");
+	var tr = getParentElementByTagName(event.target, "tr");
 	var next;
 	var inp;
 
-	if (1 == rows.length)
-	{
-		next = CloneRow(event);
+	tr.dataset["submit"] = "del";
 
-		// Don't remove, as its values are still required for submit
-		tr.style.display = "none";
-		tr.setAttribute("del", "true");
+	// Find next sibling which has not been queued to be deleted
+	next = tr.nextElementSibling;
+
+	while (next) {
+		if (next.dataset["submit"] === "del")
+			next = next.nextElementSibling;
+		else
+			break;
 	}
-	else
-	{
-		if (rows.length > 1)
-		{
-			for (i = 0; i < rows.length; i++)
-			{
-				if (rows[i] == tr)
-				{
-					// Don't remove, as its values are still required for submit
-					tr.style.display = "none";
-					tr.setAttribute("del", "true");
 
-					if (i < rows.length - 1)
-						next = rows[i + 1];
-					else
-						next = rows[i - 1];
+	if (!next) {
+		// Find any previous sibling which has not been queued to be deleted
+		next = tr.previousElementSibling;
 
-					break;
-				}
-			}
+		while (next) {
+			if (next.dataset["submit"] === "del")
+				next = next.previousElementSibling;
+			else
+				break;
 		}
 	}
 
-	inp = next.getElementsByTagName("input");
-	inp[0].focus();
+	if (!next) {
+		// The deleted was the only active row, show a new empty row
+		next = CloneRow(event);
+	}
+
+	if (next) {
+		inp = next.getElementsByTagName("input");
+		inp[0].focus();
+	}
 }
 
 function setWatchlistButtonEvents(parent) {
@@ -168,24 +180,20 @@ function toggleWatchlist(wl = null)
 
 $(function()
 {
-	$("#watchlist form").on("focusin", "input.reg", function()
-	{
-		// For a newly added row, we don't need to remember reg
-		// When updating a reg, remember original value for
-		// SQL UPDATE statement in attr("reg")
-		if (!$($(this).parents("tr")[0]).attr("add"))
-		{
-			if (!$(this).data("reg"))
-				$(this).data("reg", $(this).val());
-		}
-	});
+	let form = document.querySelector("#watchlist form");
+	let inputs = form.querySelectorAll("input[type='text']");
 
-	$("#watchlist form").on("change", "input", function()
-	{
-		// Whenever an input values changes, mark row as changed
-		// ...unless it is a newly added row
-		if (!$($(this).parents("tr")[0]).attr("add"))
-			$($(this).parents("tr")[0]).attr("upd", "true");
+	// Whenever an input values changes, mark row as changed
+	inputs.forEach(function(elem) {
+		elem.addEventListener("change", (event) => {
+			// ...unless it is a newly added row
+			var tr = getParentElementByTagName(event.target, "tr");
+
+			if (tr) {
+				if (tr.dataset["submit"] != "add")
+						tr.dataset["submit"] = "upd";
+			}
+		});
 	});
 
 	$("#watchlist form").submit(function(event) {
@@ -204,7 +212,7 @@ $(function()
 		{
 			reg = $("input.reg", $(this))[0];
 
-			if ($(this).attr("del") == "true")
+			if ($(this)[0].dataset["submit"] == "del")
 			{
 				// "$reg\n$reg"
 				del = del ? del + "\n" : "";
@@ -215,7 +223,7 @@ $(function()
 				comment = $("input.comment", $(this))[0];
 				notify  = $("input.notify",  $(this))[0];
 
-				if ($(this).attr("add") == "true")
+				if ($(this)[0].dataset["submit"] == "add")
 				{
 					// "$reg\t$comment\t$notify\n..."
 					add = add ? add + "\n" : "";
@@ -223,12 +231,11 @@ $(function()
 						$(comment).val() + "\t" +
 						($(notify).is(":checked") ? 1 : 0);
 				}
-				else
+				else if ($(this)[0].dataset["submit"] == "upd")
 				{
-					// assume `$(this).attr("upd") == "true"`
 					// "$reg\t$NewReg\t$comment\t$notify\n..."
 					upd = upd ? upd + "\n" : "";
-					upd += ($(reg).data("reg") ? $(reg).data("reg") : "") + "\t" +
+					upd += ($(reg).prop("defaultValue") ? $(reg).prop("defaultValue") : "") + "\t" +
 						$(reg).val() + "\t" +
 						$(comment).val() + "\t" +
 						($(notify).is(":checked") ? 1 : 0);
@@ -256,8 +263,6 @@ $(function()
 		toggleWatchlist(watchlist);
 		e.stopPropagation();
 	}
-
-	var form = watchlist.getElementsByTagName("form")[0];
 
 	form.onclick = function(e) {
 		e.stopPropagation();

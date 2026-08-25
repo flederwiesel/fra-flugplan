@@ -316,7 +316,7 @@ if ($user)
 if (0 == count($watch))
 {
 ?>
-									<tr>
+									<tr data-submit="add">
 										<!-- inputs do not have names, POST values will be generated upon submit -->
 										<td><input type="text" class="reg" value="" maxlength="31"></td>
 										<td><input type="text" class="comment" value="" maxlength="255"></td>
