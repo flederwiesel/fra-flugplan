@@ -98,26 +98,32 @@ test_2() {
 }
 
 test_3() {
-	add=$(
-		# DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
-		cat <<-"EOF"
-			ZS-SNC	South African Airways - Star Alliance	1
-			C-????	Air Canada ?	0
-			C-FDAT	Air Transat - A310	1
-			/C-G(TSTS[FHWY]|[FLPS]AT)/	Air Transat - A310	1
-		EOF
-	)
+	submit='{
+		"add":[
+			{"reg":"ZS-SNC","comment":"South African Airways - Star Alliance","notify":true},
+			{"reg":"C-????","comment":"Air Canada ?","notify":false},
+			{"reg":"C-FDAT","comment":"Air Transat - A310","notify":true},
+			{"reg":"/C-G(TSTS[FHWY]|[FLPS]AT)/","comment":"Air Transat - A310","notify":true}
+		],
+		"del":["C-????"],
+		"upd":[]
+	}'
 
 	browse --with-csrf-token \
-		--data-urlencode "add=$add" \
+		--data-urlencode "watchlist=$submit" \
 		"$url/?arrival&time=$time" |
 	sed -r "s/time=$today/time=0000-00-00/g"
 }
 
 test_4() {
+	submit='{
+		"add":[{"reg":"C-*","comment":"Air Canada *","notify":false}],
+		"del":["C-????"],
+		"upd":[]
+	}'
+
 	browse --with-csrf-token \
-		--data-urlencode "add=C-*	Air Canada *	0" \
-		--data-urlencode "del=C-????" \
+		--data-urlencode "watchlist=$submit" \
 		"$url/?arrival&time=$time" |
 	sed -r "s/time=$today/time=0000-00-00/g"
 }
@@ -156,8 +162,14 @@ sqlInsertWatchlistNotifications() {
 test_4_0() {
 	sqlInsertWatchlistNotifications
 
+	submit='{
+		"add":[{"reg":"ZS-SNC","comment":"SAA - Star Alliance","notify":true}],
+		"del":["ZS-SNC"],
+		"upd":[]
+	}'
+
 	browse --with-csrf-token \
-		--data-urlencode "add=ZS-SNC	SAA - Star Alliance	1" \
+		--data-urlencode "watchlist=$submit" \
 		"$url/?arrival&time=$time" |
 	sed -r "s/time=$today/time=0000-00-00/g"
 }
@@ -165,9 +177,14 @@ test_4_0() {
 # del+add same reg
 
 test_4_1() {
+	submit='{
+		"add":[{"reg":"ZS-SNC","comment":"SAA - Star Alliance","notify":true}],
+		"del":["ZS-SNC"],
+		"upd":[]
+	}'
+
 	browse --with-csrf-token \
-		--data-urlencode "del=ZS-SNC" \
-		--data-urlencode "add=ZS-SNC	SAA - Star Alliance	1" \
+		--data-urlencode "watchlist=$submit" \
 		"$url/?arrival&time=$time" |
 	sed -r "s/time=$today/time=0000-00-00/g"
 }
@@ -175,17 +192,14 @@ test_4_1() {
 ### upd+add same reg
 
 test_4_2() {
-	add=$(
-		# DON'T USE TABS AT THE BEGINNING OF add/del POST VALUES!
-		cat <<-"EOF"
-			ZS-SNC	South African Airways - Star Alliance	1
-			ZS-SNC	South African Airways - Star Alliance	1
-		EOF
-	)
+	submit='{
+		"add":[{"reg":"ZS-SNC","comment":"South African Airways - Star Alliance","notify":true}],
+		"del":[],
+		"upd":[{"prev":"ZS-SNC","reg":"ZS-SNC","comment":"African Airways - Star Alliance","notify":false}]
+	}'
 
 	browse --with-csrf-token \
-		--data-urlencode "upd=ZS-SNC	ZS-SNC	ZS-SNC	African Airways - Star Alliance	0" \
-		--data-urlencode "add=$add" \
+		--data-urlencode "watchlist=$submit" \
 		"$url/?arrival&time=$time" |
 	sed -r "s/time=$today/time=0000-00-00/g"
 }
@@ -193,9 +207,14 @@ test_4_2() {
 ### add+upd same reg
 
 test_4_3() {
+	submit='{
+		"add":[{"reg":"C-FDAT","comment":"Air Transat - A310","notify":true}],
+		"del":[],
+		"upd":[{"prev":"C-FDAT","reg":"C-FDAT","comment":"Air Transat - A310","notify":false}]
+	}'
+
 	browse --with-csrf-token \
-		--data-urlencode "add=C-FDAT	Air Transat - A310	1" \
-		--data-urlencode "upd=C-FDAT	C-FDAT	Air Transat - A310	0" \
+		--data-urlencode "watchlist=$submit" \
 		"$url/?arrival&time=$time" |
 	sed -r "s/time=$today/time=0000-00-00/g"
 }
@@ -203,8 +222,14 @@ test_4_3() {
 ## del reg
 
 test_5() {
+	submit='{
+		"add":[],
+		"del":["ZS-SNC"],
+		"upd":[]
+	}'
+
 	browse --with-csrf-token \
-		--data-urlencode "del=ZS-SNC" \
+		--data-urlencode "watchlist=$submit" \
 		"$url/?arrival&time=$time" |
 	sed -r "s/time=$today/time=0000-00-00/g"
 }
