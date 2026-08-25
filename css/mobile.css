@@ -328,6 +328,10 @@ form div.explainatory
 	border-collapse: collapse;
 }
 
+#watchlist form table tr[data-submit="del"] {
+	display: none;
+}
+
 #watchlist form table th {
 	font-size: 80%;
 }

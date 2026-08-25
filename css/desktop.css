@@ -512,6 +512,10 @@ form div.explainatory
 	margin-right: 10px;
 }
 
+#watchlist form tr[data-submit="del"] {
+	display: none;
+}
+
 #watchlist form td:first-child {
 	display: flex;
 }
