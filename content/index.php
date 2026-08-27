@@ -15,11 +15,6 @@ $message = null;
 
 include 'photodb.php';
 
-if ($user)
-	$photodb = $user->opt('photodb');
-else
-	$photodb = 'airliners.net';
-
 /* Update watchlist from posted values */
 if (isset($_POST['add']) ||
 	isset($_POST['upd']) ||
@@ -355,7 +350,7 @@ foreach ($watch as $reg => $entry)
 													str_replace(
 														[ '&', '{reg}' ],
 														[ '&amp;', $reg ],
-														$URL[$photodb]
+														$PhotodbSearchUrl
 													) ?>" target="<?= $photodb ?>">
 													<div></div>
 												</a>
@@ -643,7 +638,7 @@ if ($db)
 				if ($title)
 					$title = " title=\"{$title}\"";
 
-				$href = str_replace(['&', '{reg}' ], [ '&amp;', $reg ], $URL[$photodb]);
+				$href = str_replace(['&', '{reg}' ], [ '&amp;', $reg ], $PhotodbSearchUrl);
 			}
 
 			/* <td> inherits 'class="left"' from div.box */

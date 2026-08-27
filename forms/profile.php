@@ -386,7 +386,7 @@ else if ('photodb' == $item)
 				<div class="cell">
 					<select name="photodb" id="photodb">
 <?php
-							foreach ($URL as $domain => $url)
+							foreach ($PHOTODB_SEARCH_URLS as $domain => $url)
 							{
 								$sel = $domain == $user->opt('photodb') ? ' selected' : '';
 								echo "<option value='$domain'$sel>$domain</option>\n";
