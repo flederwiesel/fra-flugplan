@@ -1,6 +1,6 @@
 <?php
 
-$URL = [
+$PHOTODB_SEARCH_URLS = [
 	'airfleets.net' => 'https://www.airfleets.net/recherche/?key={reg}',
 	'airliners.net' => 'https://www.airliners.net/search?sortBy=datePhotographedYear&sortOrder=desc&keywords={reg}',
 	'flugzeugbilder.de' => 'https://www.flugzeugbilder.de/v3/xresult.php?srt=d&ord=descending&rg-srch={reg}',
@@ -8,5 +8,12 @@ $URL = [
 	'netairspace.cc' => 'https://www.netairspace.cc/photos/search.php?search=Search&presentation=info&sortorder=latestfirst&registration={reg}',
 	'planespotters.net' => 'https://www.planespotters.net/search?q={reg}',
 ];
+
+if ($user)
+	$photodb = $user->opt('photodb');
+else
+	$photodb = 'airliners.net';
+
+$PhotodbSearchUrl = $PHOTODB_SEARCH_URLS[$photodb];
 
 ?>
