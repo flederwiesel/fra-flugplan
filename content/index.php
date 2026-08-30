@@ -7,206 +7,55 @@ if ($user)
 <script type="text/javascript" src="<?= Asset::src('script/watchlist.js') ?>" defer></script>
 <?php
 }
-?>
-<?php
 
 $error = null;
 $message = null;
 
 include 'photodb.php';
 
-/* Update watchlist from posted values */
-if (isset($_POST['watchlist']))
+require_once("watchlist.php");
+
+$watchlist = null;
+
+if ($db)
 {
-	if (!$user)
+	try
 	{
-		$error = $STRINGS['unexpected'];
-	}
-	else
-	{
-		if ($db)
+		if ($user)
 		{
-			try
+			$watchlist = new Watchlist($db, $user->id());
+
+			if (isset($_POST['watchlist']))
 			{
-				$uid = $user->id();
-
-				// If at least one notification is set active,
-				// warn if notification times need to be set
-				$CheckNotifTimes = false;
-
+				// Update watchlist from posted values
 				try
 				{
-					$watchlist = json_decode(
-						$_POST['watchlist'], false, 5, JSON_THROW_ON_ERROR
+					$postData = new WatchlistPostData(
+						json_decode(
+							$_POST['watchlist'], false, 5, JSON_THROW_ON_ERROR
+						)
 					);
 
-					// Make sure all properties exist, even if not contained in the $_POST
-					$watchlist->del = property_exists($watchlist, 'del') ? $watchlist->del : [];
-					$watchlist->upd = property_exists($watchlist, 'upd') ? $watchlist->upd : [];
-					$watchlist->add = property_exists($watchlist, 'add') ? $watchlist->add : [];
+					$watchlist->update($postData);
 
-					if (count($watchlist->del) > 0)
+					// If any added/updated entry sets notifications, check whether
+					// the notification times in the user profile are meaningful.
+					if ($postData->containsNotifications())
 					{
-						$stNotif = $db->prepare(<<<SQL
-							/*[Q16]*/
-							DELETE `watchlist-notifications`
-							FROM `watchlist-notifications`
-							INNER JOIN (
-								SELECT `id`
-								FROM `watchlist`
-								WHERE `user` = :uid
-									AND `reg` = :reg
-							) AS `watchlist`
-								ON `watchlist`.`id` = `watchlist-notifications`.`watch`
-							SQL
-						);
-
-						$stWatch = $db->prepare(<<<SQL
-							/*[Q17]*/
-							DELETE FROM `watchlist`
-							WHERE
-								`user` = :uid AND
-								`reg` = :reg
-							SQL
-						);
-
-						foreach ($watchlist->del as $reg)
-						{
-							$reg = strtoupper(trim($reg));
-
-							$stNotif->execute([
-								"uid" => $uid,
-								"reg" => $reg,
-							]);
-
-							$stWatch->execute([
-								"uid" => $uid,
-								"reg" => $reg,
-							]);
-						}
-					}
-
-					if (count($watchlist->upd) > 0)
-					{
-						$st = $db->prepare(<<<SQL
-							/*[Q20]*/
-							UPDATE `watchlist`
-							SET
-								`reg` = :reg,
-								`comment` = :comment,
-								`notify` = :notify
-							WHERE
-								`user` = :uid AND
-								`reg` = :prev
-							SQL
-						);
-
-						foreach ($watchlist->upd as $entry)
-						{
-							$entry = (object)$entry;
-							$prev = strtoupper(trim($entry->prev));
-							$reg = strtoupper(trim($entry->reg));
-
-							if (!$reg)
-								$reg = $prev;
-
-							$comment = trim($entry->comment);
-							$notify = trim($entry->notify);
-
-							$st->execute([
-								"uid" => $uid,
-								"prev" => $prev,
-								"reg" => $reg,
-								"comment" => $comment,
-								"notify" => $notify ? 1 : 0,
-							]);
-						}
-					}
-
-					if (count($watchlist->add) > 0)
-					{
-						$st = $db->prepare(<<<SQL
-							/*[Q18]*/
-							INSERT INTO `watchlist`(
-								`user`,
-								`reg`,
-								`comment`,
-								`notify`
-							)
-							VALUES(
-								:uid,
-								:reg,
-								:comment,
-								:notify
-							)
-							ON DUPLICATE KEY UPDATE
-								`user` = :uid,
-								`reg` = :reg,
-								`comment` = :comment,
-								`notify` = :notify
-
-							SQL
-						);
-
-						foreach ($watchlist->add as $entry)
-						{
-							$entry = (object)$entry;
-
-							if ($entry->reg)
-							{
-								$reg = strtoupper(trim($entry->reg));
-								$comment = trim($entry->comment);
-								$notify = trim($entry->notify);
-
-								$st->execute([
-									"uid" => $uid,
-									"reg" => $reg,
-									"comment" => $comment,
-									"notify" => $notify ? 1 : 0,
-								]);
-							}
-						}
+						if ($user->opt('notification-from') == $user->opt('notification-until'))
+							$message = $STRINGS['notif-setinterval'];
 					}
 				}
 				catch (JsonException | ValueError $e)
 				{
 					$error = $STRINGS['invalidrequest'];
 				}
-
-				// If any added/updated entry sets notifications, check whether
-				// the notification times in the user profile are meaninful.
-				foreach ($watchlist->add as $entry)
-				{
-					if ($entry->notify)
-					{
-						$CheckNotifTimes = true;
-						break;
-					}
-				}
-
-				if (!$CheckNotifTimes)
-				{
-					foreach ($watchlist->upd as $entry)
-					{
-						if ($entry->notify)
-						{
-							$CheckNotifTimes = true;
-							break;
-						}
-					}
-				}
-
-				if ($CheckNotifTimes)
-				{
-					if ($user->opt('notification-from') == $user->opt('notification-until'))
-						$message = $STRINGS['notif-setinterval'];
-				}
-			}
-			catch (PDOException $ex)
-			{
-				$error = PDOErrorInfo($ex, $STRINGS['dberror']);
 			}
 		}
+	}
+	catch (PDOException $ex)
+	{
+		$error = PDOErrorInfo($ex, $STRINGS['dberror']);
 	}
 }
 
@@ -274,42 +123,8 @@ $activerwy = implode(" | ", $activerwy);
  * Watchlist
  ******************************************************************************/
 
-$watchlist = [];
-
-if ($user)
+if ($watchlist)
 {
-	if ($db)
-	{
-		try
-		{
-			$st = $db->prepare(<<<SQL
-				/*[Q19]*/
-				SELECT
-					`reg`,
-					`comment`,
-					`notify`
-				FROM
-					`watchlist`
-				WHERE
-					`user` = ?
-				ORDER BY
-					`reg`
-				SQL
-			);
-
-			$st->execute([$user->id()]);
-
-			while ($row = $st->fetchObject())
-				$watchlist[$row->reg] = (object)[
-					"comment" => $row->comment,
-					"notify" => $row->notify
-				];
-		}
-		catch (PDOException $ex)
-		{
-			$error = PDOErrorInfo($ex, $STRINGS['dberror']);
-		}
-	}
 ?>
 <div id="watchlist-container">
 	<div>
@@ -321,72 +136,7 @@ if ($user)
 				<form method="post" action="?" class="center">
 					<div>
 						<section>
-							<table>
-								<thead>
-									<tr>
-										<th data-key="reg"><?= $STRINGS['reg'] ?></th>
-										<th data-key="comment"><?= $STRINGS['comment'] ?></th>
-										<th data-key="notify"><a href="#" id="toggle-notifications"><img src="<?= Asset::src('img/mail.png') ?>" alt="e-mail"></a></th>
-										<th></th>
-										<th></th>
-									</tr>
-								</thead>
-								<tbody>
-<?php
-if (0 == count($watchlist))
-{
-?>
-									<tr data-submit="add">
-										<!-- inputs do not have names, POST values will be generated upon submit -->
-										<td><input type="text" class="reg" value="" maxlength="31"></td>
-										<td><input type="text" class="comment" value="" maxlength="255"></td>
-										<td><input type="checkbox" class="notify" value=""></td>
-										<td><button type="button" class="del"></button></td>
-										<td><button type="button" class="add"></button></td>
-									</tr>
-<?php
-}
-
-foreach ($watchlist as $reg => $entry)
-{
-?>
-									<tr>
-										<td>
-<?php
-	if (preg_match('/^\/.*\/$|[*?]/', $reg))
-	{
-?>
-											<div></div>
-<?php
-	}
-	else
-	{
-?>
-											<div>
-												<a href="<?=
-													str_replace(
-														[ '&', '{reg}' ],
-														[ '&amp;', $reg ],
-														$PhotodbSearchUrl
-													) ?>" target="<?= $photodb ?>">
-													<div></div>
-												</a>
-											</div>
-<?php
-	}
-?>
-											<input type="text" class="reg" value="<?= $reg ?>" maxlength="31">
-										</td>
-										<td><input type="text" class="comment" value="<?= htmlspecialchars($entry->comment) ?>" maxlength="255"></td>
-										<td><input type="checkbox" class="notify" value=""<?= $entry->notify ? " checked" : "" ?>></td>
-										<td><button type="button" class="del"></button></td>
-										<td><button type="button" class="add"></button></td>
-									</tr>
-<?php
-	}
-?>
-								</tbody>
-							</table>
+<?= $watchlist->renderTable($photodb, $PhotodbSearchUrl); ?>
 						</section>
 						<div id="submit-container">
 							<input type="hidden" name="CSRFToken" value="<?= CsrfToken::get() ?>">
@@ -400,6 +150,11 @@ foreach ($watchlist as $reg => $entry)
 </div>
 <?php
 }
+
+// Transform the watchlist data to a more suitable format for
+// reg comparison against array indices, regexes and wildcards.
+
+$WatchlistMatcher = $watchlist ? new WatchlistMatcher($watchlist->data()) : null;
 
 if ($error)
 {
@@ -433,37 +188,6 @@ if ($error)
 		</thead>
 		<tbody>
 <?php
-
-// As it makes no sense to directly compare regs to wildcards/regexes,
-// filter those out and put into separate lists to be handled accordingly.
-// Note that - as opposed to regular watchlist entries, those lists contain
-// only the comment, rather than the full watchlist entry.
-
-$watchlist = (function($watchlist) {
-	$w = (object)[
-		"reg" => [],
-		"regex" => [],
-		"wildcard" => [],
-	];
-
-	foreach ($watchlist as $reg => $entry)
-	{
-		if (strchr($reg, '*') || strchr($reg, '?'))
-		{
-			$w->wildcard[$reg] = $watchlist[$reg]->comment;
-			unset($watchlist[$reg]);
-		}
-		else if ($reg[0] == '/' && $reg[-1] == '/')
-		{
-			$w->regex[$reg] = $watchlist[$reg]->comment;
-			unset($watchlist[$reg]);
-		}
-	}
-
-	$w->reg = $watchlist;
-
-	return $w;
-})($watchlist);
 
 // Make sure we use the correct timezone
 $tz = date_default_timezone_set('Europe/Berlin');
@@ -622,28 +346,9 @@ if ($db)
 
 			if ($reg)
 			{
-				$comment = (function($watchlist, $reg) {
-					if (isset($watchlist->reg[$reg]))
-					{
-						return $watchlist->reg[$reg]->comment;
-					}
-					else
-					{
-						foreach ($watchlist->regex as $key => $value)
-						{
-							if (preg_match($key, $reg))
-								return $value;
-						}
+				$comment = $WatchlistMatcher ? $WatchlistMatcher->getComment($reg) : null;
 
-						foreach ($watchlist->wildcard as $key => $value)
-						{
-							if (fnmatch($key, $reg))
-								return $value;
-						}
-					}
-				})($watchlist, $reg);
-
-				if ($comment)
+				if ($comment !== null)
 				{
 					$classes[] = "watch";
 					$title = htmlspecialchars($comment);
