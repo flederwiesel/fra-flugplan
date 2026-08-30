@@ -274,7 +274,7 @@ $activerwy = implode(" | ", $activerwy);
  * Watchlist
  ******************************************************************************/
 
-$watch = [];
+$watchlist = [];
 
 if ($user)
 {
@@ -300,8 +300,7 @@ if ($user)
 			$st->execute([$user->id()]);
 
 			while ($row = $st->fetchObject())
-				$watch[$row->reg] =
-				[
+				$watchlist[$row->reg] = (object)[
 					"comment" => $row->comment,
 					"notify" => $row->notify
 				];
@@ -334,7 +333,7 @@ if ($user)
 								</thead>
 								<tbody>
 <?php
-if (0 == count($watch))
+if (0 == count($watchlist))
 {
 ?>
 									<tr data-submit="add">
@@ -348,11 +347,8 @@ if (0 == count($watch))
 <?php
 }
 
-foreach ($watch as $reg => $entry)
+foreach ($watchlist as $reg => $entry)
 {
-	$comment = $entry['comment'];
-	$notify = $entry['notify'];
-	$watch[$reg] = $comment;
 ?>
 									<tr>
 										<td>
@@ -381,8 +377,8 @@ foreach ($watch as $reg => $entry)
 ?>
 											<input type="text" class="reg" value="<?= $reg ?>" maxlength="31">
 										</td>
-										<td><input type="text" class="comment" value="<?= htmlspecialchars($comment) ?>" maxlength="255"></td>
-										<td><input type="checkbox" class="notify" value=""<?= $notify ? " checked" : "" ?>></td>
+										<td><input type="text" class="comment" value="<?= htmlspecialchars($entry->comment) ?>" maxlength="255"></td>
+										<td><input type="checkbox" class="notify" value=""<?= $entry->notify ? " checked" : "" ?>></td>
 										<td><button type="button" class="del"></button></td>
 										<td><button type="button" class="add"></button></td>
 									</tr>
@@ -438,19 +434,36 @@ if ($error)
 		<tbody>
 <?php
 
-$watch['wildcards'] = [];
+// As it makes no sense to directly compare regs to wildcards/regexes,
+// filter those out and put into separate lists to be handled accordingly.
+// Note that - as opposed to regular watchlist entries, those lists contain
+// only the comment, rather than the full watchlist entry.
 
-foreach ($watch as $reg => $comment)
-{
-	if ($reg != 'wildcards')
+$watchlist = (function($watchlist) {
+	$w = (object)[
+		"reg" => [],
+		"regex" => [],
+		"wildcard" => [],
+	];
+
+	foreach ($watchlist as $reg => $entry)
 	{
-		if (preg_match('/^\/.*\/$|[*?]/', $reg))
+		if (strchr($reg, '*') || strchr($reg, '?'))
 		{
-			$watch['wildcards'][$reg] = $comment;
-			unset($watch[$reg]);
+			$w->wildcard[$reg] = $watchlist[$reg]->comment;
+			unset($watchlist[$reg]);
+		}
+		else if ($reg[0] == '/' && $reg[-1] == '/')
+		{
+			$w->regex[$reg] = $watchlist[$reg]->comment;
+			unset($watchlist[$reg]);
 		}
 	}
-}
+
+	$w->reg = $watchlist;
+
+	return $w;
+})($watchlist);
 
 // Make sure we use the correct timezone
 $tz = date_default_timezone_set('Europe/Berlin');
@@ -603,56 +616,47 @@ if ($db)
 			}
 
 			$reg = $row->reg ?? '';
-			$title = "";
+			$title = null;
 			$href = null;
 			$classes = ["reg"];
 
 			if ($reg)
 			{
-				$vtf = $row->vtf ?? 9999;
+				$comment = (function($watchlist, $reg) {
+					if (isset($watchlist->reg[$reg]))
+					{
+						return $watchlist->reg[$reg]->comment;
+					}
+					else
+					{
+						foreach ($watchlist->regex as $key => $value)
+						{
+							if (preg_match($key, $reg))
+								return $value;
+						}
 
-				if (isset($watch[$reg]))
+						foreach ($watchlist->wildcard as $key => $value)
+						{
+							if (fnmatch($key, $reg))
+								return $value;
+						}
+					}
+				})($watchlist, $reg);
+
+				if ($comment)
 				{
 					$classes[] = "watch";
-					$title = htmlspecialchars($watch[$reg]);
+					$title = htmlspecialchars($comment);
 				}
 				else
 				{
-					if (isset($watch['wildcards']))
-					{
-						foreach ($watch['wildcards'] as $key => $comment)
-						{
-							if (preg_match('/^\/.*\/$/', $key))
-							{
-								/* Regex */
-								if (preg_match($key, $reg))
-								{
-									$classes[] = "watch";
-									$title = htmlspecialchars($comment);
-									break;
-								}
-							}
-							else
-							{
-								if (fnmatch($key, $reg))
-								{
-									/* Wildcard */
-									$classes[] = "watch";
-									$title = htmlspecialchars($comment);
-									break;
-								}
-							}
-						}
-					}
+					$vtf = $row->vtf ?? 9999;
 
-					if (count($classes) == 1)	// ["reg"]
+					if ($vtf < 10)
 					{
-						if ($vtf < 10)
-						{
-							$classes[] = "rare";
-							$vtf = ordinal($vtf, $lang);
-							$title = htmlspecialchars("$vtf$STRINGS[vtf]");
-						}
+						$classes[] = "rare";
+						$vtf = ordinal($vtf, $lang);
+						$title = htmlspecialchars("$vtf$STRINGS[vtf]");
 					}
 				}
 
