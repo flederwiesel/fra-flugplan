@@ -915,13 +915,18 @@ function MapFlightStatus(/*in/out*/ &$status)
 	case 'geplant':
 	case 'scheduled':
 	case '计划':
+
 	case 'umgeleitet':
 	case 'diverted':
 	case '航线改道':
 
-	case 'im anflug':
 	case 'verspätet':
+	case 'delayed':
+	case '延誤的航班':
+
 	case 'verspätet am vorflughafen':
+
+	case 'im anflug':
 	case 'approaching':
 	case '在飞行中':
 		$status = FlightStatus::APPROACHING;
@@ -949,23 +954,25 @@ function MapFlightStatus(/*in/out*/ &$status)
 
 	case 'neues gate':
 	case 'new gate':
+
 	case 'gate offen':
 	case 'gate open':
 	case '登机口开放':
-		// fallthrough
+
 	case 'verspäteter abflug':
 	case 'delayed departure':
+
 	case 'aufruf':
 	case 'ready for boarding':
 	case '准备登机':
-		// fallthrough
+
 	case 'boarding':
 	case '登机':
-		// fallthrough
+
 	case 'geschlossen':
 	case 'closed':
 	case '已关闭':
-		// fallthrough
+
 	case 'position verlassen':
 	case 'off block':
 	case '离开停机位':
@@ -973,10 +980,11 @@ function MapFlightStatus(/*in/out*/ &$status)
 		break;
 
 	case 'abgeflogen':
+	case 'departed':
+		case '已起飞':
+
 	case 'gestartet':
 	case 'started':
-	case 'departed':
-	case '已起飞':
 		$status = FlightStatus::DEPARTED;
 		break;
 
@@ -988,20 +996,16 @@ function MapFlightStatus(/*in/out*/ &$status)
 
 	default:
 
-		if ('verspätet auf' == mb_substr($status, 0, 13))
-		{
+		if (
+			'verspätet auf' == mb_substr($status, 0, 13) ||
+			'delayed to' == mb_substr($status, 0, 10)
+		) {
 			$status = FlightStatus::APPROACHING;
 		}
-		else if ('ankunft vom' == mb_substr($status, 0, 11))
-		{
-			$status = FlightStatus::APPROACHING;
-		}
-		else if ('arrival from' == mb_substr($status, 0, 12))
-		{
-			$status = FlightStatus::APPROACHING;
-		}
-		else if ('delayed to' == mb_substr($status, 0, 10))
-		{
+		else if (
+			'ankunft vom' == mb_substr($status, 0, 11) ||
+			'arrival from' == mb_substr($status, 0, 12)
+		) {
 			$status = FlightStatus::APPROACHING;
 		}
 		else if ('delayed from' == mb_substr($status, 0, 12))
