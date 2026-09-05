@@ -266,7 +266,9 @@ $(function()
 	var body = document.getElementsByTagName("body")[0];
 
 	body.onclick = function(e) {
-		watchlist.classList.remove("expanded");
+		if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
+			watchlist.classList.remove("expanded");
+		}
 	}
 
 	body.onkeydown = function(e) {
