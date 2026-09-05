@@ -384,7 +384,7 @@ form div.explainatory
 #watchlist form > div {
 }
 
-#watchlist form > div > div {
+#watchlist form > div > section {
 	overflow-y: scroll;
 }
 
@@ -476,6 +476,13 @@ form div.explainatory
 #watchlist form input[type=text].reg
 {
 	width: 5em;
+}
+
+#submit-container {
+	position: sticky;
+	bottom: 0;
+	height: 3em;
+	background-color: white;
 }
 
 #schedule

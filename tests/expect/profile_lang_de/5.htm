@@ -81,7 +81,7 @@ Live Flugplan &ndash; Ankunft</h3>
 			<div>
 				<form method="post" action="?" class="center">
 					<div>
-						<div>
+						<section>
 							<table>
 								<thead>
 									<tr>
@@ -103,9 +103,11 @@ Live Flugplan &ndash; Ankunft</h3>
 									</tr>
 								</tbody>
 							</table>
+						</section>
+						<div id="submit-container">
+							<input type="hidden" name="CSRFToken" value="">
+							<input type="submit" value="Speichern">
 						</div>
-						<input type="hidden" name="CSRFToken" value="">
-						<input type="submit" value="Speichern">
 					</div>
 				</form>
 			</div>
