@@ -305,7 +305,7 @@ if ($user)
 			<div>
 				<form method="post" action="?" class="center">
 					<div>
-						<div>
+						<section>
 							<table>
 								<thead>
 									<tr>
@@ -375,9 +375,11 @@ foreach ($watch as $reg => $entry)
 ?>
 								</tbody>
 							</table>
+						</section>
+						<div id="submit-container">
+							<input type="hidden" name="CSRFToken" value="<?= CsrfToken::get() ?>">
+							<input type="submit" value="<?= $STRINGS['save'] ?>">
 						</div>
-						<input type="hidden" name="CSRFToken" value="<?= CsrfToken::get() ?>">
-						<input type="submit" value="<?= $STRINGS['save'] ?>">
 					</div>
 				</form>
 			</div>

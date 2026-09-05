@@ -454,7 +454,7 @@ form div.explainatory
 	height: 100%;
 }
 
-#watchlist form > div > div {
+#watchlist form > div > section {
 	padding: 0 1em 0 0;
 	height: 90%;
 	overflow-y: scroll;
