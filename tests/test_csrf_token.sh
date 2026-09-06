@@ -108,7 +108,7 @@ test_5_1() {
 test_6_0() {
 	browse -X POST \
 		--clear-csrf-token \
-		--data-urlencode 'watchlist={"add":[{"reg":"C-GFAH","comment":"Air Canada - Star Alliance","notify":1}]}' \
+		--data-urlencode 'watchlist={"private":{"add":[{"reg":"C-GFAH","comment":"Air Canada - Star Alliance","notify":1}]}}' \
 		"$url/?arrival"
 }
 
@@ -117,7 +117,7 @@ test_6_0() {
 test_6_1() {
 	browse -X POST \
 		--store-csrf-token \
-		--data-urlencode 'watchlist={"add":[{"reg":"C-GFAH","comment":"Air Canada - Star Alliance","notify":1}]}' \
+		--data-urlencode 'watchlist={"private":{"add":[{"reg":"C-GFAH","comment":"Air Canada - Star Alliance","notify":1}]}}' \
 		"$url/?arrival"
 }
 
