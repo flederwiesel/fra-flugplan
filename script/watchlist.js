@@ -203,66 +203,71 @@ document.addEventListener("DOMContentLoaded", () => {
 	form.addEventListener("formdata", (event) => {
 		var form = event.target;
 		var keys = [];
-		var submit = {
-			"add": [],
-			"del": [],
-			"upd": []
+		const submit = {
+			"private": {
+				"add": [],
+				"del": [],
+				"upd": []
+			}
 		};
 
-		form.querySelectorAll(`thead tr th`).forEach(col => {
-			keys.push(col.dataset["key"]);
-		});
+		["private"].forEach(owner => {
+			// Get column keys from table header
+			form.querySelectorAll(`thead tr th`).forEach(col => {
+				keys.push(col.dataset["key"]);
+			});
 
-		// For each private/shared div, loop through table rows,
-		// check whether they are marked as to be added, updated or deleted
-		// and build up a according arrays.
-		form.querySelectorAll(`tbody tr`).forEach(row => {
-			var action = row.dataset["submit"];
+			// For each private/shared div, loop through table rows,
+			// check whether they are marked as to be added, updated or deleted
+			// and build up a according arrays.
+			form.querySelectorAll(`tbody tr`).forEach(row => {
+				var action = row.dataset["submit"];
 
-			if (action)
-			{
-				var prev;
-				var reg;
-				var comment;
-				var notify;
-
-				row.querySelectorAll("input").forEach((input, idx) => {
-					switch (keys[idx]) {
-						case "reg":
-							prev = input.defaultValue;
-							reg = input.value;
-							break;
-						case "comment":
-							comment = input.value;
-							break;
-						case "notify":
-							notify = input.checked;
-							break;
-					}
-				});
-
-				if (reg.length > 0)
+				if (action)
 				{
-					if (action === "del") {
-						submit.del.push(reg);
-					}
-					else {
-						entry = {
-							"reg": reg,
-							"comment": comment,
-							"notify": notify ?? false,
-						};
+					var prev;
+					var reg;
+					var comment;
+					var notify;
 
-						if (action === "add") {
-							submit.add.push(entry);
+					row.querySelectorAll("input").forEach((input, idx) => {
+						switch (keys[idx]) {
+							case "reg":
+								prev = input.defaultValue;
+								reg = input.value;
+								break;
+							case "comment":
+								comment = input.value;
+								break;
+							case "notify":
+								notify = input.checked;
+								break;
 						}
-						else if (action === "upd") {
-							entry.prev = prev
-							submit.upd.push(entry);
+					});
+
+					if (reg.length > 0)
+					{
+						if (action === "del") {
+							submit[owner].del.push(reg);
+						}
+						else {
+							entry = {
+								"reg": reg,
+								"comment": comment,
+								"notify": notify ?? false,
+							};
+
+							if (action === "add") {
+								submit[owner].add.push(entry);
+							}
+							else if (action === "upd") {
+								entry.prev = prev
+								submit[owner].upd.push(entry);
+							}
 						}
 					}
 				}
-			}
+			});
 		});
 
 		event.formData.set("watchlist", JSON.stringify(submit));

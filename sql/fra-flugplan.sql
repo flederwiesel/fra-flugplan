@@ -206,7 +206,7 @@ CREATE TABLE `watchlist-notifications`
 
 INSERT INTO `groups`(`name`, `comment`)
 VALUES
-('admin',      NULL),
-('users',      NULL),
-('addflights', NULL),
-('specials',   NULL);
+('admin',            NULL),
+('users',            NULL),
+('addflights',       NULL),
+('shared-watchlist', NULL);

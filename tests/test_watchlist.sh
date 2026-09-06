@@ -99,14 +99,16 @@ test_2() {
 
 test_3() {
 	submit='{
-		"add":[
-			{"reg":"ZS-SNC","comment":"South African Airways - Star Alliance","notify":true},
-			{"reg":"C-????","comment":"Air Canada ?","notify":false},
-			{"reg":"C-FDAT","comment":"Air Transat - A310","notify":true},
-			{"reg":"/C-G(TSTS[FHWY]|[FLPS]AT)/","comment":"Air Transat - A310","notify":true}
-		],
-		"del":["C-????"],
-		"upd":[]
+		"private":{
+			"add":[
+				{"reg":"ZS-SNC","comment":"South African Airways - Star Alliance","notify":true},
+				{"reg":"C-????","comment":"Air Canada ?","notify":false},
+				{"reg":"C-FDAT","comment":"Air Transat - A310","notify":true},
+				{"reg":"/C-G(TSTS[FHWY]|[FLPS]AT)/","comment":"Air Transat - A310","notify":true}
+			],
+			"del":["C-????"],
+			"upd":[]
+		}
 	}'
 
 	browse --with-csrf-token \
@@ -117,9 +119,11 @@ test_3() {
 
 test_4() {
 	submit='{
-		"add":[{"reg":"C-*","comment":"Air Canada *","notify":false}],
-		"del":["C-????"],
-		"upd":[]
+		"private":{
+			"add":[{"reg":"C-*","comment":"Air Canada *","notify":false}],
+			"del":["C-????"],
+			"upd":[]
+		}
 	}'
 
 	browse --with-csrf-token \
@@ -163,9 +167,11 @@ test_4_0() {
 	sqlInsertWatchlistNotifications
 
 	submit='{
-		"add":[{"reg":"ZS-SNC","comment":"SAA - Star Alliance","notify":true}],
-		"del":["ZS-SNC"],
-		"upd":[]
+		"private":{
+			"add":[{"reg":"ZS-SNC","comment":"SAA - Star Alliance","notify":true}],
+			"del":["ZS-SNC"],
+			"upd":[]
+		}
 	}'
 
 	browse --with-csrf-token \
@@ -178,9 +184,11 @@ test_4_0() {
 
 test_4_1() {
 	submit='{
-		"add":[{"reg":"ZS-SNC","comment":"SAA - Star Alliance","notify":true}],
-		"del":["ZS-SNC"],
-		"upd":[]
+		"private":{
+			"add":[{"reg":"ZS-SNC","comment":"SAA - Star Alliance","notify":true}],
+			"del":["ZS-SNC"],
+			"upd":[]
+		}
 	}'
 
 	browse --with-csrf-token \
@@ -193,9 +201,11 @@ test_4_1() {
 
 test_4_2() {
 	submit='{
-		"add":[{"reg":"ZS-SNC","comment":"South African Airways - Star Alliance","notify":true}],
-		"del":[],
-		"upd":[{"prev":"ZS-SNC","reg":"ZS-SNC","comment":"African Airways - Star Alliance","notify":false}]
+		"private":{
+			"add":[{"reg":"ZS-SNC","comment":"South African Airways - Star Alliance","notify":true}],
+			"del":[],
+			"upd":[{"prev":"ZS-SNC","reg":"ZS-SNC","comment":"African Airways - Star Alliance","notify":false}]
+		}
 	}'
 
 	browse --with-csrf-token \
@@ -208,9 +218,11 @@ test_4_2() {
 
 test_4_3() {
 	submit='{
-		"add":[{"reg":"C-FDAT","comment":"Air Transat - A310","notify":true}],
-		"del":[],
-		"upd":[{"prev":"C-FDAT","reg":"C-FDAT","comment":"Air Transat - A310","notify":false}]
+		"private":{
+			"add":[{"reg":"C-FDAT","comment":"Air Transat - A310","notify":true}],
+			"del":[],
+			"upd":[{"prev":"C-FDAT","reg":"C-FDAT","comment":"Air Transat - A310","notify":false}]
+		}
 	}'
 
 	browse --with-csrf-token \
@@ -223,9 +235,11 @@ test_4_3() {
 
 test_5() {
 	submit='{
-		"add":[],
-		"del":["ZS-SNC"],
-		"upd":[]
+		"private":{
+			"add":[],
+			"del":["ZS-SNC"],
+			"upd":[]
+		}
 	}'
 
 	browse --with-csrf-token \

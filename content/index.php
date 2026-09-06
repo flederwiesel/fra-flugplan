@@ -15,7 +15,9 @@ include 'photodb.php';
 
 require_once("watchlist.php");
 
-$watchlist = null;
+$watchlist = [
+	"private" => null,
+];
 
 if ($db)
 {
@@ -23,27 +25,33 @@ if ($db)
 	{
 		if ($user)
 		{
-			$watchlist = new Watchlist($db, $user->id());
+			$watchlist["private"] = new Watchlist($db, $user->id());
 
 			if (isset($_POST['watchlist']))
 			{
 				// Update watchlist from posted values
 				try
 				{
-					$postData = new WatchlistPostData(
-						json_decode(
-							$_POST['watchlist'], false, 5, JSON_THROW_ON_ERROR
-						)
+					$posted = json_decode(
+						$_POST['watchlist'], false, 5, JSON_THROW_ON_ERROR
 					);
 
-					$watchlist->update($postData);
-
-					// If any added/updated entry sets notifications, check whether
-					// the notification times in the user profile are meaningful.
-					if ($postData->containsNotifications())
+					foreach ($watchlist as $owner => $list)
 					{
-						if ($user->opt('notification-from') == $user->opt('notification-until'))
-							$message = $STRINGS['notif-setinterval'];
+						if (!property_exists($posted, $owner))
+							continue;
+
+						$postData = new WatchlistPostData($posted->{$owner});
+
+						$list->update($postData);
+
+						// If any added/updated entry sets notifications, check whether
+						// the notification times in the user profile are meaningful.
+						if ($postData->containsNotifications())
+						{
+							if ($user->opt('notification-from') == $user->opt('notification-until'))
+								$message = $STRINGS['notif-setinterval'];
+						}
 					}
 				}
 				catch (JsonException | ValueError $e)
@@ -123,7 +131,7 @@ $activerwy = implode(" | ", $activerwy);
  * Watchlist
  ******************************************************************************/
 
-if ($watchlist)
+if ($watchlist["private"])
 {
 ?>
 <div id="watchlist-container">
@@ -136,7 +144,7 @@ if ($watchlist)
 				<form method="post" action="?" class="center">
 					<div>
 						<section>
-<?= $watchlist->renderTable($photodb, $PhotodbSearchUrl); ?>
+<?= $watchlist["private"]->renderTable($photodb, $PhotodbSearchUrl); ?>
 						</section>
 						<div id="submit-container">
 							<input type="hidden" name="CSRFToken" value="<?= CsrfToken::get() ?>">
@@ -154,7 +162,12 @@ if ($watchlist)
 // Transform the watchlist data to a more suitable format for
 // reg comparison against array indices, regexes and wildcards.
 
-$WatchlistMatcher = $watchlist ? new WatchlistMatcher($watchlist->data()) : null;
+$WatchlistMatcher = [
+	"private" => $watchlist["private"] ?
+		new WatchlistMatcher(
+			$watchlist["private"]->data()
+		) : null
+];
 
 if ($error)
 {
@@ -346,22 +359,25 @@ if ($db)
 
 			if ($reg)
 			{
-				$comment = $WatchlistMatcher ? $WatchlistMatcher->getComment($reg) : null;
-
-				if ($comment !== null)
+				foreach ($WatchlistMatcher as $owner => $matcher)
 				{
-					$classes[] = "watch";
-					$title = htmlspecialchars($comment);
-				}
-				else
-				{
-					$vtf = $row->vtf ?? 9999;
+					$comment = $matcher ? $matcher->getComment($reg) : null;
 
-					if ($vtf < 10)
+					if ($comment !== null)
 					{
-						$classes[] = "rare";
-						$vtf = ordinal($vtf, $lang);
-						$title = htmlspecialchars("$vtf$STRINGS[vtf]");
+						$classes[] = "watch";
+						$title = htmlspecialchars($comment);
+					}
+					else
+					{
+						$vtf = $row->vtf ?? 9999;
+
+						if ($vtf < 10)
+						{
+							$classes[] = "rare";
+							$vtf = ordinal($vtf, $lang);
+							$title = htmlspecialchars("$vtf$STRINGS[vtf]");
+						}
 					}
 				}
 
