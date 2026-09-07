@@ -569,7 +569,13 @@ form div.explainatory
 
 #schedule td.watch
 {
-	color: #007f00;
+	color: #009900;
+	font-weight: bold;
+}
+
+#schedule td.special
+{
+	color: #006633;
 	font-weight: bold;
 }
 

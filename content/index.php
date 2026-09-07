@@ -17,12 +17,15 @@ require_once("watchlist.php");
 
 $watchlist = [
 	"private" => null,
+	"shared" => null,
 ];
 
 if ($db)
 {
 	try
 	{
+		$watchlist["shared"] = new Watchlist($db, __UID_SHARED__);
+
 		if ($user)
 		{
 			$watchlist["private"] = new Watchlist($db, $user->id());
@@ -162,12 +165,15 @@ if ($watchlist["private"])
 // Transform the watchlist data to a more suitable format for
 // reg comparison against array indices, regexes and wildcards.
 
-$WatchlistMatcher = [
-	"private" => $watchlist["private"] ?
+$WatchlistMatcher = [];
+
+foreach (["shared", "private"] as $owner)
+{
+	$WatchlistMatcher[$owner] = $watchlist[$owner] ?
 		new WatchlistMatcher(
-			$watchlist["private"]->data()
-		) : null
-];
+			$watchlist[$owner]->data()
+		) : null;
+}
 
 if ($error)
 {
@@ -359,25 +365,28 @@ if ($db)
 
 			if ($reg)
 			{
-				foreach ($WatchlistMatcher as $owner => $matcher)
+				foreach (["private", "shared"] as $owner)
 				{
+					$matcher = $WatchlistMatcher[$owner] ?? null;
 					$comment = $matcher ? $matcher->getComment($reg) : null;
 
 					if ($comment !== null)
 					{
-						$classes[] = "watch";
+						$classes[] = $owner == "private" ? "watch" : "special";
 						$title = htmlspecialchars($comment);
+						break;
 					}
-					else
-					{
-						$vtf = $row->vtf ?? 9999;
+				}
 
-						if ($vtf < 10)
-						{
-							$classes[] = "rare";
-							$vtf = ordinal($vtf, $lang);
-							$title = htmlspecialchars("$vtf$STRINGS[vtf]");
-						}
+				if ($comment === null)
+				{
+					$vtf = $row->vtf ?? 9999;
+
+					if ($vtf < 10)
+					{
+						$classes[] = "rare";
+						$vtf = ordinal($vtf, $lang);
+						$title = htmlspecialchars("$vtf$STRINGS[vtf]");
 					}
 				}
 

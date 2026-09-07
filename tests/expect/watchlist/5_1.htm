@@ -11,13 +11,12 @@
 <meta name="keywords" content="flederwiesel, fra-flugplan, FRA, EDDF, Frankfurt, flight schedule, flight plan, airport, spotter, spotting, planespotting, aircraft registration, aviation">
 <meta name="robots" content="index, nofollow">
 <meta name="author" content="Tobias Kühne">
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <link rel="apple-touch-icon" href="apple-touch-icon.png"/>
 <link rel="icon" type="image/x-icon" href="favicon.ico">
 <link rel="stylesheet" type="text/css" href="script/jquery-ui-1.14.2/jquery-ui.min.css">
 <link rel="stylesheet" type="text/css" href="script/jquery-ui-1.14.2/jquery-ui.structure.min.css">
 <link rel="stylesheet" type="text/css" href="script/jquery-ui-1.14.2/jquery-ui.theme.min.css">
-<link rel="stylesheet" type="text/css" href="css/mobile.css">
+<link rel="stylesheet" type="text/css" media="screen, print" href="css/desktop.css">
 <link rel="stylesheet" href="lib/flag-icons/css/flag-icons.min.css"/>
 <script type="text/javascript" src="script/jquery-ui-1.14.2/external/jquery/jquery.js" defer></script>
 <script type="text/javascript" src="script/jquery-ui-1.14.2/jquery-ui.min.js" defer></script>
@@ -36,15 +35,16 @@ Live Schedule &ndash; Arrival</h3>
 				</div>
 <nav>
 <ul class="menu left">
-	<li class="sep"><img src="img/arrival-white-24x24.png" width="24" height="24" alt="Arrival"></li>
-	<li class="sep"><a href="?departure"><img src="img/departure-grey-24x24.png" width="24" height="24" alt="Departure"></a></li>
-	<li class="sep" id="toggle-watchlist"><a href="#"><img src="img/watchlist-grey-24x24.png" width="24" height="24" alt="Watchlist"></a></li>
-	<li class="sep"><a href="?page=addflight"><img src="img/addflight-grey-24x24.png" width="24" height="24" alt="Add flight"></a></li>
-	<li class="sep"><a href="?page=help"><img src="img/help-grey-24x24.png" width="24" height="24" alt="Help"></a></li>
+	<li><a href="https://www.frankfurt-aviation-friends.de/">Home</a></li>
+	<li class="sep">Arrival</li>
+	<li class="sep"><a href="?departure">Departure</a></li>
+	<li class="sep" id="toggle-watchlist"><a href="#">Watchlist</a></li>
+	<li class="sep"><a href="?page=addflight">Add flight</a></li>
+	<li class="sep"><a href="?page=help">Help</a></li>
 </ul>
 <ul class="menu right">
-	<li class="sep"><a href="?req=profile"><img src="img/profile-grey-24x24.png" width="24" height="24" alt="User profile"></a></li>
-	<li class="sep"><a href="?req=logout"><img src="img/logout-grey-24x24.png" width="24" height="24" alt="Logout"></a></li>
+	<li class="sep"><a href="?req=profile">User profile</a></li>
+	<li class="sep"><a href="?req=logout">Logout</a></li>
 	<li class="lang">
 		<a href="?lang=de">
 			<img class="flag" src="img/de.png" alt="German" width="16" height="12">
@@ -145,15 +145,19 @@ Live Schedule &ndash; Arrival</h3>
 			<tr>
 				<th>Time</th>
 				<th class="sep">Flight</th>
+				<th class="sep">Airline</th>
+				<th class="sep">IATA</th>
+				<th class="sep">ICAO</th>
+				<th class="sep">From</th>
 				<th class="sep sorttable_model">Type</th>
 				<th class="sep sorttable_reg reg"><div></div>Reg</th>
 			</tr>
 		</thead>
 		<tbody>
-<tr><td>+1 06:15</td><td>SA260</td><td class="model">A343</td><td class="reg special" title="South African Airways - Team South Africa 2012"><a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=ZS-SXD" target="airliners.net"><div></div></a>ZS-SXD</td></tr>
-<tr><td>+1 06:20</td><td>CX289</td><td class="model">B77W</td><td class="reg"><a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=B-KPE" target="airliners.net"><div></div></a>B-KPE</td></tr>
-<tr><td>+1 07:00</td><td>AC874</td><td class="model">A333</td><td class="reg watch" title="Air Canada *"><a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=C-GFAH" target="airliners.net"><div></div></a>C-GFAH</td></tr>
-<tr><td>+1 07:00</td><td>TSXXX</td><td class="model">A310</td><td class="reg watch" title="Air Transat - A310"><a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=C-GSAT" target="airliners.net"><div></div></a>C-GSAT</td></tr>
+<tr><td>+1 06:15</td><td>SA260</td><td></td><td>JNB</td><td>FAOR</td><td><div class="fi"></div></td><td class="model">A343</td><td class="reg special" title="South African Airways - Team South Africa 2012"><a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=ZS-SXD" target="airliners.net"><div></div></a>ZS-SXD</td></tr>
+<tr><td>+1 06:20</td><td>CX289</td><td></td><td>HKG</td><td>VHHH</td><td><div class="fi"></div></td><td class="model">B77W</td><td class="reg"><a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=B-KPE" target="airliners.net"><div></div></a>B-KPE</td></tr>
+<tr><td>+1 07:00</td><td>AC874</td><td></td><td>YUL</td><td>CYUL</td><td><div class="fi"></div></td><td class="model">A333</td><td class="reg watch" title="Air Canada *"><a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=C-GFAH" target="airliners.net"><div></div></a>C-GFAH</td></tr>
+<tr><td>+1 07:00</td><td>TSXXX</td><td></td><td>YVR</td><td>CYVR</td><td><div class="fi"></div></td><td class="model">A310</td><td class="reg watch" title="Air Transat - A310"><a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=C-GSAT" target="airliners.net"><div></div></a>C-GSAT</td></tr>
 		</tbody>
 	</table>
 </div>

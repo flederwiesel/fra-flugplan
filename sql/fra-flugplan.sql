@@ -210,3 +210,9 @@ VALUES
 ('users',            NULL),
 ('addflights',       NULL),
 ('shared-watchlist', NULL);
+
+INSERT INTO `users`(`id`, `email`, `name`, `salt`, `passwd`)
+VALUES(-1, '', '__shared__', '', '');
+
+INSERT INTO `membership`(`user`, `group`)
+VALUES(-1, (SELECT `id` FROM `groups` WHERE `name` = 'shared-watchlist'));
