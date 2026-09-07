@@ -78,16 +78,22 @@ Live Flugplan &ndash; Ankunft</h3>
 			<div id="watchlist-handle">
 				<div></div>
 			</div>
-			<div>
-				<form method="post" action="?" class="center">
-					<div>
-						<section>
+			<div data-submit="upd">
+				<div class="tabs">
+					<div id="form-container">
+						<form method="post" action="?" class="center">
+							<section>
+								<div data-owner="private">
 							<table>
 								<thead>
 									<tr>
 										<th data-key="reg">Reg</th>
 										<th data-key="comment">Kommentar</th>
-										<th data-key="notify"><a href="#" id="toggle-notifications"><img src="img/mail.png" alt="e-mail"></a></th>
+										<th data-key="notify">
+											<a href="#" id="toggle-notifications">
+												<img src="img/mail.png" alt="e-mail">
+											</a>
+										</th>
 										<th></th>
 										<th></th>
 									</tr>
@@ -109,13 +115,15 @@ Live Flugplan &ndash; Ankunft</h3>
 									</tr>
 								</tbody>
 							</table>
-						</section>
-						<div id="submit-container">
-							<input type="hidden" name="CSRFToken" value="">
-							<input type="submit" value="Speichern">
-						</div>
+								</div>
+							</section>
+							<div id="submit-container">
+								<input type="hidden" name="CSRFToken" value="">
+								<input type="submit" value="Speichern">
+							</div>
+						</form>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 	</div>

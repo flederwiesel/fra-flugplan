@@ -1,0 +1,214 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Live Schedule &ndash; Frankfurt Aviation Friends</title>
+<meta name="language" content="en">
+<link rel="alternate" href="https://fra-flugplan.de?lang=de" hreflang="de">
+<link rel="alternate" href="https://fra-flugplan.de?lang=en" hreflang="en">
+<link rel="alternate" href="https://fra-flugplan.de" hreflang="x-default">
+<meta name="description" content="Spotter schedule for Frankfurt airport (FRA/EDDF) including aircraft registrations">
+<meta name="keywords" content="flederwiesel, fra-flugplan, FRA, EDDF, Frankfurt, flight schedule, flight plan, airport, spotter, spotting, planespotting, aircraft registration, aviation">
+<meta name="robots" content="index, nofollow">
+<meta name="author" content="Tobias Kühne">
+<link rel="apple-touch-icon" href="apple-touch-icon.png"/>
+<link rel="icon" type="image/x-icon" href="favicon.ico">
+<link rel="stylesheet" type="text/css" href="script/jquery-ui-1.14.2/jquery-ui.min.css">
+<link rel="stylesheet" type="text/css" href="script/jquery-ui-1.14.2/jquery-ui.structure.min.css">
+<link rel="stylesheet" type="text/css" href="script/jquery-ui-1.14.2/jquery-ui.theme.min.css">
+<link rel="stylesheet" type="text/css" media="screen, print" href="css/desktop.css">
+<link rel="stylesheet" href="lib/flag-icons/css/flag-icons.min.css"/>
+<script type="text/javascript" src="script/jquery-ui-1.14.2/external/jquery/jquery.js" defer></script>
+<script type="text/javascript" src="script/jquery-ui-1.14.2/jquery-ui.min.js" defer></script>
+</head>
+<body data-lang="en">
+	<noscript>
+		<div class="noscript">If you obtain this message, JavaScript is either not supported or disabled in in your browser options.<br>In order to use full functionality of this site we advise you to <a href="https://www.enable-javascript.com">enable Javascript</a>.</div>
+	</noscript>
+	<div>
+		<div class="box left">
+			<div>
+				<div id="head">
+					<h1 class="nobr">Frankfurt Aviation Friends</h1>
+					<h3>
+Live Schedule &ndash; Arrival</h3>
+				</div>
+<nav>
+<ul class="menu left">
+	<li><a href="https://www.frankfurt-aviation-friends.de/">Home</a></li>
+	<li class="sep">Arrival</li>
+	<li class="sep"><a href="?departure">Departure</a></li>
+	<li class="sep" id="toggle-watchlist"><a href="#">Watchlist</a></li>
+	<li class="sep"><a href="?page=addflight">Add flight</a></li>
+	<li class="sep"><a href="?page=help">Help</a></li>
+</ul>
+<ul class="menu right">
+	<li class="sep"><a href="?req=profile">User profile</a></li>
+	<li class="sep"><a href="?req=logout">Logout</a></li>
+	<li class="lang">
+		<a href="?lang=de">
+			<img class="flag" src="img/de.png" alt="German" width="16" height="12">
+		</a>
+	</li>
+	<li class="lang">
+		<a href="?lang=en">
+			<img class="flag" src="img/en.png" alt="English" width="16" height="12">
+		</a>
+	</li>
+</ul>
+</nav>
+			</div>
+			<div id="content">
+<script type="text/javascript" src="script/main.js" defer></script>
+<script type="text/javascript" src="script/sortable.js" defer></script>
+<script type="text/javascript" src="script/sorttable.js" defer></script>
+<script type="text/javascript" src="script/watchlist.js" defer></script>
+<div id="rwy_cont">
+	<div id="rwy_div">
+		<div id="rwy_l">
+			<img alt="active runway" width="16" height="14" src="img/arrival-yellow-16x14.png">
+		</div>
+		<div id="rwy_r">99</div>
+	</div>
+</div>
+<div id="watchlist-container">
+	<div>
+		<div id="watchlist" class="">
+			<div id="watchlist-handle">
+				<div></div>
+			</div>
+			<div data-submit="upd">
+				<div class="tabs">
+					<input id="watchlist-tab-private" type="radio" name="watchlist-tab" value="private" checked>
+					<label for="watchlist-tab-private">private</label>
+					<input id="watchlist-tab-shared" type="radio" name="watchlist-tab" value="shared">
+					<label for="watchlist-tab-shared">shared</label>
+					<div class="divider"></div>
+					<div id="form-container">
+						<form method="post" action="?" class="center">
+							<section>
+								<div data-owner="private">
+							<table>
+								<thead>
+									<tr>
+										<th data-key="reg">Reg</th>
+										<th data-key="comment">Comment</th>
+										<th data-key="notify">
+											<a href="#" id="toggle-notifications">
+												<img src="img/mail.png" alt="e-mail">
+											</a>
+										</th>
+										<th></th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>
+											<div></div>
+											<input type="text" class="reg" value="/C-G(TSTS[FHWY]|[FLPS]AT)/" maxlength="31">
+										</td>
+										<td><input type="text" class="comment" value="Air Transat - A310" maxlength="255"></td>
+										<td><input type="checkbox" class="notify" value="" checked></td>
+										<td><button type="button" class="del"></button></td>
+										<td><button type="button" class="add"></button></td>
+									</tr>
+									<tr>
+										<td>
+											<div></div>
+											<input type="text" class="reg" value="C-*" maxlength="31">
+										</td>
+										<td><input type="text" class="comment" value="Air Canada *" maxlength="255"></td>
+										<td><input type="checkbox" class="notify" value=""></td>
+										<td><button type="button" class="del"></button></td>
+										<td><button type="button" class="add"></button></td>
+									</tr>
+									<tr>
+										<td>
+											<div>
+												<a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=C-FDAT" target="airliners.net">
+													<div></div>
+												</a>
+											</div>
+											<input type="text" class="reg" value="C-FDAT" maxlength="31">
+										</td>
+										<td><input type="text" class="comment" value="Air Transat - A310" maxlength="255"></td>
+										<td><input type="checkbox" class="notify" value="" checked></td>
+										<td><button type="button" class="del"></button></td>
+										<td><button type="button" class="add"></button></td>
+									</tr>
+								</tbody>
+							</table>
+								</div>
+								<div data-owner="shared">
+							<table>
+								<thead>
+									<tr>
+										<th data-key="reg">Reg</th>
+										<th data-key="comment">Comment</th>
+										<th data-key="notify">
+											<a href="#" id="toggle-notifications">
+												<img src="img/mail.png" alt="e-mail">
+											</a>
+										</th>
+										<th></th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>
+											<div>
+												<a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=ZS-SXD" target="airliners.net">
+													<div></div>
+												</a>
+											</div>
+											<input type="text" class="reg" value="ZS-SXD" maxlength="31">
+										</td>
+										<td><input type="text" class="comment" value="South African Airways - Team South Africa 2012" maxlength="255"></td>
+										<td><input type="checkbox" class="notify" value=""></td>
+										<td><button type="button" class="del"></button></td>
+										<td><button type="button" class="add"></button></td>
+									</tr>
+								</tbody>
+							</table>
+								</div>
+							</section>
+							<div id="submit-container">
+								<input type="hidden" name="CSRFToken" value="">
+								<input type="submit" value="Save">
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<div id="schedule">
+	<table class="sortable">
+		<thead>
+			<tr>
+				<th>Time</th>
+				<th class="sep">Flight</th>
+				<th class="sep">Airline</th>
+				<th class="sep">IATA</th>
+				<th class="sep">ICAO</th>
+				<th class="sep">From</th>
+				<th class="sep sorttable_model">Type</th>
+				<th class="sep sorttable_reg reg"><div></div>Reg</th>
+			</tr>
+		</thead>
+		<tbody>
+<tr><td>+1 06:15</td><td>SA260</td><td></td><td>JNB</td><td>FAOR</td><td><div class="fi"></div></td><td class="model">A343</td><td class="reg special" title="South African Airways - Team South Africa 2012"><a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=ZS-SXD" target="airliners.net"><div></div></a>ZS-SXD</td></tr>
+<tr><td>+1 06:20</td><td>CX289</td><td></td><td>HKG</td><td>VHHH</td><td><div class="fi"></div></td><td class="model">B77W</td><td class="reg"><a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=B-KPE" target="airliners.net"><div></div></a>B-KPE</td></tr>
+<tr><td>+1 07:00</td><td>AC874</td><td></td><td>YUL</td><td>CYUL</td><td><div class="fi"></div></td><td class="model">A333</td><td class="reg watch" title="Air Canada *"><a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=C-GFAH" target="airliners.net"><div></div></a>C-GFAH</td></tr>
+<tr><td>+1 07:00</td><td>TSXXX</td><td></td><td>YVR</td><td>CYVR</td><td><div class="fi"></div></td><td class="model">A310</td><td class="reg watch" title="Air Transat - A310"><a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=C-GSAT" target="airliners.net"><div></div></a>C-GSAT</td></tr>
+		</tbody>
+	</table>
+</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

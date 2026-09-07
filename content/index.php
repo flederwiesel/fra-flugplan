@@ -134,7 +134,7 @@ $activerwy = implode(" | ", $activerwy);
  * Watchlist
  ******************************************************************************/
 
-if ($watchlist["private"])
+if ($user)
 {
 ?>
 <div id="watchlist-container">
@@ -143,18 +143,58 @@ if ($watchlist["private"])
 			<div id="watchlist-handle">
 				<div></div>
 			</div>
-			<div>
-				<form method="post" action="?" class="center">
-					<div>
-						<section>
-<?= $watchlist["private"]->renderTable($photodb, $PhotodbSearchUrl); ?>
-						</section>
-						<div id="submit-container">
-							<input type="hidden" name="CSRFToken" value="<?= CsrfToken::get() ?>">
-							<input type="submit" value="<?= $STRINGS['save'] ?>">
-						</div>
+			<div data-submit="upd">
+				<div class="tabs">
+<?php
+	if ($user->isMemberOf("shared-watchlist"))
+	{
+?>
+					<input id="watchlist-tab-private" type="radio" name="watchlist-tab" value="private" checked>
+					<label for="watchlist-tab-private">private</label>
+					<input id="watchlist-tab-shared" type="radio" name="watchlist-tab" value="shared">
+					<label for="watchlist-tab-shared">shared</label>
+					<div class="divider"></div>
+<?php
+	}
+?>
+					<div id="form-container">
+						<form method="post" action="?" class="center">
+							<section>
+<?php
+	if ($user->isMemberOf("shared-watchlist"))
+	{
+		foreach (["private", "shared"] as $owner)
+		{
+?>
+								<div data-owner="<?= $owner ?>">
+<?php
+			if ($watchlist[$owner])
+				$watchlist[$owner]->renderTable($photodb, $PhotodbSearchUrl);
+?>
+								</div>
+<?php
+			}
+	}
+	else
+	{
+?>
+								<div data-owner="private">
+<?php
+		if ($watchlist["private"])
+			$watchlist["private"]->renderTable($photodb, $PhotodbSearchUrl);
+?>
+								</div>
+<?php
+	}
+?>
+							</section>
+							<div id="submit-container">
+								<input type="hidden" name="CSRFToken" value="<?= CsrfToken::get() ?>">
+								<input type="submit" value="<?= $STRINGS['save'] ?>">
+							</div>
+						</form>
 					</div>
-				</form>
+				</div>
 			</div>
 		</div>
 	</div>

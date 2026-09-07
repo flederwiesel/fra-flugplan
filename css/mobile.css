@@ -249,7 +249,7 @@ form.stretched select
 	margin: 0.2em 0;
 }
 
-#timefmt /* input:has(+ sup) */
+#timefmt
 {
 	width: 90%;
 }
@@ -316,12 +316,69 @@ form div.explainatory
 	display: none;
 }
 
+#watchlist .tabs {
+	padding: 0;
+	padding-top: 0.5em;
+	text-align: left;
+}
+
+#watchlist .tabs label {
+	font-size: 0.8rem;
+}
+
+#watchlist .tabs input[type=radio] {
+	position: absolute;
+	opacity: 0;
+}
+
+#watchlist .tabs input[type=radio] ~ label {
+	padding: 0.2em 1em;
+	border-top: 1px solid grey;
+	border-left: 1px solid grey;
+	border-right: 1px solid grey;
+	border-radius: 6px 6px 0 0 !important;
+	cursor: pointer;
+}
+
+#watchlist .tabs input[name=watchlist-tab]:not(:checked) + label {
+	color: #ccc;
+}
+
+#watchlist .tabs input[name=watchlist-tab]:checked + label {
+	color: #000;
+}
+
+#watchlist .tabs > div.divider {
+	height: 0.2em;
+	border-bottom: 1px solid lightgrey;
+}
+
+#watchlist input[name="watchlist-tab"][value="private"] ~ div form div[data-owner="private"] {
+	display: none !important;
+}
+
+#watchlist input[name="watchlist-tab"][value="private"]:checked ~ div form div[data-owner="private"] {
+	display: flex !important;
+}
+
+#watchlist input[name="watchlist-tab"][value="shared"] ~ div form div[data-owner="shared"] {
+	display: none !important;
+}
+
+#watchlist input[name="watchlist-tab"][value="shared"]:checked ~ div form div[data-owner="shared"] {
+	display: flex !important;
+}
+
+#form-container {
+	margin-top: 0.5em;
+}
+
 #watchlist form {
 	margin: 0;
 	padding: 0;
 }
 
-#watchlist form > div > section table {
+#watchlist form section > div table {
 	width: 100%;
 	max-width: 100%;
 	table-layout: auto;
@@ -434,6 +491,11 @@ form div.explainatory
 	margin: 1rem 0 0 0;
 }
 
+#watchlist div[data-owner="shared"] input[type=checkbox].notify,
+#watchlist div[data-owner="shared"] th[data-key="notify"] a {
+	visibility: hidden;
+}
+
 #submit-container {
 	position: sticky;
 	bottom: 0;
@@ -517,7 +579,7 @@ form div.explainatory
 }
 
 #schedule td.reg a div {
-		background-image: url("../img/camera.png");
+	background-image: url("../img/camera.png");
 }
 
 #schedule td.watch

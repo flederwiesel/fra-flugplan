@@ -216,16 +216,18 @@ document.addEventListener("DOMContentLoaded", () => {
 			}
 		};
 
-		["private"].forEach(owner => {
+		["private", "shared"].forEach(owner => {
 			// Get column keys from table header
-			form.querySelectorAll(`thead tr th`).forEach(col => {
+			form.querySelectorAll(
+				`div[data-owner='${owner}'] thead tr th`
+			).forEach(col => {
 				keys.push(col.dataset["key"]);
 			});
 
 			// For each private/shared div, loop through table rows,
 			// check whether they are marked as to be added, updated or deleted
 			// and build up a according arrays.
-			form.querySelectorAll(`tbody tr`).forEach(row => {
+			form.querySelectorAll(`div[data-owner='${owner}'] tbody tr`).forEach(row => {
 				var action = row.dataset["submit"];
 
 				if (action)
@@ -277,6 +279,12 @@ document.addEventListener("DOMContentLoaded", () => {
 
 		event.formData.set("watchlist", JSON.stringify(submit));
 	});
+
+	var tabs = document.querySelector("#watchlist .tabs");
+
+	tabs.onclick = function(e) {
+		e.stopPropagation();
+	}
 
 	form.onclick = function(e) {
 		e.stopPropagation();
