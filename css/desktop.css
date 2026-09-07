@@ -324,7 +324,7 @@ form.stretched select
 	margin: 0;
 }
 
-#timefmt /* input:has(+ sup) */
+#timefmt
 {
 	width: 90%;
 }
@@ -386,7 +386,7 @@ form div.explainatory
 
 #watchlist-container {
 	position: fixed;
-	height: 0;	/* We only need the with for the floating child div */
+	height: 0;	/* We only need the width for the floating child div */
 	width: inherit;
 }
 
@@ -397,7 +397,7 @@ form div.explainatory
 
 #watchlist {
 	display: flex;
-	height: 50vh;
+	height: 66vh;
 	background-color: white;
 	border-left: 1px solid;
 	border-top: 1px solid;
@@ -436,28 +436,80 @@ form div.explainatory
 #watchlist-handle + div {
 	display: flex;
 	align-items: stretch;
-	padding: 1em;
+	padding: 0.5em;
 }
 
-#watchlist-handle + div > div {
-	padding: 1.5em 1em;
-	align-items: stretch;
+.tabs {
+	padding: 0;
+	padding-top: 1em;
+}
+
+.tabs input[type=radio] {
+	position: absolute;
+	opacity: 0;
+}
+
+.tabs input[type=radio] ~ label {
+	padding: 0.2em 1em;
+	border-top: 1px solid grey;
+	border-left: 1px solid grey;
+	border-right: 1px solid grey;
+	border-radius: 6px 6px 0 0 !important;
+	cursor: pointer;
+}
+
+.tabs input[name=watchlist-tab]:not(:checked) + label {
+	color: #ccc;
+}
+
+.tabs input[name=watchlist-tab]:checked + label {
+	color: #000;
+}
+
+.tabs > div.divider {
+	height: 0.2em;
+	border-bottom: 1px solid lightgrey;
+}
+
+#watchlist input[name="watchlist-tab"][value="private"] ~ div form div[data-owner="private"] {
+	display: none !important;
+}
+
+#watchlist input[name="watchlist-tab"][value="private"]:checked ~ div form div[data-owner="private"] {
+	display: flex !important;
+}
+
+#watchlist input[name="watchlist-tab"][value="shared"] ~ div form div[data-owner="shared"] {
+	display: none !important;
+}
+
+#watchlist input[name="watchlist-tab"][value="shared"]:checked ~ div form div[data-owner="shared"] {
+	display: flex !important;
+}
+
+#form-container {
+	height: 92%;
+	margin-top: 1em;
+}
+
+#watchlist section {
+	margin: 0;
+	padding: 0;
+	overflow-y: scroll;
+}
+
+#watchlist section > div {
+	display: flex;
+	flex-direction: column;
+	padding-top: 0.5em;
 }
 
 #watchlist form {
+	display: flex;
+	flex-direction: column;
 	height: 100%;
 	margin: 0;
 	padding: 0;
-}
-
-#watchlist form > div {
-	height: 100%;
-}
-
-#watchlist form > div > section {
-	padding: 0 1em 0 0;
-	height: 90%;
-	overflow-y: scroll;
 }
 
 #watchlist form button
@@ -492,13 +544,8 @@ form div.explainatory
 	background-image: url("../img/del.gif");
 }
 
-#watchlist form input[type=submit]
-{
-	margin: 1em 0 0 0;
-}
-
 #watchlist form table,
-#watchlist form tr,
+#watchlist form th,
 #watchlist form td
 {
 	font-size: 8pt;
@@ -512,22 +559,27 @@ form div.explainatory
 #watchlist form td
 {
 	align-items: center;
-	justify-content: center;
-	margin-right: 10px;
 }
 
 #watchlist form td:first-child {
 	display: flex;
 }
 
-#watchlist form tr > td > div {
-	margin-right: 0.5em;
+#watchlist form tr[data-submit="del"] {
+	display: none;
 }
 
+#watchlist form tr > th div,
 #watchlist form tr > td div {
 	/* Extend to the dimensions of the photodb image */
 	width: 13px;
 	height: 12px;
+	display: inline-block;
+}
+
+#watchlist form tr > th > div,
+#watchlist form tr > td > div {
+	margin-right: 0.5em;
 }
 
 #watchlist form tr > td a div {
@@ -540,6 +592,24 @@ form div.explainatory
 	background-position: center;
 }
 
+#watchlist form tr.separator {
+	height: 2em;
+}
+
+#watchlist form tr.separator td {
+	display: table-cell;
+}
+
+#watchlist form tr.separator > td > div {
+	background-image: url("../img/eye.png");
+	background-repeat: no-repeat;
+	background-size: 13px 12px;
+	background-position-y: bottom;
+}
+#watchlist form tr.separator > td > div {
+	height: 10em;
+}
+
 #watchlist form input[type=text]
 {
 	border: 1px solid grey;
@@ -550,9 +620,13 @@ form div.explainatory
 	width: 20em;
 }
 
-#watchlist form input[type=text].reg
-{
-	width: 6em;
+#watchlist div[data-owner="shared"] input[type=checkbox].notify,
+#watchlist div[data-owner="shared"] th[data-key="notify"] a {
+		visibility: hidden;
+}
+
+#watchlist form input[type=submit] {
+	margin-top: 1em;
 }
 
 #schedule

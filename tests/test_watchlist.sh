@@ -1,5 +1,7 @@
 # preparation #################################################################
 
+readonly UA="Opera/9.80 (Android 2.3.7; Linux; Opera Mobi/46154) Presto/2.11.355 Version/12.10"
+
 query fra-flugplan < <(
 	sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL"
 		INSERT INTO `models`(`icao`)
@@ -257,6 +259,7 @@ test_5() {
 }
 
 # A/C change to get a "special"...
+# * on desktop
 test_5_1() {
 	query fra-flugplan <<-"SQL"
 		UPDATE `flights`
@@ -273,17 +276,38 @@ test_5_1() {
 	sed -r "s/time=$today/time=0000-00-00/g"
 }
 
-test_6() {
+# * on mobile
+test_5_2() {
 	browse \
-		--user-agent "Opera/9.80 (Android 2.3.7; Linux; Opera Mobi/46154) Presto/2.11.355 Version/12.10" \
+		--user-agent "$UA" \
 		"$url/?arrival&time=$time" |
 	sed -r "s/time=$today/time=0000-00-00/g"
 }
 
+# Add ourselves to 'shared-watchlist' group: Show private and shared watchlist as tabs
+# * on desktop
+test_6_1() {
+	query fra-flugplan <<-"SQL"
+		INSERT INTO `membership`(`user`, `group`)
+		VALUES(1, 4);
+	SQL
+
+	browse "$url/?arrival&time=$time" |
+	sed -r "s/time=$today/time=0000-00-00/g"
+}
+
+# 'shared-watchlist' group
+# * on mobile
+test_6_2() {
+	browse --user-agent "$UA" "$url/?arrival&time=$time" |
+	sed -r "s/time=$today/time=0000-00-00/g"
+}
+
+# Logout
 # Shared watchlist still shown, no errors with private watchlist being null...
 test_7() {
-	browse --with-csrf-token \
-		--user-agent "Opera/9.80 (Android 2.3.7; Linux; Opera Mobi/46154) Presto/2.11.355 Version/12.10" \
+	browse \
+		--user-agent "$UA" \
 		"$url/?req=logout&time=$time" |
 	sed -r "s/time=$today/time=0000-00-00/g"
 }

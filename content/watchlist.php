@@ -309,7 +309,7 @@ class Watchlist
 		$this->model->add($postData);
 	}
 
-	public function renderTable($photodb, $PhotodbSearchUrl)
+	public function renderTable(string $photodb, string $PhotodbSearchUrl)
 	{
 		global $STRINGS;
 
@@ -321,7 +321,11 @@ class Watchlist
 									<tr>
 										<th data-key="reg"><?= $STRINGS['reg'] ?></th>
 										<th data-key="comment"><?= $STRINGS['comment'] ?></th>
-										<th data-key="notify"><a href="#" id="toggle-notifications"><img src="<?= Asset::src('img/mail.png') ?>" alt="e-mail"></a></th>
+										<th data-key="notify">
+											<a href="#" id="toggle-notifications">
+												<img src="<?= Asset::src('img/mail.png') ?>" alt="e-mail">
+											</a>
+										</th>
 										<th></th>
 										<th></th>
 									</tr>

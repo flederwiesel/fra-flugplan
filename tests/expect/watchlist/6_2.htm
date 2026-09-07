@@ -39,6 +39,7 @@ Live Schedule &ndash; Arrival</h3>
 	<li class="sep"><img src="img/arrival-white-24x24.png" width="24" height="24" alt="Arrival"></li>
 	<li class="sep"><a href="?departure"><img src="img/departure-grey-24x24.png" width="24" height="24" alt="Departure"></a></li>
 	<li class="sep" id="toggle-watchlist"><a href="#"><img src="img/watchlist-grey-24x24.png" width="24" height="24" alt="Watchlist"></a></li>
+	<li class="sep"><a href="?page=addflight"><img src="img/addflight-grey-24x24.png" width="24" height="24" alt="Add flight"></a></li>
 	<li class="sep"><a href="?page=help"><img src="img/help-grey-24x24.png" width="24" height="24" alt="Help"></a></li>
 </ul>
 <ul class="menu right">
@@ -78,6 +79,11 @@ Live Schedule &ndash; Arrival</h3>
 			</div>
 			<div data-submit="upd">
 				<div class="tabs">
+					<input id="watchlist-tab-private" type="radio" name="watchlist-tab" value="private" checked>
+					<label for="watchlist-tab-private">private</label>
+					<input id="watchlist-tab-shared" type="radio" name="watchlist-tab" value="shared">
+					<label for="watchlist-tab-shared">shared</label>
+					<div class="divider"></div>
 					<div id="form-container">
 						<form method="post" action="?" class="center">
 							<section>
@@ -97,10 +103,69 @@ Live Schedule &ndash; Arrival</h3>
 									</tr>
 								</thead>
 								<tbody>
-									<tr data-submit="add">
-										<!-- inputs do not have names, POST values will be generated upon submit -->
-										<td><input type="text" class="reg" value="" maxlength="31"></td>
-										<td><input type="text" class="comment" value="" maxlength="255"></td>
+									<tr>
+										<td>
+											<div></div>
+											<input type="text" class="reg" value="/C-G(TSTS[FHWY]|[FLPS]AT)/" maxlength="31">
+										</td>
+										<td><input type="text" class="comment" value="Air Transat - A310" maxlength="255"></td>
+										<td><input type="checkbox" class="notify" value="" checked></td>
+										<td><button type="button" class="del"></button></td>
+										<td><button type="button" class="add"></button></td>
+									</tr>
+									<tr>
+										<td>
+											<div></div>
+											<input type="text" class="reg" value="C-*" maxlength="31">
+										</td>
+										<td><input type="text" class="comment" value="Air Canada *" maxlength="255"></td>
+										<td><input type="checkbox" class="notify" value=""></td>
+										<td><button type="button" class="del"></button></td>
+										<td><button type="button" class="add"></button></td>
+									</tr>
+									<tr>
+										<td>
+											<div>
+												<a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=C-FDAT" target="airliners.net">
+													<div></div>
+												</a>
+											</div>
+											<input type="text" class="reg" value="C-FDAT" maxlength="31">
+										</td>
+										<td><input type="text" class="comment" value="Air Transat - A310" maxlength="255"></td>
+										<td><input type="checkbox" class="notify" value="" checked></td>
+										<td><button type="button" class="del"></button></td>
+										<td><button type="button" class="add"></button></td>
+									</tr>
+								</tbody>
+							</table>
+								</div>
+								<div data-owner="shared">
+							<table>
+								<thead>
+									<tr>
+										<th data-key="reg">Reg</th>
+										<th data-key="comment">Comment</th>
+										<th data-key="notify">
+											<a href="#" id="toggle-notifications">
+												<img src="img/mail.png" alt="e-mail">
+											</a>
+										</th>
+										<th></th>
+										<th></th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr>
+										<td>
+											<div>
+												<a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=ZS-SXD" target="airliners.net">
+													<div></div>
+												</a>
+											</div>
+											<input type="text" class="reg" value="ZS-SXD" maxlength="31">
+										</td>
+										<td><input type="text" class="comment" value="South African Airways - Team South Africa 2012" maxlength="255"></td>
 										<td><input type="checkbox" class="notify" value=""></td>
 										<td><button type="button" class="del"></button></td>
 										<td><button type="button" class="add"></button></td>
@@ -131,9 +196,10 @@ Live Schedule &ndash; Arrival</h3>
 			</tr>
 		</thead>
 		<tbody>
-<tr class="past"><td>+0 06:15</td><td>SA260</td><td class="model">A343</td><td class="reg"><a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=ZS-SXD" target="airliners.net"><div></div></a>ZS-SXD</td></tr>
-<tr><td>+1 06:15</td><td>SA260</td><td class="model">A346</td><td class="reg"><a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=ZS-SNC" target="airliners.net"><div></div></a>ZS-SNC</td></tr>
+<tr><td>+1 06:15</td><td>SA260</td><td class="model">A343</td><td class="reg special" title="South African Airways - Team South Africa 2012"><a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=ZS-SXD" target="airliners.net"><div></div></a>ZS-SXD</td></tr>
 <tr><td>+1 06:20</td><td>CX289</td><td class="model">B77W</td><td class="reg"><a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=B-KPE" target="airliners.net"><div></div></a>B-KPE</td></tr>
+<tr><td>+1 07:00</td><td>AC874</td><td class="model">A333</td><td class="reg watch" title="Air Canada *"><a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=C-GFAH" target="airliners.net"><div></div></a>C-GFAH</td></tr>
+<tr><td>+1 07:00</td><td>TSXXX</td><td class="model">A310</td><td class="reg watch" title="Air Transat - A310"><a href="https://www.airliners.net/search?sortBy=datePhotographedYear&amp;sortOrder=desc&amp;keywords=C-GSAT" target="airliners.net"><div></div></a>C-GSAT</td></tr>
 		</tbody>
 	</table>
 </div>

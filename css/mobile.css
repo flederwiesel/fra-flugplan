@@ -270,7 +270,7 @@ form.stretched select
 	margin: 0.2em 0;
 }
 
-#timefmt /* input:has(+ sup) */
+#timefmt
 {
 	width: 90%;
 }
@@ -376,16 +376,69 @@ form div.explainatory
 #watchlist-handle + div > div {
 }
 
+.tabs {
+	padding: 0;
+	padding-top: 0.5em;
+	text-align: left;
+}
+
+.tabs label {
+	font-size: 0.8rem;
+}
+
+.tabs input[type=radio] {
+	position: absolute;
+	opacity: 0;
+}
+
+.tabs input[type=radio] ~ label {
+	padding: 0.2em 1em;
+	border-top: 1px solid grey;
+	border-left: 1px solid grey;
+	border-right: 1px solid grey;
+	border-radius: 6px 6px 0 0 !important;
+	cursor: pointer;
+}
+
+.tabs input[name=watchlist-tab]:not(:checked) + label {
+	color: #ccc;
+}
+
+.tabs input[name=watchlist-tab]:checked + label {
+	color: #000;
+}
+
+.tabs > div.divider {
+	height: 0.2em;
+	border-bottom: 1px solid lightgrey;
+}
+
+#watchlist input[name="watchlist-tab"][value="private"] ~ div form div[data-owner="private"] {
+	display: none !important;
+}
+
+#watchlist input[name="watchlist-tab"][value="private"]:checked ~ div form div[data-owner="private"] {
+	display: flex !important;
+}
+
+#watchlist input[name="watchlist-tab"][value="shared"] ~ div form div[data-owner="shared"] {
+	display: none !important;
+}
+
+#watchlist input[name="watchlist-tab"][value="shared"]:checked ~ div form div[data-owner="shared"] {
+	display: flex !important;
+}
+
+#form-container {
+	margin-top: 0.5em;
+}
+
 #watchlist form {
 	margin: 0;
 	padding: 0;
 }
 
 #watchlist form > div {
-}
-
-#watchlist form > div > section {
-	overflow-y: scroll;
 }
 
 #watchlist form button
@@ -415,7 +468,7 @@ form div.explainatory
 	background-image: url("../img/add.gif");
 }
 
-#watchlist form button.del
+	#watchlist form button.del
 {
 	background-image: url("../img/del.gif");
 }
@@ -480,6 +533,12 @@ form div.explainatory
 #watchlist form input[type=text].reg
 {
 	width: 5em;
+}
+
+
+#watchlist div[data-owner="shared"] input[type=checkbox].notify,
+#watchlist div[data-owner="shared"] th[data-key="notify"] a {
+	visibility: hidden;
 }
 
 #submit-container {
@@ -564,7 +623,7 @@ form div.explainatory
 }
 
 #schedule td.reg a div {
-		background-image: url("../img/camera.png");
+	background-image: url("../img/camera.png");
 }
 
 #schedule td.watch
