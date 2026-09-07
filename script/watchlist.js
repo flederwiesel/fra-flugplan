@@ -208,6 +208,11 @@ document.addEventListener("DOMContentLoaded", () => {
 				"add": [],
 				"del": [],
 				"upd": []
+			},
+			"shared": {
+				"add": [],
+				"del": [],
+				"upd": []
 			}
 		};
 

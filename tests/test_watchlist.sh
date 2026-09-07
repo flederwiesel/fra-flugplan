@@ -3,12 +3,13 @@
 query fra-flugplan < <(
 	sed "s/%{date}/$(date +'%Y-%m-%d' --date='+1 day 00:00')/g" <<-"SQL"
 		INSERT INTO `models`(`icao`)
-		VALUES ('B77W'), ('A333'), ('A346'), ('A310');
+		VALUES ('B77W'), ('A333'), ('A343'), ('A346'), ('A310');
 
 		INSERT INTO `aircrafts`(`model`, `reg`)
 		VALUES
 		((SELECT `id` FROM `models` WHERE `icao` = 'B77W'), 'B-KPE'),
 		((SELECT `id` FROM `models` WHERE `icao` = 'A333'), 'C-GFAH'),
+		((SELECT `id` FROM `models` WHERE `icao` = 'A343'), 'ZS-SXD'),
 		((SELECT `id` FROM `models` WHERE `icao` = 'A346'), 'ZS-SNC'),
 		((SELECT `id` FROM `models` WHERE `icao` = 'A310'), 'C-GSAT');
 
@@ -107,6 +108,13 @@ test_3() {
 				{"reg":"/C-G(TSTS[FHWY]|[FLPS]AT)/","comment":"Air Transat - A310","notify":true}
 			],
 			"del":["C-????"],
+			"upd":[]
+		},
+		"shared":{
+			"add":[
+				{"reg":"ZS-SXD","comment":"South African Airways - Team South Africa 2012"}
+			],
+			"del":[],
 			"upd":[]
 		}
 	}'
@@ -248,9 +256,34 @@ test_5() {
 	sed -r "s/time=$today/time=0000-00-00/g"
 }
 
+# A/C change to get a "special"...
+test_5_1() {
+	query fra-flugplan <<-"SQL"
+		UPDATE `flights`
+		SET
+			`model` = (SELECT `id` FROM `models` WHERE `icao`='A343'),
+			`aircraft` = (SELECT `id` FROM `aircrafts` WHERE `reg`='ZS-SXD')
+		WHERE
+			`direction` = 'arrival' AND
+			`airline` = (SELECT `id` FROM `airlines` WHERE `code`='SA') AND
+			`code` = '260'
+	SQL
+
+	browse "$url/?arrival&time=$time" |
+	sed -r "s/time=$today/time=0000-00-00/g"
+}
+
 test_6() {
 	browse \
 		--user-agent "Opera/9.80 (Android 2.3.7; Linux; Opera Mobi/46154) Presto/2.11.355 Version/12.10" \
 		"$url/?arrival&time=$time" |
+	sed -r "s/time=$today/time=0000-00-00/g"
+}
+
+# Shared watchlist still shown, no errors with private watchlist being null...
+test_7() {
+	browse --with-csrf-token \
+		--user-agent "Opera/9.80 (Android 2.3.7; Linux; Opera Mobi/46154) Presto/2.11.355 Version/12.10" \
+		"$url/?req=logout&time=$time" |
 	sed -r "s/time=$today/time=0000-00-00/g"
 }

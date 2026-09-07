@@ -59,16 +59,19 @@ function sort_reg(rowL, rowR)	// row[0]=td.value row[1]=tr
 	// Prio in descending order
 	const state = {
 		WATCHED: 0,
-		RARE: 1,
-		DEFAULT: 2,
-		NONE: 3,
+		SPECIAL: 1,
+		RARE: 2,
+		DEFAULT: 3,
+		NONE: 4,
 	};
 
 	let classes = rowL[1].cells[idxof_reg].className.split(" ");
 
 	prioL = rowL[0].length == 0 ? state.NONE : (
 		classes.indexOf("watch") >= 0 ? state.WATCHED : (
-			classes.indexOf("rare") >= 0 ? state.RARE : state.DEFAULT
+			classes.indexOf("special") >= 0 ? state.SPECIAL : (
+				classes.indexOf("rare") >= 0 ? state.RARE : state.DEFAULT
+			)
 		)
 	);
 
@@ -76,7 +79,9 @@ function sort_reg(rowL, rowR)	// row[0]=td.value row[1]=tr
 
 	prioR = rowR[0].length == 0 ? state.NONE : (
 		classes.indexOf("watch") >= 0 ? state.WATCHED : (
-			classes.indexOf("rare") >= 0 ? state.RARE : state.DEFAULT
+			classes.indexOf("special") >= 0 ? state.SPECIAL : (
+				classes.indexOf("rare") >= 0 ? state.RARE : state.DEFAULT
+			)
 		)
 	);
 
