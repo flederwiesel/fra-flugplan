@@ -439,7 +439,7 @@ class WatchlistMatcher
 		{
 			foreach ($this->watchlist->regex as $key => $value)
 			{
-				if (preg_match($key, $reg))
+				if (@preg_match($key, $reg))
 					return $value;
 			}
 
