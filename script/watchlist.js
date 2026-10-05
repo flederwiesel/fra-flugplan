@@ -35,7 +35,7 @@ function getParentElementByTagName(elem, tag) {
 	return null;
 }
 
-function CloneRow(event)
+function AddRow(event)
 {
 	var table = getParentElementByTagName(event.target, "table");
 	var tr = table.querySelector("tbody tr:first-of-type");
@@ -59,16 +59,23 @@ function CloneRow(event)
 		}
 	}
 
-	// Clear inputs
+	// Clear and enable inputs
 	var inputs = row.querySelectorAll("input");
 
 	inputs.forEach(function(input) {
 		input.value = "";
+		input.disabled = false;
+	});
+
+	// Enable buttons
+	row.querySelectorAll("button").
+	forEach(function(button) {
+		button.disabled = false;
 	});
 
 	setWatchlistButtonEvents(row);
 
-	tr.parentNode.insertBefore(row, tr.nextSibling);
+	tr.parentNode.insertBefore(row, tr);
 
 	// Set focus to the first input of the cloned row
 	if (inputs.length) {
@@ -82,6 +89,12 @@ function RemoveRow(event)
 {
 	var tr = getParentElementByTagName(event.target, "tr");
 	var next;
+
+	inp = tr.querySelectorAll("input,button");
+
+	inp.forEach(function(elem) {
+		elem.disabled = true;
+	});
 
 	tr.dataset["submit"] = "del";
 
@@ -109,7 +122,7 @@ function RemoveRow(event)
 
 	if (!next) {
 		// The deleted was the only active row, show a new empty row
-		next = CloneRow(event);
+		next = AddRow(event);
 	}
 
 	if (next) {
@@ -121,18 +134,9 @@ function setWatchlistButtonEvents(parent) {
 	let buttons = parent.querySelectorAll("button");
 
 	buttons.forEach(function(button) {
-		if (button.classList.contains("add")) {
-			button.onclick = CloneRow;
-		}
-		else if (button.classList.contains("del")) {
+		if (button.classList.contains("del")) {
 			button.onclick = RemoveRow;
 		}
-	});
-
-	let toggle = document.getElementById("toggle-notifications");
-
-	toggle.addEventListener("click", (event) => {
-		ToggleNotifications();
 	});
 }
 
@@ -143,7 +147,12 @@ function ToggleNotifications()
 	var value = value = !inputs[0].checked;
 
 	inputs.forEach(function(input) {
-		input.checked = !value;
+		input.checked = value;
+
+		var tr = getParentElementByTagName(input, "tr");
+
+		if (!tr.dataset["submit"])
+			tr.dataset["submit"] = "upd";
 	});
 }
 
@@ -172,7 +181,7 @@ document.addEventListener("DOMContentLoaded", () => {
 	}
 
 	var form = watchlist.querySelectorAll("form")[0];
-	var inputs = form.querySelectorAll("input[type=text]");
+	var inputs = form.querySelectorAll("input");
 
 	inputs.forEach(function(elem) {
 		elem.addEventListener("change", (event) => {
@@ -182,6 +191,12 @@ document.addEventListener("DOMContentLoaded", () => {
 			if (tr.dataset["submit"] != "add")
 				tr.dataset["submit"] = "upd";
 		});
+	});
+
+	var add = form.querySelectorAll("#watchlist button.add");
+
+	add.forEach(function(elem) {
+		elem.onclick = AddRow;
 	});
 
 	form.addEventListener("formdata", (event) => {
@@ -289,4 +304,9 @@ document.addEventListener("DOMContentLoaded", () => {
 	};
 
 	setWatchlistButtonEvents(watchlist);
+
+	document.getElementById("toggle-notifications").
+	addEventListener("click", (event) => {
+		ToggleNotifications();
+	});
 });

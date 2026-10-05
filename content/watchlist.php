@@ -326,8 +326,7 @@ class Watchlist
 												<img src="<?= Asset::src('img/mail.png') ?>" alt="e-mail">
 											</a>
 										</th>
-										<th></th>
-										<th></th>
+										<th><button type="button" class="add"></button></th>
 									</tr>
 								</thead>
 								<tbody>
@@ -341,7 +340,6 @@ class Watchlist
 										<td><input type="text" class="comment" value="" maxlength="255"></td>
 										<td><input type="checkbox" class="notify" value=""></td>
 										<td><button type="button" class="del"></button></td>
-										<td><button type="button" class="add"></button></td>
 									</tr>
 <?php
 		}
@@ -380,7 +378,6 @@ class Watchlist
 										<td><input type="text" class="comment" value="<?= htmlspecialchars($entry->comment) ?>" maxlength="255"></td>
 										<td><input type="checkbox" class="notify" value=""<?= $entry->notify ? " checked" : "" ?>></td>
 										<td><button type="button" class="del"></button></td>
-										<td><button type="button" class="add"></button></td>
 									</tr>
 <?php
 			}
