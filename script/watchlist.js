@@ -1,24 +1,23 @@
 function GetElementsByTag(parent, name, class_name)
 {
-	var elements = parent.getElementsByTagName(name);
+	var elements = parent.querySelectorAll(name);
 	var a = null;
 
-	for (var i = 0; i < elements.length; i++)
-	{
-		if (elements[i].parentNode == parent)
+	elements.forEach(function(element) {
+		if (element.parentNode == parent)
 		{
-			if (!class_name || class_name == elements[i].className)
+			if (!class_name || class_name == element.className)
 			{
-				if (!("none" == elements[i].style.display))
+				if (!("none" == element.style.display))
 				{
 					if (null == a)
 						a = new Array(0);
 
-					a.push(elements[i]);
+						a.push(element);
 				}
 			}
 		}
-	}
+	});
 
 	return a;
 }
@@ -38,7 +37,8 @@ function getParentElementByTagName(elem, tag) {
 
 function CloneRow(event)
 {
-	var tr = getParentElementByTagName(event.target, "tr");
+	var table = getParentElementByTagName(event.target, "table");
+	var tr = table.querySelector("tbody tr:first-of-type");
 	var td;
 	var row;
 
@@ -46,10 +46,10 @@ function CloneRow(event)
 	row = tr.cloneNode(true);
 	row.dataset["submit"] = "add";
 
-	td = row.getElementsByTagName("td");
+	td = row.querySelectorAll("td");
 
 	if (td.length) {
-		var div = td[0].getElementsByTagName("div");
+		var div = td[0].querySelectorAll("div");
 
 		if (div.length) {
 			div[0].remove();
@@ -60,20 +60,19 @@ function CloneRow(event)
 	}
 
 	// Clear inputs
-	var inp = row.getElementsByTagName("input");
+	var inputs = row.querySelectorAll("input");
 
-	if (inp.length) {
-		for (let i = 0; i < inp.length; i++)
-			inp[i].value = "";
-	}
+	inputs.forEach(function(input) {
+		input.value = "";
+	});
 
 	setWatchlistButtonEvents(row);
 
 	tr.parentNode.insertBefore(row, tr.nextSibling);
 
 	// Set focus to the first input of the cloned row
-	if (inp.length) {
-		inp[0].focus();
+	if (inputs.length) {
+		inputs[0].focus();
 	}
 
 	return row;
@@ -83,7 +82,6 @@ function RemoveRow(event)
 {
 	var tr = getParentElementByTagName(event.target, "tr");
 	var next;
-	var inp;
 
 	tr.dataset["submit"] = "del";
 
@@ -115,22 +113,21 @@ function RemoveRow(event)
 	}
 
 	if (next) {
-		inp = next.getElementsByTagName("input");
-		inp[0].focus();
+		next.querySelector("input").focus();
 	}
 }
 
 function setWatchlistButtonEvents(parent) {
-	let buttons = parent.getElementsByTagName("button");
+	let buttons = parent.querySelectorAll("button");
 
-	for (let i = 0; i < buttons.length; i++) {
-		if (buttons[i].classList.contains("add")) {
-			buttons[i].onclick = CloneRow;
+	buttons.forEach(function(button) {
+		if (button.classList.contains("add")) {
+			button.onclick = CloneRow;
 		}
-		else if (buttons[i].classList.contains("del")) {
-			buttons[i].onclick = RemoveRow;
+		else if (button.classList.contains("del")) {
+			button.onclick = RemoveRow;
 		}
-	}
+	});
 
 	let toggle = document.getElementById("toggle-notifications");
 
@@ -142,25 +139,12 @@ function setWatchlistButtonEvents(parent) {
 function ToggleNotifications()
 {
 	var watchlist = document.getElementById("watchlist");
-	var inp = watchlist.getElementsByTagName("input");
-	var value = true;
+	var inputs = watchlist.querySelectorAll("input[type=checkbox]");
+	var value = value = !inputs[0].checked;
 
-	for (i = 0; i < inp.length; i++)
-	{
-		if ("checkbox" == inp[i].type)
-		{
-			value = inp[i].checked;
-			break;
-		}
-	}
-
-	for (i = 0; i < inp.length; i++)
-	{
-		if ("checkbox" == inp[i].type)
-		{
-			inp[i].checked = !value;
-		}
-	}
+	inputs.forEach(function(input) {
+		input.checked = !value;
+	});
 }
 
 function toggleWatchlist(wl = null)
@@ -290,7 +274,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		e.stopPropagation();
 	}
 
-	var body = document.getElementsByTagName("body")[0];
+	var body = document.querySelector("body");
 
 	body.onclick = function(e) {
 		if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
