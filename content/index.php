@@ -190,7 +190,7 @@ if ($user)
 							</section>
 							<div id="submit-container">
 								<input type="hidden" name="CSRFToken" value="<?= CsrfToken::get() ?>">
-								<input type="submit" value="<?= $STRINGS['save'] ?>">
+								<input type="submit" value="<?= $STRINGS['save'] ?>" disabled>
 							</div>
 						</form>
 					</div>

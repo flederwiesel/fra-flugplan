@@ -1,3 +1,5 @@
+var unsavedChanges = false;
+
 function GetElementsByTag(parent, name, class_name)
 {
 	var elements = parent.querySelectorAll(name);
@@ -73,7 +75,7 @@ function AddRow(event)
 		button.disabled = false;
 	});
 
-	setWatchlistButtonEvents(row);
+	setInputEvents(row);
 
 	tr.parentNode.insertBefore(row, tr);
 
@@ -128,15 +130,35 @@ function RemoveRow(event)
 	if (next) {
 		next.querySelector("input").focus();
 	}
+
+	// Enable submit
+	document.querySelector("form input[type=submit]").disabled = false;
+	unsavedChanges = true;
 }
 
-function setWatchlistButtonEvents(parent) {
+function setInputEvents(parent) {
 	let buttons = parent.querySelectorAll("button");
 
 	buttons.forEach(function(button) {
 		if (button.classList.contains("del")) {
 			button.onclick = RemoveRow;
 		}
+	});
+
+	let inputs = parent.querySelectorAll("input");
+
+	inputs.forEach(function(elem) {
+		elem.addEventListener("input", (event) => {
+			var tr = event.target.parentNode.parentNode;
+
+			// ...unless it is a newly added row already
+			if (tr.dataset["submit"] != "add")
+				tr.dataset["submit"] = "upd";
+
+			// Enable submit
+			document.querySelector("form input[type=submit]").disabled = false;
+			unsavedChanges = true;
+		});
 	});
 }
 
@@ -180,19 +202,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		e.stopPropagation();
 	}
 
-	var form = watchlist.querySelectorAll("form")[0];
-	var inputs = form.querySelectorAll("input");
-
-	inputs.forEach(function(elem) {
-		elem.addEventListener("change", (event) => {
-			// ...unless it is a newly added row
-			var tr = event.target.parentNode.parentNode;
-
-			if (tr.dataset["submit"] != "add")
-				tr.dataset["submit"] = "upd";
-		});
-	});
-
+	var form = watchlist.querySelector("form");
 	var add = form.querySelectorAll("#watchlist button.add");
 
 	add.forEach(function(elem) {
@@ -279,6 +289,10 @@ document.addEventListener("DOMContentLoaded", () => {
 		event.formData.set("watchlist", JSON.stringify(submit));
 	});
 
+	form.addEventListener("submit", (event) => {
+		unsavedChanges = false;
+	});
+
 	var tabs = document.querySelector("#watchlist .tabs");
 
 	tabs.onclick = function(e) {
@@ -288,6 +302,8 @@ document.addEventListener("DOMContentLoaded", () => {
 	form.onclick = function(e) {
 		e.stopPropagation();
 	}
+
+	setInputEvents(form);
 
 	var body = document.querySelector("body");
 
@@ -303,10 +319,18 @@ document.addEventListener("DOMContentLoaded", () => {
 		}
 	};
 
-	setWatchlistButtonEvents(watchlist);
-
 	document.getElementById("toggle-notifications").
 	addEventListener("click", (event) => {
 		ToggleNotifications();
+	});
+
+	// Prevent navigating away with unsaved changes.
+	addEventListener("beforeunload", (event) => {
+		if (unsavedChanges) {
+			// Cancel the event as stated by the standard.
+			event.preventDefault();
+			// Chrome requires returnValue to be set.
+			event.returnValue = '';
+		}
 	});
 });

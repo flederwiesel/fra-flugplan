@@ -164,6 +164,12 @@ input[type=reset]
 	background-color: white;
 }
 
+input[type=submit]:disabled,
+input[type=reset]:disabled
+{
+	background-color: white !important;
+}
+
 td, th
 {
 	white-space: nowrap;
