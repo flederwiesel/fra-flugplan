@@ -5,7 +5,7 @@ body
 	border: none;
 	margin: 6px;
 	overflow-x: hidden;
-	background: #f8f8f8;
+	background: white;
 	font-family: "Verdana", "Arial", "Helvetica", "Sans Serif";
 	font-size: 1rem;
 	text-align: center;
@@ -59,17 +59,6 @@ nav img.flag
 {
 	color: #000000;
 	background: #A3AAB7;
-}
-
-div.table
-{
-	margin: auto;
-	display: table;
-}
-
-div.footnote
-{
-	font-size: 0.8em;
 }
 
 img
@@ -189,16 +178,6 @@ ul.help img.screen
 	text-align: center;
 }
 
-.box
-{
-	display: inline-block;
-	margin: auto;
-	padding: 4px;
-	box-sizing: border-box;
-	background: #ffffff;
-	box-shadow: 0 0 3px #666666;
-}
-
 #head h1,
 #head h3
 {
@@ -291,8 +270,7 @@ form div.explainatory
 #content
 {
 	margin: 0;
-	padding: 6px 0;
-	min-width: 198px;
+	padding: 0.5em 0;
 }
 
 #admin
@@ -330,19 +308,6 @@ form div.explainatory
 	color: white;
 }
 
-#watchlist-container {
-}
-
-#watchlist-container > div {
-}
-
-#watchlist {
-	display: flex;
-	background-color: white;
-	text-align: center;
-	margin: 0 auto;
-}
-
 #watchlist:not(.expanded) {
 	display: none;
 }
@@ -351,46 +316,86 @@ form div.explainatory
 	display: none;
 }
 
-#watchlist-handle div {
-}
-
-#watchlist:not(.expanded)
-#watchlist-handle div::before {
-}
-
-#watchlist.expanded
-#watchlist-handle div::before {
-}
-
-#watchlist:not(.expanded)
-#watchlist-handle + div {
-}
-
-#watchlist-handle + div {
-	display: flex;
-	align-items: stretch;
-	margin: 0 auto;
-	padding: 0 .2em 1em .2em;
-}
-
-#watchlist-handle + div > div {
-}
-
 #watchlist form {
 	margin: 0;
 	padding: 0;
 }
 
-#watchlist form > div {
+#watchlist form > div > section table {
+	width: 100%;
+	max-width: 100%;
+	table-layout: auto;
+	border-collapse: collapse;
 }
 
-#watchlist form > div > section {
-	overflow-y: scroll;
+#watchlist form table th {
+	font-size: 80%;
+}
+
+#watchlist form table th,
+#watchlist form table td {
+	padding: .1rem;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#watchlist form table td input {
+	box-sizing: border-box;
+}
+
+#watchlist form table td:nth-child(1) {
+	width: 1%;	/* shrink-to-fit hint, not a real width */
+	white-space: nowrap;
+	box-sizing: border-box;
+}
+
+#watchlist form table td:nth-child(1) div {
+	display: inline-block;
+	width: 13px;
+	height: 12px;
+}
+
+#watchlist form table td:nth-child(1) > div {
+	background-image: url("../img/camera.png");
+	background-repeat: no-repeat;
+	background-position: center;
+	vertical-align: middle;
+}
+
+#watchlist form table td:nth-child(1) > div:empty {
+	background-image: url("../img/camera-disabled.png");
+}
+
+#watchlist form table td:nth-child(1) input {
+	width: 10ch;	/* definite width => this defines column 1 */
+	min-width: 6ch;
+	max-width: 10ch;
+}
+
+#watchlist table td:nth-child(2) {
+	width: 100%;
+}
+
+#watchlist table td:nth-child(2) input {
+	width: 100%;	/* fill the whole td */
+	max-width: 100%;
+}
+
+#watchlist table td:nth-child(n+3) {
+	width: 1%;	/* shrink-to-fit hint, not a real width */
+	white-space: nowrap;
+}
+
+#watchlist form button,
+#watchlist form input[type=checkbox] {
+	display: block;	/* block box -> td's vertical-align:middle centres it */
+	margin: 0 auto;
+	padding: 0;
 }
 
 #watchlist form button
 {
-	text-align: center;
+	box-sizing: border-box;	/* 16px TOTAL, borders included */
 	background-color: transparent;
 	background-position: 0px 0px;
 	background-repeat: no-repeat;
@@ -422,60 +427,7 @@ form div.explainatory
 
 #watchlist form input[type=submit]
 {
-	margin: 1em 0 0 0;
-}
-
-#watchlist form table,
-#watchlist form tr,
-#watchlist form td
-{
-	font-size: 8pt;
-	padding: 0 2px;
-}
-
-#watchlist form td
-{
-	align-items: center;
-	justify-content: center;
-}
-
-#watchlist form td:first-child {
-	display: flex;
-}
-
-#watchlist form tr > td > div {
-	margin-right: 0.5em;
-}
-
-#watchlist form tr > td div {
-	/* Extend to the dimensions of the photodb image */
-	width: 13px;
-	height: 12px;
-}
-
-#watchlist form tr > td a div {
-	background-image: url("../img/camera.png");
-}
-
-#watchlist form tr > td > div:empty {
-	background-image: url("../img/camera-disabled.png");
-	background-repeat: no-repeat;
-	background-position: center;
-}
-
-#watchlist form input[type=text]
-{
-	border: 1px solid grey;
-}
-
-#watchlist form input[type=text].comment
-{
-	width: 10em;
-}
-
-#watchlist form input[type=text].reg
-{
-	width: 5em;
+	margin: 1rem 0 0 0;
 }
 
 #submit-container {
@@ -492,6 +444,7 @@ form div.explainatory
 
 #schedule table
 {
+	width: 100%;
 	border: none;
 	border-spacing: 0;
 	border-collapse: collapse;
@@ -611,6 +564,7 @@ body .ui-tooltip
 }
 
 /* ?page=download */
+
 #download .row
 {
 	margin: 1em 0;
