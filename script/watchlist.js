@@ -122,11 +122,6 @@ function RemoveRow(event)
 		}
 	}
 
-	if (!next) {
-		// The deleted was the only active row, show a new empty row
-		next = AddRow(event);
-	}
-
 	if (next) {
 		next.querySelector("input").focus();
 	}
@@ -287,6 +282,7 @@ document.addEventListener("DOMContentLoaded", () => {
 		});
 
 		event.formData.set("watchlist", JSON.stringify(submit));
+		console.log(JSON.stringify(submit));
 	});
 
 	form.addEventListener("submit", (event) => {
