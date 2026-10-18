@@ -237,9 +237,13 @@ class WatchlistModel
 					"notify" => $notify,
 				]);
 
-				$this->watchlist[$prev]->reg = $reg;
-				$this->watchlist[$prev]->comment = $comment;
-				$this->watchlist[$prev]->notify = $notify;
+				$this->watchlist[$reg] = (object)[
+					"comment" => $comment,
+					"notify" => $notify,
+				];
+
+				if ($reg != $prev)
+					unset($this->watchlist[$prev]);
 			}
 
 			ksort($this->watchlist);
