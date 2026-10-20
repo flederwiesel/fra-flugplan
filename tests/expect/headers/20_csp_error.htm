@@ -13,5 +13,8 @@ content-security-policy: default-src 'self';
     form-action 'self';
     frame-ancestors 'none';
     child-src 'self';
-    upgrade-insecure-requests ;
+    upgrade-insecure-requests;
+    report-uri csp-report.php;
+    report-to csp-endpoint-Content-Security-Policy;
     
+reporting-endpoints: csp-endpoint-Content-Security-Policy="csp-report.php"

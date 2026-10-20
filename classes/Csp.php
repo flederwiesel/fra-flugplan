@@ -86,6 +86,9 @@ class Csp
 			// Automatically Converts urls from http to https for
 			// links, images, javascript, css, etc.
 			'upgrade-insecure-requests' => '',
+			// Instructs the browser to POST a reports of policy failures to this URI.
+			// Will be translated to use the newer `report-to`.
+			'report-uri' => 'csp-report.php',
 		];
 
 		$nonce = self::$nonce;
@@ -112,9 +115,31 @@ class Csp
 			$rules = '';
 
 			foreach ($policy as $key => $value)
-				$rules .= "{$key} {$value};";
+			{
+				if ($key === 'report-uri')
+				{
+					// 'report-uri' is deprecated, but semantically better
+					// when included in the constructor args...
+
+					// For older browsers, include it neverless.
+					if ($value)
+						$rules .= "{$key} {$value};";
+
+					$uri = $value;
+					$key = 'report-to';
+					$value = "csp-endpoint-{$header}";
+				}
+
+				if ($value === '')
+					$rules .= "{$key};";
+				else
+					$rules .= "{$key} {$value};";
+			}
 
 			header("{$header}: {$rules}");
+
+			if ($uri != null)
+				header("Reporting-Endpoints: csp-endpoint-{$header}=\"{$uri}\"");
 		}
 	}
 }
