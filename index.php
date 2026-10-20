@@ -157,6 +157,7 @@ $cspRules = str_replace("\n", "",
  child-src 'self';
  upgrade-insecure-requests;
  block-all-mixed-content;
+ report-uri csp-report.php;
 CSP
 	)
 );

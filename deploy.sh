@@ -74,6 +74,7 @@ rsync -av \
 --filter="+ content/img/en" \
 --filter="+ content/img/en/*" \
 --filter="+ content/language/*" \
+--filter="+ csp-report.php" \
 --filter="+ css/" \
 --filter="+ css/*" \
 --filter="+ css/ie/*" \
