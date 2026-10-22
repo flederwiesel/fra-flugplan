@@ -90,9 +90,9 @@ else
  * Runway direction
  ******************************************************************************/
 
-$datadir = "$_SERVER[DOCUMENT_ROOT]/var/run/fra-flugplan";
+$runstatedir = "$_SERVER[DOCUMENT_ROOT]/var/run/fra-flugplan";
 
-$rwy = @parse_ini_file("$datadir/betriebsrichtung.ini");
+$rwy = @parse_ini_file("$runstatedir/betriebsrichtung.ini");
 
 $activerwy = [];
 

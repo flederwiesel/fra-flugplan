@@ -24,19 +24,19 @@ require_once "classes/sql-xpdo.php";
 require_once "classes/sql-xpose.php";
 
 /* Create dir for warn_once() */
-$datadir = "$_SERVER[DOCUMENT_ROOT]/var/run/fra-flugplan";
-$ignorelist = "$datadir/warnings.ignore";
+$runstatedir = "$_SERVER[DOCUMENT_ROOT]/var/run/fra-flugplan";
+$ignorelist = "$runstatedir/warnings.ignore";
 
 /* Initialise warnings for warn_once() */
-if (file_exists($datadir))
+if (file_exists($runstatedir))
 {
-	if (!is_dir($datadir))
-		die(seterrorinfo(__LINE__, $datadir));
+	if (!is_dir($runstatedir))
+		die(seterrorinfo(__LINE__, $runstatedir));
 }
 else
 {
-	if (!mkdir($datadir, 0770, true))
-		die(seterrorinfo(__LINE__, $datadir));
+	if (!mkdir($runstatedir, 0770, true))
+		die(seterrorinfo(__LINE__, $runstatedir));
 }
 
 if (!file_exists($ignorelist))
@@ -2798,11 +2798,11 @@ if (!$error)
 	}
 
 	/* betriebsrichtung.html */
-	$file = @fopen("$datadir/betriebsrichtung.ini", "w");
+	$file = @fopen("$runstatedir/betriebsrichtung.ini", "w");
 
 	if ($file)
 	{
-		$url = "https://${prefix}sslapps.fraport.de/betriebsrichtung/betriebsrichtungsvg.js";
+		$url = "https://{$prefix}sslapps.fraport.de/betriebsrichtung/betriebsrichtungsvg.js";
 
 		do
 		{
