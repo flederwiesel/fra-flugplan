@@ -1,0 +1,4 @@
+HTTP/1.1 400 Bad Request
+content-type: application/json
+
+{"error":"Key \"csp-report\" is required.","ref":""}

@@ -1,0 +1,4 @@
+HTTP/1.1 406 Not Acceptable
+content-type: application/json
+
+{"error":"Content-Type not Acceptable.","ref":""}

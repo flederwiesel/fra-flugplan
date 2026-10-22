@@ -1,0 +1,24 @@
+HTTP/1.1 204 No Content
+
+{
+  "reports": {
+    "2db1c0482f2e07158c8842c8e455f46c5a3d21963eb23acef323d682faf8e54c": {
+      "count": 1,
+      "updated": "",
+      "csp-report": {
+        "blocked-uri": "inline",
+        "column-number": 33,
+        "disposition": "enforce",
+        "document-uri": "https://fra-flugplan.de/",
+        "effective-directive": "script-src-elem",
+        "line-number": 17,
+        "original-policy": "default-src 'self';",
+        "referrer": "https://fra-flugplan.de/",
+        "source-file": "sandbox eval code",
+        "status-code": 200,
+        "violated-directive": "script-src-elem"
+      }
+    }
+  },
+  "updated": ""
+}
