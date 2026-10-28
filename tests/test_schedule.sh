@@ -117,75 +117,75 @@ query fra-flugplan < <(
 	SQL
 )
 test_0615_d() {
-	browse_schedule "${today}T06%3a15%3a00%2b0200" "${USER_AGENTS[desktop]}"
+	browse_schedule "${today}T06%3a15%3a00" "${USER_AGENTS[desktop]}"
 }
 test_0615_p() {
-	browse_schedule "${today}T06%3a15%3a00%2b0200" "${USER_AGENTS[phone]}"
+	browse_schedule "${today}T06%3a15%3a00" "${USER_AGENTS[phone]}"
 }
 test_0615_t() {
-	browse_schedule "${today}T06%3a15%3a00%2b0200" "${USER_AGENTS[tablet]}"
+	browse_schedule "${today}T06%3a15%3a00" "${USER_AGENTS[tablet]}"
 }
 test_0630_d() {
-	browse_schedule "${today}T06%3a30%3a00%2b0200" "${USER_AGENTS[desktop]}"
+	browse_schedule "${today}T06%3a30%3a00" "${USER_AGENTS[desktop]}"
 }
 test_0630_p() {
-	browse_schedule "${today}T06%3a30%3a00%2b0200" "${USER_AGENTS[phone]}"
+	browse_schedule "${today}T06%3a30%3a00" "${USER_AGENTS[phone]}"
 }
 test_0630_t() {
-	browse_schedule "${today}T06%3a30%3a00%2b0200" "${USER_AGENTS[tablet]}"
+	browse_schedule "${today}T06%3a30%3a00" "${USER_AGENTS[tablet]}"
 }
 test_0645_d() {
-	browse_schedule "${today}T06%3a45%3a00%2b0200" "${USER_AGENTS[desktop]}"
+	browse_schedule "${today}T06%3a45%3a00" "${USER_AGENTS[desktop]}"
 }
 test_0645_p() {
-	browse_schedule "${today}T06%3a45%3a00%2b0200" "${USER_AGENTS[phone]}"
+	browse_schedule "${today}T06%3a45%3a00" "${USER_AGENTS[phone]}"
 }
 test_0645_t() {
-	browse_schedule "${today}T06%3a45%3a00%2b0200" "${USER_AGENTS[tablet]}"
+	browse_schedule "${today}T06%3a45%3a00" "${USER_AGENTS[tablet]}"
 }
 test_0700_d() {
-	browse_schedule "${today}T07%3a00%3a00%2b0200" "${USER_AGENTS[desktop]}"
+	browse_schedule "${today}T07%3a00%3a00" "${USER_AGENTS[desktop]}"
 }
 test_0700_p() {
-	browse_schedule "${today}T07%3a00%3a00%2b0200" "${USER_AGENTS[phone]}"
+	browse_schedule "${today}T07%3a00%3a00" "${USER_AGENTS[phone]}"
 }
 test_0700_t() {
-	browse_schedule "${today}T07%3a00%3a00%2b0200" "${USER_AGENTS[tablet]}"
+	browse_schedule "${today}T07%3a00%3a00" "${USER_AGENTS[tablet]}"
 }
 test_0615_d_u() {
 	login
-	browse_schedule "${today}T06%3a15%3a00%2b0200" "${USER_AGENTS[desktop]}"
+	browse_schedule "${today}T06%3a15%3a00" "${USER_AGENTS[desktop]}"
 }
 test_0615_p_u() {
-	browse_schedule "${today}T06%3a15%3a00%2b0200" "${USER_AGENTS[phone]}"
+	browse_schedule "${today}T06%3a15%3a00" "${USER_AGENTS[phone]}"
 }
 test_0615_t_u() {
-	browse_schedule "${today}T06%3a15%3a00%2b0200" "${USER_AGENTS[tablet]}"
+	browse_schedule "${today}T06%3a15%3a00" "${USER_AGENTS[tablet]}"
 }
 test_0630_d_u() {
-	browse_schedule "${today}T06%3a30%3a00%2b0200" "${USER_AGENTS[desktop]}"
+	browse_schedule "${today}T06%3a30%3a00" "${USER_AGENTS[desktop]}"
 }
 test_0630_p_u() {
-	browse_schedule "${today}T06%3a30%3a00%2b0200" "${USER_AGENTS[phone]}"
+	browse_schedule "${today}T06%3a30%3a00" "${USER_AGENTS[phone]}"
 }
 test_0630_t_u() {
-	browse_schedule "${today}T06%3a30%3a00%2b0200" "${USER_AGENTS[tablet]}"
+	browse_schedule "${today}T06%3a30%3a00" "${USER_AGENTS[tablet]}"
 }
 test_0645_d_u() {
-	browse_schedule "${today}T06%3a45%3a00%2b0200" "${USER_AGENTS[desktop]}"
+	browse_schedule "${today}T06%3a45%3a00" "${USER_AGENTS[desktop]}"
 }
 test_0645_p_u() {
-	browse_schedule "${today}T06%3a45%3a00%2b0200" "${USER_AGENTS[phone]}"
+	browse_schedule "${today}T06%3a45%3a00" "${USER_AGENTS[phone]}"
 }
 test_0645_t_u() {
-	browse_schedule "${today}T06%3a45%3a00%2b0200" "${USER_AGENTS[tablet]}"
+	browse_schedule "${today}T06%3a45%3a00" "${USER_AGENTS[tablet]}"
 }
 test_0700_d_u() {
-	browse_schedule "${today}T07%3a00%3a00%2b0200" "${USER_AGENTS[desktop]}"
+	browse_schedule "${today}T07%3a00%3a00" "${USER_AGENTS[desktop]}"
 }
 test_0700_p_u() {
-	browse_schedule "${today}T07%3a00%3a00%2b0200" "${USER_AGENTS[phone]}"
+	browse_schedule "${today}T07%3a00%3a00" "${USER_AGENTS[phone]}"
 }
 test_0700_t_u() {
-	browse_schedule "${today}T07%3a00%3a00%2b0200" "${USER_AGENTS[tablet]}"
+	browse_schedule "${today}T07%3a00%3a00" "${USER_AGENTS[tablet]}"
 }

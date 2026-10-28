@@ -13,7 +13,7 @@ readonly PRJDIR=$(git -C "$SCRIPTDIR" rev-parse --show-toplevel)
 sed '1,/^exit # testsuite:/d' "${BASH_SOURCE[0]}"
 
 querytime() {
-	sed "s/:/%3a/g; s/+/%2b/g" <<< "$(date +'%H:%M:%S%z' --date="$1")"
+	sed "s/:/%3a/g" <<< "$(date +'%H:%M:%S' --date="$1")"
 }
 
 for u in "" user
