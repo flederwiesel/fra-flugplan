@@ -1,0 +1,37 @@
+// Those are the keys known to be provided by the API.
+// Abbrev are annotated where it is not quite clear.
+// Obvious keys are left as is.
+[
+  "ac",	// aircraft type
+  "al",	// airline code
+  "alname",	// airline name
+  "apname",	// airport name
+  "ausgang",
+  "bag",	// ?
+  "cs",	// code share
+  "duration",	// flight duration in min
+  "esti",	// estimated
+  "flstatus",	// flight status
+  "fnr",	// flight number
+  "gate",
+  "halle",
+  "iata",	// airport iata code
+  "id",
+  "lang",
+  "lu",	// last update
+  "oldhalle",
+  "pos",
+  "reg",
+  "rou",	// airport iata code
+  "rouname",	// airport name
+  "s",	// still not figured out...
+  "schalter",
+  "schalterarea",
+  "sched",
+  "schedArr",
+  "schedDep",
+  "status",
+  "stops",
+  "terminal",
+  "typ"	// [C]argo/[P]ax
+]

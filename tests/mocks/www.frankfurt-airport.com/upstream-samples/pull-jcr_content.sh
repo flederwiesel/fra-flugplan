@@ -1,14 +1,13 @@
 #!/bin/bash
 
-readonly version=2.6.1
-
 set -euo pipefail
 
-this=$(readlink -f "${BASH_SOURCE[0]}")
-scriptdir=$(dirname "$this")
+readonly VERSION=2.6.1
+readonly SCRIPTDIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
 
-mkdir -p "$scriptdir/$version"
-cd "$scriptdir/$version"
+mkdir -p "$SCRIPTDIR/$VERSION"
+
+cd "$SCRIPTDIR/$VERSION"
 
 time=$(date +'%Y-%m-%dT%H:%M:%S%z' | sed 's/:/%3A/g;s/\+/%2B/g')
 
@@ -29,3 +28,19 @@ do
 	curl -fsSL "$baseurl/_jcr_content.flights.cargo.json/filter?flighttype=arrivals$params" | jq > "arrivals.cargo.$lang.json"
 	curl -fsSL "$baseurl/_jcr_content.flights.cargo.json/filter?flighttype=departures$params" | jq > "departures.cargo.$lang.json"
 done
+
+# Check JSON for unknown keys
+
+known=$(
+	sed 's:\s*//.*$::g' "$SCRIPTDIR/known-keys.jsonc"
+)
+
+echo -n "Unknown keys in captured JSON: "
+
+# Read all captured arrivals/departures, extract keys
+# as array and subtract known keys from it.
+jq --slurp \
+	--argjson known "$known" \
+	'[ .[].data[] | keys ] | flatten | sort | unique | . - $known' \
+	"$SCRIPTDIR/$VERSION/arrivals".*.json \
+	"$SCRIPTDIR/$VERSION/departures".*.json
