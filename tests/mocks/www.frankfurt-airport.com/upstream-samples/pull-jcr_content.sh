@@ -1,6 +1,6 @@
 #!/bin/bash
 
-readonly version=2.6
+readonly version=2.6.1
 
 set -euo pipefail
 
