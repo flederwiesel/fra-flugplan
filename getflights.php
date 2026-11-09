@@ -1039,7 +1039,7 @@ function JSON_InterpretFlights(/*in*/ $dir, /*in*/ $json, /*in*/ $defer,
 		$result = 0;
 
 		if (isset($obj->version))
-			if (!('2.6.1' == $obj->version))
+			if ($obj->version != FRAPORT_API_VERSION)
 				warn_once(__LINE__, "version = $obj->version");
 
 		if ($obj->results > 0)

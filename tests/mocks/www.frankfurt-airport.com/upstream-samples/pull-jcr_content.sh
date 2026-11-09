@@ -2,7 +2,7 @@
 
 set -euo pipefail
 
-readonly VERSION=2.6.1
+readonly VERSION=2.6.2
 readonly SCRIPTDIR=$(realpath "$(dirname "${BASH_SOURCE[0]}")")
 
 mkdir -p "$SCRIPTDIR/$VERSION"
