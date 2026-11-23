@@ -548,8 +548,9 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 					{
 						$stopforumspam =
 							sprintf("https://www.stopforumspam.com/add.php?".
-									"api_key=nrt20iomfc34sz&ip_addr=%s&email=%s&username=%s".
+									"api_key=%s&ip_addr=%s&email=%s&username=%s".
 									"&evidence=Automated%%20registration%%2e",
+									STOPFORUMSPAM_API_KEY,
 									$ipaddr, urlencode($email), urlencode($user));
 
 						$curl->exec($stopforumspam, $unused, 5);
