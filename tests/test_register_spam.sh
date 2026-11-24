@@ -2,7 +2,7 @@ sed='s/(ip=)[0-9]+(,email=)[0-9]+(,username=)[0-9]+/\1*\2*\3*/g'
 
 ###############################################################################
 
-test_1() {
+test_1_spam_user() {
 	browse --store-csrf-token \
 		--data-urlencode "email=nospam@example.com" \
 		--data-urlencode "user=spammer" \
@@ -13,7 +13,7 @@ test_1() {
 		"$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}"
 }
 
-test_2() {
+test_2_spam_email() {
 	browse --with-csrf-token \
 		--data-urlencode "email=spam@gmail.com" \
 		--data-urlencode "user=nospam" \
@@ -24,7 +24,7 @@ test_2() {
 		"$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}"
 }
 
-test_3() {
+test_3_spam_email_user() {
 	browse --with-csrf-token \
 		--data-urlencode "email=spam@gmail.com" \
 		--data-urlencode "user=spammer" \
@@ -35,7 +35,7 @@ test_3() {
 		"$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}"
 }
 
-test_4() {
+test_4_spam_ip() {
 	browse --with-csrf-token \
 		--data-urlencode "email=nospam@example.com" \
 		--data-urlencode "user=spammer" \
@@ -46,7 +46,7 @@ test_4() {
 		"$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}&ip=46.118.155.73"
 }
 
-test_5() {
+test_5_email_ip() {
 	browse --with-csrf-token \
 		--data-urlencode "email=spam@gmail.com" \
 		--data-urlencode "user=nospam" \
@@ -57,7 +57,7 @@ test_5() {
 		"$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}&ip=46.118.155.73"
 }
 
-test_6() {
+test_6_spam_email_user_ip() {
 	browse --with-csrf-token \
 		--data-urlencode "email=spam@gmail.com" \
 		--data-urlencode "user=spammer" \
@@ -68,7 +68,7 @@ test_6() {
 		"$url/?req=register&stopforumspam=${FRA_FLUGPLAN_HOST}&ip=46.118.155.73"
 }
 
-test_7() {
+test_7_spam_ip() {
 	browse --with-csrf-token \
 		--data-urlencode "email=nospam@example.com" \
 		--data-urlencode "user=nospam" \
@@ -80,7 +80,7 @@ test_7() {
 }
 
 # @mailto=notsure@gmail.com
-test_8() {
+test_8_nospam() {
 	browse --with-csrf-token \
 		--data-urlencode "email=notsure@gmail.com" \
 		--data-urlencode "user=nospam" \
