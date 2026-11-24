@@ -487,12 +487,17 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 		/* We need to save 'stopforumspam' in the session, as the POST
 		 will not contain the value initially set in the GET... */
 		$stopforumspam = isset($_SESSION['stopforumspam']) ? urldecode("$_SESSION[stopforumspam]/") : null;
-		$stopforumspam = "https://${stopforumspam}api.stopforumspam.org/api?".
-						 "f=json".($ipaddr ? "&ip=$ipaddr" : "").
-						 "&email=".urlencode($email).
-						 "&username=".urlencode($user);
 
-		$error = $curl->exec($stopforumspam, $json, 5);
+		$url = sprintf(
+			"https://%sapi.stopforumspam.org/api?f=json".
+				"%s&email=%s&username=%s",
+			$stopforumspam ?? '',
+			$ipaddr ? "&ip=$ipaddr" : '',
+			urlencode($email),
+			urlencode($user)
+		);
+
+		$error = $curl->exec($url, $json, 5);
 
 		if ($error)
 		{
@@ -546,14 +551,18 @@ function /* bool */ SuspectedSpam(/* __in */ $user,
 						$spamchk->email->appears    ||
 						$spamchk->ip->appears)
 					{
-						$stopforumspam =
-							sprintf("https://www.stopforumspam.com/add.php?".
-									"api_key=%s&ip_addr=%s&email=%s&username=%s".
-									"&evidence=Automated%%20registration%%2e",
-									STOPFORUMSPAM_API_KEY,
-									$ipaddr, urlencode($email), urlencode($user));
+						$url = sprintf(
+							"https://%swww.stopforumspam.com/add.php?".
+								"api_key=%s%s&email=%s&username=%s&evidence=%s",
+							$stopforumspam ?? '',
+							STOPFORUMSPAM_API_KEY,
+							$ipaddr ? "&ip_addr={$ipaddr}" : '',
+							urlencode($email),
+							urlencode($user),
+							"Automated%%20registration%%2e"
+						);
 
-						$curl->exec($stopforumspam, $unused, 5);
+						$curl->exec($url, $unused, 5);
 
 						$suspicion = [];
 
